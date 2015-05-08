@@ -6,8 +6,16 @@ Define the Report used by GEL to trigger the analysis process
 protocol BackReport {
 
 
-record variantReported {
+record reportedVariant {
 
+    /**
+    Variant id, defined as chr_pos_ref_alt
+    chr: chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    pos: Position 1-based
+    ref: Reference Allele sequence, the same provided in vcf
+    alt:  Alternate Allele sequence, the same provided in vcf
+    */
+    string id;
 
     /**
     Proposed Values:
@@ -23,13 +31,67 @@ record variantReported {
     float internalScore;
 
     /**
+    This is the description of the internalScore
+    */
+    string variantClassification;
+
+    /**
     External scores (sift, polyphen, mutationTaster, CADD...)
     */
     union {null, map<float>} externalScore;
 
     /**
-
+    Mother Zygosity
     */
+    string motherZygosity;
+
+
+    /**
+    Father Zygosity
+    */
+    string fatherZygosity;
+
+
+    /**
+    Affected Siblings Zygosity
+    */
+    string motherZygosity;
+
+    /**
+    Affected Siblings Zygosity
+    */
+    array<string> affectedSiblingsZygosity;
+
+    /**
+    NonAffected Siblings Zygosity
+    */
+    array<string> nonAffectedSiblingsZygosity;
+
+    /**
+    List of variants id which must be considered together
+    */
+    array<string> groupOfVariantIds;
+
+    /**
+    Comments
+    */
+    array<string> comments;
+
+}
+
+
+record Report {
+
+    string reportId;
+
+    string companyName;
+
+    string reportURI;
+
+    array<reportedVariant> reportedVariant;
+
+}
+
 
 
 
