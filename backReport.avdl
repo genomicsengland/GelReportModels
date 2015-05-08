@@ -53,9 +53,9 @@ record reportedVariant {
 
 
     /**
-    Affected Siblings Zygosity
+    Other Affected people in the family Zygosity
     */
-    string motherZygosity;
+    array<string> otherAffectedZygosity;
 
     /**
     Affected Siblings Zygosity
