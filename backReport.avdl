@@ -1,0 +1,36 @@
+@namespace("GelReportModes")
+
+/**
+Define the Report used by GEL to trigger the analysis process
+*/
+protocol BackReport {
+
+
+record variantReported {
+
+
+    /**
+    Proposed Values:
+    TIER1
+    TIER2
+    TIER2
+    */
+    string tier;
+
+    /**
+    This is the score provided by the company
+    */
+    float internalScore;
+
+    /**
+    External scores (sift, polyphen, mutationTaster, CADD...)
+    */
+    union {null, map<float>} externalScore;
+
+    /**
+
+    */
+
+
+
+

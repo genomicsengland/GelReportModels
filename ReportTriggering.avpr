@@ -5,7 +5,6 @@
   "types" : [ {
     "type" : "record",
     "name" : "Position",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Position` is an unoriented base in some already known sequence. A\n`Position` is represented by a sequence name or ID, and a base number on that\nsequence (0-based).",
     "fields" : [ {
       "name" : "sequenceId",
@@ -25,13 +24,11 @@
   }, {
     "type" : "enum",
     "name" : "Strand",
-    "namespace" : "org.ga4gh.models",
     "doc" : "Indicates the DNA strand associate for some data item.\n* `NEG_STRAND`: The negative (-) strand.\n* `POS_STRAND`:  The postive (+) strand.",
     "symbols" : [ "NEG_STRAND", "POS_STRAND" ]
   }, {
     "type" : "record",
     "name" : "Side",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Side` is an oriented base in some already known sequence. A\n`Side` is represented by a sequence name or ID, a base number on that\nsequence (0-based), and a `Strand` to indicate the forward or reverse-complement\norientation.\n\nFor example, given the sequence \"GTGG\", the `Side` on that sequence at\noffset 1 in the forward orientation would be the left side of the T/A base pair.\nThe base at this `Side` is \"T\". Alternately, for offset 1 in the reverse\norientation, the `Side` would be the right side of the T/A base pair, and\nthe base at the `Side` is \"A\".\n\nOffsets added to a `Side` are interpreted as reading along its strand;\nadding to a reverse strand side actually subtracts from its `base.position`\nmember.\n\nThere is a total ordering on sides, assuming a total ordering on\n`Sequence`s. Sides are sorted by their `Sequence` (as specified by\n`sequenceId` and/or `referenceName`), then within a `Sequence` by their\n`position` offsets, and then finally by `Strand`, with `NEG_STRAND` first, then\n`POS_STRAND`.",
     "fields" : [ {
       "name" : "base",
@@ -45,7 +42,6 @@
   }, {
     "type" : "record",
     "name" : "Join",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Join` is simply a pair of `Side` objects. The are logically unordered (i.e.\nswapping makes no difference), but we require a rank on the Sequences, and so\nimplicitly on the sides, so to avoid ambiguity we require that the side\nfor side1 is less than that for side2.",
     "fields" : [ {
       "name" : "side1",
@@ -59,7 +55,6 @@
   }, {
     "type" : "record",
     "name" : "Sequence",
-    "namespace" : "org.ga4gh.models",
     "doc" : "Represents a sequence in a sequence graph. May be joined onto parent\n`Sequence`(s) at the left and/or right endpoints, and may have other `Sequence`s\nas children.\n\nDoes not include any base data. The bases for a `Sequence` are available through\nthe `getSequenceBases()` API call.",
     "fields" : [ {
       "name" : "id",
@@ -73,7 +68,6 @@
   }, {
     "type" : "record",
     "name" : "Segment",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Segment` is a range on a `Sequence`. It does not include any base data. (The\nbases for a `Sequence` are available through the `getSequenceBases()` API call.)\n\nIn the sequence \"GTGG\", the `Segment` starting at index 1 on the forward strand\nwith length 2 is the \"TG\" on the forward strand. The length-2 `Segment` starting\nat index 1 on the reverse strand is \"AC\", corresponding to the first two base\npairs of the sequence, or the last two bases of the reverse complement.\n\nA `Segment` has a left and a right end, in its local orientation (i.e. taking\n`Segment.start.strand` to be the `Segment`'s forward strand).",
     "fields" : [ {
       "name" : "start",
@@ -87,7 +81,6 @@
   }, {
     "type" : "record",
     "name" : "Path",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Path` is an ordered list of `Segment`s. In general any contiguous path\nthrough a sequence graph, with no novel adjacencies, can be represented by a\n`Path`.",
     "fields" : [ {
       "name" : "segments",
@@ -101,7 +94,6 @@
   }, {
     "type" : "record",
     "name" : "Region",
-    "namespace" : "org.ga4gh.models",
     "doc" : "An abstraction for referring to a genomic region, in relation to some already \nknown reference. This will require some significant rework as we move to graph\ncoordinates.",
     "fields" : [ {
       "name" : "start",
@@ -115,7 +107,6 @@
   }, {
     "type" : "record",
     "name" : "OntologyTerm",
-    "namespace" : "org.ga4gh.models",
     "doc" : "An ontology term describing an attribute. (e.g. the phenotype attribute\n'polydactyly' from HPO)",
     "fields" : [ {
       "name" : "ontologySource",
@@ -134,7 +125,6 @@
   }, {
     "type" : "record",
     "name" : "ExternalIdentifier",
-    "namespace" : "org.ga4gh.models",
     "doc" : "Identifier from a public database",
     "fields" : [ {
       "name" : "database",
@@ -152,13 +142,11 @@
   }, {
     "type" : "enum",
     "name" : "CigarOperation",
-    "namespace" : "org.ga4gh.models",
     "doc" : "An enum for the different types of CIGAR alignment operations that exist.\nUsed wherever CIGAR alignments are used. The different enumerated values\nhave the following usage:\n\n* `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be\n  aligned to the reference without evidence of an INDEL. Unlike the\n  `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`\n  operator does not indicate whether the reference and read sequences are an\n  exact match. This operator is equivalent to SAM's `M`.\n* `INSERT`: The insert operator indicates that the read contains evidence of\n  bases being inserted into the reference. This operator is equivalent to\n  SAM's `I`.\n* `DELETE`: The delete operator indicates that the read contains evidence of\n  bases being deleted from the reference. This operator is equivalent to\n  SAM's `D`.\n* `SKIP`: The skip operator indicates that this read skips a long segment of\n  the reference, but the bases have not been deleted. This operator is\n  commonly used when working with RNA-seq data, where reads may skip long\n  segments of the reference between exons. This operator is equivalent to\n  SAM's 'N'.\n* `CLIP_SOFT`: The soft clip operator indicates that bases at the start/end\n  of a read have not been considered during alignment. This may occur if the\n  majority of a read maps, except for low quality bases at the start/end of\n  a read. This operator is equivalent to SAM's 'S'. Bases that are soft clipped\n  will still be stored in the read.\n* `CLIP_HARD`: The hard clip operator indicates that bases at the start/end of\n  a read have been omitted from this alignment. This may occur if this linear\n  alignment is part of a chimeric alignment, or if the read has been trimmed\n  (e.g., during error correction, or to trim poly-A tails for RNA-seq). This\n  operator is equivalent to SAM's 'H'.\n* `PAD`: The pad operator indicates that there is padding in an alignment.\n  This operator is equivalent to SAM's 'P'.\n* `SEQUENCE_MATCH`: This operator indicates that this portion of the aligned\n  sequence exactly matches the reference (e.g., all bases are equal to the\n  reference bases). This operator is equivalent to SAM's '='.\n* `SEQUENCE_MISMATCH`: This operator indicates that this portion of the\n  aligned sequence is an alignment match to the reference, but a sequence\n  mismatch (e.g., the bases are not equal to the reference). This can\n  indicate a SNP or a read error. This operator is equivalent to SAM's 'X'.",
     "symbols" : [ "ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH" ]
   }, {
     "type" : "record",
     "name" : "CigarUnit",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A structure for an instance of a CIGAR operation.",
     "fields" : [ {
       "name" : "operation",
@@ -177,7 +165,6 @@
   }, {
     "type" : "record",
     "name" : "VariantSetMetadata",
-    "namespace" : "org.ga4gh.models",
     "doc" : "This metadata represents VCF header information.",
     "fields" : [ {
       "name" : "key",
@@ -219,7 +206,6 @@
   }, {
     "type" : "record",
     "name" : "VariantSet",
-    "namespace" : "org.ga4gh.models",
     "doc" : "`Variant` and `CallSet` both belong to a `VariantSet`.\n`VariantSet` belongs to a `Dataset`.\nThe variant set is equivalent to a VCF file.\n\nA `VariantSet` can contain novel `Sequence`s, which are used to augment the\nsequence graph of its `ReferenceSet`, creating the augmented sequence graph\nagainst which `Allele`s are interpreted.",
     "fields" : [ {
       "name" : "id",
@@ -245,7 +231,6 @@
   }, {
     "type" : "record",
     "name" : "CallSet",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `CallSet` is a collection of variant calls for a particular sample.\nIt belongs to a `VariantSet`. This is equivalent to one column in VCF.",
     "fields" : [ {
       "name" : "id",
@@ -294,7 +279,6 @@
   }, {
     "type" : "record",
     "name" : "Call",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Call` represents the determination of genotype with respect to a\nparticular `Variant`.\n\nIt may include associated information such as quality\nand phasing. For example, a call might assign a probability of 0.32 to\nthe occurrence of a SNP named rs1234 in a call set with the name NA12345.\n\nThe genotypes described by `Call`s must be consistent with any `AlleleCall`s in\nthe same `CallSet`. If a server supports \"classic\" mode, it must provide `Call`s\nfor all `Variant`s that have associated `AlleleCall`s in the `CallSet`.",
     "fields" : [ {
       "name" : "callSetId",
@@ -349,7 +333,6 @@
   }, {
     "type" : "record",
     "name" : "AlleleCall",
-    "namespace" : "org.ga4gh.models",
     "doc" : "An `AlleleCall` represents the determination of the copy number of a particular\n`Allele`, possibly within a certain `Variant`.\n\nIt may include associated information such as quality and phasing.\n\nThe `Allele` copy numbers described by an `AlleleCall` must be consistent with\nthose implied by the `genotype`s of any `Call`s in the same `CallSet`. If a\nserver supports \"graph\" mode, it must provide `Variant`-associated `AlleleCall`s\nfor any `Variant` with a `Call` in the `CallSet`.",
     "fields" : [ {
       "name" : "callSetId",
@@ -390,7 +373,6 @@
   }, {
     "type" : "record",
     "name" : "Variant",
-    "namespace" : "org.ga4gh.models",
     "doc" : "A `Variant` represents a change in DNA sequence relative to some reference.\nFor example, a variant could represent a SNP or an insertion.\nVariants belong to a `VariantSet`.\nThis is equivalent to a row in VCF.",
     "fields" : [ {
       "name" : "id",
@@ -477,7 +459,6 @@
   }, {
     "type" : "record",
     "name" : "Allele",
-    "namespace" : "org.ga4gh.models",
     "doc" : "`Allele`s are the key component of the \"allelic\" model of variation: they are\nsingle objects that are present in some copy number.\n\nAn `Allele` is a contiguous piece of sequence that we will want to say is\npresent (in general at some copy number) or absent in a sample. Very often it\nwill just be a single `Segment` covering the entirety of a novel `Sequence`, but\nit is also common for it to be a mix of `Segment`s on reference and novel\n`Sequence`s, or in general to be any contiguous path through the augmented\nsequence graph.\n\n`Allele`s belong to `VariantSet`s. `Allele`s can also be used to represent the\nreference and alternate alleles of `Variant`s.\n\nNote that `Path`s cannot follow `Join`s not represented in the augmented\nsequence graph. For example, if  an `Allele` that spans a novel deletion is\nrequired, a new `Join` should exist to describe that deletion, available through\n`searchJoins()`.",
     "fields" : [ {
       "name" : "id",
@@ -510,14 +491,44 @@
     } ]
   }, {
     "type" : "record",
+    "name" : "VirtualPanel",
+    "fields" : [ {
+      "name" : "level4Title",
+      "type" : "string"
+    }, {
+      "name" : "geneId",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "gene id from ensembl (which version - as per annotation file)"
+    }, {
+      "name" : "clinicalRelevantTranscript",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "RelevantRegions",
+      "type" : [ "null", "File" ]
+    }, {
+      "name" : "clinicalRelevantVariants",
+      "type" : [ "null", "VariantSet" ],
+      "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
+    } ]
+  }, {
+    "type" : "record",
     "name" : "SampleRecord",
     "doc" : "This define a sample (demographics and pedigree information, this extends phenotips but is still compatible with it)",
     "fields" : [ {
       "name" : "id",
       "type" : "string"
     }, {
-      "name" : "externalId",
-      "type" : [ "null", "string" ]
+      "name" : "externalIds",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
     }, {
       "name" : "father",
       "type" : [ "null", "string" ]
@@ -545,7 +556,7 @@
     }, {
       "name" : "lifeStatus",
       "type" : [ "null", "string" ],
-      "doc" : "This is not in GEL models"
+      "doc" : "This is not in GEL models\n    Values proposed:\n    alive,\n    deceased,"
     }, {
       "name" : "ancestries",
       "type" : [ "null", {
@@ -565,6 +576,13 @@
       "name" : "presumedConsanguinity",
       "type" : [ "null", "boolean" ],
       "doc" : "I would propose add PresumedConsanguinity here"
+    }, {
+      "name" : "consentStatus",
+      "type" : {
+        "type" : "map",
+        "values" : "string"
+      },
+      "doc" : "Consent status this should be defined as an record to make it easy to be understood"
     }, {
       "name" : "additionalClinical",
       "type" : {
@@ -621,36 +639,6 @@
       "name" : "sampleOrigin",
       "type" : [ "null", "string" ],
       "doc" : "i.e, Saliva, Blood, Tumour or other"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VirtualPanel",
-    "fields" : [ {
-      "name" : "level4Title",
-      "type" : "string"
-    }, {
-      "name" : "geneId",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "gene id from ensembl (which version - as per annotation file)"
-    }, {
-      "name" : "clinicalRelevantTranscript",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ]
-    }, {
-      "name" : "RelevantRegions",
-      "type" : [ "null", "File" ]
-    }, {
-      "name" : "variant",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
     } ]
   }, {
     "type" : "record",
@@ -758,10 +746,10 @@
       "name" : "familyHistory",
       "type" : [ "null", "File" ]
     }, {
-      "name" : "resultReportURI",
+      "name" : "backReportURI",
       "type" : "string"
     }, {
-      "name" : "resultReportVersion",
+      "name" : "backReportVersion",
       "type" : "string"
     }, {
       "name" : "additionalInfo",

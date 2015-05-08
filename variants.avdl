@@ -1,4 +1,4 @@
-@namespace("org.ga4gh.models")
+@namespace("GelReportModes")
 
 /**
 Defines types used by the GA4GH Variants API.

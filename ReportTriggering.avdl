@@ -97,6 +97,11 @@ record SampleRecord {
     union {null, boolean} presumedConsanguinity;
 
     /**
+    Consent status this should be defined as an record to make it easy to be understood
+    */
+    map<string> consentStatus;
+
+    /**
     We could add a map here to store additional information
     */
     map<string> additionalClinical;
