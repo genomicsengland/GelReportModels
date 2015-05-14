@@ -1,0 +1,45 @@
+{
+  "type" : "record",
+  "name" : "VirtualPanel",
+  "namespace" : "GelReportModes",
+  "fields" : [ {
+    "name" : "level4Title",
+    "type" : "string"
+  }, {
+    "name" : "geneIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "gene id from ensembl (which version - as per annotation file)"
+  }, {
+    "name" : "clinicalRelevantTranscripts",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ]
+  }, {
+    "name" : "RelevantRegions",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "File",
+      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings",
+      "fields" : [ {
+        "name" : "SampleId",
+        "type" : [ "null", "string", {
+          "type" : "array",
+          "items" : "string"
+        } ],
+        "doc" : "Unique ID of the Sample"
+      }, {
+        "name" : "URIFile",
+        "type" : "string",
+        "doc" : "URI PATH"
+      } ]
+    } ]
+  }, {
+    "name" : "clinicalRelevantVariants",
+    "type" : [ "null", "File" ],
+    "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
+  } ]
+}

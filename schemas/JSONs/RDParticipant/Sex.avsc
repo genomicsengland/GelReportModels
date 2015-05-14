@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Sex",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "male", "female", "unknown" ]
+}

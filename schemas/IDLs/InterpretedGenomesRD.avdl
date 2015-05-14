@@ -1,0 +1,152 @@
+@namespace("GelReportModes")
+
+/**
+Define the Report used by GEL to get the clinical interpretation companies results for bronze level
+*/
+protocol InterpretedGenomesRD {
+
+/**
+This is intended to
+In principle it is a phased zygosity as in VCF spec as called by the analysis provider
+*/
+record CalledGenotype {
+
+    /**
+    Participant id of the family member
+    */
+    string participantId;
+
+    /**
+    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
+    */
+    string genotype;
+
+}
+
+/**
+This is the classification of the variant according to standard
+*/
+enum VariantClassification {
+    BENIGN,
+    LIKELY BENIGN,
+    VUS,
+    LIKELY PATHOGENIC,
+    PATHOGENIC
+}
+
+
+/**
+Possible tiers as defined by Genomics England
+*/
+enum Tier {
+    NONE,
+    TIER1,
+    TIER2,
+    TIER3
+}
+
+
+
+
+record MOISpecificScores {
+}
+
+
+
+
+
+record GroupOfVariants {
+
+    array<ReportedVariant> reportedVariants;
+
+    Tier tier;
+}
+
+
+
+record ReportedVariant {
+
+    /**
+    Variant id, defined as chr_pos_ref_alt
+    chr: chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    pos: Position 1-based
+    ref: Reference Allele sequence, the same provided in vcf
+    alt: Alternate Allele sequence, the same provided in vcf
+    */
+    string id;
+
+
+
+
+    /**
+    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
+    This score may be missing if the company does not calculate such a score. In principle this score should summarise
+    other scores for example across multiple modes of inheritance.
+    */
+    union {null, float} internalScore;
+
+    /**
+    This is the description of why this variant would be reported, for example that it affects the protein in this way
+    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+    */
+    string variantJustification;
+
+    union {null, VariantClassification} variantClassification;
+
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
+    */
+    string Genotype;
+
+    union {null, array<CalledGenotype>} familyGenotypes;
+
+     /**
+    Comments
+    */
+    array<string> comments;
+
+}
+
+
+record Report {
+    /**
+    This is the ID of the clinical interpretation request
+    */
+    string reportRequestId;
+
+    /**
+    This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
+    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
+    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+    */
+    string analysisID;
+
+    string companyName;
+
+    string reportURI;
+
+    array<ReportedVariant> reportedVariant;
+
+    /**
+    Comments about the report
+    */
+    array<string> comments;
+
+}
+
+
+
+
+

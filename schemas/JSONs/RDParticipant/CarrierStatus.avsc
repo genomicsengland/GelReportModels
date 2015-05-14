@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "CarrierStatus",
+  "namespace" : "GelReportModes",
+  "doc" : "Definitions of enumeration used in RDParticipant",
+  "symbols" : [ "affected", "carrier", "uncertain", "presymptomatic" ]
+}

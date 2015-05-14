@@ -1,0 +1,12 @@
+{
+  "type" : "record",
+  "name" : "ConsentStatus",
+  "namespace" : "GelReportModes",
+  "fields" : [ {
+    "name" : "carrierStatusConsent",
+    "type" : "string"
+  }, {
+    "name" : "secondaryFindingConsent",
+    "type" : "string"
+  } ]
+}

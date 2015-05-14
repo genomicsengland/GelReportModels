@@ -1,0 +1,21 @@
+{
+  "type" : "record",
+  "name" : "HpoTerm",
+  "namespace" : "GelReportModes",
+  "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+  "fields" : [ {
+    "name" : "term",
+    "type" : "string",
+    "doc" : "Identifier of the HPO term"
+  }, {
+    "name" : "modifier",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "Modifier associated with the HPO term"
+  }, {
+    "name" : "ageOfOnset",
+    "type" : [ "null", "int" ]
+  } ]
+}

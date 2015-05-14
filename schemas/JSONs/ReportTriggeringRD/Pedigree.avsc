@@ -1,0 +1,152 @@
+{
+  "type" : "record",
+  "name" : "Pedigree",
+  "namespace" : "GelReportModes",
+  "fields" : [ {
+    "name" : "familyId",
+    "type" : "string",
+    "doc" : "Family id"
+  }, {
+    "name" : "participants",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "RDParticipant",
+        "doc" : "This defines a RD Participant (demographics and pedigree information)",
+        "fields" : [ {
+          "name" : "id",
+          "type" : "int"
+        }, {
+          "name" : "externalIds",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : "string"
+          } ]
+        }, {
+          "name" : "dataModelVersion",
+          "type" : "string",
+          "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+        }, {
+          "name" : "sex",
+          "type" : {
+            "type" : "enum",
+            "name" : "Sex",
+            "symbols" : [ "male", "female", "unknown" ]
+          },
+          "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
+        }, {
+          "name" : "father",
+          "type" : [ "null", "int" ],
+          "doc" : "Id of the parent, if unknown then no parent is referenced"
+        }, {
+          "name" : "mother",
+          "type" : [ "null", "int" ]
+        }, {
+          "name" : "disorders",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "Disorder",
+              "fields" : [ {
+                "name" : "OMIMid",
+                "type" : "string",
+                "doc" : "OMIM Entry ID, i.e, #268000"
+              }, {
+                "name" : "DisorderName",
+                "type" : "string",
+                "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
+              }, {
+                "name" : "ageOfOnset",
+                "type" : [ "null", "int" ]
+              } ]
+            }
+          } ],
+          "doc" : "currently this is meant to code omim"
+        }, {
+          "name" : "hpoTerms",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "HpoTerm",
+              "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+              "fields" : [ {
+                "name" : "term",
+                "type" : "string",
+                "doc" : "Identifier of the HPO term"
+              }, {
+                "name" : "modifier",
+                "type" : [ "null", {
+                  "type" : "array",
+                  "items" : "string"
+                } ],
+                "doc" : "Modifier associated with the HPO term"
+              }, {
+                "name" : "ageOfOnset",
+                "type" : [ "null", "int" ]
+              } ]
+            }
+          } ]
+        }, {
+          "name" : "carrierStatus",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "CarrierStatus",
+            "doc" : "Definitions of enumeration used in RDParticipant",
+            "symbols" : [ "affected", "carrier", "uncertain", "presymptomatic" ]
+          } ],
+          "doc" : "Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc\n    null represents unaffected"
+        }, {
+          "name" : "lifeStatus",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "LifeStatus",
+            "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+          } ],
+          "doc" : "Possible options:\n    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE\n    null represents ALIVE\n    see enum LifeStatus"
+        }, {
+          "name" : "twinGroup",
+          "type" : [ "null", "int" ],
+          "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
+        }, {
+          "name" : "monozygotic",
+          "type" : [ "null", "boolean" ],
+          "doc" : "True if they are monozygotic"
+        }, {
+          "name" : "adoptedStatus",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "AdoptedStatus",
+            "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+          } ]
+        }, {
+          "name" : "consanguinityRelationship",
+          "type" : [ "null", "int" ],
+          "doc" : "Each Consanguinity Relationship is numbered"
+        }, {
+          "name" : "consentStatus",
+          "type" : {
+            "type" : "record",
+            "name" : "ConsentStatus",
+            "fields" : [ {
+              "name" : "carrierStatusConsent",
+              "type" : "string"
+            }, {
+              "name" : "secondaryFindingConsent",
+              "type" : "string"
+            } ]
+          }
+        }, {
+          "name" : "additionalInformation",
+          "type" : [ "null", {
+            "type" : "map",
+            "values" : "string"
+          } ],
+          "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+        } ]
+      }
+    }
+  } ]
+}

@@ -1,0 +1,292 @@
+{
+  "type" : "record",
+  "name" : "Report",
+  "namespace" : "GelReportModes",
+  "doc" : "This record represents basic information for this report",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "string",
+    "doc" : "Unique id for this report"
+  }, {
+    "name" : "reportVersion",
+    "type" : "int",
+    "doc" : "Version of this report"
+  }, {
+    "name" : "BAMs",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "File",
+        "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings",
+        "fields" : [ {
+          "name" : "SampleId",
+          "type" : [ "null", "string", {
+            "type" : "array",
+            "items" : "string"
+          } ],
+          "doc" : "Unique ID of the Sample"
+        }, {
+          "name" : "URIFile",
+          "type" : "string",
+          "doc" : "URI PATH"
+        } ]
+      }
+    },
+    "doc" : "BAMs Files"
+  }, {
+    "name" : "gVCFs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "gVCFs Files where SNVs and INDELs are represented"
+  }, {
+    "name" : "VCFs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "VCFs Files where SVs and CNVs are represented"
+  }, {
+    "name" : "BigWigs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "BigWig Files"
+  }, {
+    "name" : "annotationFile",
+    "type" : "File",
+    "doc" : "This will be the json file from Cellbase + version used"
+  }, {
+    "name" : "rareDisease",
+    "type" : {
+      "type" : "record",
+      "name" : "RareDisease",
+      "fields" : [ {
+        "name" : "level4Title",
+        "type" : "string"
+      }, {
+        "name" : "pedigree",
+        "type" : {
+          "type" : "record",
+          "name" : "Pedigree",
+          "fields" : [ {
+            "name" : "familyId",
+            "type" : "string",
+            "doc" : "Family id"
+          }, {
+            "name" : "participants",
+            "type" : {
+              "type" : "array",
+              "items" : {
+                "type" : "record",
+                "name" : "RDParticipant",
+                "doc" : "This defines a RD Participant (demographics and pedigree information)",
+                "fields" : [ {
+                  "name" : "id",
+                  "type" : "int"
+                }, {
+                  "name" : "externalIds",
+                  "type" : [ "null", {
+                    "type" : "array",
+                    "items" : "string"
+                  } ]
+                }, {
+                  "name" : "dataModelVersion",
+                  "type" : "string",
+                  "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+                }, {
+                  "name" : "sex",
+                  "type" : {
+                    "type" : "enum",
+                    "name" : "Sex",
+                    "symbols" : [ "male", "female", "unknown" ]
+                  },
+                  "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
+                }, {
+                  "name" : "father",
+                  "type" : [ "null", "int" ],
+                  "doc" : "Id of the parent, if unknown then no parent is referenced"
+                }, {
+                  "name" : "mother",
+                  "type" : [ "null", "int" ]
+                }, {
+                  "name" : "disorders",
+                  "type" : [ "null", {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "record",
+                      "name" : "Disorder",
+                      "fields" : [ {
+                        "name" : "OMIMid",
+                        "type" : "string",
+                        "doc" : "OMIM Entry ID, i.e, #268000"
+                      }, {
+                        "name" : "DisorderName",
+                        "type" : "string",
+                        "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
+                      }, {
+                        "name" : "ageOfOnset",
+                        "type" : [ "null", "int" ]
+                      } ]
+                    }
+                  } ],
+                  "doc" : "currently this is meant to code omim"
+                }, {
+                  "name" : "hpoTerms",
+                  "type" : [ "null", {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "record",
+                      "name" : "HpoTerm",
+                      "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+                      "fields" : [ {
+                        "name" : "term",
+                        "type" : "string",
+                        "doc" : "Identifier of the HPO term"
+                      }, {
+                        "name" : "modifier",
+                        "type" : [ "null", {
+                          "type" : "array",
+                          "items" : "string"
+                        } ],
+                        "doc" : "Modifier associated with the HPO term"
+                      }, {
+                        "name" : "ageOfOnset",
+                        "type" : [ "null", "int" ]
+                      } ]
+                    }
+                  } ]
+                }, {
+                  "name" : "carrierStatus",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "CarrierStatus",
+                    "doc" : "Definitions of enumeration used in RDParticipant",
+                    "symbols" : [ "affected", "carrier", "uncertain", "presymptomatic" ]
+                  } ],
+                  "doc" : "Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc\n    null represents unaffected"
+                }, {
+                  "name" : "lifeStatus",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "LifeStatus",
+                    "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+                  } ],
+                  "doc" : "Possible options:\n    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE\n    null represents ALIVE\n    see enum LifeStatus"
+                }, {
+                  "name" : "twinGroup",
+                  "type" : [ "null", "int" ],
+                  "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
+                }, {
+                  "name" : "monozygotic",
+                  "type" : [ "null", "boolean" ],
+                  "doc" : "True if they are monozygotic"
+                }, {
+                  "name" : "adoptedStatus",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "AdoptedStatus",
+                    "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+                  } ]
+                }, {
+                  "name" : "consanguinityRelationship",
+                  "type" : [ "null", "int" ],
+                  "doc" : "Each Consanguinity Relationship is numbered"
+                }, {
+                  "name" : "consentStatus",
+                  "type" : {
+                    "type" : "record",
+                    "name" : "ConsentStatus",
+                    "fields" : [ {
+                      "name" : "carrierStatusConsent",
+                      "type" : "string"
+                    }, {
+                      "name" : "secondaryFindingConsent",
+                      "type" : "string"
+                    } ]
+                  }
+                }, {
+                  "name" : "additionalInformation",
+                  "type" : [ "null", {
+                    "type" : "map",
+                    "values" : "string"
+                  } ],
+                  "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+                } ]
+              }
+            }
+          } ]
+        }
+      }, {
+        "name" : "inbreedingCoefficientEstimates",
+        "type" : [ "null", "File" ],
+        "doc" : "Ask Katherine maybe worth create a record for this (I have a thought...) ????"
+      }, {
+        "name" : "ancestries",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ],
+        "doc" : "Define this with katherine"
+      }, {
+        "name" : "complexGeneticPhenomenaDescription",
+        "type" : [ "null", "string" ],
+        "doc" : "Hints about potential genetic phenomena that can inform interpretation\n    Proposed values:\n    MOSAICISM,\n    MONOSOMY,\n    DISOMY,\n    UNIPARENTAL_DISOMY,\n    TRISOMY,\n    OTHER_ANEUPLOIDY"
+      }, {
+        "name" : "modeOfInheritanceDescription",
+        "type" : "string",
+        "doc" : "Proposed values:\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, NOT IMPRINTED\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, MATERNALLY IMPRINTED (PATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, PATERNALLY IMPRINTED (MATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, IMPRINTED STATUS UNKNOWN\n    BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC (BUT BIALLELIC MUTATIONS CAUSE A MORE SEVERE DISEASE FORM), AUTOSOMAL OR PSEUDOAUTOSOMAL\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, BIALLELIC MUTATIONS IN FEMALES\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, MAY BE CAUSED BY MONOALLELIC MUTATIONS IN FEMALES\n    MITOCHONDRIAL\n    UNKNOWN\n\n    or use those from the data model:\n    simplex\n    recessive\n    multigenerational\n    xlinked\n    mitochondrial\n    unknown"
+      }, {
+        "name" : "virtualPanel",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "VirtualPanel",
+          "fields" : [ {
+            "name" : "level4Title",
+            "type" : "string"
+          }, {
+            "name" : "geneIds",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : "string"
+            } ],
+            "doc" : "gene id from ensembl (which version - as per annotation file)"
+          }, {
+            "name" : "clinicalRelevantTranscripts",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : "string"
+            } ]
+          }, {
+            "name" : "RelevantRegions",
+            "type" : [ "null", "File" ]
+          }, {
+            "name" : "clinicalRelevantVariants",
+            "type" : [ "null", "File" ],
+            "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
+          } ]
+        } ],
+        "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
+      } ]
+    }
+  }, {
+    "name" : "familyHistory",
+    "type" : [ "null", "File" ]
+  }, {
+    "name" : "backReportURI",
+    "type" : "string"
+  }, {
+    "name" : "backReportVersion",
+    "type" : "string"
+  }, {
+    "name" : "additionalInfo",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "Additional information"
+  } ]
+}

@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "AdoptedStatus",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+}

@@ -1,0 +1,17 @@
+{
+  "type" : "record",
+  "name" : "Disorder",
+  "namespace" : "GelReportModes",
+  "fields" : [ {
+    "name" : "OMIMid",
+    "type" : "string",
+    "doc" : "OMIM Entry ID, i.e, #268000"
+  }, {
+    "name" : "DisorderName",
+    "type" : "string",
+    "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
+  }, {
+    "name" : "ageOfOnset",
+    "type" : [ "null", "int" ]
+  } ]
+}

@@ -1,0 +1,178 @@
+@namespace("GelReportModes")
+
+/**
+This protocol defines the Report used by GEL to trigger the analysis process
+*/
+protocol InterpretationRequestRD {
+
+/**
+Caution!! This has been removed
+import idl "variants.avdl";
+*/
+
+import idl "RDParticipant.avdl";
+
+/**
+This defines a file
+This Record is defined by the sampleID and a URI
+Currently SampleID can be a single String or an array of strings
+*/
+record File {
+    /**
+    Unique ID of the Sample
+    */
+    union {null, string, array<string>} SampleId;
+
+    /**
+    URI PATH
+    */
+    string URIFile;
+
+
+}
+
+
+record VirtualPanel {
+   string level4Title;
+
+   /**
+   gene id from ensembl (which version - as per annotation file)
+   */
+   union {null, array<string>} geneIds;
+
+   union {null, array<string>} clinicalRelevantTranscripts;
+
+   union {null, File} RelevantRegions;
+
+   /**
+   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
+   */
+   union {null, File} clinicalRelevantVariants;
+
+}
+
+
+record Pedigree {
+ /**
+ Family id
+ */
+ string familyId;
+
+ array <RDParticipant> participants;
+
+}
+
+record RareDisease {
+
+    string level4Title;
+
+    Pedigree pedigree;
+
+    /**
+    Ask Katherine maybe worth create a record for this (I have a thought...) ????
+    */
+    union {null, File} inbreedingCoefficientEstimates;
+
+    /**
+    Define this with katherine
+    */
+    union {null, array<string>} ancestries;
+
+    /**
+    Hints about potential genetic phenomena that can inform interpretation
+    Proposed values:
+    MOSAICISM,
+    MONOSOMY,
+    DISOMY,
+    UNIPARENTAL_DISOMY,
+    TRISOMY,
+    OTHER_ANEUPLOIDY
+    */
+    union {null, string} complexGeneticPhenomenaDescription;
+
+    /**
+    Proposed values:
+    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, NOT IMPRINTED
+    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, MATERNALLY IMPRINTED (PATERNAL ALLELE EXPRESSED)
+    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, PATERNALLY IMPRINTED (MATERNAL ALLELE EXPRESSED)
+    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, IMPRINTED STATUS UNKNOWN
+    BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL
+    BOTH MONOALLELIC AND BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL
+    BOTH MONOALLELIC AND BIALLELIC (BUT BIALLELIC MUTATIONS CAUSE A MORE SEVERE DISEASE FORM), AUTOSOMAL OR PSEUDOAUTOSOMAL
+    X-LINKED: HEMIZYGOUS MUTATION IN MALES, BIALLELIC MUTATIONS IN FEMALES
+    X-LINKED: HEMIZYGOUS MUTATION IN MALES, MAY BE CAUSED BY MONOALLELIC MUTATIONS IN FEMALES
+    MITOCHONDRIAL
+    UNKNOWN
+
+    or use those from the data model:
+    simplex
+    recessive
+    multigenerational
+    xlinked
+    mitochondrial
+    unknown
+    */
+    string modeOfInheritanceDescription;
+
+    /**
+    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
+    */
+    union {null, VirtualPanel} virtualPanel;
+}
+
+
+/**
+This record represents basic information for this report
+*/
+record Report {
+    /**
+    Unique id for this report
+    */
+    string reportRequestId;
+
+    /**
+    Version of this report
+    */
+    int reportVersion;
+
+    /**
+    BAMs Files
+    */
+    array<File> BAMs;
+
+    /**
+    gVCFs Files where SNVs and INDELs are represented
+    */
+    array<File> gVCFs;
+
+    /**
+    VCFs Files where SVs and CNVs are represented
+    */
+    array<File> VCFs;
+
+    /**
+    BigWig Files
+    */
+    array<File> BigWigs;
+
+    /**
+    This will be the json file from Cellbase + version used
+    */
+    File annotationFile;
+
+    RareDisease rareDisease;
+
+    union {null, File} familyHistory;
+
+    string backReportURI;
+
+    string backReportVersion;
+
+    /**
+    Additional information
+    */
+    union {null, map<string>} additionalInfo;
+}
+
+
+}

@@ -1,0 +1,134 @@
+@namespace("GelReportModes")
+
+/**
+This protocol defines the Participants
+*/
+protocol Participants {
+
+
+/**
+This defines an HPO term and its modifiers (possibly multiple)
+*/
+record HpoTerm {
+    /**
+    Identifier of the HPO term
+    */
+    string term;
+
+    /**
+    Modifier associated with the HPO term
+    */
+    union {null, array<string>} modifier;
+
+    union {null, int} ageOfOnset;
+
+
+}
+
+
+record Disorder {
+    /**
+    OMIM Entry ID, i.e, #268000
+    */
+    string OMIMid;
+
+    /**
+    Disorder, i.e, RETINITIS PIGMENTOSA; RP
+    */
+    string DisorderName;
+
+    union {null, int} ageOfOnset;
+
+
+}
+
+record ConsentStatus {
+
+    string carrierStatusConsent;
+
+    string secondaryFindingConsent;
+}
+
+
+/**
+Definitions of enumeration used in RDParticipant
+*/
+enum CarrierStatus {affected, carrier, uncertain, presymptomatic}
+
+enum LifeStatus {aborted, deceased, unborn, stillborn, miscarriage}
+
+enum Sex {male, female, unknown}
+
+enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
+
+/**
+This defines a RD Participant (demographics and pedigree information)
+*/
+record RDParticipant {
+
+    int id;
+
+    union {null, array<string>} externalIds;
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelVersion;
+
+    /**
+    Possible options: MALE, FEMALE, UNKNOWN
+    */
+    Sex sex;
+    /**
+    Id of the parent, if unknown then no parent is referenced
+    */
+    union {null, int} father;
+
+    union {null, int} mother;
+
+    /**
+    currently this is meant to code omim
+    */
+    union {null, array<Disorder>} disorders;
+
+    union {null, array<HpoTerm>} hpoTerms;
+
+    /**
+    Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc
+    null represents unaffected
+    */
+    union {null, CarrierStatus} carrierStatus;
+
+    /**
+    Possible options:
+    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE
+    null represents ALIVE
+    see enum LifeStatus
+    */
+    union {null, LifeStatus} lifeStatus;
+
+    /**
+    Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
+    */
+    union {null, int} twinGroup;
+
+    /**
+    True if they are monozygotic
+    */
+    union {null, boolean} monozygotic;
+
+    union {null, AdoptedStatus} adoptedStatus;
+
+    /**
+    Each Consanguinity Relationship is numbered
+    */
+    union {null, int} consanguinityRelationship;
+
+    ConsentStatus consentStatus;
+
+    /**
+    We could add a map here to store additional information for example URIs to images, ECGs, etc
+    */
+    union {null, map<string>} additionalInformation;
+}
+}
