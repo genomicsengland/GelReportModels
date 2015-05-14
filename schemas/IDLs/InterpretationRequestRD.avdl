@@ -1,7 +1,8 @@
 @namespace("GelReportModes")
 
 /**
-This protocol defines the Report used by GEL to trigger the analysis process
+This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
+The record Report is the top level class. This includes clinical information + various version
 */
 protocol InterpretationRequestRD {
 
