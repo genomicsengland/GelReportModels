@@ -3,6 +3,8 @@
 /**
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
 The record Report is the top level class. This includes clinical information + various version
+The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
+All annotations are against Ensembl gene models
 */
 protocol InterpretationRequestRD {
 
@@ -16,7 +18,7 @@ import idl "RDParticipant.avdl";
 /**
 This defines a file
 This Record is defined by the sampleID and a URI
-Currently SampleID can be a single String or an array of strings
+Currently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file
 */
 record File {
     /**
@@ -32,34 +34,46 @@ record File {
 
 }
 
-
+/**
+This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome
+*/
+//TODO: this needs to be tightened up and eventually changed to be supported in cellbase directly
 record VirtualPanel {
    string level4Title;
 
    /**
-   gene id from ensembl (which version - as per annotation file)
+   gene id from ensembl (version as per annotation file)
    */
    union {null, array<string>} geneIds;
 
+   /**
+   transcript ids from ensembl
+   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
+   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
+   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
+   */
    union {null, array<string>} clinicalRelevantTranscripts;
 
    union {null, File} RelevantRegions;
 
    /**
+
    GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
    */
    union {null, File} clinicalRelevantVariants;
 
 }
 
-
+/**
+This is the concept of a family with associated phenotypes as present in the record RDParticipant
+*/
 record Pedigree {
- /**
- Family id
- */
- string familyId;
+    /**
+    Family id which internally translate to a sample set
+    */
+    string familyId;
 
- array <RDParticipant> participants;
+    array <RDParticipant> participants;
 
 }
 

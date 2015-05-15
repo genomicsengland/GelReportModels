@@ -6,8 +6,8 @@ Define the Report used by GEL to get the clinical interpretation companies resul
 protocol InterpretedGenomesRD {
 
 /**
-This is intended to
-In principle it is a phased zygosity as in VCF spec as called by the analysis provider
+This is intended to hold the genotypes for the family members
+In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
 record CalledGenotype {
 
@@ -24,7 +24,7 @@ record CalledGenotype {
 }
 
 /**
-This is the classification of the variant according to standard
+This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
 */
 enum VariantClassification {
     BENIGN,
@@ -40,7 +40,7 @@ Possible tiers as defined by Genomics England
 */
 enum Tier {
     NONE,
-    TIER1,
+    TIER1,  // Known
     TIER2,
     TIER3
 }
