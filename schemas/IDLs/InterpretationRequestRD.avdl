@@ -103,7 +103,7 @@ record RareDisease {
     TRISOMY,
     OTHER_ANEUPLOIDY
     */
-    union {null, string} complexGeneticPhenomenaDescription;
+    union {null, string} complexGeneticPhenomena;
 
     /**
     Proposed values:
@@ -127,7 +127,7 @@ record RareDisease {
     mitochondrial
     unknown
     */
-    string modeOfInheritanceDescription;
+    string modeOfInheritance;
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
@@ -139,7 +139,7 @@ record RareDisease {
 /**
 This record represents basic information for this report
 */
-record Report {
+record InterpretationRequest {
     /**
     Unique id for this report
     */
@@ -179,9 +179,9 @@ record Report {
 
     union {null, File} familyHistory;
 
-    string backReportURI;
+    string analysisURI;
 
-    string backReportVersion;
+    string analysisVersion;
 
     /**
     Additional information

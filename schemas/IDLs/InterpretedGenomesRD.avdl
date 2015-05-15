@@ -46,22 +46,26 @@ enum Tier {
 }
 
 
+record MOISpecificScore {
 
+    /**
+    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
+    */
+    string modeOfInheritance;
 
-record MOISpecificScores {
+    /**
+    This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
+    a specific mode of Inheritance
+    */
+    float score;
+
+    /**
+    This value groups variants that together could explain the phenotype according to the
+    mode of inheritance used. All the variants sharing the same value will be considered in the same group.
+    */
+    union {null, int} groupOfVariants;
+
 }
-
-
-
-
-
-record GroupOfVariants {
-
-    array<ReportedVariant> reportedVariants;
-
-    Tier tier;
-}
-
 
 
 record ReportedVariant {
@@ -74,9 +78,6 @@ record ReportedVariant {
     alt: Alternate Allele sequence, the same provided in vcf
     */
     string id;
-
-
-
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -94,6 +95,12 @@ record ReportedVariant {
 
     union {null, VariantClassification} variantClassification;
 
+    Tier tier;
+
+    /**
+    This is the scores across multiple modes of inheritance.
+    */
+    union {null, array<MOISpecificScore>} MOISpecificScores;
 
     /**
     For example HGMD ID)
@@ -112,15 +119,16 @@ record ReportedVariant {
 
     union {null, array<CalledGenotype>} familyGenotypes;
 
+
      /**
     Comments
     */
-    array<string> comments;
+    union {null, array<string>} comments;
 
 }
 
 
-record Report {
+record InterpretationAnalysis {
     /**
     This is the ID of the clinical interpretation request
     */
@@ -131,18 +139,18 @@ record Report {
     used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
     It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
     */
-    string analysisID;
+    string analysisId;
 
     string companyName;
 
     string reportURI;
 
-    array<ReportedVariant> reportedVariant;
+    array<ReportedVariant> reportedVariants;
 
     /**
     Comments about the report
     */
-    array<string> comments;
+    union {null, array<string>} comments;
 
 }
 
