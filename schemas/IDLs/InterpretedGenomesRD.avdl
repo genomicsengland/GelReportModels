@@ -21,6 +21,11 @@ record CalledGenotype {
     */
     string genotype;
 
+    /**
+    Copy number genotype for imprecise events
+    */
+    union {null, integer} copyNumber;
+
 }
 
 /**
@@ -45,13 +50,25 @@ enum Tier {
     TIER3
 }
 
+/**
+Penetrance assumed in the analysis
+*/
+enum Penetrance {
+    Complete,
+    Incomplete
+}
 
-record MOISpecificScore {
+record ReportEvent {
 
     /**
     This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
     */
     string modeOfInheritance;
+
+    /**
+    This is the penetrance assumed for scoring or classifying this variant
+    */
+    Penetrance penetrance = Complete;
 
     /**
     This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
@@ -60,31 +77,16 @@ record MOISpecificScore {
     float score;
 
     /**
+    This variant using this mode of inheritance can  fully explain the phenotype? true or false
+    */
+    boolean fullyExplainsPhenotype;
+
+    /**
     This value groups variants that together could explain the phenotype according to the
     mode of inheritance used. All the variants sharing the same value will be considered in the same group.
+    This value is an integer unique in the whole analysis.
     */
     union {null, int} groupOfVariants;
-
-}
-
-
-record ReportedVariant {
-
-    /**
-    Variant id, defined as chr_pos_ref_alt
-    chr: chromosome, named as: 1-22,X,Y,MT(other contigs name)
-    pos: Position 1-based
-    ref: Reference Allele sequence, the same provided in vcf
-    alt: Alternate Allele sequence, the same provided in vcf
-    */
-    string id;
-
-    /**
-    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
-    This score may be missing if the company does not calculate such a score. In principle this score should summarise
-    other scores for example across multiple modes of inheritance.
-    */
-    union {null, float} internalScore;
 
     /**
     This is the description of why this variant would be reported, for example that it affects the protein in this way
@@ -93,14 +95,52 @@ record ReportedVariant {
     */
     string variantJustification;
 
-    union {null, VariantClassification} variantClassification;
+    union {null, Tier} tier;
+}
 
-    Tier tier;
+
+record ReportedVariant {
 
     /**
-    This is the scores across multiple modes of inheritance.
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
     */
-    union {null, array<MOISpecificScore>} MOISpecificScores;
+    string chromosome;
+
+    /**
+    position: Position 1-based
+    */
+    integer position;
+
+    /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+
+    /**
+    array of genotypes for the family
+    */
+    union {null, array<CalledGenotype>} familyGenotypes;
+
+    /**
+    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
+    the variants can have only one Report event.
+    */
+    array<ReportEvent> ReportEvents;
+
+    /**
+    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
+    This score may be missing if the company does not calculate such a score. In principle this score should summarise
+    other scores for example across multiple modes of inheritance.
+    */
+    union {null, float} internalScore;
+
+    union {null, VariantClassification} variantClassification;
 
     /**
     For example HGMD ID)
@@ -113,19 +153,95 @@ record ReportedVariant {
     union {null, map<float>} additionalNumericVariantAnnotations;
 
     /**
-    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
-    */
-    string Genotype;
-
-    union {null, array<CalledGenotype>} familyGenotypes;
-
-
-     /**
     Comments
     */
     union {null, array<string>} comments;
 
 }
+
+
+
+record ReportedStructuralVariant {
+    /**
+    Variant id, defined as chr_start_end_type
+    chr: chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    start: start position 1-based
+    end: end position 1-based
+    type: type of structural variant
+    */
+    string id;
+
+    /**
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    */
+    string chromosome;
+
+    /**
+    start: start position 1-based
+    */
+    integer start;
+
+    /**
+    end: end position 1-based
+    */
+    integer end;
+
+    /**
+    The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
+    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
+    */
+    string type;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+    /**
+    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
+    */
+    string genotype;
+
+    /**
+    Copy number genotype for imprecise events
+    */
+    union {null, integer} copyNumber;
+
+
+    union {null, array<CalledGenotype>} familyGenotypes;
+
+    /**
+    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
+    the variants can have only one Report event.
+    */
+    array<ReportEvent> ReportEvents;
+
+    /**
+    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
+    This score may be missing if the company does not calculate such a score. In principle this score should summarise
+    other scores for example across multiple modes of inheritance.
+    */
+    union {null, float} internalScore;
+
+    union {null, VariantClassification} variantClassification;
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Comments
+    */
+    union {null, array<string>} comments;
+
+}
+
 
 
 record InterpretationAnalysis {
@@ -146,6 +262,8 @@ record InterpretationAnalysis {
     string reportURI;
 
     array<ReportedVariant> reportedVariants;
+
+    array<ReportedStructuralVariant> reportedStructuralVariant;
 
     /**
     Comments about the report
