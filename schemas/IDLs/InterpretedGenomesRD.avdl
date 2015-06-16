@@ -162,14 +162,6 @@ record ReportedVariant {
 
 
 record ReportedStructuralVariant {
-    /**
-    Variant id, defined as chr_start_end_type
-    chr: chromosome, named as: 1-22,X,Y,MT(other contigs name)
-    start: start position 1-based
-    end: end position 1-based
-    type: type of structural variant
-    */
-    string id;
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -197,15 +189,6 @@ record ReportedStructuralVariant {
     */
     string alternate;
 
-    /**
-    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
-    */
-    string genotype;
-
-    /**
-    Copy number genotype for imprecise events
-    */
-    union {null, integer} copyNumber;
 
 
     union {null, array<CalledGenotype>} familyGenotypes;
