@@ -1,4 +1,5 @@
 @namespace("GelReportModes")
+//TODO Do we need to refactor this? The names seem inconsistent
 /**
 This protocol defines the Participants
 */
@@ -11,9 +12,18 @@ Definitions of enumeration used in CancerParticipant
 
 enum Sex {male, female, unknown}
 enum SampleType {germline, tumor}
-enum Source {saliva, blood, tissue, bloodTumor}
-enum Treatment {FFPE, FF}
+/**
+MP: adding unknown - or we can just allow null?
+AR: Null should be no Treatment, if there is always a treatment we should not allow nulls
+*/
+enum Treatment {FFPE, FF, unknown}
+enum Phase {primary, metastasis}
+enum Method {resection, biopsy}
 
+
+/**
+stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required
+*/
 
 record CancerSample {
     /**
@@ -28,13 +38,38 @@ record CancerSample {
 
     /**
     Sample Source
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva
     */
-    union {null, Source} source;
+    union {null, string} source;
 
     /**
     Sample Treatment
     */
     union {null, Treatment} treatment;
+
+    /**
+    Sample Phase
+    */
+    union {null, Phase} phase;
+
+    /**
+    Sample Method
+    */
+    union {null, Phase} method;
+
+
+    /**
+    Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)
+    */
+    union {null, double} cellularity;
+
+
+    /**
+    Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)
+    */
+    union {null, double} tumorContent;
+
 
 
 }
@@ -66,13 +101,18 @@ record CancerParticipant{
 
     int id;
 
+    /**
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+    */
+    union {null, string} primaryDiagnosis;
+
     union {null, array<string>} externalIds;
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
     string dataModelVersion;
-
 
     /**
     Possible options: MALE, FEMALE, UNKNOWN

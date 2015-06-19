@@ -7,6 +7,10 @@
     "name" : "id",
     "type" : "int"
   }, {
+    "name" : "primaryDiagnosis",
+    "type" : [ "null", "string" ],
+    "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+  }, {
     "name" : "externalIds",
     "type" : [ "null", {
       "type" : "array",
@@ -32,6 +36,7 @@
       "items" : {
         "type" : "record",
         "name" : "CancerSample",
+        "doc" : "stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required",
         "fields" : [ {
           "name" : "id",
           "type" : "string",
@@ -46,20 +51,37 @@
           "doc" : "Sample Type"
         }, {
           "name" : "source",
-          "type" : [ "null", {
-            "type" : "enum",
-            "name" : "Source",
-            "symbols" : [ "saliva", "blood", "tissue", "bloodTumor" ]
-          } ],
-          "doc" : "Sample Source"
+          "type" : [ "null", "string" ],
+          "doc" : "Sample Source\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
         }, {
           "name" : "treatment",
           "type" : [ "null", {
             "type" : "enum",
             "name" : "Treatment",
-            "symbols" : [ "FFPE", "FF" ]
+            "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
+            "symbols" : [ "FFPE", "FF", "unknown" ]
           } ],
           "doc" : "Sample Treatment"
+        }, {
+          "name" : "phase",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "Phase",
+            "symbols" : [ "primary", "metastasis" ]
+          } ],
+          "doc" : "Sample Phase"
+        }, {
+          "name" : "method",
+          "type" : [ "null", "Phase" ],
+          "doc" : "Sample Method"
+        }, {
+          "name" : "cellularity",
+          "type" : [ "null", "double" ],
+          "doc" : "Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)"
+        }, {
+          "name" : "tumorContent",
+          "type" : [ "null", "double" ],
+          "doc" : "Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)"
         } ]
       }
     },

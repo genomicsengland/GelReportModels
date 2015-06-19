@@ -2,5 +2,6 @@
   "type" : "enum",
   "name" : "Treatment",
   "namespace" : "GelReportModes",
-  "symbols" : [ "FFPE", "FF" ]
+  "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
+  "symbols" : [ "FFPE", "FF", "unknown" ]
 }

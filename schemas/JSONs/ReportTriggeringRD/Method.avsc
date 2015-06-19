@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Method",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "resection", "biopsy" ]
+}

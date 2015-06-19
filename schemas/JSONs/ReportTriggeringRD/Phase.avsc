@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Phase",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "primary", "metastasis" ]
+}
