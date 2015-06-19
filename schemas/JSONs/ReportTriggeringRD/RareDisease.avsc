@@ -10,10 +10,11 @@
     "type" : {
       "type" : "record",
       "name" : "Pedigree",
+      "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
       "fields" : [ {
         "name" : "familyId",
         "type" : "string",
-        "doc" : "Family id"
+        "doc" : "Family id which internally translate to a sample set"
       }, {
         "name" : "participants",
         "type" : {
@@ -24,7 +25,10 @@
             "doc" : "This defines a RD Participant (demographics and pedigree information)",
             "fields" : [ {
               "name" : "id",
-              "type" : "int"
+              "type" : [ "int", "string" ]
+            }, {
+              "name" : "FamilyId",
+              "type" : [ "null", "int", "string" ]
             }, {
               "name" : "externalIds",
               "type" : [ "null", {
@@ -45,57 +49,23 @@
               "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
             }, {
               "name" : "father",
-              "type" : [ "null", "int" ],
+              "type" : [ "null", "int", "string" ],
               "doc" : "Id of the parent, if unknown then no parent is referenced"
             }, {
               "name" : "mother",
-              "type" : [ "null", "int" ]
+              "type" : [ "null", "int", "string" ]
             }, {
               "name" : "disorders",
               "type" : [ "null", {
                 "type" : "array",
-                "items" : {
-                  "type" : "record",
-                  "name" : "Disorder",
-                  "fields" : [ {
-                    "name" : "OMIMid",
-                    "type" : "string",
-                    "doc" : "OMIM Entry ID, i.e, #268000"
-                  }, {
-                    "name" : "DisorderName",
-                    "type" : "string",
-                    "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
-                  }, {
-                    "name" : "ageOfOnset",
-                    "type" : [ "null", "int" ]
-                  } ]
-                }
+                "items" : "string"
               } ],
               "doc" : "currently this is meant to code omim"
             }, {
               "name" : "hpoTerms",
               "type" : [ "null", {
                 "type" : "array",
-                "items" : {
-                  "type" : "record",
-                  "name" : "HpoTerm",
-                  "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
-                  "fields" : [ {
-                    "name" : "term",
-                    "type" : "string",
-                    "doc" : "Identifier of the HPO term"
-                  }, {
-                    "name" : "modifier",
-                    "type" : [ "null", {
-                      "type" : "array",
-                      "items" : "string"
-                    } ],
-                    "doc" : "Modifier associated with the HPO term"
-                  }, {
-                    "name" : "ageOfOnset",
-                    "type" : [ "null", "int" ]
-                  } ]
-                }
+                "items" : "string"
               } ]
             }, {
               "name" : "carrierStatus",
@@ -163,7 +133,7 @@
     "type" : [ "null", {
       "type" : "record",
       "name" : "File",
-      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings",
+      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file",
       "fields" : [ {
         "name" : "SampleId",
         "type" : [ "null", "string", {
@@ -186,11 +156,11 @@
     } ],
     "doc" : "Define this with katherine"
   }, {
-    "name" : "complexGeneticPhenomenaDescription",
+    "name" : "complexGeneticPhenomena",
     "type" : [ "null", "string" ],
     "doc" : "Hints about potential genetic phenomena that can inform interpretation\n    Proposed values:\n    MOSAICISM,\n    MONOSOMY,\n    DISOMY,\n    UNIPARENTAL_DISOMY,\n    TRISOMY,\n    OTHER_ANEUPLOIDY"
   }, {
-    "name" : "modeOfInheritanceDescription",
+    "name" : "modeOfInheritance",
     "type" : "string",
     "doc" : "Proposed values:\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, NOT IMPRINTED\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, MATERNALLY IMPRINTED (PATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, PATERNALLY IMPRINTED (MATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, IMPRINTED STATUS UNKNOWN\n    BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC (BUT BIALLELIC MUTATIONS CAUSE A MORE SEVERE DISEASE FORM), AUTOSOMAL OR PSEUDOAUTOSOMAL\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, BIALLELIC MUTATIONS IN FEMALES\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, MAY BE CAUSED BY MONOALLELIC MUTATIONS IN FEMALES\n    MITOCHONDRIAL\n    UNKNOWN\n\n    or use those from the data model:\n    simplex\n    recessive\n    multigenerational\n    xlinked\n    mitochondrial\n    unknown"
   }, {
@@ -198,6 +168,7 @@
     "type" : [ "null", {
       "type" : "record",
       "name" : "VirtualPanel",
+      "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
       "fields" : [ {
         "name" : "level4Title",
         "type" : "string"
@@ -207,13 +178,14 @@
           "type" : "array",
           "items" : "string"
         } ],
-        "doc" : "gene id from ensembl (which version - as per annotation file)"
+        "doc" : "gene id from ensembl (version as per annotation file)"
       }, {
         "name" : "clinicalRelevantTranscripts",
         "type" : [ "null", {
           "type" : "array",
           "items" : "string"
-        } ]
+        } ],
+        "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
       }, {
         "name" : "RelevantRegions",
         "type" : [ "null", "File" ]

@@ -2,10 +2,11 @@
   "type" : "record",
   "name" : "Pedigree",
   "namespace" : "GelReportModes",
+  "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
   "fields" : [ {
     "name" : "familyId",
     "type" : "string",
-    "doc" : "Family id"
+    "doc" : "Family id which internally translate to a sample set"
   }, {
     "name" : "participants",
     "type" : {
@@ -16,7 +17,10 @@
         "doc" : "This defines a RD Participant (demographics and pedigree information)",
         "fields" : [ {
           "name" : "id",
-          "type" : "int"
+          "type" : [ "int", "string" ]
+        }, {
+          "name" : "FamilyId",
+          "type" : [ "null", "int", "string" ]
         }, {
           "name" : "externalIds",
           "type" : [ "null", {
@@ -37,57 +41,23 @@
           "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
         }, {
           "name" : "father",
-          "type" : [ "null", "int" ],
+          "type" : [ "null", "int", "string" ],
           "doc" : "Id of the parent, if unknown then no parent is referenced"
         }, {
           "name" : "mother",
-          "type" : [ "null", "int" ]
+          "type" : [ "null", "int", "string" ]
         }, {
           "name" : "disorders",
           "type" : [ "null", {
             "type" : "array",
-            "items" : {
-              "type" : "record",
-              "name" : "Disorder",
-              "fields" : [ {
-                "name" : "OMIMid",
-                "type" : "string",
-                "doc" : "OMIM Entry ID, i.e, #268000"
-              }, {
-                "name" : "DisorderName",
-                "type" : "string",
-                "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
-              }, {
-                "name" : "ageOfOnset",
-                "type" : [ "null", "int" ]
-              } ]
-            }
+            "items" : "string"
           } ],
           "doc" : "currently this is meant to code omim"
         }, {
           "name" : "hpoTerms",
           "type" : [ "null", {
             "type" : "array",
-            "items" : {
-              "type" : "record",
-              "name" : "HpoTerm",
-              "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
-              "fields" : [ {
-                "name" : "term",
-                "type" : "string",
-                "doc" : "Identifier of the HPO term"
-              }, {
-                "name" : "modifier",
-                "type" : [ "null", {
-                  "type" : "array",
-                  "items" : "string"
-                } ],
-                "doc" : "Modifier associated with the HPO term"
-              }, {
-                "name" : "ageOfOnset",
-                "type" : [ "null", "int" ]
-              } ]
-            }
+            "items" : "string"
           } ]
         }, {
           "name" : "carrierStatus",

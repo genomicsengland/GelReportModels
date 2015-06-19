@@ -177,9 +177,9 @@ class RDParticipant(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             "consentStatus": ConsentStatus,
-            "HpoTerm": HpoTerm,
-            "Disorder": ConsentStatus,
-
+            # "HpoTerm": HpoTerm,
+            # "Disorder": ConsentStatus,
+            #
         }
         return fieldName in embeddedTypes
 
@@ -187,12 +187,13 @@ class RDParticipant(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             "consentStatus": ConsentStatus,
-            "HpoTerm": HpoTerm,
-            "Disorder": ConsentStatus,
+            # "HpoTerm": HpoTerm,
+            # "Disorder": ConsentStatus,
         }
         return embeddedTypes[fieldName]
 
-    __slots__ = ["id",
+    __slots__ = ["FamilyId",
+                 "id",
                  "dataModelVersion",
                  "sex",
                  "consentStatus",
@@ -210,6 +211,7 @@ class RDParticipant(ProtocolElement):
                  ]
 
     def __init__(self):
+        self.FamilyId = None
         self.id = None
         self.dataModelVersion = None
         self.sex = None

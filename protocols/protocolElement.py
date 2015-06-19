@@ -56,6 +56,7 @@ class ProtocolElement(object):
         out = {}
         for field in self.schema.fields:
             val = getattr(self, field.name)
+
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)

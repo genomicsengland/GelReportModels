@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "Disorder",
   "namespace" : "GelReportModes",
+  "doc" : "This is not being used due to phenotips compatibility",
   "fields" : [ {
     "name" : "OMIMid",
     "type" : "string",

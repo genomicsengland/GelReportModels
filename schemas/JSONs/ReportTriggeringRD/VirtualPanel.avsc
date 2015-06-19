@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "VirtualPanel",
   "namespace" : "GelReportModes",
+  "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
   "fields" : [ {
     "name" : "level4Title",
     "type" : "string"
@@ -11,19 +12,20 @@
       "type" : "array",
       "items" : "string"
     } ],
-    "doc" : "gene id from ensembl (which version - as per annotation file)"
+    "doc" : "gene id from ensembl (version as per annotation file)"
   }, {
     "name" : "clinicalRelevantTranscripts",
     "type" : [ "null", {
       "type" : "array",
       "items" : "string"
-    } ]
+    } ],
+    "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
   }, {
     "name" : "RelevantRegions",
     "type" : [ "null", {
       "type" : "record",
       "name" : "File",
-      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings",
+      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file",
       "fields" : [ {
         "name" : "SampleId",
         "type" : [ "null", "string", {

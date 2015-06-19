@@ -64,18 +64,7 @@ record VirtualPanel {
 
 }
 
-/**
-This is the concept of a family with associated phenotypes as present in the record RDParticipant
-*/
-record Pedigree {
-    /**
-    Family id which internally translate to a sample set
-    */
-    string familyId;
 
-    array <RDParticipant> participants;
-
-}
 
 record RareDisease {
 

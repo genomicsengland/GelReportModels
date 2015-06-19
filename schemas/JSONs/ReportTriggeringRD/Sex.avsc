@@ -2,5 +2,6 @@
   "type" : "enum",
   "name" : "Sex",
   "namespace" : "GelReportModes",
+  "doc" : "Definitions of enumeration used in CancerParticipant",
   "symbols" : [ "male", "female", "unknown" ]
 }

@@ -1,12 +1,12 @@
 @namespace("GelReportModes")
-//TODO Do we need to refactor this? The names seem inconsistent
 /**
-This protocol defines the Participants
+This protocol defines the Participants and Pedigree
 */
-protocol Participants {
+protocol RDPedigree {
 
 
 /**
+This is not being used due to phenotips compatibility
 This defines an HPO term and its modifiers (possibly multiple)
 */
 record HpoTerm {
@@ -25,7 +25,9 @@ record HpoTerm {
 
 }
 
-
+/**
+This is not being used due to phenotips compatibility
+*/
 record Disorder {
     /**
     OMIM Entry ID, i.e, #268000
@@ -66,9 +68,12 @@ This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
 
-    int id;
+    union {int, string} id;
+
+    union {null, int, string} FamilyId;
 
     union {null, array<string>} externalIds;
+
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
@@ -79,19 +84,20 @@ record RDParticipant {
     Possible options: MALE, FEMALE, UNKNOWN
     */
     Sex sex;
+
     /**
     Id of the parent, if unknown then no parent is referenced
     */
-    union {null, int} father;
+    union {null, int, string} father;
 
-    union {null, int} mother;
+    union {null, int, string} mother;
 
     /**
     currently this is meant to code omim
     */
-    union {null, array<Disorder>} disorders;
+    union {null, array<string>} disorders;
 
-    union {null, array<HpoTerm>} hpoTerms;
+    union {null, array<string>} hpoTerms;
 
     /**
     Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc
@@ -131,4 +137,19 @@ record RDParticipant {
     */
     union {null, map<string>} additionalInformation;
 }
+
+
+/**
+This is the concept of a family with associated phenotypes as present in the record RDParticipant
+*/
+record Pedigree {
+    /**
+    Family id which internally translate to a sample set
+    */
+    string familyId;
+
+    array <RDParticipant> participants;
+
+}
+
 }

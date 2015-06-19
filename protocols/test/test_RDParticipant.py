@@ -12,6 +12,7 @@ class TestRDParticipant(unittest.TestCase):
 
     def create_participant(self):
         new_rd_participant = RDParticipant()
+        new_rd_participant.FamilyId = 100
         new_rd_participant.id = 1
         new_rd_participant.father = 6
         new_rd_participant.mother = 5
@@ -22,10 +23,13 @@ class TestRDParticipant(unittest.TestCase):
         new_rd_participant.consentStatus.carrierStatusConsent = "YES"
         return new_rd_participant
 
-
     def test_preprop(self):
         os.system("java -jar " + os.path.join(BASE_DIR, "resources", "avro-tools-1.7.7.jar") + " idl2schemata " +
                   os.path.join(BASE_DIR, "schemas", "IDLs", "InterpretationRequestRD.avdl") + " "
+                  + os.path.join(BASE_DIR, "schemas", "JSONs", "ReportTriggeringRD"))
+
+        os.system("java -jar " + os.path.join(BASE_DIR, "resources", "avro-tools-1.7.7.jar") + " idl2schemata " +
+                  os.path.join(BASE_DIR, "schemas", "IDLs", "CancerParticipant.avdl") + " "
                   + os.path.join(BASE_DIR, "schemas", "JSONs", "ReportTriggeringRD"))
 
         new_rd_participant = self.create_participant()

@@ -1,1 +1,1 @@
-{"consentStatus": {"carrierStatusConsent": "YES", "secondaryFindingConsent": "NO"}, "father": 6, "dataModelVersion": "0.0", "sex": "male", "mother": 5, "id": 1}
+{"consentStatus": {"carrierStatusConsent": "YES", "secondaryFindingConsent": "NO"}, "mother": 5, "father": 6, "dataModelVersion": "0.0", "sex": "male", "FamilyId": 100, "id": 1}

@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Treatment",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "FFPE", "FF" ]
+}

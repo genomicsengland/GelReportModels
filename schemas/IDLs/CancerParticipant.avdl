@@ -1,0 +1,102 @@
+@namespace("GelReportModes")
+/**
+This protocol defines the Participants
+*/
+protocol Participants {
+
+
+/**
+Definitions of enumeration used in CancerParticipant
+*/
+
+enum Sex {male, female, unknown}
+enum SampleType {germline, tumor}
+enum Source {saliva, blood, tissue, bloodTumor}
+enum Treatment {FFPE, FF}
+
+
+record CancerSample {
+    /**
+    Sample ID (this is the individual id (gel ID))
+    */
+    string id;
+
+    /**
+    Sample Type
+    */
+    SampleType sampleType;
+
+    /**
+    Sample Source
+    */
+    union {null, Source} source;
+
+    /**
+    Sample Treatment
+    */
+    union {null, Treatment} treatment;
+
+
+}
+
+/**
+This define a pair of germline and tumor, this pair should/must be analyzed together
+*/
+record MatchedSamples{
+
+
+    string germlineSampleId;
+
+    string tumorSampleId;
+
+}
+
+record ConsentStatus {
+
+    string carrierStatusConsent;
+
+    string secondaryFindingConsent;
+}
+
+
+/**
+This defines a Cancer Participant (demographics and sample information)
+*/
+record CancerParticipant{
+
+    int id;
+
+    union {null, array<string>} externalIds;
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelVersion;
+
+
+    /**
+    Possible options: MALE, FEMALE, UNKNOWN
+    */
+    Sex sex;
+
+    /**
+    List of samples (normal and tumor sample)
+    */
+    array <CancerSample> cancerSamples;
+
+    /**
+    List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)
+    */
+    array <MatchedSamples> matchedSamples;
+
+
+    ConsentStatus consentStatus;
+
+
+    /**
+    We could add a map here to store additional information for example URIs to images, ECGs, etc
+    */
+    union {null, map<string>} additionalInformation;
+}
+
+}

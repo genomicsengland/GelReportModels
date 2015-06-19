@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "HpoTerm",
   "namespace" : "GelReportModes",
-  "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+  "doc" : "This is not being used due to phenotips compatibility\nThis defines an HPO term and its modifiers (possibly multiple)",
   "fields" : [ {
     "name" : "term",
     "type" : "string",

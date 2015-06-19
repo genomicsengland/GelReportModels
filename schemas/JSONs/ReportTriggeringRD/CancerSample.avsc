@@ -1,0 +1,34 @@
+{
+  "type" : "record",
+  "name" : "CancerSample",
+  "namespace" : "GelReportModes",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "string",
+    "doc" : "Sample ID (this is the individual id (gel ID))"
+  }, {
+    "name" : "sampleType",
+    "type" : {
+      "type" : "enum",
+      "name" : "SampleType",
+      "symbols" : [ "germline", "tumor" ]
+    },
+    "doc" : "Sample Type"
+  }, {
+    "name" : "source",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Source",
+      "symbols" : [ "saliva", "blood", "tissue", "bloodTumor" ]
+    } ],
+    "doc" : "Sample Source"
+  }, {
+    "name" : "treatment",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Treatment",
+      "symbols" : [ "FFPE", "FF" ]
+    } ],
+    "doc" : "Sample Treatment"
+  } ]
+}

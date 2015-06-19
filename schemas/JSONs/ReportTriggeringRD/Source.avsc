@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Source",
+  "namespace" : "GelReportModes",
+  "symbols" : [ "saliva", "blood", "tissue", "bloodTumor" ]
+}
