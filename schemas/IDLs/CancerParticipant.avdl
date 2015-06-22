@@ -1,5 +1,4 @@
 @namespace("GelReportModes")
-//TODO Do we need to refactor this? The names seem inconsistent
 /**
 This protocol defines the Participants
 */

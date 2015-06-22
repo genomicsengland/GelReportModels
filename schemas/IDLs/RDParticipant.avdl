@@ -6,7 +6,6 @@ protocol RDPedigree {
 
 
 /**
-This is not being used due to phenotips compatibility
 This defines an HPO term and its modifiers (possibly multiple)
 */
 record HpoTerm {
@@ -25,19 +24,22 @@ record HpoTerm {
 
 }
 
-/**
-This is not being used due to phenotips compatibility
-*/
+
 record Disorder {
     /**
-    OMIM Entry ID, i.e, #268000
+    This is Level2 Title for this disorder
     */
-    string OMIMid;
+    string Level2Title;
 
     /**
-    Disorder, i.e, RETINITIS PIGMENTOSA; RP
+    This is Level3 Title for this disorder
     */
-    string DisorderName;
+    string Level3Title;
+
+    /**
+    This is Level4 Title for this disorder
+    */
+    string Level4Title;
 
     union {null, int} ageOfOnset;
 
@@ -95,9 +97,9 @@ record RDParticipant {
     /**
     currently this is meant to code omim
     */
-    union {null, array<string>} disorders;
+    union {null, array<Disorder>} disorderList;
 
-    union {null, array<string>} hpoTerms;
+    union {null, array<HpoTerm>} hpoTermList;
 
     /**
     Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc
