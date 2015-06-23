@@ -22,7 +22,7 @@ Currently SampleID can be a single String or an array of strings if multiple sam
 */
 record File {
     /**
-    Unique ID of the Sample
+    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
     */
     union {null, string, array<string>} SampleId;
 
@@ -39,7 +39,7 @@ This record defines a gene panel. The Level 4 Title is the name of the condition
 */
 //TODO: this needs to be tightened up and eventually changed to be supported in cellbase directly
 record VirtualPanel {
-   string level4Title;
+   string SpecificDiseaseTitle;
 
    /**
    gene id from ensembl (version as per annotation file)
@@ -54,6 +54,9 @@ record VirtualPanel {
    */
    union {null, array<string>} clinicalRelevantTranscripts;
 
+    /**
+    BED format file
+    */
    union {null, File} RelevantRegions;
 
    /**
@@ -64,21 +67,40 @@ record VirtualPanel {
 
 }
 
+/**
+Family history for secondary findings
+TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
+Arrays of strings describing discrete family history phenotypes
+*/
+record OtherFamilyHistory {
+    union {null, array<string>} maternalFamilyHistory
+    union {null, array<string>} paternalFamilyHistory
+}
 
 
 record RareDisease {
 
-    string level4Title;
+    /**
+    Specific Disease title against which this family was enroled
+    These titles are a controlled vocabulary in the model catalogue
+    */
+    string enrolledAgainstSpecificDiseaseTitle;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelCatalogueVersion;
 
     Pedigree pedigree;
 
     /**
-    Ask Katherine maybe worth create a record for this (I have a thought...) ????
+    TODO: create a record for inbreeding coefficients
     */
     union {null, File} inbreedingCoefficientEstimates;
 
     /**
-    Define this with katherine
+    TODO: definie enumeration for ancestries
     */
     union {null, array<string>} ancestries;
 
@@ -96,33 +118,44 @@ record RareDisease {
 
     /**
     Proposed values:
-    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, NOT IMPRINTED
-    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, MATERNALLY IMPRINTED (PATERNAL ALLELE EXPRESSED)
-    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, PATERNALLY IMPRINTED (MATERNAL ALLELE EXPRESSED)
-    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, IMPRINTED STATUS UNKNOWN
-    BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL
-    BOTH MONOALLELIC AND BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL
-    BOTH MONOALLELIC AND BIALLELIC (BUT BIALLELIC MUTATIONS CAUSE A MORE SEVERE DISEASE FORM), AUTOSOMAL OR PSEUDOAUTOSOMAL
-    X-LINKED: HEMIZYGOUS MUTATION IN MALES, BIALLELIC MUTATIONS IN FEMALES
-    X-LINKED: HEMIZYGOUS MUTATION IN MALES, MAY BE CAUSED BY MONOALLELIC MUTATIONS IN FEMALES
-    MITOCHONDRIAL
-    UNKNOWN
+    MONOALLELIC, autosomal or pseudoautosomal, NOT imprinted|
+    MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)|HP:0012275
+    MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)|HP:0012274
+    MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown|HP:0000006
+    BIALLELIC, autosomal or pseudoautosomal|HP:0000007
+    BOTH monoallelic and biallelic, autosomal or pseudoautosomal|
+    BOTH monoallelic and biallelic (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal|
+    MITOCHONDRIAL|HP:0001427
+    X-LINKED: hemizygous mutation in males, biallelic mutations in females|HP:0001419
+    X-LINKED: hemizygous mutation in males, may be caused by monoallelic mutations in females|HP:0001417
+    Unknown|
 
-    or use those from the data model:
-    simplex
-    recessive
-    multigenerational
-    xlinked
-    mitochondrial
-    unknown
+    The entries in the variable will reflect combinations of allelic states consistent with the enumeration in the model catalogue:
+    recessive: Multiplex family: recessive pattern (affected siblings only)
+    simplex: Simplex (isolated) case
+    unknown: Multiplex family: unknown
+    xlinked: Multiplex family: pattern suggestive of X-linked inheritance
+    multigenerationalPaternal: Multiplex family - paternal multi-generational pattern of inheritance (likely dominant)
+    mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance
+    multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
     */
-    string modeOfInheritance;
+
+    string array<string> modeOfInheritance;
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
     */
     union {null, VirtualPanel} virtualPanel;
+
+    /**
+    This is the family history as pertinent to assessing secondary findings.
+    It is paternal or maternal with reference to the proband.
+    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is
+    not collected in that level of detail.
+    */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
 }
+
 
 
 /**
@@ -160,13 +193,12 @@ record InterpretationRequest {
     array<File> BigWigs;
 
     /**
-    This will be the json file from Cellbase + version used
+    This will be the output file from Cellbase + version used
     */
     File annotationFile;
 
     RareDisease rareDisease;
 
-    union {null, File} familyHistory;
 
     string analysisURI;
 
