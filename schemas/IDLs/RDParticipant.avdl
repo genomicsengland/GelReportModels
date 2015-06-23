@@ -108,75 +108,75 @@ This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
 
-    union {int, string} id;
+    union {int, string} id;  //priority 1
 
-    union {null, int, string} FamilyId;
+    union {null, int, string} FamilyId;  //priority 1
 
-    union {null, array<string>} externalIds;
+    union {null, array<string>} externalIds; //priority 1
 
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelCatalogueVersion;
+    string dataModelCatalogueVersion;  //priority 1
 
     /**
     Possible options: MALE, FEMALE, UNKNOWN
     */
-    Sex sex;
+    Sex sex; //priority 1
 
     /**
     Id of the parent, if unknown then no parent is referenced
     */
-    union {null, int, string} father;
+    union {null, int, string} father; //priority 1
 
-    union {null, int, string} mother;
+    union {null, int, string} mother;  //priority 1
 
     /**
     currently this is meant to be and omim code
     */
-    union {null, array<Disorder>} disorderList;
+    union {null, array<Disorder>} disorderList;  //priority 2
 
-    union {null, array<HpoTerm>} hpoTermList;
+    union {null, array<HpoTerm>} hpoTermList; //priority 2
 
     /**
     See enum CarrierStatus
     null (unknown) by default
     */
-    union {null, CarrierStatus} carrierStatus;
+    union {null, CarrierStatus} carrierStatus; //priority 1
 
     /**
     see enum LifeStatus
     Null (unknown) by default
     */
-    union {null, LifeStatus} lifeStatus;
+    union {null, LifeStatus} lifeStatus; //priority 1
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
     */
-    union {null, int} twinGroup;
+    union {null, int} twinGroup; //priority 3
 
     /**
     True if they are monozygotic
     */
-    union {null, boolean} monozygotic;
+    union {null, boolean} monozygotic;  //priority 2
 
 
-    union {null, AdoptedStatus} adoptedStatus;
+    union {null, AdoptedStatus} adoptedStatus; //priority 2
 
     /**
     Offspring of a consanguineous relationship?
     TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false.
     */
 
-    union {null, boolean} consanguineousParents;
+    union {null, boolean} consanguineousParents;  //priority 2
 
     /**
     What has this participant consented to?
     A participant that has been consented to the programme should also have sequence data associated with them; however
     this needs to be programmatically checked
     */
-    ConsentStatus consentStatus;
+    ConsentStatus consentStatus;  //priority 2
 
 
     /**
@@ -194,9 +194,9 @@ record Pedigree {
     /**
     Family id which internally translate to a sample set
     */
-    string familyId;
+    string familyId;     //priority 1
 
-    array <RDParticipant> participants;
+    array <RDParticipant> participants;  //priority 1
 
 }
 

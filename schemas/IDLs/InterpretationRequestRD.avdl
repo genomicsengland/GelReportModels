@@ -72,7 +72,7 @@ Family history for secondary findings
 TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
 Arrays of strings describing discrete family history phenotypes
 */
-record OtherFamilyHistory {
+record OtherFamilyHistory {  //priority 3
     union {null, array<string>} maternalFamilyHistory;
     union {null, array<string>} paternalFamilyHistory;
 }
@@ -84,13 +84,13 @@ record RareDisease {
     Specific Disease title against which this family was enroled
     These titles are a controlled vocabulary in the model catalogue
     */
-    string enrolledAgainstSpecificDiseaseTitle;
+    string enrolledAgainstSpecificDiseaseTitle; //priority 1
 
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelCatalogueVersion;
+    string dataModelCatalogueVersion;  //priority 2
 
     Pedigree pedigree;
 
@@ -102,7 +102,7 @@ record RareDisease {
     /**
     TODO: definie enumeration for ancestries
     */
-    union {null, array<string>} ancestries;
+    union {null, array<string>} ancestries; //priority 2
 
     /**
     Hints about potential genetic phenomena that can inform interpretation
@@ -140,7 +140,7 @@ record RareDisease {
     multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
     */
 
-    array<string> modeOfInheritance;
+    array<string> modeOfInheritance; //priority 2
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
@@ -153,7 +153,7 @@ record RareDisease {
     TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is
     not collected in that level of detail.
     */
-    union {null, OtherFamilyHistory} otherFamilyHistory;
+    union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
 }
 
 
