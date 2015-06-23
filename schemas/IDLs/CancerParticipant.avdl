@@ -1,4 +1,4 @@
-@namespace("GelReportModes")
+@namespace("Gel_BioInf_Models_0.1")
 /**
 This protocol defines the Participants
 */

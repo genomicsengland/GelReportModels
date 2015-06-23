@@ -1,9 +1,41 @@
-@namespace("GelReportModes")
+@namespace("Gel_BioInf_Models_0.1")
 /**
 This protocol defines the Participants and Pedigree
 */
 protocol RDPedigree {
 
+
+/**
+This is quite GEL specific
+More generally one would like to have an omim or orphanet id here
+
+
+record Disorder {
+    /**
+    This is Level2 Title for this disorder
+    TODO:use ID that referes to model catalogue instead
+    */
+    string {null,Level2Title};
+
+    /**
+    This is Level3 Title for this disorder
+    TODO:use ID that referes to model catalogue instead
+    */
+    string {null,Level3Title};
+
+    /**
+    This is Level4 Title for this disorder
+    TODO:use ID that referes to model catalogue instead
+    */
+    string {null,Level4Title};
+
+    /**
+    Age of onset in months
+    */
+    union {null, int} ageOfOnset;
+
+
+}
 
 /**
 This defines an HPO term and its modifiers (possibly multiple)
@@ -19,28 +51,9 @@ record HpoTerm {
     */
     union {null, array<string>} modifier;
 
-    union {null, int} ageOfOnset;
-
-
-}
-
-
-record Disorder {
     /**
-    This is Level2 Title for this disorder
+    Age of onset in months
     */
-    string Level2Title;
-
-    /**
-    This is Level3 Title for this disorder
-    */
-    string Level3Title;
-
-    /**
-    This is Level4 Title for this disorder
-    */
-    string Level4Title;
-
     union {null, int} ageOfOnset;
 
 
@@ -48,22 +61,45 @@ record Disorder {
 
 record ConsentStatus {
 
-    string carrierStatusConsent;
+    /**
+    Is this individual consented to the programme?
+    It could simple be a family member that is not consented but for whom affection status is known
+    False by default! needs to be explicitly changed
+    */
+    boolean programmeConset=false;
 
-    string secondaryFindingConsent;
+    /**
+    Consent for carrier status check?
+    False by default
+    */
+    boolean carrierStatusConsent=false;
+
+    /**
+    Consent for secondary finding lookup
+    False by default
+    */
+    boolean secondaryFindingConsent=false;
 }
 
 
 /**
 Definitions of enumeration used in RDParticipant
 */
-enum CarrierStatus {affected, carrier, uncertain, presymptomatic}
+enum CarrierStatus {unaffected, affected, carrier, uncertain, presymptomatic}
 
 enum LifeStatus {aborted, deceased, unborn, stillborn, miscarriage}
 
 enum Sex {male, female, unknown}
 
+/**
+Default is not_adopted
+adoptedin means adopted into the family
+adoptedout means child belonged to the family and was adopted out
+*/
 enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
+
+
+
 
 /**
 This defines a RD Participant (demographics and pedigree information)
@@ -80,7 +116,7 @@ record RDParticipant {
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelVersion;
+    string dataModelCatalogueVersion;
 
     /**
     Possible options: MALE, FEMALE, UNKNOWN
@@ -95,23 +131,21 @@ record RDParticipant {
     union {null, int, string} mother;
 
     /**
-    currently this is meant to code omim
+    currently this is meant to be and omim code
     */
     union {null, array<Disorder>} disorderList;
 
     union {null, array<HpoTerm>} hpoTermList;
 
     /**
-    Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc
-    null represents unaffected
+    See enum CarrierStatus
+    null (unknown) by default
     */
     union {null, CarrierStatus} carrierStatus;
 
     /**
-    Possible options:
-    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE
-    null represents ALIVE
     see enum LifeStatus
+    Null (unknown) by default
     */
     union {null, LifeStatus} lifeStatus;
 
@@ -125,17 +159,27 @@ record RDParticipant {
     */
     union {null, boolean} monozygotic;
 
+
     union {null, AdoptedStatus} adoptedStatus;
 
     /**
-    Each Consanguinity Relationship is numbered
+    Offspring of a consanguineous relationship?
+    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false.
     */
-    union {null, int} consanguinityRelationship;
 
+    union {null, boolean} consanguineousParents;
+
+    /**
+    What has this participant consented to?
+    A participant that has been consented to the programme should also have sequence data associated with them; however
+    this needs to be programmatically checked
+    */
     ConsentStatus consentStatus;
+
 
     /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
+    Null by default
     */
     union {null, map<string>} additionalInformation;
 }

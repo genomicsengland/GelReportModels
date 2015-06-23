@@ -1,4 +1,4 @@
-@namespace("GelReportModes")
+@namespace("Gel_BioInf_Models_0.1")
 
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
