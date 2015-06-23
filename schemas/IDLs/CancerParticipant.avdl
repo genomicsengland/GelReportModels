@@ -15,7 +15,10 @@ enum SampleType {germline, tumor}
 MP: adding unknown - or we can just allow null?
 AR: Null should be no Treatment, if there is always a treatment we should not allow nulls
 */
-enum Treatment {FFPE, FF, unknown}
+enum PreservationMethod {FFPE, FF, unknown}
+/**
+TODO: check in remission....
+*/
 enum Phase {primary, metastasis}
 enum Method {resection, biopsy}
 
@@ -43,19 +46,19 @@ record CancerSample {
     union {null, string} source;
 
     /**
-    Sample Treatment
+    Preservation method
     */
-    union {null, Treatment} treatment;
+    union {null, PreservationMethod} preservationMethod;
 
     /**
-    Sample Phase
+    Tumor Phase
     */
     union {null, Phase} phase;
 
     /**
-    Sample Method
+     Method
     */
-    union {null, Phase} method;
+    union {null, Method} method;
 
 
     /**
@@ -98,7 +101,16 @@ This defines a Cancer Participant (demographics and sample information)
 */
 record CancerParticipant{
 
-    int id;
+    union {int, string} id;
+
+    union {null, array<string>} externalIds;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelVersion;
+
 
     /**
     This should be an enumeration when it is well defined
@@ -106,12 +118,6 @@ record CancerParticipant{
     */
     union {null, string} primaryDiagnosis;
 
-    union {null, array<string>} externalIds;
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelVersion;
 
     /**
     Possible options: MALE, FEMALE, UNKNOWN

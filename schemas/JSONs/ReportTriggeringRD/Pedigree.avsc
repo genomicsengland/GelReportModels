@@ -47,17 +47,55 @@
           "name" : "mother",
           "type" : [ "null", "int", "string" ]
         }, {
-          "name" : "disorders",
+          "name" : "disorderList",
           "type" : [ "null", {
             "type" : "array",
-            "items" : "string"
+            "items" : {
+              "type" : "record",
+              "name" : "Disorder",
+              "fields" : [ {
+                "name" : "Level2Title",
+                "type" : "string",
+                "doc" : "This is Level2 Title for this disorder"
+              }, {
+                "name" : "Level3Title",
+                "type" : "string",
+                "doc" : "This is Level3 Title for this disorder"
+              }, {
+                "name" : "Level4Title",
+                "type" : "string",
+                "doc" : "This is Level4 Title for this disorder"
+              }, {
+                "name" : "ageOfOnset",
+                "type" : [ "null", "int" ]
+              } ]
+            }
           } ],
           "doc" : "currently this is meant to code omim"
         }, {
-          "name" : "hpoTerms",
+          "name" : "hpoTermList",
           "type" : [ "null", {
             "type" : "array",
-            "items" : "string"
+            "items" : {
+              "type" : "record",
+              "name" : "HpoTerm",
+              "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+              "fields" : [ {
+                "name" : "term",
+                "type" : "string",
+                "doc" : "Identifier of the HPO term"
+              }, {
+                "name" : "modifier",
+                "type" : [ "null", {
+                  "type" : "array",
+                  "items" : "string"
+                } ],
+                "doc" : "Modifier associated with the HPO term"
+              }, {
+                "name" : "ageOfOnset",
+                "type" : [ "null", "int" ]
+              } ]
+            }
           } ]
         }, {
           "name" : "carrierStatus",

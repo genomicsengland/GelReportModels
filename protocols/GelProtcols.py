@@ -14,7 +14,6 @@ class ConsentStatus(ProtocolElement):
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/ConsentStatus.avsc"
 
-
     requiredFields = ({})
 
     @classmethod
@@ -41,7 +40,6 @@ class Disorder(ProtocolElement):
     schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Disorder.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Disorder.avsc"
-
 
     requiredFields = ({"OMIMid", "DisorderName"})
 
@@ -71,7 +69,6 @@ class HpoTerm(ProtocolElement):
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/HpoTerm.avsc"
 
-
     requiredFields = ({"term"})
 
     @classmethod
@@ -100,7 +97,6 @@ class File(ProtocolElement):
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/File.avsc"
 
-
     requiredFields = ({"URIFile"})
 
     @classmethod
@@ -127,7 +123,6 @@ class VirtualPanel(ProtocolElement):
     schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/VirtualPanel.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/VirtualPanel.avsc"
-
 
     requiredFields = ({"level4Title"})
 
@@ -169,7 +164,6 @@ class RDParticipant(ProtocolElement):
     schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/RDParticipant.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/RDParticipant.avsc"
-
 
     requiredFields = ({"id", "dataModelVersion", "sex", "consentStatus"})
 
@@ -235,7 +229,6 @@ class Pedigree(ProtocolElement):
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Pedigree.avsc"
 
-
     requiredFields = ({"FamilyId", "participants"})
 
     @classmethod
@@ -266,7 +259,6 @@ class RareDisease(ProtocolElement):
     schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/RareDisease.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/RareDisease.avsc"
-
 
     requiredFields = ({"level4Title", "pedigree", "modeOfInheritanceDescription"})
 
@@ -309,7 +301,6 @@ class Report(ProtocolElement):
     schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Report.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Report.avsc"
-
 
     requiredFields = ({"id", "reportVersion", "BAMs", "gVCFs", "VCFs", "BigWigs", "annotationFile",
                        "rareDisease", "backReportURI", "backReportVersion"})

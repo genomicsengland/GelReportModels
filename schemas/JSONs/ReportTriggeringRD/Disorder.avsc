@@ -2,15 +2,18 @@
   "type" : "record",
   "name" : "Disorder",
   "namespace" : "GelReportModes",
-  "doc" : "This is not being used due to phenotips compatibility",
   "fields" : [ {
-    "name" : "OMIMid",
+    "name" : "Level2Title",
     "type" : "string",
-    "doc" : "OMIM Entry ID, i.e, #268000"
+    "doc" : "This is Level2 Title for this disorder"
   }, {
-    "name" : "DisorderName",
+    "name" : "Level3Title",
     "type" : "string",
-    "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
+    "doc" : "This is Level3 Title for this disorder"
+  }, {
+    "name" : "Level4Title",
+    "type" : "string",
+    "doc" : "This is Level4 Title for this disorder"
   }, {
     "name" : "ageOfOnset",
     "type" : [ "null", "int" ]
