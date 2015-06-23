@@ -24,39 +24,25 @@ record CalledGenotype {
     /**
     Copy number genotype for imprecise events
     */
-    union {null, integer} copyNumber;
+    union {null, int} copyNumber;
 
 }
 
 /**
 This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
 */
-enum VariantClassification {
-    BENIGN,
-    LIKELY BENIGN,
-    VUS,
-    LIKELY PATHOGENIC,
-    PATHOGENIC
-}
+enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
 
-
-/**
-Possible tiers as defined by Genomics England
-*/
-enum Tier {
-    NONE,
-    TIER1,  // Known
-    TIER2,
-    TIER3
-}
 
 /**
 Penetrance assumed in the analysis
 */
-enum Penetrance {
-    Complete,
-    Incomplete
-}
+enum Penetrance {complete, incomplete}
+
+/**
+Possible tiers as defined by Genomics England
+*/
+enum Tier {NONE, TIER1, TIER2, TIER3}
 
 record ReportEvent {
 
@@ -68,7 +54,7 @@ record ReportEvent {
     /**
     This is the penetrance assumed for scoring or classifying this variant
     */
-    Penetrance penetrance = Complete;
+    Penetrance penetrance;
 
     /**
     This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
@@ -109,7 +95,7 @@ record ReportedVariant {
     /**
     position: Position 1-based
     */
-    integer position;
+    int position;
 
     /**
     reference: Reference Allele sequence, the same provided in vcf
@@ -171,12 +157,12 @@ record ReportedStructuralVariant {
     /**
     start: start position 1-based
     */
-    integer start;
+    int start;
 
     /**
     end: end position 1-based
     */
-    integer end;
+    int end;
 
     /**
     The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
@@ -254,8 +240,4 @@ record InterpretationAnalysis {
     union {null, array<string>} comments;
 
 }
-
-
-
-
-
+}

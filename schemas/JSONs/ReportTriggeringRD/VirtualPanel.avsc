@@ -1,10 +1,10 @@
 {
   "type" : "record",
   "name" : "VirtualPanel",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
   "fields" : [ {
-    "name" : "level4Title",
+    "name" : "SpecificDiseaseTitle",
     "type" : "string"
   }, {
     "name" : "geneIds",
@@ -32,13 +32,14 @@
           "type" : "array",
           "items" : "string"
         } ],
-        "doc" : "Unique ID of the Sample"
+        "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
       }, {
         "name" : "URIFile",
         "type" : "string",
         "doc" : "URI PATH"
       } ]
-    } ]
+    } ],
+    "doc" : "BED format file"
   }, {
     "name" : "clinicalRelevantVariants",
     "type" : [ "null", "File" ],

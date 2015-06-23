@@ -1,6 +1,7 @@
 {
   "type" : "enum",
   "name" : "AdoptedStatus",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
+  "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
   "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
 }

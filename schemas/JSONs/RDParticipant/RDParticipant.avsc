@@ -1,11 +1,14 @@
 {
   "type" : "record",
   "name" : "RDParticipant",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "This defines a RD Participant (demographics and pedigree information)",
   "fields" : [ {
     "name" : "id",
-    "type" : "int"
+    "type" : [ "int", "string" ]
+  }, {
+    "name" : "FamilyId",
+    "type" : [ "null", "int", "string" ]
   }, {
     "name" : "externalIds",
     "type" : [ "null", {
@@ -13,7 +16,7 @@
       "items" : "string"
     } ]
   }, {
-    "name" : "dataModelVersion",
+    "name" : "dataModelCatalogueVersion",
     "type" : "string",
     "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
   }, {
@@ -26,35 +29,41 @@
     "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
   }, {
     "name" : "father",
-    "type" : [ "null", "int" ],
+    "type" : [ "null", "int", "string" ],
     "doc" : "Id of the parent, if unknown then no parent is referenced"
   }, {
     "name" : "mother",
-    "type" : [ "null", "int" ]
+    "type" : [ "null", "int", "string" ]
   }, {
-    "name" : "disorders",
+    "name" : "disorderList",
     "type" : [ "null", {
       "type" : "array",
       "items" : {
         "type" : "record",
         "name" : "Disorder",
+        "doc" : "This is quite GEL specific\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are asigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
         "fields" : [ {
-          "name" : "OMIMid",
-          "type" : "string",
-          "doc" : "OMIM Entry ID, i.e, #268000"
+          "name" : "diseaseGroup",
+          "type" : [ "null", "string" ],
+          "doc" : "This is Level2 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
         }, {
-          "name" : "DisorderName",
-          "type" : "string",
-          "doc" : "Disorder, i.e, RETINITIS PIGMENTOSA; RP"
+          "name" : "diseaseSubGroup",
+          "type" : [ "null", "string" ],
+          "doc" : "This is Level3 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+        }, {
+          "name" : "specificDisease",
+          "type" : [ "null", "string" ],
+          "doc" : "This is Level4 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
         }, {
           "name" : "ageOfOnset",
-          "type" : [ "null", "int" ]
+          "type" : [ "null", "int" ],
+          "doc" : "Age of onset in months"
         } ]
       }
     } ],
-    "doc" : "currently this is meant to code omim"
+    "doc" : "currently this is meant to be and omim code"
   }, {
-    "name" : "hpoTerms",
+    "name" : "hpoTermList",
     "type" : [ "null", {
       "type" : "array",
       "items" : {
@@ -74,7 +83,8 @@
           "doc" : "Modifier associated with the HPO term"
         }, {
           "name" : "ageOfOnset",
-          "type" : [ "null", "int" ]
+          "type" : [ "null", "int" ],
+          "doc" : "Age of onset in months"
         } ]
       }
     } ]
@@ -84,9 +94,9 @@
       "type" : "enum",
       "name" : "CarrierStatus",
       "doc" : "Definitions of enumeration used in RDParticipant",
-      "symbols" : [ "affected", "carrier", "uncertain", "presymptomatic" ]
+      "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
     } ],
-    "doc" : "Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc\n    null represents unaffected"
+    "doc" : "See enum CarrierStatus\n    null (unknown) by default"
   }, {
     "name" : "lifeStatus",
     "type" : [ "null", {
@@ -94,7 +104,7 @@
       "name" : "LifeStatus",
       "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
     } ],
-    "doc" : "Possible options:\n    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE\n    null represents ALIVE\n    see enum LifeStatus"
+    "doc" : "see enum LifeStatus\n    Null (unknown) by default"
   }, {
     "name" : "twinGroup",
     "type" : [ "null", "int" ],
@@ -108,31 +118,42 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "AdoptedStatus",
+      "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
       "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
     } ]
   }, {
-    "name" : "consanguinityRelationship",
-    "type" : [ "null", "int" ],
-    "doc" : "Each Consanguinity Relationship is numbered"
+    "name" : "consanguineousParents",
+    "type" : [ "null", "boolean" ],
+    "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
   }, {
     "name" : "consentStatus",
     "type" : {
       "type" : "record",
       "name" : "ConsentStatus",
       "fields" : [ {
+        "name" : "programmeConset",
+        "type" : "boolean",
+        "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+        "default" : false
+      }, {
         "name" : "carrierStatusConsent",
-        "type" : "string"
+        "type" : "boolean",
+        "doc" : "Consent for carrier status check?\n    False by default",
+        "default" : false
       }, {
         "name" : "secondaryFindingConsent",
-        "type" : "string"
+        "type" : "boolean",
+        "doc" : "Consent for secondary finding lookup\n    False by default",
+        "default" : false
       } ]
-    }
+    },
+    "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
   }, {
     "name" : "additionalInformation",
     "type" : [ "null", {
       "type" : "map",
       "values" : "string"
     } ],
-    "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+    "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc\n    Null by default"
   } ]
 }

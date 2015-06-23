@@ -2,5 +2,6 @@
   "type" : "enum",
   "name" : "Sex",
   "namespace" : "Gel_BioInf_Models_0.1",
+  "doc" : "Definitions of enumeration used in CancerParticipant",
   "symbols" : [ "male", "female", "unknown" ]
 }

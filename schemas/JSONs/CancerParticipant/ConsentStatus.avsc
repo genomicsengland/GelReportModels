@@ -1,0 +1,12 @@
+{
+  "type" : "record",
+  "name" : "ConsentStatus",
+  "namespace" : "Gel_BioInf_Models_0.1",
+  "fields" : [ {
+    "name" : "carrierStatusConsent",
+    "type" : "string"
+  }, {
+    "name" : "secondaryFindingConsent",
+    "type" : "string"
+  } ]
+}

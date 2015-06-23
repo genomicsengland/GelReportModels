@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "InterpretationRequest",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "This record represents basic information for this report",
   "fields" : [ {
     "name" : "reportRequestId",
@@ -25,7 +25,7 @@
             "type" : "array",
             "items" : "string"
           } ],
-          "doc" : "Unique ID of the Sample"
+          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
         }, {
           "name" : "URIFile",
           "type" : "string",
@@ -58,15 +58,20 @@
   }, {
     "name" : "annotationFile",
     "type" : "File",
-    "doc" : "This will be the json file from Cellbase + version used"
+    "doc" : "This will be the output file from Cellbase + version used"
   }, {
     "name" : "rareDisease",
     "type" : {
       "type" : "record",
       "name" : "RareDisease",
       "fields" : [ {
-        "name" : "level4Title",
-        "type" : "string"
+        "name" : "enrolledAgainstSpecificDiseaseTitle",
+        "type" : "string",
+        "doc" : "Specific Disease title against which this family was enroled\n    These titles are a controlled vocabulary in the model catalogue"
+      }, {
+        "name" : "dataModelCatalogueVersion",
+        "type" : "string",
+        "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
       }, {
         "name" : "pedigree",
         "type" : {
@@ -98,7 +103,7 @@
                     "items" : "string"
                   } ]
                 }, {
-                  "name" : "dataModelVersion",
+                  "name" : "dataModelCatalogueVersion",
                   "type" : "string",
                   "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
                 }, {
@@ -123,25 +128,27 @@
                     "items" : {
                       "type" : "record",
                       "name" : "Disorder",
+                      "doc" : "This is quite GEL specific\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are asigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
                       "fields" : [ {
-                        "name" : "Level2Title",
-                        "type" : "string",
-                        "doc" : "This is Level2 Title for this disorder"
+                        "name" : "diseaseGroup",
+                        "type" : [ "null", "string" ],
+                        "doc" : "This is Level2 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
                       }, {
-                        "name" : "Level3Title",
-                        "type" : "string",
-                        "doc" : "This is Level3 Title for this disorder"
+                        "name" : "diseaseSubGroup",
+                        "type" : [ "null", "string" ],
+                        "doc" : "This is Level3 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
                       }, {
-                        "name" : "Level4Title",
-                        "type" : "string",
-                        "doc" : "This is Level4 Title for this disorder"
+                        "name" : "specificDisease",
+                        "type" : [ "null", "string" ],
+                        "doc" : "This is Level4 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
                       }, {
                         "name" : "ageOfOnset",
-                        "type" : [ "null", "int" ]
+                        "type" : [ "null", "int" ],
+                        "doc" : "Age of onset in months"
                       } ]
                     }
                   } ],
-                  "doc" : "currently this is meant to code omim"
+                  "doc" : "currently this is meant to be and omim code"
                 }, {
                   "name" : "hpoTermList",
                   "type" : [ "null", {
@@ -163,7 +170,8 @@
                         "doc" : "Modifier associated with the HPO term"
                       }, {
                         "name" : "ageOfOnset",
-                        "type" : [ "null", "int" ]
+                        "type" : [ "null", "int" ],
+                        "doc" : "Age of onset in months"
                       } ]
                     }
                   } ]
@@ -173,9 +181,9 @@
                     "type" : "enum",
                     "name" : "CarrierStatus",
                     "doc" : "Definitions of enumeration used in RDParticipant",
-                    "symbols" : [ "affected", "carrier", "uncertain", "presymptomatic" ]
+                    "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
                   } ],
-                  "doc" : "Possible options: AFFECTED, CARRIER, UNCERTAIN, PRESYMPTOMATIC, UNKNOWN, etc\n    null represents unaffected"
+                  "doc" : "See enum CarrierStatus\n    null (unknown) by default"
                 }, {
                   "name" : "lifeStatus",
                   "type" : [ "null", {
@@ -183,7 +191,7 @@
                     "name" : "LifeStatus",
                     "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
                   } ],
-                  "doc" : "Possible options:\n    ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE\n    null represents ALIVE\n    see enum LifeStatus"
+                  "doc" : "see enum LifeStatus\n    Null (unknown) by default"
                 }, {
                   "name" : "twinGroup",
                   "type" : [ "null", "int" ],
@@ -197,32 +205,43 @@
                   "type" : [ "null", {
                     "type" : "enum",
                     "name" : "AdoptedStatus",
+                    "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
                     "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
                   } ]
                 }, {
-                  "name" : "consanguinityRelationship",
-                  "type" : [ "null", "int" ],
-                  "doc" : "Each Consanguinity Relationship is numbered"
+                  "name" : "consanguineousParents",
+                  "type" : [ "null", "boolean" ],
+                  "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
                 }, {
                   "name" : "consentStatus",
                   "type" : {
                     "type" : "record",
                     "name" : "ConsentStatus",
                     "fields" : [ {
+                      "name" : "programmeConset",
+                      "type" : "boolean",
+                      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+                      "default" : false
+                    }, {
                       "name" : "carrierStatusConsent",
-                      "type" : "string"
+                      "type" : "boolean",
+                      "doc" : "Consent for carrier status check?\n    False by default",
+                      "default" : false
                     }, {
                       "name" : "secondaryFindingConsent",
-                      "type" : "string"
+                      "type" : "boolean",
+                      "doc" : "Consent for secondary finding lookup\n    False by default",
+                      "default" : false
                     } ]
-                  }
+                  },
+                  "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
                 }, {
                   "name" : "additionalInformation",
                   "type" : [ "null", {
                     "type" : "map",
                     "values" : "string"
                   } ],
-                  "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+                  "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc\n    Null by default"
                 } ]
               }
             }
@@ -231,22 +250,25 @@
       }, {
         "name" : "inbreedingCoefficientEstimates",
         "type" : [ "null", "File" ],
-        "doc" : "Ask Katherine maybe worth create a record for this (I have a thought...) ????"
+        "doc" : "TODO: create a record for inbreeding coefficients"
       }, {
         "name" : "ancestries",
         "type" : [ "null", {
           "type" : "array",
           "items" : "string"
         } ],
-        "doc" : "Define this with katherine"
+        "doc" : "TODO: definie enumeration for ancestries"
       }, {
         "name" : "complexGeneticPhenomena",
         "type" : [ "null", "string" ],
         "doc" : "Hints about potential genetic phenomena that can inform interpretation\n    Proposed values:\n    MOSAICISM,\n    MONOSOMY,\n    DISOMY,\n    UNIPARENTAL_DISOMY,\n    TRISOMY,\n    OTHER_ANEUPLOIDY"
       }, {
         "name" : "modeOfInheritance",
-        "type" : "string",
-        "doc" : "Proposed values:\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, NOT IMPRINTED\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, MATERNALLY IMPRINTED (PATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, PATERNALLY IMPRINTED (MATERNAL ALLELE EXPRESSED)\n    MONOALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL, IMPRINTED STATUS UNKNOWN\n    BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC, AUTOSOMAL OR PSEUDOAUTOSOMAL\n    BOTH MONOALLELIC AND BIALLELIC (BUT BIALLELIC MUTATIONS CAUSE A MORE SEVERE DISEASE FORM), AUTOSOMAL OR PSEUDOAUTOSOMAL\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, BIALLELIC MUTATIONS IN FEMALES\n    X-LINKED: HEMIZYGOUS MUTATION IN MALES, MAY BE CAUSED BY MONOALLELIC MUTATIONS IN FEMALES\n    MITOCHONDRIAL\n    UNKNOWN\n\n    or use those from the data model:\n    simplex\n    recessive\n    multigenerational\n    xlinked\n    mitochondrial\n    unknown"
+        "type" : {
+          "type" : "array",
+          "items" : "string"
+        },
+        "doc" : "Proposed values:\n    MONOALLELIC, autosomal or pseudoautosomal, NOT imprinted|\n    MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)|HP:0012275\n    MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)|HP:0012274\n    MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown|HP:0000006\n    BIALLELIC, autosomal or pseudoautosomal|HP:0000007\n    BOTH monoallelic and biallelic, autosomal or pseudoautosomal|\n    BOTH monoallelic and biallelic (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal|\n    MITOCHONDRIAL|HP:0001427\n    X-LINKED: hemizygous mutation in males, biallelic mutations in females|HP:0001419\n    X-LINKED: hemizygous mutation in males, may be caused by monoallelic mutations in females|HP:0001417\n    Unknown|\n\n    The entries in the variable will reflect combinations of allelic states consistent with the enumeration in the model catalogue:\n    recessive: Multiplex family: recessive pattern (affected siblings only)\n    simplex: Simplex (isolated) case\n    unknown: Multiplex family: unknown\n    xlinked: Multiplex family: pattern suggestive of X-linked inheritance\n    multigenerationalPaternal: Multiplex family - paternal multi-generational pattern of inheritance (likely dominant)\n    mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance\n    multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)"
       }, {
         "name" : "virtualPanel",
         "type" : [ "null", {
@@ -254,7 +276,7 @@
           "name" : "VirtualPanel",
           "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
           "fields" : [ {
-            "name" : "level4Title",
+            "name" : "SpecificDiseaseTitle",
             "type" : "string"
           }, {
             "name" : "geneIds",
@@ -272,7 +294,8 @@
             "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
           }, {
             "name" : "RelevantRegions",
-            "type" : [ "null", "File" ]
+            "type" : [ "null", "File" ],
+            "doc" : "BED format file"
           }, {
             "name" : "clinicalRelevantVariants",
             "type" : [ "null", "File" ],
@@ -280,11 +303,29 @@
           } ]
         } ],
         "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
+      }, {
+        "name" : "otherFamilyHistory",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "OtherFamilyHistory",
+          "doc" : "Family history for secondary findings\nTODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke\nArrays of strings describing discrete family history phenotypes",
+          "fields" : [ {
+            "name" : "maternalFamilyHistory",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : "string"
+            } ]
+          }, {
+            "name" : "paternalFamilyHistory",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : "string"
+            } ]
+          } ]
+        } ],
+        "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband.\n    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is\n    not collected in that level of detail."
       } ]
     }
-  }, {
-    "name" : "familyHistory",
-    "type" : [ "null", "File" ]
   }, {
     "name" : "analysisURI",
     "type" : "string"

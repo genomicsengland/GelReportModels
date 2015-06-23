@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "HpoTerm",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
   "fields" : [ {
     "name" : "term",
@@ -16,6 +16,7 @@
     "doc" : "Modifier associated with the HPO term"
   }, {
     "name" : "ageOfOnset",
-    "type" : [ "null", "int" ]
+    "type" : [ "null", "int" ],
+    "doc" : "Age of onset in months"
   } ]
 }

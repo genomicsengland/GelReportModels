@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "CancerSample",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required",
   "fields" : [ {
     "name" : "id",
@@ -20,26 +20,31 @@
     "type" : [ "null", "string" ],
     "doc" : "Sample Source\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
   }, {
-    "name" : "treatment",
+    "name" : "preservationMethod",
     "type" : [ "null", {
       "type" : "enum",
-      "name" : "Treatment",
+      "name" : "PreservationMethod",
       "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
       "symbols" : [ "FFPE", "FF", "unknown" ]
     } ],
-    "doc" : "Sample Treatment"
+    "doc" : "Preservation method"
   }, {
     "name" : "phase",
     "type" : [ "null", {
       "type" : "enum",
       "name" : "Phase",
+      "doc" : "TODO: check in remission....",
       "symbols" : [ "primary", "metastasis" ]
     } ],
-    "doc" : "Sample Phase"
+    "doc" : "Tumor Phase"
   }, {
     "name" : "method",
-    "type" : [ "null", "Phase" ],
-    "doc" : "Sample Method"
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Method",
+      "symbols" : [ "resection", "biopsy" ]
+    } ],
+    "doc" : "Method"
   }, {
     "name" : "cellularity",
     "type" : [ "null", "double" ],

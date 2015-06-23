@@ -1,15 +1,11 @@
 {
   "type" : "record",
   "name" : "CancerParticipant",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "This defines a Cancer Participant (demographics and sample information)",
   "fields" : [ {
     "name" : "id",
-    "type" : "int"
-  }, {
-    "name" : "primaryDiagnosis",
-    "type" : [ "null", "string" ],
-    "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+    "type" : [ "int", "string" ]
   }, {
     "name" : "externalIds",
     "type" : [ "null", {
@@ -20,6 +16,10 @@
     "name" : "dataModelVersion",
     "type" : "string",
     "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+  }, {
+    "name" : "primaryDiagnosis",
+    "type" : [ "null", "string" ],
+    "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
   }, {
     "name" : "sex",
     "type" : {
@@ -54,26 +54,31 @@
           "type" : [ "null", "string" ],
           "doc" : "Sample Source\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
         }, {
-          "name" : "treatment",
+          "name" : "preservationMethod",
           "type" : [ "null", {
             "type" : "enum",
-            "name" : "Treatment",
+            "name" : "PreservationMethod",
             "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
             "symbols" : [ "FFPE", "FF", "unknown" ]
           } ],
-          "doc" : "Sample Treatment"
+          "doc" : "Preservation method"
         }, {
           "name" : "phase",
           "type" : [ "null", {
             "type" : "enum",
             "name" : "Phase",
+            "doc" : "TODO: check in remission....",
             "symbols" : [ "primary", "metastasis" ]
           } ],
-          "doc" : "Sample Phase"
+          "doc" : "Tumor Phase"
         }, {
           "name" : "method",
-          "type" : [ "null", "Phase" ],
-          "doc" : "Sample Method"
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "Method",
+            "symbols" : [ "resection", "biopsy" ]
+          } ],
+          "doc" : "Method"
         }, {
           "name" : "cellularity",
           "type" : [ "null", "double" ],

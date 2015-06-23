@@ -73,8 +73,8 @@ TODO: define the enumerations + other. Currently from model catalogue EndocrineT
 Arrays of strings describing discrete family history phenotypes
 */
 record OtherFamilyHistory {
-    union {null, array<string>} maternalFamilyHistory
-    union {null, array<string>} paternalFamilyHistory
+    union {null, array<string>} maternalFamilyHistory;
+    union {null, array<string>} paternalFamilyHistory;
 }
 
 
@@ -140,7 +140,7 @@ record RareDisease {
     multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
     */
 
-    string array<string> modeOfInheritance;
+    array<string> modeOfInheritance;
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File

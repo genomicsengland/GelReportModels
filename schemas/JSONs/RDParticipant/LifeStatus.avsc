@@ -1,6 +1,6 @@
 {
   "type" : "enum",
   "name" : "LifeStatus",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
 }

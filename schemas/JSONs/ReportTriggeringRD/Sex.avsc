@@ -1,6 +1,6 @@
 {
   "type" : "enum",
   "name" : "Sex",
-  "namespace" : "GelReportModes",
+  "namespace" : "Gel_BioInf_Models_0.1",
   "symbols" : [ "male", "female", "unknown" ]
 }

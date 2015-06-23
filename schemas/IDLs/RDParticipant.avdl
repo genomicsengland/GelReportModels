@@ -29,7 +29,7 @@ record Disorder {
     This is Level4 Title for this disorder
     TODO:use ID that refers to model catalogue instead
     */
-    union {null,string} specificDisease
+    union {null,string} specificDisease;
 
     /**
     Age of onset in months
