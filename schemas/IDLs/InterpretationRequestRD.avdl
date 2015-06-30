@@ -173,6 +173,11 @@ record InterpretationRequest {
     int reportVersion;
 
     /**
+    Simply load data to system or also provide interpretation?
+    */
+    boolean interpretGenome=false;
+
+    /**
     BAMs Files
     */
     array<File> BAMs;
