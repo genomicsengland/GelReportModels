@@ -33,6 +33,8 @@ record CancerSample {
     */
     string id;
 
+    union {null, string} centerSampleId;
+
     /**
     Sample Type
     */
@@ -97,13 +99,18 @@ record ConsentStatus {
 
 
 /**
-This defines a Cancer Participant (demographics and sample information)
+This defines a Cancer Demographics
 */
-record CancerParticipant{
+
+record CancerDemographics{
 
     union {int, string} id;
 
     union {null, array<string>} externalIds;
+
+    union {null, string} originatingCenter;
+    union {null, string} gelPhase;
+    union {null, string} centerPatientId;
 
     /**
     Version of the Data Catalogue against which the information is being provided
@@ -124,6 +131,28 @@ record CancerParticipant{
     */
     Sex sex;
 
+    ConsentStatus consentStatus;
+
+
+    /**
+    We could add a map here to store additional information for example URIs to images, ECGs, etc
+    */
+    union {null, map<string>} additionalInformation;
+}
+
+
+/**
+This defines a Cancer Participant (demographics and sample information)
+*/
+record CancerParticipant{
+
+    CancerDemographics demographics;
+
+    /**
+    Possible options: MALE, FEMALE, UNKNOWN
+    */
+    Sex sex;
+
     /**
     List of samples (normal and tumor sample)
     */
@@ -135,13 +164,6 @@ record CancerParticipant{
     array <MatchedSamples> matchedSamples;
 
 
-    ConsentStatus consentStatus;
-
-
-    /**
-    We could add a map here to store additional information for example URIs to images, ECGs, etc
-    */
-    union {null, map<string>} additionalInformation;
 }
 
 }

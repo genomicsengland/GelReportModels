@@ -54,6 +54,7 @@ class ProtocolElement(object):
         Returns a JSON dictionary representation of this ProtocolElement.
         """
         out = {}
+
         for field in self.schema.fields:
             val = getattr(self, field.name)
 
@@ -61,13 +62,16 @@ class ProtocolElement(object):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
                 elif val is None:
-                    out[field.name] = None
+                    pass
                 else:
                     out[field.name] = val.toJsonDict()
             elif isinstance(val, list):
                 out[field.name] = list(val)
             else:
-                out[field.name] = val
+                if val == None:
+                    pass
+                else:
+                    out[field.name] = val
         return out
 
     @classmethod

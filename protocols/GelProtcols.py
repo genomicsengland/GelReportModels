@@ -28,11 +28,13 @@ class ConsentStatus(ProtocolElement):
 
     __slots__ = ["carrierStatusConsent",
                  "secondaryFindingConsent",
+                 "programmeConset"
                  ]
 
     def __init__(self):
-        self.secondaryFindingConsent = None
-        self.carrierStatusConsent = None
+        self.secondaryFindingConsent = False
+        self.carrierStatusConsent = False
+        self.programmeConset = False
 
 
 class Disorder(ProtocolElement):
@@ -41,7 +43,7 @@ class Disorder(ProtocolElement):
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Disorder.avsc"
 
-    requiredFields = ({"OMIMid", "DisorderName"})
+    requiredFields = ({})
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
@@ -53,15 +55,15 @@ class Disorder(ProtocolElement):
         embeddedTypes = {}
         return embeddedTypes[fieldName]
 
-    __slots__ = ["OMIMid",
-                 "DisorderName",
-                 "ageOfOnset",
+    __slots__ = ["diseaseGroup",
+                 "diseaseSubGroup",
+                 "specificDisease",
                  ]
 
     def __init__(self):
-        self.OMIMid = None
-        self.DisorderName = None
-        self.ageOfOnset = None
+        self.diseaseGroup = None
+        self.diseaseSubGroup = None
+        self.specificDisease = None
 
 class HpoTerm(ProtocolElement):
 
@@ -171,9 +173,8 @@ class RDParticipant(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             "consentStatus": ConsentStatus,
-            # "HpoTerm": HpoTerm,
-            # "Disorder": ConsentStatus,
-            #
+            "hpoTermList": HpoTerm,
+            "disorderList": ConsentStatus,
         }
         return fieldName in embeddedTypes
 
@@ -181,46 +182,46 @@ class RDParticipant(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             "consentStatus": ConsentStatus,
-            # "HpoTerm": HpoTerm,
-            # "Disorder": ConsentStatus,
+            "hpoTermList": HpoTerm,
+            "disorderList": ConsentStatus,
         }
         return embeddedTypes[fieldName]
 
     __slots__ = ["FamilyId",
                  "id",
-                 "dataModelVersion",
+                 "dataModelCatalogueVersion",
                  "sex",
                  "consentStatus",
                  "externalIds",
                  "father",
                  "mother",
-                 "disorders",
-                 "hpoTerms",
+                 "disorderList",
+                 "hpoTermList",
                  "carrierStatus",
                  "twinGroup",
                  "monozygotic",
                  "adoptedStatus",
-                 "consanguinityRelationship",
+                 "consanguineousParents",
                  "additionalInformation",
                  ]
 
     def __init__(self):
         self.FamilyId = None
         self.id = None
-        self.dataModelVersion = None
+        self.dataModelCatalogueVersion = None
         self.sex = None
         self.consentStatus = None
         self.externalIds = None
         self.father = None
         self.mother = None
-        self.disorders = None
-        self.hpoTerms = None
+        self.disorderList = None
+        self.hpoTermList = None
         self.carrierStatus = None
         self.lifeStatus = None
         self.twinGroup = None
         self.monozygotic = None
         self.adoptedStatus = None
-        self.consanguinityRelationship = None
+        self.consanguineousParents = None
         self.additionalInformation = None
 
 class Pedigree(ProtocolElement):
@@ -298,7 +299,7 @@ class RareDisease(ProtocolElement):
 
 class Report(ProtocolElement):
 
-    schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Report.avsc").read())
+    schema = avro.schema.parse(open("/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/InterpretationRequest.avsc").read())
 
     _schemaSource = "/home/antonior/PycharmProjects/SchemaAvro/GelReportModels/schemas/JSONs/ReportTriggeringRD/Report.avsc"
 

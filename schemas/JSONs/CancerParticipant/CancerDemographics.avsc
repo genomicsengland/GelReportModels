@@ -1,0 +1,62 @@
+{
+  "type" : "record",
+  "name" : "CancerDemographics",
+  "namespace" : "Gel_BioInf_Models_0.1",
+  "doc" : "This defines a Cancer Demographics",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "int", "string" ]
+  }, {
+    "name" : "externalIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ]
+  }, {
+    "name" : "originatingCenter",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "gelPhase",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "centerPatientId",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "dataModelVersion",
+    "type" : "string",
+    "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+  }, {
+    "name" : "primaryDiagnosis",
+    "type" : [ "null", "string" ],
+    "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+  }, {
+    "name" : "sex",
+    "type" : {
+      "type" : "enum",
+      "name" : "Sex",
+      "doc" : "Definitions of enumeration used in CancerParticipant",
+      "symbols" : [ "male", "female", "unknown" ]
+    },
+    "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
+  }, {
+    "name" : "consentStatus",
+    "type" : {
+      "type" : "record",
+      "name" : "ConsentStatus",
+      "fields" : [ {
+        "name" : "carrierStatusConsent",
+        "type" : "string"
+      }, {
+        "name" : "secondaryFindingConsent",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "additionalInformation",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+  } ]
+}

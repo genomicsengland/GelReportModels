@@ -1,0 +1,13 @@
+{
+  "id": 10001,
+  "FamilyId": 1,
+  "externalIds": ["00001", "100001"],
+  "dataModelCatalogueVersion": "1",
+  "sex": "male",
+  "father": 10002,
+  "mother": 10003,
+  "disorderList" : [{"diseaseGroup": "Cardiovascular disorders", "diseaseSubGroup": "Cardiac arrhythmia", "specificDisease": "Brugada syndrome"}],
+  "hpoTermList": [{"term": "HP:0004756"},{"term": "HP:0001663"},{"term": "HP:0001678"},{"term": "HP:0000821"}],
+  "carrierStatus": "affected",
+  "consentStatus": {"programmeConset":true, "carrierStatusConsent":true, "secondaryFindingConsent":true }
+}

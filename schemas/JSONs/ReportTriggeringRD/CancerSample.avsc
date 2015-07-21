@@ -8,9 +8,6 @@
     "type" : "string",
     "doc" : "Sample ID (this is the individual id (gel ID))"
   }, {
-    "name" : "centerSampleId",
-    "type" : [ "null", "string" ]
-  }, {
     "name" : "sampleType",
     "type" : {
       "type" : "enum",

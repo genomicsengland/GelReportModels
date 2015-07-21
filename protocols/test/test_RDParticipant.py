@@ -16,11 +16,12 @@ class TestRDParticipant(unittest.TestCase):
         new_rd_participant.id = 1
         new_rd_participant.father = 6
         new_rd_participant.mother = 5
-        new_rd_participant.dataModelVersion = "0.0"
+        new_rd_participant.dataModelCatalogueVersion = "0.0"
         new_rd_participant.sex = "male"
         new_rd_participant.consentStatus = ConsentStatus()
-        new_rd_participant.consentStatus.secondaryFindingConsent = "NO"
-        new_rd_participant.consentStatus.carrierStatusConsent = "YES"
+        new_rd_participant.consentStatus.programmeConset = True
+        new_rd_participant.consentStatus.secondaryFindingConsent = False
+        new_rd_participant.consentStatus.carrierStatusConsent = True
         return new_rd_participant
 
     def test_preprop(self):
@@ -41,14 +42,14 @@ class TestRDParticipant(unittest.TestCase):
         fdw.close()
 
     def test_validation(self):
-        fd = file(os.path.join(BASE_DIR, "resources", "RDParticipant.json"))
-        dict = json.loads(fd.readline())
+        fd = file(os.path.join(BASE_DIR, "resources", "testVariableSet.json"))
+        dict = json.load(fd)
         self.assertTrue(RDParticipant.validate(dict))
 
     def test_read(self):
         new_rd_participant = self.create_participant()
         fd = file(os.path.join(BASE_DIR, "resources", "RDParticipant.json"))
-        dict = json.loads(fd.readline())
+        dict = json.load(fd)
         generate_rd_participant = RDParticipant.fromJsonDict(dict)
         self.assertEqual(new_rd_participant.toJsonDict(), generate_rd_participant.toJsonDict())
 
