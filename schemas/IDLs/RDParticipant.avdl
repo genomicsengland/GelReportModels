@@ -39,6 +39,7 @@ record Disorder {
 
 }
 
+
 /**
 This defines an HPO term and its modifiers (possibly multiple)
 */
@@ -47,6 +48,12 @@ record HpoTerm {
     Identifier of the HPO term
     */
     string term;
+
+    /**
+    This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
+    false=term is not present
+    */
+    union {null,boolean} termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -71,16 +78,22 @@ record ConsentStatus {
     boolean programmeConset=false;
 
     /**
-    Consent for carrier status check?
+    Consent for feedback of primary findings?
     False by default
     */
-    boolean carrierStatusConsent=false;
+    boolean primaryFindingConsent=false;
 
     /**
     Consent for secondary finding lookup
     False by default
     */
     boolean secondaryFindingConsent=false;
+
+    /**
+    Consent for carrier status check?
+    False by default
+    */
+    boolean carrierStatusConsent=false;
 }
 
 
@@ -136,6 +149,8 @@ record RDParticipant {
     currently this is meant to be and omim code
     */
     union {null, array<Disorder>} disorderList;  //priority 2
+
+
 
     union {null, array<HpoTerm>} hpoTermList; //priority 2
 
