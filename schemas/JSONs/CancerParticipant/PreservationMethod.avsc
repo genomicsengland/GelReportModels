@@ -3,5 +3,5 @@
   "name" : "PreservationMethod",
   "namespace" : "Gel_BioInf_Models_0.1",
   "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
-  "symbols" : [ "FFPE", "FF", "unknown" ]
+  "symbols" : [ "FFPE", "FF", "unknown", "LEUK", "GL" ]
 }

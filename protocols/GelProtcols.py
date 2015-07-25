@@ -28,10 +28,12 @@ class ConsentStatus(ProtocolElement):
 
     __slots__ = ["carrierStatusConsent",
                  "secondaryFindingConsent",
-                 "programmeConset"
+                 "programmeConset",
+                 "primaryFindingConsent"
                  ]
 
     def __init__(self):
+        self.primaryFindingConsent = False
         self.secondaryFindingConsent = False
         self.carrierStatusConsent = False
         self.programmeConset = False
@@ -355,3 +357,4 @@ class Report(ProtocolElement):
         self.backReportURI = None
         self.backReportVersion = None
         self.additionalInfo = None
+

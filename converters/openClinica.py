@@ -316,16 +316,21 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
 
                 consent = ConsentStatus()
                 consent.programmeConset = True
+                consent.carrierStatusConsent = False
+                consent.secondaryFindingConsent = False
+                consent.primaryFindingConsent = False
 
-                if "carrierStatusConsent" in openclinica_data and openclinica_data["carrierStatusConsent"] == "Yes":
-                    consent.carrierStatusConsent = True
-                else:
-                    consent.carrierStatusConsent = False
+                # if "carrierStatusConsent" in openclinica_data and openclinica_data["carrierStatusConsent"] == "Yes":
+                #     consent.carrierStatusConsent = True
+                # else:
+                #     consent.carrierStatusConsent = False
+                #
+                # if "carrierStatusConsent" in openclinica_data and openclinica_data["secondaryFindingConsent"] == "Yes":
+                #     consent.carrierStatusConsent = True
+                # else:
+                #     consent.carrierStatusConsent = False
 
-                if "carrierStatusConsent" in openclinica_data and openclinica_data["secondaryFindingConsent"] == "Yes":
-                    consent.carrierStatusConsent = True
-                else:
-                    consent.carrierStatusConsent = False
+
 
                 samples[id].consentStatus = consent
 

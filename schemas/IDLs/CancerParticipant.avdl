@@ -15,7 +15,7 @@ enum SampleType {germline, tumor}
 MP: adding unknown - or we can just allow null?
 AR: Null should be no Treatment, if there is always a treatment we should not allow nulls
 */
-enum PreservationMethod {FFPE, FF, unknown}
+enum PreservationMethod {FFPE, FF, unknown, LEUK, GL}
 /**
 TODO: check in remission....
 */
@@ -92,9 +92,30 @@ record MatchedSamples{
 
 record ConsentStatus {
 
-    string carrierStatusConsent;
+    /**
+    Is this individual consented to the programme?
+    It could simple be a family member that is not consented but for whom affection status is known
+    False by default! needs to be explicitly changed
+    */
+    boolean programmeConset=false;
 
-    string secondaryFindingConsent;
+    /**
+    Consent for feedback of primary findings?
+    False by default
+    */
+    boolean primaryFindingConsent=false;
+
+    /**
+    Consent for secondary finding lookup
+    False by default
+    */
+    boolean secondaryFindingConsent=false;
+
+    /**
+    Consent for carrier status check?
+    False by default
+    */
+    boolean carrierStatusConsent=false;
 }
 
 
