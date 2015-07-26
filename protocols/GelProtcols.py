@@ -85,12 +85,15 @@ class HpoTerm(ProtocolElement):
         embeddedTypes = {}
         return embeddedTypes[fieldName]
 
-    __slots__ = ["term",
+    __slots__ = [
+                "termPresence",
+                "term",
                  "modifier",
                  "ageOfOnset",
                  ]
 
     def __init__(self):
+        self.termPresence = True
         self.term = None
         self.modifier = None
         self.ageOfOnset = None

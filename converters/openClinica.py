@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+from GelReportModels.conectors import MySql
 
 __author__ = 'antonior'
 from GelReportModels.protocols.GelProtcols import RDParticipant, Disorder, HpoTerm, ConsentStatus
@@ -210,7 +211,6 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
         aline = line.rstrip("\n").split("\t")
         mapping_ids[aline[0]] = int(aline[1])
 
-
     record_on = False
     header =[]
     samples = {}
@@ -305,7 +305,6 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
                 else:
                     samples[id].carrierStatus = "affected"
 
-
                 samples[id].hpoTermList = []
                 for hpo in openclinica_data["hpo_terms"]:
                     hpo_term = HpoTerm()
@@ -320,18 +319,6 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
                 consent.secondaryFindingConsent = False
                 consent.primaryFindingConsent = False
 
-                # if "carrierStatusConsent" in openclinica_data and openclinica_data["carrierStatusConsent"] == "Yes":
-                #     consent.carrierStatusConsent = True
-                # else:
-                #     consent.carrierStatusConsent = False
-                #
-                # if "carrierStatusConsent" in openclinica_data and openclinica_data["secondaryFindingConsent"] == "Yes":
-                #     consent.carrierStatusConsent = True
-                # else:
-                #     consent.carrierStatusConsent = False
-
-
-
                 samples[id].consentStatus = consent
 
                 samples[id].dataModelCatalogueVersion = "0.0"
@@ -339,17 +326,24 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
         if line.startswith("Study Subject ID"):
             record_on = True
             header = line.split("\t")
-    sample_mock = ""
-    for sample in samples:
-        fdw = file(os.path.join(folder, str(samples[sample].id) + "_rd_model.json"), "w")
-        json.dump(samples[sample].toJsonDict(), fdw, indent=True)
-        fdw.close()
-        sample_mock = sample
 
-    fdw_family = file(os.path.join(folder, str(samples[sample].FamilyId) + "_ped.json"), "w")
-    family = {"familyId": str(samples[sample].FamilyId), "participants": [samples[sample].toJsonDict() for sample in samples]}
-    json.dump(family, fdw_family, indent=True)
-    fdw_family.close()
+
+    con = MySql.GelMySql("gel_RD")
+    for sample in samples:
+        try:
+            lp = con.get_LP(str(samples[sample].id))
+            fdw = file(os.path.join(folder, lp + "_rd_model.json"), "w")
+            json.dump(samples[sample].toJsonDict(), fdw, indent=True)
+            fdw.close()
+        except:
+            print  str(samples[sample].id)
+
+
+
+    # fdw_family = file(os.path.join(folder, str(samples[sample_mock].FamilyId) + "_ped.json"), "w")
+    # family = {"familyId": str(samples[sample].FamilyId), "participants": [samples[sample].toJsonDict() for sample in samples]}
+    # json.dump(family, fdw_family, indent=True)
+    # fdw_family.close()
 
 
 
