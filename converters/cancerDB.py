@@ -29,8 +29,10 @@ while row is not None:
     sample["id"] = data["well_id"]
     participant["id"] = data["participant_id"]
     participant["originatingCenter"] = data["CENTER"]
+    participant["gelPhase"] = data["pilot"]
     participant["centerPatientId"] = data["center_patient_id"]
     participant["primaryDiagnosis"] = data["TUMOR"]
+    participant["dataModelVersion"] = "0.0"
     if data["gender"] == "M":
         participant["sex"] = "male"
     if data["gender"] == "F":
@@ -48,16 +50,12 @@ while row is not None:
         sample["sampleType"] = "tumor"
         all_cancer_samples_tumor[data["center_patient_id"]] = sample
 
-    if data["well_id"] in well_ids:
+    if participant["id"] in well_ids:
         well_ids[participant["id"]].append(data["well_id"])
     else:
         well_ids[participant["id"]] = [data["well_id"]]
 
     row = cursor.fetchone()
-
-
-
-
 
 
 # tumor = sys.argv[2]
@@ -75,10 +73,10 @@ for nrow in range(1, tumor_sheet.nrows):
     data = {key: value for key, value in zip(header, values)}
     id = data["Local Patient ID"]
     if id in all_cancer_samples_tumor:
-        all_cancer_samples_tumor[id]["phase"] = data["Tumour Kind"]
-        all_cancer_samples_normal[id]["phase"] = data["Tumour Kind"]
-        all_cancer_samples_tumor[id]["method"] = data["Sample Type"]
-        all_cancer_samples_normal[id]["method"] = data["Sample Type"]
+        all_cancer_samples_tumor[id]["phase"] = data["Tumour Kind"].lower()
+        all_cancer_samples_normal[id]["phase"] = data["Tumour Kind"].lower()
+        all_cancer_samples_tumor[id]["method"] = data["Sample Type"].lower()
+        all_cancer_samples_normal[id]["method"] = data["Sample Type"].lower()
         # all_cancer_samples_tumor[id]["cellularity"] = data[]
         # all_cancer_samples_tumor[id]["phase"] = data[]
         # if data["Tumour Type"].lower() != all_cancer_participant[id]["primaryDiagnosis"].lower():
@@ -114,8 +112,7 @@ for nrow in range(1, blood_sheet.nrows):
 
 
         for well_id in well_ids[all_cancer_participant[id]["id"]]:
-
-            fdw = file(os.path.join(outdir,  well_id + "_" + "_participant.json"), "w")
+            fdw = file(os.path.join(outdir,  well_id + "_" + "participant.json"), "w")
             json.dump(all_cancer_participant[id], fdw, indent=True)
             fdw.close()
 
