@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '0.1.0'
+version = '0.2.0'
 
 
 class AdoptedStatus(object):

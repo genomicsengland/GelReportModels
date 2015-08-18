@@ -4,7 +4,7 @@ import os
 __author__ = 'antonior'
 
 BASE_DIR = os.path.dirname(__file__)
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 
 schemas = os.path.join(BASE_DIR, "schemas", "IDLs")

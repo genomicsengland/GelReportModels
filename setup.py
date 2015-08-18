@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='GelReportModels',
-    version='v0.1.0',
+    version='v0.2.0',
     packages=['protocols'],
     url='',
     license='',
