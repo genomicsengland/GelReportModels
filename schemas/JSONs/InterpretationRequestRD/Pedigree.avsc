@@ -17,7 +17,7 @@
         "doc" : "This defines a RD Participant (demographics and pedigree information)",
         "fields" : [ {
           "name" : "id",
-          "type" : [ "int", "string" ]
+          "type" : "string"
         }, {
           "name" : "FamilyId",
           "type" : [ "null", "int", "string" ]
@@ -41,11 +41,11 @@
           "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
         }, {
           "name" : "father",
-          "type" : [ "null", "int", "string" ],
+          "type" : "string",
           "doc" : "Id of the parent, if unknown then no parent is referenced"
         }, {
           "name" : "mother",
-          "type" : [ "null", "int", "string" ]
+          "type" : "string"
         }, {
           "name" : "disorderList",
           "type" : [ "null", {
@@ -147,7 +147,7 @@
             "type" : "record",
             "name" : "ConsentStatus",
             "fields" : [ {
-              "name" : "programmeConset",
+              "name" : "programmeConsent",
               "type" : "boolean",
               "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
               "default" : false

@@ -125,7 +125,7 @@ This defines a Cancer Demographics
 
 record CancerDemographics{
 
-    union {int, string} id;
+    string id;
 
     union {null, array<string>} externalIds;
 

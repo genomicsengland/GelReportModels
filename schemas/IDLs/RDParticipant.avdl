@@ -121,7 +121,7 @@ This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
 
-    union {int, string} id;  //priority 1
+    string id;  //priority 1
 
     union {null, int, string} FamilyId;  //priority 1
 
@@ -141,9 +141,9 @@ record RDParticipant {
     /**
     Id of the parent, if unknown then no parent is referenced
     */
-    union {null, int, string} father; //priority 1
+    string father; //priority 1
 
-    union {null, int, string} mother;  //priority 1
+    string mother;  //priority 1
 
     /**
     currently this is meant to be and omim code

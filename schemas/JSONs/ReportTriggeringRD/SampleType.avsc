@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SampleType",
-  "namespace" : "Gel_BioInf_Models_0.1",
-  "symbols" : [ "germline", "tumor" ]
-}

@@ -11,7 +11,7 @@
       "doc" : "This defines a Cancer Demographics",
       "fields" : [ {
         "name" : "id",
-        "type" : [ "int", "string" ]
+        "type" : "string"
       }, {
         "name" : "externalIds",
         "type" : [ "null", {

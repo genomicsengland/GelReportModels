@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Method",
-  "namespace" : "Gel_BioInf_Models_0.1",
-  "symbols" : [ "resection", "biopsy" ]
-}

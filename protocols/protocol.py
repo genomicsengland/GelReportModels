@@ -1,9 +1,16 @@
-import itertools
+"""
+Definitions of the GA4GH protocol types.
+"""
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import sys
 import json
-import avro
+import inspect
+import itertools
 
-
-__author__ = 'GA4GH'
+import avro.io
 
 
 class ProtocolElementEncoder(json.JSONEncoder):
@@ -12,12 +19,10 @@ class ProtocolElementEncoder(json.JSONEncoder):
     """
     def default(self, obj):
         if isinstance(obj, ProtocolElement):
-            # Added if getattr(obj, a) is not None, this prevent printing nulls
-            ret = {a: getattr(obj, a) for a in obj.__slots__ if getattr(obj, a) is not None}
+            ret = {a: getattr(obj, a) for a in obj.__slots__}
         else:
             ret = super(ProtocolElementEncoder, self).default(obj)
         return ret
-
 
 
 class ProtocolElement(object):
@@ -54,24 +59,19 @@ class ProtocolElement(object):
         Returns a JSON dictionary representation of this ProtocolElement.
         """
         out = {}
-
         for field in self.schema.fields:
             val = getattr(self, field.name)
-
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
                 elif val is None:
-                    pass
+                    out[field.name] = None
                 else:
                     out[field.name] = val.toJsonDict()
             elif isinstance(val, list):
                 out[field.name] = list(val)
             else:
-                if val == None:
-                    pass
-                else:
-                    out[field.name] = val
+                out[field.name] = val
         return out
 
     @classmethod
@@ -120,3 +120,49 @@ class ProtocolElement(object):
             return list(embeddedType.fromJsonDict(elem) for elem in val)
         else:
             return embeddedType.fromJsonDict(val)
+
+
+class SearchRequest(ProtocolElement):
+    """
+    The superclass of all SearchRequest classes in the protocol.
+    """
+
+
+class SearchResponse(ProtocolElement):
+    """
+    The superclass of all SearchResponse classes in the protocol.
+    """
+    @classmethod
+    def getValueListName(cls):
+        """
+        Returns the name of the list used to store the values held
+        in a page of results.
+        """
+        return cls._valueListName
+
+
+def getProtocolClasses(superclass=ProtocolElement):
+    """
+    Returns all the protocol classes that are subclasses of the
+    specified superclass. Only 'leaf' classes are returned,
+    corresponding directly to the classes defined in the protocol.
+    """
+    # We keep a manual list of the superclasses that we define here
+    # so we can filter them out when we're getting the protocol
+    # classes.
+    superclasses = set([
+        ProtocolElement, SearchRequest, SearchResponse])
+    thisModule = sys.modules[__name__]
+    subclasses = []
+    for name, class_ in inspect.getmembers(thisModule):
+        if ((inspect.isclass(class_) and
+                issubclass(class_, superclass) and
+                class_ not in superclasses)):
+            subclasses.append(class_)
+    return subclasses
+
+
+# We can now import the definitions of the protocol elements from the
+# generated file.
+from GelProtocols import *  # NOQA
+
