@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "VirtualPanel",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
   "fields" : [ {
     "name" : "SpecificDiseaseTitle",

@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "ConsentStatus",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "programmeConsent",
     "type" : "boolean",

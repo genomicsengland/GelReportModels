@@ -31,7 +31,7 @@ class CalledGenotype(ProtocolElement):
     analysis provider if further phasing is conducted
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
 "participantId"}, {"doc": "", "type": "string", "name": "genotype"},
 {"doc": "", "type": ["null", "int"], "name": "copyNumber"}], "doc":
@@ -73,7 +73,7 @@ class CancerDemographics(ProtocolElement):
     This defines a Cancer Demographics
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerDemographics", "fields": [{"type": "string", "name": "id"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
 "externalIds"}, {"type": ["null", "string"], "name":
@@ -156,7 +156,7 @@ class CancerParticipant(ProtocolElement):
     information)
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerParticipant", "fields": [{"type": {"doc": "", "type": "record",
 "name": "CancerDemographics", "fields": [{"type": "string", "name":
 "id"}, {"type": ["null", {"items": "string", "type": "array"}],
@@ -244,7 +244,7 @@ class CancerSample(ProtocolElement):
     stage of tumor, but this is not strictly required
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
 "id"}, {"type": ["null", "string"], "name": "centerSampleId"}, {"doc":
 "", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
@@ -325,7 +325,7 @@ class ConsentStatus(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ConsentStatus", "fields": [{"default": false, "doc": "", "type":
 "boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "primaryFindingConsent"}, {"default":
@@ -371,7 +371,7 @@ class Disorder(ProtocolElement):
     needs to be completed but we add the others for generality
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
 "diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
@@ -420,10 +420,10 @@ class File(ProtocolElement):
     strings if multiple samples are assoicated with the same file
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
-"File", "fields": [{"doc": "", "type": ["null", "string", {"items":
-"string", "type": "array"}], "name": "SampleId"}, {"doc": "", "type":
-"string", "name": "URIFile"}], "doc": ""}
+{"namespace": "Gel_BioInf_Models", "type": "record", "name": "File",
+"fields": [{"doc": "", "type": ["null", "string", {"items": "string",
+"type": "array"}], "name": "SampleId"}, {"doc": "", "type": "string",
+"name": "URIFile"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -458,7 +458,7 @@ class HpoTerm(ProtocolElement):
     This defines an HPO term and its modifiers (possibly multiple)
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
 {"doc": "", "type": ["null", "boolean"], "name": "termPresence"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
@@ -504,7 +504,7 @@ class InterpretationAnalysis(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationAnalysis", "fields": [{"doc": "", "type": "string",
 "name": "reportRequestId"}, {"doc": "", "type": "string", "name":
 "analysisId"}, {"type": "string", "name": "companyName"}, {"type":
@@ -612,7 +612,7 @@ class InterpretationRequest(ProtocolElement):
     This record represents basic information for this report
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequest", "fields": [{"doc": "", "type": "string",
 "name": "reportRequestId"}, {"doc": "", "type": "int", "name":
 "reportVersion"}, {"default": false, "doc": "", "type": "boolean",
@@ -784,7 +784,7 @@ class MatchedSamples(ProtocolElement):
     analyzed together
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "MatchedSamples", "fields": [{"type": "string", "name":
 "germlineSampleId"}, {"type": "string", "name": "tumorSampleId"}],
 "doc": ""}
@@ -833,7 +833,7 @@ class OtherFamilyHistory(ProtocolElement):
     strings describing discrete family history phenotypes
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "OtherFamilyHistory", "fields": [{"type": ["null", {"items": "string",
 "type": "array"}], "name": "maternalFamilyHistory"}, {"type": ["null",
 {"items": "string", "type": "array"}], "name":
@@ -873,7 +873,7 @@ class Pedigree(ProtocolElement):
     present in the record RDParticipant
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": "string", "name":
 "familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
 "RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
@@ -983,7 +983,7 @@ class RDParticipant(ProtocolElement):
     information)
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
 ["null", "int", "string"], "name": "FamilyId"}, {"type": ["null",
 {"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
@@ -1109,7 +1109,7 @@ class RareDisease(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RareDisease", "fields": [{"doc": "", "type": "string", "name":
 "enrolledAgainstSpecificDiseaseTitle"}, {"doc": "", "type": "string",
 "name": "dataModelCatalogueVersion"}, {"type": {"doc": "", "type":
@@ -1245,7 +1245,7 @@ class ReportEvent(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
 "modeOfInheritance"}, {"doc": "", "type": {"symbols": ["complete",
 "incomplete"], "doc": "", "type": "enum", "name": "Penetrance"},
@@ -1306,7 +1306,7 @@ class ReportedStructuralVariant(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedStructuralVariant", "fields": [{"doc": "", "type": "string",
 "name": "chromosome"}, {"doc": "", "type": "int", "name": "start"},
 {"doc": "", "type": "int", "name": "end"}, {"doc": "", "type":
@@ -1407,7 +1407,7 @@ class ReportedVariant(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
 "", "type": "string", "name": "reference"}, {"doc": "", "type":
@@ -1544,7 +1544,7 @@ class VirtualPanel(ProtocolElement):
     the condition, for example Brugada syndrome
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models_0.1", "type": "record", "name":
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "VirtualPanel", "fields": [{"type": "string", "name":
 "SpecificDiseaseTitle"}, {"doc": "", "type": ["null", {"items":
 "string", "type": "array"}], "name": "geneIds"}, {"doc": "", "type":

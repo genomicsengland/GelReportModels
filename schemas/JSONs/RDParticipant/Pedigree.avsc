@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "Pedigree",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
   "fields" : [ {
     "name" : "familyId",

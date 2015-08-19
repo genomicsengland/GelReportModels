@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "InterpretationRequest",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This record represents basic information for this report",
   "fields" : [ {
     "name" : "reportRequestId",

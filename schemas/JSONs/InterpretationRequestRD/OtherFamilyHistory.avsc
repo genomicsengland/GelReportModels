@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "OtherFamilyHistory",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "Family history for secondary findings\nTODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke\nArrays of strings describing discrete family history phenotypes",
   "fields" : [ {
     "name" : "maternalFamilyHistory",

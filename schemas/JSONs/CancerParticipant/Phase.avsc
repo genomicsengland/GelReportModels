@@ -1,7 +1,7 @@
 {
   "type" : "enum",
   "name" : "Phase",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "TODO: check in remission....",
   "symbols" : [ "primary", "metastasis" ]
 }

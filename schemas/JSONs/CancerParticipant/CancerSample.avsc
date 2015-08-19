@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "CancerSample",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required",
   "fields" : [ {
     "name" : "id",

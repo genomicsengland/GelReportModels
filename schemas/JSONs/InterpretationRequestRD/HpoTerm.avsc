@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "HpoTerm",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
   "fields" : [ {
     "name" : "term",

@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "CancerDemographics",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines a Cancer Demographics",
   "fields" : [ {
     "name" : "id",

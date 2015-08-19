@@ -1,7 +1,7 @@
 {
   "type" : "enum",
   "name" : "Tier",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "Possible tiers as defined by Genomics England",
   "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
 }

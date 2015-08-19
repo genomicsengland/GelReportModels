@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "RDParticipant",
-  "namespace" : "Gel_BioInf_Models_0.1",
+  "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines a RD Participant (demographics and pedigree information)",
   "fields" : [ {
     "name" : "id",
