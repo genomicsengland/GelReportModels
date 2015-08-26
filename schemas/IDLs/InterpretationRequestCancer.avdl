@@ -1,10 +1,186 @@
 @namespace("Gel_BioInf_Models")
 
 /**
-Cancer specifc
+Cancer specific
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
 The record Report is the top level class. This includes clinical information + various version
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
 protocol InterpretationRequestCancer {
+
+
+/**
+Caution!! This has been removed
+import idl "variants.avdl";
+*/
+
+import idl "CancerParticipant.avdl";
+
+/**
+This defines a file
+This Record is defined by the sampleID and a URI
+Currently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file
+*/
+record File {
+    /**
+    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
+    */
+    union {null, string, array<string>} SampleId;
+
+    /**
+    URI PATH
+    */
+    string URIFile;
+
+
+}
+
+/**
+This record defines a gene panel. Geneneral and/or cancer specific
+*/
+//TODO: "Gene panels" for cancer need to be define, there will no doubt be one "general panel" and other more specific panels"
+record CancerPanel {
+   string SpecificCancerType;
+
+   /**
+   gene id from ensembl (version as per annotation file)
+   */
+   union {null, array<string>} geneIds;
+
+   /**
+   transcript ids from ensembl
+   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
+   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
+   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
+   */
+   union {null, array<string>} clinicalRelevantTranscripts;
+
+    /**
+    BED format file
+    */
+   union {null, File} RelevantRegions;
+
+   /**
+
+   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
+   */
+   union {null, File} clinicalRelevantVariants;
+
+}
+
+/**
+Family history for secondary findings
+TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
+Arrays of strings describing discrete family history phenotypes
+*/
+record OtherFamilyHistory {  //priority 3
+    union {null, array<string>} maternalFamilyHistory;
+    union {null, array<string>} paternalFamilyHistory;
+}
+
+
+record Cancer {
+
+    /**
+    Specific Disease title against which this family was enroled
+    These titles are a controlled vocabulary in the model catalogue
+    */
+    string enrolledAgainstSpecificDiseaseTitle; //priority 1
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelCatalogueVersion;  //priority 2
+
+    Pedigree pedigree;
+
+    /**
+    TODO: create a record for inbreeding coefficients
+    */
+    union {null, File} inbreedingCoefficientEstimates;
+
+    /**
+    TODO: define enumeration for ancestries
+    */
+    union {null, array<string>} ancestries; //priority 2
+
+
+    union {null, string} complexGeneticPhenomena;
+
+    /**
+    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
+    */
+    union {null, VirtualPanel} virtualPanel;
+
+    /**
+    This is the family history as pertinent to assessing secondary findings.
+    It is paternal or maternal with reference to the proband.
+    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is
+    not collected in that level of detail.
+    */
+    union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
+}
+
+
+
+/**
+This record represents basic information for this report
+*/
+record InterpretationRequest {
+    /**
+    Unique id for this report
+    */
+    string reportRequestId;
+
+    /**
+    Version of this report
+    */
+    int reportVersion;
+
+    /**
+    Simply load data to system or also provide interpretation?
+    */
+    boolean interpretGenome=false;
+
+    /**
+    BAMs Files
+    */
+    array<File> BAMs;
+
+    /**
+    gVCFs Files where SNVs and INDELs are represented
+    */
+    array<File> gVCFs;
+
+    /**
+    VCFs Files where SVs and CNVs are represented
+    */
+    array<File> VCFs;
+
+    /**
+    BigWig Files
+    */
+    array<File> BigWigs;
+
+    /**
+    This will be the output file from Cellbase + version used
+    */
+    File annotationFile;
+
+   Cancer cancer;
+
+
+    string analysisURI;
+
+    string analysisVersion;
+
+    /**
+    Additional information
+    */
+    union {null, map<string>} additionalInfo;
+}
+
+
+}
