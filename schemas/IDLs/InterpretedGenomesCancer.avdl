@@ -1,0 +1,277 @@
+@namespace("Gel_BioInf_Models")
+
+/**
+Define the Report used by GEL to get the clinical interpretation companies results for bronze level
+
+*/
+protocol InterpretedGenomesCancer {
+
+/**
+This is intended to hold the genotypes for the family members
+In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
+*/
+
+record CalledGenotype {
+    /**
+    TODO: create field for allele fraction
+    */
+    /**
+    Participant id of the family member
+    */
+    string participantId;
+
+    /**
+    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
+    */
+    string genotype;
+
+    /**
+    Copy number genotype for imprecise events
+    */
+    union {null, int} copyNumber;
+
+}
+
+record Gene {
+    /**
+    HGMD symbol
+    */
+    string symbol;
+
+    /**
+    Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)
+    */
+    string transcriptId;
+
+
+    /**
+    Others IDs
+    */
+    map<string> ids;
+
+    /**
+    Exome size
+    */
+    union {null, int} exomeSize;
+
+    /**
+    Gene Average Depth
+    */
+    union {null, double} GeneAverageDepth;
+
+}
+
+/**
+This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
+*/
+enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
+
+
+/**
+Penetrance assumed in the analysis
+*/
+enum Penetrance {complete, incomplete}
+
+/**
+Possible tiers as defined by Genomics England
+*/
+enum Impact {High, Moderate, Low} /** it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
+
+record ReportEvent {
+
+    /**
+    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
+    */
+    string modeOfInheritance;
+
+    /**
+    This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
+    If more than one gene is considered interesting for this particular variant, should be reported in two different
+    ReportEvents
+    TODO: Add transcript
+    */
+    Gene gene;
+
+    /**
+    This is the penetrance assumed for scoring or classifying this variant
+    */
+    Penetrance penetrance;
+
+    /**
+    This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
+    a specific mode of Inheritance
+    */
+    float score;
+
+    /**
+    This variant using this mode of inheritance can  fully explain the phenotype? true or false
+    */
+    union {null, boolean} fullyExplainsPhenotype;
+
+    /**
+    This value groups variants that together could explain the phenotype according to the
+    mode of inheritance used. All the variants sharing the same value will be considered in the same group.
+    This value is an integer unique in the whole analysis.
+    */
+    union {null, int} groupOfVariants;
+
+    /**
+    This is the description of why this variant would be reported, for example that it affects the protein in this way
+    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+    */
+    string variantJustification;
+
+    union {null, Impact} impact;
+}
+
+
+record ReportedVariant {
+
+    /**
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    */
+    string chromosome;
+
+    /**
+    variant ID in dbSNP
+    */
+    string dbSNPid;
+
+    /**
+    position: Position 1-based
+    */
+    int position;
+
+    /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+
+    /**
+    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
+    This score may be missing if the company does not calculate such a score. In principle this score should summarise
+    other scores for example across multiple modes of inheritance.
+    TODO: Think about this!!!
+    */
+    union {null, float} internalScore;
+
+    union {null, VariantClassification} variantClassification;
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Comments
+    */
+    union {null, array<string>} comments;
+
+}
+
+
+
+record ReportedStructuralVariant {
+
+    /**
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    */
+    string chromosome;
+
+    /**
+    start: start position 1-based
+    */
+    int start;
+
+    /**
+    end: end position 1-based
+    */
+    int end;
+
+    /**
+    The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
+    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
+    */
+    string type;
+
+    /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+
+    array<ReportEvent> ReportEvents;
+
+    /**
+    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
+    This score may be missing if the company does not calculate such a score. In principle this score should summarise
+    other scores for example across multiple modes of inheritance.
+    */
+    union {null, float} internalScore;
+
+    union {null, VariantClassification} variantClassification;
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Comments
+    */
+    union {null, array<string>} comments;
+
+}
+
+
+
+record InterpretationAnalysis {
+    /**
+    This is the ID of the clinical interpretation request
+    */
+    string reportRequestId;
+
+    /**
+    This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
+    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
+    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+    */
+    string analysisId;
+
+    string companyName;
+
+    string reportURI;
+
+    array<ReportedVariant> reportedVariants;
+
+    array<ReportedStructuralVariant> reportedStructuralVariant;
+
+    /**
+    Comments about the report
+    */
+    union {null, array<string>} comments;
+
+}
+}

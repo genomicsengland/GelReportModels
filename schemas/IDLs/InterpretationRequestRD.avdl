@@ -100,7 +100,7 @@ record RareDisease {
     union {null, File} inbreedingCoefficientEstimates;
 
     /**
-    TODO: definie enumeration for ancestries
+    TODO: define enumeration for ancestries
     */
     union {null, array<string>} ancestries; //priority 2
 
