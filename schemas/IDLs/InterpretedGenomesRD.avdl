@@ -10,7 +10,9 @@ This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
 record CalledGenotype {
-
+    /**
+    TODO: create field for allele fraction
+    */
     /**
     Participant id of the family member
     */
@@ -84,6 +86,7 @@ record ReportEvent {
     This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
     If more than one gene is considered interesting for this particular variant, should be reported in two different
     ReportEvents
+    TODO: Add transcript
     */
     Gene gene;
 
@@ -101,7 +104,7 @@ record ReportEvent {
     /**
     This variant using this mode of inheritance can  fully explain the phenotype? true or false
     */
-    boolean fullyExplainsPhenotype;
+    union {null, boolean} fullyExplainsPhenotype;
 
     /**
     This value groups variants that together could explain the phenotype according to the
@@ -163,6 +166,7 @@ record ReportedVariant {
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
     This score may be missing if the company does not calculate such a score. In principle this score should summarise
     other scores for example across multiple modes of inheritance.
+    TODO: Think about this!!!
     */
     union {null, float} internalScore;
 
@@ -211,10 +215,14 @@ record ReportedStructuralVariant {
     string type;
 
     /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
     alternate: Alternate Allele sequence, the same provided in vcf
     */
     string alternate;
-
 
 
     array<CalledGenotype> familyGenotypes;
