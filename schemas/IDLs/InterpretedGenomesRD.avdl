@@ -28,6 +28,35 @@ record CalledGenotype {
 
 }
 
+record Gene {
+    /**
+    HGMD symbol
+    */
+    string symbol;
+
+    /**
+    Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)
+    */
+    string transcriptId;
+
+
+    /**
+    Others IDs
+    */
+    map<string> ids;
+
+    /**
+    Exome size
+    */
+    union {null, int} exomeSize;
+
+    /**
+    Gene Average Depth
+    */
+    union {null, double} GeneAverageDepth;
+
+}
+
 /**
 This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
 */
@@ -50,6 +79,13 @@ record ReportEvent {
     This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
     */
     string modeOfInheritance;
+
+    /**
+    This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
+    If more than one gene is considered interesting for this particular variant, should be reported in two different
+    ReportEvents
+    */
+    Gene gene;
 
     /**
     This is the penetrance assumed for scoring or classifying this variant
@@ -93,6 +129,11 @@ record ReportedVariant {
     string chromosome;
 
     /**
+    variant ID in dbSNP
+    */
+    string dbSNPid;
+
+    /**
     position: Position 1-based
     */
     int position;
@@ -107,11 +148,10 @@ record ReportedVariant {
     */
     string alternate;
 
-
     /**
     array of genotypes for the family
     */
-    union {null, array<CalledGenotype>} familyGenotypes;
+    array<CalledGenotype> familyGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -177,7 +217,7 @@ record ReportedStructuralVariant {
 
 
 
-    union {null, array<CalledGenotype>} familyGenotypes;
+    array<CalledGenotype> familyGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,

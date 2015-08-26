@@ -1,0 +1,29 @@
+{
+  "type" : "record",
+  "name" : "Gene",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "symbol",
+    "type" : "string",
+    "doc" : "HGMD symbol"
+  }, {
+    "name" : "transcriptId",
+    "type" : "string",
+    "doc" : "Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)"
+  }, {
+    "name" : "ids",
+    "type" : {
+      "type" : "map",
+      "values" : "string"
+    },
+    "doc" : "Others IDs"
+  }, {
+    "name" : "exomeSize",
+    "type" : [ "null", "int" ],
+    "doc" : "Exome size"
+  }, {
+    "name" : "GeneAverageDepth",
+    "type" : [ "null", "double" ],
+    "doc" : "Gene Average Depth"
+  } ]
+}

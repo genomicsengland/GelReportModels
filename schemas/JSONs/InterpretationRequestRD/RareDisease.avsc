@@ -61,7 +61,7 @@
               "type" : "string"
             }, {
               "name" : "disorderList",
-              "type" : [ "null", {
+              "type" : {
                 "type" : "array",
                 "items" : {
                   "type" : "record",
@@ -85,11 +85,11 @@
                     "doc" : "Age of onset in months"
                   } ]
                 }
-              } ],
+              },
               "doc" : "currently this is meant to be and omim code"
             }, {
               "name" : "hpoTermList",
-              "type" : [ "null", {
+              "type" : {
                 "type" : "array",
                 "items" : {
                   "type" : "record",
@@ -116,7 +116,7 @@
                     "doc" : "Age of onset in months"
                   } ]
                 }
-              } ]
+              }
             }, {
               "name" : "carrierStatus",
               "type" : [ "null", {

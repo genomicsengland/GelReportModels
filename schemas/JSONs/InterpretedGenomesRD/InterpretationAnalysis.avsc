@@ -28,6 +28,10 @@
           "type" : "string",
           "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
         }, {
+          "name" : "dbSNPid",
+          "type" : "string",
+          "doc" : "variant ID in dbSNP"
+        }, {
           "name" : "position",
           "type" : "int",
           "doc" : "position: Position 1-based"
@@ -41,7 +45,7 @@
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
         }, {
           "name" : "familyGenotypes",
-          "type" : [ "null", {
+          "type" : {
             "type" : "array",
             "items" : {
               "type" : "record",
@@ -61,7 +65,7 @@
                 "doc" : "Copy number genotype for imprecise events"
               } ]
             }
-          } ],
+          },
           "doc" : "array of genotypes for the family"
         }, {
           "name" : "ReportEvents",
@@ -74,6 +78,37 @@
                 "name" : "modeOfInheritance",
                 "type" : "string",
                 "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
+              }, {
+                "name" : "gene",
+                "type" : {
+                  "type" : "record",
+                  "name" : "Gene",
+                  "fields" : [ {
+                    "name" : "symbol",
+                    "type" : "string",
+                    "doc" : "HGMD symbol"
+                  }, {
+                    "name" : "transcriptId",
+                    "type" : "string",
+                    "doc" : "Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)"
+                  }, {
+                    "name" : "ids",
+                    "type" : {
+                      "type" : "map",
+                      "values" : "string"
+                    },
+                    "doc" : "Others IDs"
+                  }, {
+                    "name" : "exomeSize",
+                    "type" : [ "null", "int" ],
+                    "doc" : "Exome size"
+                  }, {
+                    "name" : "GeneAverageDepth",
+                    "type" : [ "null", "double" ],
+                    "doc" : "Gene Average Depth"
+                  } ]
+                },
+                "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents"
               }, {
                 "name" : "penetrance",
                 "type" : {
@@ -176,10 +211,10 @@
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
         }, {
           "name" : "familyGenotypes",
-          "type" : [ "null", {
+          "type" : {
             "type" : "array",
             "items" : "CalledGenotype"
-          } ]
+          }
         }, {
           "name" : "ReportEvents",
           "type" : {

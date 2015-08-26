@@ -148,11 +148,11 @@ record RDParticipant {
     /**
     currently this is meant to be and omim code
     */
-    union {null, array<Disorder>} disorderList;  //priority 2
+    array<Disorder> disorderList;  //priority 2
 
 
 
-    union {null, array<HpoTerm>} hpoTermList; //priority 2
+    array<HpoTerm> hpoTermList; //priority 2
 
     /**
     See enum CarrierStatus
