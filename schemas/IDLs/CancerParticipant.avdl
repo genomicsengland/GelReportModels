@@ -97,7 +97,7 @@ record ConsentStatus {
     It could simple be a family member that is not consented but for whom affection status is known
     False by default! needs to be explicitly changed
     */
-    boolean programmeConset=false;
+    boolean programmeConsent=false;
 
     /**
     Consent for feedback of primary findings?
