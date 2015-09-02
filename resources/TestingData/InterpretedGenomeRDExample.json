@@ -1,0 +1,12 @@
+{
+  "companyName": "Illumina",
+  "comments": [{"comment": "this gene is known in relation too"}],
+  "reportedVariants": [{"additionalTextualVariantAnnotations": null, "reference": null, "ReportEvents": null, "alternate": null, "comments": null, "variantClassification": null, "internalScore": null, "position": null, "familyGenotypes": null, "additionalNumericVariantAnnotations": null, "chromosome": null, "dbSNPid": null}],
+  "reportRequestId": null,
+  "reportedStructuralVariant": [{"additionalTextualVariantAnnotations": null, "end": null, "ReportEvents": null, "alternate": null, "comments": null, "start": null, "variantClassification": null, "internalScore": null, "type": null, "familyGenotypes": null, "additionalNumericVariantAnnotations": null, "chromosome": null}],
+  "reportURI": "PATH/TO/FILE",
+  "analysisId": null
+}
+
+
+/** Interpreted Genome Rare Diseases Example "InterpretationAnalysis"*/

@@ -1,3 +1,5 @@
+/** RDParticipant */
+
 {
   "consentStatus": [{"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}],
   "externalIds": "LP2000254-DNA_G01",
@@ -17,5 +19,12 @@
   "twinGroup": null,
   "carrierStatus": [{"CarrierStatus": "uncertain"}]
 }
+/** pedigree */
+
+{
+"participants": null,
+"familyId": null
+}
 
 
+/** Rare Disease Participant Example */

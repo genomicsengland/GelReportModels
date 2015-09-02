@@ -6,10 +6,13 @@
   "BigWigs": "LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.bw",
   "annotationFile": null,
   "reportRequestId": null,
-  "analysisVersion": [{{"URIFile": null, "SampleId": "LP2000254-DNA_G01"],
+  "analysisVersion": [{"URIFile": null, "SampleId": "LP2000254-DNA_G01"}],
   "analysisURI": null,
   "VCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.vcf.gz",
   "reportVersion": null,
   "gVCFs": null,
   "BAMs": "/.../LP2000255-DNA_B10/Assembly/LP2000255-DNA_B10.bam"
 }
+
+
+/** Interpretation request for rare diseases */

@@ -4,3 +4,4 @@
   "cancerSamples": [{"sample":"cancertissue1"}, {"sample":"cancertissue2"}],
   "matchedSamples": [{"sample":"normaltissue1"}, {"sample":"normaltissue2"}]
 }
+/** cancer participant example */
