@@ -1,7 +1,7 @@
 {
   "companyName": "Illumina",
-  "comments": [{"comment": "this gene is known in relation too"}],
-  "reportedVariants": [{"additionalTextualVariantAnnotations": null, "reference": null, "ReportEvents": null, "alternate": null, "comments": null, "variantClassification": null, "internalScore": null, "position": null, "familyGenotypes": null, "additionalNumericVariantAnnotations": null, "chromosome": null, "dbSNPid": null}],
+  "comments": [{"comment": "this gene is known in relation too..."},{"comment":"this gene was recently..."}],
+  "reportedVariants": [{"additionalTextualVariantAnnotations": null, "reference": "G", "ReportEvents": [{"fullyExplainsPhenotype": true, "groupOfVariants": 1, "variantJustification": "coding impact", "penetrance": "complete", "score": 1, "tier": TIER1, "modeOfInheritance": "MONOALLELIC, autosomal or psuedoautosomal, imprinted status unknown", "gene": [{"transcriptId": "ENST00000447944.2", "symbol": "PNPT1", "ids": null, "exomeSize": null, "GeneAverageDepth": null}]}], "alternate": "A", "comments": null, "variantClassification": "PATHOGENIC", "internalScore": 1, "position": 55910966, "familyGenotypes": [{"copyNumber": null, "genotype": "AA", "participantId": "LP2000254-DNA_G01"}, {"copyNumber": null, "genotype": "GA", "participantId": "LP2000255-DNA_G01"}, {"copyNumber": null, "genotype": "GA", "participantId": "LP2000255-DNA_B10"}], "additionalNumericVariantAnnotations": null, "chromosome": 2, "dbSNPid": "rs386655869"}],
   "reportRequestId": null,
   "reportedStructuralVariant": [{"additionalTextualVariantAnnotations": null, "end": null, "ReportEvents": null, "alternate": null, "comments": null, "start": null, "variantClassification": null, "internalScore": null, "type": null, "familyGenotypes": null, "additionalNumericVariantAnnotations": null, "chromosome": null}],
   "reportURI": "PATH/TO/FILE",
