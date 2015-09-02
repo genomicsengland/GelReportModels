@@ -68,7 +68,7 @@
           },
           "doc" : "array of genotypes for the family"
         }, {
-          "name" : "ReportEvents",
+          "name" : "reportEvents",
           "type" : {
             "type" : "array",
             "items" : {
@@ -108,7 +108,7 @@
                     "doc" : "Gene Average Depth"
                   } ]
                 },
-                "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents"
+                "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
               }, {
                 "name" : "penetrance",
                 "type" : {
@@ -124,7 +124,7 @@
                 "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"
               }, {
                 "name" : "fullyExplainsPhenotype",
-                "type" : "boolean",
+                "type" : [ "null", "boolean" ],
                 "doc" : "This variant using this mode of inheritance can  fully explain the phenotype? true or false"
               }, {
                 "name" : "groupOfVariants",
@@ -149,7 +149,7 @@
         }, {
           "name" : "internalScore",
           "type" : [ "null", "float" ],
-          "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance."
+          "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance.\n    TODO: Think about this!!!"
         }, {
           "name" : "variantClassification",
           "type" : [ "null", {
@@ -184,7 +184,7 @@
     }
   }, {
     "name" : "reportedStructuralVariant",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : {
         "type" : "record",
@@ -206,6 +206,10 @@
           "type" : "string",
           "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
         }, {
+          "name" : "reference",
+          "type" : "string",
+          "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+        }, {
           "name" : "alternate",
           "type" : "string",
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
@@ -216,7 +220,7 @@
             "items" : "CalledGenotype"
           }
         }, {
-          "name" : "ReportEvents",
+          "name" : "reportEvents",
           "type" : {
             "type" : "array",
             "items" : "ReportEvent"
@@ -252,7 +256,7 @@
           "doc" : "Comments"
         } ]
       }
-    }
+    } ]
   }, {
     "name" : "comments",
     "type" : [ "null", {

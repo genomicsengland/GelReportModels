@@ -1,0 +1,157 @@
+{
+  "companyName": "Illumina",
+  "comments": ["This is an example of one intepreted Genome following the Schema defined by Genomics England: InterpretedGenomesRD v.0.1"],
+  "reportRequestId": "000000000001",
+  "reportURI": "/path/to/somewhere/",
+  "analysisId": "00000000000001",
+  "reportedVariants": [
+    {
+      "additionalTextualVariantAnnotations": {"functional Consequence (SO)": "SO:1000062", "ClinVar accession": "SCV000032357"},
+      "reference": "A",
+      "alternate": "C",
+      "comments": ["This variant was found in this family and it does not appear in population DBs with an allele frequency greater than 0.05"],
+      "variantClassification": "LIKELY_PATHOGENIC",
+      "internalScore": 0.875,
+      "position": 1255487512,
+      "familyGenotypes": [
+        {
+          "genotype": "1|1",
+          "participantId": "LP2000254-DNA_G01"
+        },
+        {
+          "genotype": "0|1",
+          "participantId": "LP2000255-DNA_G01"
+        },
+        {
+          "genotype": "1|0",
+          "participantId": "LP2000255-DNA_B10"
+        }
+      ],
+      "additionalNumericVariantAnnotations": {"3,515 WGS10K genomes": 0.0035, "ExAC 0.3": 0.0058},
+      "chromosome": "1",
+      "dbSNPid": "rs1234578",
+      "reportEvents": [
+        {
+          "fullyExplainsPhenotype": true,
+          "variantJustification": "This affects the protein in this way and that this gene has been implicated in this disorder in these publications.",
+          "penetrance": "complete",
+          "score": 0.9,
+          "tier": "TIER1",
+          "modeOfInheritance": "MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown",
+          "gene":{
+            "transcriptId": "ENST00000373548",
+            "symbol": "HDAC1",
+            "exomeSize": 2124,
+            "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
+            "GeneAverageDepth": 20.5
+          }
+        },
+        {
+          "fullyExplainsPhenotype": true,
+          "variantJustification": "This affects the protein in this way and that this gene has been implicated in this disorder in these publications.....",
+          "penetrance": "complete",
+          "score": 0.85,
+          "tier": "TIER1",
+          "modeOfInheritance": "MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown",
+          "gene":{
+            "transcriptId": "ENST00000428704",
+            "symbol": "HDAC1",
+            "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
+            "exomeSize": 664,
+            "GeneAverageDepth": 29.3
+          }
+        }
+      ]
+    },
+    {
+      "additionalTextualVariantAnnotations":  {"functional Consequence (SO)": "SO:1000062", "ClinVar accession": "SCV000032325"},
+      "reference": "C",
+      "alternate": "A",
+      "comments": ["This variant variant was reported as part of a compound heterozygous explanation of the disease"],
+      "variantClassification": "PATHOGENIC",
+      "internalScore": 0.98,
+      "position": 1255487514,
+      "familyGenotypes":  [
+        {
+          "genotype": "0|1",
+          "participantId": "LP2000254-DNA_G01"
+        },
+        {
+          "genotype": "0|0",
+          "participantId": "LP2000255-DNA_G01"
+        },
+        {
+          "genotype": "0|1",
+          "participantId": "LP2000255-DNA_B10"
+        }
+      ],
+      "additionalNumericVariantAnnotations":  {"3,515 WGS10K genomes": 0.0015, "ExAC 0.3": 0.03},
+      "chromosome": "1",
+      "dbSNPid": "rs2454757",
+      "reportEvents": [
+        {
+          "fullyExplainsPhenotype": false,
+          "groupOfVariants": 1,
+          "variantJustification": "This affects the protein in this way and that this gene has been implicated in this disorder in these publications.....",
+          "penetrance": "complete",
+          "score": 0.98,
+          "tier": "TIER1",
+          "modeOfInheritance": "BIALLELIC, autosomal or pseudoautosoma",
+          "gene": {
+            "transcriptId": "ENST00000428704",
+            "symbol": "HDAC1",
+            "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
+            "exomeSize": 2124,
+            "GeneAverageDepth": 29.3
+          }
+        }
+      ]
+    },
+    {
+      "additionalTextualVariantAnnotations": {"functional Consequence (SO)": "SO:1000062", "ClinVar accession": "SCV000032358"},
+      "reference": "T",
+      "alternate": "C",
+      "comments": ["This variant variant was reported as part of a compound heterozygous explanation of the disease"],
+      "variantClassification": "PATHOGENIC",
+      "internalScore": 0.7,
+      "position": 1255487614,
+      "familyGenotypes":  [
+        {
+          "genotype": "1|0",
+          "participantId": "LP2000254-DNA_G01"
+        },
+        {
+          "genotype": "1|0",
+          "participantId": "LP2000255-DNA_G01"
+        },
+        {
+          "genotype": "0|0",
+          "participantId": "LP2000255-DNA_B10"
+        }
+      ],
+      "additionalNumericVariantAnnotations": {"3,515 WGS10K genomes": 0.0010, "ExAC 0.3": 0.04},
+      "chromosome": "1",
+      "dbSNPid": "rs152678",
+      "reportEvents": [
+        {
+          "fullyExplainsPhenotype": false,
+          "groupOfVariants": 1,
+          "variantJustification": "This affects the protein in this way and that this gene has been implicated in this disorder in these publications.....",
+          "penetrance": "complete",
+          "score": 0.7,
+          "tier": "TIER1",
+          "modeOfInheritance": "BIALLELIC, autosomal or pseudoautosoma",
+          "gene": {
+            "transcriptId": "ENST00000428704",
+            "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
+            "symbol": "HDAC1",
+            "exomeSize": 2124,
+            "GeneAverageDepth": 29.3
+          }
+        }
+      ]
+
+    }
+  ]
+
+}
