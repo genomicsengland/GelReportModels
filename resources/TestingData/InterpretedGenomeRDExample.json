@@ -1,5 +1,3 @@
-/** Interpreted Genome Rare Diseases Example "InterpretationAnalysis"*/
-
 {
   "companyName": "Illumina",
   "comments": ["This is an example of one intepreted Genome following the Schema defined by Genomics England: InterpretedGenomesRD v.0.1"],
