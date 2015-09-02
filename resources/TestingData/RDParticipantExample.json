@@ -8,12 +8,14 @@
   "hpoTermList": [{"HPO":"HP0001562"},{"HPO":"HP:0001507"},{'HPO':"HP:001561"}],
   "consanguineousParents": "parents are related, consanguineous population",
   "disorderList": 'Mitochondrial disorders',
-  "adoptedStatus": null,
-  "lifeStatus": "alive",
-  "sex": "Female",
+  "adoptedStatus": [{"AdoptedStatus":"not_adopted"}],
+  "lifeStatus": [{LifeStatus: "deceased"}],
+  "sex": [{"Sex":"female"}],
   "FamilyId": null,
   "monozygotic": null,
   "id": null,
   "twinGroup": null,
-  "carrierStatus": "not consented"}
+  "carrierStatus": [{"CarrierStatus": "uncertain"}]
+}
+
 
