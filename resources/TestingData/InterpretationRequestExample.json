@@ -1,37 +1,15 @@
 {
   "additionalInfo": null,
-  "rareDisease": "Mitochondrial disorders",
+  "rareDisease": [{"pedigree": [{"participants": null, "familyId": null}], "virtualPanel": "Mitochondrial disorders", "modeOfInheritance": [{"MOI":"MONOALLELIC,autosomal or pseudoautosomal, imprinted status unknown"},{"MOI": "BIALLELIC"}], "inbreedingCoefficientEstimates": 0.09, "dataModelCatalogueVersion": null, "otherFamilyHistory": null, "complexGeneticPhenomena": null, "enrolledAgainstSpecificDiseaseTitle": "Mitochondrial disorders", "ancestries": null}
+],
   "interpretGenome": false,
-  "BigWigs": "LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.bw"",
+  "BigWigs": "LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.bw",
   "annotationFile": null,
   "reportRequestId": null,
-  "analysisVersion": null,
+  "analysisVersion": [{{"URIFile": null, "SampleId": "LP2000254-DNA_G01"],
   "analysisURI": null,
   "VCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.vcf.gz",
   "reportVersion": null,
   "gVCFs": null,
   "BAMs": "/.../LP2000255-DNA_B10/Assembly/LP2000255-DNA_B10.bam"
 }
-
-
-/**
-{
-  "SampleID": "LP2000254-DNA_G01",
-  "URIFile": " ",
-  "SpecificDiseaseTitle": "Mitochondrial disorders",
-  "geneIds": [{"gene": AARS2},{"gene": ABCB7},{"gene": ACAD9},{"gene": ACO2},{"gene": ADCK3},{"gene": ADCK4},{"gene": AFG3L2},{"gene": AGK},{"gene": AIFM1},{"gene": ALDH1B1}],
-  "clinicalRelevantTranscripts": " ",
-  "RelevantRegions": " ",
-  "ClinicalRelevantVariants": " ",
-  "maternalFamilyHistory": " ",
-  "paternalFamilyHistory": " ",
-  "enrolledAgainstSpecificDiseaseTitle": "Mitochondrial disorders",
-  "dataModelCatalogueVersion": "v1.1",
-  "Pedigree": pedigree,
-  "inbreedingCoefficientEstimates": 0.09,
-  "ancestries": " ",
-  "complexGeneticPhenomena": " ",
-  "modeOfInheritance": [{"MOI":"de Novo"},{"MOI": "BIALLELIC"}]
-
-}
-*/
