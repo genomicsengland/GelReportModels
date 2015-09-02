@@ -1,3 +1,19 @@
 {
-  "consentStatus": null, "externalIds": null, "mother": null, "additionalInformation": null, "dataModelCatalogueVersion": null, "father": null, "hpoTermList": null, "consanguineousParents": null, "disorderList": null, "adoptedStatus": null, "lifeStatus": null, "sex": null, "FamilyId": null, "monozygotic": null, "id": null, "twinGroup": null, "carrierStatus": null}
+  "consentStatus": [{"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}],
+  "externalIds": "LP2000254-DNA_G01",
+  "mother": "LP2000255-DNA_G01",
+  "additionalInformation": null,
+  "dataModelCatalogueVersion": "v1.1",
+  "father": "LP2000255-DNA_B10",
+  "hpoTermList": [{"HPO":"HP0001562"},{"HPO":"HP:0001507"},{'HPO':"HP:001561"}],
+  "consanguineousParents": "parents are related, consanguineous population",
+  "disorderList": 'Mitochondrial disorders',
+  "adoptedStatus": null,
+  "lifeStatus": "alive",
+  "sex": "Female",
+  "FamilyId": null,
+  "monozygotic": null,
+  "id": null,
+  "twinGroup": null,
+  "carrierStatus": "not consented"}
 

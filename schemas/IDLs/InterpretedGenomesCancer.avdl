@@ -233,6 +233,7 @@ record ReportedStructuralVariant {
 
 
 
+
 record InterpretationAnalysis {
     /**
     This is the ID of the clinical interpretation request

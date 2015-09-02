@@ -128,7 +128,7 @@ record Cancer {
 /**
 This record represents basic information for this report
 */
-record InterpretationRequest {
+record CancerInterpretationRequest {
     /**
     Unique id for this report
     */
