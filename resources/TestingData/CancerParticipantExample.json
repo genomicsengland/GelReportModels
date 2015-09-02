@@ -1,0 +1,7 @@
+{
+  "demographics": [{"consentStatus": null, "externalIds": null, "primaryDiagnosis": null, "originatingCenter": null, "additionalInformation": null, "dataModelVersion": null, "sex": null, "gelPhase": null, "centerPatientId": null, "id": null}],
+  "sex": "Female",
+  "cancerSamples": [{"sample":"cancertissue1"}, {"sample":"cancertissue2"}],
+  "matchedSamples": [{"sample":"normaltissue1"}, {"sample":"normaltissue2"}]
+}
+/** cancer participant example */

@@ -1,0 +1,18 @@
+{
+  "additionalInfo": null,
+  "rareDisease": [{"pedigree": [{"participants": null, "familyId": null}], "virtualPanel": "Mitochondrial disorders", "modeOfInheritance": [{"MOI":"MONOALLELIC,autosomal or pseudoautosomal, imprinted status unknown"},{"MOI": "BIALLELIC"}], "inbreedingCoefficientEstimates": 0.09, "dataModelCatalogueVersion": null, "otherFamilyHistory": null, "complexGeneticPhenomena": null, "enrolledAgainstSpecificDiseaseTitle": "Mitochondrial disorders", "ancestries": null}
+],
+  "interpretGenome": false,
+  "BigWigs": "LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.bw",
+  "annotationFile": [{"URIFile": "PATH/TO/FILE", "SampleId": "LP2000254-DNA_G01"}],
+  "reportRequestId": "0001",
+  "analysisVersion": "v1.1",
+  "analysisURI": "PATH/TO/FILE",
+  "VCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.vcf.gz",
+  "reportVersion": "v1.1",
+  "gVCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.gvcf.gz",
+  "BAMs": "/.../LP2000255-DNA_B10/Assembly/LP2000255-DNA_B10.bam"
+}
+
+
+/** Interpretation request for rare diseases */

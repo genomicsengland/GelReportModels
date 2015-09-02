@@ -1,0 +1,29 @@
+/** RDParticipant */
+/** pedigree */
+
+{
+  "participants": [
+  {
+  "consentStatus": [{"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}],
+  "externalIds": null,
+  "mother": "LP2000255-DNA_G01",
+  "additionalInformation": null,
+  "dataModelCatalogueVersion": "v1.1",
+  "father": "LP2000255-DNA_B10",
+  "hpoTermList": [{[{"termPresence": null, "term":"HP0001562", "modifier": null, "ageOfOnset": null}], [{"termPresence": null, "term":"HP:0001507", "modifier": null, "ageOfOnset": null}], [{"termPresence": null, "term":"HP:001561", "modifier": null, "ageOfOnset": null}]}],
+  "consanguineousParents": "parents are related, consanguineous population",
+  "disorderList": 'Mitochondrial disorders',
+  "adoptedStatus": [{"AdoptedStatus":"not_adopted"}],
+  "lifeStatus": [{LifeStatus: "deceased"}],
+  "sex": [{"Sex":"female"}],
+  "FamilyId": "00001",
+  "monozygotic": false,
+  "id": "LP2000254-DNA_G01",
+  "twinGroup": 0,
+  "carrierStatus": [{"CarrierStatus": "uncertain"}]
+}]
+"familyId": "00001"
+}
+
+
+/** Rare Disease Participant Example */

@@ -1,19 +1,21 @@
 @namespace("Gel_BioInf_Models")
 
 /**
+Cancer specific
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
 The record Report is the top level class. This includes clinical information + various version
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol InterpretationRequestRD {
+protocol InterpretationRequestCancer {
+
 
 /**
 Caution!! This has been removed
 import idl "variants.avdl";
 */
 
-import idl "RDParticipant.avdl";
+import idl "CancerParticipant.avdl";
 
 /**
 This defines a file
@@ -35,11 +37,11 @@ record File {
 }
 
 /**
-This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome
+This record defines a gene panel. Geneneral and/or cancer specific
 */
-//TODO: this needs to be tightened up and eventually changed to be supported in cellbase directly
-record VirtualPanel {
-   string SpecificDiseaseTitle;
+//TODO: "Gene panels" for cancer need to be define, there will no doubt be one "general panel" and other more specific panels"
+record CancerPanel {
+   string SpecificCancerType;
 
    /**
    gene id from ensembl (version as per annotation file)
@@ -78,7 +80,7 @@ record OtherFamilyHistory {  //priority 3
 }
 
 
-record RareDisease {
+record Cancer {
 
     /**
     Specific Disease title against which this family was enroled
@@ -104,43 +106,8 @@ record RareDisease {
     */
     union {null, array<string>} ancestries; //priority 2
 
-    /**
-    Hints about potential genetic phenomena that can inform interpretation
-    Proposed values:
-    MOSAICISM,
-    MONOSOMY,
-    DISOMY,
-    UNIPARENTAL_DISOMY,
-    TRISOMY,
-    OTHER_ANEUPLOIDY
-    */
+
     union {null, string} complexGeneticPhenomena;
-
-    /**
-    Proposed values:
-    MONOALLELIC, autosomal or pseudoautosomal, NOT imprinted|
-    MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)|HP:0012275
-    MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)|HP:0012274
-    MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown|HP:0000006
-    BIALLELIC, autosomal or pseudoautosomal|HP:0000007
-    BOTH monoallelic and biallelic, autosomal or pseudoautosomal|
-    BOTH monoallelic and biallelic (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal|
-    MITOCHONDRIAL|HP:0001427
-    X-LINKED: hemizygous mutation in males, biallelic mutations in females|HP:0001419
-    X-LINKED: hemizygous mutation in males, may be caused by monoallelic mutations in females|HP:0001417
-    Unknown|
-
-    The entries in the variable will reflect combinations of allelic states consistent with the enumeration in the model catalogue:
-    recessive: Multiplex family: recessive pattern (affected siblings only)
-    simplex: Simplex (isolated) case
-    unknown: Multiplex family: unknown
-    xlinked: Multiplex family: pattern suggestive of X-linked inheritance
-    multigenerationalPaternal: Multiplex family - paternal multi-generational pattern of inheritance (likely dominant)
-    mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance
-    multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
-    */
-
-    array<string> modeOfInheritance; //priority 2
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
@@ -161,7 +128,7 @@ record RareDisease {
 /**
 This record represents basic information for this report
 */
-record InterpretationRequest {
+record CancerInterpretationRequest {
     /**
     Unique id for this report
     */
@@ -202,7 +169,7 @@ record InterpretationRequest {
     */
     File annotationFile;
 
-    RareDisease rareDisease;
+   Cancer cancer;
 
 
     string analysisURI;
