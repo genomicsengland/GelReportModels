@@ -4,13 +4,13 @@
 ],
   "interpretGenome": false,
   "BigWigs": "LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.bw",
-  "annotationFile": null,
-  "reportRequestId": null,
-  "analysisVersion": [{"URIFile": null, "SampleId": "LP2000254-DNA_G01"}],
-  "analysisURI": null,
+  "annotationFile": [{"URIFile": "PATH/TO/FILE", "SampleId": "LP2000254-DNA_G01"}],
+  "reportRequestId": "0001",
+  "analysisVersion": "v1.1",
+  "analysisURI": "PATH/TO/FILE",
   "VCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.vcf.gz",
-  "reportVersion": null,
-  "gVCFs": null,
+  "reportVersion": "v1.1",
+  "gVCFs": "/.../LP2000254-DNA_G01/Variations/LP2000254-DNA_G01.gvcf.gz",
   "BAMs": "/.../LP2000255-DNA_B10/Assembly/LP2000255-DNA_B10.bam"
 }
 
