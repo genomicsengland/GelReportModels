@@ -19,6 +19,10 @@
     "type" : "string",
     "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
   }, {
+    "name" : "reference",
+    "type" : "string",
+    "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+  }, {
     "name" : "alternate",
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
@@ -46,7 +50,7 @@
       }
     }
   }, {
-    "name" : "ReportEvents",
+    "name" : "reportEvents",
     "type" : {
       "type" : "array",
       "items" : {
@@ -86,7 +90,7 @@
               "doc" : "Gene Average Depth"
             } ]
           },
-          "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents"
+          "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
         }, {
           "name" : "penetrance",
           "type" : {
@@ -102,7 +106,7 @@
           "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"
         }, {
           "name" : "fullyExplainsPhenotype",
-          "type" : "boolean",
+          "type" : [ "null", "boolean" ],
           "doc" : "This variant using this mode of inheritance can  fully explain the phenotype? true or false"
         }, {
           "name" : "groupOfVariants",

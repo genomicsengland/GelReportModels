@@ -160,7 +160,7 @@ record ReportedVariant {
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> ReportEvents;
+    array<ReportEvent> reportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -231,7 +231,7 @@ record ReportedStructuralVariant {
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> ReportEvents;
+    array<ReportEvent> reportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -280,7 +280,7 @@ record InterpretationAnalysis {
 
     array<ReportedVariant> reportedVariants;
 
-    array<ReportedStructuralVariant> reportedStructuralVariant;
+    union {null, array<ReportedStructuralVariant>} reportedStructuralVariant;
 
     /**
     Comments about the report

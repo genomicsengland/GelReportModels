@@ -84,7 +84,7 @@ class CancerDemographics(ProtocolElement):
 "type": {"symbols": ["male", "female", "unknown"], "doc": "", "type":
 "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
 [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConset"}, {"default": false, "doc": "", "type": "boolean",
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
 "name": "primaryFindingConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
@@ -168,7 +168,7 @@ class CancerParticipant(ProtocolElement):
 "type": {"symbols": ["male", "female", "unknown"], "doc": "", "type":
 "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
 [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConset"}, {"default": false, "doc": "", "type": "boolean",
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
 "name": "primaryFindingConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
@@ -578,29 +578,31 @@ class InterpretationAnalysis(ProtocolElement):
 "gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": "boolean", "name": "fullyExplainsPhenotype"}, {"doc": "",
-"type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "",
-"type": "string", "name": "variantJustification"}, {"type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "ReportEvents"}, {"doc": "",
-"type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
-"reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
-"type": "string", "name": "chromosome"}, {"doc": "", "type": "int",
-"name": "start"}, {"doc": "", "type": "int", "name": "end"}, {"doc":
-"", "type": "string", "name": "type"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"type": {"items": "CalledGenotype", "type":
-"array"}, "name": "familyGenotypes"}, {"doc": "", "type": {"items":
-"ReportEvent", "type": "array"}, "name": "ReportEvents"}, {"doc": "",
+"reportedVariants"}, {"type": ["null", {"items": {"fields": [{"doc":
+"", "type": "string", "name": "chromosome"}, {"doc": "", "type":
+"int", "name": "start"}, {"doc": "", "type": "int", "name": "end"},
+{"doc": "", "type": "string", "name": "type"}, {"doc": "", "type":
+"string", "name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"type": {"items": "CalledGenotype", "type": "array"},
+"name": "familyGenotypes"}, {"doc": "", "type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
 "type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
 "VariantClassification"], "name": "variantClassification"}, {"doc":
 "", "type": ["null", {"values": "string", "type": "map"}], "name":
@@ -608,7 +610,7 @@ class InterpretationAnalysis(ProtocolElement):
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedStructuralVariant"}, "type": "array"},
+"record", "name": "ReportedStructuralVariant"}, "type": "array"}],
 "name": "reportedStructuralVariant"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}
 """
@@ -626,7 +628,6 @@ class InterpretationAnalysis(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'reportedStructuralVariant': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
         }
         return fieldName in embeddedTypes
@@ -634,7 +635,6 @@ class InterpretationAnalysis(ProtocolElement):
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'reportedStructuralVariant': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
         }
 
@@ -1315,11 +1315,11 @@ class ReportEvent(ProtocolElement):
 "gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": "boolean", "name": "fullyExplainsPhenotype"}, {"doc": "",
-"type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "",
-"type": "string", "name": "variantJustification"}, {"type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}]}
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1383,7 +1383,8 @@ class ReportedStructuralVariant(ProtocolElement):
 "name": "chromosome"}, {"doc": "", "type": "int", "name": "start"},
 {"doc": "", "type": "int", "name": "end"}, {"doc": "", "type":
 "string", "name": "type"}, {"doc": "", "type": "string", "name":
-"alternate"}, {"type": {"items": {"doc": "", "type": "record", "name":
+"reference"}, {"doc": "", "type": "string", "name": "alternate"},
+{"type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
 "participantId"}, {"doc": "", "type": "string", "name": "genotype"},
 {"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
@@ -1398,17 +1399,18 @@ class ReportedStructuralVariant(ProtocolElement):
 "gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": "boolean", "name": "fullyExplainsPhenotype"}, {"doc": "",
-"type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "",
-"type": "string", "name": "variantJustification"}, {"type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "ReportEvents"}, {"doc": "",
-"type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
@@ -1416,7 +1418,6 @@ class ReportedStructuralVariant(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ReportEvents",
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
         "alternate",
@@ -1425,6 +1426,8 @@ class ReportedStructuralVariant(ProtocolElement):
         "end",
         "familyGenotypes",
         "internalScore",
+        "reference",
+        "reportEvents",
         "start",
         "type",
         "variantClassification",
@@ -1433,30 +1436,29 @@ class ReportedStructuralVariant(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
             'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
             'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ReportEvents', 'additionalNumericVariantAnnotations',
+        'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'chromosome', 'comments', 'end', 'familyGenotypes',
-        'internalScore', 'start', 'type', 'variantClassification'
+        'internalScore', 'reference', 'reportEvents', 'start', 'type',
+        'variantClassification'
     ]
 
     def __init__(self, **kwargs):
-        self.ReportEvents = kwargs.get(
-            'ReportEvents', None)
         self.additionalNumericVariantAnnotations = kwargs.get(
             'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
@@ -1473,6 +1475,10 @@ class ReportedStructuralVariant(ProtocolElement):
             'familyGenotypes', None)
         self.internalScore = kwargs.get(
             'internalScore', None)
+        self.reference = kwargs.get(
+            'reference', None)
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
         self.start = kwargs.get(
             'start', None)
         self.type = kwargs.get(
@@ -1506,17 +1512,18 @@ class ReportedVariant(ProtocolElement):
 "gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": "boolean", "name": "fullyExplainsPhenotype"}, {"doc": "",
-"type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "",
-"type": "string", "name": "variantJustification"}, {"type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "ReportEvents"}, {"doc": "",
-"type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
@@ -1524,7 +1531,6 @@ class ReportedVariant(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ReportEvents",
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
         "alternate",
@@ -1535,37 +1541,36 @@ class ReportedVariant(ProtocolElement):
         "internalScore",
         "position",
         "reference",
+        "reportEvents",
         "variantClassification",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
             'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
             'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ReportEvents', 'additionalNumericVariantAnnotations',
+        'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'chromosome', 'comments', 'dbSNPid', 'familyGenotypes',
-        'internalScore', 'position', 'reference',
+        'internalScore', 'position', 'reference', 'reportEvents',
         'variantClassification'
     ]
 
     def __init__(self, **kwargs):
-        self.ReportEvents = kwargs.get(
-            'ReportEvents', None)
         self.additionalNumericVariantAnnotations = kwargs.get(
             'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
@@ -1586,6 +1591,8 @@ class ReportedVariant(ProtocolElement):
             'position', None)
         self.reference = kwargs.get(
             'reference', None)
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
         self.variantClassification = kwargs.get(
             'variantClassification', None)
 

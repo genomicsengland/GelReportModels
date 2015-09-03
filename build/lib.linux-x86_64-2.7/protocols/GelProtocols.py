@@ -84,7 +84,7 @@ class CancerDemographics(ProtocolElement):
 "type": {"symbols": ["male", "female", "unknown"], "doc": "", "type":
 "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
 [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConset"}, {"default": false, "doc": "", "type": "boolean",
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
 "name": "primaryFindingConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
@@ -168,7 +168,7 @@ class CancerParticipant(ProtocolElement):
 "type": {"symbols": ["male", "female", "unknown"], "doc": "", "type":
 "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
 [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConset"}, {"default": false, "doc": "", "type": "boolean",
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
 "name": "primaryFindingConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
@@ -453,6 +453,56 @@ class File(ProtocolElement):
             'URIFile', None)
 
 
+class Gene(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name": "Gene",
+"fields": [{"doc": "", "type": "string", "name": "symbol"}, {"doc":
+"", "type": "string", "name": "transcriptId"}, {"doc": "", "type":
+{"values": "string", "type": "map"}, "name": "ids"}, {"doc": "",
+"type": ["null", "int"], "name": "exomeSize"}, {"doc": "", "type":
+["null", "double"], "name": "GeneAverageDepth"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "GeneAverageDepth",
+        "exomeSize",
+        "ids",
+        "symbol",
+        "transcriptId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'GeneAverageDepth', 'exomeSize', 'ids', 'symbol',
+        'transcriptId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.GeneAverageDepth = kwargs.get(
+            'GeneAverageDepth', None)
+        self.exomeSize = kwargs.get(
+            'exomeSize', None)
+        self.ids = kwargs.get(
+            'ids', None)
+        self.symbol = kwargs.get(
+            'symbol', None)
+        self.transcriptId = kwargs.get(
+            'transcriptId', None)
+
+
 class HpoTerm(ProtocolElement):
     """
     This defines an HPO term and its modifiers (possibly multiple)
@@ -510,50 +560,57 @@ class InterpretationAnalysis(ProtocolElement):
 "analysisId"}, {"type": "string", "name": "companyName"}, {"type":
 "string", "name": "reportURI"}, {"type": {"items": {"fields": [{"doc":
 "", "type": "string", "name": "chromosome"}, {"doc": "", "type":
-"int", "name": "position"}, {"doc": "", "type": "string", "name":
-"reference"}, {"doc": "", "type": "string", "name": "alternate"},
-{"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
-"name": "CalledGenotype", "fields": [{"doc": "", "type": "string",
-"name": "participantId"}, {"doc": "", "type": "string", "name":
-"genotype"}, {"doc": "", "type": ["null", "int"], "name":
-"copyNumber"}]}, "type": "array"}], "name": "familyGenotypes"},
-{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
-"string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
-"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
-"float", "name": "score"}, {"doc": "", "type": "boolean", "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"variantJustification"}, {"type": ["null", {"symbols": ["NONE",
-"TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum", "name":
-"Tier"}], "name": "tier"}], "type": "record", "name": "ReportEvent"},
-"type": "array"}, "name": "ReportEvents"}, {"doc": "", "type":
-["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "type": "array"}, "name":
-"reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
-"type": "string", "name": "chromosome"}, {"doc": "", "type": "int",
-"name": "start"}, {"doc": "", "type": "int", "name": "end"}, {"doc":
-"", "type": "string", "name": "type"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"type": ["null", {"items": "CalledGenotype",
-"type": "array"}], "name": "familyGenotypes"}, {"doc": "", "type":
-{"items": "ReportEvent", "type": "array"}, "name": "ReportEvents"},
-{"doc": "", "type": ["null", "float"], "name": "internalScore"},
-{"type": ["null", "VariantClassification"], "name":
+"string", "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
+"position"}, {"doc": "", "type": "string", "name": "reference"},
+{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
+"participantId"}, {"doc": "", "type": "string", "name": "genotype"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
+"array"}, "name": "familyGenotypes"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name":
+"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
+"type": "string", "name": "symbol"}, {"doc": "", "type": "string",
+"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null", "int"],
+"name": "exomeSize"}, {"doc": "", "type": ["null", "double"], "name":
+"GeneAverageDepth"}], "type": "record", "name": "Gene"}, "name":
+"gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
 "variantClassification"}, {"doc": "", "type": ["null", {"values":
 "string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedStructuralVariant"}, "type": "array"},
+"record", "name": "ReportedVariant"}, "type": "array"}, "name":
+"reportedVariants"}, {"type": ["null", {"items": {"fields": [{"doc":
+"", "type": "string", "name": "chromosome"}, {"doc": "", "type":
+"int", "name": "start"}, {"doc": "", "type": "int", "name": "end"},
+{"doc": "", "type": "string", "name": "type"}, {"doc": "", "type":
+"string", "name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"type": {"items": "CalledGenotype", "type": "array"},
+"name": "familyGenotypes"}, {"doc": "", "type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
+"type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
+"VariantClassification"], "name": "variantClassification"}, {"doc":
+"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedStructuralVariant"}, "type": "array"}],
 "name": "reportedStructuralVariant"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}
 """
@@ -571,7 +628,6 @@ class InterpretationAnalysis(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'reportedStructuralVariant': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
         }
         return fieldName in embeddedTypes
@@ -579,7 +635,6 @@ class InterpretationAnalysis(ProtocolElement):
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'reportedStructuralVariant': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
         }
 
@@ -637,18 +692,18 @@ class InterpretationRequest(ProtocolElement):
 "dataModelCatalogueVersion"}, {"doc": "", "type": {"symbols": ["male",
 "female", "unknown"], "type": "enum", "name": "Sex"}, "name": "sex"},
 {"doc": "", "type": "string", "name": "father"}, {"type": "string",
-"name": "mother"}, {"doc": "", "type": ["null", {"items": {"doc": "",
-"type": "record", "name": "Disorder", "fields": [{"doc": "", "type":
-["null", "string"], "name": "diseaseGroup"}, {"doc": "", "type":
-["null", "string"], "name": "diseaseSubGroup"}, {"doc": "", "type":
-["null", "string"], "name": "specificDisease"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}], "name":
-"disorderList"}, {"type": ["null", {"items": {"doc": "", "type":
-"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
-"name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
+"name": "mother"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"type": {"items": {"doc": "", "type": "record",
+"name": "HpoTerm", "fields": [{"doc": "", "type": "string", "name":
+"term"}, {"doc": "", "type": ["null", "boolean"], "name":
 "termPresence"}, {"doc": "", "type": ["null", {"items": "string",
 "type": "array"}], "name": "modifier"}, {"doc": "", "type": ["null",
-"int"], "name": "ageOfOnset"}]}, "type": "array"}], "name":
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": ["null", {"symbols":
 ["unaffected", "affected", "carrier", "uncertain", "presymptomatic"],
 "doc": "", "type": "enum", "name": "CarrierStatus"}], "name":
@@ -883,37 +938,37 @@ class Pedigree(ProtocolElement):
 "", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
 "name": "Sex"}, "name": "sex"}, {"doc": "", "type": "string", "name":
 "father"}, {"type": "string", "name": "mother"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "Disorder",
-"fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}], "name": "disorderList"}, {"type":
-["null", {"items": {"doc": "", "type": "record", "name": "HpoTerm",
-"fields": [{"doc": "", "type": "string", "name": "term"}, {"doc": "",
-"type": ["null", "boolean"], "name": "termPresence"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"modifier"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}], "name": "hpoTermList"}, {"doc":
-"", "type": ["null", {"symbols": ["unaffected", "affected", "carrier",
-"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
-"CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": {"fields": [{"default": false, "doc": "", "type": "boolean",
-"name": "programmeConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
-"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}]}, "type": "array"}, "name":
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"type": {"items": {"doc": "",
+"type": "record", "name": "HpoTerm", "fields": [{"doc": "", "type":
+"string", "name": "term"}, {"doc": "", "type": ["null", "boolean"],
+"name": "termPresence"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "modifier"}, {"doc": "", "type":
+["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": ["null", {"symbols":
+["unaffected", "affected", "carrier", "uncertain", "presymptomatic"],
+"doc": "", "type": "enum", "name": "CarrierStatus"}], "name":
+"carrierStatus"}, {"doc": "", "type": ["null", {"symbols": ["aborted",
+"deceased", "unborn", "stillborn", "miscarriage"], "type": "enum",
+"name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type":
+["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
+"boolean"], "name": "monozygotic"}, {"type": ["null", {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
+"type": ["null", "boolean"], "name": "consanguineousParents"}, {"doc":
+"", "type": {"fields": [{"default": false, "doc": "", "type":
+"boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "primaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name":
 "participants"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -991,37 +1046,37 @@ class RDParticipant(ProtocolElement):
 "", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
 "name": "Sex"}, "name": "sex"}, {"doc": "", "type": "string", "name":
 "father"}, {"type": "string", "name": "mother"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "Disorder",
-"fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}], "name": "disorderList"}, {"type":
-["null", {"items": {"doc": "", "type": "record", "name": "HpoTerm",
-"fields": [{"doc": "", "type": "string", "name": "term"}, {"doc": "",
-"type": ["null", "boolean"], "name": "termPresence"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"modifier"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}], "name": "hpoTermList"}, {"doc":
-"", "type": ["null", {"symbols": ["unaffected", "affected", "carrier",
-"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
-"CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": {"fields": [{"default": false, "doc": "", "type": "boolean",
-"name": "programmeConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
-"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}], "doc": ""}
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"type": {"items": {"doc": "",
+"type": "record", "name": "HpoTerm", "fields": [{"doc": "", "type":
+"string", "name": "term"}, {"doc": "", "type": ["null", "boolean"],
+"name": "termPresence"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "modifier"}, {"doc": "", "type":
+["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": ["null", {"symbols":
+["unaffected", "affected", "carrier", "uncertain", "presymptomatic"],
+"doc": "", "type": "enum", "name": "CarrierStatus"}], "name":
+"carrierStatus"}, {"doc": "", "type": ["null", {"symbols": ["aborted",
+"deceased", "unborn", "stillborn", "miscarriage"], "type": "enum",
+"name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type":
+["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
+"boolean"], "name": "monozygotic"}, {"type": ["null", {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
+"type": ["null", "boolean"], "name": "consanguineousParents"}, {"doc":
+"", "type": {"fields": [{"default": false, "doc": "", "type":
+"boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "primaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1048,6 +1103,8 @@ false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'consentStatus': ConsentStatus,
+            'disorderList': Disorder,
+            'hpoTermList': HpoTerm,
         }
         return fieldName in embeddedTypes
 
@@ -1055,6 +1112,8 @@ false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'consentStatus': ConsentStatus,
+            'disorderList': Disorder,
+            'hpoTermList': HpoTerm,
         }
 
         return embeddedTypes[fieldName]
@@ -1122,18 +1181,18 @@ class RareDisease(ProtocolElement):
 "dataModelCatalogueVersion"}, {"doc": "", "type": {"symbols": ["male",
 "female", "unknown"], "type": "enum", "name": "Sex"}, "name": "sex"},
 {"doc": "", "type": "string", "name": "father"}, {"type": "string",
-"name": "mother"}, {"doc": "", "type": ["null", {"items": {"doc": "",
-"type": "record", "name": "Disorder", "fields": [{"doc": "", "type":
-["null", "string"], "name": "diseaseGroup"}, {"doc": "", "type":
-["null", "string"], "name": "diseaseSubGroup"}, {"doc": "", "type":
-["null", "string"], "name": "specificDisease"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}], "name":
-"disorderList"}, {"type": ["null", {"items": {"doc": "", "type":
-"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
-"name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
+"name": "mother"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"type": {"items": {"doc": "", "type": "record",
+"name": "HpoTerm", "fields": [{"doc": "", "type": "string", "name":
+"term"}, {"doc": "", "type": ["null", "boolean"], "name":
 "termPresence"}, {"doc": "", "type": ["null", {"items": "string",
 "type": "array"}], "name": "modifier"}, {"doc": "", "type": ["null",
-"int"], "name": "ageOfOnset"}]}, "type": "array"}], "name":
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": ["null", {"symbols":
 ["unaffected", "affected", "carrier", "uncertain", "presymptomatic"],
 "doc": "", "type": "enum", "name": "CarrierStatus"}], "name":
@@ -1247,10 +1306,16 @@ class ReportEvent(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"symbols": ["complete",
-"incomplete"], "doc": "", "type": "enum", "name": "Penetrance"},
-"name": "penetrance"}, {"doc": "", "type": "float", "name": "score"},
-{"doc": "", "type": "boolean", "name": "fullyExplainsPhenotype"},
+"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
+"type": "string", "name": "symbol"}, {"doc": "", "type": "string",
+"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null", "int"],
+"name": "exomeSize"}, {"doc": "", "type": ["null", "double"], "name":
+"GeneAverageDepth"}], "type": "record", "name": "Gene"}, "name":
+"gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
 {"doc": "", "type": "string", "name": "variantJustification"},
 {"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
@@ -1259,6 +1324,7 @@ class ReportEvent(ProtocolElement):
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "fullyExplainsPhenotype",
+        "gene",
         "groupOfVariants",
         "modeOfInheritance",
         "penetrance",
@@ -1269,17 +1335,21 @@ class ReportEvent(ProtocolElement):
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'gene': Gene,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'gene': Gene,
+        }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'fullyExplainsPhenotype', 'groupOfVariants',
+        'fullyExplainsPhenotype', 'gene', 'groupOfVariants',
         'modeOfInheritance', 'penetrance', 'score', 'tier',
         'variantJustification'
     ]
@@ -1287,6 +1357,8 @@ class ReportEvent(ProtocolElement):
     def __init__(self, **kwargs):
         self.fullyExplainsPhenotype = kwargs.get(
             'fullyExplainsPhenotype', None)
+        self.gene = kwargs.get(
+            'gene', None)
         self.groupOfVariants = kwargs.get(
             'groupOfVariants', None)
         self.modeOfInheritance = kwargs.get(
@@ -1311,27 +1383,34 @@ class ReportedStructuralVariant(ProtocolElement):
 "name": "chromosome"}, {"doc": "", "type": "int", "name": "start"},
 {"doc": "", "type": "int", "name": "end"}, {"doc": "", "type":
 "string", "name": "type"}, {"doc": "", "type": "string", "name":
-"alternate"}, {"type": ["null", {"items": {"doc": "", "type":
-"record", "name": "CalledGenotype", "fields": [{"doc": "", "type":
-"string", "name": "participantId"}, {"doc": "", "type": "string",
-"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
-"copyNumber"}]}, "type": "array"}], "name": "familyGenotypes"},
-{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
-"string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
-"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
-"float", "name": "score"}, {"doc": "", "type": "boolean", "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"variantJustification"}, {"type": ["null", {"symbols": ["NONE",
-"TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum", "name":
-"Tier"}], "name": "tier"}], "type": "record", "name": "ReportEvent"},
-"type": "array"}, "name": "ReportEvents"}, {"doc": "", "type":
-["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"reference"}, {"doc": "", "type": "string", "name": "alternate"},
+{"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
+"participantId"}, {"doc": "", "type": "string", "name": "genotype"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
+"array"}, "name": "familyGenotypes"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name":
+"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
+"type": "string", "name": "symbol"}, {"doc": "", "type": "string",
+"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null", "int"],
+"name": "exomeSize"}, {"doc": "", "type": ["null", "double"], "name":
+"GeneAverageDepth"}], "type": "record", "name": "Gene"}, "name":
+"gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
@@ -1339,7 +1418,6 @@ class ReportedStructuralVariant(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ReportEvents",
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
         "alternate",
@@ -1348,6 +1426,8 @@ class ReportedStructuralVariant(ProtocolElement):
         "end",
         "familyGenotypes",
         "internalScore",
+        "reference",
+        "reportEvents",
         "start",
         "type",
         "variantClassification",
@@ -1356,28 +1436,29 @@ class ReportedStructuralVariant(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
+            'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
+            'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ReportEvents', 'additionalNumericVariantAnnotations',
+        'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'chromosome', 'comments', 'end', 'familyGenotypes',
-        'internalScore', 'start', 'type', 'variantClassification'
+        'internalScore', 'reference', 'reportEvents', 'start', 'type',
+        'variantClassification'
     ]
 
     def __init__(self, **kwargs):
-        self.ReportEvents = kwargs.get(
-            'ReportEvents', None)
         self.additionalNumericVariantAnnotations = kwargs.get(
             'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
@@ -1394,6 +1475,10 @@ class ReportedStructuralVariant(ProtocolElement):
             'familyGenotypes', None)
         self.internalScore = kwargs.get(
             'internalScore', None)
+        self.reference = kwargs.get(
+            'reference', None)
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
         self.start = kwargs.get(
             'start', None)
         self.type = kwargs.get(
@@ -1409,29 +1494,36 @@ class ReportedVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
-"", "type": "string", "name": "reference"}, {"doc": "", "type":
-"string", "name": "alternate"}, {"doc": "", "type": ["null", {"items":
-{"doc": "", "type": "record", "name": "CalledGenotype", "fields":
-[{"doc": "", "type": "string", "name": "participantId"}, {"doc": "",
-"type": "string", "name": "genotype"}, {"doc": "", "type": ["null",
-"int"], "name": "copyNumber"}]}, "type": "array"}], "name":
-"familyGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": "string", "name": "modeOfInheritance"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": "boolean",
-"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
-"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
-"name": "variantJustification"}, {"type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "ReportEvents"}, {"doc": "",
-"type": ["null", "float"], "name": "internalScore"}, {"type": ["null",
-{"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC",
-"PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", {"values": "string", "type": "map"}], "name":
+"chromosome"}, {"doc": "", "type": "string", "name": "dbSNPid"},
+{"doc": "", "type": "int", "name": "position"}, {"doc": "", "type":
+"string", "name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "CalledGenotype", "fields": [{"doc": "", "type":
+"string", "name": "participantId"}, {"doc": "", "type": "string",
+"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "familyGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc":
+"", "type": "string", "name": "symbol"}, {"doc": "", "type": "string",
+"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null", "int"],
+"name": "exomeSize"}, {"doc": "", "type": ["null", "double"], "name":
+"GeneAverageDepth"}], "type": "record", "name": "Gene"}, "name":
+"gene"}, {"doc": "", "type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "variantJustification"},
+{"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", "float"], "name":
+"internalScore"}, {"type": ["null", {"symbols": ["BENIGN",
+"LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "",
+"type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
 "additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
 {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
@@ -1439,44 +1531,46 @@ class ReportedVariant(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ReportEvents",
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
         "alternate",
         "chromosome",
         "comments",
+        "dbSNPid",
         "familyGenotypes",
         "internalScore",
         "position",
         "reference",
+        "reportEvents",
         "variantClassification",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
+            'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'ReportEvents': ReportEvent,
+            'familyGenotypes': CalledGenotype,
+            'reportEvents': ReportEvent,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ReportEvents', 'additionalNumericVariantAnnotations',
+        'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
-        'chromosome', 'comments', 'familyGenotypes', 'internalScore',
-        'position', 'reference', 'variantClassification'
+        'chromosome', 'comments', 'dbSNPid', 'familyGenotypes',
+        'internalScore', 'position', 'reference', 'reportEvents',
+        'variantClassification'
     ]
 
     def __init__(self, **kwargs):
-        self.ReportEvents = kwargs.get(
-            'ReportEvents', None)
         self.additionalNumericVariantAnnotations = kwargs.get(
             'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
@@ -1487,6 +1581,8 @@ class ReportedVariant(ProtocolElement):
             'chromosome', None)
         self.comments = kwargs.get(
             'comments', None)
+        self.dbSNPid = kwargs.get(
+            'dbSNPid', None)
         self.familyGenotypes = kwargs.get(
             'familyGenotypes', None)
         self.internalScore = kwargs.get(
@@ -1495,6 +1591,8 @@ class ReportedVariant(ProtocolElement):
             'position', None)
         self.reference = kwargs.get(
             'reference', None)
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
         self.variantClassification = kwargs.get(
             'variantClassification', None)
 
