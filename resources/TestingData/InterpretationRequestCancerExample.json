@@ -1,5 +1,16 @@
-/** Interpretation Request Cancer Example */
+/** Interpretation Request Cancer Example (InterpreationRequest >CancerInterpretationRequest */
 
-{
+{"additionalInfo": null,
+  "rareDisease": null,
+  "interpretGenome": false,
+  "BigWigs": null,
+  "annotationFile": [{"URIFile": null, "SampleId": null}],
+  "reportRequestId": null,
+  "analysisVersion": null,
+  "analysisURI": null,
+  "VCFs": null,
+  "reportVersion": null,
+  "gVCFs": null,
+  "BAMs": null
 
 }

@@ -128,7 +128,7 @@ record Cancer {
 /**
 This record represents basic information for this report
 
-CancerInterpretationRequest currently does not load... python build.py
+TODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py
 */
 record CancerInterpretationRequest {
     /**
