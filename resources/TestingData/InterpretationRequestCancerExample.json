@@ -1,0 +1,20 @@
+/** Interpretation Request Cancer Example (InterpreationRequest >CancerInterpretationRequest
+TODO: change/specify rareDisease > cancer
+TODO: There are a number of types included from the rare disease schema, these can be left null however the question is, are there any good arguments for removing them all together?
+*/
+
+{
+  "additionalInfo": [{"info":"previously tested for BRCA variants"},{"info":"patient currently undergoing treatment"}],
+  "rareDisease": [{"pedigree": [{"participants": null, "familyId": null}], "virtualPanel": "BreastCancer_Somatic", "modeOfInheritance": null, "inbreedingCoefficientEstimates": null, "dataModelCatalogueVersion": "v1.1", "otherFamilyHistory": [{"maternalFamilyHistory": [[{"mother":"breast cancer"}, {"grandmother": "breast cancer"}]], "paternalFamilyHistory": [{"father": "no history"},{"grandmother": "breast cancer"}]}], "complexGeneticPhenomena": "complex history", "enrolledAgainstSpecificDiseaseTitle": "BreastCancer", "ancestries": "ashkenazi jew"}],
+  "interpretGenome": false,
+  "BigWigs": [{"URIFile": "PATH/TO/BigWigs", "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01.bw": null}],
+  "annotationFile": [{"URIFile": "PATH/TO/annotationFile", "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01": null}],
+  "reportRequestId": "GEL_0001",
+  "analysisVersion": "PATH/TO/FILE",
+  "analysisURI": "PATH/TO/FILE"
+  "VCFs": [{"URIFile": 'PATH/TO/VCF', "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01.vcf": null}],
+  "reportVersion": 1,
+  "gVCFs": [{"URIFile": "PATH/TO/gVCF", "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01.gvcf": null}],
+  "BAMs": [{"URIFile": "PATH/TO/BAM", "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01.bam": null}]
+
+}

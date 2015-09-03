@@ -36,7 +36,7 @@
         "doc" : "Gene Average Depth"
       } ]
     },
-    "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents"
+    "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
   }, {
     "name" : "penetrance",
     "type" : {
@@ -52,7 +52,7 @@
     "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"
   }, {
     "name" : "fullyExplainsPhenotype",
-    "type" : "boolean",
+    "type" : [ "null", "boolean" ],
     "doc" : "This variant using this mode of inheritance can  fully explain the phenotype? true or false"
   }, {
     "name" : "groupOfVariants",

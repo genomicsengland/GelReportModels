@@ -2,13 +2,19 @@
 
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
+
+TODO: Previously removed penetrance for cancer interpreted genomes cancer, should this be re-added for cancer??
+TODO: Add to ReportedVariant and ReportedStructuralVariant weather these are somatics or germline findings
+TODO: Indicated weather sample source for somatic findings
+TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 */
-protocol InterpretedGenomesRD {
+protocol InterpretedGenomesCancer {
 
 /**
 This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
+
 record CalledGenotype {
     /**
     TODO: create field for allele fraction
@@ -65,22 +71,13 @@ This is the classification of the variant according to standard practice guideli
 enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
 
 
-/**
-Penetrance assumed in the analysis
-*/
-enum Penetrance {complete, incomplete}
 
 /**
-Possible tiers as defined by Genomics England
+Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
+
 */
 enum Tier {NONE, TIER1, TIER2, TIER3}
-
 record ReportEvent {
-
-    /**
-    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
-    */
-    string modeOfInheritance;
 
     /**
     This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
@@ -89,11 +86,6 @@ record ReportEvent {
     TODO: Add transcript
     */
     Gene gene;
-
-    /**
-    This is the penetrance assumed for scoring or classifying this variant
-    */
-    Penetrance penetrance;
 
     /**
     This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
@@ -151,16 +143,6 @@ record ReportedVariant {
     */
     string alternate;
 
-    /**
-    array of genotypes for the family
-    */
-    array<CalledGenotype> familyGenotypes;
-
-    /**
-    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-    the variants can have only one Report event.
-    */
-    array<ReportEvent> reportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -225,13 +207,7 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> familyGenotypes;
-
-    /**
-    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-    the variants can have only one Report event.
-    */
-    array<ReportEvent> reportEvents;
+    array<ReportEvent> ReportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -259,8 +235,9 @@ record ReportedStructuralVariant {
 
 }
 
-
-
+/**
+TODO: change InterpretationAnalysis > CancerInterpretationAnalysis
+*/
 record InterpretationAnalysis {
     /**
     This is the ID of the clinical interpretation request
@@ -280,7 +257,7 @@ record InterpretationAnalysis {
 
     array<ReportedVariant> reportedVariants;
 
-    union {null, array<ReportedStructuralVariant>} reportedStructuralVariant;
+    array<ReportedStructuralVariant> reportedStructuralVariant;
 
     /**
     Comments about the report

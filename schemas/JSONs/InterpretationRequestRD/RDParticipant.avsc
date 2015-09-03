@@ -8,7 +8,7 @@
     "type" : "string"
   }, {
     "name" : "FamilyId",
-    "type" : [ "null", "int", "string" ]
+    "type" : "string"
   }, {
     "name" : "externalIds",
     "type" : [ "null", {

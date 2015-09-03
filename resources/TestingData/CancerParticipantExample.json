@@ -1,0 +1,7 @@
+{
+  "demographics": [{"consentStatus": [{"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}], "externalIds": null, "primaryDiagnosis": "breast cancer", "originatingCenter": "GOSH", "additionalInformation": null, "dataModelVersion": null, "sex": "female", "gelPhase": "main", "centerPatientId": null, "id":"CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01"}],
+  "sex": "female",
+  "cancerSamples": [{"centerSampleId": "0000.1", "sampleType": "tumor", "id": "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01", "source": "breast", "cellularity": "1", "phase": "metastasis", "tumorContent": null, "preservationMethod": "FF", "method": "biopsy"}],
+  "matchedSamples": [{"germlineSampleId": null, "tumorSampleId": null}]
+}
+/** cancer participant example */
