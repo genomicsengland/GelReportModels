@@ -72,7 +72,7 @@ enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHO
 Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
 
 */
-enum Impact {High, Moderate, Low}
+enum Tier {NONE, TIER1, TIER2, TIER3}
 record ReportEvent {
 
     /**
@@ -108,7 +108,7 @@ record ReportEvent {
     */
     string variantJustification;
 
-    union {null, Impact} impact;
+    union {null, Tier} tier;
 }
 
 

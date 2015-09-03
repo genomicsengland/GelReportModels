@@ -33,7 +33,7 @@
               "type" : "string"
             }, {
               "name" : "FamilyId",
-              "type" : [ "null", "int", "string" ]
+              "type" : "string"
             }, {
               "name" : "externalIds",
               "type" : [ "null", {
@@ -220,7 +220,7 @@
       "type" : "array",
       "items" : "string"
     } ],
-    "doc" : "TODO: definie enumeration for ancestries"
+    "doc" : "TODO: define enumeration for ancestries"
   }, {
     "name" : "complexGeneticPhenomena",
     "type" : [ "null", "string" ],
