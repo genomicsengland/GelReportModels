@@ -1,4 +1,8 @@
 @namespace("Gel_BioInf_Models")
+/**
+TODO: change/specify rareDisease > cancer
+TODO: There are a number of types included from the rare disease schema, these can be left null however the question is, are there any good arguments for removing them all together?
+*/
 
 /**
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
