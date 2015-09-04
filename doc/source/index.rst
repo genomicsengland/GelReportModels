@@ -28,17 +28,46 @@ using a json format (avsc). They are interconvertibles???,  we choose the idl fo
 And we also provide short-cuts to convert this idls in json files and in python classes, for this we use the general tools for avro
 from Apache and the GA4GH implementation for python.
 
-Contents:
+The main documentation for the project is organized into a couple sections:
 
+* :ref:`getting-started`
+* :ref:`mod-docs`
+* :ref:`py-docs`
+
+.. _getting-started:
+
+Getting Started
+---------------
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
+
+    installation
+    quick_start
+    ids
+
+.. _mod-docs:
+
+Models Documentation
+--------------------
+.. toctree::
+    :maxdepth: 2
+
+    models
+    models_usage
+    models_dev
+
+
+.. _py-docs:
+
+Python Implementation
+---------------------
+.. toctree::
+    :maxdepth: 2
+
+    python
+    python_usage
+    python_dev
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
