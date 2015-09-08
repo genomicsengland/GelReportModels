@@ -138,7 +138,7 @@ record RDParticipant {
 
     string id;  //priority 1
 
-    string FamilyId;  //priority 1
+    string familyId;  //priority 1
 
     union {null, array<string>} externalIds; //priority 1
 
@@ -155,10 +155,11 @@ record RDParticipant {
 
     /**
     Id of the parent, if unknown then no parent is referenced
+    Eik amended
     */
-    string father; //priority 1
+    union {null, string}  father; //priority 1
 
-    string mother;  //priority 1
+    union {null, string}  mother;  //priority 1
 
     /**
     currently this is meant to be and omim code
@@ -200,6 +201,12 @@ record RDParticipant {
     */
 
     union {null, boolean} consanguineousParents;  //priority 2
+
+    /** EIK: added consanguineousPopulation  - it is important to differenciate between offspring of a consanguineous union and offspring from a consanguineous population
+
+    */
+
+    union {null, string} consanguineousPopulation;
 
     /**
     What has this participant consented to?
