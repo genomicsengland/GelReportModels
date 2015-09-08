@@ -11,7 +11,7 @@ In principle it is a phased zygosity as in VCF spec and called by the analysis p
 */
 record CalledGenotype {
     /**
-    TODO: create field for allele fraction
+    TODO: EIK added allele fraction - ARM to check
     */
     /**
     Participant id of the family member
@@ -22,6 +22,10 @@ record CalledGenotype {
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
     */
     string genotype;
+
+
+    /** Allele fraction of the variant */
+    float alleleFraction;
 
     /**
     Copy number genotype for imprecise events
@@ -55,7 +59,7 @@ record Gene {
     /**
     Gene Average Depth
     */
-    union {null, double} GeneAverageDepth;
+    union {null, double} geneCoverage;
 
 }
 
