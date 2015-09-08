@@ -4,8 +4,8 @@
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
 
 TODO: Previously removed penetrance for cancer interpreted genomes cancer, should this be re-added for cancer??
-TODO: Add to ReportedVariant and ReportedStructuralVariant weather these are somatics or germline findings
-TODO: Indicated weather sample source for somatic findings
+TODO: Add to ReportedVariant and ReportedStructuralVariant whether these are somatics or germline findings
+TODO: Indicated whether sample source for somatic findings
 TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 */
 protocol InterpretedGenomesCancer {
