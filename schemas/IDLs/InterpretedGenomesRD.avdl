@@ -263,6 +263,8 @@ enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
 record InterpretationAnalysis {
     /** TODO: ARM To check ReportType
+    */
+
     /**
     This is the ID of the clinical interpretation request
     */

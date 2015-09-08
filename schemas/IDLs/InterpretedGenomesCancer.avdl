@@ -116,6 +116,10 @@ record ReportEvent {
     union {null, Tier} tier;
 }
 
+/** this defines whether the variant reported is considered to be a somatic or germline finding.
+*/
+
+enum SomaticOrGermline {unknown, somatic, germline}
 
 record ReportedVariant {
 
@@ -169,6 +173,11 @@ record ReportedVariant {
     Comments
     */
     union {null, array<string>} comments;
+
+    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
+    */
+
+    SomaticOrGermline somaticOrGermline;
 
 }
 
@@ -234,16 +243,28 @@ record ReportedStructuralVariant {
     */
     union {null, array<string>} comments;
 
+    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
+    */
+
+    SomaticOrGermline somaticOrGermline;
+
 }
 
 /**
 TODO: change InterpretationAnalysis > CancerInterpretationAnalysis
 */
-record InterpretationAnalysis {
+record CancerInterpretationAnalysis {
+    /** TODO: ARM To check ReportType
+    */
     /**
     This is the ID of the clinical interpretation request
     */
     string reportRequestId;
+
+
+    /** This object define the type of report being returned for the participant */
+
+    ReportType reportType;
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
