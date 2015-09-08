@@ -41,17 +41,12 @@ record File {
 /** EIK: added VirtualPanels - these records describes all virtual panels that may be applied for cancer analysis
 */
 
-record VirtualPanels {
-    CancerPanel cancerPanel;
-    GermlinePanel germlinePanel;
-    SomaticPanel somaticPanel;
-}
 
 
 /**
 This record defines a gene panel. Geneneral and/or cancer specific
 */
-record CancerPanel {
+record VirtualPanels {
 
    /** previously known as "VirtualPanel" */
 
@@ -89,74 +84,7 @@ record CancerPanel {
 
 }
 
-record GermlinePanel {
 
-   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
-   Version of the Data Catalogue against which the information is being provided
-   The data catalogue version should internally keep track of the version for the HPO ontology
-   */
-   string dataModelCatalogueVersion
-
-   /**
-   gene id from ensembl (version as per annotation file)
-   */
-   union {null, array<string>} geneIds;
-
-   /**
-   transcript ids from ensembl
-   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
-   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
-   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
-   */
-   union {null, array<string>} clinicalRelevantTranscripts;
-
-    /**
-    BED format file
-    */
-   union {null, File} RelevantRegions;
-
-   /**
-
-   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
-   */
-   union {null, File} clinicalRelevantVariants;
-
-}
-
-
-record SomaticPanel {
-
-   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
-   Version of the Data Catalogue against which the information is being provided
-   The data catalogue version should internally keep track of the version for the HPO ontology
-   */
-   string dataModelCatalogueVersion
-
-   /**
-   gene id from ensembl (version as per annotation file)
-   */
-   union {null, array<string>} geneIds;
-
-   /**
-   transcript ids from ensembl
-   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
-   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
-   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
-   */
-   union {null, array<string>} clinicalRelevantTranscripts;
-
-    /**
-    BED format file
-    */
-   union {null, File} RelevantRegions;
-
-   /**
-
-   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
-   */
-   union {null, File} clinicalRelevantVariants;
-
-}
 
 /**
 Family history for secondary findings
