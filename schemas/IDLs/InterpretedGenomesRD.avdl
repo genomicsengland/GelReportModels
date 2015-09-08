@@ -154,7 +154,7 @@ record ReportedVariant {
     /**
     array of genotypes for the family
     */
-    array<CalledGenotype> familyGenotypes;
+    array<CalledGenotype> groupGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -225,7 +225,7 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> familyGenotypes;
+    array<CalledGenotype> groupGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -259,13 +259,16 @@ record ReportedStructuralVariant {
 
 }
 
-
+enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
 record InterpretationAnalysis {
+    /** TODO: ARM To check ReportType
     /**
     This is the ID of the clinical interpretation request
     */
     string reportRequestId;
+
+    ReportType reportType;
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters

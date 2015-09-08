@@ -17,7 +17,7 @@ In principle it is a phased zygosity as in VCF spec and called by the analysis p
 
 record CalledGenotype {
     /**
-    TODO: create field for allele fraction
+    TODO: EIK added field for allele fraction  - ARM to check
     */
     /**
     Participant id of the family member
@@ -28,6 +28,8 @@ record CalledGenotype {
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
     */
     string genotype;
+
+    float alleleFraction
 
     /**
     Copy number genotype for imprecise events
@@ -61,7 +63,7 @@ record Gene {
     /**
     Gene Average Depth
     */
-    union {null, double} GeneAverageDepth;
+    union {null, double} geneCoverage;
 
 }
 
@@ -70,13 +72,12 @@ This is the classification of the variant according to standard practice guideli
 */
 enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
 
-
-
 /**
 Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
 
 */
 enum Tier {NONE, TIER1, TIER2, TIER3}
+
 record ReportEvent {
 
     /**
