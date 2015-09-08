@@ -97,7 +97,7 @@ record MatchedSamples{
 
 }
 
-/** EIK: added programPhase */
+/** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
 enum programPhase {pilot, main}
 
 record ConsentStatus {
@@ -110,11 +110,11 @@ record ConsentStatus {
     False by default! needs to be explicitly changed
     */
 
-    /** EIK: added affection status */
+    /** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
 
     ProgramPhase programPhase
 
-    boolean affectionStatus
+    /** EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase */
 
     boolean programmeConsent=false;
 
