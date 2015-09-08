@@ -20,7 +20,14 @@ enum PreservationMethod {FFPE, FF, unknown, LEUK, GL}
 TODO: check in remission....
 */
 enum Phase {primary, metastasis}
+/**
+TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?
+*/
 enum Method {resection, biopsy}
+/**
+TODO: like we perhaps we should change method to samplingMethod? since we may wish to use method for defining the method version/type (e.g. version 1 or secondary findings methodology?
+*/
+
 
 
 /**
