@@ -97,13 +97,25 @@ record MatchedSamples{
 
 }
 
+/** EIK: added programPhase */
+enum programPhase {pilot, main}
+
 record ConsentStatus {
 
+
     /**
+    TODO: The consent status must capture the consent status of every member of the pedigree, as such it should include the affection status since secondary findings will be provided for all participating members of the pedigree
     Is this individual consented to the programme?
     It could simple be a family member that is not consented but for whom affection status is known
     False by default! needs to be explicitly changed
     */
+
+    /** EIK: added affection status */
+
+    ProgramPhase programPhase
+
+    boolean affectionStatus
+
     boolean programmeConsent=false;
 
     /**
@@ -130,6 +142,14 @@ record ConsentStatus {
 This defines a Cancer Demographics
 */
 
+record CancerRecruitmentCategory {
+/** records describe the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation */
+    string cancer;
+    string dataModelVersion;
+
+
+}
+
 record CancerDemographics{
 
     string id;
@@ -137,15 +157,22 @@ record CancerDemographics{
     union {null, array<string>} externalIds;
 
     union {null, string} originatingCenter;
+    /** EIK replace gelPhase with ProgramPhase
     union {null, string} gelPhase;
+    */
+    ProgramPhase programPhase;
     union {null, string} centerPatientId;
 
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelVersion;
 
+    /** EIK: It is not logical to store this here - instead we should replace this with the "Cancer specific recruitment category" and create a record for this which would include that datamodel at the time of recruitment
+    string dataModelVersion;
+    */
+
+    CancerRecruitmentCategory cancerRecruitmentCategory
 
     /**
     This should be an enumeration when it is well defined
@@ -160,6 +187,7 @@ record CancerDemographics{
     Sex sex;
 
     ConsentStatus consentStatus;
+
 
 
     /**
@@ -179,7 +207,11 @@ record CancerParticipant{
     /**
     Possible options: MALE, FEMALE, UNKNOWN
     */
+
+    /** EIK: This is included in CancerDemographics
+
     Sex sex;
+    */
 
     /**
     List of samples (normal and tumor sample)
