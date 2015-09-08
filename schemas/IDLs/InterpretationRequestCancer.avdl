@@ -35,16 +35,102 @@ record File {
 
 
 }
+/** TODO: "Gene panels" for cancer need to be defined (see direction for cancer program), there will no doubt be one "general panel" (cancerPredispositionPanel and germlinePanel) and other more specific panels"
+*/
+
+/** EIK: added VirtualPanels - these records describes all virtual panels that may be applied for cancer analysis
+*/
+
+record VirtualPanels {
+    CancerPanel cancerPanel;
+    GermlinePanel germlinePanel;
+    SomaticPanel somaticPanel;
+}
+
 
 /**
 This record defines a gene panel. Geneneral and/or cancer specific
 */
-//TODO: "Gene panels" for cancer need to be defined (see direction for cancer program), there will no doubt be one "general panel" (cancerPredispositionPanel and germlinePanel) and other more specific panels"
 record CancerPanel {
 
    /** previously known as "VirtualPanel" */
 
    string cancerName;
+
+   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
+   Version of the Data Catalogue against which the information is being provided
+   The data catalogue version should internally keep track of the version for the HPO ontology
+   */
+   string dataModelCatalogueVersion
+
+   /**
+   gene id from ensembl (version as per annotation file)
+   */
+   union {null, array<string>} geneIds;
+
+   /**
+   transcript ids from ensembl
+   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
+   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
+   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
+   */
+   union {null, array<string>} clinicalRelevantTranscripts;
+
+    /**
+    BED format file
+    */
+   union {null, File} RelevantRegions;
+
+   /**
+
+   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
+   */
+   union {null, File} clinicalRelevantVariants;
+
+}
+
+record GermlinePanel {
+
+   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
+   Version of the Data Catalogue against which the information is being provided
+   The data catalogue version should internally keep track of the version for the HPO ontology
+   */
+   string dataModelCatalogueVersion
+
+   /**
+   gene id from ensembl (version as per annotation file)
+   */
+   union {null, array<string>} geneIds;
+
+   /**
+   transcript ids from ensembl
+   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
+   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
+   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
+   */
+   union {null, array<string>} clinicalRelevantTranscripts;
+
+    /**
+    BED format file
+    */
+   union {null, File} RelevantRegions;
+
+   /**
+
+   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
+   */
+   union {null, File} clinicalRelevantVariants;
+
+}
+
+
+record SomaticPanel {
+
+   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
+   Version of the Data Catalogue against which the information is being provided
+   The data catalogue version should internally keep track of the version for the HPO ontology
+   */
+   string dataModelCatalogueVersion
 
    /**
    gene id from ensembl (version as per annotation file)
@@ -83,48 +169,6 @@ record OtherFamilyHistory {  //priority 3
 }
 
 
-record Cancer {
-
-    /**
-    Specific Disease title against which this family was enroled
-    These titles are a controlled vocabulary in the model catalogue
-    */
-    string enrolledAgainstSpecificDiseaseTitle; //priority 1
-
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelCatalogueVersion;  //priority 2
-
-    Pedigree pedigree;
-
-    /**
-    TODO: create a record for inbreeding coefficients
-    */
-    union {null, File} inbreedingCoefficientEstimates;
-
-    /**
-    TODO: define enumeration for ancestries
-    */
-    union {null, array<string>} ancestries; //priority 2
-
-
-    union {null, string} complexGeneticPhenomena;
-
-    /**
-    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
-    */
-    union {null, VirtualPanel} virtualPanel;
-
-    /**
-    This is the family history as pertinent to assessing secondary findings.
-    It is paternal or maternal with reference to the proband.
-    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is
-    not collected in that level of detail.
-    */
-    union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
-}
 
 
 
@@ -174,7 +218,10 @@ record CancerInterpretationRequest {
     */
     File annotationFile;
 
-   Cancer cancer;
+    /** this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)
+    (not to be confused with VirtualPanel record - RareDisease only)
+    */
+    VirtualPanels virtualPanels;
 
 
     string analysisURI;
@@ -185,6 +232,9 @@ record CancerInterpretationRequest {
     Additional information
     */
     union {null, map<string>} additionalInfo;
+
+    /** EIK: added other Family History */
+    OtherFamilyHistory otherFamilyHistory;
 }
 
 
