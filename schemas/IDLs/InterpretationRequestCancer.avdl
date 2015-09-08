@@ -20,11 +20,11 @@ import idl "CancerParticipant.avdl";
 /**
 This defines a file
 This Record is defined by the sampleID and a URI
-Currently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file
+Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
 */
 record File {
     /**
-    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
+    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids
     */
     union {null, string, array<string>} SampleId;
 
@@ -39,9 +39,12 @@ record File {
 /**
 This record defines a gene panel. Geneneral and/or cancer specific
 */
-//TODO: "Gene panels" for cancer need to be define, there will no doubt be one "general panel" and other more specific panels"
+//TODO: "Gene panels" for cancer need to be defined (see direction for cancer program), there will no doubt be one "general panel" (cancerPredispositionPanel and germlinePanel) and other more specific panels"
 record CancerPanel {
-   string SpecificCancerType;
+
+   /** previously known as "VirtualPanel" */
+
+   string cancerName;
 
    /**
    gene id from ensembl (version as per annotation file)

@@ -137,18 +137,15 @@ record ConsentStatus {
     boolean carrierStatusConsent=false;
 }
 
+/** EIK: added - This records describes the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation */
+record CancerRecruitmentCategory {
+    string cancerName;
+    string dataModelVersion;
 
+}
 /**
 This defines a Cancer Demographics
 */
-
-record CancerRecruitmentCategory {
-/** records describe the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation */
-    string cancer;
-    string dataModelVersion;
-
-
-}
 
 record CancerDemographics{
 
