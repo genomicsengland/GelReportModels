@@ -158,7 +158,7 @@ record ReportedVariant {
     /**
     array of genotypes for the family
     */
-    array<CalledGenotype> groupGenotypes;
+    array<CalledGenotype> calledGenotype;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -229,7 +229,7 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> groupGenotypes;
+    array<CalledGenotype> calledGenotype;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -289,7 +289,7 @@ record InterpretationAnalysis {
 
     string reportURI;
 
-    array<ReportedVariant> reportedVariants;
+    array<ReportedVariant> reportedVariant;
 
     union {null, array<ReportedStructuralVariant>} reportedStructuralVariant;
 

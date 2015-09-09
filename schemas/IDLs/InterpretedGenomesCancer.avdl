@@ -124,7 +124,7 @@ record ReportEvent {
 
 enum SomaticOrGermline {unknown, somatic, germline}
 
-record ReportedVariant {
+record ReportedVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -192,7 +192,7 @@ record ReportedVariant {
 
 
 
-record ReportedStructuralVariant {
+record ReportedStructuralVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -288,9 +288,9 @@ record CancerInterpretationAnalysis {
 
     string reportURI;
 
-    array<ReportedVariant> reportedVariants;
+    array<ReportedVariants> reportedVariants;
 
-    array<ReportedStructuralVariant> reportedStructuralVariant;
+    array<ReportedStructuralVariants> reportedStructuralVariants;
 
     /**
     Comments about the report
