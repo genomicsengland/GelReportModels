@@ -160,7 +160,7 @@ record ReportedVariants {
     */
 
 
-    array<ReportEvent> reportEvent;
+    array<ReportEvent> reportEvents;
 
     array<CalledGenotypes> calledGenotypes;
 
