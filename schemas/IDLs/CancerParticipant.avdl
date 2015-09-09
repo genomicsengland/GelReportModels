@@ -199,7 +199,7 @@ This defines a Cancer Participant (demographics and sample information)
 */
 record CancerParticipant{
 
-    CancerDemographics demographics;
+    CancerDemographics cancerDemographics;
 
     /**
     Possible options: MALE, FEMALE, UNKNOWN

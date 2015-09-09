@@ -12,6 +12,10 @@
     "type" : "string",
     "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
   }, {
+    "name" : "alleleFraction",
+    "type" : "float",
+    "doc" : "Allele fraction of the variant"
+  }, {
     "name" : "copyNumber",
     "type" : [ "null", "int" ],
     "doc" : "Copy number genotype for imprecise events"

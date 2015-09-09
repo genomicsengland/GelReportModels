@@ -7,6 +7,14 @@
     "type" : "string",
     "doc" : "This is the ID of the clinical interpretation request"
   }, {
+    "name" : "reportType",
+    "type" : {
+      "type" : "enum",
+      "name" : "ReportType",
+      "symbols" : [ "primaryFindings", "SecondaryFindings", "CarrierStatus" ]
+    },
+    "doc" : "This object define the type of report being returned for the participant"
+  }, {
     "name" : "analysisId",
     "type" : "string",
     "doc" : "This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters\n    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.\n    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools"
@@ -44,7 +52,7 @@
           "type" : "string",
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
         }, {
-          "name" : "familyGenotypes",
+          "name" : "groupGenotypes",
           "type" : {
             "type" : "array",
             "items" : {
@@ -59,6 +67,10 @@
                 "name" : "genotype",
                 "type" : "string",
                 "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+              }, {
+                "name" : "alleleFraction",
+                "type" : "float",
+                "doc" : "Allele fraction of the variant"
               }, {
                 "name" : "copyNumber",
                 "type" : [ "null", "int" ],
@@ -103,7 +115,7 @@
                     "type" : [ "null", "int" ],
                     "doc" : "Exome size"
                   }, {
-                    "name" : "GeneAverageDepth",
+                    "name" : "geneCoverage",
                     "type" : [ "null", "double" ],
                     "doc" : "Gene Average Depth"
                   } ]
@@ -214,7 +226,7 @@
           "type" : "string",
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
         }, {
-          "name" : "familyGenotypes",
+          "name" : "groupGenotypes",
           "type" : {
             "type" : "array",
             "items" : "CalledGenotype"

@@ -15,14 +15,17 @@ This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
 
-record CalledGenotype {
+record CalledGenotypes {
     /**
     TODO: EIK added field for allele fraction  - ARM to check
     */
     /**
     Participant id of the family member
     */
-    string participantId;
+    /**
+    TODO: EIK changed partipantId to Sample ID to reflect tumour normal
+    */
+    string sampleId;
 
     /**
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
@@ -155,6 +158,12 @@ record ReportedVariant {
     other scores for example across multiple modes of inheritance.
     TODO: Think about this!!!
     */
+
+
+    array<ReportEvent> reportEvent;
+
+    array<CalledGenotypes> calledGenotypes;
+
     union {null, float} internalScore;
 
     union {null, VariantClassification} variantClassification;
@@ -218,6 +227,8 @@ record ReportedStructuralVariant {
 
 
     array<ReportEvent> ReportEvents;
+
+    array<CalledGenotypes> calledGenotypes;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
