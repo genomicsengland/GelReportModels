@@ -116,6 +116,8 @@ record ConsentStatus {
 
     /** EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase */
 
+    boolean optOut=false;
+
     boolean programmeConsent=false;
 
     /**
