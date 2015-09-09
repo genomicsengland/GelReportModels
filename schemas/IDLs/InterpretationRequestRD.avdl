@@ -61,7 +61,7 @@ record VirtualPanel {
     /**
     BED format file
     */
-   union {null, File} RelevantRegions;
+   union {null, File} relevantRegions;
 
    /**
 
