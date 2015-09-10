@@ -83,7 +83,10 @@ record ConsentStatus {
 
     ProgramPhase programPhase;
 
-    string consentVersion;
+    /** This is the consent date
+    */
+
+    string consentDate;
 
     /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
 
