@@ -87,7 +87,7 @@ record ConsentStatus {
 
     /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
 
-    boolean optOut;
+    boolean optOut=false;
 
 
     boolean programmeConsent=false;
