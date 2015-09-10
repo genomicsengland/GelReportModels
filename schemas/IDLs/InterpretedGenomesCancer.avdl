@@ -64,7 +64,7 @@ record Gene {
     union {null, int} exomeSize;
 
     /**
-    Gene Average Depth
+    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
     union {null, double} geneCoverage;
 
@@ -81,7 +81,12 @@ Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that 
 */
 enum Tier {NONE, TIER1, TIER2, TIER3}
 
-record ReportEvent {
+record ReportEvents {
+
+    /**
+    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
+    */
+    union {null, string} modeOfInheritance;
 
     /**
     This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
@@ -160,7 +165,7 @@ record ReportedVariants {
     */
 
 
-    array<ReportEvent> reportEvents;
+    array<ReportEvents> reportEvents;
 
     array<CalledGenotypes> calledGenotypes;
 
@@ -226,7 +231,7 @@ record ReportedStructuralVariants {
     string alternate;
 
 
-    array<ReportEvent> ReportEvents;
+    array<ReportEvents> ReportEvents;
 
     array<CalledGenotypes> calledGenotypes;
 
