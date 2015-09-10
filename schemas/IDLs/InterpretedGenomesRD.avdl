@@ -57,7 +57,7 @@ record Gene {
     union {null, int} exomeSize;
 
     /**
-    Gene Average Depth
+    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
     union {null, double} geneCoverage;
 
