@@ -11,7 +11,7 @@ In principle it is a phased zygosity as in VCF spec and called by the analysis p
 */
 record CalledGenotype {
     /**
-    TODO: create field for allele fraction
+    TODO: EIK added allele fraction - ARM to check
     */
     /**
     Participant id of the family member
@@ -22,6 +22,10 @@ record CalledGenotype {
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
     */
     string genotype;
+
+
+    /** Allele fraction of the variant */
+    union {null, float} alleleFraction;
 
     /**
     Copy number genotype for imprecise events
@@ -53,9 +57,9 @@ record Gene {
     union {null, int} exomeSize;
 
     /**
-    Gene Average Depth
+    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
-    union {null, double} GeneAverageDepth;
+    union {null, float} geneCoverage;
 
 }
 
@@ -154,7 +158,7 @@ record ReportedVariant {
     /**
     array of genotypes for the family
     */
-    array<CalledGenotype> familyGenotypes;
+    array<CalledGenotype> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -225,7 +229,7 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> familyGenotypes;
+    array<CalledGenotype> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -259,13 +263,22 @@ record ReportedStructuralVariant {
 
 }
 
-
+enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
 record InterpretationAnalysis {
+    /** TODO: ARM To check ReportType (Revised: dont understand what is this, aks Eik)
+    */
+
     /**
     This is the ID of the clinical interpretation request
     */
     string reportRequestId;
+
+    /** This object define the type of report being returned for the participant)
+
+    ReportType reportType;
+
+    */
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
@@ -280,7 +293,7 @@ record InterpretationAnalysis {
 
     array<ReportedVariant> reportedVariants;
 
-    union {null, array<ReportedStructuralVariant>} reportedStructuralVariant;
+    union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
 
     /**
     Comments about the report

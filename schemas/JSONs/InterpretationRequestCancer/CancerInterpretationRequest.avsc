@@ -1,0 +1,141 @@
+{
+  "type" : "record",
+  "name" : "CancerInterpretationRequest",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This record represents basic information for this report\n\nTODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py",
+  "fields" : [ {
+    "name" : "reportRequestId",
+    "type" : "string",
+    "doc" : "Unique id for this report"
+  }, {
+    "name" : "reportVersion",
+    "type" : "int",
+    "doc" : "Version of this report"
+  }, {
+    "name" : "interpretGenome",
+    "type" : "boolean",
+    "doc" : "Simply load data to system or also provide interpretation?",
+    "default" : false
+  }, {
+    "name" : "BAMs",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "File",
+        "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+        "fields" : [ {
+          "name" : "SampleId",
+          "type" : [ "null", "string", {
+            "type" : "array",
+            "items" : "string"
+          } ],
+          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
+        }, {
+          "name" : "URIFile",
+          "type" : "string",
+          "doc" : "URI PATH"
+        } ]
+      }
+    },
+    "doc" : "BAMs Files"
+  }, {
+    "name" : "gVCFs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "gVCFs Files where SNVs and INDELs are represented"
+  }, {
+    "name" : "VCFs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "VCFs Files where SVs and CNVs are represented"
+  }, {
+    "name" : "BigWigs",
+    "type" : {
+      "type" : "array",
+      "items" : "File"
+    },
+    "doc" : "BigWig Files"
+  }, {
+    "name" : "annotationFile",
+    "type" : "File",
+    "doc" : "This will be the output file from Cellbase + version used"
+  }, {
+    "name" : "virtualPanels",
+    "type" : {
+      "type" : "record",
+      "name" : "VirtualPanels",
+      "doc" : "This record defines a gene panel. Geneneral and/or cancer specific",
+      "fields" : [ {
+        "name" : "cancerName",
+        "type" : "string",
+        "doc" : "previously known as \"VirtualPanel\""
+      }, {
+        "name" : "dataModelCatalogueVersion",
+        "type" : "string",
+        "doc" : "the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request\n   Version of the Data Catalogue against which the information is being provided\n   The data catalogue version should internally keep track of the version for the HPO ontology"
+      }, {
+        "name" : "geneIds",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ],
+        "doc" : "gene id from ensembl (version as per annotation file)"
+      }, {
+        "name" : "clinicalRelevantTranscripts",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ],
+        "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
+      }, {
+        "name" : "RelevantRegions",
+        "type" : [ "null", "File" ],
+        "doc" : "BED format file"
+      }, {
+        "name" : "clinicalRelevantVariants",
+        "type" : [ "null", "File" ],
+        "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
+      } ]
+    },
+    "doc" : "this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)\n    (not to be confused with VirtualPanel record - RareDisease only)"
+  }, {
+    "name" : "analysisURI",
+    "type" : "string"
+  }, {
+    "name" : "analysisVersion",
+    "type" : "string"
+  }, {
+    "name" : "additionalInfo",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "Additional information"
+  }, {
+    "name" : "otherFamilyHistory",
+    "type" : {
+      "type" : "record",
+      "name" : "OtherFamilyHistory",
+      "doc" : "Family history for secondary findings\nTODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke\nArrays of strings describing discrete family history phenotypes",
+      "fields" : [ {
+        "name" : "maternalFamilyHistory",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ]
+      }, {
+        "name" : "paternalFamilyHistory",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ]
+      } ]
+    },
+    "doc" : "EIK: added other Family History"
+  } ]
+}

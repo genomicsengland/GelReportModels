@@ -13,7 +13,7 @@
       "variantClassification": "LIKELY_PATHOGENIC",
       "internalScore": 0.875,
       "position": 1255487512,
-      "familyGenotypes": [
+      "calledGenotypes": [
         {
           "genotype": "1|1",
           "participantId": "LP2000254-DNA_G01"
@@ -43,7 +43,7 @@
             "symbol": "HDAC1",
             "exomeSize": 2124,
             "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
-            "GeneAverageDepth": 20.5
+            "geneCoverage": 20.5
           }
         },
         {
@@ -58,7 +58,7 @@
             "symbol": "HDAC1",
             "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
             "exomeSize": 664,
-            "GeneAverageDepth": 29.3
+            "geneCoverage": 29.3
           }
         }
       ]
@@ -71,7 +71,7 @@
       "variantClassification": "PATHOGENIC",
       "internalScore": 0.98,
       "position": 1255487514,
-      "familyGenotypes":  [
+      "calledGenotypes":  [
         {
           "genotype": "0|1",
           "participantId": "LP2000254-DNA_G01"
@@ -102,7 +102,7 @@
             "symbol": "HDAC1",
             "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
             "exomeSize": 2124,
-            "GeneAverageDepth": 29.3
+            "geneCoverage": 29.3
           }
         }
       ]
@@ -115,7 +115,7 @@
       "variantClassification": "PATHOGENIC",
       "internalScore": 0.7,
       "position": 1255487614,
-      "familyGenotypes":  [
+      "calledGenotypes":  [
         {
           "genotype": "1|0",
           "participantId": "LP2000254-DNA_G01"
@@ -146,7 +146,7 @@
             "ids" : {"HGNC": "HDAC1", "ensembl":"ENSG000001245548"},
             "symbol": "HDAC1",
             "exomeSize": 2124,
-            "GeneAverageDepth": 29.3
+            "geneCoverage": 29.3
           }
         }
       ]

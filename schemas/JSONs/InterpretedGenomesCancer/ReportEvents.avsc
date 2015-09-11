@@ -1,10 +1,10 @@
 {
   "type" : "record",
-  "name" : "ReportEvent",
+  "name" : "ReportEvents",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "modeOfInheritance",
-    "type" : "string",
+    "type" : [ "null", "string" ],
     "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
   }, {
     "name" : "gene",
@@ -32,20 +32,11 @@
         "doc" : "Exome size"
       }, {
         "name" : "geneCoverage",
-        "type" : [ "null", "float" ],
+        "type" : [ "null", "double" ],
         "doc" : "This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)"
       } ]
     },
     "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
-  }, {
-    "name" : "penetrance",
-    "type" : {
-      "type" : "enum",
-      "name" : "Penetrance",
-      "doc" : "Penetrance assumed in the analysis",
-      "symbols" : [ "complete", "incomplete" ]
-    },
-    "doc" : "This is the penetrance assumed for scoring or classifying this variant"
   }, {
     "name" : "score",
     "type" : "float",
@@ -67,7 +58,7 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "Tier",
-      "doc" : "Possible tiers as defined by Genomics England",
+      "doc" : "Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be",
       "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
     } ]
   } ]

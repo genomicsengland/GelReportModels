@@ -27,7 +27,7 @@
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
   }, {
-    "name" : "familyGenotypes",
+    "name" : "calledGenotypes",
     "type" : {
       "type" : "array",
       "items" : {
@@ -42,6 +42,10 @@
           "name" : "genotype",
           "type" : "string",
           "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+        }, {
+          "name" : "alleleFraction",
+          "type" : [ "null", "float" ],
+          "doc" : "Allele fraction of the variant"
         }, {
           "name" : "copyNumber",
           "type" : [ "null", "int" ],
@@ -85,9 +89,9 @@
               "type" : [ "null", "int" ],
               "doc" : "Exome size"
             }, {
-              "name" : "GeneAverageDepth",
-              "type" : [ "null", "double" ],
-              "doc" : "Gene Average Depth"
+              "name" : "geneCoverage",
+              "type" : [ "null", "float" ],
+              "doc" : "This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)"
             } ]
           },
           "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"

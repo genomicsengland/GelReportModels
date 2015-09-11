@@ -4,8 +4,8 @@
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
 
 TODO: Previously removed penetrance for cancer interpreted genomes cancer, should this be re-added for cancer??
-TODO: Add to ReportedVariant and ReportedStructuralVariant weather these are somatics or germline findings
-TODO: Indicated weather sample source for somatic findings
+TODO: Add to ReportedVariant and ReportedStructuralVariant whether these are somatics or germline findings
+TODO: Indicated whether sample source for somatic findings
 TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 */
 protocol InterpretedGenomesCancer {
@@ -15,19 +15,24 @@ This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
 
-record CalledGenotype {
+record CalledGenotypes {
     /**
-    TODO: create field for allele fraction
+    TODO: EIK added field for allele fraction  - ARM to check
     */
     /**
     Participant id of the family member
     */
-    string participantId;
+    /**
+    TODO: EIK changed partipantId to Sample ID to reflect tumour normal
+    */
+    string sampleId;
 
     /**
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
     */
     string genotype;
+
+    union {null, float} alleleFraction;
 
     /**
     Copy number genotype for imprecise events
@@ -59,9 +64,9 @@ record Gene {
     union {null, int} exomeSize;
 
     /**
-    Gene Average Depth
+    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
-    union {null, double} GeneAverageDepth;
+    union {null, double} geneCoverage;
 
 }
 
@@ -70,14 +75,18 @@ This is the classification of the variant according to standard practice guideli
 */
 enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
 
-
-
 /**
-Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
-
+Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be
 */
+
 enum Tier {NONE, TIER1, TIER2, TIER3}
-record ReportEvent {
+
+record ReportEvents {
+
+    /**
+    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
+    */
+    union {null, string} modeOfInheritance;
 
     /**
     This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
@@ -115,8 +124,12 @@ record ReportEvent {
     union {null, Tier} tier;
 }
 
+/** this defines whether the variant reported is considered to be a somatic or germline finding.
+*/
 
-record ReportedVariant {
+enum SomaticOrGermline {unknown, somatic, germline}
+
+record ReportedVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -150,6 +163,12 @@ record ReportedVariant {
     other scores for example across multiple modes of inheritance.
     TODO: Think about this!!!
     */
+
+
+    array<ReportEvents> reportEvents;
+
+    array<CalledGenotypes> calledGenotypes;
+
     union {null, float} internalScore;
 
     union {null, VariantClassification} variantClassification;
@@ -169,11 +188,16 @@ record ReportedVariant {
     */
     union {null, array<string>} comments;
 
+    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
+    */
+
+    SomaticOrGermline somaticOrGermline;
+
 }
 
 
 
-record ReportedStructuralVariant {
+record ReportedStructuralVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -207,7 +231,9 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<ReportEvent> ReportEvents;
+    array<ReportEvents> ReportEvents;
+
+    array<CalledGenotypes> calledGenotypes;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -233,16 +259,30 @@ record ReportedStructuralVariant {
     */
     union {null, array<string>} comments;
 
+    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
+    */
+
+    SomaticOrGermline somaticOrGermline;
+
 }
 
 /**
 TODO: change InterpretationAnalysis > CancerInterpretationAnalysis
 */
-record InterpretationAnalysis {
+record CancerInterpretationAnalysis {
+    /** TODO: ARM To check ReportType
+    */
     /**
     This is the ID of the clinical interpretation request
     */
     string reportRequestId;
+
+
+    /** This object define the type of report being returned for the participant
+
+    ReportType reportType;
+
+     */
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
@@ -255,9 +295,9 @@ record InterpretationAnalysis {
 
     string reportURI;
 
-    array<ReportedVariant> reportedVariants;
+    array<ReportedVariants> reportedVariants;
 
-    array<ReportedStructuralVariant> reportedStructuralVariant;
+    array<ReportedStructuralVariants> reportedStructuralVariants;
 
     /**
     Comments about the report

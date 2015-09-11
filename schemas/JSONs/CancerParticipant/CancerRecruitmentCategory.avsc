@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "CancerRecruitmentCategory",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "EIK: added - This records describes the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation",
+  "fields" : [ {
+    "name" : "cancerName",
+    "type" : "string"
+  }, {
+    "name" : "dataModelVersion",
+    "type" : "string"
+  } ]
+}
