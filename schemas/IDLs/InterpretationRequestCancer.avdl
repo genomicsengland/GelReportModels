@@ -56,7 +56,7 @@ record VirtualPanels {
    Version of the Data Catalogue against which the information is being provided
    The data catalogue version should internally keep track of the version for the HPO ontology
    */
-   string dataModelCatalogueVersion
+   string dataModelCatalogueVersion;
 
    /**
    gene id from ensembl (version as per annotation file)

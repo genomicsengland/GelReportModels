@@ -25,7 +25,7 @@ record CalledGenotype {
 
 
     /** Allele fraction of the variant */
-    float alleleFraction;
+    union {null, float} alleleFraction;
 
     /**
     Copy number genotype for imprecise events
@@ -158,13 +158,13 @@ record ReportedVariant {
     /**
     array of genotypes for the family
     */
-    array<CalledGenotype> calledGenotype;
+    array<CalledGenotype> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> reportEvent;
+    array<ReportEvent> reportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -229,13 +229,13 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> calledGenotype;
+    array<CalledGenotype> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> reportEvent;
+    array<ReportEvent> reportEvents;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -266,7 +266,7 @@ record ReportedStructuralVariant {
 enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
 record InterpretationAnalysis {
-    /** TODO: ARM To check ReportType
+    /** TODO: ARM To check ReportType (Revised: dont understand what is this, aks Eik)
     */
 
     /**
@@ -274,9 +274,11 @@ record InterpretationAnalysis {
     */
     string reportRequestId;
 
-    /** This object define the type of report being returned for the participant */
+    /** This object define the type of report being returned for the participant)
 
     ReportType reportType;
+
+    */
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
@@ -289,9 +291,9 @@ record InterpretationAnalysis {
 
     string reportURI;
 
-    array<ReportedVariant> reportedVariant;
+    array<ReportedVariant> reportedVariants;
 
-    union {null, array<ReportedStructuralVariant>} reportedStructuralVariant;
+    union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
 
     /**
     Comments about the report

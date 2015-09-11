@@ -32,7 +32,7 @@ record CalledGenotypes {
     */
     string genotype;
 
-    float alleleFraction
+    union {null, float} alleleFraction;
 
     /**
     Copy number genotype for imprecise events
@@ -76,9 +76,9 @@ This is the classification of the variant according to standard practice guideli
 enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
 
 /**
-Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be */
-
+Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be
 */
+
 enum Tier {NONE, TIER1, TIER2, TIER3}
 
 record ReportEvents {
@@ -278,9 +278,11 @@ record CancerInterpretationAnalysis {
     string reportRequestId;
 
 
-    /** This object define the type of report being returned for the participant */
+    /** This object define the type of report being returned for the participant
 
     ReportType reportType;
+
+     */
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters

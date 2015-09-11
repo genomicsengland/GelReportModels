@@ -4,7 +4,7 @@ import sys
 from GelReportModels.conectors import MySql
 
 __author__ = 'antonior'
-from GelReportModels.protocols.GelProtcols import RDParticipant, Disorder, HpoTerm, ConsentStatus
+from protocols.GelProtocols import RDParticipant, Disorder, HpoTerm, ConsentStatus
 
 
 terms ={
@@ -23,9 +23,6 @@ terms ={
     "gel_rd_registrationandconsent_Cons_2_consent_given": "carrierStatusConsent",
     "gel_rd_registrationandconsent_ConsentStratificationText_consent_question": "secondaryFindingConsent"
 }
-
-
-
 
 
 
@@ -48,7 +45,6 @@ def map_identifiers(tabfiles):
         aline = line.rstrip("\n").split("\t")
         mapping_ids[aline[0]] = int(aline[1])
 
-
     for tabfile in tabfiles:
         header = []
         record_on = False
@@ -68,7 +64,7 @@ def map_identifiers(tabfiles):
                 record_on = True
                 header = line.split("\t")
 
-    names = [(r["surname"], r["name"]) for r in individuals]
+    # names = [(r["surname"], r["name"]) for r in individuals]
 
     mappings = {}
     for line in maps:
@@ -199,6 +195,7 @@ def create_ped(tabfile, out_dir):
             new_family.append(member)
         fdw = file(out_dir + "/" + ped + ".json", "w")
         json.dump(new_family, fdw)
+        fdw.close()
 
 
 
@@ -327,7 +324,6 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
             record_on = True
             header = line.split("\t")
 
-
     con = MySql.GelMySql("gel_RD")
     for sample in samples:
         try:
@@ -336,14 +332,9 @@ def open_clinicatab2GELmodel(tabfile, pedigree, folder):
             json.dump(samples[sample].toJsonDict(), fdw, indent=True)
             fdw.close()
         except:
-            print  str(samples[sample].id)
+            print str(samples[sample].id)
 
 
-
-    # fdw_family = file(os.path.join(folder, str(samples[sample_mock].FamilyId) + "_ped.json"), "w")
-    # family = {"familyId": str(samples[sample].FamilyId), "participants": [samples[sample].toJsonDict() for sample in samples]}
-    # json.dump(family, fdw_family, indent=True)
-    # fdw_family.close()
 
 
 

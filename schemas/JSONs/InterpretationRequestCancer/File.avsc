@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "File",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+  "fields" : [ {
+    "name" : "SampleId",
+    "type" : [ "null", "string", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
+  }, {
+    "name" : "URIFile",
+    "type" : "string",
+    "doc" : "URI PATH"
+  } ]
+}

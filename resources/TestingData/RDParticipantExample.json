@@ -2,9 +2,7 @@
   "participants": [
   {
   "consentStatus": {"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true},
-  "externalIds": null,
   "mother": "LP2000255-DNA_G01",
-  "additionalInformation": null,
   "dataModelCatalogueVersion": "v1.1",
   "father": "LP2000255-DNA_B10",
   "hpoTermList": [{"termPresence": true, "term":"HP0001562"}, {"termPresence": true, "term":"HP:0001507"}, {"termPresence": true, "term":"HP:001561"}],
@@ -13,7 +11,7 @@
   "adoptedStatus": "not_adopted",
   "lifeStatus":  "deceased",
   "sex": "female",
-  "FamilyId": "00001",
+  "familyId": "00001",
   "monozygotic": false,
   "id": "LP2000254-DNA_G01",
   "carrierStatus": "uncertain"

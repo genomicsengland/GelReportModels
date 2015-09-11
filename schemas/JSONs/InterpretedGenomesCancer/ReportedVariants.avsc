@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "ReportedVariant",
+  "name" : "ReportedVariants",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "chromosome",
@@ -23,47 +23,15 @@
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
   }, {
-<<<<<<< HEAD
-    "name" : "calledGenotype",
-=======
-    "name" : "calledGenotypes",
->>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8
+    "name" : "reportEvents",
     "type" : {
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "CalledGenotype",
-        "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
-        "fields" : [ {
-          "name" : "participantId",
-          "type" : "string",
-          "doc" : "Participant id of the family member"
-        }, {
-          "name" : "genotype",
-          "type" : "string",
-          "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
-        }, {
-          "name" : "alleleFraction",
-          "type" : [ "null", "float" ],
-          "doc" : "Allele fraction of the variant"
-        }, {
-          "name" : "copyNumber",
-          "type" : [ "null", "int" ],
-          "doc" : "Copy number genotype for imprecise events"
-        } ]
-      }
-    },
-    "doc" : "array of genotypes for the family"
-  }, {
-    "name" : "reportEvent",
-    "type" : {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "ReportEvent",
+        "name" : "ReportEvents",
         "fields" : [ {
           "name" : "modeOfInheritance",
-          "type" : "string",
+          "type" : [ "null", "string" ],
           "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
         }, {
           "name" : "gene",
@@ -91,20 +59,11 @@
               "doc" : "Exome size"
             }, {
               "name" : "geneCoverage",
-              "type" : [ "null", "float" ],
+              "type" : [ "null", "double" ],
               "doc" : "This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)"
             } ]
           },
           "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
-        }, {
-          "name" : "penetrance",
-          "type" : {
-            "type" : "enum",
-            "name" : "Penetrance",
-            "doc" : "Penetrance assumed in the analysis",
-            "symbols" : [ "complete", "incomplete" ]
-          },
-          "doc" : "This is the penetrance assumed for scoring or classifying this variant"
         }, {
           "name" : "score",
           "type" : "float",
@@ -126,17 +85,42 @@
           "type" : [ "null", {
             "type" : "enum",
             "name" : "Tier",
-            "doc" : "Possible tiers as defined by Genomics England",
+            "doc" : "Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be",
             "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
           } ]
         } ]
       }
     },
-    "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
+    "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance.\n    TODO: Think about this!!!"
+  }, {
+    "name" : "calledGenotypes",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "CalledGenotypes",
+        "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
+        "fields" : [ {
+          "name" : "sampleId",
+          "type" : "string",
+          "doc" : "TODO: EIK changed partipantId to Sample ID to reflect tumour normal"
+        }, {
+          "name" : "genotype",
+          "type" : "string",
+          "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+        }, {
+          "name" : "alleleFraction",
+          "type" : [ "null", "float" ]
+        }, {
+          "name" : "copyNumber",
+          "type" : [ "null", "int" ],
+          "doc" : "Copy number genotype for imprecise events"
+        } ]
+      }
+    }
   }, {
     "name" : "internalScore",
-    "type" : [ "null", "float" ],
-    "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance.\n    TODO: Think about this!!!"
+    "type" : [ "null", "float" ]
   }, {
     "name" : "variantClassification",
     "type" : [ "null", {
@@ -166,5 +150,14 @@
       "items" : "string"
     } ],
     "doc" : "Comments"
+  }, {
+    "name" : "somaticOrGermline",
+    "type" : {
+      "type" : "enum",
+      "name" : "SomaticOrGermline",
+      "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+      "symbols" : [ "unknown", "somatic", "germline" ]
+    },
+    "doc" : "EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding"
   } ]
 }

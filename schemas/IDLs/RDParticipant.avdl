@@ -81,16 +81,20 @@ record ConsentStatus {
 
     /** EIK added: this is to distinguish into which part of the program the participant was consented to */
 
-    ProgramPhase programPhase;
+    union {null, ProgramPhase} programPhase;
 
+<<<<<<< HEAD
     /** This is the consent date
     */
 
     string consentDate;
+=======
+    union {null, string} consentVersion;
+>>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8
 
     /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
 
-    boolean optOut=false;
+    union {null, boolean} optOut=false;
 
 
     boolean programmeConsent=false;

@@ -27,7 +27,11 @@
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
   }, {
+<<<<<<< HEAD
     "name" : "calledGenotype",
+=======
+    "name" : "calledGenotypes",
+>>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8
     "type" : {
       "type" : "array",
       "items" : {
@@ -44,7 +48,7 @@
           "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
         }, {
           "name" : "alleleFraction",
-          "type" : "float",
+          "type" : [ "null", "float" ],
           "doc" : "Allele fraction of the variant"
         }, {
           "name" : "copyNumber",

@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "Tier",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be",
+  "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
+}

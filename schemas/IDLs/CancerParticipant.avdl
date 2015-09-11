@@ -98,7 +98,7 @@ record MatchedSamples{
 }
 
 /** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
-enum programPhase {pilot, main}
+enum ProgramPhase {pilot, main}
 
 record ConsentStatus {
 
@@ -112,7 +112,7 @@ record ConsentStatus {
 
     /** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
 
-    ProgramPhase programPhase
+    ProgramPhase programPhase;
 
     /** This is the consent date
     */
@@ -178,7 +178,7 @@ record CancerDemographics{
     string dataModelVersion;
     */
 
-    CancerRecruitmentCategory cancerRecruitmentCategory
+    union {null, CancerRecruitmentCategory} cancerRecruitmentCategory;
 
     /**
     This should be an enumeration when it is well defined
