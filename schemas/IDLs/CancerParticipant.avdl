@@ -39,10 +39,8 @@ record CancerSample {
     Sample ID (this is the individual id (gel ID))
     */
     string id;
-    /**
 
     union {null, string} centerSampleId;
-    */
 
     /**
     Sample Type
@@ -162,18 +160,14 @@ record CancerDemographics{
     string id;
 
     union {null, array<string>} externalIds;
-    /**
 
     union {null, string} originatingCenter;
-    */
     /** EIK replace gelPhase with ProgramPhase
     union {null, string} gelPhase;
     */
     ProgramPhase programPhase;
 
-    /**
     union {null, string} centerPatientId;
-    */
 
     /**
     Version of the Data Catalogue against which the information is being provided

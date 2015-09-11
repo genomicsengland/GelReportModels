@@ -22,12 +22,6 @@
           "name" : "familyId",
           "type" : "string"
         }, {
-          "name" : "externalIds",
-          "type" : [ "null", {
-            "type" : "array",
-            "items" : "string"
-          } ]
-        }, {
           "name" : "dataModelCatalogueVersion",
           "type" : "string",
           "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
@@ -160,12 +154,14 @@
               },
               "doc" : "EIK added: this is to distinguish into which part of the program the participant was consented to"
             }, {
-              "name" : "consentVersion",
-              "type" : "string"
+              "name" : "consentDate",
+              "type" : "string",
+              "doc" : "This is the consent date"
             }, {
               "name" : "optOut",
               "type" : "boolean",
-              "doc" : "EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory"
+              "doc" : "EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory",
+              "default" : false
             }, {
               "name" : "programmeConsent",
               "type" : "boolean",

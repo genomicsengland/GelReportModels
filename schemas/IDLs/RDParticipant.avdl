@@ -143,7 +143,10 @@ record RDParticipant {
 
     string familyId;  //priority 1
 
+    /** removed
+
     union {null, array<string>} externalIds; //priority 1
+    */
 
     /**
     Version of the Data Catalogue against which the information is being provided

@@ -21,7 +21,7 @@
     } ],
     "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
   }, {
-    "name" : "RelevantRegions",
+    "name" : "relevantRegions",
     "type" : [ "null", {
       "type" : "record",
       "name" : "File",

@@ -1,7 +1,7 @@
 {
-  "demographics": [{"consentStatus": [{"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}], "externalIds": null, "primaryDiagnosis": "breast cancer", "originatingCenter": "GOSH", "additionalInformation": null, "dataModelVersion": null, "sex": "female", "gelPhase": "main", "centerPatientId": null, "id":"CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01"}],
+  "demographics": [{"consentStatus": [{"programPhase":"main", "consentDate": "01/04/2015", "optOut": null, "primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true}], "externalIds": null, "primaryDiagnosis": "Breast cancer", "originatingCenter": null, "additionalInformation": "The participant is currently receiving x treatment", "dataModelVersion": "v1", "sex": "female", "programPhase": "main", "centerPatientId": null, "id":"GEL_0001"}],
   "sex": "female",
-  "cancerSamples": [{"centerSampleId": "0000.1", "sampleType": "tumor", "id": "CancerLP2000285-DNA_G01_NormalLP2000284-DNA_G01", "source": "breast", "cellularity": "1", "phase": "metastasis", "tumorContent": null, "preservationMethod": "FF", "method": "biopsy"}],
-  "matchedSamples": [{"germlineSampleId": null, "tumorSampleId": null}]
+  "cancerSamples": [{"centerSampleId": "0000.1", "sampleType": "somatic", "id": "GEL_0001", "source": "breast", "cellularity": 1, "phase": "primary", "tumorContent": 1, "preservationMethod": "FF", "method": "biopsy"}],
+  "matchedSamples": [{"germlineSampleId": "GELS_00010", "tumorSampleId": "GELS_00011"}]
 }
 /** cancer participant example */

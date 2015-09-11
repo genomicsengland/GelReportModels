@@ -32,8 +32,8 @@
         "doc" : "Exome size"
       }, {
         "name" : "geneCoverage",
-        "type" : [ "null", "double" ],
-        "doc" : "Gene Average Depth"
+        "type" : [ "null", "float" ],
+        "doc" : "This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)"
       } ]
     },
     "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
