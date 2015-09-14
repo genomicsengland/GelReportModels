@@ -33,7 +33,7 @@
       "reportEvents": [
         {
           "fullyExplainsPhenotype": true,
-          "variantJustification": "This is variant has been associated with breast cancer in this specific population.",
+          "variantJustification": "This variant has been associated with breast cancer in this specific population.",
           "penetrance": "complete",
           "score": 1,
           "tier": "TIER1",
@@ -53,7 +53,7 @@
       "additionalTextualVariantAnnotations":  {"comment": "This variant has been observed in 5 breast cancer cases of unrelated individuals in this population."},
       "reference": "TGCTCACTGCACTCCAGCCTTGGTGACAGAGCAAGACCCTGTCTCAAACAAACAAACAAAAATAATATCTGCTTTTTGAATGATAGGTTTTTTTTTTTTTGAGACTGAGTCTCGCTCTGTCGCCCAGGCTGGAGTGCAGTGGCACTATCTCG",
       "alternate": "T",
-      "comments": ["This variant in predicted to..."],
+      "comments": ["This variant is predicted to..."],
       "variantClassification": "PATHOGENIC",
       "internalScore": 2,
       "position": 32920902,
@@ -77,7 +77,7 @@
       "reportEvents": [
         {
           "fullyExplainsPhenotype": true,
-          "variantJustification": "This is variant has been associated with breast cancer in this specific population.",
+          "variantJustification": "This is variant has been associated with breast cancer in a specific population.",
           "penetrance": "complete",
           "score": 1,
           "tier": "TIER1",

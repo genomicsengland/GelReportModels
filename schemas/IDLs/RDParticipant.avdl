@@ -88,9 +88,11 @@ record ConsentStatus {
     */
 
     string consentDate;
+
+    /*
 =======
     union {null, string} consentVersion;
->>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8
+>>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8 */
 
     /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
 

@@ -1,6 +1,6 @@
 {
   "additionalInfo": "This is a standard interpretation request.",
-  "rareDisease": [{"pedigree": [{"participants": null, "familyId": "GELF_0001"}], "virtualPanel": "Familial breast cancer", "modeOfInheritance": [{"modeOfInheritance":"MONOALLELIC, autosomal or psuedoautosomal"}], "inbreedingCoefficientEstimates": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}], "dataModelCatalogueVersion": "v1", "otherFamilyHistory": [{"paternalFamilyHistory": null, "maternalFamilyHistory":[{"grandmother":"died of breast cancer in her mid twenties"}]}], "complexGeneticPhenomena": null, "enrolledAgainstSpecificDiseaseTitle": "Familial breast cancer", "ancestries": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}]}
+  "rareDisease": [{"pedigree": [{"participants": null, "familyId": "GELF_0001"}], "virtualPanel": "Familial breast cancer", "modeOfInheritance": [{"modeOfInheritance":"MONOALLELIC, autosomal or pseudoautosomal"}], "inbreedingCoefficientEstimates": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}], "dataModelCatalogueVersion": "v1", "otherFamilyHistory": [{"paternalFamilyHistory": null, "maternalFamilyHistory":[{"grandmother":"died of breast cancer in her mid twenties"}]}], "complexGeneticPhenomena": null, "enrolledAgainstSpecificDiseaseTitle": "Familial breast cancer", "ancestries": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}]}
 ],
   "interpretGenome": false,
   "BigWigs": [{"URIFile": "PATH/TO/FILE.bw", "SampleId": "GEL_0001"}],
