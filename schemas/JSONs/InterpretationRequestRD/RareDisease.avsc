@@ -32,6 +32,21 @@
               "name" : "id",
               "type" : "string"
             }, {
+              "name" : "sex",
+              "type" : {
+                "type" : "enum",
+                "name" : "Sex",
+                "symbols" : [ "male", "female", "unknown" ]
+              },
+              "doc" : "Possible options: male, female, unknown"
+            }, {
+              "name" : "father",
+              "type" : [ "null", "string" ],
+              "doc" : "Id of the parent, if unknown then no parent is referenced"
+            }, {
+              "name" : "mother",
+              "type" : [ "null", "string" ]
+            }, {
               "name" : "familyId",
               "type" : "string"
             }, {
@@ -41,24 +56,46 @@
                 "items" : "string"
               } ]
             }, {
-              "name" : "dataModelCatalogueVersion",
-              "type" : "string",
-              "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+              "name" : "twinGroup",
+              "type" : [ "null", "int" ],
+              "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
             }, {
-              "name" : "sex",
-              "type" : {
+              "name" : "monozygotic",
+              "type" : [ "null", "boolean" ],
+              "doc" : "True if they are monozygotic"
+            }, {
+              "name" : "adoptedStatus",
+              "type" : [ "null", {
                 "type" : "enum",
-                "name" : "Sex",
-                "symbols" : [ "male", "female", "unknown" ]
-              },
-              "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
+                "name" : "AdoptedStatus",
+                "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
+                "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+              } ]
             }, {
-              "name" : "father",
-              "type" : [ "null", "string" ],
-              "doc" : "Id of the parent, if unknown then no parent is referenced\n    Eik amended"
+              "name" : "lifeStatus",
+              "type" : [ "null", {
+                "type" : "enum",
+                "name" : "LifeStatus",
+                "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+              } ],
+              "doc" : "see enum LifeStatus\n    null (unknown) by default"
             }, {
-              "name" : "mother",
-              "type" : [ "null", "string" ]
+              "name" : "consanguineousParents",
+              "type" : [ "null", "boolean" ],
+              "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
+            }, {
+              "name" : "consanguineousPopulation",
+              "type" : [ "null", "boolean" ],
+              "doc" : "Offspring from a consanguineous population"
+            }, {
+              "name" : "carrierStatus",
+              "type" : [ "null", {
+                "type" : "enum",
+                "name" : "CarrierStatus",
+                "doc" : "Definitions of enumeration used in RDParticipant",
+                "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
+              } ],
+              "doc" : "See enum CarrierStatus\n    null (unknown) by default"
             }, {
               "name" : "disorderList",
               "type" : {
@@ -66,19 +103,19 @@
                 "items" : {
                   "type" : "record",
                   "name" : "Disorder",
-                  "doc" : "This is quite GEL specific\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are asigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
+                  "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
                   "fields" : [ {
                     "name" : "diseaseGroup",
                     "type" : [ "null", "string" ],
-                    "doc" : "This is Level2 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+                    "doc" : "This is Level2 Title for this disorder"
                   }, {
                     "name" : "diseaseSubGroup",
                     "type" : [ "null", "string" ],
-                    "doc" : "This is Level3 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+                    "doc" : "This is Level3 Title for this disorder"
                   }, {
                     "name" : "specificDisease",
                     "type" : [ "null", "string" ],
-                    "doc" : "This is Level4 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+                    "doc" : "This is Level4 Title for this disorder"
                   }, {
                     "name" : "ageOfOnset",
                     "type" : [ "null", "int" ],
@@ -86,7 +123,7 @@
                   } ]
                 }
               },
-              "doc" : "currently this is meant to be and omim code"
+              "doc" : "Clinical Data (disorders)"
             }, {
               "name" : "hpoTermList",
               "type" : {
@@ -116,48 +153,13 @@
                     "doc" : "Age of onset in months"
                   } ]
                 }
-              }
+              },
+              "doc" : "Clinical Data (HPO terms)"
             }, {
-              "name" : "carrierStatus",
-              "type" : [ "null", {
-                "type" : "enum",
-                "name" : "CarrierStatus",
-                "doc" : "Definitions of enumeration used in RDParticipant",
-                "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
-              } ],
-              "doc" : "See enum CarrierStatus\n    null (unknown) by default"
-            }, {
-              "name" : "lifeStatus",
-              "type" : [ "null", {
-                "type" : "enum",
-                "name" : "LifeStatus",
-                "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
-              } ],
-              "doc" : "see enum LifeStatus\n    Null (unknown) by default"
-            }, {
-              "name" : "twinGroup",
-              "type" : [ "null", "int" ],
-              "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
-            }, {
-              "name" : "monozygotic",
-              "type" : [ "null", "boolean" ],
-              "doc" : "True if they are monozygotic"
-            }, {
-              "name" : "adoptedStatus",
-              "type" : [ "null", {
-                "type" : "enum",
-                "name" : "AdoptedStatus",
-                "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
-                "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
-              } ]
-            }, {
-              "name" : "consanguineousParents",
-              "type" : [ "null", "boolean" ],
-              "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
-            }, {
-              "name" : "consanguineousPopulation",
-              "type" : [ "null", "string" ],
-              "doc" : "EIK: added consanguineousPopulation  - it is important to differenciate between offspring of a consanguineous union and offspring from a consanguineous population"
+              "name" : "dataModelCatalogueVersion",
+              "type" : "string",
+              "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
+              "default" : "v4.2"
             }, {
               "name" : "consentStatus",
               "type" : {
@@ -165,21 +167,21 @@
                 "name" : "ConsentStatus",
                 "fields" : [ {
                   "name" : "programPhase",
-                  "type" : [ "null", {
+                  "type" : {
                     "type" : "enum",
                     "name" : "ProgramPhase",
-                    "doc" : "EIK Added: this is to distinguish into which part of the program the participant was consented to",
+                    "doc" : "This is to distinguish into which part of the program the participant was consented to",
                     "symbols" : [ "pilot", "main" ]
-                  } ],
-                  "doc" : "EIK added: this is to distinguish into which part of the program the participant was consented to"
+                  },
+                  "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
+                }, {
+                  "name" : "optOut",
+                  "type" : "boolean",
+                  "doc" : "EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory",
+                  "default" : false
                 }, {
                   "name" : "consentVersion",
                   "type" : [ "null", "string" ]
-                }, {
-                  "name" : "optOut",
-                  "type" : [ "null", "boolean" ],
-                  "doc" : "EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory",
-                  "default" : false
                 }, {
                   "name" : "programmeConsent",
                   "type" : "boolean",
@@ -202,6 +204,13 @@
                 } ]
               },
               "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
+            }, {
+              "name" : "samples",
+              "type" : [ "null", {
+                "type" : "array",
+                "items" : "string"
+              } ],
+              "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
             }, {
               "name" : "additionalInformation",
               "type" : [ "null", {

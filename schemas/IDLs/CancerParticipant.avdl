@@ -11,11 +11,8 @@ Definitions of enumeration used in CancerParticipant
 
 enum Sex {male, female, unknown}
 enum SampleType {germline, tumor}
-/**
-MP: adding unknown - or we can just allow null?
-AR: Null should be no Treatment, if there is always a treatment we should not allow nulls
-*/
-enum PreservationMethod {FFPE, FF, unknown, LEUK, GL}
+
+enum PreservationMethod {FFPE, FF, Unknown, LEUK, GL}
 /**
 TODO: check in remission....
 */

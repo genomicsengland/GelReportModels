@@ -2,19 +2,19 @@
   "type" : "record",
   "name" : "Disorder",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is quite GEL specific\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are asigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
+  "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
   "fields" : [ {
     "name" : "diseaseGroup",
     "type" : [ "null", "string" ],
-    "doc" : "This is Level2 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+    "doc" : "This is Level2 Title for this disorder"
   }, {
     "name" : "diseaseSubGroup",
     "type" : [ "null", "string" ],
-    "doc" : "This is Level3 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+    "doc" : "This is Level3 Title for this disorder"
   }, {
     "name" : "specificDisease",
     "type" : [ "null", "string" ],
-    "doc" : "This is Level4 Title for this disorder\n    TODO:use ID that refers to model catalogue instead"
+    "doc" : "This is Level4 Title for this disorder"
   }, {
     "name" : "ageOfOnset",
     "type" : [ "null", "int" ],
