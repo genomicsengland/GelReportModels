@@ -111,6 +111,12 @@ record ConsentStatus {
 
     ProgramPhase programPhase;
 
+    /** This is the consent date
+    */
+
+    string consentDate;
+
+
     /** EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase */
 
     boolean optOut=false;
@@ -157,6 +163,7 @@ record CancerDemographics{
     union {null, string} gelPhase;
     */
     ProgramPhase programPhase;
+
     union {null, string} centerPatientId;
 
     /**

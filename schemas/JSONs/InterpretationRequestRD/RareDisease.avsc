@@ -177,14 +177,18 @@
                 }, {
                   "name" : "optOut",
                   "type" : "boolean",
-                  "doc" : "EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory",
                   "default" : false
+                }, {
+                  "name" : "consentDate",
+                  "type" : "string",
+                  "doc" : "This is the consent date"
                 }, {
                   "name" : "consentVersion",
                   "type" : [ "null", "string" ]
                 }, {
                   "name" : "programmeConsent",
                   "type" : "boolean",
+                  "doc" : "OptOut of transfer to main phase, where secondary findings are mandatory",
                   "default" : false
                 }, {
                   "name" : "primaryFindingConsent",

@@ -1,0 +1,14 @@
+/** InterpretedGenome Cancer Example (InterpretationAnalysis >CancerInterpretationAnalysis)
+This version currently included penetrance - which may not be aprpopriate for cancer report, however these can be left black
+*/
+
+{
+  "companyName": "Illumina"
+  "comments": [{"comment": "The variant in PNPT1 is the best candidate for the resolution to this case."}],
+  "reportedVariants": [{"additionalTextualVariantAnnotations": [{"comment": "This variant has been observed as enriched in northen european populations."}], "reference": "T", "reportEvents": [{"fullyExplainsPhenotype": true, "groupOfVariants": 1, "variantJustification": "this variant has been previously reported in a sever case of breast cancer", "penetrance": "complete", "score": 1, "tier": "TIER1", "modeOfInheritance": ["BIALLELIC, autosomal recessive"], "gene": "PNPT1"}], "alternate": "C", "comments": [{"comment": "Considering the disease presentation this variant is the most likely canditate as a resolution to this case."}], "variantClassification": "PATHOGENIC", "internalScore": 1, "position": 55910966, "familyGenotypes": null, "additionalNumericVariantAnnotations": [{"SIFT":0.5, "Polyphen2":0.5,}] "chromosome": 2, "dbSNPid": "rs1234567"}
+],
+  "reportRequestId": "GEL_0001",
+  "reportedStructuralVariant": [{"additionalTextualVariantAnnotations": [{"comment": "This variant is enrich in eastern europeans."}], "end": null, "reference": "TGCTCACTGCACTCCAGCCTTGGTGACAGAGCAAGACCCTGTCTCAAACAAACAAACAAAAATAATATCTGCTTTTTGAATGATAGGTTTTTTTTTTTTTGAGACTGAGTCTCGCTCTGTCGCCCAGGCTGGAGTGCAGTGGCACTATCTCG", "reportEvents": [{"fullyExplainsPhenotype": true, "groupOfVariants": 1, "variantJustification": "this variant has been previously reported in a sever case of breast cancer", "penetrance": "complete", "score": 1, "tier": "TIER1", "modeOfInheritance": ["BIALLELIC, autosomal recessive"], "gene": "PNPT1"}], "alternate": "T", "comments": "This variant is predicted to have a significant impact", "start": 32920902, "variantClassification": "PATHPGENIC", "internalScore": 2, "type": "DEL", "familyGenotypes": null, "additionalNumericVariantAnnotations": "SIFT":0.5, "POLYPHEN2":0.5, "chromosome": 1}],
+  "reportURI": "PATH/TO/FILE",
+  "analysisId": "GELA_00010"
+}

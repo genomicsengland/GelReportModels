@@ -1,0 +1,18 @@
+{
+  "additionalInfo": "This is a standard interpretation request.",
+  "rareDisease": [{"pedigree": [{"participants": null, "familyId": "GELF_0001"}], "virtualPanel": "Familial breast cancer", "modeOfInheritance": [{"modeOfInheritance":"MONOALLELIC, autosomal or psuedoautosomal"}], "inbreedingCoefficientEstimates": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}], "dataModelCatalogueVersion": "v1", "otherFamilyHistory": [{"paternalFamilyHistory": null, "maternalFamilyHistory":[{"grandmother":"died of breast cancer in her mid twenties"}]}], "complexGeneticPhenomena": null, "enrolledAgainstSpecificDiseaseTitle": "Familial breast cancer", "ancestries": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}]}
+],
+  "interpretGenome": false,
+  "BigWigs": [{"URIFile": "PATH/TO/FILE.bw", "SampleId": "GEL_0001"}],
+  "annotationFile": [{"URIFile": "PATH/TO/FILE", "SampleId": "GEL_0001"}],
+  "reportRequestId": "GELReq_00001",
+  "analysisVersion": "GELInt_00001",
+  "analysisURI": "PATH/TO/FILE",
+  "VCFs": [{"URIFile": "PATH/TO/FILE.vcf", "SampleId": "GEL_0001"}],
+  "reportVersion": "GELRep_00001",
+  "gVCFs": [{"URIFile": "PATH/TO/FILE.gvcf", "SampleId": "GEL_0001"}],
+  "BAMs": [{"URIFile": "PATH/TO/FILE.bam", "SampleId": "GEL_0001"}]
+}
+
+
+/** Interpretation request for rare diseases */

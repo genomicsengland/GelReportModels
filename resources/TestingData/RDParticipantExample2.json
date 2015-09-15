@@ -1,0 +1,23 @@
+{
+  "participants": [
+  {
+  "consentStatus": {"programPhase":"main", "consentDate": "01/04/2015", "optOut": null, "primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true},
+  "externalIds": null,
+  "mother": "GEL_0002",
+  "additionalInformation": "The participant was critically ill at the time of recruitment.",
+  "dataModelCatalogueVersion": "V1",
+  "father": "GEL_0003",
+  "hpoTermList": [{"termPresence": true, "term":"HP:0003002", "modifier":"HP:0006625", "ageOfOnset": null}],
+  "consanguineousParents": false,
+  "consanguineousPopulation": "Ashkenazi Jew"
+  "disorderList": [{"diseaseGroup": "TumourSyndrome", "diseaseDubGroup":"Breast and endocrine", "specificDisease":"Familial breast cancer"}],
+  "adoptedStatus": "not_adopted",
+  "lifeStatus": null,
+  "sex": "female",
+  "FamilyId": "GELF_0001",
+  "monozygotic": false,
+  "id": "GEL_0001",
+  "carrierStatus": "uncertain"
+}],
+"familyId": "00001"
+}

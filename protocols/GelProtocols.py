@@ -138,16 +138,17 @@ class CancerDemographics(ProtocolElement):
 "", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
 "", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
 "type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"},
-{"default": false, "doc": "", "type": "boolean", "name": "optOut"},
-{"default": false, "type": "boolean", "name": "programmeConsent"},
+[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
+"", "type": "string", "name": "consentDate"}, {"default": false,
+"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}], "doc": ""}
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -465,17 +466,18 @@ class CancerParticipant(ProtocolElement):
 "", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
 "", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
 "type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"},
-{"default": false, "doc": "", "type": "boolean", "name": "optOut"},
-{"default": false, "type": "boolean", "name": "programmeConsent"},
+[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
+"", "type": "string", "name": "consentDate"}, {"default": false,
+"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}]}, "name": "cancerDemographics"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "name": "cancerDemographics"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
 "id"}, {"type": ["null", "string"], "name": "centerSampleId"}, {"doc":
 "", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
@@ -664,16 +666,18 @@ class ConsentStatus(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ConsentStatus", "fields": [{"doc": "", "type": {"symbols": ["pilot",
 "main"], "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "doc": "", "type": "boolean",
-"name": "optOut"}, {"type": ["null", "string"], "name":
-"consentVersion"}, {"default": false, "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "consentDate",
         "consentVersion",
         "programPhase",
     }
@@ -690,14 +694,16 @@ false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'carrierStatusConsent', 'consentVersion', 'optOut',
-        'primaryFindingConsent', 'programPhase', 'programmeConsent',
-        'secondaryFindingConsent'
+        'carrierStatusConsent', 'consentDate', 'consentVersion',
+        'optOut', 'primaryFindingConsent', 'programPhase',
+        'programmeConsent', 'secondaryFindingConsent'
     ]
 
     def __init__(self, **kwargs):
         self.carrierStatusConsent = kwargs.get(
             'carrierStatusConsent', False)
+        self.consentDate = kwargs.get(
+            'consentDate', None)
         self.consentVersion = kwargs.get(
             'consentVersion', None)
         self.optOut = kwargs.get(
@@ -1067,13 +1073,14 @@ class InterpretationRequest(ProtocolElement):
 "type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "doc": "", "type": "boolean",
-"name": "optOut"}, {"type": ["null", "string"], "name":
-"consentVersion"}, {"default": false, "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
 "name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
@@ -1319,13 +1326,14 @@ class Pedigree(ProtocolElement):
 "type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "doc": "", "type": "boolean",
-"name": "optOut"}, {"type": ["null", "string"], "name":
-"consentVersion"}, {"default": false, "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
 "name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
@@ -1440,13 +1448,14 @@ class RDParticipant(ProtocolElement):
 "type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "doc": "", "type": "boolean",
-"name": "optOut"}, {"type": ["null", "string"], "name":
-"consentVersion"}, {"default": false, "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
 "name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
@@ -1587,13 +1596,14 @@ class RareDisease(ProtocolElement):
 "type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "doc": "", "type": "boolean",
-"name": "optOut"}, {"type": ["null", "string"], "name":
-"consentVersion"}, {"default": false, "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
 "name": "samples"}, {"doc": "", "type": ["null", {"values": "string",

@@ -1,0 +1,103 @@
+{
+  "companyName": "Illumina",
+  "comments": ["Two candidate variants were found in the genes..."],
+  "reportRequestId": "GELR_987654",
+  "reportURI": "PATH/TO/FILE",
+  "analysisId": "GELAI_987654",
+  "reportedVariants": [
+    {
+      "additionalTextualVariantAnnotations": {"comment": "This variant has been shown to be causative for the same population as the proband is indicated in."},
+      "reference": "A",
+      "alternate": "G",
+      "comments": ["This variant may not be pathogenic in other populations."],
+      "variantClassification": "PATHOGENIC",
+      "internalScore": 1,
+      "position": 97795920,
+      "familyGenotypes": [
+        {
+          "genotype": "1|1",
+          "participantId": "GEL_0001"
+        },
+        {
+          "genotype": "0|1",
+          "participantId": "GEL_0002"
+        },
+        {
+          "genotype": "1|0",
+          "participantId": "GEL_0003"
+        }
+      ],
+      "additionalNumericVariantAnnotations": {"PolyPhen2":0.5, "Sift":0.5},
+      "chromosome": "7",
+      "dbSNPid": "rs1234567",
+      "reportEvents": [
+        {
+          "fullyExplainsPhenotype": true,
+          "variantJustification": "This is variant has been associated with breast cancer in this specific population.",
+          "penetrance": "complete",
+          "score": 1,
+          "tier": "TIER1",
+          "modeOfInheritance": "MONOALLELIC, autosomal or pseudoautosomal",
+          "gene":{
+            "transcriptId": "ENST00000357654",
+            "symbol": "BRCA1",
+            "exomeSize": 1000,
+            "ids" : {"RefSeq": "NM_007294"},
+            "GeneCoverage": 99.47
+          }
+        },
+        }
+      ]
+    },
+    {
+      "additionalTextualVariantAnnotations":  {"comment": "This variant has been observed in 5 breast cancer cases of unrelated individuals in this population."},
+      "reference": "TGCTCACTGCACTCCAGCCTTGGTGACAGAGCAAGACCCTGTCTCAAACAAACAAACAAAAATAATATCTGCTTTTTGAATGATAGGTTTTTTTTTTTTTGAGACTGAGTCTCGCTCTGTCGCCCAGGCTGGAGTGCAGTGGCACTATCTCG",
+      "alternate": "T",
+      "comments": ["This variant in predicted to..."],
+      "variantClassification": "PATHOGENIC",
+      "internalScore": 2,
+      "position": 32920902,
+      "familyGenotypes": [
+        {
+          "genotype": "1|1",
+          "participantId": "GEL_0001"
+        },
+        {
+          "genotype": "0|1",
+          "participantId": "GEL_0002"
+        },
+        {
+          "genotype": "1|0",
+          "participantId": "GEL_0003"
+        }
+      ],
+      "additionalNumericVariantAnnotations":  {"SIFT":0.5, "Polyphen2":"0.5"},
+      "chromosome": "8",
+      "dbSNPid": "rs1234567",
+      "reportEvents": [
+        {
+          "fullyExplainsPhenotype": true,
+          "variantJustification": "This is variant has been associated with breast cancer in this specific population.",
+          "penetrance": "complete",
+          "score": 1,
+          "tier": "TIER1",
+          "modeOfInheritance": "MONOALLELIC, autosomal or pseudoautosomal",
+          "gene":{
+            "transcriptId": "ENST00000357654",
+            "symbol": "BRCA1",
+            "exomeSize": 1000,
+            "ids" : {"RefSeq": "NM_007294"},
+            "GeneCoverage": 99.47
+          }
+        }
+      ]
+    },
+
+    }
+  ]
+
+}
+
+
+
+

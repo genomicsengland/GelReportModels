@@ -75,13 +75,19 @@ record ConsentStatus {
     False by default! needs to be explicitly changed
     */
 
-    ProgramPhase programPhase;
 
-    /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
+    ProgramPhase programPhase;
 
     boolean optOut=false;
 
+    /** This is the consent date
+    */
+    string consentDate;
+
     union {null, string} consentVersion;
+
+
+    /** OptOut of transfer to main phase, where secondary findings are mandatory */
 
 
     boolean programmeConsent=false;
