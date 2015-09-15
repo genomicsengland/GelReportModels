@@ -59,7 +59,7 @@ record Gene {
     /**
     This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
-    union {null, float} geneCoverage;
+    union {null, double} geneCoverage;
 
 }
 

@@ -70,10 +70,16 @@ record Gene {
 
 }
 
+
 /**
 This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
 */
 enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
+
+/**
+Penetrance assumed in the analysis
+*/
+enum Penetrance {complete, incomplete}
 
 /**
 Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be
@@ -95,6 +101,11 @@ record ReportEvents {
     TODO: Add transcript
     */
     Gene gene;
+
+    /**
+    This is the penetrance assumed for scoring or classifying this variant
+    */
+    Penetrance penetrance;
 
     /**
     This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
