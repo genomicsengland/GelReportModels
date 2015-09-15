@@ -55,17 +55,17 @@ null, "doc": "", "type": ["null", "string"], "name": "phaseset"},
 
     def __init__(self, **kwargs):
         self.callSetId = kwargs.get(
-            'callSetId', None)
+            'callSetId', 'None')
         self.callSetName = kwargs.get(
-            'callSetName', None)
+            'callSetName', 'None')
         self.genotype = kwargs.get(
-            'genotype', [])
+            'genotype', '[]')
         self.genotypeLikelihood = kwargs.get(
-            'genotypeLikelihood', [])
+            'genotypeLikelihood', '[]')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.phaseset = kwargs.get(
-            'phaseset', None)
+            'phaseset', 'None')
 
 
 class CallSet(ProtocolElement):
@@ -110,19 +110,19 @@ null, "doc": "", "type": ["null", "string"], "name": "name"}, {"doc":
 
     def __init__(self, **kwargs):
         self.created = kwargs.get(
-            'created', None)
+            'created', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.sampleId = kwargs.get(
-            'sampleId', None)
+            'sampleId', 'None')
         self.updated = kwargs.get(
-            'updated', None)
+            'updated', 'None')
         self.variantSetIds = kwargs.get(
-            'variantSetIds', [])
+            'variantSetIds', '[]')
 
 
 class CigarOperation(object):
@@ -215,11 +215,11 @@ null, "doc": "", "type": ["null", "string"], "name":
 
     def __init__(self, **kwargs):
         self.operation = kwargs.get(
-            'operation', None)
+            'operation', 'None')
         self.operationLength = kwargs.get(
-            'operationLength', None)
+            'operationLength', 'None')
         self.referenceSequence = kwargs.get(
-            'referenceSequence', None)
+            'referenceSequence', 'None')
 
 
 class Dataset(ProtocolElement):
@@ -263,9 +263,9 @@ null, "doc": "", "type": ["null", "string"], "name": "description"}],
 
     def __init__(self, **kwargs):
         self.description = kwargs.get(
-            'description', None)
+            'description', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
 
 
 class Experiment(ProtocolElement):
@@ -324,37 +324,37 @@ class Experiment(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.description = kwargs.get(
-            'description', None)
+            'description', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.instrumentDataFile = kwargs.get(
-            'instrumentDataFile', None)
+            'instrumentDataFile', 'None')
         self.instrumentModel = kwargs.get(
-            'instrumentModel', None)
+            'instrumentModel', 'None')
         self.library = kwargs.get(
-            'library', None)
+            'library', 'None')
         self.libraryLayout = kwargs.get(
-            'libraryLayout', None)
+            'libraryLayout', 'None')
         self.molecule = kwargs.get(
-            'molecule', None)
+            'molecule', 'None')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.platformUnit = kwargs.get(
-            'platformUnit', None)
+            'platformUnit', 'None')
         self.recordCreateTime = kwargs.get(
-            'recordCreateTime', None)
+            'recordCreateTime', 'None')
         self.recordUpdateTime = kwargs.get(
-            'recordUpdateTime', None)
+            'recordUpdateTime', 'None')
         self.runTime = kwargs.get(
-            'runTime', None)
+            'runTime', 'None')
         self.selection = kwargs.get(
-            'selection', None)
+            'selection', 'None')
         self.sequencingCenter = kwargs.get(
-            'sequencingCenter', None)
+            'sequencingCenter', 'None')
         self.strategy = kwargs.get(
-            'strategy', None)
+            'strategy', 'None')
 
 
 class ExternalIdentifier(ProtocolElement):
@@ -391,11 +391,11 @@ class ExternalIdentifier(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.database = kwargs.get(
-            'database', None)
+            'database', 'None')
         self.identifier = kwargs.get(
-            'identifier', None)
+            'identifier', 'None')
         self.version = kwargs.get(
-            'version', None)
+            'version', 'None')
 
 
 class Fragment(ProtocolElement):
@@ -431,7 +431,7 @@ class Fragment(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
 
 
 class GAException(ProtocolElement):
@@ -466,9 +466,9 @@ class GAException(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.errorCode = kwargs.get(
-            'errorCode', -1)
+            'errorCode', '-1')
         self.message = kwargs.get(
-            'message', None)
+            'message', 'None')
 
 
 class LinearAlignment(ProtocolElement):
@@ -521,11 +521,11 @@ class LinearAlignment(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.cigar = kwargs.get(
-            'cigar', [])
+            'cigar', '[]')
         self.mappingQuality = kwargs.get(
-            'mappingQuality', None)
+            'mappingQuality', 'None')
         self.position = kwargs.get(
-            'position', None)
+            'position', 'None')
 
 
 class ListReferenceBasesRequest(ProtocolElement):
@@ -561,11 +561,11 @@ class ListReferenceBasesRequest(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
         self.start = kwargs.get(
-            'start', 0)
+            'start', '0')
 
 
 class ListReferenceBasesResponse(ProtocolElement):
@@ -601,11 +601,11 @@ class ListReferenceBasesResponse(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.offset = kwargs.get(
-            'offset', 0)
+            'offset', '0')
         self.sequence = kwargs.get(
-            'sequence', None)
+            'sequence', 'None')
 
 
 class Position(ProtocolElement):
@@ -645,11 +645,11 @@ class Position(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.position = kwargs.get(
-            'position', None)
+            'position', 'None')
         self.referenceName = kwargs.get(
-            'referenceName', None)
+            'referenceName', 'None')
         self.strand = kwargs.get(
-            'strand', None)
+            'strand', 'None')
 
 
 class Program(ProtocolElement):
@@ -685,15 +685,15 @@ null, "doc": "", "type": ["null", "string"], "name": "version"}]}
 
     def __init__(self, **kwargs):
         self.commandLine = kwargs.get(
-            'commandLine', None)
+            'commandLine', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.prevProgramId = kwargs.get(
-            'prevProgramId', None)
+            'prevProgramId', 'None')
         self.version = kwargs.get(
-            'version', None)
+            'version', 'None')
 
 
 class ReadAlignment(ProtocolElement):
@@ -778,39 +778,39 @@ class ReadAlignment(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.alignedQuality = kwargs.get(
-            'alignedQuality', [])
+            'alignedQuality', '[]')
         self.alignedSequence = kwargs.get(
-            'alignedSequence', None)
+            'alignedSequence', 'None')
         self.alignment = kwargs.get(
-            'alignment', None)
+            'alignment', 'None')
         self.duplicateFragment = kwargs.get(
-            'duplicateFragment', None)
+            'duplicateFragment', 'None')
         self.failedVendorQualityChecks = kwargs.get(
-            'failedVendorQualityChecks', None)
+            'failedVendorQualityChecks', 'None')
         self.fragmentId = kwargs.get(
-            'fragmentId', None)
+            'fragmentId', 'None')
         self.fragmentLength = kwargs.get(
-            'fragmentLength', None)
+            'fragmentLength', 'None')
         self.fragmentName = kwargs.get(
-            'fragmentName', None)
+            'fragmentName', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.nextMatePosition = kwargs.get(
-            'nextMatePosition', None)
+            'nextMatePosition', 'None')
         self.numberReads = kwargs.get(
-            'numberReads', None)
+            'numberReads', 'None')
         self.properPlacement = kwargs.get(
-            'properPlacement', None)
+            'properPlacement', 'None')
         self.readGroupId = kwargs.get(
-            'readGroupId', None)
+            'readGroupId', 'None')
         self.readNumber = kwargs.get(
-            'readNumber', None)
+            'readNumber', 'None')
         self.secondaryAlignment = kwargs.get(
-            'secondaryAlignment', None)
+            'secondaryAlignment', 'None')
         self.supplementaryAlignment = kwargs.get(
-            'supplementaryAlignment', None)
+            'supplementaryAlignment', 'None')
 
 
 class ReadGroup(ProtocolElement):
@@ -900,31 +900,31 @@ null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"},
 
     def __init__(self, **kwargs):
         self.created = kwargs.get(
-            'created', None)
+            'created', 'None')
         self.datasetId = kwargs.get(
-            'datasetId', None)
+            'datasetId', 'None')
         self.description = kwargs.get(
-            'description', None)
+            'description', 'None')
         self.experiment = kwargs.get(
-            'experiment', None)
+            'experiment', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.predictedInsertSize = kwargs.get(
-            'predictedInsertSize', None)
+            'predictedInsertSize', 'None')
         self.programs = kwargs.get(
-            'programs', [])
+            'programs', '[]')
         self.referenceSetId = kwargs.get(
-            'referenceSetId', None)
+            'referenceSetId', 'None')
         self.sampleId = kwargs.get(
-            'sampleId', None)
+            'sampleId', 'None')
         self.stats = kwargs.get(
-            'stats', None)
+            'stats', 'None')
         self.updated = kwargs.get(
-            'updated', None)
+            'updated', 'None')
 
 
 class ReadGroupSet(ProtocolElement):
@@ -1014,15 +1014,15 @@ null, "doc": "", "type": ["null", "long"], "name": "created"},
 
     def __init__(self, **kwargs):
         self.datasetId = kwargs.get(
-            'datasetId', None)
+            'datasetId', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.readGroups = kwargs.get(
-            'readGroups', [])
+            'readGroups', '[]')
         self.stats = kwargs.get(
-            'stats', None)
+            'stats', 'None')
 
 
 class ReadStats(ProtocolElement):
@@ -1056,11 +1056,11 @@ null, "doc": "", "type": ["null", "long"], "name": "baseCount"}]}
 
     def __init__(self, **kwargs):
         self.alignedReadCount = kwargs.get(
-            'alignedReadCount', None)
+            'alignedReadCount', 'None')
         self.baseCount = kwargs.get(
-            'baseCount', None)
+            'baseCount', 'None')
         self.unalignedReadCount = kwargs.get(
-            'unalignedReadCount', None)
+            'unalignedReadCount', 'None')
 
 
 class Reference(ProtocolElement):
@@ -1111,23 +1111,23 @@ null, "doc": "", "type": ["null", "float"], "name":
 
     def __init__(self, **kwargs):
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.isDerived = kwargs.get(
-            'isDerived', False)
+            'isDerived', 'False')
         self.length = kwargs.get(
-            'length', None)
+            'length', 'None')
         self.md5checksum = kwargs.get(
-            'md5checksum', None)
+            'md5checksum', 'None')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.ncbiTaxonId = kwargs.get(
-            'ncbiTaxonId', None)
+            'ncbiTaxonId', 'None')
         self.sourceAccessions = kwargs.get(
-            'sourceAccessions', None)
+            'sourceAccessions', 'None')
         self.sourceDivergence = kwargs.get(
-            'sourceDivergence', None)
+            'sourceDivergence', 'None')
         self.sourceURI = kwargs.get(
-            'sourceURI', None)
+            'sourceURI', 'None')
 
 
 class ReferenceSet(ProtocolElement):
@@ -1175,21 +1175,21 @@ class ReferenceSet(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.assemblyId = kwargs.get(
-            'assemblyId', None)
+            'assemblyId', 'None')
         self.description = kwargs.get(
-            'description', None)
+            'description', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.isDerived = kwargs.get(
-            'isDerived', False)
+            'isDerived', 'False')
         self.md5checksum = kwargs.get(
-            'md5checksum', None)
+            'md5checksum', 'None')
         self.ncbiTaxonId = kwargs.get(
-            'ncbiTaxonId', None)
+            'ncbiTaxonId', 'None')
         self.sourceAccessions = kwargs.get(
-            'sourceAccessions', None)
+            'sourceAccessions', 'None')
         self.sourceURI = kwargs.get(
-            'sourceURI', None)
+            'sourceURI', 'None')
 
 
 class SearchCallSetsRequest(SearchRequest):
@@ -1226,13 +1226,13 @@ class SearchCallSetsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
         self.variantSetId = kwargs.get(
-            'variantSetId', None)
+            'variantSetId', 'None')
 
 
 class SearchCallSetsResponse(SearchResponse):
@@ -1281,9 +1281,9 @@ class SearchCallSetsResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.callSets = kwargs.get(
-            'callSets', [])
+            'callSets', '[]')
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
 
 
 class SearchDatasetsRequest(SearchRequest):
@@ -1316,9 +1316,9 @@ class SearchDatasetsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
 
 
 class SearchDatasetsResponse(SearchResponse):
@@ -1361,9 +1361,9 @@ class SearchDatasetsResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.datasets = kwargs.get(
-            'datasets', [])
+            'datasets', '[]')
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
 
 
 class SearchReadGroupSetsRequest(SearchRequest):
@@ -1401,13 +1401,13 @@ class SearchReadGroupSetsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.datasetId = kwargs.get(
-            'datasetId', None)
+            'datasetId', 'None')
         self.name = kwargs.get(
-            'name', None)
+            'name', 'None')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
 
 
 class SearchReadGroupSetsResponse(SearchResponse):
@@ -1499,9 +1499,9 @@ null, "doc": "", "type": ["null", "string"], "name": "name"},
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.readGroupSets = kwargs.get(
-            'readGroupSets', [])
+            'readGroupSets', '[]')
 
 
 class SearchReadsRequest(SearchRequest):
@@ -1546,17 +1546,17 @@ class SearchReadsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
         self.readGroupIds = kwargs.get(
-            'readGroupIds', None)
+            'readGroupIds', 'None')
         self.referenceId = kwargs.get(
-            'referenceId', None)
+            'referenceId', 'None')
         self.start = kwargs.get(
-            'start', None)
+            'start', 'None')
 
 
 class SearchReadsResponse(SearchResponse):
@@ -1632,9 +1632,9 @@ class SearchReadsResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.alignments = kwargs.get(
-            'alignments', [])
+            'alignments', '[]')
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
 
 
 class SearchReferenceSetsRequest(SearchRequest):
@@ -1674,15 +1674,15 @@ class SearchReferenceSetsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.accessions = kwargs.get(
-            'accessions', [])
+            'accessions', '[]')
         self.assemblyId = kwargs.get(
-            'assemblyId', None)
+            'assemblyId', 'None')
         self.md5checksums = kwargs.get(
-            'md5checksums', [])
+            'md5checksums', '[]')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
 
 
 class SearchReferenceSetsResponse(SearchResponse):
@@ -1732,9 +1732,9 @@ class SearchReferenceSetsResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.referenceSets = kwargs.get(
-            'referenceSets', [])
+            'referenceSets', '[]')
 
 
 class SearchReferencesRequest(SearchRequest):
@@ -1774,15 +1774,15 @@ null, "doc": "", "type": ["null", "string"], "name": "pageToken"}],
 
     def __init__(self, **kwargs):
         self.accessions = kwargs.get(
-            'accessions', [])
+            'accessions', '[]')
         self.md5checksums = kwargs.get(
-            'md5checksums', [])
+            'md5checksums', '[]')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
         self.referenceSetId = kwargs.get(
-            'referenceSetId', None)
+            'referenceSetId', 'None')
 
 
 class SearchReferencesResponse(SearchResponse):
@@ -1832,9 +1832,9 @@ class SearchReferencesResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.references = kwargs.get(
-            'references', [])
+            'references', '[]')
 
 
 class SearchVariantSetsRequest(SearchRequest):
@@ -1871,11 +1871,11 @@ class SearchVariantSetsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.datasetId = kwargs.get(
-            'datasetId', None)
+            'datasetId', 'None')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
 
 
 class SearchVariantSetsResponse(SearchResponse):
@@ -1927,9 +1927,9 @@ null, "doc": "", "type": ["null", "string"], "name":
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.variantSets = kwargs.get(
-            'variantSets', [])
+            'variantSets', '[]')
 
 
 class SearchVariantsRequest(SearchRequest):
@@ -1973,19 +1973,19 @@ class SearchVariantsRequest(SearchRequest):
 
     def __init__(self, **kwargs):
         self.callSetIds = kwargs.get(
-            'callSetIds', None)
+            'callSetIds', 'None')
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.pageSize = kwargs.get(
-            'pageSize', None)
+            'pageSize', 'None')
         self.pageToken = kwargs.get(
-            'pageToken', None)
+            'pageToken', 'None')
         self.referenceName = kwargs.get(
-            'referenceName', None)
+            'referenceName', 'None')
         self.start = kwargs.get(
-            'start', None)
+            'start', 'None')
         self.variantSetId = kwargs.get(
-            'variantSetId', None)
+            'variantSetId', 'None')
 
 
 class SearchVariantsResponse(SearchResponse):
@@ -2048,9 +2048,9 @@ class SearchVariantsResponse(SearchResponse):
 
     def __init__(self, **kwargs):
         self.nextPageToken = kwargs.get(
-            'nextPageToken', None)
+            'nextPageToken', 'None')
         self.variants = kwargs.get(
-            'variants', [])
+            'variants', '[]')
 
 
 class Strand(object):
@@ -2129,29 +2129,29 @@ class Variant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.alternateBases = kwargs.get(
-            'alternateBases', [])
+            'alternateBases', '[]')
         self.calls = kwargs.get(
-            'calls', [])
+            'calls', '[]')
         self.created = kwargs.get(
-            'created', None)
+            'created', 'None')
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.names = kwargs.get(
-            'names', [])
+            'names', '[]')
         self.referenceBases = kwargs.get(
-            'referenceBases', None)
+            'referenceBases', 'None')
         self.referenceName = kwargs.get(
-            'referenceName', None)
+            'referenceName', 'None')
         self.start = kwargs.get(
-            'start', None)
+            'start', 'None')
         self.updated = kwargs.get(
-            'updated', None)
+            'updated', 'None')
         self.variantSetId = kwargs.get(
-            'variantSetId', None)
+            'variantSetId', 'None')
 
 
 class VariantSet(ProtocolElement):
@@ -2203,13 +2203,13 @@ class VariantSet(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.datasetId = kwargs.get(
-            'datasetId', None)
+            'datasetId', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.metadata = kwargs.get(
-            'metadata', [])
+            'metadata', '[]')
         self.referenceSetId = kwargs.get(
-            'referenceSetId', None)
+            'referenceSetId', 'None')
 
 
 class VariantSetMetadata(ProtocolElement):
@@ -2253,16 +2253,16 @@ class VariantSetMetadata(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.description = kwargs.get(
-            'description', None)
+            'description', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.info = kwargs.get(
-            'info', {})
+            'info', '{}')
         self.key = kwargs.get(
-            'key', None)
+            'key', 'None')
         self.number = kwargs.get(
-            'number', None)
+            'number', 'None')
         self.type = kwargs.get(
-            'type', None)
+            'type', 'None')
         self.value = kwargs.get(
-            'value', None)
+            'value', 'None')

@@ -63,13 +63,13 @@ class CalledGenotype(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.alleleFraction = kwargs.get(
-            'alleleFraction', None)
+            'alleleFraction', 'None')
         self.copyNumber = kwargs.get(
-            'copyNumber', None)
+            'copyNumber', 'None')
         self.genotype = kwargs.get(
-            'genotype', None)
+            'genotype', 'None')
         self.participantId = kwargs.get(
-            'participantId', None)
+            'participantId', 'None')
 
 
 class CalledGenotypes(ProtocolElement):
@@ -110,13 +110,13 @@ class CalledGenotypes(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.alleleFraction = kwargs.get(
-            'alleleFraction', None)
+            'alleleFraction', 'None')
         self.copyNumber = kwargs.get(
-            'copyNumber', None)
+            'copyNumber', 'None')
         self.genotype = kwargs.get(
-            'genotype', None)
+            'genotype', 'None')
         self.sampleId = kwargs.get(
-            'sampleId', None)
+            'sampleId', 'None')
 
 
 class CancerDemographics(ProtocolElement):
@@ -131,32 +131,38 @@ class CancerDemographics(ProtocolElement):
 "originatingCenter"}, {"doc": "", "type": {"symbols": ["pilot",
 "main"], "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"type": ["null", "string"], "name":
-"centerPatientId"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "CancerRecruitmentCategory", "fields": [{"type":
-"string", "name": "cancerName"}, {"type": "string", "name":
-"dataModelVersion"}]}], "name": "cancerRecruitmentCategory"}, {"doc":
-"", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
-"", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
-"type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
-"", "type": "string", "name": "consentDate"}, {"default": false,
-"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
+"centerPatientId"}, {"doc": "", "type": "string", "name":
+"primaryDiagnosis"}, {"default": "v2.4", "type": "string", "name":
+"dataModelVersion"}, {"doc": "", "type": {"symbols": ["male",
+"female", "unknown"], "doc": "", "type": "enum", "name": "Sex"},
+"name": "sex"}, {"type": {"fields": [{"doc": "", "type":
+"ProgramPhase", "name": "programPhase"}, {"default": false, "type":
+"boolean", "name": "pilotToMainOptOut"}, {"doc": "", "type": "string",
+"name": "consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"type": ["null", "string"], "name": "genomicMedicineCentre"},
+{"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
 "additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "additionalInformation",
-        "cancerRecruitmentCategory",
         "centerPatientId",
         "consentStatus",
+        "contactNumber",
         "externalIds",
+        "fullNameOfResponsibleConsultant",
+        "genomicMedicineCentre",
+        "hospitalOfResponsibleConsultant",
         "id",
         "originatingCenter",
         "primaryDiagnosis",
@@ -167,7 +173,6 @@ class CancerDemographics(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'cancerRecruitmentCategory': CancerRecruitmentCategory,
             'consentStatus': ConsentStatus,
         }
         return fieldName in embeddedTypes
@@ -175,39 +180,48 @@ class CancerDemographics(ProtocolElement):
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'cancerRecruitmentCategory': CancerRecruitmentCategory,
             'consentStatus': ConsentStatus,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'additionalInformation', 'cancerRecruitmentCategory',
-        'centerPatientId', 'consentStatus', 'externalIds', 'id',
-        'originatingCenter', 'primaryDiagnosis', 'programPhase', 'sex'
+        'additionalInformation', 'centerPatientId', 'consentStatus',
+        'contactNumber', 'dataModelVersion', 'externalIds',
+        'fullNameOfResponsibleConsultant', 'genomicMedicineCentre',
+        'hospitalOfResponsibleConsultant', 'id', 'originatingCenter',
+        'primaryDiagnosis', 'programPhase', 'sex'
     ]
 
     def __init__(self, **kwargs):
         self.additionalInformation = kwargs.get(
-            'additionalInformation', None)
-        self.cancerRecruitmentCategory = kwargs.get(
-            'cancerRecruitmentCategory', None)
+            'additionalInformation', 'None')
         self.centerPatientId = kwargs.get(
-            'centerPatientId', None)
+            'centerPatientId', 'None')
         self.consentStatus = kwargs.get(
-            'consentStatus', None)
+            'consentStatus', 'None')
+        self.contactNumber = kwargs.get(
+            'contactNumber', 'None')
+        self.dataModelVersion = kwargs.get(
+            'dataModelVersion', 'v2.4')
         self.externalIds = kwargs.get(
-            'externalIds', None)
+            'externalIds', 'None')
+        self.fullNameOfResponsibleConsultant = kwargs.get(
+            'fullNameOfResponsibleConsultant', 'None')
+        self.genomicMedicineCentre = kwargs.get(
+            'genomicMedicineCentre', 'None')
+        self.hospitalOfResponsibleConsultant = kwargs.get(
+            'hospitalOfResponsibleConsultant', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.originatingCenter = kwargs.get(
-            'originatingCenter', None)
+            'originatingCenter', 'None')
         self.primaryDiagnosis = kwargs.get(
-            'primaryDiagnosis', None)
+            'primaryDiagnosis', 'None')
         self.programPhase = kwargs.get(
-            'programPhase', None)
+            'programPhase', 'None')
         self.sex = kwargs.get(
-            'sex', None)
+            'sex', 'None')
 
 
 class CancerInterpretationAnalysis(ProtocolElement):
@@ -313,19 +327,19 @@ class CancerInterpretationAnalysis(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.analysisId = kwargs.get(
-            'analysisId', None)
+            'analysisId', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.companyName = kwargs.get(
-            'companyName', None)
+            'companyName', 'None')
         self.reportRequestId = kwargs.get(
-            'reportRequestId', None)
+            'reportRequestId', 'None')
         self.reportURI = kwargs.get(
-            'reportURI', None)
+            'reportURI', 'None')
         self.reportedStructuralVariants = kwargs.get(
-            'reportedStructuralVariants', None)
+            'reportedStructuralVariants', 'None')
         self.reportedVariants = kwargs.get(
-            'reportedVariants', None)
+            'reportedVariants', 'None')
 
 
 class CancerInterpretationRequest(ProtocolElement):
@@ -418,31 +432,31 @@ class CancerInterpretationRequest(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.BAMs = kwargs.get(
-            'BAMs', None)
+            'BAMs', 'None')
         self.BigWigs = kwargs.get(
-            'BigWigs', None)
+            'BigWigs', 'None')
         self.VCFs = kwargs.get(
-            'VCFs', None)
+            'VCFs', 'None')
         self.additionalInfo = kwargs.get(
-            'additionalInfo', None)
+            'additionalInfo', 'None')
         self.analysisURI = kwargs.get(
-            'analysisURI', None)
+            'analysisURI', 'None')
         self.analysisVersion = kwargs.get(
-            'analysisVersion', None)
+            'analysisVersion', 'None')
         self.annotationFile = kwargs.get(
-            'annotationFile', None)
+            'annotationFile', 'None')
         self.gVCFs = kwargs.get(
-            'gVCFs', None)
+            'gVCFs', 'None')
         self.interpretGenome = kwargs.get(
-            'interpretGenome', False)
+            'interpretGenome', 'False')
         self.otherFamilyHistory = kwargs.get(
-            'otherFamilyHistory', None)
+            'otherFamilyHistory', 'None')
         self.reportRequestId = kwargs.get(
-            'reportRequestId', None)
+            'reportRequestId', 'None')
         self.reportVersion = kwargs.get(
-            'reportVersion', None)
+            'reportVersion', 'None')
         self.virtualPanels = kwargs.get(
-            'virtualPanels', None)
+            'virtualPanels', 'None')
 
 
 class CancerParticipant(ProtocolElement):
@@ -459,28 +473,32 @@ class CancerParticipant(ProtocolElement):
 "originatingCenter"}, {"doc": "", "type": {"symbols": ["pilot",
 "main"], "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"type": ["null", "string"], "name":
-"centerPatientId"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "CancerRecruitmentCategory", "fields": [{"type":
-"string", "name": "cancerName"}, {"type": "string", "name":
-"dataModelVersion"}]}], "name": "cancerRecruitmentCategory"}, {"doc":
-"", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
-"", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
-"type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
-"", "type": "string", "name": "consentDate"}, {"default": false,
-"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
+"centerPatientId"}, {"doc": "", "type": "string", "name":
+"primaryDiagnosis"}, {"default": "v2.4", "type": "string", "name":
+"dataModelVersion"}, {"doc": "", "type": {"symbols": ["male",
+"female", "unknown"], "doc": "", "type": "enum", "name": "Sex"},
+"name": "sex"}, {"type": {"fields": [{"doc": "", "type":
+"ProgramPhase", "name": "programPhase"}, {"default": false, "type":
+"boolean", "name": "pilotToMainOptOut"}, {"doc": "", "type": "string",
+"name": "consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"type": ["null", "string"], "name": "genomicMedicineCentre"},
+{"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
 "additionalInformation"}]}, "name": "cancerDemographics"}, {"doc": "",
 "type": {"items": {"doc": "", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
-"id"}, {"type": ["null", "string"], "name": "centerSampleId"}, {"doc":
-"", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
+"id"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
+"type": ["null", "string"], "name": "centerSampleId"}, {"doc": "",
+"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
 "SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
 "string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
 ["FFPE", "FF", "Unknown", "LEUK", "GL"], "type": "enum", "name":
@@ -529,63 +547,25 @@ class CancerParticipant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.cancerDemographics = kwargs.get(
-            'cancerDemographics', None)
+            'cancerDemographics', 'None')
         self.cancerSamples = kwargs.get(
-            'cancerSamples', None)
+            'cancerSamples', 'None')
         self.matchedSamples = kwargs.get(
-            'matchedSamples', None)
-
-
-class CancerRecruitmentCategory(ProtocolElement):
-    """
-    EIK: added - This records describes the data model the patient was
-    recruited under  - important in defining the cancerPanel for
-    analysis and interpretation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerRecruitmentCategory", "fields": [{"type": "string", "name":
-"cancerName"}, {"type": "string", "name": "dataModelVersion"}], "doc":
-""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "cancerName",
-        "dataModelVersion",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'cancerName', 'dataModelVersion'
-    ]
-
-    def __init__(self, **kwargs):
-        self.cancerName = kwargs.get(
-            'cancerName', None)
-        self.dataModelVersion = kwargs.get(
-            'dataModelVersion', None)
+            'matchedSamples', 'None')
 
 
 class CancerSample(ProtocolElement):
     """
-    stage in some cases it might be nice to know about the grade and
-    stage of tumor, but this is not strictly required
+    TODO: like we perhaps we should change method to samplingMethod?
+    since we may wish to use method for defining the method
+    version/type (e.g. version 1 or secondary findings methodology?
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
-"id"}, {"type": ["null", "string"], "name": "centerSampleId"}, {"doc":
-"", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
+"id"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
+"type": ["null", "string"], "name": "centerSampleId"}, {"doc": "",
+"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
 "SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
 "string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
 ["FFPE", "FF", "Unknown", "LEUK", "GL"], "type": "enum", "name":
@@ -605,6 +585,7 @@ class CancerSample(ProtocolElement):
         "method",
         "phase",
         "preservationMethod",
+        "sampleId",
         "sampleType",
         "source",
         "tumorContent",
@@ -623,28 +604,31 @@ class CancerSample(ProtocolElement):
 
     __slots__ = [
         'cellularity', 'centerSampleId', 'id', 'method', 'phase',
-        'preservationMethod', 'sampleType', 'source', 'tumorContent'
+        'preservationMethod', 'sampleId', 'sampleType', 'source',
+        'tumorContent'
     ]
 
     def __init__(self, **kwargs):
         self.cellularity = kwargs.get(
-            'cellularity', None)
+            'cellularity', 'None')
         self.centerSampleId = kwargs.get(
-            'centerSampleId', None)
+            'centerSampleId', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.method = kwargs.get(
-            'method', None)
+            'method', 'None')
         self.phase = kwargs.get(
-            'phase', None)
+            'phase', 'None')
         self.preservationMethod = kwargs.get(
-            'preservationMethod', None)
+            'preservationMethod', 'None')
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
         self.sampleType = kwargs.get(
-            'sampleType', None)
+            'sampleType', 'None')
         self.source = kwargs.get(
-            'source', None)
+            'source', 'None')
         self.tumorContent = kwargs.get(
-            'tumorContent', None)
+            'tumorContent', 'None')
 
 
 class CarrierStatus(object):
@@ -667,13 +651,13 @@ class ConsentStatus(ProtocolElement):
 "ConsentStatus", "fields": [{"doc": "", "type": {"symbols": ["pilot",
 "main"], "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"default": false, "type": "boolean", "name":
-"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
-{"type": ["null", "string"], "name": "consentVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
+"pilotToMainOptOut"}, {"doc": "", "type": "string", "name":
+"consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -695,34 +679,33 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 
     __slots__ = [
         'carrierStatusConsent', 'consentDate', 'consentVersion',
-        'optOut', 'primaryFindingConsent', 'programPhase',
+        'pilotToMainOptOut', 'primaryFindingConsent', 'programPhase',
         'programmeConsent', 'secondaryFindingConsent'
     ]
 
     def __init__(self, **kwargs):
         self.carrierStatusConsent = kwargs.get(
-            'carrierStatusConsent', False)
+            'carrierStatusConsent', 'False')
         self.consentDate = kwargs.get(
-            'consentDate', None)
+            'consentDate', 'None')
         self.consentVersion = kwargs.get(
-            'consentVersion', None)
-        self.optOut = kwargs.get(
-            'optOut', False)
+            'consentVersion', 'None')
+        self.pilotToMainOptOut = kwargs.get(
+            'pilotToMainOptOut', 'False')
         self.primaryFindingConsent = kwargs.get(
-            'primaryFindingConsent', False)
+            'primaryFindingConsent', 'False')
         self.programPhase = kwargs.get(
-            'programPhase', None)
+            'programPhase', 'None')
         self.programmeConsent = kwargs.get(
-            'programmeConsent', False)
+            'programmeConsent', 'False')
         self.secondaryFindingConsent = kwargs.get(
-            'secondaryFindingConsent', False)
+            'secondaryFindingConsent', 'False')
 
 
 class Disorder(ProtocolElement):
     """
     This is quite GEL specific. This is the way is stored in
-    ModelCatalogue and PanelApp. More generally one would like to have
-    an omim or orphanet id here Currently all specific disease titles
+    ModelCatalogue and PanelApp. Currently all specific disease titles
     are assigned to a disease subgroup so really only specificDisease
     needs to be completed but we add the others for generality
     """
@@ -760,20 +743,20 @@ class Disorder(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.ageOfOnset = kwargs.get(
-            'ageOfOnset', None)
+            'ageOfOnset', 'None')
         self.diseaseGroup = kwargs.get(
-            'diseaseGroup', None)
+            'diseaseGroup', 'None')
         self.diseaseSubGroup = kwargs.get(
-            'diseaseSubGroup', None)
+            'diseaseSubGroup', 'None')
         self.specificDisease = kwargs.get(
-            'specificDisease', None)
+            'specificDisease', 'None')
 
 
 class File(ProtocolElement):
     """
     This defines a file This Record is defined by the sampleID and a
     URI Currently SampleID can be a single String or an array of
-    strings if multiple samples are assoicated with the same file
+    strings if multiple samples are associated with the same file
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name": "File",
@@ -804,9 +787,9 @@ class File(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.SampleId = kwargs.get(
-            'SampleId', None)
+            'SampleId', 'None')
         self.URIFile = kwargs.get(
-            'URIFile', None)
+            'URIFile', 'None')
 
 
 class Gene(ProtocolElement):
@@ -847,15 +830,15 @@ class Gene(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.exomeSize = kwargs.get(
-            'exomeSize', None)
+            'exomeSize', 'None')
         self.geneCoverage = kwargs.get(
-            'geneCoverage', None)
+            'geneCoverage', 'None')
         self.ids = kwargs.get(
-            'ids', None)
+            'ids', 'None')
         self.symbol = kwargs.get(
-            'symbol', None)
+            'symbol', 'None')
         self.transcriptId = kwargs.get(
-            'transcriptId', None)
+            'transcriptId', 'None')
 
 
 class HpoTerm(ProtocolElement):
@@ -895,13 +878,13 @@ class HpoTerm(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.ageOfOnset = kwargs.get(
-            'ageOfOnset', None)
+            'ageOfOnset', 'None')
         self.modifier = kwargs.get(
-            'modifier', None)
+            'modifier', 'None')
         self.term = kwargs.get(
-            'term', None)
+            'term', 'None')
         self.termPresence = kwargs.get(
-            'termPresence', None)
+            'termPresence', 'None')
 
 
 class InterpretationAnalysis(ProtocolElement):
@@ -1002,185 +985,19 @@ class InterpretationAnalysis(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.analysisId = kwargs.get(
-            'analysisId', None)
+            'analysisId', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.companyName = kwargs.get(
-            'companyName', None)
+            'companyName', 'None')
         self.reportRequestId = kwargs.get(
-            'reportRequestId', None)
+            'reportRequestId', 'None')
         self.reportURI = kwargs.get(
-            'reportURI', None)
+            'reportURI', 'None')
         self.reportedStructuralVariants = kwargs.get(
-            'reportedStructuralVariants', None)
+            'reportedStructuralVariants', 'None')
         self.reportedVariants = kwargs.get(
-            'reportedVariants', None)
-
-
-class InterpretationRequest(ProtocolElement):
-    """
-    This record represents basic information for this report
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"InterpretationRequest", "fields": [{"doc": "", "type": "string",
-"name": "reportRequestId"}, {"doc": "", "type": "int", "name":
-"reportVersion"}, {"default": false, "doc": "", "type": "boolean",
-"name": "interpretGenome"}, {"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "File", "fields": [{"doc": "", "type":
-["null", "string", {"items": "string", "type": "array"}], "name":
-"SampleId"}, {"doc": "", "type": "string", "name": "URIFile"}]},
-"type": "array"}, "name": "BAMs"}, {"doc": "", "type": {"items":
-"File", "type": "array"}, "name": "gVCFs"}, {"doc": "", "type":
-{"items": "File", "type": "array"}, "name": "VCFs"}, {"doc": "",
-"type": {"items": "File", "type": "array"}, "name": "BigWigs"},
-{"doc": "", "type": "File", "name": "annotationFile"}, {"type":
-{"fields": [{"doc": "", "type": "string", "name":
-"recruitedDiseaseCategory"}, {"doc": "", "type": "string", "name":
-"dataModelCatalogueVersion"}, {"type": {"doc": "", "type": "record",
-"name": "Pedigree", "fields": [{"doc": "", "type": "string", "name":
-"familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
-"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
-"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
-"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
-"string"], "name": "father"}, {"type": ["null", "string"], "name":
-"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
-{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
-"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
-{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
-"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
-{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
-"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
-"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
-"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
-"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
-"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
-"CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
-[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
-{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
-{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
-"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
-"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
-"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
-"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
-"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
-"programPhase"}, {"default": false, "type": "boolean", "name":
-"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
-{"type": ["null", "string"], "name": "consentVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
-"name": "participants"}]}, "name": "pedigree"}, {"doc": "", "type":
-["null", "File"], "name": "inbreedingCoefficientEstimates"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"ancestries"}, {"doc": "", "type": ["null", "string"], "name":
-"complexGeneticPhenomena"}, {"doc": "", "type": {"items": "string",
-"type": "array"}, "name": "modeOfInheritance"}, {"doc": "", "type":
-["null", {"doc": "", "type": "record", "name": "VirtualPanel",
-"fields": [{"type": "string", "name": "SpecificDiseaseTitle"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "clinicalRelevantTranscripts"}, {"doc": "", "type":
-["null", "File"], "name": "relevantRegions"}, {"doc": "", "type":
-["null", "File"], "name": "clinicalRelevantVariants"}]}], "name":
-"virtualPanel"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "OtherFamilyHistory", "fields": [{"type": ["null",
-{"items": "string", "type": "array"}], "name":
-"maternalFamilyHistory"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "paternalFamilyHistory"}]}], "name":
-"otherFamilyHistory"}], "type": "record", "name": "RareDisease"},
-"name": "rareDisease"}, {"type": "string", "name": "analysisURI"},
-{"type": "string", "name": "analysisVersion"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
-"additionalInfo"}], "doc": ""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "BAMs",
-        "BigWigs",
-        "VCFs",
-        "additionalInfo",
-        "analysisURI",
-        "analysisVersion",
-        "annotationFile",
-        "gVCFs",
-        "rareDisease",
-        "reportRequestId",
-        "reportVersion",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'BAMs': File,
-            'BigWigs': File,
-            'VCFs': File,
-            'annotationFile': File,
-            'gVCFs': File,
-            'rareDisease': RareDisease,
-        }
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'BAMs': File,
-            'BigWigs': File,
-            'VCFs': File,
-            'annotationFile': File,
-            'gVCFs': File,
-            'rareDisease': RareDisease,
-        }
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'BAMs', 'BigWigs', 'VCFs', 'additionalInfo', 'analysisURI',
-        'analysisVersion', 'annotationFile', 'gVCFs',
-        'interpretGenome', 'rareDisease', 'reportRequestId',
-        'reportVersion'
-    ]
-
-    def __init__(self, **kwargs):
-        self.BAMs = kwargs.get(
-            'BAMs', None)
-        self.BigWigs = kwargs.get(
-            'BigWigs', None)
-        self.VCFs = kwargs.get(
-            'VCFs', None)
-        self.additionalInfo = kwargs.get(
-            'additionalInfo', None)
-        self.analysisURI = kwargs.get(
-            'analysisURI', None)
-        self.analysisVersion = kwargs.get(
-            'analysisVersion', None)
-        self.annotationFile = kwargs.get(
-            'annotationFile', None)
-        self.gVCFs = kwargs.get(
-            'gVCFs', None)
-        self.interpretGenome = kwargs.get(
-            'interpretGenome', False)
-        self.rareDisease = kwargs.get(
-            'rareDisease', None)
-        self.reportRequestId = kwargs.get(
-            'reportRequestId', None)
-        self.reportVersion = kwargs.get(
-            'reportVersion', None)
+            'reportedVariants', 'None')
 
 
 class LifeStatus(object):
@@ -1228,9 +1045,9 @@ class MatchedSamples(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.germlineSampleId = kwargs.get(
-            'germlineSampleId', None)
+            'germlineSampleId', 'None')
         self.tumorSampleId = kwargs.get(
-            'tumorSampleId', None)
+            'tumorSampleId', 'None')
 
 
 class Method(object):
@@ -1279,9 +1096,9 @@ class OtherFamilyHistory(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.maternalFamilyHistory = kwargs.get(
-            'maternalFamilyHistory', None)
+            'maternalFamilyHistory', 'None')
         self.paternalFamilyHistory = kwargs.get(
-            'paternalFamilyHistory', None)
+            'paternalFamilyHistory', 'None')
 
 
 class Pedigree(ProtocolElement):
@@ -1327,18 +1144,23 @@ class Pedigree(ProtocolElement):
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"default": false, "type": "boolean", "name":
-"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
-{"type": ["null", "string"], "name": "consentVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"pilotToMainOptOut"}, {"doc": "", "type": "string", "name":
+"consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
-"name": "participants"}], "doc": ""}
+"name": "samples"}, {"type": ["null", "string"], "name":
+"genomicMedicineCentre"}, {"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name":
+"participants"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1367,9 +1189,9 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 
     def __init__(self, **kwargs):
         self.familyId = kwargs.get(
-            'familyId', None)
+            'familyId', 'None')
         self.participants = kwargs.get(
-            'participants', None)
+            'participants', 'None')
 
 
 class Penetrance(object):
@@ -1406,6 +1228,182 @@ class ProgramPhase(object):
     """
     pilot = "pilot"
     main = "main"
+
+
+class RDInterpretationRequest(ProtocolElement):
+    """
+    This record represents basic information for this report
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"RDInterpretationRequest", "fields": [{"doc": "", "type": "string",
+"name": "reportRequestId"}, {"type": "string", "name":
+"genomeAssemblyVersion"}, {"doc": "", "type": "int", "name":
+"reportVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "interpretGenome"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", "string", {"items": "string", "type": "array"}], "name":
+"SampleId"}, {"doc": "", "type": "string", "name": "URIFile"}]},
+"type": "array"}, "name": "BAMs"}, {"doc": "", "type": {"items":
+"File", "type": "array"}, "name": "gVCFs"}, {"doc": "", "type":
+{"items": "File", "type": "array"}, "name": "VCFs"}, {"doc": "",
+"type": {"items": "File", "type": "array"}, "name": "BigWigs"},
+{"doc": "", "type": ["null", "File"], "name": "annotationFile"},
+{"type": {"fields": [{"doc": "", "type": "string", "name":
+"recruitedDiseaseCategory"}, {"type": {"doc": "", "type": "record",
+"name": "Pedigree", "fields": [{"doc": "", "type": "string", "name":
+"familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
+"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
+"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
+"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+"string"], "name": "father"}, {"type": ["null", "string"], "name":
+"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
+"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
+{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
+"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
+["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
+"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
+"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
+"CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
+"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
+"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
+"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
+"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
+"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"pilotToMainOptOut"}, {"doc": "", "type": "string", "name":
+"consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "samples"}, {"type": ["null", "string"], "name":
+"genomicMedicineCentre"}, {"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name":
+"participants"}]}, "name": "pedigree"}, {"doc": "", "type": ["null",
+"File"], "name": "inbreedingCoefficientEstimates"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
+"ancestries"}, {"doc": "", "type": ["null", "string"], "name":
+"complexGeneticPhenomena"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "modeOfInheritance"}, {"doc": "", "type":
+["null", {"doc": "", "type": "record", "name": "VirtualPanel",
+"fields": [{"type": "string", "name": "specificDiseaseTitle"},
+{"type": "string", "name": "panelVersion"}, {"type": "string", "name":
+"ensemblVersion"}, {"doc": "", "type": "string", "name":
+"dataModelCatalogueVersion"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "geneIds"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name":
+"Transcripts"}, {"doc": "", "type": ["null", "File"], "name":
+"relevantRegions"}, {"doc": "", "type": ["null", "File"], "name":
+"clinicalRelevantVariants"}]}], "name": "virtualPanel"}, {"doc": "",
+"type": ["null", {"doc": "", "type": "record", "name":
+"OtherFamilyHistory", "fields": [{"type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name":
+"paternalFamilyHistory"}]}], "name": "otherFamilyHistory"}], "type":
+"record", "name": "RareDisease"}, "name": "rareDisease"}, {"type":
+"string", "name": "analysisURI"}, {"type": "string", "name":
+"analysisVersion"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInfo"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "BAMs",
+        "BigWigs",
+        "VCFs",
+        "additionalInfo",
+        "analysisURI",
+        "analysisVersion",
+        "annotationFile",
+        "gVCFs",
+        "genomeAssemblyVersion",
+        "rareDisease",
+        "reportRequestId",
+        "reportVersion",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'BAMs': File,
+            'BigWigs': File,
+            'VCFs': File,
+            'annotationFile': File,
+            'gVCFs': File,
+            'rareDisease': RareDisease,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'BAMs': File,
+            'BigWigs': File,
+            'VCFs': File,
+            'annotationFile': File,
+            'gVCFs': File,
+            'rareDisease': RareDisease,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'BAMs', 'BigWigs', 'VCFs', 'additionalInfo', 'analysisURI',
+        'analysisVersion', 'annotationFile', 'gVCFs',
+        'genomeAssemblyVersion', 'interpretGenome', 'rareDisease',
+        'reportRequestId', 'reportVersion'
+    ]
+
+    def __init__(self, **kwargs):
+        self.BAMs = kwargs.get(
+            'BAMs', 'None')
+        self.BigWigs = kwargs.get(
+            'BigWigs', 'None')
+        self.VCFs = kwargs.get(
+            'VCFs', 'None')
+        self.additionalInfo = kwargs.get(
+            'additionalInfo', 'None')
+        self.analysisURI = kwargs.get(
+            'analysisURI', 'None')
+        self.analysisVersion = kwargs.get(
+            'analysisVersion', 'None')
+        self.annotationFile = kwargs.get(
+            'annotationFile', 'None')
+        self.gVCFs = kwargs.get(
+            'gVCFs', 'None')
+        self.genomeAssemblyVersion = kwargs.get(
+            'genomeAssemblyVersion', 'None')
+        self.interpretGenome = kwargs.get(
+            'interpretGenome', 'False')
+        self.rareDisease = kwargs.get(
+            'rareDisease', 'None')
+        self.reportRequestId = kwargs.get(
+            'reportRequestId', 'None')
+        self.reportVersion = kwargs.get(
+            'reportVersion', 'None')
 
 
 class RDParticipant(ProtocolElement):
@@ -1449,17 +1447,22 @@ class RDParticipant(ProtocolElement):
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"default": false, "type": "boolean", "name":
-"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
-{"type": ["null", "string"], "name": "consentVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"pilotToMainOptOut"}, {"doc": "", "type": "string", "name":
+"consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}], "doc": ""}
+"name": "samples"}, {"type": ["null", "string"], "name":
+"genomicMedicineCentre"}, {"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1469,10 +1472,14 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
         "consanguineousParents",
         "consanguineousPopulation",
         "consentStatus",
+        "contactNumber",
         "disorderList",
         "externalIds",
         "familyId",
         "father",
+        "fullNameOfResponsibleConsultant",
+        "genomicMedicineCentre",
+        "hospitalOfResponsibleConsultant",
         "hpoTermList",
         "id",
         "lifeStatus",
@@ -1505,51 +1512,61 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
     __slots__ = [
         'additionalInformation', 'adoptedStatus', 'carrierStatus',
         'consanguineousParents', 'consanguineousPopulation',
-        'consentStatus', 'dataModelCatalogueVersion', 'disorderList',
-        'externalIds', 'familyId', 'father', 'hpoTermList', 'id',
+        'consentStatus', 'contactNumber', 'dataModelCatalogueVersion',
+        'disorderList', 'externalIds', 'familyId', 'father',
+        'fullNameOfResponsibleConsultant', 'genomicMedicineCentre',
+        'hospitalOfResponsibleConsultant', 'hpoTermList', 'id',
         'lifeStatus', 'monozygotic', 'mother', 'samples', 'sex',
         'twinGroup'
     ]
 
     def __init__(self, **kwargs):
         self.additionalInformation = kwargs.get(
-            'additionalInformation', None)
+            'additionalInformation', 'None')
         self.adoptedStatus = kwargs.get(
-            'adoptedStatus', None)
+            'adoptedStatus', 'None')
         self.carrierStatus = kwargs.get(
-            'carrierStatus', None)
+            'carrierStatus', 'None')
         self.consanguineousParents = kwargs.get(
-            'consanguineousParents', None)
+            'consanguineousParents', 'None')
         self.consanguineousPopulation = kwargs.get(
-            'consanguineousPopulation', None)
+            'consanguineousPopulation', 'None')
         self.consentStatus = kwargs.get(
-            'consentStatus', None)
+            'consentStatus', 'None')
+        self.contactNumber = kwargs.get(
+            'contactNumber', 'None')
         self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', v4.2)
+            'dataModelCatalogueVersion', 'v4.2')
         self.disorderList = kwargs.get(
-            'disorderList', None)
+            'disorderList', 'None')
         self.externalIds = kwargs.get(
-            'externalIds', None)
+            'externalIds', 'None')
         self.familyId = kwargs.get(
-            'familyId', None)
+            'familyId', 'None')
         self.father = kwargs.get(
-            'father', None)
+            'father', 'None')
+        self.fullNameOfResponsibleConsultant = kwargs.get(
+            'fullNameOfResponsibleConsultant', 'None')
+        self.genomicMedicineCentre = kwargs.get(
+            'genomicMedicineCentre', 'None')
+        self.hospitalOfResponsibleConsultant = kwargs.get(
+            'hospitalOfResponsibleConsultant', 'None')
         self.hpoTermList = kwargs.get(
-            'hpoTermList', None)
+            'hpoTermList', 'None')
         self.id = kwargs.get(
-            'id', None)
+            'id', 'None')
         self.lifeStatus = kwargs.get(
-            'lifeStatus', None)
+            'lifeStatus', 'None')
         self.monozygotic = kwargs.get(
-            'monozygotic', None)
+            'monozygotic', 'None')
         self.mother = kwargs.get(
-            'mother', None)
+            'mother', 'None')
         self.samples = kwargs.get(
-            'samples', None)
+            'samples', 'None')
         self.sex = kwargs.get(
-            'sex', None)
+            'sex', 'None')
         self.twinGroup = kwargs.get(
-            'twinGroup', None)
+            'twinGroup', 'None')
 
 
 class RareDisease(ProtocolElement):
@@ -1559,8 +1576,7 @@ class RareDisease(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RareDisease", "fields": [{"doc": "", "type": "string", "name":
-"recruitedDiseaseCategory"}, {"doc": "", "type": "string", "name":
-"dataModelCatalogueVersion"}, {"type": {"doc": "", "type": "record",
+"recruitedDiseaseCategory"}, {"type": {"doc": "", "type": "record",
 "name": "Pedigree", "fields": [{"doc": "", "type": "string", "name":
 "familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
 "RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
@@ -1597,45 +1613,51 @@ class RareDisease(ProtocolElement):
 "type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
 "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
 "programPhase"}, {"default": false, "type": "boolean", "name":
-"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
-{"type": ["null", "string"], "name": "consentVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"pilotToMainOptOut"}, {"doc": "", "type": "string", "name":
+"consentDate"}, {"type": ["null", "string"], "name":
+"consentVersion"}, {"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "primaryFindingConsent"}, {"default": false, "doc":
+"", "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
 "type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
-"name": "participants"}]}, "name": "pedigree"}, {"doc": "", "type":
-["null", {"doc": "", "type": "record", "name": "File", "fields":
-[{"doc": "", "type": ["null", "string", {"items": "string", "type":
-"array"}], "name": "SampleId"}, {"doc": "", "type": "string", "name":
+"name": "samples"}, {"type": ["null", "string"], "name":
+"genomicMedicineCentre"}, {"type": ["null", "string"], "name":
+"fullNameOfResponsibleConsultant"}, {"type": ["null", "string"],
+"name": "contactNumber"}, {"type": ["null", "string"], "name":
+"hospitalOfResponsibleConsultant"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name":
+"participants"}]}, "name": "pedigree"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "File", "fields": [{"doc": "",
+"type": ["null", "string", {"items": "string", "type": "array"}],
+"name": "SampleId"}, {"doc": "", "type": "string", "name":
 "URIFile"}]}], "name": "inbreedingCoefficientEstimates"}, {"doc": "",
 "type": ["null", {"items": "string", "type": "array"}], "name":
 "ancestries"}, {"doc": "", "type": ["null", "string"], "name":
 "complexGeneticPhenomena"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "modeOfInheritance"}, {"doc": "", "type":
 ["null", {"doc": "", "type": "record", "name": "VirtualPanel",
-"fields": [{"type": "string", "name": "SpecificDiseaseTitle"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "clinicalRelevantTranscripts"}, {"doc": "", "type":
-["null", "File"], "name": "relevantRegions"}, {"doc": "", "type":
-["null", "File"], "name": "clinicalRelevantVariants"}]}], "name":
-"virtualPanel"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "OtherFamilyHistory", "fields": [{"type": ["null",
+"fields": [{"type": "string", "name": "specificDiseaseTitle"},
+{"type": "string", "name": "panelVersion"}, {"type": "string", "name":
+"ensemblVersion"}, {"doc": "", "type": "string", "name":
+"dataModelCatalogueVersion"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "geneIds"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name":
+"Transcripts"}, {"doc": "", "type": ["null", "File"], "name":
+"relevantRegions"}, {"doc": "", "type": ["null", "File"], "name":
+"clinicalRelevantVariants"}]}], "name": "virtualPanel"}, {"doc": "",
+"type": ["null", {"doc": "", "type": "record", "name":
+"OtherFamilyHistory", "fields": [{"type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"type": ["null",
 {"items": "string", "type": "array"}], "name":
-"maternalFamilyHistory"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "paternalFamilyHistory"}]}], "name":
-"otherFamilyHistory"}]}
+"paternalFamilyHistory"}]}], "name": "otherFamilyHistory"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "ancestries",
         "complexGeneticPhenomena",
-        "dataModelCatalogueVersion",
         "inbreedingCoefficientEstimates",
         "modeOfInheritance",
         "otherFamilyHistory",
@@ -1667,30 +1689,28 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 
     __slots__ = [
         'ancestries', 'complexGeneticPhenomena',
-        'dataModelCatalogueVersion', 'inbreedingCoefficientEstimates',
-        'modeOfInheritance', 'otherFamilyHistory', 'pedigree',
-        'recruitedDiseaseCategory', 'virtualPanel'
+        'inbreedingCoefficientEstimates', 'modeOfInheritance',
+        'otherFamilyHistory', 'pedigree', 'recruitedDiseaseCategory',
+        'virtualPanel'
     ]
 
     def __init__(self, **kwargs):
         self.ancestries = kwargs.get(
-            'ancestries', None)
+            'ancestries', 'None')
         self.complexGeneticPhenomena = kwargs.get(
-            'complexGeneticPhenomena', None)
-        self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', None)
+            'complexGeneticPhenomena', 'None')
         self.inbreedingCoefficientEstimates = kwargs.get(
-            'inbreedingCoefficientEstimates', None)
+            'inbreedingCoefficientEstimates', 'None')
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', None)
+            'modeOfInheritance', 'None')
         self.otherFamilyHistory = kwargs.get(
-            'otherFamilyHistory', None)
+            'otherFamilyHistory', 'None')
         self.pedigree = kwargs.get(
-            'pedigree', None)
+            'pedigree', 'None')
         self.recruitedDiseaseCategory = kwargs.get(
-            'recruitedDiseaseCategory', None)
+            'recruitedDiseaseCategory', 'None')
         self.virtualPanel = kwargs.get(
-            'virtualPanel', None)
+            'virtualPanel', 'None')
 
 
 class ReportEvent(ProtocolElement):
@@ -1750,21 +1770,21 @@ class ReportEvent(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.fullyExplainsPhenotype = kwargs.get(
-            'fullyExplainsPhenotype', None)
+            'fullyExplainsPhenotype', 'None')
         self.gene = kwargs.get(
-            'gene', None)
+            'gene', 'None')
         self.groupOfVariants = kwargs.get(
-            'groupOfVariants', None)
+            'groupOfVariants', 'None')
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', None)
+            'modeOfInheritance', 'None')
         self.penetrance = kwargs.get(
-            'penetrance', None)
+            'penetrance', 'None')
         self.score = kwargs.get(
-            'score', None)
+            'score', 'None')
         self.tier = kwargs.get(
-            'tier', None)
+            'tier', 'None')
         self.variantJustification = kwargs.get(
-            'variantJustification', None)
+            'variantJustification', 'None')
 
 
 class ReportEvents(ProtocolElement):
@@ -1820,19 +1840,19 @@ class ReportEvents(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.fullyExplainsPhenotype = kwargs.get(
-            'fullyExplainsPhenotype', None)
+            'fullyExplainsPhenotype', 'None')
         self.gene = kwargs.get(
-            'gene', None)
+            'gene', 'None')
         self.groupOfVariants = kwargs.get(
-            'groupOfVariants', None)
+            'groupOfVariants', 'None')
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', None)
+            'modeOfInheritance', 'None')
         self.score = kwargs.get(
-            'score', None)
+            'score', 'None')
         self.tier = kwargs.get(
-            'tier', None)
+            'tier', 'None')
         self.variantJustification = kwargs.get(
-            'variantJustification', None)
+            'variantJustification', 'None')
 
 
 class ReportType(object):
@@ -1931,31 +1951,31 @@ class ReportedStructuralVariant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', None)
+            'additionalNumericVariantAnnotations', 'None')
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', None)
+            'additionalTextualVariantAnnotations', 'None')
         self.alternate = kwargs.get(
-            'alternate', None)
+            'alternate', 'None')
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', None)
+            'calledGenotypes', 'None')
         self.chromosome = kwargs.get(
-            'chromosome', None)
+            'chromosome', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.internalScore = kwargs.get(
-            'internalScore', None)
+            'internalScore', 'None')
         self.reference = kwargs.get(
-            'reference', None)
+            'reference', 'None')
         self.reportEvents = kwargs.get(
-            'reportEvents', None)
+            'reportEvents', 'None')
         self.start = kwargs.get(
-            'start', None)
+            'start', 'None')
         self.type = kwargs.get(
-            'type', None)
+            'type', 'None')
         self.variantClassification = kwargs.get(
-            'variantClassification', None)
+            'variantClassification', 'None')
 
 
 class ReportedStructuralVariants(ProtocolElement):
@@ -2046,33 +2066,33 @@ class ReportedStructuralVariants(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.ReportEvents = kwargs.get(
-            'ReportEvents', None)
+            'ReportEvents', 'None')
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', None)
+            'additionalNumericVariantAnnotations', 'None')
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', None)
+            'additionalTextualVariantAnnotations', 'None')
         self.alternate = kwargs.get(
-            'alternate', None)
+            'alternate', 'None')
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', None)
+            'calledGenotypes', 'None')
         self.chromosome = kwargs.get(
-            'chromosome', None)
+            'chromosome', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.end = kwargs.get(
-            'end', None)
+            'end', 'None')
         self.internalScore = kwargs.get(
-            'internalScore', None)
+            'internalScore', 'None')
         self.reference = kwargs.get(
-            'reference', None)
+            'reference', 'None')
         self.somaticOrGermline = kwargs.get(
-            'somaticOrGermline', None)
+            'somaticOrGermline', 'None')
         self.start = kwargs.get(
-            'start', None)
+            'start', 'None')
         self.type = kwargs.get(
-            'type', None)
+            'type', 'None')
         self.variantClassification = kwargs.get(
-            'variantClassification', None)
+            'variantClassification', 'None')
 
 
 class ReportedVariant(ProtocolElement):
@@ -2160,29 +2180,29 @@ class ReportedVariant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', None)
+            'additionalNumericVariantAnnotations', 'None')
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', None)
+            'additionalTextualVariantAnnotations', 'None')
         self.alternate = kwargs.get(
-            'alternate', None)
+            'alternate', 'None')
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', None)
+            'calledGenotypes', 'None')
         self.chromosome = kwargs.get(
-            'chromosome', None)
+            'chromosome', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.dbSNPid = kwargs.get(
-            'dbSNPid', None)
+            'dbSNPid', 'None')
         self.internalScore = kwargs.get(
-            'internalScore', None)
+            'internalScore', 'None')
         self.position = kwargs.get(
-            'position', None)
+            'position', 'None')
         self.reference = kwargs.get(
-            'reference', None)
+            'reference', 'None')
         self.reportEvents = kwargs.get(
-            'reportEvents', None)
+            'reportEvents', 'None')
         self.variantClassification = kwargs.get(
-            'variantClassification', None)
+            'variantClassification', 'None')
 
 
 class ReportedVariants(ProtocolElement):
@@ -2272,31 +2292,31 @@ class ReportedVariants(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', None)
+            'additionalNumericVariantAnnotations', 'None')
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', None)
+            'additionalTextualVariantAnnotations', 'None')
         self.alternate = kwargs.get(
-            'alternate', None)
+            'alternate', 'None')
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', None)
+            'calledGenotypes', 'None')
         self.chromosome = kwargs.get(
-            'chromosome', None)
+            'chromosome', 'None')
         self.comments = kwargs.get(
-            'comments', None)
+            'comments', 'None')
         self.dbSNPid = kwargs.get(
-            'dbSNPid', None)
+            'dbSNPid', 'None')
         self.internalScore = kwargs.get(
-            'internalScore', None)
+            'internalScore', 'None')
         self.position = kwargs.get(
-            'position', None)
+            'position', 'None')
         self.reference = kwargs.get(
-            'reference', None)
+            'reference', 'None')
         self.reportEvents = kwargs.get(
-            'reportEvents', None)
+            'reportEvents', 'None')
         self.somaticOrGermline = kwargs.get(
-            'somaticOrGermline', None)
+            'somaticOrGermline', 'None')
         self.variantClassification = kwargs.get(
-            'variantClassification', None)
+            'variantClassification', 'None')
 
 
 class SampleType(object):
@@ -2353,17 +2373,18 @@ class VariantClassification(object):
 
 class VirtualPanel(ProtocolElement):
     """
-    This record defines a gene panel. The Level 4 Title is the name of
-    the condition, for example Brugada syndrome
+    This record defines a gene panel.
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "VirtualPanel", "fields": [{"type": "string", "name":
-"SpecificDiseaseTitle"}, {"doc": "", "type": ["null", {"items":
-"string", "type": "array"}], "name": "geneIds"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name":
-"clinicalRelevantTranscripts"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+"specificDiseaseTitle"}, {"type": "string", "name": "panelVersion"},
+{"type": "string", "name": "ensemblVersion"}, {"doc": "", "type":
+"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "geneIds"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "Transcripts"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "File", "fields": [{"doc": "", "type":
 ["null", "string", {"items": "string", "type": "array"}], "name":
 "SampleId"}, {"doc": "", "type": "string", "name": "URIFile"}]}],
 "name": "relevantRegions"}, {"doc": "", "type": ["null", "File"],
@@ -2371,11 +2392,14 @@ class VirtualPanel(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "SpecificDiseaseTitle",
-        "clinicalRelevantTranscripts",
+        "Transcripts",
         "clinicalRelevantVariants",
+        "dataModelCatalogueVersion",
+        "ensemblVersion",
         "geneIds",
+        "panelVersion",
         "relevantRegions",
+        "specificDiseaseTitle",
     }
 
     @classmethod
@@ -2396,21 +2420,28 @@ class VirtualPanel(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'SpecificDiseaseTitle', 'clinicalRelevantTranscripts',
-        'clinicalRelevantVariants', 'geneIds', 'relevantRegions'
+        'Transcripts', 'clinicalRelevantVariants',
+        'dataModelCatalogueVersion', 'ensemblVersion', 'geneIds',
+        'panelVersion', 'relevantRegions', 'specificDiseaseTitle'
     ]
 
     def __init__(self, **kwargs):
-        self.SpecificDiseaseTitle = kwargs.get(
-            'SpecificDiseaseTitle', None)
-        self.clinicalRelevantTranscripts = kwargs.get(
-            'clinicalRelevantTranscripts', None)
+        self.Transcripts = kwargs.get(
+            'Transcripts', 'None')
         self.clinicalRelevantVariants = kwargs.get(
-            'clinicalRelevantVariants', None)
+            'clinicalRelevantVariants', 'None')
+        self.dataModelCatalogueVersion = kwargs.get(
+            'dataModelCatalogueVersion', 'None')
+        self.ensemblVersion = kwargs.get(
+            'ensemblVersion', 'None')
         self.geneIds = kwargs.get(
-            'geneIds', None)
+            'geneIds', 'None')
+        self.panelVersion = kwargs.get(
+            'panelVersion', 'None')
         self.relevantRegions = kwargs.get(
-            'relevantRegions', None)
+            'relevantRegions', 'None')
+        self.specificDiseaseTitle = kwargs.get(
+            'specificDiseaseTitle', 'None')
 
 
 class VirtualPanels(ProtocolElement):
@@ -2466,14 +2497,14 @@ class VirtualPanels(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.RelevantRegions = kwargs.get(
-            'RelevantRegions', None)
+            'RelevantRegions', 'None')
         self.cancerName = kwargs.get(
-            'cancerName', None)
+            'cancerName', 'None')
         self.clinicalRelevantTranscripts = kwargs.get(
-            'clinicalRelevantTranscripts', None)
+            'clinicalRelevantTranscripts', 'None')
         self.clinicalRelevantVariants = kwargs.get(
-            'clinicalRelevantVariants', None)
+            'clinicalRelevantVariants', 'None')
         self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', None)
+            'dataModelCatalogueVersion', 'None')
         self.geneIds = kwargs.get(
-            'geneIds', None)
+            'geneIds', 'None')

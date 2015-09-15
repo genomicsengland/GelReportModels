@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "File",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file",
+  "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
   "fields" : [ {
     "name" : "SampleId",
     "type" : [ "null", "string", {

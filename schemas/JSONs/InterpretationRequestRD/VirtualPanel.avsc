@@ -2,10 +2,20 @@
   "type" : "record",
   "name" : "VirtualPanel",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
+  "doc" : "This record defines a gene panel.",
   "fields" : [ {
-    "name" : "SpecificDiseaseTitle",
+    "name" : "specificDiseaseTitle",
     "type" : "string"
+  }, {
+    "name" : "panelVersion",
+    "type" : "string"
+  }, {
+    "name" : "ensemblVersion",
+    "type" : "string"
+  }, {
+    "name" : "dataModelCatalogueVersion",
+    "type" : "string",
+    "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
   }, {
     "name" : "geneIds",
     "type" : [ "null", {
@@ -14,18 +24,18 @@
     } ],
     "doc" : "gene id from ensembl (version as per annotation file)"
   }, {
-    "name" : "clinicalRelevantTranscripts",
+    "name" : "Transcripts",
     "type" : [ "null", {
       "type" : "array",
       "items" : "string"
     } ],
-    "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
+    "doc" : "transcript ids from ensembl"
   }, {
     "name" : "relevantRegions",
     "type" : [ "null", {
       "type" : "record",
       "name" : "File",
-      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file",
+      "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
       "fields" : [ {
         "name" : "SampleId",
         "type" : [ "null", "string", {

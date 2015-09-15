@@ -2,6 +2,6 @@
   "type" : "enum",
   "name" : "ProgramPhase",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "EIK: added programPhase - This indicate to which part of the program the participant was recruited too",
+  "doc" : "This is to distinguish into which part of the program the participant was consented to",
   "symbols" : [ "pilot", "main" ]
 }

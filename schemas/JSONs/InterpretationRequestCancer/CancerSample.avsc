@@ -2,14 +2,19 @@
   "type" : "record",
   "name" : "CancerSample",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required",
+  "doc" : "TODO: like we perhaps we should change method to samplingMethod? since we may wish to use method for defining the method version/type (e.g. version 1 or secondary findings methodology?",
   "fields" : [ {
     "name" : "id",
     "type" : "string",
-    "doc" : "Sample ID (this is the individual id (gel ID))"
+    "doc" : "Individual Is (this is the individual id (gel ID))"
+  }, {
+    "name" : "sampleId",
+    "type" : "string",
+    "doc" : "Sample Id (e.g, LP00012645_5GH))"
   }, {
     "name" : "centerSampleId",
-    "type" : [ "null", "string" ]
+    "type" : [ "null", "string" ],
+    "doc" : "TODO: Check with the team if we want/need keep this info"
   }, {
     "name" : "sampleType",
     "type" : {
@@ -21,7 +26,7 @@
   }, {
     "name" : "source",
     "type" : [ "null", "string" ],
-    "doc" : "Sample Source\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+    "doc" : "Sample Source\n    TODO: Is the time to define this?\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
   }, {
     "name" : "preservationMethod",
     "type" : [ "null", {

@@ -4,6 +4,7 @@ This protocol defines the Participants
 */
 protocol Participants {
 
+import idl "ConsentStatus.avdl";
 
 /**
 Definitions of enumeration used in CancerParticipant
@@ -26,17 +27,20 @@ TODO: like we perhaps we should change method to samplingMethod? since we may wi
 */
 
 
-
-/**
-stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required
-*/
-
 record CancerSample {
     /**
-    Sample ID (this is the individual id (gel ID))
+    Individual Is (this is the individual id (gel ID))
     */
     string id;
 
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    string sampleId;
+
+    /**
+    TODO: Check with the team if we want/need keep this info
+    */
     union {null, string} centerSampleId;
 
     /**
@@ -46,6 +50,7 @@ record CancerSample {
 
     /**
     Sample Source
+    TODO: Is the time to define this?
     This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva
     */
@@ -62,7 +67,7 @@ record CancerSample {
     union {null, Phase} phase;
 
     /**
-     Method
+    Method
     */
     union {null, Method} method;
 
@@ -79,7 +84,6 @@ record CancerSample {
     union {null, double} tumorContent;
 
 
-
 }
 
 /**
@@ -94,60 +98,6 @@ record MatchedSamples{
 
 }
 
-/** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
-enum ProgramPhase {pilot, main}
-
-record ConsentStatus {
-
-
-    /**
-    TODO: The consent status must capture the consent status of every member of the pedigree, as such it should include the affection status since secondary findings will be provided for all participating members of the pedigree
-    Is this individual consented to the programme?
-    It could simple be a family member that is not consented but for whom affection status is known
-    False by default! needs to be explicitly changed
-    */
-
-    /** EIK: added programPhase - This indicate to which part of the program the participant was recruited too */
-
-    ProgramPhase programPhase;
-
-    /** This is the consent date
-    */
-
-    string consentDate;
-
-
-    /** EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase */
-
-    boolean optOut=false;
-
-    boolean programmeConsent=false;
-
-    /**
-    Consent for feedback of primary findings?
-    False by default
-    */
-    boolean primaryFindingConsent=false;
-
-    /**
-    Consent for secondary finding lookup
-    False by default
-    */
-    boolean secondaryFindingConsent=false;
-
-    /**
-    Consent for carrier status check?
-    False by default
-    */
-    boolean carrierStatusConsent=false;
-}
-
-/** EIK: added - This records describes the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation */
-record CancerRecruitmentCategory {
-    string cancerName;
-    string dataModelVersion;
-
-}
 /**
 This defines a Cancer Demographics
 */
@@ -159,8 +109,9 @@ record CancerDemographics{
     union {null, array<string>} externalIds;
 
     union {null, string} originatingCenter;
-    /** EIK replace gelPhase with ProgramPhase
-    union {null, string} gelPhase;
+
+    /**
+    ProgramPhase
     */
     ProgramPhase programPhase;
 
@@ -171,26 +122,25 @@ record CancerDemographics{
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
 
-    /** EIK: It is not logical to store this here - instead we should replace this with the "Cancer specific recruitment category" and create a record for this which would include that datamodel at the time of recruitment
-    string dataModelVersion;
-    */
-
-    union {null, CancerRecruitmentCategory} cancerRecruitmentCategory;
 
     /**
     This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
     */
-    union {null, string} primaryDiagnosis;
-
+    string primaryDiagnosis;
+    string dataModelVersion="v2.4";
 
     /**
-    Possible options: MALE, FEMALE, UNKNOWN
+    Possible options: male, female, unknown
     */
     Sex sex;
 
     ConsentStatus consentStatus;
 
+    union {null, string} genomicMedicineCentre;
+    union {null, string} fullNameOfResponsibleConsultant; // TODO: we really need this??? (don't see the purpose)
+    union {null, string} contactNumber;
+    union {null, string} hospitalOfResponsibleConsultant;
 
 
     /**
@@ -206,15 +156,6 @@ This defines a Cancer Participant (demographics and sample information)
 record CancerParticipant{
 
     CancerDemographics cancerDemographics;
-
-    /**
-    Possible options: MALE, FEMALE, UNKNOWN
-    */
-
-    /** EIK: This is included in CancerDemographics
-
-    Sex sex;
-    */
 
     /**
     List of samples (normal and tumor sample)

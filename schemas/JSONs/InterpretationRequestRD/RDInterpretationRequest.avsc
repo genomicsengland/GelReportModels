@@ -1,12 +1,15 @@
 {
   "type" : "record",
-  "name" : "InterpretationRequest",
+  "name" : "RDInterpretationRequest",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This record represents basic information for this report",
   "fields" : [ {
     "name" : "reportRequestId",
     "type" : "string",
     "doc" : "Unique id for this report"
+  }, {
+    "name" : "genomeAssemblyVersion",
+    "type" : "string"
   }, {
     "name" : "reportVersion",
     "type" : "int",
@@ -23,7 +26,7 @@
       "items" : {
         "type" : "record",
         "name" : "File",
-        "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file",
+        "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
         "fields" : [ {
           "name" : "SampleId",
           "type" : [ "null", "string", {
@@ -62,7 +65,7 @@
     "doc" : "BigWig Files"
   }, {
     "name" : "annotationFile",
-    "type" : "File",
+    "type" : [ "null", "File" ],
     "doc" : "This will be the output file from Cellbase + version used"
   }, {
     "name" : "rareDisease",
@@ -73,10 +76,6 @@
         "name" : "recruitedDiseaseCategory",
         "type" : "string",
         "doc" : "EIK rename enrolledAgainstSpecificDiseaseTitle as recruitedDiseaseCategory"
-      }, {
-        "name" : "dataModelCatalogueVersion",
-        "type" : "string",
-        "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
       }, {
         "name" : "pedigree",
         "type" : {
@@ -170,7 +169,7 @@
                     "items" : {
                       "type" : "record",
                       "name" : "Disorder",
-                      "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
+                      "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
                       "fields" : [ {
                         "name" : "diseaseGroup",
                         "type" : [ "null", "string" ],
@@ -242,7 +241,7 @@
                       },
                       "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
                     }, {
-                      "name" : "optOut",
+                      "name" : "pilotToMainOptOut",
                       "type" : "boolean",
                       "default" : false
                     }, {
@@ -283,6 +282,18 @@
                   } ],
                   "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
                 }, {
+                  "name" : "genomicMedicineCentre",
+                  "type" : [ "null", "string" ]
+                }, {
+                  "name" : "fullNameOfResponsibleConsultant",
+                  "type" : [ "null", "string" ]
+                }, {
+                  "name" : "contactNumber",
+                  "type" : [ "null", "string" ]
+                }, {
+                  "name" : "hospitalOfResponsibleConsultant",
+                  "type" : [ "null", "string" ]
+                }, {
                   "name" : "additionalInformation",
                   "type" : [ "null", {
                     "type" : "map",
@@ -321,10 +332,20 @@
         "type" : [ "null", {
           "type" : "record",
           "name" : "VirtualPanel",
-          "doc" : "This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome",
+          "doc" : "This record defines a gene panel.",
           "fields" : [ {
-            "name" : "SpecificDiseaseTitle",
+            "name" : "specificDiseaseTitle",
             "type" : "string"
+          }, {
+            "name" : "panelVersion",
+            "type" : "string"
+          }, {
+            "name" : "ensemblVersion",
+            "type" : "string"
+          }, {
+            "name" : "dataModelCatalogueVersion",
+            "type" : "string",
+            "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
           }, {
             "name" : "geneIds",
             "type" : [ "null", {
@@ -333,12 +354,12 @@
             } ],
             "doc" : "gene id from ensembl (version as per annotation file)"
           }, {
-            "name" : "clinicalRelevantTranscripts",
+            "name" : "Transcripts",
             "type" : [ "null", {
               "type" : "array",
               "items" : "string"
             } ],
-            "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
+            "doc" : "transcript ids from ensembl"
           }, {
             "name" : "relevantRegions",
             "type" : [ "null", "File" ],
@@ -370,7 +391,7 @@
             } ]
           } ]
         } ],
-        "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband.\n    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is\n    not collected in that level of detail."
+        "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband.\n    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is not collected in that level of detail."
       } ]
     }
   }, {

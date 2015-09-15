@@ -159,7 +159,13 @@ class SchemaClass(object):
         for field in self.getFields():
             string_ = "self.{} = kwargs.get(".format(field.name)
             self._writeWithIndent(string_, outputFile, 2)
-            string_ = "'{}', {})".format(field.name, field.default)
+
+            # This was added by antonior to fix the problem with default strings
+            if isinstance(field.type, str) and field.type == "string":
+                string_ = "'{}', {})".format(field.name, field.default)
+                self._writeWithIndent(string_, outputFile, 3)
+
+            string_ = "'{}', '{}')".format(field.name, field.default)
             self._writeWithIndent(string_, outputFile, 3)
 
     def writeEmbeddedTypesClassMethods(self, outputFile):

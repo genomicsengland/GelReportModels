@@ -9,7 +9,7 @@
   "father": "GEL_0003",
   "hpoTermList": [{"termPresence": true, "term":"HP:0003002", "modifier":"HP:0006625", "ageOfOnset": null}],
   "consanguineousParents": false,
-  "consanguineousPopulation": "Ashkenazi Jew"
+  "consanguineousPopulation": "Ashkenazi Jew",
   "disorderList": [{"diseaseGroup": "TumourSyndrome", "diseaseDubGroup":"Breast and endocrine", "specificDisease":"Familial breast cancer"}],
   "adoptedStatus": "not_adopted",
   "lifeStatus": null,

@@ -26,32 +26,21 @@
         "type" : {
           "type" : "enum",
           "name" : "ProgramPhase",
-          "doc" : "EIK: added programPhase - This indicate to which part of the program the participant was recruited too",
+          "doc" : "This is to distinguish into which part of the program the participant was consented to",
           "symbols" : [ "pilot", "main" ]
         },
-        "doc" : "EIK replace gelPhase with ProgramPhase\n    union {null, string} gelPhase;"
+        "doc" : "ProgramPhase"
       }, {
         "name" : "centerPatientId",
         "type" : [ "null", "string" ]
       }, {
-        "name" : "cancerRecruitmentCategory",
-        "type" : [ "null", {
-          "type" : "record",
-          "name" : "CancerRecruitmentCategory",
-          "doc" : "EIK: added - This records describes the data model the patient was recruited under  - important in defining the cancerPanel for analysis and interpretation",
-          "fields" : [ {
-            "name" : "cancerName",
-            "type" : "string"
-          }, {
-            "name" : "dataModelVersion",
-            "type" : "string"
-          } ]
-        } ],
-        "doc" : "EIK: It is not logical to store this here - instead we should replace this with the \"Cancer specific recruitment category\" and create a record for this which would include that datamodel at the time of recruitment\n    string dataModelVersion;"
-      }, {
         "name" : "primaryDiagnosis",
-        "type" : [ "null", "string" ],
+        "type" : "string",
         "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+      }, {
+        "name" : "dataModelVersion",
+        "type" : "string",
+        "default" : "v2.4"
       }, {
         "name" : "sex",
         "type" : {
@@ -60,7 +49,7 @@
           "doc" : "Definitions of enumeration used in CancerParticipant",
           "symbols" : [ "male", "female", "unknown" ]
         },
-        "doc" : "Possible options: MALE, FEMALE, UNKNOWN"
+        "doc" : "Possible options: male, female, unknown"
       }, {
         "name" : "consentStatus",
         "type" : {
@@ -69,19 +58,22 @@
           "fields" : [ {
             "name" : "programPhase",
             "type" : "ProgramPhase",
-            "doc" : "EIK: added programPhase - This indicate to which part of the program the participant was recruited too"
+            "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
+          }, {
+            "name" : "pilotToMainOptOut",
+            "type" : "boolean",
+            "default" : false
           }, {
             "name" : "consentDate",
             "type" : "string",
             "doc" : "This is the consent date"
           }, {
-            "name" : "optOut",
-            "type" : "boolean",
-            "doc" : "EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase",
-            "default" : false
+            "name" : "consentVersion",
+            "type" : [ "null", "string" ]
           }, {
             "name" : "programmeConsent",
             "type" : "boolean",
+            "doc" : "OptOut of transfer to main phase, where secondary findings are mandatory",
             "default" : false
           }, {
             "name" : "primaryFindingConsent",
@@ -101,6 +93,18 @@
           } ]
         }
       }, {
+        "name" : "genomicMedicineCentre",
+        "type" : [ "null", "string" ]
+      }, {
+        "name" : "fullNameOfResponsibleConsultant",
+        "type" : [ "null", "string" ]
+      }, {
+        "name" : "contactNumber",
+        "type" : [ "null", "string" ]
+      }, {
+        "name" : "hospitalOfResponsibleConsultant",
+        "type" : [ "null", "string" ]
+      }, {
         "name" : "additionalInformation",
         "type" : [ "null", {
           "type" : "map",
@@ -116,14 +120,19 @@
       "items" : {
         "type" : "record",
         "name" : "CancerSample",
-        "doc" : "stage in some cases it might be nice to know about the grade and stage of tumor, but this is not strictly required",
+        "doc" : "TODO: like we perhaps we should change method to samplingMethod? since we may wish to use method for defining the method version/type (e.g. version 1 or secondary findings methodology?",
         "fields" : [ {
           "name" : "id",
           "type" : "string",
-          "doc" : "Sample ID (this is the individual id (gel ID))"
+          "doc" : "Individual Is (this is the individual id (gel ID))"
+        }, {
+          "name" : "sampleId",
+          "type" : "string",
+          "doc" : "Sample Id (e.g, LP00012645_5GH))"
         }, {
           "name" : "centerSampleId",
-          "type" : [ "null", "string" ]
+          "type" : [ "null", "string" ],
+          "doc" : "TODO: Check with the team if we want/need keep this info"
         }, {
           "name" : "sampleType",
           "type" : {
@@ -135,7 +144,7 @@
         }, {
           "name" : "source",
           "type" : [ "null", "string" ],
-          "doc" : "Sample Source\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+          "doc" : "Sample Source\n    TODO: Is the time to define this?\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
         }, {
           "name" : "preservationMethod",
           "type" : [ "null", {

@@ -78,7 +78,7 @@
       "items" : {
         "type" : "record",
         "name" : "Disorder",
-        "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nMore generally one would like to have an omim or orphanet id here\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
+        "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
         "fields" : [ {
           "name" : "diseaseGroup",
           "type" : [ "null", "string" ],
@@ -150,7 +150,7 @@
         },
         "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
       }, {
-        "name" : "optOut",
+        "name" : "pilotToMainOptOut",
         "type" : "boolean",
         "default" : false
       }, {
@@ -190,6 +190,18 @@
       "items" : "string"
     } ],
     "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
+  }, {
+    "name" : "genomicMedicineCentre",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "fullNameOfResponsibleConsultant",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "contactNumber",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "hospitalOfResponsibleConsultant",
+    "type" : [ "null", "string" ]
   }, {
     "name" : "additionalInformation",
     "type" : [ "null", {

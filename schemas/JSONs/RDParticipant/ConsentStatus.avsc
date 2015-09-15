@@ -12,7 +12,7 @@
     },
     "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
   }, {
-    "name" : "optOut",
+    "name" : "pilotToMainOptOut",
     "type" : "boolean",
     "default" : false
   }, {

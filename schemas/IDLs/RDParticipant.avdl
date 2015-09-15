@@ -4,10 +4,10 @@ This protocol defines the Participants and Pedigree
 */
 protocol RDPedigree {
 
+import idl "ConsentStatus.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
-More generally one would like to have an omim or orphanet id here
 Currently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be
 completed but we add the others for generality
 */
@@ -62,55 +62,6 @@ record HpoTerm {
 
 
 }
-/**
-This is to distinguish into which part of the program the participant was consented to
-*/
-enum ProgramPhase {pilot, main}
-
-record ConsentStatus {
-
-    /**
-    Is this individual consented to the programme?
-    It could simple be a family member that is not consented but for whom affection status is known
-    False by default! needs to be explicitly changed
-    */
-
-
-    ProgramPhase programPhase;
-
-    boolean optOut=false;
-
-    /** This is the consent date
-    */
-    string consentDate;
-
-    union {null, string} consentVersion;
-
-
-    /** OptOut of transfer to main phase, where secondary findings are mandatory */
-
-
-    boolean programmeConsent=false;
-
-    /**
-    Consent for feedback of primary findings?
-    False by default
-    */
-    boolean primaryFindingConsent=false;
-
-    /**
-    Consent for secondary finding lookup
-    False by default
-    */
-    boolean secondaryFindingConsent=false;
-
-    /**
-    Consent for carrier status check?
-    False by default
-    */
-    boolean carrierStatusConsent=false;
-}
-
 
 /**
 Definitions of enumeration used in RDParticipant
@@ -221,6 +172,16 @@ record RDParticipant {
     This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
     */
     union {null, array<string>} samples;
+
+
+
+    union {null, string} genomicMedicineCentre;
+    union {null, string} fullNameOfResponsibleConsultant; // TODO: we really need this??? (don't see the purpose)
+    union {null, string} contactNumber;
+    union {null, string} hospitalOfResponsibleConsultant;
+
+
+
 
     /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc

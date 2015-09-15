@@ -22,7 +22,7 @@ import idl "RDParticipant.avdl";
 /**
 This defines a file
 This Record is defined by the sampleID and a URI
-Currently SampleID can be a single String or an array of strings if multiple samples are assoicated with the same file
+Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
 */
 record File {
     /**
@@ -34,40 +34,48 @@ record File {
     URI PATH
     */
     string URIFile;
-
-
 }
 
 /**
-This record defines a gene panel. The Level 4 Title is the name of the condition, for example Brugada syndrome
+This record defines a gene panel.
 */
 //TODO: this needs to be tightened up and eventually changed to be supported in cellbase directly
+//TODO: this can be an array of virtual panels each one with a model of inheritance
+
 record VirtualPanel {
-   string SpecificDiseaseTitle;
+    string specificDiseaseTitle;
 
-   /**
-   gene id from ensembl (version as per annotation file)
-   */
-   union {null, array<string>} geneIds;
+    string panelVersion;
 
-   /**
-   transcript ids from ensembl
-   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
-   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
-   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
-   */
-   union {null, array<string>} clinicalRelevantTranscripts;
+    string ensemblVersion;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+
+    string dataModelCatalogueVersion;  //priority 2
+
+    /**
+    gene id from ensembl (version as per annotation file)
+    */
+    union {null, array<string>} geneIds;
+
+    /**
+    transcript ids from ensembl
+    */
+    union {null, array<string>} Transcripts;
 
     /**
     BED format file
     */
-   union {null, File} relevantRegions;
+    union {null, File} relevantRegions;
 
-   /**
+    /**
 
-   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
-   */
-   union {null, File} clinicalRelevantVariants;
+    GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
+    */
+    union {null, File} clinicalRelevantVariants;
 
 }
 
@@ -93,11 +101,7 @@ record RareDisease {
 
     string recruitedDiseaseCategory; //priority 1
 
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelCatalogueVersion;  //priority 2
+
 
     Pedigree pedigree;
 
@@ -157,8 +161,7 @@ record RareDisease {
     /**
     This is the family history as pertinent to assessing secondary findings.
     It is paternal or maternal with reference to the proband.
-    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is
-    not collected in that level of detail.
+    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is not collected in that level of detail.
     */
     union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
 }
@@ -168,11 +171,13 @@ record RareDisease {
 /**
 This record represents basic information for this report
 */
-record InterpretationRequest {
+record RDInterpretationRequest {
     /**
     Unique id for this report
     */
     string reportRequestId;
+
+    string genomeAssemblyVersion;
 
     /**
     Version of this report
@@ -207,7 +212,7 @@ record InterpretationRequest {
     /**
     This will be the output file from Cellbase + version used
     */
-    File annotationFile;
+    union {null, File} annotationFile;
 
     RareDisease rareDisease;
 
