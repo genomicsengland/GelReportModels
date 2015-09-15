@@ -138,16 +138,17 @@ class CancerDemographics(ProtocolElement):
 "", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
 "", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
 "type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"},
-{"default": false, "doc": "", "type": "boolean", "name": "optOut"},
-{"default": false, "type": "boolean", "name": "programmeConsent"},
+[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
+"", "type": "string", "name": "consentDate"}, {"default": false,
+"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}], "doc": ""}
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -465,25 +466,26 @@ class CancerParticipant(ProtocolElement):
 "", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
 "", "type": {"symbols": ["male", "female", "unknown"], "doc": "",
 "type": "enum", "name": "Sex"}, "name": "sex"}, {"type": {"fields":
-[{"doc": "", "type": "ProgramPhase", "name": "programPhase"},
-{"default": false, "doc": "", "type": "boolean", "name": "optOut"},
-{"default": false, "type": "boolean", "name": "programmeConsent"},
+[{"doc": "", "type": "ProgramPhase", "name": "programPhase"}, {"doc":
+"", "type": "string", "name": "consentDate"}, {"default": false,
+"doc": "", "type": "boolean", "name": "optOut"}, {"default": false,
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
-"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalInformation"}]}, "name": "cancerDemographics"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
+"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "name": "cancerDemographics"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
 "id"}, {"type": ["null", "string"], "name": "centerSampleId"}, {"doc":
 "", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
 "SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
 "string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
-["FFPE", "FF", "unknown", "LEUK", "GL"], "doc": "", "type": "enum",
-"name": "PreservationMethod"}], "name": "preservationMethod"}, {"doc":
-"", "type": ["null", {"symbols": ["primary", "metastasis"], "doc": "",
+["FFPE", "FF", "Unknown", "LEUK", "GL"], "type": "enum", "name":
+"PreservationMethod"}], "name": "preservationMethod"}, {"doc": "",
+"type": ["null", {"symbols": ["primary", "metastasis"], "doc": "",
 "type": "enum", "name": "Phase"}], "name": "phase"}, {"doc": "",
 "type": ["null", {"symbols": ["resection", "biopsy"], "doc": "",
 "type": "enum", "name": "Method"}], "name": "method"}, {"doc": "",
@@ -586,9 +588,9 @@ class CancerSample(ProtocolElement):
 "", "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
 "SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
 "string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
-["FFPE", "FF", "unknown", "LEUK", "GL"], "doc": "", "type": "enum",
-"name": "PreservationMethod"}], "name": "preservationMethod"}, {"doc":
-"", "type": ["null", {"symbols": ["primary", "metastasis"], "doc": "",
+["FFPE", "FF", "Unknown", "LEUK", "GL"], "type": "enum", "name":
+"PreservationMethod"}], "name": "preservationMethod"}, {"doc": "",
+"type": ["null", {"symbols": ["primary", "metastasis"], "doc": "",
 "type": "enum", "name": "Phase"}], "name": "phase"}, {"doc": "",
 "type": ["null", {"symbols": ["resection", "biopsy"], "doc": "",
 "type": "enum", "name": "Method"}], "name": "method"}, {"doc": "",
@@ -662,19 +664,20 @@ class ConsentStatus(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"ConsentStatus", "fields": [{"doc": "", "type": ["null", {"symbols":
-["pilot", "main"], "doc": "", "type": "enum", "name":
-"ProgramPhase"}], "name": "programPhase"}, {"type": ["null",
-"string"], "name": "consentVersion"}, {"default": false, "doc": "",
-"type": ["null", "boolean"], "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+"ConsentStatus", "fields": [{"doc": "", "type": {"symbols": ["pilot",
+"main"], "doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}]}
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "consentDate",
         "consentVersion",
         "programPhase",
     }
@@ -691,14 +694,16 @@ class ConsentStatus(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'carrierStatusConsent', 'consentVersion', 'optOut',
-        'primaryFindingConsent', 'programPhase', 'programmeConsent',
-        'secondaryFindingConsent'
+        'carrierStatusConsent', 'consentDate', 'consentVersion',
+        'optOut', 'primaryFindingConsent', 'programPhase',
+        'programmeConsent', 'secondaryFindingConsent'
     ]
 
     def __init__(self, **kwargs):
         self.carrierStatusConsent = kwargs.get(
             'carrierStatusConsent', False)
+        self.consentDate = kwargs.get(
+            'consentDate', None)
         self.consentVersion = kwargs.get(
             'consentVersion', None)
         self.optOut = kwargs.get(
@@ -715,9 +720,10 @@ class ConsentStatus(ProtocolElement):
 
 class Disorder(ProtocolElement):
     """
-    This is quite GEL specific More generally one would like to have
+    This is quite GEL specific. This is the way is stored in
+    ModelCatalogue and PanelApp. More generally one would like to have
     an omim or orphanet id here Currently all specific disease titles
-    are asigned to a disease subgroup so really only specificDisease
+    are assigned to a disease subgroup so really only specificDisease
     needs to be completed but we add the others for generality
     """
     _schemaSource = """
@@ -1034,53 +1040,54 @@ class InterpretationRequest(ProtocolElement):
 "dataModelCatalogueVersion"}, {"type": {"doc": "", "type": "record",
 "name": "Pedigree", "fields": [{"doc": "", "type": "string", "name":
 "familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
-"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
-"string", "name": "familyId"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "externalIds"}, {"doc": "", "type":
-"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
-{"symbols": ["male", "female", "unknown"], "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", "string"],
-"name": "father"}, {"type": ["null", "string"], "name": "mother"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"type":
-{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
-[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
-["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "modifier"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": ["null",
-{"symbols": ["unaffected", "affected", "carrier", "uncertain",
-"presymptomatic"], "doc": "", "type": "enum", "name":
+"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
+"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
+"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+"string"], "name": "father"}, {"type": ["null", "string"], "name":
+"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
+"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
+{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
+"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
+["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
+"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
+"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
 "CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"fields": [{"doc": "", "type": ["null",
-{"symbols": ["pilot", "main"], "doc": "", "type": "enum", "name":
-"ProgramPhase"}], "name": "programPhase"}, {"type": ["null",
-"string"], "name": "consentVersion"}, {"default": false, "doc": "",
-"type": ["null", "boolean"], "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
+"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
+"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
+"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
+"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
+"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}]}, "type": "array"}, "name":
-"participants"}]}, "name": "pedigree"}, {"doc": "", "type": ["null",
-"File"], "name": "inbreedingCoefficientEstimates"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
+"name": "participants"}]}, "name": "pedigree"}, {"doc": "", "type":
+["null", "File"], "name": "inbreedingCoefficientEstimates"}, {"doc":
+"", "type": ["null", {"items": "string", "type": "array"}], "name":
 "ancestries"}, {"doc": "", "type": ["null", "string"], "name":
 "complexGeneticPhenomena"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "modeOfInheritance"}, {"doc": "", "type":
@@ -1286,51 +1293,52 @@ class Pedigree(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": "string", "name":
 "familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
-"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
-"string", "name": "familyId"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "externalIds"}, {"doc": "", "type":
-"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
-{"symbols": ["male", "female", "unknown"], "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", "string"],
-"name": "father"}, {"type": ["null", "string"], "name": "mother"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"type":
-{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
-[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
-["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "modifier"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": ["null",
-{"symbols": ["unaffected", "affected", "carrier", "uncertain",
-"presymptomatic"], "doc": "", "type": "enum", "name":
+"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
+"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
+"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+"string"], "name": "father"}, {"type": ["null", "string"], "name":
+"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
+"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
+{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
+"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
+["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
+"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
+"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
 "CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"fields": [{"doc": "", "type": ["null",
-{"symbols": ["pilot", "main"], "doc": "", "type": "enum", "name":
-"ProgramPhase"}], "name": "programPhase"}, {"type": ["null",
-"string"], "name": "consentVersion"}, {"default": false, "doc": "",
-"type": ["null", "boolean"], "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
+"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
+"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
+"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
+"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
+"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}]}, "type": "array"}, "name":
-"participants"}], "doc": ""}
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
+"name": "participants"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1382,21 +1390,19 @@ class Phase(object):
 
 class PreservationMethod(object):
     """
-    MP: adding unknown - or we can just allow null? AR: Null should be
-    no Treatment, if there is always a treatment we should not allow
-    nulls
+    No documentation
     """
     FFPE = "FFPE"
     FF = "FF"
-    unknown = "unknown"
+    Unknown = "Unknown"
     LEUK = "LEUK"
     GL = "GL"
 
 
 class ProgramPhase(object):
     """
-    EIK Added: this is to distinguish into which part of the program
-    the participant was consented to
+    This is to distinguish into which part of the program the
+    participant was consented to
     """
     pilot = "pilot"
     main = "main"
@@ -1409,50 +1415,51 @@ class RDParticipant(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
-"string", "name": "familyId"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "externalIds"}, {"doc": "", "type":
-"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
-{"symbols": ["male", "female", "unknown"], "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", "string"],
-"name": "father"}, {"type": ["null", "string"], "name": "mother"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"type":
-{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
-[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
-["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "modifier"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": ["null",
-{"symbols": ["unaffected", "affected", "carrier", "uncertain",
-"presymptomatic"], "doc": "", "type": "enum", "name":
+"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
+"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
+"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+"string"], "name": "father"}, {"type": ["null", "string"], "name":
+"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
+"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
+{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
+"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
+["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
+"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
+"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
 "CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"fields": [{"doc": "", "type": ["null",
-{"symbols": ["pilot", "main"], "doc": "", "type": "enum", "name":
-"ProgramPhase"}], "name": "programPhase"}, {"type": ["null",
-"string"], "name": "consentVersion"}, {"default": false, "doc": "",
-"type": ["null", "boolean"], "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
+"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
+"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
+"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
+"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
+"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}], "doc": ""}
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1462,7 +1469,6 @@ class RDParticipant(ProtocolElement):
         "consanguineousParents",
         "consanguineousPopulation",
         "consentStatus",
-        "dataModelCatalogueVersion",
         "disorderList",
         "externalIds",
         "familyId",
@@ -1472,6 +1478,7 @@ class RDParticipant(ProtocolElement):
         "lifeStatus",
         "monozygotic",
         "mother",
+        "samples",
         "sex",
         "twinGroup",
     }
@@ -1500,7 +1507,8 @@ class RDParticipant(ProtocolElement):
         'consanguineousParents', 'consanguineousPopulation',
         'consentStatus', 'dataModelCatalogueVersion', 'disorderList',
         'externalIds', 'familyId', 'father', 'hpoTermList', 'id',
-        'lifeStatus', 'monozygotic', 'mother', 'sex', 'twinGroup'
+        'lifeStatus', 'monozygotic', 'mother', 'samples', 'sex',
+        'twinGroup'
     ]
 
     def __init__(self, **kwargs):
@@ -1517,7 +1525,7 @@ class RDParticipant(ProtocolElement):
         self.consentStatus = kwargs.get(
             'consentStatus', None)
         self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', None)
+            'dataModelCatalogueVersion', v4.2)
         self.disorderList = kwargs.get(
             'disorderList', None)
         self.externalIds = kwargs.get(
@@ -1536,6 +1544,8 @@ class RDParticipant(ProtocolElement):
             'monozygotic', None)
         self.mother = kwargs.get(
             'mother', None)
+        self.samples = kwargs.get(
+            'samples', None)
         self.sex = kwargs.get(
             'sex', None)
         self.twinGroup = kwargs.get(
@@ -1553,54 +1563,55 @@ class RareDisease(ProtocolElement):
 "dataModelCatalogueVersion"}, {"type": {"doc": "", "type": "record",
 "name": "Pedigree", "fields": [{"doc": "", "type": "string", "name":
 "familyId"}, {"type": {"items": {"doc": "", "type": "record", "name":
-"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"type":
-"string", "name": "familyId"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "externalIds"}, {"doc": "", "type":
-"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
-{"symbols": ["male", "female", "unknown"], "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", "string"],
-"name": "father"}, {"type": ["null", "string"], "name": "mother"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
-"diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"type":
-{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
-[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
-["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "modifier"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": ["null",
-{"symbols": ["unaffected", "affected", "carrier", "uncertain",
-"presymptomatic"], "doc": "", "type": "enum", "name":
+"RDParticipant", "fields": [{"type": "string", "name": "id"}, {"doc":
+"", "type": {"symbols": ["male", "female", "unknown"], "type": "enum",
+"name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+"string"], "name": "father"}, {"type": ["null", "string"], "name":
+"mother"}, {"type": "string", "name": "familyId"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "externalIds"}, {"doc":
+"", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", "boolean"], "name": "monozygotic"}, {"type": ["null",
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"},
+{"doc": "", "type": ["null", {"symbols": ["aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "type": "enum", "name":
+"LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"boolean"], "name": "consanguineousParents"}, {"doc": "", "type":
+["null", "boolean"], "name": "consanguineousPopulation"}, {"doc": "",
+"type": ["null", {"symbols": ["unaffected", "affected", "carrier",
+"uncertain", "presymptomatic"], "doc": "", "type": "enum", "name":
 "CarrierStatus"}], "name": "carrierStatus"}, {"doc": "", "type":
-["null", {"symbols": ["aborted", "deceased", "unborn", "stillborn",
-"miscarriage"], "type": "enum", "name": "LifeStatus"}], "name":
-"lifeStatus"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", "boolean"], "name":
-"monozygotic"}, {"type": ["null", {"symbols": ["not_adopted",
-"adoptedin", "adoptedout"], "doc": "", "type": "enum", "name":
-"AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
-["null", "boolean"], "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"fields": [{"doc": "", "type": ["null",
-{"symbols": ["pilot", "main"], "doc": "", "type": "enum", "name":
-"ProgramPhase"}], "name": "programPhase"}, {"type": ["null",
-"string"], "name": "consentVersion"}, {"default": false, "doc": "",
-"type": ["null", "boolean"], "name": "optOut"}, {"default": false,
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"items": {"doc": "", "type": "record", "name": "Disorder", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "diseaseGroup"},
+{"doc": "", "type": ["null", "string"], "name": "diseaseSubGroup"},
+{"doc": "", "type": ["null", "string"], "name": "specificDisease"},
+{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
+"", "type": "string", "name": "term"}, {"doc": "", "type": ["null",
+"boolean"], "name": "termPresence"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "modifier"}, {"doc":
+"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
+"array"}, "name": "hpoTermList"}, {"default": "v4.2", "doc": "",
+"type": "string", "name": "dataModelCatalogueVersion"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": {"symbols": ["pilot", "main"],
+"doc": "", "type": "enum", "name": "ProgramPhase"}, "name":
+"programPhase"}, {"default": false, "type": "boolean", "name":
+"optOut"}, {"doc": "", "type": "string", "name": "consentDate"},
+{"type": ["null", "string"], "name": "consentVersion"}, {"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}], "type": "record", "name":
-"ConsentStatus"}, "name": "consentStatus"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}]}, "type": "array"}, "name":
-"participants"}]}, "name": "pedigree"}, {"doc": "", "type": ["null",
-{"doc": "", "type": "record", "name": "File", "fields": [{"doc": "",
-"type": ["null", "string", {"items": "string", "type": "array"}],
-"name": "SampleId"}, {"doc": "", "type": "string", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}],
+"type": "record", "name": "ConsentStatus"}, "name": "consentStatus"},
+{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "samples"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}]}, "type": "array"},
+"name": "participants"}]}, "name": "pedigree"}, {"doc": "", "type":
+["null", {"doc": "", "type": "record", "name": "File", "fields":
+[{"doc": "", "type": ["null", "string", {"items": "string", "type":
+"array"}], "name": "SampleId"}, {"doc": "", "type": "string", "name":
 "URIFile"}]}], "name": "inbreedingCoefficientEstimates"}, {"doc": "",
 "type": ["null", {"items": "string", "type": "array"}], "name":
 "ancestries"}, {"doc": "", "type": ["null", "string"], "name":

@@ -71,6 +71,10 @@
             "type" : "ProgramPhase",
             "doc" : "EIK: added programPhase - This indicate to which part of the program the participant was recruited too"
           }, {
+            "name" : "consentDate",
+            "type" : "string",
+            "doc" : "This is the consent date"
+          }, {
             "name" : "optOut",
             "type" : "boolean",
             "doc" : "EIK added optOut - this is important for changes to SecondaryFindings which become mandatory for main phase",
@@ -137,8 +141,7 @@
           "type" : [ "null", {
             "type" : "enum",
             "name" : "PreservationMethod",
-            "doc" : "MP: adding unknown - or we can just allow null?\nAR: Null should be no Treatment, if there is always a treatment we should not allow nulls",
-            "symbols" : [ "FFPE", "FF", "unknown", "LEUK", "GL" ]
+            "symbols" : [ "FFPE", "FF", "Unknown", "LEUK", "GL" ]
           } ],
           "doc" : "Preservation method"
         }, {

@@ -6,28 +6,25 @@ protocol RDPedigree {
 
 
 /**
-This is quite GEL specific
+This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
 More generally one would like to have an omim or orphanet id here
-Currently all specific disease titles are asigned to a disease subgroup so really only specificDisease needs to be
+Currently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be
 completed but we add the others for generality
 */
 
 record Disorder {
     /**
     This is Level2 Title for this disorder
-    TODO:use ID that refers to model catalogue instead
     */
     union {null,string} diseaseGroup;
 
     /**
     This is Level3 Title for this disorder
-    TODO:use ID that refers to model catalogue instead
     */
     union {null,string} diseaseSubGroup;
 
     /**
     This is Level4 Title for this disorder
-    TODO:use ID that refers to model catalogue instead
     */
     union {null,string} specificDisease;
 
@@ -35,8 +32,6 @@ record Disorder {
     Age of onset in months
     */
     union {null, int} ageOfOnset;
-
-
 }
 
 
@@ -67,7 +62,8 @@ record HpoTerm {
 
 
 }
-/** EIK Added: this is to distinguish into which part of the program the participant was consented to
+/**
+This is to distinguish into which part of the program the participant was consented to
 */
 enum ProgramPhase {pilot, main}
 
@@ -79,24 +75,18 @@ record ConsentStatus {
     False by default! needs to be explicitly changed
     */
 
-    /** EIK added: this is to distinguish into which part of the program the participant was consented to */
 
-    union {null, ProgramPhase} programPhase;
+    ProgramPhase programPhase;
 
-<<<<<<< HEAD
+    boolean optOut=false;
+
     /** This is the consent date
     */
-
     string consentDate;
 
-    /*
-=======
     union {null, string} consentVersion;
->>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8 */
 
-    /** EIK added: This is important for individuals that optOut of transfer to main phase, where secondary findings are mandatory */
-
-    union {null, boolean} optOut=false;
+    /** OptOut of transfer to main phase, where secondary findings are mandatory */
 
 
     boolean programmeConsent=false;
@@ -138,8 +128,6 @@ adoptedout means child belonged to the family and was adopted out
 enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
 
 
-
-
 /**
 This defines a RD Participant (demographics and pedigree information)
 */
@@ -147,52 +135,21 @@ record RDParticipant {
 
     string id;  //priority 1
 
-    string familyId;  //priority 1
-
-    /** removed
-
-    union {null, array<string>} externalIds; //priority 1
-    */
-
     /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelCatalogueVersion;  //priority 1
-
-    /**
-    Possible options: MALE, FEMALE, UNKNOWN
+    Possible options: male, female, unknown
     */
     Sex sex; //priority 1
 
     /**
     Id of the parent, if unknown then no parent is referenced
-    Eik amended
     */
     union {null, string}  father; //priority 1
 
     union {null, string}  mother;  //priority 1
 
-    /**
-    currently this is meant to be and omim code
-    */
-    array<Disorder> disorderList;  //priority 2
+    string familyId;  //priority 1
 
-
-
-    array<HpoTerm> hpoTermList; //priority 2
-
-    /**
-    See enum CarrierStatus
-    null (unknown) by default
-    */
-    union {null, CarrierStatus} carrierStatus; //priority 1
-
-    /**
-    see enum LifeStatus
-    Null (unknown) by default
-    */
-    union {null, LifeStatus} lifeStatus; //priority 1
+    union {null, array<string>} externalIds; //priority 1
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
@@ -208,17 +165,49 @@ record RDParticipant {
     union {null, AdoptedStatus} adoptedStatus; //priority 2
 
     /**
+    see enum LifeStatus
+    null (unknown) by default
+    */
+    union {null, LifeStatus} lifeStatus; //priority 1
+
+
+    /**
     Offspring of a consanguineous relationship?
     TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false.
     */
 
     union {null, boolean} consanguineousParents;  //priority 2
 
-    /** EIK: added consanguineousPopulation  - it is important to differenciate between offspring of a consanguineous union and offspring from a consanguineous population
-
+    /**
+    Offspring from a consanguineous population
     */
 
-    union {null, string} consanguineousPopulation;
+    union {null, boolean} consanguineousPopulation;
+
+
+    /**
+    See enum CarrierStatus
+    null (unknown) by default
+    */
+    union {null, CarrierStatus} carrierStatus; //priority 1
+
+
+    /**
+    Clinical Data (disorders)
+    */
+    array<Disorder> disorderList;  //priority 2
+
+    /**
+    Clinical Data (HPO terms)
+    */
+    array<HpoTerm> hpoTermList; //priority 2
+
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelCatalogueVersion="v4.2";  //priority 1
 
     /**
     What has this participant consented to?
@@ -227,12 +216,18 @@ record RDParticipant {
     */
     ConsentStatus consentStatus;  //priority 2
 
+    /**
+    This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
+    */
+    union {null, array<string>} samples;
 
     /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
     Null by default
     */
     union {null, map<string>} additionalInformation;
+
+
 }
 
 

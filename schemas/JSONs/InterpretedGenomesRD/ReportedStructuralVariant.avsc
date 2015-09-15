@@ -27,11 +27,7 @@
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
   }, {
-<<<<<<< HEAD
-    "name" : "calledGenotype",
-=======
     "name" : "calledGenotypes",
->>>>>>> fc2fbefaf28981a31e4ca593b0a29820a97fe9c8
     "type" : {
       "type" : "array",
       "items" : {
@@ -58,7 +54,7 @@
       }
     }
   }, {
-    "name" : "reportEvent",
+    "name" : "reportEvents",
     "type" : {
       "type" : "array",
       "items" : {
