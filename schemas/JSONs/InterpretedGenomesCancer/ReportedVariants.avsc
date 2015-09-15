@@ -65,6 +65,15 @@
           },
           "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
         }, {
+          "name" : "penetrance",
+          "type" : {
+            "type" : "enum",
+            "name" : "Penetrance",
+            "doc" : "Penetrance assumed in the analysis",
+            "symbols" : [ "complete", "incomplete" ]
+          },
+          "doc" : "This is the penetrance assumed for scoring or classifying this variant"
+        }, {
           "name" : "score",
           "type" : "float",
           "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"

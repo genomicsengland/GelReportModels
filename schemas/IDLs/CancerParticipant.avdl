@@ -4,7 +4,7 @@ This protocol defines the Participants
 */
 protocol Participants {
 
-import idl "ConsentStatus.avdl";
+import idl "CommonRequest.avdl";
 
 /**
 Definitions of enumeration used in CancerParticipant

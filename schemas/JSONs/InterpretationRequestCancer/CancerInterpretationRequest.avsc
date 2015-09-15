@@ -30,7 +30,7 @@
             "type" : "array",
             "items" : "string"
           } ],
-          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
+          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
         }, {
           "name" : "URIFile",
           "type" : "string",
@@ -68,16 +68,21 @@
     "name" : "virtualPanels",
     "type" : {
       "type" : "record",
-      "name" : "VirtualPanels",
-      "doc" : "This record defines a gene panel. Geneneral and/or cancer specific",
+      "name" : "VirtualPanel",
+      "doc" : "This record defines a gene panel.",
       "fields" : [ {
-        "name" : "cancerName",
-        "type" : "string",
-        "doc" : "previously known as \"VirtualPanel\""
+        "name" : "specificDiseaseTitle",
+        "type" : "string"
+      }, {
+        "name" : "panelVersion",
+        "type" : "string"
+      }, {
+        "name" : "ensemblVersion",
+        "type" : "string"
       }, {
         "name" : "dataModelCatalogueVersion",
         "type" : "string",
-        "doc" : "the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request\n   Version of the Data Catalogue against which the information is being provided\n   The data catalogue version should internally keep track of the version for the HPO ontology"
+        "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
       }, {
         "name" : "geneIds",
         "type" : [ "null", {
@@ -86,14 +91,14 @@
         } ],
         "doc" : "gene id from ensembl (version as per annotation file)"
       }, {
-        "name" : "clinicalRelevantTranscripts",
+        "name" : "Transcripts",
         "type" : [ "null", {
           "type" : "array",
           "items" : "string"
         } ],
-        "doc" : "transcript ids from ensembl\n   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info\n   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info\n   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved"
+        "doc" : "transcript ids from ensembl"
       }, {
-        "name" : "RelevantRegions",
+        "name" : "relevantRegions",
         "type" : [ "null", "File" ],
         "doc" : "BED format file"
       }, {

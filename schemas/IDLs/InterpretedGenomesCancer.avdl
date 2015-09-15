@@ -10,137 +10,17 @@ TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser s
 */
 protocol InterpretedGenomesCancer {
 
-/**
-This is intended to hold the genotypes for the family members
-In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
-*/
 
-record CalledGenotypes {
-    /**
-    TODO: EIK added field for allele fraction  - ARM to check
-    */
-    /**
-    Participant id of the family member
-    */
-    /**
-    TODO: EIK changed partipantId to Sample ID to reflect tumour normal
-    */
-    string sampleId;
-
-    /**
-    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
-    */
-    string genotype;
-
-    union {null, float} alleleFraction;
-
-    /**
-    Copy number genotype for imprecise events
-    */
-    union {null, int} copyNumber;
-
-}
-
-record Gene {
-    /**
-    HGMD symbol
-    */
-    string symbol;
-
-    /**
-    Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)
-    */
-    string transcriptId;
+import idl "CommonInterpreted.avdl";
 
 
-    /**
-    Others IDs
-    */
-    map<string> ids;
-
-    /**
-    Exome size
-    */
-    union {null, int} exomeSize;
-
-    /**
-    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
-    */
-    union {null, double} geneCoverage;
-
-}
-
-
-/**
-This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
-*/
-enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
-
-/**
-Penetrance assumed in the analysis
-*/
-enum Penetrance {complete, incomplete}
-
-/**
-Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be
-*/
-
-enum Tier {NONE, TIER1, TIER2, TIER3}
-
-record ReportEvents {
-
-    /**
-    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
-    */
-    union {null, string} modeOfInheritance;
-
-    /**
-    This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
-    If more than one gene is considered interesting for this particular variant, should be reported in two different
-    ReportEvents
-    TODO: Add transcript
-    */
-    Gene gene;
-
-    /**
-    This is the penetrance assumed for scoring or classifying this variant
-    */
-    Penetrance penetrance;
-
-    /**
-    This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
-    a specific mode of Inheritance
-    */
-    float score;
-
-    /**
-    This variant using this mode of inheritance can  fully explain the phenotype? true or false
-    */
-    union {null, boolean} fullyExplainsPhenotype;
-
-    /**
-    This value groups variants that together could explain the phenotype according to the
-    mode of inheritance used. All the variants sharing the same value will be considered in the same group.
-    This value is an integer unique in the whole analysis.
-    */
-    union {null, int} groupOfVariants;
-
-    /**
-    This is the description of why this variant would be reported, for example that it affects the protein in this way
-    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
-    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
-    */
-    string variantJustification;
-
-    union {null, Tier} tier;
-}
 
 /** this defines whether the variant reported is considered to be a somatic or germline finding.
 */
 
 enum SomaticOrGermline {unknown, somatic, germline}
 
-record ReportedVariants {
+record ReportedSomaticVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -176,9 +56,9 @@ record ReportedVariants {
     */
 
 
-    array<ReportEvents> reportEvents;
+    array<ReportEvent> reportEvents;
 
-    array<CalledGenotypes> calledGenotypes;
+    array<CalledGenotype> calledGenotypes;
 
     union {null, float} internalScore;
 
@@ -208,7 +88,7 @@ record ReportedVariants {
 
 
 
-record ReportedStructuralVariants {
+record ReportedSomaticStructuralVariants {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -242,9 +122,9 @@ record ReportedStructuralVariants {
     string alternate;
 
 
-    array<ReportEvents> ReportEvents;
+    array<ReportEvent> ReportEvents;
 
-    array<CalledGenotypes> calledGenotypes;
+    array<CalledGenotype> calledGenotypes;
 
     /**
     This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
@@ -306,9 +186,9 @@ record CancerInterpretationAnalysis {
 
     string reportURI;
 
-    array<ReportedVariants> reportedVariants;
+    array<ReportedSomaticVariants> reportedVariants;
 
-    array<ReportedStructuralVariants> reportedStructuralVariants;
+    array<ReportedSomaticStructuralVariants> reportedStructuralVariants;
 
     /**
     Comments about the report

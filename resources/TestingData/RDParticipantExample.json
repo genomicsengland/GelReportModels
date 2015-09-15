@@ -1,21 +1,54 @@
 {
   "participants": [
     {
-      "consentStatus": {"primaryFindingConsent": true, "programmeConsent": true, "carrierStatusConsent": true, "secondaryFindingConsent": true, "optOut": false, "programPhase": "pilot"},
-      "mother": "LP2000255-DNA_G01",
-      "dataModelCatalogueVersion": "v1.1",
-      "father": "LP2000255-DNA_B10",
-      "hpoTermList": [{"termPresence": true, "term":"HP0001562"}, {"termPresence": true, "term":"HP:0001507"}, {"termPresence": true, "term":"HP:001561"}],
-      "consanguineousParents": true,
-      "disorderList": [{"specificDisease": "Mitochondrial disorders"}],
+      "consentStatus": {
+        "programPhase": "main",
+        "consentDate": "01/04/2015",
+        "pilotToMainOptOut": false,
+        "primaryFindingConsent": true,
+        "programmeConsent": true,
+        "carrierStatusConsent": true,
+        "secondaryFindingConsent": true
+      },
+      "mother": "GEL_0002",
+      "additionalInformation": {"clinical information" : "The participant was critically ill at the time of recruitment."},
+      "dataModelCatalogueVersion": "V4.2",
+      "father": "GEL_0003",
+      "hpoTermList": [
+        {
+          "termPresence": true,
+          "term": "HP:0003002",
+          "modifiers": ["HP:0006625"]
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0003004",
+          "modifiers": ["HP:0006425"]
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0003002",
+          "modifiers": ["HP:0006655"],
+          "ageOfOnset": 15
+        }
+      ],
+      "consanguineousParents": false,
+      "consanguineousPopulation": "Ashkenazi Jew",
+      "disorderList": [
+        {
+          "diseaseGroup": "TumourSyndrome",
+          "diseaseDubGroup": "Breast and endocrine",
+          "specificDisease": "Familial breast cancer"
+        }
+      ],
       "adoptedStatus": "not_adopted",
-      "lifeStatus":  "deceased",
       "sex": "female",
-      "familyId": "00001",
+      "familyId": "GELF_0001",
+      "twinGroup": 1,
       "monozygotic": false,
-      "id": "LP2000254-DNA_G01",
-      "carrierStatus": "uncertain",
-      "samples": ["LP00002255_GA4", "LP00002255_HA3"]
-    }],
-  "familyId": "00001"
+      "id": "GEL_0001",
+      "carrierStatus": "uncertain"
+    }
+  ],
+  "familyId": "GELF_0001"
 }

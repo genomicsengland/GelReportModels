@@ -1,19 +1,23 @@
 {
   "type" : "record",
-  "name" : "ReportedVariant",
+  "name" : "ReportedSomaticStructuralVariants",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "chromosome",
     "type" : "string",
     "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
   }, {
-    "name" : "dbSNPid",
-    "type" : "string",
-    "doc" : "variant ID in dbSNP"
-  }, {
-    "name" : "position",
+    "name" : "start",
     "type" : "int",
-    "doc" : "position: Position 1-based"
+    "doc" : "start: start position 1-based"
+  }, {
+    "name" : "end",
+    "type" : "int",
+    "doc" : "end: end position 1-based"
+  }, {
+    "name" : "type",
+    "type" : "string",
+    "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
   }, {
     "name" : "reference",
     "type" : "string",
@@ -23,35 +27,7 @@
     "type" : "string",
     "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
   }, {
-    "name" : "calledGenotypes",
-    "type" : {
-      "type" : "array",
-      "items" : {
-        "type" : "record",
-        "name" : "CalledGenotype",
-        "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
-        "fields" : [ {
-          "name" : "participantId",
-          "type" : "string",
-          "doc" : "Participant id of the family member"
-        }, {
-          "name" : "genotype",
-          "type" : "string",
-          "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
-        }, {
-          "name" : "alleleFraction",
-          "type" : [ "null", "float" ],
-          "doc" : "Allele fraction of the variant"
-        }, {
-          "name" : "copyNumber",
-          "type" : [ "null", "int" ],
-          "doc" : "Copy number genotype for imprecise events"
-        } ]
-      }
-    },
-    "doc" : "array of genotypes for the family"
-  }, {
-    "name" : "reportEvents",
+    "name" : "ReportEvents",
     "type" : {
       "type" : "array",
       "items" : {
@@ -127,12 +103,38 @@
           } ]
         } ]
       }
-    },
-    "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
+    }
+  }, {
+    "name" : "calledGenotypes",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "CalledGenotype",
+        "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
+        "fields" : [ {
+          "name" : "participantId",
+          "type" : "string",
+          "doc" : "Participant id of the family member"
+        }, {
+          "name" : "genotype",
+          "type" : "string",
+          "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+        }, {
+          "name" : "alleleFraction",
+          "type" : [ "null", "float" ],
+          "doc" : "Allele fraction of the variant"
+        }, {
+          "name" : "copyNumber",
+          "type" : [ "null", "int" ],
+          "doc" : "Copy number genotype for imprecise events"
+        } ]
+      }
+    }
   }, {
     "name" : "internalScore",
     "type" : [ "null", "float" ],
-    "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance.\n    TODO: Think about this!!!"
+    "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance."
   }, {
     "name" : "variantClassification",
     "type" : [ "null", {
@@ -162,5 +164,14 @@
       "items" : "string"
     } ],
     "doc" : "Comments"
+  }, {
+    "name" : "somaticOrGermline",
+    "type" : {
+      "type" : "enum",
+      "name" : "SomaticOrGermline",
+      "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+      "symbols" : [ "unknown", "somatic", "germline" ]
+    },
+    "doc" : "EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding"
   } ]
 }

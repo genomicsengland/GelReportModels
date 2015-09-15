@@ -16,85 +16,7 @@ import idl "variants.avdl";
 */
 
 import idl "CancerParticipant.avdl";
-
-/**
-This defines a file
-This Record is defined by the sampleID and a URI
-Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
-*/
-record File {
-    /**
-    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids
-    */
-    union {null, string, array<string>} SampleId;
-
-    /**
-    URI PATH
-    */
-    string URIFile;
-
-
-}
-/** TODO: "Gene panels" for cancer need to be defined (see direction for cancer program), there will no doubt be one "general panel" (cancerPredispositionPanel and germlinePanel) and other more specific panels"
-*/
-
-/** EIK: added VirtualPanels - these records describes all virtual panels that may be applied for cancer analysis
-*/
-
-
-
-/**
-This record defines a gene panel. Geneneral and/or cancer specific
-*/
-record VirtualPanels {
-
-   /** previously known as "VirtualPanel" */
-
-   string cancerName;
-
-   /** the most recent data model version and gene panel should be used for analysis, however it is important to reflect on whether the model used at the time of recruitment is still adequately represented by the most recent version at the time of request
-   Version of the Data Catalogue against which the information is being provided
-   The data catalogue version should internally keep track of the version for the HPO ontology
-   */
-   string dataModelCatalogueVersion;
-
-   /**
-   gene id from ensembl (version as per annotation file)
-   */
-   union {null, array<string>} geneIds;
-
-   /**
-   transcript ids from ensembl
-   see for example: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/BRCA2/info
-   or equivalently: http://bioinfodev.hpc.cam.ac.uk/cellbase/webservices/rest/v3/hsapiens/feature/gene/ENSG00000139618/info
-   Eventually gene panels of this sort with corresponding modes of inheritance and relevant transcripts needs to be improved
-   */
-   union {null, array<string>} clinicalRelevantTranscripts;
-
-    /**
-    BED format file
-    */
-   union {null, File} RelevantRegions;
-
-   /**
-
-   GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
-   */
-   union {null, File} clinicalRelevantVariants;
-
-}
-
-
-
-/**
-Family history for secondary findings
-TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
-Arrays of strings describing discrete family history phenotypes
-*/
-record OtherFamilyHistory {  //priority 3
-    union {null, array<string>} maternalFamilyHistory;
-    union {null, array<string>} paternalFamilyHistory;
-}
+import idl "CommonRequest.avdl";
 
 
 
@@ -149,7 +71,7 @@ record CancerInterpretationRequest {
     /** this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)
     (not to be confused with VirtualPanel record - RareDisease only)
     */
-    VirtualPanels virtualPanels;
+    VirtualPanel virtualPanels;
 
 
     string analysisURI;

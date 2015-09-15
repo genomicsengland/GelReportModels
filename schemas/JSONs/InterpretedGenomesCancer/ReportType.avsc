@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "ReportType",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "primaryFindings", "SecondaryFindings", "CarrierStatus" ]
+}

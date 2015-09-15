@@ -18,76 +18,9 @@ import idl "variants.avdl";
 */
 
 import idl "RDParticipant.avdl";
+import idl "CommonRequest.avdl";
 
-/**
-This defines a file
-This Record is defined by the sampleID and a URI
-Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
-*/
-record File {
-    /**
-    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
-    */
-    union {null, string, array<string>} SampleId;
 
-    /**
-    URI PATH
-    */
-    string URIFile;
-}
-
-/**
-This record defines a gene panel.
-*/
-//TODO: this needs to be tightened up and eventually changed to be supported in cellbase directly
-//TODO: this can be an array of virtual panels each one with a model of inheritance
-
-record VirtualPanel {
-    string specificDiseaseTitle;
-
-    string panelVersion;
-
-    string ensemblVersion;
-
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-
-    string dataModelCatalogueVersion;  //priority 2
-
-    /**
-    gene id from ensembl (version as per annotation file)
-    */
-    union {null, array<string>} geneIds;
-
-    /**
-    transcript ids from ensembl
-    */
-    union {null, array<string>} Transcripts;
-
-    /**
-    BED format file
-    */
-    union {null, File} relevantRegions;
-
-    /**
-
-    GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
-    */
-    union {null, File} clinicalRelevantVariants;
-
-}
-
-/**
-Family history for secondary findings
-TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
-Arrays of strings describing discrete family history phenotypes
-*/
-record OtherFamilyHistory {  //priority 3
-    union {null, array<string>} maternalFamilyHistory;
-    union {null, array<string>} paternalFamilyHistory;
-}
 
 
 record RareDisease {

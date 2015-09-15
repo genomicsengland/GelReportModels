@@ -4,7 +4,7 @@ This protocol defines the Participants and Pedigree
 */
 protocol RDPedigree {
 
-import idl "ConsentStatus.avdl";
+import idl "CommonRequest.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -53,7 +53,7 @@ record HpoTerm {
     /**
     Modifier associated with the HPO term
     */
-    union {null, array<string>} modifier;
+    union {null, array<string>} modifiers;
 
     /**
     Age of onset in months
@@ -135,7 +135,7 @@ record RDParticipant {
     Offspring from a consanguineous population
     */
 
-    union {null, boolean} consanguineousPopulation;
+    union {null, string} consanguineousPopulation;
 
 
     /**

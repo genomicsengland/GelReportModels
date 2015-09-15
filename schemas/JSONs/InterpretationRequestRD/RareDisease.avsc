@@ -81,7 +81,7 @@
               "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
             }, {
               "name" : "consanguineousPopulation",
-              "type" : [ "null", "boolean" ],
+              "type" : [ "null", "string" ],
               "doc" : "Offspring from a consanguineous population"
             }, {
               "name" : "carrierStatus",
@@ -137,7 +137,7 @@
                     "type" : [ "null", "boolean" ],
                     "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
                   }, {
-                    "name" : "modifier",
+                    "name" : "modifiers",
                     "type" : [ "null", {
                       "type" : "array",
                       "items" : "string"

@@ -23,7 +23,7 @@
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "ReportedVariants",
+        "name" : "ReportedSomaticVariants",
         "fields" : [ {
           "name" : "chromosome",
           "type" : "string",
@@ -50,10 +50,10 @@
             "type" : "array",
             "items" : {
               "type" : "record",
-              "name" : "ReportEvents",
+              "name" : "ReportEvent",
               "fields" : [ {
                 "name" : "modeOfInheritance",
-                "type" : [ "null", "string" ],
+                "type" : "string",
                 "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
               }, {
                 "name" : "gene",
@@ -87,6 +87,15 @@
                 },
                 "doc" : "This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents\n    TODO: Add transcript"
               }, {
+                "name" : "penetrance",
+                "type" : {
+                  "type" : "enum",
+                  "name" : "Penetrance",
+                  "doc" : "Penetrance assumed in the analysis",
+                  "symbols" : [ "complete", "incomplete" ]
+                },
+                "doc" : "This is the penetrance assumed for scoring or classifying this variant"
+              }, {
                 "name" : "score",
                 "type" : "float",
                 "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"
@@ -107,7 +116,7 @@
                 "type" : [ "null", {
                   "type" : "enum",
                   "name" : "Tier",
-                  "doc" : "Possible tiers as defined by Genomics England/ or Impact  - it is unlikely that tiers will be used for cancer, since these are gene specific, however impact classes as used to define the tiers may be",
+                  "doc" : "Possible tiers as defined by Genomics England",
                   "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
                 } ]
               } ]
@@ -120,19 +129,20 @@
             "type" : "array",
             "items" : {
               "type" : "record",
-              "name" : "CalledGenotypes",
+              "name" : "CalledGenotype",
               "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
               "fields" : [ {
-                "name" : "sampleId",
+                "name" : "participantId",
                 "type" : "string",
-                "doc" : "TODO: EIK changed partipantId to Sample ID to reflect tumour normal"
+                "doc" : "Participant id of the family member"
               }, {
                 "name" : "genotype",
                 "type" : "string",
                 "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
               }, {
                 "name" : "alleleFraction",
-                "type" : [ "null", "float" ]
+                "type" : [ "null", "float" ],
+                "doc" : "Allele fraction of the variant"
               }, {
                 "name" : "copyNumber",
                 "type" : [ "null", "int" ],
@@ -190,7 +200,7 @@
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "ReportedStructuralVariants",
+        "name" : "ReportedSomaticStructuralVariants",
         "fields" : [ {
           "name" : "chromosome",
           "type" : "string",
@@ -219,13 +229,13 @@
           "name" : "ReportEvents",
           "type" : {
             "type" : "array",
-            "items" : "ReportEvents"
+            "items" : "ReportEvent"
           }
         }, {
           "name" : "calledGenotypes",
           "type" : {
             "type" : "array",
-            "items" : "CalledGenotypes"
+            "items" : "CalledGenotype"
           }
         }, {
           "name" : "internalScore",
