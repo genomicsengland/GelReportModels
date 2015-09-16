@@ -7,7 +7,7 @@ protocol InterpretedGenomesRD {
 
 import idl "CommonInterpreted.avdl";
 
-record InterpretationAnalysis {
+record RDInterpretationAnalysis {
     /** TODO: ARM To check ReportType (Revised: dont understand what is this, aks Eik)
     */
 
