@@ -5,12 +5,12 @@ This protocol defines the Participants
 protocol Participants {
 
 import idl "CommonRequest.avdl";
+import idl "CommonParticipant.avdl";
 
 /**
 Definitions of enumeration used in CancerParticipant
 */
 
-enum Sex {male, female, unknown}
 enum SampleType {germline, tumor}
 
 enum PreservationMethod {FFPE, FF, Unknown, LEUK, GL}

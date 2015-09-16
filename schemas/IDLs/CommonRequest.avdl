@@ -5,55 +5,6 @@ This protocol defines the Commons for GEL models
 protocol CommonRequest {
 
 /**
-This is to distinguish into which part of the program the participant was consented to
-*/
-enum ProgramPhase {pilot, main}
-
-record ConsentStatus {
-
-    /**
-    Is this individual consented to the programme?
-    It could simple be a family member that is not consented but for whom affection status is known
-    False by default! needs to be explicitly changed
-    */
-
-
-    ProgramPhase programPhase;
-
-    boolean pilotToMainOptOut=false;
-
-    /** This is the consent date
-    */
-    string consentDate;
-
-    union {null, string} consentVersion;
-
-
-    /** OptOut of transfer to main phase, where secondary findings are mandatory */
-
-
-    boolean programmeConsent=false;
-
-    /**
-    Consent for feedback of primary findings?
-    False by default
-    */
-    boolean primaryFindingConsent=false;
-
-    /**
-    Consent for secondary finding lookup
-    False by default
-    */
-    boolean secondaryFindingConsent=false;
-
-    /**
-    Consent for carrier status check?
-    False by default
-    */
-    boolean carrierStatusConsent=false;
-}
-
-/**
 This defines a file
 This Record is defined by the sampleID and a URI
 Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file

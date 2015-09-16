@@ -5,6 +5,7 @@ This protocol defines the Participants and Pedigree
 protocol RDPedigree {
 
 import idl "CommonRequest.avdl";
+import idl "CommonParticipant.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -70,8 +71,6 @@ Definitions of enumeration used in RDParticipant
 enum CarrierStatus {unaffected, affected, carrier, uncertain, presymptomatic}
 
 enum LifeStatus {aborted, deceased, unborn, stillborn, miscarriage}
-
-enum Sex {male, female, unknown}
 
 /**
 Default is not_adopted
