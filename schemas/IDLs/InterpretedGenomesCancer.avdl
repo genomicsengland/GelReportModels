@@ -157,9 +157,6 @@ record ReportedSomaticStructuralVariants {
 
 }
 
-/**
-TODO: change InterpretationAnalysis > CancerInterpretationAnalysis
-*/
 record CancerInterpretationAnalysis {
     /** TODO: ARM To check ReportType
     */
