@@ -41,12 +41,12 @@ record VirtualPanel {
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
 
-    string dataModelCatalogueVersion;  //priority 2
+    string dataModelCatalogueVersion;
 
     /**
     gene id from ensembl (version as per annotation file)
     */
-    union {null, array<string>} geneIds;
+    array<string> geneIds;
 
     /**
     transcript ids from ensembl
@@ -59,7 +59,6 @@ record VirtualPanel {
     union {null, File} relevantRegions;
 
     /**
-
     GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????
     */
     union {null, File} clinicalRelevantVariants;

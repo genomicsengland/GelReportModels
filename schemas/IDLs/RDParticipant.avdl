@@ -38,6 +38,7 @@ record Disorder {
 
 /**
 This defines an HPO term and its modifiers (possibly multiple)
+If HPO term presence is unknown we don't have a entry on the list
 */
 record HpoTerm {
     /**
@@ -49,7 +50,7 @@ record HpoTerm {
     This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
     false=term is not present
     */
-    union {null,boolean} termPresence;
+    boolean termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -70,7 +71,7 @@ Definitions of enumeration used in RDParticipant
 */
 enum CarrierStatus {unaffected, affected, carrier, uncertain, presymptomatic}
 
-enum LifeStatus {aborted, deceased, unborn, stillborn, miscarriage}
+enum LifeStatus {alive, aborted, deceased, unborn, stillborn, miscarriage}
 
 /**
 Default is not_adopted
@@ -85,7 +86,7 @@ This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
 
-    string id;  //priority 1
+    string id;  //gel internal identifier
 
     /**
     Possible options: male, female, unknown
@@ -95,40 +96,39 @@ record RDParticipant {
     /**
     Id of the parent, if unknown then no parent is referenced
     */
-    union {null, string}  father; //priority 1
+    union {null, string}  father; //gel internal identifier father
 
-    union {null, string}  mother;  //priority 1
+    union {null, string}  mother;  //gel internal identifier mother
 
-    string familyId;  //priority 1
+    string familyId;  /gel family id
 
-    union {null, array<string>} externalIds; //priority 1
+    union {null, array<string>} externalIds; //should be hide for external companies
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
     */
-    union {null, int} twinGroup; //priority 3
+    union {null, int} twinGroup;
 
     /**
     True if they are monozygotic
     */
-    union {null, boolean} monozygotic;  //priority 2
+    union {null, boolean} monozygotic; //null is unknown
 
 
-    union {null, AdoptedStatus} adoptedStatus; //priority 2
+    AdoptedStatus adoptedStatus=not_adopted;
 
     /**
     see enum LifeStatus
     null (unknown) by default
     */
-    union {null, LifeStatus} lifeStatus; //priority 1
+    LifeStatus lifeStatus=alive;
 
 
     /**
-    Offspring of a consanguineous relationship?
-    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false.
+    Offspring of a consanguineous relationship
     */
 
-    union {null, boolean} consanguineousParents;  //priority 2
+    union {null, boolean} consanguineousParents;
 
     /**
     Offspring from a consanguineous population
@@ -140,26 +140,27 @@ record RDParticipant {
     /**
     See enum CarrierStatus
     null (unknown) by default
+    TODO: Think this again
     */
-    union {null, CarrierStatus} carrierStatus; //priority 1
+    union {null, CarrierStatus} carrierStatus;
 
 
     /**
     Clinical Data (disorders)
     */
-    array<Disorder> disorderList;  //priority 2
+    array<Disorder> disorderList;
 
     /**
     Clinical Data (HPO terms)
     */
-    array<HpoTerm> hpoTermList; //priority 2
+    array<HpoTerm> hpoTermList;
 
 
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelCatalogueVersion="v4.2";  //priority 1
+    string dataModelCatalogueVersion="v4.2";
 
     /**
     What has this participant consented to?
@@ -174,12 +175,13 @@ record RDParticipant {
     union {null, array<string>} samples;
 
 
-
-    union {null, string} genomicMedicineCentre;
-    union {null, string} fullNameOfResponsibleConsultant; // TODO: we really need this??? (don't see the purpose)
-    union {null, string} contactNumber;
-    union {null, string} hospitalOfResponsibleConsultant;
-
+    /**
+    No to be shared
+    */
+//    union {null, string} genomicMedicineCenter;
+//    union {null, string} fullNameOfResponsibleConsultant; // TODO: we really need this??? (don't see the purpose)
+//    union {null, string} contactNumber;
+//    union {null, string} hospitalOfResponsibleConsultant;
 
 
 
@@ -188,7 +190,6 @@ record RDParticipant {
     Null by default
     */
     union {null, map<string>} additionalInformation;
-
 
 }
 

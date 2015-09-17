@@ -25,17 +25,6 @@ import idl "CommonRequest.avdl";
 
 record RareDisease {
 
-    /**
-    Specific Disease title against which this family was enroled
-    These titles are a controlled vocabulary in the model catalogue
-    */
-
-    /** EIK rename enrolledAgainstSpecificDiseaseTitle as recruitedDiseaseCategory */
-
-    string recruitedDiseaseCategory; //priority 1
-
-
-
     Pedigree pedigree;
 
     /**
@@ -44,9 +33,9 @@ record RareDisease {
     union {null, File} inbreedingCoefficientEstimates;
 
     /**
-    TODO: define enumeration for ancestries
+    Based on 1000g phase 3
     */
-    union {null, array<string>} ancestries; //priority 2
+    union {null, array<string>} ancestries;
 
     /**
     Hints about potential genetic phenomena that can inform interpretation
@@ -83,7 +72,7 @@ record RareDisease {
     mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance
     multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
     */
-
+    //TODO: change enum
     array<string> modeOfInheritance; //priority 2
 
     /**
