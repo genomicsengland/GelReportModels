@@ -110,10 +110,7 @@ record CancerDemographics{
 
     union {null, string} originatingCenter;
 
-    /**
-    ProgramPhase
-    */
-    ProgramPhase programPhase;
+
 
     union {null, string} centerPatientId;
 

@@ -20,6 +20,32 @@ import idl "variants.avdl";
 import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
 
+/**
+monoallelic_not_imprinted->MONOALLELIC, autosomal or pseudoautosomal, not imprinted
+monoallelic_maternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
+monoallelic_paternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
+monoallelic->MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
+biallelic->BIALLELIC, autosomal or pseudoautosomal
+monoallelic_and_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal
+monoallelic_and_more_severe_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
+xlinked_biallelic->X-LINKED: hemizygous mutation in males, biallelic mutations in females
+xlinked_monoallelic->X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
+mitochondrial->MITOCHONDRIAL
+unknown->Unknown
+*/
+
+enum ModelOfInheritance {
+    monoallelic_not_imprinted,
+    monoallelic_maternally_imprinted,
+    monoallelic_paternally_imprinted,
+    monoallelic,
+    xlinked_biallelic,
+    xlinked_monoallelic,
+    mitochondrial,
+    unknown
+}
+
+enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
 
 
@@ -27,53 +53,13 @@ record RareDisease {
 
     Pedigree pedigree;
 
-    /**
-    TODO: create a record for inbreeding coefficients
-    */
     union {null, File} inbreedingCoefficientEstimates;
 
-    /**
-    Based on 1000g phase 3
-    */
-    union {null, array<string>} ancestries;
+     ancestries;
 
-    /**
-    Hints about potential genetic phenomena that can inform interpretation
-    Proposed values:
-    MOSAICISM,
-    MONOSOMY,
-    DISOMY,
-    UNIPARENTAL_DISOMY,
-    TRISOMY,
-    OTHER_ANEUPLOIDY
-    */
-    union {null, string} complexGeneticPhenomena;
+    ComplexGeneticPhenomena complexGeneticPhenomena;
 
-    /**
-    Proposed values:
-    MONOALLELIC, autosomal or pseudoautosomal, NOT imprinted|
-    MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)|HP:0012275
-    MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)|HP:0012274
-    MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown|HP:0000006
-    BIALLELIC, autosomal or pseudoautosomal|HP:0000007
-    BOTH monoallelic and biallelic, autosomal or pseudoautosomal|
-    BOTH monoallelic and biallelic (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal|
-    MITOCHONDRIAL|HP:0001427
-    X-LINKED: hemizygous mutation in males, biallelic mutations in females|HP:0001419
-    X-LINKED: hemizygous mutation in males, may be caused by monoallelic mutations in females|HP:0001417
-    Unknown|
-
-    The entries in the variable will reflect combinations of allelic states consistent with the enumeration in the model catalogue:
-    recessive: Multiplex family: recessive pattern (affected siblings only)
-    simplex: Simplex (isolated) case
-    unknown: Multiplex family: unknown
-    xlinked: Multiplex family: pattern suggestive of X-linked inheritance
-    multigenerationalPaternal: Multiplex family - paternal multi-generational pattern of inheritance (likely dominant)
-    mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance
-    multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)
-    */
-    //TODO: change enum
-    array<string> modeOfInheritance; //priority 2
+    ModelOfInheritance modeOfInheritance; //priority 2
 
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
@@ -83,7 +69,6 @@ record RareDisease {
     /**
     This is the family history as pertinent to assessing secondary findings.
     It is paternal or maternal with reference to the proband.
-    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is not collected in that level of detail.
     */
     union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
 }
@@ -111,6 +96,8 @@ record RDInterpretationRequest {
     */
     boolean interpretGenome=false;
 
+    array<string> workspace; // the genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+
     /**
     BAMs Files
     */
@@ -129,7 +116,7 @@ record RDInterpretationRequest {
     /**
     BigWig Files
     */
-    array<File> BigWigs;
+    union {null, array<File>} BigWigs;
 
     /**
     This will be the output file from Cellbase + version used
@@ -139,13 +126,18 @@ record RDInterpretationRequest {
     RareDisease rareDisease;
 
 
-    string analysisURI;
+    string analysisReturnURI; \\name of the directory or endpoint where the analysed genome will be returned.
 
-    string analysisVersion;
+    /**
+    In the event that the provider has multiple versions of their system and an analysis will need to be provided against
+    a particular version, then that version goes here.
+    */
+    string analysisVersion="1";
 
     /**
     Additional information
     */
+
     union {null, map<string>} additionalInfo;
 }
 

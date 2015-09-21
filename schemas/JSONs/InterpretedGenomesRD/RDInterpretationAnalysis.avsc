@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "CancerInterpretationAnalysis",
+  "name" : "RDInterpretationAnalysis",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "reportRequestId",
@@ -22,14 +22,14 @@
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "ReportedSomaticVariants",
+        "name" : "ReportedVariant",
         "fields" : [ {
           "name" : "chromosome",
           "type" : "string",
           "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
         }, {
           "name" : "dbSNPid",
-          "type" : "string",
+          "type" : [ "null", "string" ],
           "doc" : "variant ID in dbSNP"
         }, {
           "name" : "position",
@@ -43,6 +43,34 @@
           "name" : "alternate",
           "type" : "string",
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
+        }, {
+          "name" : "calledGenotypes",
+          "type" : {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "CalledGenotype",
+              "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
+              "fields" : [ {
+                "name" : "gelId",
+                "type" : "string",
+                "doc" : "Participant id of the family member:"
+              }, {
+                "name" : "genotype",
+                "type" : "string",
+                "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+              }, {
+                "name" : "alleleFraction",
+                "type" : [ "null", "float" ],
+                "doc" : "Allele fraction of the variant"
+              }, {
+                "name" : "copyNumber",
+                "type" : [ "null", "int" ],
+                "doc" : "Copy number genotype for imprecise events"
+              } ]
+            }
+          },
+          "doc" : "array of genotypes for the family"
         }, {
           "name" : "reportEvents",
           "type" : {
@@ -133,40 +161,7 @@
               } ]
             }
           },
-          "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance.\n    TODO: Think about this!!!"
-        }, {
-          "name" : "calledGenotypes",
-          "type" : {
-            "type" : "array",
-            "items" : {
-              "type" : "record",
-              "name" : "CalledGenotype",
-              "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
-              "fields" : [ {
-                "name" : "gelId",
-                "type" : "string",
-                "doc" : "Participant id of the family member:"
-              }, {
-                "name" : "genotype",
-                "type" : "string",
-                "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
-              }, {
-                "name" : "alleleFraction",
-                "type" : [ "null", "float" ],
-                "doc" : "Allele fraction of the variant"
-              }, {
-                "name" : "copyNumber",
-                "type" : [ "null", "int" ],
-                "doc" : "Copy number genotype for imprecise events"
-              } ]
-            }
-          }
-        }, {
-          "name" : "internalScore",
-          "type" : [ "null", "float" ]
-        }, {
-          "name" : "variantClassification",
-          "type" : [ "null", "VariantClassification" ]
+          "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
         }, {
           "name" : "additionalTextualVariantAnnotations",
           "type" : [ "null", {
@@ -188,25 +183,16 @@
             "items" : "string"
           } ],
           "doc" : "Comments"
-        }, {
-          "name" : "somaticOrGermline",
-          "type" : {
-            "type" : "enum",
-            "name" : "SomaticOrGermline",
-            "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
-            "symbols" : [ "unknown", "somatic", "germline" ]
-          },
-          "doc" : "EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding"
         } ]
       }
     }
   }, {
     "name" : "reportedStructuralVariants",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "ReportedSomaticStructuralVariants",
+        "name" : "ReportedStructuralVariant",
         "fields" : [ {
           "name" : "chromosome",
           "type" : "string",
@@ -232,24 +218,18 @@
           "type" : "string",
           "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
         }, {
-          "name" : "ReportEvents",
-          "type" : {
-            "type" : "array",
-            "items" : "ReportEvent"
-          }
-        }, {
           "name" : "calledGenotypes",
           "type" : {
             "type" : "array",
             "items" : "CalledGenotype"
           }
         }, {
-          "name" : "internalScore",
-          "type" : [ "null", "float" ],
-          "doc" : "This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype\n    This score may be missing if the company does not calculate such a score. In principle this score should summarise\n    other scores for example across multiple modes of inheritance."
-        }, {
-          "name" : "variantClassification",
-          "type" : [ "null", "VariantClassification" ]
+          "name" : "reportEvents",
+          "type" : {
+            "type" : "array",
+            "items" : "ReportEvent"
+          },
+          "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
         }, {
           "name" : "additionalTextualVariantAnnotations",
           "type" : [ "null", {
@@ -271,13 +251,9 @@
             "items" : "string"
           } ],
           "doc" : "Comments"
-        }, {
-          "name" : "somaticOrGermline",
-          "type" : "SomaticOrGermline",
-          "doc" : "EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding"
         } ]
       }
-    }
+    } ]
   }, {
     "name" : "comments",
     "type" : [ "null", {

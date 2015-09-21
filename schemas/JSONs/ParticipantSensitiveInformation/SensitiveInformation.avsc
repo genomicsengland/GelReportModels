@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "SensitiveInformation",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "externalIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ]
+  }, {
+    "name" : "genomicMedicineCenter",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "fullNameOfResponsibleConsultant",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "contactNumber",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "hospitalOfResponsibleConsultant",
+    "type" : [ "null", "string" ]
+  } ]
+}

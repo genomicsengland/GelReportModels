@@ -11,12 +11,13 @@ In principle it is a phased zygosity as in VCF spec and called by the analysis p
 */
 record CalledGenotype {
     /**
-    TODO: EIK added allele fraction - ARM to check
+    TODO: EIK added allele fraction - ARM to check, DP field instead of fraction
     */
+
     /**
-    Participant id of the family member
+    Participant id of the family member:
     */
-    string participantId;
+    string gelId;
 
     /**
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
@@ -34,11 +35,11 @@ record CalledGenotype {
 
 }
 
-record Gene {
+record Transcript {
     /**
-    HGMD symbol
+    HGMD gene symbol
     */
-    string symbol;
+    string geneSymbol;
 
     /**
     Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)
@@ -52,12 +53,7 @@ record Gene {
     map<string> ids;
 
     /**
-    Exome size
-    */
-    union {null, int} exomeSize;
-
-    /**
-    This is the gene coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
+    This is the transcript coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
     */
     union {null, double} geneCoverage;
 
@@ -87,12 +83,11 @@ record ReportEvent {
     string modeOfInheritance;
 
     /**
-    This is the gene of interest for this reported variant, please note that one variant can overlap more that one gene
+    This is the transcript of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
     If more than one gene is considered interesting for this particular variant, should be reported in two different
     ReportEvents
-    TODO: Add transcript
     */
-    Gene gene;
+    Transcript transcript; //if the variant is to be reported in another transcript then another event needs to be created
 
     /**
     This is the penetrance assumed for scoring or classifying this variant
@@ -106,7 +101,17 @@ record ReportEvent {
     float score;
 
     /**
-    This variant using this mode of inheritance can  fully explain the phenotype? true or false
+    Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)
+    */
+    union {null, map<float>} vendorSpecificScores;
+
+
+    /** Classification of the pathogenicity of this variant with respect to the phenotype
+    */
+    union {null, VariantClassification} variantClassification;
+
+    /**
+    This variant using this mode of inheritance can fully explain the phenotype? true or false
     */
     union {null, boolean} fullyExplainsPhenotype;
 
@@ -122,9 +127,10 @@ record ReportEvent {
     and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
     using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
     */
-    string variantJustification;
+    string eventJustification;  // why should this variant/variants be reported: relationship between genotypes and phenotypes in the context of the literature
 
-    union {null, Tier} tier;
+
+    union {null, Tier} tier;  // Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions
 }
 
 
@@ -138,7 +144,7 @@ record ReportedVariant {
     /**
     variant ID in dbSNP
     */
-    string dbSNPid;
+    union {null, string} dbSNPid;
 
     /**
     position: Position 1-based
@@ -165,16 +171,6 @@ record ReportedVariant {
     the variants can have only one Report event.
     */
     array<ReportEvent> reportEvents;
-
-    /**
-    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
-    This score may be missing if the company does not calculate such a score. In principle this score should summarise
-    other scores for example across multiple modes of inheritance.
-    TODO: Think about this!!!
-    */
-    union {null, float} internalScore;
-
-    union {null, VariantClassification} variantClassification;
 
     /**
     For example HGMD ID)
@@ -237,14 +233,6 @@ record ReportedStructuralVariant {
     */
     array<ReportEvent> reportEvents;
 
-    /**
-    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
-    This score may be missing if the company does not calculate such a score. In principle this score should summarise
-    other scores for example across multiple modes of inheritance.
-    */
-    union {null, float} internalScore;
-
-    union {null, VariantClassification} variantClassification;
 
     /**
     For example HGMD ID)

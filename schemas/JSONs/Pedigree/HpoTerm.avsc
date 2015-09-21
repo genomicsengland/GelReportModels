@@ -8,9 +8,8 @@
     "type" : "string",
     "doc" : "Identifier of the HPO term"
   }, {
-    "name" : "termPresence",
-    "type" : "boolean",
-    "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
+    "name" : "termPresent",
+    "type" : "boolean"
   }, {
     "name" : "modifiers",
     "type" : [ "null", {

@@ -1,8 +1,8 @@
 {
   "type" : "record",
-  "name" : "RDParticipant",
+  "name" : "PedigreeMember",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This defines a RD Participant (demographics and pedigree information)",
+  "doc" : "This defines a pedigree member",
   "fields" : [ {
     "name" : "pedigreeId",
     "type" : "int"
@@ -10,15 +10,29 @@
     "name" : "gelId",
     "type" : [ "null", "string" ]
   }, {
-    "name" : "gelFamilyId",
-    "type" : "string",
-    "doc" : "Family id which internally translate to a sample set"
+    "name" : "firstName",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "surname",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "NHSNumber",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "dateBirth",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "externalIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ]
   }, {
     "name" : "sex",
     "type" : {
       "type" : "enum",
       "name" : "Sex",
-      "doc" : "Demographics",
+      "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
       "symbols" : [ "male", "female", "undetermined" ]
     }
   }, {
@@ -58,10 +72,6 @@
     "name" : "consanguineousParents",
     "type" : "TernaryOption"
   }, {
-    "name" : "consanguineousPopulation",
-    "type" : [ "null", "string" ],
-    "doc" : "Offspring from a consanguineous population"
-  }, {
     "name" : "affectionStatus",
     "type" : {
       "type" : "enum",
@@ -76,7 +86,6 @@
       "items" : {
         "type" : "record",
         "name" : "Disorder",
-        "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
         "fields" : [ {
           "name" : "diseaseGroup",
           "type" : [ "null", "string" ],
@@ -110,9 +119,8 @@
           "type" : "string",
           "doc" : "Identifier of the HPO term"
         }, {
-          "name" : "termPresence",
-          "type" : "boolean",
-          "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
+          "name" : "termPresent",
+          "type" : "boolean"
         }, {
           "name" : "modifiers",
           "type" : [ "null", {
@@ -127,54 +135,17 @@
         } ]
       }
     },
-    "doc" : "Clinical Data (HPO terms)"
+    "doc" : "Clinical Data (HPO terms)."
   }, {
     "name" : "dataModelCatalogueVersion",
     "type" : "string",
     "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
     "default" : "v4.2"
   }, {
-    "name" : "consentStatus",
-    "type" : {
-      "type" : "record",
-      "name" : "ConsentStatus",
-      "doc" : "Consent Status",
-      "fields" : [ {
-        "name" : "programmeConsent",
-        "type" : "boolean",
-        "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
-        "default" : false
-      }, {
-        "name" : "primaryFindingConsent",
-        "type" : "boolean",
-        "doc" : "Consent for feedback of primary findings?\n    False by default",
-        "default" : false
-      }, {
-        "name" : "secondaryFindingConsent",
-        "type" : "boolean",
-        "doc" : "Consent for secondary finding lookup\n    False by default",
-        "default" : false
-      }, {
-        "name" : "carrierStatusConsent",
-        "type" : "boolean",
-        "doc" : "Consent for carrier status check?\n    False by default",
-        "default" : false
-      } ]
-    },
-    "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
-  }, {
-    "name" : "samples",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "string"
-    } ],
-    "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
-  }, {
     "name" : "additionalInformation",
     "type" : [ "null", {
       "type" : "map",
       "values" : "string"
-    } ],
-    "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc\n    Null by default"
+    } ]
   } ]
 }

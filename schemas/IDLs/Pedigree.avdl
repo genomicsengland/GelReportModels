@@ -4,14 +4,47 @@ This protocol defines the Participants and Pedigree
 */
 protocol RDPedigree {
 
-import idl "CommonRequest.avdl";
-import idl "CommonParticipant.avdl";
-
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
 Currently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be
 completed but we add the others for generality
 */
+enum Sex {male, female, undetermined}
+
+
+enum TernaryOption {yes, no, unknown}
+
+
+record ConsentStatus {
+
+    /**
+    Is this individual consented to the programme?
+    It could simple be a family member that is not consented but for whom affection status is known
+    False by default! needs to be explicitly changed
+    */
+
+
+    boolean programmeConsent=false;
+
+    /**
+    Consent for feedback of primary findings?
+    False by default
+    */
+    boolean primaryFindingConsent=false;
+
+    /**
+    Consent for secondary finding lookup
+    False by default
+    */
+    boolean secondaryFindingConsent=false;
+
+    /**
+    Consent for carrier status check?
+    False by default
+    */
+    boolean carrierStatusConsent=false;
+}
+
 
 record Disorder {
     /**
@@ -46,11 +79,7 @@ record HpoTerm {
     */
     string term;
 
-    /**
-    This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
-    false=term is not present
-    */
-    boolean termPresence;
+    boolean termPresent;
 
     /**
     Modifier associated with the HPO term
@@ -61,6 +90,7 @@ record HpoTerm {
     Age of onset in months
     */
     union {null, int} ageOfOnset;
+
 
 }
 
@@ -79,18 +109,19 @@ adoptedout means child belonged to the family and was adopted out
 */
 enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
 
+
 /**
-This defines a RD Participant (demographics and pedigree information)
+This defines a pedigree member
 */
-record RDParticipant {
+record PedigreeMember {
 
     int pedigreeId;  //Numbering used to refer to each member of the pedigree
-    union {null, string} gelId;  //gel internal identifier, only required when the participant belongs to the pr
-
-    /**
-    Family id which internally translate to a sample set
-    */
-    string gelFamilyId;
+    union {null, string} gelId;  //gel internal identifier, only required when the participant belongs to the program
+    union {null, string} firstName; //Only required when the participant belongs to the program
+    union {null, string} surname; //Only required when the participant belongs to the program
+    union {null, string} NHSNumber; //Only required when the participant belongs to the program
+    union {null, string} dateBirth; //Only required when the participant belongs to the program
+    union {null, array<string>} externalIds; //other potential ids for individuals e.g, Hospital id
 
     Sex sex;
 
@@ -114,11 +145,6 @@ record RDParticipant {
 
     TernaryOption consanguineousParents;
 
-    /**
-    Offspring from a consanguineous population
-    */
-    union {null, string} consanguineousPopulation;
-
     AffectionStatus affectionStatus;
 
     /**
@@ -127,7 +153,7 @@ record RDParticipant {
     array<Disorder> disorderList;
 
     /**
-    Clinical Data (HPO terms)
+    Clinical Data (HPO terms).
     */
     array<HpoTerm> hpoTermList;
 
@@ -138,25 +164,7 @@ record RDParticipant {
     */
     string dataModelCatalogueVersion="v4.2";
 
-    /**
-    What has this participant consented to?
-    A participant that has been consented to the programme should also have sequence data associated with them; however
-    this needs to be programmatically checked
-    */
-    ConsentStatus consentStatus;
-
-    /**
-    This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
-    */
-    union {null, array<string>} samples;
-
-
-    /**
-    We could add a map here to store additional information for example URIs to images, ECGs, etc
-    Null by default
-    */
     union {null, map<string>} additionalInformation;
-
 }
 
 
@@ -164,12 +172,10 @@ record RDParticipant {
 This is the concept of a family with associated phenotypes as present in the record RDParticipant
 */
 record Pedigree {
-    /**
-    Family id which internally translate to a sample set
-    */
-    string gelFamilyId;
 
-    array <RDParticipant> participants;
+    string gelFamilyId;  //gel family id
+
+    array <PedigreeMember> pedigreeMembers; //priority 1
 
 }
 
