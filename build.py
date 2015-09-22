@@ -19,6 +19,9 @@ for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", "*.avdl")):
     os.system("java -jar " + avro_tools_jar + " idl2schemata " + idl + " " +
               os.path.join(BASE_DIR, "schemas", "JSONs", base))
 
+    os.system("java -jar " + avro_tools_jar + " idl " + idl + " " +
+              os.path.join(BASE_DIR, "schemas", "AVPRs", base + ".avpr"))
+
 
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
                                    + outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
@@ -28,3 +31,8 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
                                    + ga4gh_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
                                    + ga4gh_schemas + " " + VERSION))
+
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "InterpretationRequestRD.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "InterpretedGenomesRD.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))

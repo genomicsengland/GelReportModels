@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="dir_2529cba52821706394ef46f7a2d0b660" kind="dir">
+    <compoundname>/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs</compoundname>
+    <innerfile refid="CancerParticipant_8avdl">CancerParticipant.avdl</innerfile>
+    <innerfile refid="CommonInterpreted_8avdl">CommonInterpreted.avdl</innerfile>
+    <innerfile refid="CommonParticipant_8avdl">CommonParticipant.avdl</innerfile>
+    <innerfile refid="CommonRequest_8avdl">CommonRequest.avdl</innerfile>
+    <innerfile refid="InterpretationRequestCancer_8avdl">InterpretationRequestCancer.avdl</innerfile>
+    <innerfile refid="InterpretationRequestRD_8avdl">InterpretationRequestRD.avdl</innerfile>
+    <innerfile refid="InterpretedGenomesCancer_8avdl">InterpretedGenomesCancer.avdl</innerfile>
+    <innerfile refid="InterpretedGenomesRD_8avdl">InterpretedGenomesRD.avdl</innerfile>
+    <innerfile refid="ParticipantSensitiveInformation_8avdl">ParticipantSensitiveInformation.avdl</innerfile>
+    <innerfile refid="Pedigree_8avdl">Pedigree.avdl</innerfile>
+    <innerfile refid="RDParticipant_8avdl">RDParticipant.avdl</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/"/>
+  </compounddef>
+</doxygen>

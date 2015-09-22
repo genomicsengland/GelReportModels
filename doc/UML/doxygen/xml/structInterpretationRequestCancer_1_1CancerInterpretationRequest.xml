@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretationRequestCancer_1_1CancerInterpretationRequest" kind="struct" prot="public">
+    <compoundname>InterpretationRequestCancer::CancerInterpretationRequest</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a465e732015340b9a8a519a55638fb356" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestCancer::CancerInterpretationRequest::reportRequestId</definition>
+        <argsstring></argsstring>
+        <name>reportRequestId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique id for this report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="34" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a621d550ca383c10f9146633037174180" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int InterpretationRequestCancer::CancerInterpretationRequest::reportVersion</definition>
+        <argsstring></argsstring>
+        <name>reportVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Version of this report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="39" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1abd1cfe7a2a549037c251f7330a800cec" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean InterpretationRequestCancer::CancerInterpretationRequest::interpretGenome</definition>
+        <argsstring></argsstring>
+        <name>interpretGenome</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simply load data to system or also provide interpretation? </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="44" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1adbd33930868acb41700f8e27ed255ca1" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestCancer::CancerInterpretationRequest::BAMs</definition>
+        <argsstring></argsstring>
+        <name>BAMs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BAMs Files </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="49" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a524eb136abaac40496b43129104c2338" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestCancer::CancerInterpretationRequest::gVCFs</definition>
+        <argsstring></argsstring>
+        <name>gVCFs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>gVCFs Files where SNVs and INDELs are represented </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="54" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a76868dea8f846b79fb6f6bf5fb079b5b" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestCancer::CancerInterpretationRequest::VCFs</definition>
+        <argsstring></argsstring>
+        <name>VCFs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>VCFs Files where SVs and CNVs are represented </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="59" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa59767f8c8bad72975d00a0d36aa10a4" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestCancer::CancerInterpretationRequest::BigWigs</definition>
+        <argsstring></argsstring>
+        <name>BigWigs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BigWig Files </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="64" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a7512b5f375df538891e97285db78cfaa" prot="public" static="no" mutable="no">
+        <type>File</type>
+        <definition>File InterpretationRequestCancer::CancerInterpretationRequest::annotationFile</definition>
+        <argsstring></argsstring>
+        <name>annotationFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be the output file from Cellbase + version used </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="69" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa171ee9d239e74d60daa291c3dd87e95" prot="public" static="no" mutable="no">
+        <type>VirtualPanel</type>
+        <definition>VirtualPanel InterpretationRequestCancer::CancerInterpretationRequest::virtualPanels</definition>
+        <argsstring></argsstring>
+        <name>virtualPanels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel) (not to be confused with VirtualPanel record - RareDisease only) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="74" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a5cb1c545f7bf838ec3cc928b92e5ad79" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestCancer::CancerInterpretationRequest::analysisURI</definition>
+        <argsstring></argsstring>
+        <name>analysisURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="77" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a566e2ab2d3a8571e466b810f64958e0e" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestCancer::CancerInterpretationRequest::analysisVersion</definition>
+        <argsstring></argsstring>
+        <name>analysisVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="79" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1ac24577726b283fa5875c0ee3f2bc28ee" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;string&gt; &gt; InterpretationRequestCancer::CancerInterpretationRequest::additionalInfo</definition>
+        <argsstring></argsstring>
+        <name>additionalInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional information </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="84" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1afffa7ced7b21e809559aea69980b91f9" prot="public" static="no" mutable="no">
+        <type>OtherFamilyHistory</type>
+        <definition>OtherFamilyHistory InterpretationRequestCancer::CancerInterpretationRequest::otherFamilyHistory</definition>
+        <argsstring></argsstring>
+        <name>otherFamilyHistory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EIK: added other Family History </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="87" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This record represents basic information for this report</para><para>TODO: change/specialise InterpretationRequest &gt; <ref refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest" kindref="compound">CancerInterpretationRequest</ref> currently does not load... python build.py </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="30" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="30" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1ac24577726b283fa5875c0ee3f2bc28ee" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>additionalInfo</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a5cb1c545f7bf838ec3cc928b92e5ad79" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>analysisURI</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a566e2ab2d3a8571e466b810f64958e0e" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>analysisVersion</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a7512b5f375df538891e97285db78cfaa" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>annotationFile</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1adbd33930868acb41700f8e27ed255ca1" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>BAMs</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa59767f8c8bad72975d00a0d36aa10a4" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>BigWigs</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a524eb136abaac40496b43129104c2338" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>gVCFs</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1abd1cfe7a2a549037c251f7330a800cec" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>interpretGenome</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1afffa7ced7b21e809559aea69980b91f9" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>otherFamilyHistory</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a465e732015340b9a8a519a55638fb356" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>reportRequestId</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a621d550ca383c10f9146633037174180" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>reportVersion</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a76868dea8f846b79fb6f6bf5fb079b5b" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>VCFs</name></member>
+      <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa171ee9d239e74d60daa291c3dd87e95" prot="public" virt="non-virtual"><scope>InterpretationRequestCancer::CancerInterpretationRequest</scope><name>virtualPanels</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

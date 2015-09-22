@@ -55,7 +55,7 @@ record RareDisease {
 
     union {null, File} inbreedingCoefficientEstimates;
 
-     ancestries;
+    Ancestries ancestries;
 
     ComplexGeneticPhenomena complexGeneticPhenomena;
 
@@ -125,8 +125,7 @@ record RDInterpretationRequest {
 
     RareDisease rareDisease;
 
-
-    string analysisReturnURI; \\name of the directory or endpoint where the analysed genome will be returned.
+    string analysisReturnURI; // name of the directory or endpoint where the analysed genome will be returned.
 
     /**
     In the event that the provider has multiple versions of their system and an analysis will need to be provided against

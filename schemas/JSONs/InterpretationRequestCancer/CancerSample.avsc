@@ -20,6 +20,7 @@
     "type" : {
       "type" : "enum",
       "name" : "SampleType",
+      "doc" : "Definitions of enumeration used in CancerParticipant",
       "symbols" : [ "germline", "tumor" ]
     },
     "doc" : "Sample Type"

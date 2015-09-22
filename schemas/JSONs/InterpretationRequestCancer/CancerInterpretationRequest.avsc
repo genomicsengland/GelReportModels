@@ -85,10 +85,10 @@
         "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
       }, {
         "name" : "geneIds",
-        "type" : [ "null", {
+        "type" : {
           "type" : "array",
           "items" : "string"
-        } ],
+        },
         "doc" : "gene id from ensembl (version as per annotation file)"
       }, {
         "name" : "Transcripts",

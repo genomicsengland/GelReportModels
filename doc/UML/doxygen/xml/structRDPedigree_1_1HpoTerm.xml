@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structRDPedigree_1_1HpoTerm" kind="struct" prot="public">
+    <compoundname>RDPedigree::HpoTerm</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRDPedigree_1_1HpoTerm_1a8b4e46935ca829745a480ed9202c9037" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string RDPedigree::HpoTerm::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifier of the HPO term </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="80" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1HpoTerm_1af761327ce3d6acb803027f14b8f73c82" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::HpoTerm::termPresent</definition>
+        <argsstring></argsstring>
+        <name>termPresent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="82" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1HpoTerm_1a5d1ed956c305a63cc399be0d87bc7b3c" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt; null, array&lt; string &gt; &gt; RDPedigree::HpoTerm::modifiers</definition>
+        <argsstring></argsstring>
+        <name>modifiers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Modifier associated with the HPO term </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="87" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1HpoTerm_1ac47623496a8f2cf82fd8af3370724690" prot="public" static="no" mutable="no">
+        <type>union&lt; null, int &gt;</type>
+        <definition>union&lt; null, int &gt; RDPedigree::HpoTerm::ageOfOnset</definition>
+        <argsstring></argsstring>
+        <name>ageOfOnset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Age of onset in months </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="92" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1HpoTerm_1aed59c1a9865077d0258cde5490587ec5" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::HpoTerm::termPresence</definition>
+        <argsstring></argsstring>
+        <name>termPresence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is whether the term is present in the participant (default is null=unkown) true=term is present in participant, false=term is not present </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="53" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This defines an HPO term and its modifiers (possibly multiple) If HPO term presence is unknown we don&apos;t have a entry on the list </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="76" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="76" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structRDPedigree_1_1HpoTerm_1ac47623496a8f2cf82fd8af3370724690" prot="public" virt="non-virtual"><scope>RDPedigree::HpoTerm</scope><name>ageOfOnset</name></member>
+      <member refid="structRDPedigree_1_1HpoTerm_1a5d1ed956c305a63cc399be0d87bc7b3c" prot="public" virt="non-virtual"><scope>RDPedigree::HpoTerm</scope><name>modifiers</name></member>
+      <member refid="structRDPedigree_1_1HpoTerm_1a8b4e46935ca829745a480ed9202c9037" prot="public" virt="non-virtual"><scope>RDPedigree::HpoTerm</scope><name>term</name></member>
+      <member refid="structRDPedigree_1_1HpoTerm_1aed59c1a9865077d0258cde5490587ec5" prot="public" virt="non-virtual"><scope>RDPedigree::HpoTerm</scope><name>termPresence</name></member>
+      <member refid="structRDPedigree_1_1HpoTerm_1af761327ce3d6acb803027f14b8f73c82" prot="public" virt="non-virtual"><scope>RDPedigree::HpoTerm</scope><name>termPresent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structSensitiveInformation_1_1SensitiveInformation" kind="struct" prot="public">
+    <compoundname>SensitiveInformation::SensitiveInformation</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structSensitiveInformation_1_1SensitiveInformation_1a8a40e61c31edbb642dd9d7c8363353c7" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; SensitiveInformation::SensitiveInformation::externalIds</definition>
+        <argsstring></argsstring>
+        <name>externalIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="9" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSensitiveInformation_1_1SensitiveInformation_1a1e217401a76e827bc172c8bf5933d45a" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; SensitiveInformation::SensitiveInformation::genomicMedicineCenter</definition>
+        <argsstring></argsstring>
+        <name>genomicMedicineCenter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="11" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSensitiveInformation_1_1SensitiveInformation_1a97ee62a8d0ea599cbc877ad06db72135" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; SensitiveInformation::SensitiveInformation::fullNameOfResponsibleConsultant</definition>
+        <argsstring></argsstring>
+        <name>fullNameOfResponsibleConsultant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="12" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSensitiveInformation_1_1SensitiveInformation_1a1e7090074e08c57dbbfe0c4a8e0ee463" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; SensitiveInformation::SensitiveInformation::contactNumber</definition>
+        <argsstring></argsstring>
+        <name>contactNumber</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="13" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSensitiveInformation_1_1SensitiveInformation_1a1d3fef3437a1aa1bf1619810b6dab611" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; SensitiveInformation::SensitiveInformation::hospitalOfResponsibleConsultant</definition>
+        <argsstring></argsstring>
+        <name>hospitalOfResponsibleConsultant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="14" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" line="7" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl" bodystart="7" bodyend="16"/>
+    <listofallmembers>
+      <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1e7090074e08c57dbbfe0c4a8e0ee463" prot="public" virt="non-virtual"><scope>SensitiveInformation::SensitiveInformation</scope><name>contactNumber</name></member>
+      <member refid="structSensitiveInformation_1_1SensitiveInformation_1a8a40e61c31edbb642dd9d7c8363353c7" prot="public" virt="non-virtual"><scope>SensitiveInformation::SensitiveInformation</scope><name>externalIds</name></member>
+      <member refid="structSensitiveInformation_1_1SensitiveInformation_1a97ee62a8d0ea599cbc877ad06db72135" prot="public" virt="non-virtual"><scope>SensitiveInformation::SensitiveInformation</scope><name>fullNameOfResponsibleConsultant</name></member>
+      <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1e217401a76e827bc172c8bf5933d45a" prot="public" virt="non-virtual"><scope>SensitiveInformation::SensitiveInformation</scope><name>genomicMedicineCenter</name></member>
+      <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1d3fef3437a1aa1bf1619810b6dab611" prot="public" virt="non-virtual"><scope>SensitiveInformation::SensitiveInformation</scope><name>hospitalOfResponsibleConsultant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

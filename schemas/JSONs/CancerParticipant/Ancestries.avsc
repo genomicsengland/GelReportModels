@@ -1,0 +1,47 @@
+{
+  "type" : "record",
+  "name" : "Ancestries",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "mothersEthnicOrigin",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "EthnicCategory",
+      "doc" : "This is the list of ethnics in ONS16",
+      "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+    } ]
+  }, {
+    "name" : "mothersOtherRelevantAncestry",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "fathersEthnicOrigin",
+    "type" : [ "null", "EthnicCategory" ]
+  }, {
+    "name" : "fathersOtherRelevantAncestry",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "kGenomesPhase3Pop",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "KGenomesPhase3Pop",
+        "fields" : [ {
+          "name" : "kGSuperPopCategory",
+          "type" : {
+            "type" : "enum",
+            "name" : "KGSuperPopCategory",
+            "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+          }
+        }, {
+          "name" : "kGPopCategory",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "KGPopCategory",
+            "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+          } ]
+        } ]
+      }
+    } ]
+  } ]
+}

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceInterpretedGenomesCancer" kind="namespace">
+    <compoundname>InterpretedGenomesCancer</compoundname>
+    <innerclass refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis" prot="public">InterpretedGenomesCancer::CancerInterpretationAnalysis</innerclass>
+    <innerclass refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants" prot="public">InterpretedGenomesCancer::ReportedSomaticStructuralVariants</innerclass>
+    <innerclass refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants" prot="public">InterpretedGenomesCancer::ReportedSomaticVariants</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911" prot="public" static="no">
+        <name>SomaticOrGermline</name>
+        <enumvalue id="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a64f8333cc2a14091150f6e094924ec59" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a3bbfabedbc5324715cecd36b8a1b40b3" prot="public">
+          <name>somatic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a6f6a5ccc55667ca4e4127e991274ac65" prot="public">
+          <name>germline</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>this defines whether the variant reported is considered to be a somatic or germline finding. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="21" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="21" bodyend="21"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceInterpretedGenomesCancer_1a00501b862c20fdbd08e9c3f00cfcceee" prot="public" static="no" mutable="no">
+        <type>import idl CommonInterpreted</type>
+        <definition>import idl CommonInterpreted InterpretedGenomesCancer::avdl</definition>
+        <argsstring></argsstring>
+        <name>avdl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="14" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Define the Report used by GEL to get the clinical interpretation companies results for bronze level</para><para>TODO: Previously removed penetrance for cancer interpreted genomes cancer, should this be re-added for cancer?? TODO: Add to ReportedVariant and ReportedStructuralVariant whether these are somatics or germline findings TODO: Indicated whether sample source for somatic findings TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="11" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonRequest_1_1File" kind="struct" prot="public">
+    <compoundname>CommonRequest::File</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonRequest_1_1File_1a1cb22e0d9326bb9aa09791b7b1e91e1a" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, string, array&lt;string&gt; &gt; CommonRequest::File::SampleId</definition>
+        <argsstring></argsstring>
+        <name>SampleId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="16" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1File_1a760d26d1d18661ed1d09de5161eca772" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonRequest::File::URIFile</definition>
+        <argsstring></argsstring>
+        <name>URIFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>URI PATH </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="21" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This defines a file This Record is defined by the sampleID and a URI Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="12" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="12" bodyend="22"/>
+    <listofallmembers>
+      <member refid="structCommonRequest_1_1File_1a1cb22e0d9326bb9aa09791b7b1e91e1a" prot="public" virt="non-virtual"><scope>CommonRequest::File</scope><name>SampleId</name></member>
+      <member refid="structCommonRequest_1_1File_1a760d26d1d18661ed1d09de5161eca772" prot="public" virt="non-virtual"><scope>CommonRequest::File</scope><name>URIFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

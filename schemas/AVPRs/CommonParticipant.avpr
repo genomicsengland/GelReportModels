@@ -1,0 +1,86 @@
+{
+  "protocol" : "CommonParticipant",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the Common things between participant models",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "Sex",
+    "doc" : "Demographics",
+    "symbols" : [ "male", "female", "undetermined" ]
+  }, {
+    "type" : "enum",
+    "name" : "TernaryOption",
+    "symbols" : [ "yes", "no", "unknown" ]
+  }, {
+    "type" : "enum",
+    "name" : "EthnicCategory",
+    "doc" : "This is the list of ethnics in ONS16",
+    "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGPopCategory",
+    "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGSuperPopCategory",
+    "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+  }, {
+    "type" : "record",
+    "name" : "KGenomesPhase3Pop",
+    "fields" : [ {
+      "name" : "kGSuperPopCategory",
+      "type" : "KGSuperPopCategory"
+    }, {
+      "name" : "kGPopCategory",
+      "type" : [ "null", "KGPopCategory" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Ancestries",
+    "fields" : [ {
+      "name" : "mothersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ]
+    }, {
+      "name" : "mothersOtherRelevantAncestry",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "fathersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ]
+    }, {
+      "name" : "fathersOtherRelevantAncestry",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "kGenomesPhase3Pop",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "KGenomesPhase3Pop"
+      } ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ConsentStatus",
+    "doc" : "Consent Status",
+    "fields" : [ {
+      "name" : "programmeConsent",
+      "type" : "boolean",
+      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+      "default" : false
+    }, {
+      "name" : "primaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for feedback of primary findings?\n    False by default",
+      "default" : false
+    }, {
+      "name" : "secondaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for secondary finding lookup\n    False by default",
+      "default" : false
+    }, {
+      "name" : "carrierStatusConsent",
+      "type" : "boolean",
+      "doc" : "Consent for carrier status check?\n    False by default",
+      "default" : false
+    } ]
+  } ],
+  "messages" : { }
+}

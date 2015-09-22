@@ -1,0 +1,381 @@
+{
+  "protocol" : "InterpretationRequestCancer",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Cancer specific\nThis protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party\nThe record Report is the top level class. This includes clinical information + various version\nThe annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki\nAll annotations are against Ensembl gene models",
+  "types" : [ {
+    "type" : "record",
+    "name" : "File",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+    "fields" : [ {
+      "name" : "SampleId",
+      "type" : [ "null", "string", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+    }, {
+      "name" : "URIFile",
+      "type" : "string",
+      "doc" : "URI PATH"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VirtualPanel",
+    "doc" : "This record defines a gene panel.",
+    "fields" : [ {
+      "name" : "specificDiseaseTitle",
+      "type" : "string"
+    }, {
+      "name" : "panelVersion",
+      "type" : "string"
+    }, {
+      "name" : "ensemblVersion",
+      "type" : "string"
+    }, {
+      "name" : "dataModelCatalogueVersion",
+      "type" : "string",
+      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+    }, {
+      "name" : "geneIds",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      },
+      "doc" : "gene id from ensembl (version as per annotation file)"
+    }, {
+      "name" : "Transcripts",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "transcript ids from ensembl"
+    }, {
+      "name" : "relevantRegions",
+      "type" : [ "null", "File" ],
+      "doc" : "BED format file"
+    }, {
+      "name" : "clinicalRelevantVariants",
+      "type" : [ "null", "File" ],
+      "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OtherFamilyHistory",
+    "doc" : "Family history for secondary findings\nTODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke\nArrays of strings describing discrete family history phenotypes",
+    "fields" : [ {
+      "name" : "maternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "paternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "Sex",
+    "doc" : "Demographics",
+    "symbols" : [ "male", "female", "undetermined" ]
+  }, {
+    "type" : "enum",
+    "name" : "TernaryOption",
+    "symbols" : [ "yes", "no", "unknown" ]
+  }, {
+    "type" : "enum",
+    "name" : "EthnicCategory",
+    "doc" : "This is the list of ethnics in ONS16",
+    "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGPopCategory",
+    "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGSuperPopCategory",
+    "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+  }, {
+    "type" : "record",
+    "name" : "KGenomesPhase3Pop",
+    "fields" : [ {
+      "name" : "kGSuperPopCategory",
+      "type" : "KGSuperPopCategory"
+    }, {
+      "name" : "kGPopCategory",
+      "type" : [ "null", "KGPopCategory" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Ancestries",
+    "fields" : [ {
+      "name" : "mothersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ]
+    }, {
+      "name" : "mothersOtherRelevantAncestry",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "fathersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ]
+    }, {
+      "name" : "fathersOtherRelevantAncestry",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "kGenomesPhase3Pop",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "KGenomesPhase3Pop"
+      } ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ConsentStatus",
+    "doc" : "Consent Status",
+    "fields" : [ {
+      "name" : "programmeConsent",
+      "type" : "boolean",
+      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+      "default" : false
+    }, {
+      "name" : "primaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for feedback of primary findings?\n    False by default",
+      "default" : false
+    }, {
+      "name" : "secondaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for secondary finding lookup\n    False by default",
+      "default" : false
+    }, {
+      "name" : "carrierStatusConsent",
+      "type" : "boolean",
+      "doc" : "Consent for carrier status check?\n    False by default",
+      "default" : false
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "SampleType",
+    "doc" : "Definitions of enumeration used in CancerParticipant",
+    "symbols" : [ "germline", "tumor" ]
+  }, {
+    "type" : "enum",
+    "name" : "PreservationMethod",
+    "symbols" : [ "FFPE", "FF", "Unknown", "LEUK", "GL" ]
+  }, {
+    "type" : "enum",
+    "name" : "Phase",
+    "doc" : "TODO: check in remission....",
+    "symbols" : [ "primary", "metastasis" ]
+  }, {
+    "type" : "enum",
+    "name" : "Method",
+    "doc" : "TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?",
+    "symbols" : [ "resection", "biopsy" ]
+  }, {
+    "type" : "record",
+    "name" : "CancerSample",
+    "doc" : "TODO: like we perhaps we should change method to samplingMethod? since we may wish to use method for defining the method version/type (e.g. version 1 or secondary findings methodology?",
+    "fields" : [ {
+      "name" : "id",
+      "type" : "string",
+      "doc" : "Individual Is (this is the individual id (gel ID))"
+    }, {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "Sample Id (e.g, LP00012645_5GH))"
+    }, {
+      "name" : "centerSampleId",
+      "type" : [ "null", "string" ],
+      "doc" : "TODO: Check with the team if we want/need keep this info"
+    }, {
+      "name" : "sampleType",
+      "type" : "SampleType",
+      "doc" : "Sample Type"
+    }, {
+      "name" : "source",
+      "type" : [ "null", "string" ],
+      "doc" : "Sample Source\n    TODO: Is the time to define this?\n    This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+    }, {
+      "name" : "preservationMethod",
+      "type" : [ "null", "PreservationMethod" ],
+      "doc" : "Preservation method"
+    }, {
+      "name" : "phase",
+      "type" : [ "null", "Phase" ],
+      "doc" : "Tumor Phase"
+    }, {
+      "name" : "method",
+      "type" : [ "null", "Method" ],
+      "doc" : "Method"
+    }, {
+      "name" : "cellularity",
+      "type" : [ "null", "double" ],
+      "doc" : "Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)"
+    }, {
+      "name" : "tumorContent",
+      "type" : [ "null", "double" ],
+      "doc" : "Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "MatchedSamples",
+    "doc" : "This define a pair of germline and tumor, this pair should/must be analyzed together",
+    "fields" : [ {
+      "name" : "germlineSampleId",
+      "type" : "string"
+    }, {
+      "name" : "tumorSampleId",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CancerDemographics",
+    "doc" : "This defines a Cancer Demographics",
+    "fields" : [ {
+      "name" : "id",
+      "type" : "string"
+    }, {
+      "name" : "externalIds",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "originatingCenter",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "centerPatientId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "primaryDiagnosis",
+      "type" : "string",
+      "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+    }, {
+      "name" : "dataModelVersion",
+      "type" : "string",
+      "default" : "v2.4"
+    }, {
+      "name" : "sex",
+      "type" : "Sex",
+      "doc" : "Possible options: male, female, unknown"
+    }, {
+      "name" : "consentStatus",
+      "type" : "ConsentStatus"
+    }, {
+      "name" : "genomicMedicineCentre",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "fullNameOfResponsibleConsultant",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "contactNumber",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "hospitalOfResponsibleConsultant",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "additionalInformation",
+      "type" : [ "null", {
+        "type" : "map",
+        "values" : "string"
+      } ],
+      "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CancerParticipant",
+    "doc" : "This defines a Cancer Participant (demographics and sample information)",
+    "fields" : [ {
+      "name" : "cancerDemographics",
+      "type" : "CancerDemographics"
+    }, {
+      "name" : "cancerSamples",
+      "type" : {
+        "type" : "array",
+        "items" : "CancerSample"
+      },
+      "doc" : "List of samples (normal and tumor sample)"
+    }, {
+      "name" : "matchedSamples",
+      "type" : {
+        "type" : "array",
+        "items" : "MatchedSamples"
+      },
+      "doc" : "List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CancerInterpretationRequest",
+    "doc" : "This record represents basic information for this report\n\nTODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py",
+    "fields" : [ {
+      "name" : "reportRequestId",
+      "type" : "string",
+      "doc" : "Unique id for this report"
+    }, {
+      "name" : "reportVersion",
+      "type" : "int",
+      "doc" : "Version of this report"
+    }, {
+      "name" : "interpretGenome",
+      "type" : "boolean",
+      "doc" : "Simply load data to system or also provide interpretation?",
+      "default" : false
+    }, {
+      "name" : "BAMs",
+      "type" : {
+        "type" : "array",
+        "items" : "File"
+      },
+      "doc" : "BAMs Files"
+    }, {
+      "name" : "gVCFs",
+      "type" : {
+        "type" : "array",
+        "items" : "File"
+      },
+      "doc" : "gVCFs Files where SNVs and INDELs are represented"
+    }, {
+      "name" : "VCFs",
+      "type" : {
+        "type" : "array",
+        "items" : "File"
+      },
+      "doc" : "VCFs Files where SVs and CNVs are represented"
+    }, {
+      "name" : "BigWigs",
+      "type" : {
+        "type" : "array",
+        "items" : "File"
+      },
+      "doc" : "BigWig Files"
+    }, {
+      "name" : "annotationFile",
+      "type" : "File",
+      "doc" : "This will be the output file from Cellbase + version used"
+    }, {
+      "name" : "virtualPanels",
+      "type" : "VirtualPanel",
+      "doc" : "this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)\n    (not to be confused with VirtualPanel record - RareDisease only)"
+    }, {
+      "name" : "analysisURI",
+      "type" : "string"
+    }, {
+      "name" : "analysisVersion",
+      "type" : "string"
+    }, {
+      "name" : "additionalInfo",
+      "type" : [ "null", {
+        "type" : "map",
+        "values" : "string"
+      } ],
+      "doc" : "Additional information"
+    }, {
+      "name" : "otherFamilyHistory",
+      "type" : "OtherFamilyHistory",
+      "doc" : "EIK: added other Family History"
+    } ]
+  } ],
+  "messages" : { }
+}

@@ -20,6 +20,12 @@
     "doc" : "Simply load data to system or also provide interpretation?",
     "default" : false
   }, {
+    "name" : "workspace",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    }
+  }, {
     "name" : "BAMs",
     "type" : {
       "type" : "array",
@@ -58,10 +64,10 @@
     "doc" : "VCFs Files where SVs and CNVs are represented"
   }, {
     "name" : "BigWigs",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "File"
-    },
+    } ],
     "doc" : "BigWig Files"
   }, {
     "name" : "annotationFile",
@@ -73,17 +79,13 @@
       "type" : "record",
       "name" : "RareDisease",
       "fields" : [ {
-        "name" : "recruitedDiseaseCategory",
-        "type" : "string",
-        "doc" : "EIK rename enrolledAgainstSpecificDiseaseTitle as recruitedDiseaseCategory"
-      }, {
         "name" : "pedigree",
         "type" : {
           "type" : "record",
           "name" : "Pedigree",
           "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
           "fields" : [ {
-            "name" : "familyId",
+            "name" : "gelFamilyId",
             "type" : "string",
             "doc" : "Family id which internally translate to a sample set"
           }, {
@@ -95,73 +97,71 @@
                 "name" : "RDParticipant",
                 "doc" : "This defines a RD Participant (demographics and pedigree information)",
                 "fields" : [ {
-                  "name" : "id",
-                  "type" : "string"
+                  "name" : "pedigreeId",
+                  "type" : "int"
+                }, {
+                  "name" : "gelId",
+                  "type" : [ "null", "string" ]
+                }, {
+                  "name" : "gelFamilyId",
+                  "type" : "string",
+                  "doc" : "Family id which internally translate to a sample set"
                 }, {
                   "name" : "sex",
                   "type" : {
                     "type" : "enum",
                     "name" : "Sex",
-                    "symbols" : [ "male", "female", "unknown" ]
-                  },
-                  "doc" : "Possible options: male, female, unknown"
+                    "doc" : "Demographics",
+                    "symbols" : [ "male", "female", "undetermined" ]
+                  }
                 }, {
-                  "name" : "father",
+                  "name" : "fatherId",
                   "type" : [ "null", "string" ],
-                  "doc" : "Id of the parent, if unknown then no parent is referenced"
+                  "doc" : "Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
                 }, {
-                  "name" : "mother",
+                  "name" : "motherId",
                   "type" : [ "null", "string" ]
-                }, {
-                  "name" : "familyId",
-                  "type" : "string"
-                }, {
-                  "name" : "externalIds",
-                  "type" : [ "null", {
-                    "type" : "array",
-                    "items" : "string"
-                  } ]
                 }, {
                   "name" : "twinGroup",
                   "type" : [ "null", "int" ],
                   "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
                 }, {
                   "name" : "monozygotic",
-                  "type" : [ "null", "boolean" ],
-                  "doc" : "True if they are monozygotic"
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "TernaryOption",
+                    "symbols" : [ "yes", "no", "unknown" ]
+                  } ]
                 }, {
                   "name" : "adoptedStatus",
-                  "type" : [ "null", {
+                  "type" : {
                     "type" : "enum",
                     "name" : "AdoptedStatus",
                     "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
                     "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
-                  } ]
+                  }
                 }, {
                   "name" : "lifeStatus",
-                  "type" : [ "null", {
+                  "type" : {
                     "type" : "enum",
                     "name" : "LifeStatus",
-                    "symbols" : [ "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
-                  } ],
-                  "doc" : "see enum LifeStatus\n    null (unknown) by default"
+                    "symbols" : [ "alive", "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+                  }
                 }, {
                   "name" : "consanguineousParents",
-                  "type" : [ "null", "boolean" ],
-                  "doc" : "Offspring of a consanguineous relationship?\n    TODO: this can become an enumeration with possible leveles of consanguinity, in this case it is only unknonwn (default), true or false."
+                  "type" : "TernaryOption"
                 }, {
                   "name" : "consanguineousPopulation",
                   "type" : [ "null", "string" ],
                   "doc" : "Offspring from a consanguineous population"
                 }, {
-                  "name" : "carrierStatus",
-                  "type" : [ "null", {
+                  "name" : "affectionStatus",
+                  "type" : {
                     "type" : "enum",
-                    "name" : "CarrierStatus",
+                    "name" : "AffectionStatus",
                     "doc" : "Definitions of enumeration used in RDParticipant",
-                    "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
-                  } ],
-                  "doc" : "See enum CarrierStatus\n    null (unknown) by default"
+                    "symbols" : [ "unaffected", "affected", "unknown" ]
+                  }
                 }, {
                   "name" : "disorderList",
                   "type" : {
@@ -189,7 +189,7 @@
                       } ]
                     }
                   },
-                  "doc" : "Clinical Data (disorders)"
+                  "doc" : "Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty"
                 }, {
                   "name" : "hpoTermList",
                   "type" : {
@@ -197,14 +197,14 @@
                     "items" : {
                       "type" : "record",
                       "name" : "HpoTerm",
-                      "doc" : "This defines an HPO term and its modifiers (possibly multiple)",
+                      "doc" : "This defines an HPO term and its modifiers (possibly multiple)\nIf HPO term presence is unknown we don't have a entry on the list",
                       "fields" : [ {
                         "name" : "term",
                         "type" : "string",
                         "doc" : "Identifier of the HPO term"
                       }, {
                         "name" : "termPresence",
-                        "type" : [ "null", "boolean" ],
+                        "type" : "boolean",
                         "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
                       }, {
                         "name" : "modifiers",
@@ -231,30 +231,11 @@
                   "type" : {
                     "type" : "record",
                     "name" : "ConsentStatus",
+                    "doc" : "Consent Status",
                     "fields" : [ {
-                      "name" : "programPhase",
-                      "type" : {
-                        "type" : "enum",
-                        "name" : "ProgramPhase",
-                        "doc" : "This is to distinguish into which part of the program the participant was consented to",
-                        "symbols" : [ "pilot", "main" ]
-                      },
-                      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed"
-                    }, {
-                      "name" : "pilotToMainOptOut",
-                      "type" : "boolean",
-                      "default" : false
-                    }, {
-                      "name" : "consentDate",
-                      "type" : "string",
-                      "doc" : "This is the consent date"
-                    }, {
-                      "name" : "consentVersion",
-                      "type" : [ "null", "string" ]
-                    }, {
                       "name" : "programmeConsent",
                       "type" : "boolean",
-                      "doc" : "OptOut of transfer to main phase, where secondary findings are mandatory",
+                      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
                       "default" : false
                     }, {
                       "name" : "primaryFindingConsent",
@@ -282,18 +263,6 @@
                   } ],
                   "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
                 }, {
-                  "name" : "genomicMedicineCentre",
-                  "type" : [ "null", "string" ]
-                }, {
-                  "name" : "fullNameOfResponsibleConsultant",
-                  "type" : [ "null", "string" ]
-                }, {
-                  "name" : "contactNumber",
-                  "type" : [ "null", "string" ]
-                }, {
-                  "name" : "hospitalOfResponsibleConsultant",
-                  "type" : [ "null", "string" ]
-                }, {
                   "name" : "additionalInformation",
                   "type" : [ "null", {
                     "type" : "map",
@@ -307,26 +276,70 @@
         }
       }, {
         "name" : "inbreedingCoefficientEstimates",
-        "type" : [ "null", "File" ],
-        "doc" : "TODO: create a record for inbreeding coefficients"
+        "type" : [ "null", "File" ]
       }, {
         "name" : "ancestries",
-        "type" : [ "null", {
-          "type" : "array",
-          "items" : "string"
-        } ],
-        "doc" : "TODO: define enumeration for ancestries"
+        "type" : {
+          "type" : "record",
+          "name" : "Ancestries",
+          "fields" : [ {
+            "name" : "mothersEthnicOrigin",
+            "type" : [ "null", {
+              "type" : "enum",
+              "name" : "EthnicCategory",
+              "doc" : "This is the list of ethnics in ONS16",
+              "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+            } ]
+          }, {
+            "name" : "mothersOtherRelevantAncestry",
+            "type" : [ "null", "string" ]
+          }, {
+            "name" : "fathersEthnicOrigin",
+            "type" : [ "null", "EthnicCategory" ]
+          }, {
+            "name" : "fathersOtherRelevantAncestry",
+            "type" : [ "null", "string" ]
+          }, {
+            "name" : "kGenomesPhase3Pop",
+            "type" : [ "null", {
+              "type" : "array",
+              "items" : {
+                "type" : "record",
+                "name" : "KGenomesPhase3Pop",
+                "fields" : [ {
+                  "name" : "kGSuperPopCategory",
+                  "type" : {
+                    "type" : "enum",
+                    "name" : "KGSuperPopCategory",
+                    "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+                  }
+                }, {
+                  "name" : "kGPopCategory",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "KGPopCategory",
+                    "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+                  } ]
+                } ]
+              }
+            } ]
+          } ]
+        }
       }, {
         "name" : "complexGeneticPhenomena",
-        "type" : [ "null", "string" ],
-        "doc" : "Hints about potential genetic phenomena that can inform interpretation\n    Proposed values:\n    MOSAICISM,\n    MONOSOMY,\n    DISOMY,\n    UNIPARENTAL_DISOMY,\n    TRISOMY,\n    OTHER_ANEUPLOIDY"
+        "type" : {
+          "type" : "enum",
+          "name" : "ComplexGeneticPhenomena",
+          "symbols" : [ "mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy", "other_aneuploidy" ]
+        }
       }, {
         "name" : "modeOfInheritance",
         "type" : {
-          "type" : "array",
-          "items" : "string"
-        },
-        "doc" : "Proposed values:\n    MONOALLELIC, autosomal or pseudoautosomal, NOT imprinted|\n    MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)|HP:0012275\n    MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)|HP:0012274\n    MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown|HP:0000006\n    BIALLELIC, autosomal or pseudoautosomal|HP:0000007\n    BOTH monoallelic and biallelic, autosomal or pseudoautosomal|\n    BOTH monoallelic and biallelic (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal|\n    MITOCHONDRIAL|HP:0001427\n    X-LINKED: hemizygous mutation in males, biallelic mutations in females|HP:0001419\n    X-LINKED: hemizygous mutation in males, may be caused by monoallelic mutations in females|HP:0001417\n    Unknown|\n\n    The entries in the variable will reflect combinations of allelic states consistent with the enumeration in the model catalogue:\n    recessive: Multiplex family: recessive pattern (affected siblings only)\n    simplex: Simplex (isolated) case\n    unknown: Multiplex family: unknown\n    xlinked: Multiplex family: pattern suggestive of X-linked inheritance\n    multigenerationalPaternal: Multiplex family - paternal multi-generational pattern of inheritance (likely dominant)\n    mitochondrial: Multiplex family: pattern suggestive of mitochondrial inheritance\n    multigenerationalMaternal: Multiplex family - maternal multi-generational pattern of inheritance (likely dominant)"
+          "type" : "enum",
+          "name" : "ModelOfInheritance",
+          "doc" : "monoallelic_not_imprinted->MONOALLELIC, autosomal or pseudoautosomal, not imprinted\nmonoallelic_maternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\nmonoallelic_paternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\nmonoallelic->MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\nbiallelic->BIALLELIC, autosomal or pseudoautosomal\nmonoallelic_and_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal\nmonoallelic_and_more_severe_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\nxlinked_biallelic->X-LINKED: hemizygous mutation in males, biallelic mutations in females\nxlinked_monoallelic->X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\nmitochondrial->MITOCHONDRIAL\nunknown->Unknown",
+          "symbols" : [ "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "monoallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
+        }
       }, {
         "name" : "virtualPanel",
         "type" : [ "null", {
@@ -348,10 +361,10 @@
             "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
           }, {
             "name" : "geneIds",
-            "type" : [ "null", {
+            "type" : {
               "type" : "array",
               "items" : "string"
-            } ],
+            },
             "doc" : "gene id from ensembl (version as per annotation file)"
           }, {
             "name" : "Transcripts",
@@ -391,15 +404,17 @@
             } ]
           } ]
         } ],
-        "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband.\n    TODO: It should be eventually added to the pedigree information as a second class of diseases but at present the data is not collected in that level of detail."
+        "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband."
       } ]
     }
   }, {
-    "name" : "analysisURI",
+    "name" : "analysisReturnURI",
     "type" : "string"
   }, {
     "name" : "analysisVersion",
-    "type" : "string"
+    "type" : "string",
+    "doc" : "In the event that the provider has multiple versions of their system and an analysis will need to be provided against\n    a particular version, then that version goes here.",
+    "default" : "1"
   }, {
     "name" : "additionalInfo",
     "type" : [ "null", {

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonParticipant_1_1KGenomesPhase3Pop" kind="struct" prot="public">
+    <compoundname>CommonParticipant::KGenomesPhase3Pop</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonParticipant_1_1KGenomesPhase3Pop_1aa842c2f9f2ed5bdb6a0e319312cb8741" prot="public" static="no" mutable="no">
+        <type>KGSuperPopCategory</type>
+        <definition>KGSuperPopCategory CommonParticipant::KGenomesPhase3Pop::kGSuperPopCategory</definition>
+        <argsstring></argsstring>
+        <name>kGSuperPopCategory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="26" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1KGenomesPhase3Pop_1af715e7ffe465157a9b9ad096eac1d411" prot="public" static="no" mutable="no">
+        <type>union&lt; null, KGPopCategory &gt;</type>
+        <definition>union&lt;null, KGPopCategory&gt; CommonParticipant::KGenomesPhase3Pop::kGPopCategory</definition>
+        <argsstring></argsstring>
+        <name>kGPopCategory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="27" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="25" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structCommonParticipant_1_1KGenomesPhase3Pop_1af715e7ffe465157a9b9ad096eac1d411" prot="public" virt="non-virtual"><scope>CommonParticipant::KGenomesPhase3Pop</scope><name>kGPopCategory</name></member>
+      <member refid="structCommonParticipant_1_1KGenomesPhase3Pop_1aa842c2f9f2ed5bdb6a0e319312cb8741" prot="public" virt="non-virtual"><scope>CommonParticipant::KGenomesPhase3Pop</scope><name>kGSuperPopCategory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

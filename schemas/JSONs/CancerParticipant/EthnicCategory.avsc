@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "EthnicCategory",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This is the list of ethnics in ONS16",
+  "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+}
