@@ -3,6 +3,9 @@
   "name" : "SensitiveInformation",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "gelID",
+    "type" : "string"
+  }, {
     "name" : "externalIds",
     "type" : [ "null", {
       "type" : "array",
@@ -19,6 +22,15 @@
     "type" : [ "null", "string" ]
   }, {
     "name" : "hospitalOfResponsibleConsultant",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "centerSampleId",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "originatingCenter",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "centerPatientId",
     "type" : [ "null", "string" ]
   } ]
 }

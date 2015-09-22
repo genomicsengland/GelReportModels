@@ -3,13 +3,11 @@
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
 */
-protocol InterpretedGenomesRD {
+protocol RDInterpretedGenomes {
 
 import idl "CommonInterpreted.avdl";
 
-record RDInterpretationAnalysis {
-    /** TODO: ARM To check ReportType (Revised: dont understand what is this, aks Eik)
-    */
+record RDInterpretationGenome {
 
     /**
     This is the ID of the clinical interpretation request
@@ -17,9 +15,7 @@ record RDInterpretationAnalysis {
     string reportRequestId;
 
     /** This object define the type of report being returned for the participant)
-
     ReportType reportType;
-
     */
 
     /**
@@ -29,12 +25,24 @@ record RDInterpretationAnalysis {
     */
     string analysisId;
 
+    /**
+    Name of the company
+    */
     string companyName;
 
+    /**
+    URI where the company can upload files for this analysis
+    */
     string reportURI;
 
+    /**
+    List of all reported variants
+    */
     array<ReportedVariant> reportedVariants;
 
+    /**
+    List of all reported structural variants
+    */
     union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
 
     /**

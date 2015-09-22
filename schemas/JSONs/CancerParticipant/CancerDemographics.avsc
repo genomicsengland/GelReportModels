@@ -4,20 +4,9 @@
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines a Cancer Demographics",
   "fields" : [ {
-    "name" : "id",
-    "type" : "string"
-  }, {
-    "name" : "externalIds",
-    "type" : [ "null", {
-      "type" : "array",
-      "items" : "string"
-    } ]
-  }, {
-    "name" : "originatingCenter",
-    "type" : [ "null", "string" ]
-  }, {
-    "name" : "centerPatientId",
-    "type" : [ "null", "string" ]
+    "name" : "gelId",
+    "type" : "string",
+    "doc" : "Individual Is (this is the individual id (gel ID))"
   }, {
     "name" : "primaryDiagnosis",
     "type" : "string",
@@ -25,16 +14,17 @@
   }, {
     "name" : "dataModelVersion",
     "type" : "string",
+    "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
     "default" : "v2.4"
   }, {
     "name" : "sex",
     "type" : {
       "type" : "enum",
       "name" : "Sex",
-      "doc" : "Demographics",
+      "doc" : "Sex",
       "symbols" : [ "male", "female", "undetermined" ]
     },
-    "doc" : "Possible options: male, female, unknown"
+    "doc" : "Sex"
   }, {
     "name" : "consentStatus",
     "type" : {
@@ -44,37 +34,26 @@
       "fields" : [ {
         "name" : "programmeConsent",
         "type" : "boolean",
-        "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+        "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
         "default" : false
       }, {
         "name" : "primaryFindingConsent",
         "type" : "boolean",
-        "doc" : "Consent for feedback of primary findings?\n    False by default",
+        "doc" : "Consent for feedback of primary findings?",
         "default" : false
       }, {
         "name" : "secondaryFindingConsent",
         "type" : "boolean",
-        "doc" : "Consent for secondary finding lookup\n    False by default",
+        "doc" : "Consent for secondary finding lookup",
         "default" : false
       }, {
         "name" : "carrierStatusConsent",
         "type" : "boolean",
-        "doc" : "Consent for carrier status check?\n    False by default",
+        "doc" : "Consent for carrier status check?",
         "default" : false
       } ]
-    }
-  }, {
-    "name" : "genomicMedicineCentre",
-    "type" : [ "null", "string" ]
-  }, {
-    "name" : "fullNameOfResponsibleConsultant",
-    "type" : [ "null", "string" ]
-  }, {
-    "name" : "contactNumber",
-    "type" : [ "null", "string" ]
-  }, {
-    "name" : "hospitalOfResponsibleConsultant",
-    "type" : [ "null", "string" ]
+    },
+    "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
   }, {
     "name" : "additionalInformation",
     "type" : [ "null", {
@@ -82,5 +61,12 @@
       "values" : "string"
     } ],
     "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+  }, {
+    "name" : "sampleId",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    },
+    "doc" : "Sample Id (e.g, LP00012645_5GH))"
   } ]
 }

@@ -6,12 +6,20 @@ protocol SensitiveInformation {
 
 record SensitiveInformation {
 
+    string gelID;
+
     union {null, array<string>} externalIds; //should be hide for external companies
 
     union {null, string} genomicMedicineCenter;
     union {null, string} fullNameOfResponsibleConsultant;
     union {null, string} contactNumber;
     union {null, string} hospitalOfResponsibleConsultant;
+
+    union {null, string} centerSampleId;
+
+    union {null, string} originatingCenter;
+
+    union {null, string} centerPatientId;
 
 }
 }

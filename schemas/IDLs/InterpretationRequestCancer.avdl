@@ -7,7 +7,7 @@ The record Report is the top level class. This includes clinical information + v
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol InterpretationRequestCancer {
+protocol CancerInterpretationRequests {
 
 
 /**

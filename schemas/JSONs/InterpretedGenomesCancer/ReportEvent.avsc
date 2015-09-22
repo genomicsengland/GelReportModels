@@ -3,6 +3,10 @@
   "name" : "ReportEvent",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "reportEventId",
+    "type" : "string",
+    "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
+  }, {
     "name" : "modeOfInheritance",
     "type" : "string",
     "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
@@ -81,6 +85,7 @@
       "name" : "Tier",
       "doc" : "Possible tiers as defined by Genomics England",
       "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
-    } ]
+    } ],
+    "doc" : "Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions\n    This should be filled with the information provided by GEL"
   } ]
 }

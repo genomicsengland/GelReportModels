@@ -5,11 +5,12 @@
   "types" : [ {
     "type" : "enum",
     "name" : "Sex",
-    "doc" : "Demographics",
+    "doc" : "Sex",
     "symbols" : [ "male", "female", "undetermined" ]
   }, {
     "type" : "enum",
     "name" : "TernaryOption",
+    "doc" : "This the define a yes/no/unknown case",
     "symbols" : [ "yes", "no", "unknown" ]
   }, {
     "type" : "enum",
@@ -19,42 +20,56 @@
   }, {
     "type" : "enum",
     "name" : "KGPopCategory",
+    "doc" : "1K Super Population",
     "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
   }, {
     "type" : "enum",
     "name" : "KGSuperPopCategory",
+    "doc" : "1K Population",
     "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
   }, {
     "type" : "record",
-    "name" : "KGenomesPhase3Pop",
+    "name" : "ChiSquare1KGenomesPhase3Pop",
+    "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations",
     "fields" : [ {
       "name" : "kGSuperPopCategory",
-      "type" : "KGSuperPopCategory"
+      "type" : "KGSuperPopCategory",
+      "doc" : "1K Super Population"
     }, {
       "name" : "kGPopCategory",
-      "type" : [ "null", "KGPopCategory" ]
+      "type" : [ "null", "KGPopCategory" ],
+      "doc" : "1K Population"
+    }, {
+      "name" : "chiSquare",
+      "type" : "float",
+      "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
     } ]
   }, {
     "type" : "record",
     "name" : "Ancestries",
     "fields" : [ {
       "name" : "mothersEthnicOrigin",
-      "type" : [ "null", "EthnicCategory" ]
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Mother's Ethnic Origin"
     }, {
       "name" : "mothersOtherRelevantAncestry",
-      "type" : [ "null", "string" ]
+      "type" : [ "null", "string" ],
+      "doc" : "Mother's Ethnic Origin Description"
     }, {
       "name" : "fathersEthnicOrigin",
-      "type" : [ "null", "EthnicCategory" ]
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Father's Ethnic Origin"
     }, {
       "name" : "fathersOtherRelevantAncestry",
-      "type" : [ "null", "string" ]
+      "type" : [ "null", "string" ],
+      "doc" : "Father's Ethnic Origin Description"
     }, {
-      "name" : "kGenomesPhase3Pop",
+      "name" : "chiSquare1KGenomesPhase3Pop",
       "type" : [ "null", {
         "type" : "array",
-        "items" : "KGenomesPhase3Pop"
-      } ]
+        "items" : "ChiSquare1KGenomesPhase3Pop"
+      } ],
+      "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
     } ]
   }, {
     "type" : "record",
@@ -63,22 +78,22 @@
     "fields" : [ {
       "name" : "programmeConsent",
       "type" : "boolean",
-      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
       "default" : false
     }, {
       "name" : "primaryFindingConsent",
       "type" : "boolean",
-      "doc" : "Consent for feedback of primary findings?\n    False by default",
+      "doc" : "Consent for feedback of primary findings?",
       "default" : false
     }, {
       "name" : "secondaryFindingConsent",
       "type" : "boolean",
-      "doc" : "Consent for secondary finding lookup\n    False by default",
+      "doc" : "Consent for secondary finding lookup",
       "default" : false
     }, {
       "name" : "carrierStatusConsent",
       "type" : "boolean",
-      "doc" : "Consent for carrier status check?\n    False by default",
+      "doc" : "Consent for carrier status check?",
       "default" : false
     } ]
   } ],

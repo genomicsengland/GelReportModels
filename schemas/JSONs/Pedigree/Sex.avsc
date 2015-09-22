@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Sex",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
-  "symbols" : [ "male", "female", "undetermined" ]
-}

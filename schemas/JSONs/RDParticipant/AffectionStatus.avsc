@@ -2,6 +2,6 @@
   "type" : "enum",
   "name" : "AffectionStatus",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "Definitions of enumeration used in RDParticipant",
+  "doc" : "Affection Status",
   "symbols" : [ "unaffected", "affected", "unknown" ]
 }

@@ -1,8 +1,4 @@
 @namespace("Gel_BioInf_Models")
-/**
-TODO: change/specify rareDisease > cancer
-TODO: There are a number of types included from the rare disease schema, these can be left null however the question is, are there any good arguments for removing them all together?
-*/
 
 /**
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
@@ -10,7 +6,7 @@ The record Report is the top level class. This includes clinical information + v
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol InterpretationRequestRD {
+protocol RDInterpretationRequests {
 
 /**
 Caution!! This has been removed
@@ -21,20 +17,21 @@ import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
 
 /**
-monoallelic_not_imprinted->MONOALLELIC, autosomal or pseudoautosomal, not imprinted
-monoallelic_maternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
-monoallelic_paternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
-monoallelic->MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
-biallelic->BIALLELIC, autosomal or pseudoautosomal
-monoallelic_and_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal
-monoallelic_and_more_severe_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
-xlinked_biallelic->X-LINKED: hemizygous mutation in males, biallelic mutations in females
-xlinked_monoallelic->X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
-mitochondrial->MITOCHONDRIAL
-unknown->Unknown
-*/
+An enumeration for the different mode of inheritances:
 
-enum ModelOfInheritance {
+* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
+* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
+* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
+* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
+* `biallelic`: BIALLELIC, autosomal or pseudoautosomal
+* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal
+* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
+* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females
+* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
+* `mitochondrial`: MITOCHONDRIAL
+* `unknown`: Unknown
+*/
+enum ModeOfInheritance {
     monoallelic_not_imprinted,
     monoallelic_maternally_imprinted,
     monoallelic_paternally_imprinted,
@@ -49,30 +46,6 @@ enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, t
 
 
 
-record RareDisease {
-
-    Pedigree pedigree;
-
-    union {null, File} inbreedingCoefficientEstimates;
-
-    Ancestries ancestries;
-
-    ComplexGeneticPhenomena complexGeneticPhenomena;
-
-    ModelOfInheritance modeOfInheritance; //priority 2
-
-    /**
-    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
-    */
-    union {null, VirtualPanel} virtualPanel;
-
-    /**
-    This is the family history as pertinent to assessing secondary findings.
-    It is paternal or maternal with reference to the proband.
-    */
-    union {null, OtherFamilyHistory} otherFamilyHistory;  //priority 3
-}
-
 
 
 /**
@@ -84,7 +57,10 @@ record RDInterpretationRequest {
     */
     string reportRequestId;
 
-    string genomeAssemblyVersion;
+    /**
+    This is the version of the assembly used to align the reads
+    */
+    string genomeAssemblyVersion="GRCh37.p13";
 
     /**
     Version of this report
@@ -92,11 +68,14 @@ record RDInterpretationRequest {
     int reportVersion;
 
     /**
-    Simply load data to system or also provide interpretation?
+    Load data to system or also provide interpretation?
     */
     boolean interpretGenome=false;
 
-    array<string> workspace; // the genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+    /**
+    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+    */
+    array<string> workspace;
 
     /**
     BAMs Files
@@ -119,13 +98,45 @@ record RDInterpretationRequest {
     union {null, array<File>} BigWigs;
 
     /**
-    This will be the output file from Cellbase + version used
+    Variant Annotation using cellbase
     */
     union {null, File} annotationFile;
 
-    RareDisease rareDisease;
+    /**
+    Pedigree of the family to analyze
+    */
+    Pedigree pedigree;
 
-    string analysisReturnURI; // name of the directory or endpoint where the analysed genome will be returned.
+    /**
+    File containing the Inbreeding Coefficient Estimation
+    */
+    union {null, File} inbreedingCoefficientEstimates;
+
+    /**
+    Complex Genetic Phenomena
+    */
+    union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+
+    /**
+    Mode of inheritance to analyze the family
+    */
+    ModeOfInheritance modeOfInheritance;
+
+    /**
+    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
+    */
+    union {null, VirtualPanel} virtualPanel;
+
+    /**
+    This is the family history as pertinent to assessing secondary findings.
+    It is paternal or maternal with reference to the proband.
+    */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
+
+    /**
+    name of the directory or endpoint where the analysed genome will be returned.
+    */
+    string analysisReturnURI;
 
     /**
     In the event that the provider has multiple versions of their system and an analysis will need to be provided against
@@ -136,7 +147,6 @@ record RDInterpretationRequest {
     /**
     Additional information
     */
-
     union {null, map<string>} additionalInfo;
 }
 

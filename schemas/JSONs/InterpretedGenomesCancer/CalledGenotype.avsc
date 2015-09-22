@@ -12,9 +12,13 @@
     "type" : "string",
     "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
   }, {
-    "name" : "alleleFraction",
-    "type" : [ "null", "float" ],
-    "doc" : "Allele fraction of the variant"
+    "name" : "depthReference",
+    "type" : [ "null", "int" ],
+    "doc" : "Depth for Reference Allele"
+  }, {
+    "name" : "depthAlternate",
+    "type" : [ "null", "int" ],
+    "doc" : "Depth for Alternate Allele"
   }, {
     "name" : "copyNumber",
     "type" : [ "null", "int" ],

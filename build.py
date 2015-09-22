@@ -33,6 +33,6 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
                                    + ga4gh_schemas + " " + VERSION))
 
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDParticipant.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "InterpretationRequestRD.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "InterpretedGenomesRD.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretationRequests.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretedGenomes.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))

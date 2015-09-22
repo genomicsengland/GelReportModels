@@ -5,9 +5,11 @@
   "doc" : "This define a pair of germline and tumor, this pair should/must be analyzed together",
   "fields" : [ {
     "name" : "germlineSampleId",
-    "type" : "string"
+    "type" : "string",
+    "doc" : "Sample Id (e.g, LP00012645_5GH)) for the germline"
   }, {
     "name" : "tumorSampleId",
-    "type" : "string"
+    "type" : "string",
+    "doc" : "Sample Id (e.g, LP00012643_7JS)) for the tumor"
   } ]
 }

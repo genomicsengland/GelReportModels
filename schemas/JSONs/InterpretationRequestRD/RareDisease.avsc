@@ -22,10 +22,12 @@
             "doc" : "This defines a RD Participant (demographics and pedigree information)",
             "fields" : [ {
               "name" : "pedigreeId",
-              "type" : "int"
+              "type" : "int",
+              "doc" : "Numbering used to refer to each member of the pedigree"
             }, {
               "name" : "gelId",
-              "type" : [ "null", "string" ]
+              "type" : [ "null", "string" ],
+              "doc" : "gel internal identifier, only required when the participant belongs to the program"
             }, {
               "name" : "gelFamilyId",
               "type" : "string",
@@ -35,9 +37,10 @@
               "type" : {
                 "type" : "enum",
                 "name" : "Sex",
-                "doc" : "Demographics",
+                "doc" : "Sex",
                 "symbols" : [ "male", "female", "undetermined" ]
-              }
+              },
+              "doc" : "Sex of the Participant"
             }, {
               "name" : "fatherId",
               "type" : [ "null", "string" ],
@@ -54,26 +57,32 @@
               "type" : [ "null", {
                 "type" : "enum",
                 "name" : "TernaryOption",
+                "doc" : "This the define a yes/no/unknown case",
                 "symbols" : [ "yes", "no", "unknown" ]
-              } ]
+              } ],
+              "doc" : "A property of the twinning group but should be entered for all members"
             }, {
               "name" : "adoptedStatus",
               "type" : {
                 "type" : "enum",
                 "name" : "AdoptedStatus",
-                "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
+                "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
                 "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
-              }
+              },
+              "doc" : "Adopted Status"
             }, {
               "name" : "lifeStatus",
               "type" : {
                 "type" : "enum",
                 "name" : "LifeStatus",
+                "doc" : "Life Status",
                 "symbols" : [ "alive", "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
-              }
+              },
+              "doc" : "Life Status"
             }, {
               "name" : "consanguineousParents",
-              "type" : "TernaryOption"
+              "type" : "TernaryOption",
+              "doc" : "The parents of this participant has a consanguineous relationship"
             }, {
               "name" : "consanguineousPopulation",
               "type" : [ "null", "string" ],
@@ -83,9 +92,10 @@
               "type" : {
                 "type" : "enum",
                 "name" : "AffectionStatus",
-                "doc" : "Definitions of enumeration used in RDParticipant",
+                "doc" : "Affection Status",
                 "symbols" : [ "unaffected", "affected", "unknown" ]
-              }
+              },
+              "doc" : "Affection Status"
             }, {
               "name" : "disorderList",
               "type" : {
@@ -146,6 +156,69 @@
               },
               "doc" : "Clinical Data (HPO terms)"
             }, {
+              "name" : "ancestries",
+              "type" : {
+                "type" : "record",
+                "name" : "Ancestries",
+                "fields" : [ {
+                  "name" : "mothersEthnicOrigin",
+                  "type" : [ "null", {
+                    "type" : "enum",
+                    "name" : "EthnicCategory",
+                    "doc" : "This is the list of ethnics in ONS16",
+                    "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+                  } ],
+                  "doc" : "Mother's Ethnic Origin"
+                }, {
+                  "name" : "mothersOtherRelevantAncestry",
+                  "type" : [ "null", "string" ],
+                  "doc" : "Mother's Ethnic Origin Description"
+                }, {
+                  "name" : "fathersEthnicOrigin",
+                  "type" : [ "null", "EthnicCategory" ],
+                  "doc" : "Father's Ethnic Origin"
+                }, {
+                  "name" : "fathersOtherRelevantAncestry",
+                  "type" : [ "null", "string" ],
+                  "doc" : "Father's Ethnic Origin Description"
+                }, {
+                  "name" : "chiSquare1KGenomesPhase3Pop",
+                  "type" : [ "null", {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "record",
+                      "name" : "ChiSquare1KGenomesPhase3Pop",
+                      "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations",
+                      "fields" : [ {
+                        "name" : "kGSuperPopCategory",
+                        "type" : {
+                          "type" : "enum",
+                          "name" : "KGSuperPopCategory",
+                          "doc" : "1K Population",
+                          "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+                        },
+                        "doc" : "1K Super Population"
+                      }, {
+                        "name" : "kGPopCategory",
+                        "type" : [ "null", {
+                          "type" : "enum",
+                          "name" : "KGPopCategory",
+                          "doc" : "1K Super Population",
+                          "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+                        } ],
+                        "doc" : "1K Population"
+                      }, {
+                        "name" : "chiSquare",
+                        "type" : "float",
+                        "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
+                      } ]
+                    }
+                  } ],
+                  "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
+                } ]
+              },
+              "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
+            }, {
               "name" : "dataModelCatalogueVersion",
               "type" : "string",
               "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
@@ -159,22 +232,22 @@
                 "fields" : [ {
                   "name" : "programmeConsent",
                   "type" : "boolean",
-                  "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+                  "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
                   "default" : false
                 }, {
                   "name" : "primaryFindingConsent",
                   "type" : "boolean",
-                  "doc" : "Consent for feedback of primary findings?\n    False by default",
+                  "doc" : "Consent for feedback of primary findings?",
                   "default" : false
                 }, {
                   "name" : "secondaryFindingConsent",
                   "type" : "boolean",
-                  "doc" : "Consent for secondary finding lookup\n    False by default",
+                  "doc" : "Consent for secondary finding lookup",
                   "default" : false
                 }, {
                   "name" : "carrierStatusConsent",
                   "type" : "boolean",
-                  "doc" : "Consent for carrier status check?\n    False by default",
+                  "doc" : "Consent for carrier status check?",
                   "default" : false
                 } ]
               },
@@ -217,54 +290,6 @@
         "doc" : "URI PATH"
       } ]
     } ]
-  }, {
-    "name" : "ancestries",
-    "type" : {
-      "type" : "record",
-      "name" : "Ancestries",
-      "fields" : [ {
-        "name" : "mothersEthnicOrigin",
-        "type" : [ "null", {
-          "type" : "enum",
-          "name" : "EthnicCategory",
-          "doc" : "This is the list of ethnics in ONS16",
-          "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
-        } ]
-      }, {
-        "name" : "mothersOtherRelevantAncestry",
-        "type" : [ "null", "string" ]
-      }, {
-        "name" : "fathersEthnicOrigin",
-        "type" : [ "null", "EthnicCategory" ]
-      }, {
-        "name" : "fathersOtherRelevantAncestry",
-        "type" : [ "null", "string" ]
-      }, {
-        "name" : "kGenomesPhase3Pop",
-        "type" : [ "null", {
-          "type" : "array",
-          "items" : {
-            "type" : "record",
-            "name" : "KGenomesPhase3Pop",
-            "fields" : [ {
-              "name" : "kGSuperPopCategory",
-              "type" : {
-                "type" : "enum",
-                "name" : "KGSuperPopCategory",
-                "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
-              }
-            }, {
-              "name" : "kGPopCategory",
-              "type" : [ "null", {
-                "type" : "enum",
-                "name" : "KGPopCategory",
-                "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
-              } ]
-            } ]
-          }
-        } ]
-      } ]
-    }
   }, {
     "name" : "complexGeneticPhenomena",
     "type" : {

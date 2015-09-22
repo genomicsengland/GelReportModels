@@ -2,14 +2,10 @@
 
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
-
-TODO: Previously removed penetrance for cancer interpreted genomes cancer, should this be re-added for cancer??
-TODO: Add to ReportedVariant and ReportedStructuralVariant whether these are somatics or germline findings
-TODO: Indicated whether sample source for somatic findings
-TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 */
-protocol InterpretedGenomesCancer {
+protocol CancerInterpretedGenomes {
 
+//TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 
 import idl "CommonInterpreted.avdl";
 
@@ -21,67 +17,14 @@ import idl "CommonInterpreted.avdl";
 enum SomaticOrGermline {unknown, somatic, germline}
 
 record ReportedSomaticVariants {
+    /**
+    This is the normal record for one reported variant
+    */
+    ReportedVariant reportedVariant;
 
     /**
-    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    Describe whether this is a somatic or Germline variant
     */
-    string chromosome;
-
-    /**
-    variant ID in dbSNP
-    */
-    string dbSNPid;
-
-    /**
-    position: Position 1-based
-    */
-    int position;
-
-    /**
-    reference: Reference Allele sequence, the same provided in vcf
-    */
-    string reference;
-
-    /**
-    alternate: Alternate Allele sequence, the same provided in vcf
-    */
-    string alternate;
-
-
-    /**
-    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
-    This score may be missing if the company does not calculate such a score. In principle this score should summarise
-    other scores for example across multiple modes of inheritance.
-    TODO: Think about this!!!
-    */
-
-
-    array<ReportEvent> reportEvents;
-
-    array<CalledGenotype> calledGenotypes;
-
-    union {null, float} internalScore;
-
-    union {null, VariantClassification} variantClassification;
-
-    /**
-    For example HGMD ID)
-    */
-    union {null,map<string>} additionalTextualVariantAnnotations;
-
-    /**
-    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
-    */
-    union {null, map<float>} additionalNumericVariantAnnotations;
-
-    /**
-    Comments
-    */
-    union {null, array<string>} comments;
-
-    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
-    */
-
     SomaticOrGermline somaticOrGermline;
 
 }
@@ -89,88 +32,27 @@ record ReportedSomaticVariants {
 
 
 record ReportedSomaticStructuralVariants {
+    /**
+    This is the normal record for one reported variant
+    */
+    ReportedStructuralVariant reportedStructuralVariant;
 
     /**
-    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    Describe whether this is a somatic or Germline variant
     */
-    string chromosome;
-
-    /**
-    start: start position 1-based
-    */
-    int start;
-
-    /**
-    end: end position 1-based
-    */
-    int end;
-
-    /**
-    The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
-    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
-    */
-    string type;
-
-    /**
-    reference: Reference Allele sequence, the same provided in vcf
-    */
-    string reference;
-
-    /**
-    alternate: Alternate Allele sequence, the same provided in vcf
-    */
-    string alternate;
-
-
-    array<ReportEvent> ReportEvents;
-
-    array<CalledGenotype> calledGenotypes;
-
-    /**
-    This is the overall score provided by the company to reflect a variant's likelihood of explaining the phenotype
-    This score may be missing if the company does not calculate such a score. In principle this score should summarise
-    other scores for example across multiple modes of inheritance.
-    */
-    union {null, float} internalScore;
-
-    union {null, VariantClassification} variantClassification;
-
-    /**
-    For example HGMD ID)
-    */
-    union {null,map<string>} additionalTextualVariantAnnotations;
-
-    /**
-    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
-    */
-    union {null, map<float>} additionalNumericVariantAnnotations;
-
-    /**
-    Comments
-    */
-    union {null, array<string>} comments;
-
-    /** EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding
-    */
-
     SomaticOrGermline somaticOrGermline;
 
 }
 
-record CancerInterpretationAnalysis {
-    /** TODO: ARM To check ReportType
-    */
+record CancerInterpretedGenome {
     /**
     This is the ID of the clinical interpretation request
     */
     string reportRequestId;
 
-
-    /** This object define the type of report being returned for the participant
-
+    /** This object define the type of report being returned for the participant)
     ReportType reportType;
-
-     */
+    */
 
     /**
     This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
@@ -179,9 +61,16 @@ record CancerInterpretationAnalysis {
     */
     string analysisId;
 
+    /**
+    Name of the company
+    */
     string companyName;
 
+    /**
+    URI where the company can upload files for this analysis
+    */
     string reportURI;
+
 
     array<ReportedSomaticVariants> reportedVariants;
 

@@ -1,88 +1,16 @@
 {
-  "protocol" : "InterpretationRequestRD",
+  "protocol" : "RDInterpretationRequests",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party\nThe record Report is the top level class. This includes clinical information + various version\nThe annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki\nAll annotations are against Ensembl gene models",
   "types" : [ {
-    "type" : "record",
-    "name" : "File",
-    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-    "fields" : [ {
-      "name" : "SampleId",
-      "type" : [ "null", "string", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
-    }, {
-      "name" : "URIFile",
-      "type" : "string",
-      "doc" : "URI PATH"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VirtualPanel",
-    "doc" : "This record defines a gene panel.",
-    "fields" : [ {
-      "name" : "specificDiseaseTitle",
-      "type" : "string"
-    }, {
-      "name" : "panelVersion",
-      "type" : "string"
-    }, {
-      "name" : "ensemblVersion",
-      "type" : "string"
-    }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
-    }, {
-      "name" : "geneIds",
-      "type" : {
-        "type" : "array",
-        "items" : "string"
-      },
-      "doc" : "gene id from ensembl (version as per annotation file)"
-    }, {
-      "name" : "Transcripts",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "transcript ids from ensembl"
-    }, {
-      "name" : "relevantRegions",
-      "type" : [ "null", "File" ],
-      "doc" : "BED format file"
-    }, {
-      "name" : "clinicalRelevantVariants",
-      "type" : [ "null", "File" ],
-      "doc" : "GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex????"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "OtherFamilyHistory",
-    "doc" : "Family history for secondary findings\nTODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke\nArrays of strings describing discrete family history phenotypes",
-    "fields" : [ {
-      "name" : "maternalFamilyHistory",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ]
-    }, {
-      "name" : "paternalFamilyHistory",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ]
-    } ]
-  }, {
     "type" : "enum",
     "name" : "Sex",
-    "doc" : "Demographics",
+    "doc" : "Sex",
     "symbols" : [ "male", "female", "undetermined" ]
   }, {
     "type" : "enum",
     "name" : "TernaryOption",
+    "doc" : "This the define a yes/no/unknown case",
     "symbols" : [ "yes", "no", "unknown" ]
   }, {
     "type" : "enum",
@@ -92,42 +20,56 @@
   }, {
     "type" : "enum",
     "name" : "KGPopCategory",
+    "doc" : "1K Super Population",
     "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
   }, {
     "type" : "enum",
     "name" : "KGSuperPopCategory",
+    "doc" : "1K Population",
     "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
   }, {
     "type" : "record",
-    "name" : "KGenomesPhase3Pop",
+    "name" : "ChiSquare1KGenomesPhase3Pop",
+    "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations",
     "fields" : [ {
       "name" : "kGSuperPopCategory",
-      "type" : "KGSuperPopCategory"
+      "type" : "KGSuperPopCategory",
+      "doc" : "1K Super Population"
     }, {
       "name" : "kGPopCategory",
-      "type" : [ "null", "KGPopCategory" ]
+      "type" : [ "null", "KGPopCategory" ],
+      "doc" : "1K Population"
+    }, {
+      "name" : "chiSquare",
+      "type" : "float",
+      "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
     } ]
   }, {
     "type" : "record",
     "name" : "Ancestries",
     "fields" : [ {
       "name" : "mothersEthnicOrigin",
-      "type" : [ "null", "EthnicCategory" ]
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Mother's Ethnic Origin"
     }, {
       "name" : "mothersOtherRelevantAncestry",
-      "type" : [ "null", "string" ]
+      "type" : [ "null", "string" ],
+      "doc" : "Mother's Ethnic Origin Description"
     }, {
       "name" : "fathersEthnicOrigin",
-      "type" : [ "null", "EthnicCategory" ]
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Father's Ethnic Origin"
     }, {
       "name" : "fathersOtherRelevantAncestry",
-      "type" : [ "null", "string" ]
+      "type" : [ "null", "string" ],
+      "doc" : "Father's Ethnic Origin Description"
     }, {
-      "name" : "kGenomesPhase3Pop",
+      "name" : "chiSquare1KGenomesPhase3Pop",
       "type" : [ "null", {
         "type" : "array",
-        "items" : "KGenomesPhase3Pop"
-      } ]
+        "items" : "ChiSquare1KGenomesPhase3Pop"
+      } ],
+      "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
     } ]
   }, {
     "type" : "record",
@@ -136,22 +78,22 @@
     "fields" : [ {
       "name" : "programmeConsent",
       "type" : "boolean",
-      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known\n    False by default! needs to be explicitly changed",
+      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
       "default" : false
     }, {
       "name" : "primaryFindingConsent",
       "type" : "boolean",
-      "doc" : "Consent for feedback of primary findings?\n    False by default",
+      "doc" : "Consent for feedback of primary findings?",
       "default" : false
     }, {
       "name" : "secondaryFindingConsent",
       "type" : "boolean",
-      "doc" : "Consent for secondary finding lookup\n    False by default",
+      "doc" : "Consent for secondary finding lookup",
       "default" : false
     }, {
       "name" : "carrierStatusConsent",
       "type" : "boolean",
-      "doc" : "Consent for carrier status check?\n    False by default",
+      "doc" : "Consent for carrier status check?",
       "default" : false
     } ]
   }, {
@@ -202,16 +144,17 @@
   }, {
     "type" : "enum",
     "name" : "AffectionStatus",
-    "doc" : "Definitions of enumeration used in RDParticipant",
+    "doc" : "Affection Status",
     "symbols" : [ "unaffected", "affected", "unknown" ]
   }, {
     "type" : "enum",
     "name" : "LifeStatus",
+    "doc" : "Life Status",
     "symbols" : [ "alive", "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
   }, {
     "type" : "enum",
     "name" : "AdoptedStatus",
-    "doc" : "Default is not_adopted\nadoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
+    "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
     "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
   }, {
     "type" : "record",
@@ -219,17 +162,20 @@
     "doc" : "This defines a RD Participant (demographics and pedigree information)",
     "fields" : [ {
       "name" : "pedigreeId",
-      "type" : "int"
+      "type" : "int",
+      "doc" : "Numbering used to refer to each member of the pedigree"
     }, {
       "name" : "gelId",
-      "type" : [ "null", "string" ]
+      "type" : [ "null", "string" ],
+      "doc" : "gel internal identifier, only required when the participant belongs to the program"
     }, {
       "name" : "gelFamilyId",
       "type" : "string",
       "doc" : "Family id which internally translate to a sample set"
     }, {
       "name" : "sex",
-      "type" : "Sex"
+      "type" : "Sex",
+      "doc" : "Sex of the Participant"
     }, {
       "name" : "fatherId",
       "type" : [ "null", "string" ],
@@ -243,23 +189,28 @@
       "doc" : "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
     }, {
       "name" : "monozygotic",
-      "type" : [ "null", "TernaryOption" ]
+      "type" : [ "null", "TernaryOption" ],
+      "doc" : "A property of the twinning group but should be entered for all members"
     }, {
       "name" : "adoptedStatus",
-      "type" : "AdoptedStatus"
+      "type" : "AdoptedStatus",
+      "doc" : "Adopted Status"
     }, {
       "name" : "lifeStatus",
-      "type" : "LifeStatus"
+      "type" : "LifeStatus",
+      "doc" : "Life Status"
     }, {
       "name" : "consanguineousParents",
-      "type" : "TernaryOption"
+      "type" : "TernaryOption",
+      "doc" : "The parents of this participant has a consanguineous relationship"
     }, {
       "name" : "consanguineousPopulation",
       "type" : [ "null", "string" ],
       "doc" : "Offspring from a consanguineous population"
     }, {
       "name" : "affectionStatus",
-      "type" : "AffectionStatus"
+      "type" : "AffectionStatus",
+      "doc" : "Affection Status"
     }, {
       "name" : "disorderList",
       "type" : {
@@ -274,6 +225,10 @@
         "items" : "HpoTerm"
       },
       "doc" : "Clinical Data (HPO terms)"
+    }, {
+      "name" : "ancestries",
+      "type" : "Ancestries",
+      "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
     }, {
       "name" : "dataModelCatalogueVersion",
       "type" : "string",
@@ -314,41 +269,92 @@
       }
     } ]
   }, {
+    "type" : "record",
+    "name" : "File",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+    "fields" : [ {
+      "name" : "SampleId",
+      "type" : [ "null", "string", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+    }, {
+      "name" : "URIFile",
+      "type" : "string",
+      "doc" : "URI PATH"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VirtualPanel",
+    "doc" : "This record defines a gene panel.",
+    "fields" : [ {
+      "name" : "specificDiseaseTitle",
+      "type" : "string",
+      "doc" : "Name of the Specific Disease"
+    }, {
+      "name" : "panelVersion",
+      "type" : "string",
+      "doc" : "Version of the Gene Panel"
+    }, {
+      "name" : "ensemblVersion",
+      "type" : "string",
+      "doc" : "Ensembl version used to get teh genes or transcripts"
+    }, {
+      "name" : "dataModelCatalogueVersion",
+      "type" : "string",
+      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+    }, {
+      "name" : "geneIds",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      },
+      "doc" : "gene id from ensembl (version as per annotation file)"
+    }, {
+      "name" : "Transcripts",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "transcript ids from ensembl"
+    }, {
+      "name" : "relevantRegions",
+      "type" : [ "null", "File" ],
+      "doc" : "BED format file"
+    }, {
+      "name" : "clinicalRelevantVariants",
+      "type" : [ "null", "File" ],
+      "doc" : "VCF File"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OtherFamilyHistory",
+    "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
+    "fields" : [ {
+      "name" : "maternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Relevant Maternal family history"
+    }, {
+      "name" : "paternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Relevant Maternal family history"
+    } ]
+  }, {
     "type" : "enum",
-    "name" : "ModelOfInheritance",
-    "doc" : "monoallelic_not_imprinted->MONOALLELIC, autosomal or pseudoautosomal, not imprinted\nmonoallelic_maternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\nmonoallelic_paternally_imprinted->MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\nmonoallelic->MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\nbiallelic->BIALLELIC, autosomal or pseudoautosomal\nmonoallelic_and_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal\nmonoallelic_and_more_severe_biallelic->BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\nxlinked_biallelic->X-LINKED: hemizygous mutation in males, biallelic mutations in females\nxlinked_monoallelic->X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\nmitochondrial->MITOCHONDRIAL\nunknown->Unknown",
+    "name" : "ModeOfInheritance",
+    "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
     "symbols" : [ "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "monoallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
   }, {
     "type" : "enum",
     "name" : "ComplexGeneticPhenomena",
     "symbols" : [ "mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy", "other_aneuploidy" ]
-  }, {
-    "type" : "record",
-    "name" : "RareDisease",
-    "fields" : [ {
-      "name" : "pedigree",
-      "type" : "Pedigree"
-    }, {
-      "name" : "inbreedingCoefficientEstimates",
-      "type" : [ "null", "File" ]
-    }, {
-      "name" : "ancestries",
-      "type" : "Ancestries"
-    }, {
-      "name" : "complexGeneticPhenomena",
-      "type" : "ComplexGeneticPhenomena"
-    }, {
-      "name" : "modeOfInheritance",
-      "type" : "ModelOfInheritance"
-    }, {
-      "name" : "virtualPanel",
-      "type" : [ "null", "VirtualPanel" ],
-      "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
-    }, {
-      "name" : "otherFamilyHistory",
-      "type" : [ "null", "OtherFamilyHistory" ],
-      "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband."
-    } ]
   }, {
     "type" : "record",
     "name" : "RDInterpretationRequest",
@@ -359,7 +365,9 @@
       "doc" : "Unique id for this report"
     }, {
       "name" : "genomeAssemblyVersion",
-      "type" : "string"
+      "type" : "string",
+      "doc" : "This is the version of the assembly used to align the reads",
+      "default" : "GRCh37.p13"
     }, {
       "name" : "reportVersion",
       "type" : "int",
@@ -367,14 +375,15 @@
     }, {
       "name" : "interpretGenome",
       "type" : "boolean",
-      "doc" : "Simply load data to system or also provide interpretation?",
+      "doc" : "Load data to system or also provide interpretation?",
       "default" : false
     }, {
       "name" : "workspace",
       "type" : {
         "type" : "array",
         "items" : "string"
-      }
+      },
+      "doc" : "The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access"
     }, {
       "name" : "BAMs",
       "type" : {
@@ -406,13 +415,35 @@
     }, {
       "name" : "annotationFile",
       "type" : [ "null", "File" ],
-      "doc" : "This will be the output file from Cellbase + version used"
+      "doc" : "Variant Annotation using cellbase"
     }, {
-      "name" : "rareDisease",
-      "type" : "RareDisease"
+      "name" : "pedigree",
+      "type" : "Pedigree",
+      "doc" : "Pedigree of the family to analyze"
+    }, {
+      "name" : "inbreedingCoefficientEstimates",
+      "type" : [ "null", "File" ],
+      "doc" : "File containing the Inbreeding Coefficient Estimation"
+    }, {
+      "name" : "complexGeneticPhenomena",
+      "type" : [ "null", "ComplexGeneticPhenomena" ],
+      "doc" : "Complex Genetic Phenomena"
+    }, {
+      "name" : "modeOfInheritance",
+      "type" : "ModeOfInheritance",
+      "doc" : "Mode of inheritance to analyze the family"
+    }, {
+      "name" : "virtualPanel",
+      "type" : [ "null", "VirtualPanel" ],
+      "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
+    }, {
+      "name" : "otherFamilyHistory",
+      "type" : [ "null", "OtherFamilyHistory" ],
+      "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband."
     }, {
       "name" : "analysisReturnURI",
-      "type" : "string"
+      "type" : "string",
+      "doc" : "name of the directory or endpoint where the analysed genome will be returned."
     }, {
       "name" : "analysisVersion",
       "type" : "string",

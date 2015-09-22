@@ -2,6 +2,5 @@
   "type" : "enum",
   "name" : "SampleType",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "Definitions of enumeration used in CancerParticipant",
   "symbols" : [ "germline", "tumor" ]
 }

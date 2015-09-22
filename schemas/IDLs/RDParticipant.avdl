@@ -2,9 +2,8 @@
 /**
 This protocol defines the Participants and Pedigree
 */
-protocol RDPedigree {
+protocol Pedigrees {
 
-import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
 
 /**
@@ -65,15 +64,18 @@ record HpoTerm {
 }
 
 
+
 /**
-Definitions of enumeration used in RDParticipant
+Affection Status
 */
 enum AffectionStatus {unaffected, affected,  unknown}
 
+/**
+Life Status
+*/
 enum LifeStatus {alive, aborted, deceased, unborn, stillborn, miscarriage}
 
 /**
-Default is not_adopted
 adoptedin means adopted into the family
 adoptedout means child belonged to the family and was adopted out
 */
@@ -84,14 +86,24 @@ This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
 
-    int pedigreeId;  //Numbering used to refer to each member of the pedigree
-    union {null, string} gelId;  //gel internal identifier, only required when the participant belongs to the pr
+    /**
+    Numbering used to refer to each member of the pedigree
+    */
+    int pedigreeId;
+
+    /**
+    gel internal identifier, only required when the participant belongs to the program
+    */
+    union {null, string} gelId;
 
     /**
     Family id which internally translate to a sample set
     */
     string gelFamilyId;
 
+    /**
+    Sex of the Participant
+    */
     Sex sex;
 
     /**
@@ -105,13 +117,25 @@ record RDParticipant {
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
     */
     union {null, int} twinGroup;
-    union {null, TernaryOption} monozygotic; //a property of the twinning group but should be entered for all members
 
+    /**
+    A property of the twinning group but should be entered for all members
+    */
+    union {null, TernaryOption} monozygotic;
 
+    /**
+    Adopted Status
+    */
     AdoptedStatus adoptedStatus;
 
+    /**
+    Life Status
+    */
     LifeStatus lifeStatus;
 
+    /**
+    The parents of this participant has a consanguineous relationship
+    */
     TernaryOption consanguineousParents;
 
     /**
@@ -119,6 +143,9 @@ record RDParticipant {
     */
     union {null, string} consanguineousPopulation;
 
+    /**
+    Affection Status
+    */
     AffectionStatus affectionStatus;
 
     /**
@@ -131,6 +158,10 @@ record RDParticipant {
     */
     array<HpoTerm> hpoTermList;
 
+    /**
+    Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+    */
+    Ancestries ancestries;
 
     /**
     Version of the Data Catalogue against which the information is being provided

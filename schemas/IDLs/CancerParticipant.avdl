@@ -2,46 +2,33 @@
 /**
 This protocol defines the Participants
 */
-protocol Participants {
+protocol CancerParticipants {
 
-import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
 
-/**
-Definitions of enumeration used in CancerParticipant
-*/
 
 enum SampleType {germline, tumor}
 
 enum PreservationMethod {FFPE, FF, Unknown, LEUK, GL}
-/**
-TODO: check in remission....
-*/
+
+
+//TODO: check in remission....
+
 enum Phase {primary, metastasis}
-/**
-TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?
-*/
+
+
+//TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?
+
 enum Method {resection, biopsy}
-/**
-TODO: like we perhaps we should change method to samplingMethod? since we may wish to use method for defining the method version/type (e.g. version 1 or secondary findings methodology?
-*/
+
 
 
 record CancerSample {
-    /**
-    Individual Is (this is the individual id (gel ID))
-    */
-    string id;
-
     /**
     Sample Id (e.g, LP00012645_5GH))
     */
     string sampleId;
 
-    /**
-    TODO: Check with the team if we want/need keep this info
-    */
-    union {null, string} centerSampleId;
 
     /**
     Sample Type
@@ -50,8 +37,6 @@ record CancerSample {
 
     /**
     Sample Source
-    TODO: Is the time to define this?
-    This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva
     */
     union {null, string} source;
@@ -91,9 +76,14 @@ This define a pair of germline and tumor, this pair should/must be analyzed toge
 */
 record MatchedSamples{
 
-
+    /**
+    Sample Id (e.g, LP00012645_5GH)) for the germline
+    */
     string germlineSampleId;
 
+    /**
+    Sample Id (e.g, LP00012643_7JS)) for the tumor
+    */
     string tumorSampleId;
 
 }
@@ -101,49 +91,47 @@ record MatchedSamples{
 /**
 This defines a Cancer Demographics
 */
-
 record CancerDemographics{
 
-    string id;
-
-    union {null, array<string>} externalIds;
-
-    union {null, string} originatingCenter;
-
-
-
-    union {null, string} centerPatientId;
-
     /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
+    Individual Is (this is the individual id (gel ID))
     */
-
+    string gelId;
 
     /**
     This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
     */
     string primaryDiagnosis;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
     string dataModelVersion="v2.4";
 
     /**
-    Possible options: male, female, unknown
+    Sex
     */
     Sex sex;
 
+    /**
+    What has this participant consented to?
+    A participant that has been consented to the programme should also have sequence data associated with them; however
+    this needs to be programmatically checked
+    */
     ConsentStatus consentStatus;
-
-    union {null, string} genomicMedicineCentre;
-    union {null, string} fullNameOfResponsibleConsultant; // TODO: we really need this??? (don't see the purpose)
-    union {null, string} contactNumber;
-    union {null, string} hospitalOfResponsibleConsultant;
 
 
     /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
     */
     union {null, map<string>} additionalInformation;
+
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    array<string> sampleId;
 }
 
 
@@ -152,6 +140,9 @@ This defines a Cancer Participant (demographics and sample information)
 */
 record CancerParticipant{
 
+    /**
+    This contains all the demographic information
+    */
     CancerDemographics cancerDemographics;
 
     /**

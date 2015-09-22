@@ -5,11 +5,13 @@ This protocol defines the Common things between participant models
 protocol CommonParticipant {
 
 /**
-Demographics
+Sex
 */
-
 enum Sex {male, female, undetermined}
 
+/**
+This the define a yes/no/unknown case
+*/
 enum TernaryOption {yes, no, unknown}
 
 /**
@@ -17,25 +19,55 @@ This is the list of ethnics in ONS16
 */
 enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 
-
+/**
+1K Super Population
+*/
 enum KGPopCategory {ACB,ASW,BEB,CDX,CEU,CHB,CHS,CLM,ESN,FIN,GBR,GIH,GWD,IBS,ITU,JPT,KHV,LWK,MSL,MXL,PEL,PJL,PUR,STU,TSI,YRI}
-
+/**
+1K Population
+*/
 enum KGSuperPopCategory {AFR,AMR,EAS,EUR,SAS}
 
-record KGenomesPhase3Pop {
+/**
+Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+*/
+record ChiSquare1KGenomesPhase3Pop {
+    /**
+    1K Super Population
+    */
     KGSuperPopCategory kGSuperPopCategory;
+    /**
+    1K Population
+    */
     union {null, KGPopCategory} kGPopCategory;
+    /**
+    Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
+    */
+    float chiSquare;
 }
 
 
 record Ancestries {
-
+    /**
+    Mother's Ethnic Origin
+    */
     union{null, EthnicCategory} mothersEthnicOrigin;
+    /**
+    Mother's Ethnic Origin Description
+    */
     union{null, string} mothersOtherRelevantAncestry;
+    /**
+    Father's Ethnic Origin
+    */
     union{null, EthnicCategory} fathersEthnicOrigin;
+    /**
+    Father's Ethnic Origin Description
+    */
     union{null, string} fathersOtherRelevantAncestry;
-
-    union{null, array<KGenomesPhase3Pop>} kGenomesPhase3Pop;
+    /**
+    Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+    */
+    union{null, array<ChiSquare1KGenomesPhase3Pop>} chiSquare1KGenomesPhase3Pop;
 
 
 }
@@ -48,25 +80,21 @@ record ConsentStatus {
     /**
     Is this individual consented to the programme?
     It could simple be a family member that is not consented but for whom affection status is known
-    False by default! needs to be explicitly changed
     */
     boolean programmeConsent=false;
 
     /**
     Consent for feedback of primary findings?
-    False by default
     */
     boolean primaryFindingConsent=false;
 
     /**
     Consent for secondary finding lookup
-    False by default
     */
     boolean secondaryFindingConsent=false;
 
     /**
     Consent for carrier status check?
-    False by default
     */
     boolean carrierStatusConsent=false;
 }

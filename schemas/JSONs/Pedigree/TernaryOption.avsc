@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TernaryOption",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "yes", "no", "unknown" ]
-}

@@ -2,6 +2,5 @@
   "type" : "enum",
   "name" : "Method",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?",
   "symbols" : [ "resection", "biopsy" ]
 }

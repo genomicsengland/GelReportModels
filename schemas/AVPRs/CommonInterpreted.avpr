@@ -15,9 +15,13 @@
       "type" : "string",
       "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
     }, {
-      "name" : "alleleFraction",
-      "type" : [ "null", "float" ],
-      "doc" : "Allele fraction of the variant"
+      "name" : "depthReference",
+      "type" : [ "null", "int" ],
+      "doc" : "Depth for Reference Allele"
+    }, {
+      "name" : "depthAlternate",
+      "type" : [ "null", "int" ],
+      "doc" : "Depth for Alternate Allele"
     }, {
       "name" : "copyNumber",
       "type" : [ "null", "int" ],
@@ -65,6 +69,10 @@
     "type" : "record",
     "name" : "ReportEvent",
     "fields" : [ {
+      "name" : "reportEventId",
+      "type" : "string",
+      "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
+    }, {
       "name" : "modeOfInheritance",
       "type" : "string",
       "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
@@ -105,7 +113,8 @@
       "doc" : "This is the description of why this variant would be reported, for example that it affects the protein in this way\n    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs\n    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included."
     }, {
       "name" : "tier",
-      "type" : [ "null", "Tier" ]
+      "type" : [ "null", "Tier" ],
+      "doc" : "Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions\n    This should be filled with the information provided by GEL"
     } ]
   }, {
     "type" : "record",
@@ -228,10 +237,6 @@
       } ],
       "doc" : "Comments"
     } ]
-  }, {
-    "type" : "enum",
-    "name" : "ReportType",
-    "symbols" : [ "primaryFindings", "SecondaryFindings", "CarrierStatus" ]
   } ],
   "messages" : { }
 }
