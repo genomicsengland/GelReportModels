@@ -39,6 +39,16 @@ class TestRDParticipantAndPedigree(unittest.TestCase):
         pedigree = Pedigree.fromJsonDict(dict)
         self.assertTrue(HpoTerm.validate(pedigree.participants[0].hpoTermList[0].toJsonDict()))
 
+    def test_validation_ancestries(self):
+        fd = file(os.path.join(BASE_DIR, "resources", "TestingData", "RDParticipantExample.json"))
+        dict = json.load(fd)
+        pedigree = Pedigree.fromJsonDict(dict)
+        self.assertTrue(Ancestries.validate(pedigree.participants[0].ancestries.toJsonDict()))
+
+
+
+
+
 
 
 if __name__ == '__main__':

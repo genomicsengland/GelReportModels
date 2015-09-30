@@ -82,10 +82,6 @@ def map_identifiers(tabfiles):
 
 
 
-
-
-
-
 def create_ped(tabfile, out_dir):
     fd = file(tabfile)
     record_on = False

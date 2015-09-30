@@ -14,8 +14,8 @@
   }, {
     "name" : "modifiers",
     "type" : [ "null", {
-      "type" : "array",
-      "items" : "string"
+      "type" : "map",
+      "values" : "string"
     } ],
     "doc" : "Modifier associated with the HPO term"
   }, {

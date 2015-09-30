@@ -87,15 +87,15 @@ class Ancestries(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.chiSquare1KGenomesPhase3Pop = kwargs.get(
-            'chiSquare1KGenomesPhase3Pop', 'None')
+            'chiSquare1KGenomesPhase3Pop', None)
         self.fathersEthnicOrigin = kwargs.get(
-            'fathersEthnicOrigin', 'None')
+            'fathersEthnicOrigin', None)
         self.fathersOtherRelevantAncestry = kwargs.get(
-            'fathersOtherRelevantAncestry', 'None')
+            'fathersOtherRelevantAncestry', None)
         self.mothersEthnicOrigin = kwargs.get(
-            'mothersEthnicOrigin', 'None')
+            'mothersEthnicOrigin', None)
         self.mothersOtherRelevantAncestry = kwargs.get(
-            'mothersOtherRelevantAncestry', 'None')
+            'mothersOtherRelevantAncestry', None)
 
 
 class CalledGenotype(ProtocolElement):
@@ -139,15 +139,15 @@ class CalledGenotype(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.copyNumber = kwargs.get(
-            'copyNumber', 'None')
+            'copyNumber', None)
         self.depthAlternate = kwargs.get(
-            'depthAlternate', 'None')
+            'depthAlternate', None)
         self.depthReference = kwargs.get(
-            'depthReference', 'None')
+            'depthReference', None)
         self.gelId = kwargs.get(
-            'gelId', 'None')
+            'gelId', None)
         self.genotype = kwargs.get(
-            'genotype', 'None')
+            'genotype', None)
 
 
 class CancerDemographics(ProtocolElement):
@@ -204,19 +204,19 @@ class CancerDemographics(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalInformation = kwargs.get(
-            'additionalInformation', 'None')
+            'additionalInformation', None)
         self.consentStatus = kwargs.get(
-            'consentStatus', 'None')
+            'consentStatus', None)
         self.dataModelVersion = kwargs.get(
-            'dataModelVersion', 'v2.4')
+            'dataModelVersion', "v2.4")
         self.gelId = kwargs.get(
-            'gelId', 'None')
+            'gelId', None)
         self.primaryDiagnosis = kwargs.get(
-            'primaryDiagnosis', 'None')
+            'primaryDiagnosis', None)
         self.sampleId = kwargs.get(
-            'sampleId', 'None')
+            'sampleId', None)
         self.sex = kwargs.get(
-            'sex', 'None')
+            'sex', None)
 
 
 class CancerInterpretationRequest(ProtocolElement):
@@ -312,31 +312,31 @@ class CancerInterpretationRequest(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.BAMs = kwargs.get(
-            'BAMs', 'None')
+            'BAMs', None)
         self.BigWigs = kwargs.get(
-            'BigWigs', 'None')
+            'BigWigs', None)
         self.VCFs = kwargs.get(
-            'VCFs', 'None')
+            'VCFs', None)
         self.additionalInfo = kwargs.get(
-            'additionalInfo', 'None')
+            'additionalInfo', None)
         self.analysisURI = kwargs.get(
-            'analysisURI', 'None')
+            'analysisURI', None)
         self.analysisVersion = kwargs.get(
-            'analysisVersion', 'None')
+            'analysisVersion', None)
         self.annotationFile = kwargs.get(
-            'annotationFile', 'None')
+            'annotationFile', None)
         self.gVCFs = kwargs.get(
-            'gVCFs', 'None')
+            'gVCFs', None)
         self.interpretGenome = kwargs.get(
-            'interpretGenome', 'False')
+            'interpretGenome', False)
         self.otherFamilyHistory = kwargs.get(
-            'otherFamilyHistory', 'None')
+            'otherFamilyHistory', None)
         self.reportRequestId = kwargs.get(
-            'reportRequestId', 'None')
+            'reportRequestId', None)
         self.reportVersion = kwargs.get(
-            'reportVersion', 'None')
+            'reportVersion', None)
         self.virtualPanels = kwargs.get(
-            'virtualPanels', 'None')
+            'virtualPanels', None)
 
 
 class CancerInterpretedGenome(ProtocolElement):
@@ -447,19 +447,19 @@ class CancerInterpretedGenome(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.analysisId = kwargs.get(
-            'analysisId', 'None')
+            'analysisId', None)
         self.comments = kwargs.get(
-            'comments', 'None')
+            'comments', None)
         self.companyName = kwargs.get(
-            'companyName', 'None')
+            'companyName', None)
         self.reportRequestId = kwargs.get(
-            'reportRequestId', 'None')
+            'reportRequestId', None)
         self.reportURI = kwargs.get(
-            'reportURI', 'None')
+            'reportURI', None)
         self.reportedStructuralVariants = kwargs.get(
-            'reportedStructuralVariants', 'None')
+            'reportedStructuralVariants', None)
         self.reportedVariants = kwargs.get(
-            'reportedVariants', 'None')
+            'reportedVariants', None)
 
 
 class CancerParticipant(ProtocolElement):
@@ -536,11 +536,11 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 
     def __init__(self, **kwargs):
         self.cancerDemographics = kwargs.get(
-            'cancerDemographics', 'None')
+            'cancerDemographics', None)
         self.cancerSamples = kwargs.get(
-            'cancerSamples', 'None')
+            'cancerSamples', None)
         self.matchedSamples = kwargs.get(
-            'matchedSamples', 'None')
+            'matchedSamples', None)
 
 
 class CancerSample(ProtocolElement):
@@ -592,21 +592,21 @@ class CancerSample(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.cellularity = kwargs.get(
-            'cellularity', 'None')
+            'cellularity', None)
         self.method = kwargs.get(
-            'method', 'None')
+            'method', None)
         self.phase = kwargs.get(
-            'phase', 'None')
+            'phase', None)
         self.preservationMethod = kwargs.get(
-            'preservationMethod', 'None')
+            'preservationMethod', None)
         self.sampleId = kwargs.get(
-            'sampleId', 'None')
+            'sampleId', None)
         self.sampleType = kwargs.get(
-            'sampleType', 'None')
+            'sampleType', None)
         self.source = kwargs.get(
-            'source', 'None')
+            'source', None)
         self.tumorContent = kwargs.get(
-            'tumorContent', 'None')
+            'tumorContent', None)
 
 
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
@@ -650,11 +650,11 @@ class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.chiSquare = kwargs.get(
-            'chiSquare', 'None')
+            'chiSquare', None)
         self.kGPopCategory = kwargs.get(
-            'kGPopCategory', 'None')
+            'kGPopCategory', None)
         self.kGSuperPopCategory = kwargs.get(
-            'kGSuperPopCategory', 'None')
+            'kGSuperPopCategory', None)
 
 
 class ComplexGeneticPhenomena(object):
@@ -703,13 +703,13 @@ false, "doc": "", "type": "boolean", "name":
 
     def __init__(self, **kwargs):
         self.carrierStatusConsent = kwargs.get(
-            'carrierStatusConsent', 'False')
+            'carrierStatusConsent', False)
         self.primaryFindingConsent = kwargs.get(
-            'primaryFindingConsent', 'False')
+            'primaryFindingConsent', False)
         self.programmeConsent = kwargs.get(
-            'programmeConsent', 'False')
+            'programmeConsent', False)
         self.secondaryFindingConsent = kwargs.get(
-            'secondaryFindingConsent', 'False')
+            'secondaryFindingConsent', False)
 
 
 class Disorder(ProtocolElement):
@@ -753,18 +753,28 @@ class Disorder(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.ageOfOnset = kwargs.get(
-            'ageOfOnset', 'None')
+            'ageOfOnset', None)
         self.diseaseGroup = kwargs.get(
-            'diseaseGroup', 'None')
+            'diseaseGroup', None)
         self.diseaseSubGroup = kwargs.get(
-            'diseaseSubGroup', 'None')
+            'diseaseSubGroup', None)
         self.specificDisease = kwargs.get(
-            'specificDisease', 'None')
+            'specificDisease', None)
 
 
 class EthnicCategory(object):
     """
-    This is the list of ethnics in ONS16
+    This is the list of ethnics in ONS16  * `D`:  Mixed: White and
+    Black Caribbean * `E`:  Mixed: White and Black African * `F`:
+    Mixed: White and Asian * `G`:  Mixed: Any other mixed background *
+    `A`:  White: British * `B`:  White: Irish * `C`:  White: Any other
+    White background * `L`:  Asian or Asian British: Any other Asian
+    background * `M`:  Black or Black British: Caribbean * `N`:  Black
+    or Black British: African * `H`:  Asian or Asian British: Indian *
+    `J`:  Asian or Asian British: Pakistani * `K`:  Asian or Asian
+    British: Bangladeshi * `P`:  Black or Black British: Any other
+    Black background * `S`:  Other Ethnic Groups: Any other ethnic
+    group * `R`:  Other Ethnic Groups: Chinese * `Z`:  Not stated
     """
     D = "D"
     E = "E"
@@ -820,9 +830,9 @@ class File(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.SampleId = kwargs.get(
-            'SampleId', 'None')
+            'SampleId', None)
         self.URIFile = kwargs.get(
-            'URIFile', 'None')
+            'URIFile', None)
 
 
 class HpoTerm(ProtocolElement):
@@ -834,7 +844,7 @@ class HpoTerm(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
 {"doc": "", "type": "boolean", "name": "termPresence"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
+"type": ["null", {"values": "string", "type": "map"}], "name":
 "modifiers"}, {"doc": "", "type": ["null", "int"], "name":
 "ageOfOnset"}], "doc": ""}
 """
@@ -863,13 +873,13 @@ class HpoTerm(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.ageOfOnset = kwargs.get(
-            'ageOfOnset', 'None')
+            'ageOfOnset', None)
         self.modifiers = kwargs.get(
-            'modifiers', 'None')
+            'modifiers', None)
         self.term = kwargs.get(
-            'term', 'None')
+            'term', None)
         self.termPresence = kwargs.get(
-            'termPresence', 'None')
+            'termPresence', None)
 
 
 class KGPopCategory(object):
@@ -961,9 +971,9 @@ class MatchedSamples(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.germlineSampleId = kwargs.get(
-            'germlineSampleId', 'None')
+            'germlineSampleId', None)
         self.tumorSampleId = kwargs.get(
-            'tumorSampleId', 'None')
+            'tumorSampleId', None)
 
 
 class Method(object):
@@ -1042,9 +1052,9 @@ class OtherFamilyHistory(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.maternalFamilyHistory = kwargs.get(
-            'maternalFamilyHistory', 'None')
+            'maternalFamilyHistory', None)
         self.paternalFamilyHistory = kwargs.get(
-            'paternalFamilyHistory', 'None')
+            'paternalFamilyHistory', None)
 
 
 class Pedigree(ProtocolElement):
@@ -1061,10 +1071,10 @@ class Pedigree(ProtocolElement):
 "gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": ["null", "string"], "name": "fatherId"}, {"type": ["null",
-"string"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
-"name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes",
-"no", "unknown"], "doc": "", "type": "enum", "name":
+"type": ["null", "string"], "name": "fatherId"}, {"doc": "", "type":
+["null", "string"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown"], "doc": "", "type": "enum", "name":
 "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
 {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
 "type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
@@ -1084,8 +1094,8 @@ class Pedigree(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": "boolean", "name":
-"termPresence"}, {"doc": "", "type": ["null", {"items": "string",
-"type": "array"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 ["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
@@ -1147,9 +1157,9 @@ false, "doc": "", "type": "boolean", "name":
 
     def __init__(self, **kwargs):
         self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
+            'gelFamilyId', None)
         self.participants = kwargs.get(
-            'participants', 'None')
+            'participants', None)
 
 
 class Penetrance(object):
@@ -1277,19 +1287,19 @@ class RDInterpretationGenome(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.analysisId = kwargs.get(
-            'analysisId', 'None')
+            'analysisId', None)
         self.comments = kwargs.get(
-            'comments', 'None')
+            'comments', None)
         self.companyName = kwargs.get(
-            'companyName', 'None')
+            'companyName', None)
         self.reportRequestId = kwargs.get(
-            'reportRequestId', 'None')
+            'reportRequestId', None)
         self.reportURI = kwargs.get(
-            'reportURI', 'None')
+            'reportURI', None)
         self.reportedStructuralVariants = kwargs.get(
-            'reportedStructuralVariants', 'None')
+            'reportedStructuralVariants', None)
         self.reportedVariants = kwargs.get(
-            'reportedVariants', 'None')
+            'reportedVariants', None)
 
 
 class RDInterpretationRequest(ProtocolElement):
@@ -1320,10 +1330,10 @@ class RDInterpretationRequest(ProtocolElement):
 "gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": ["null", "string"], "name": "fatherId"}, {"type": ["null",
-"string"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
-"name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes",
-"no", "unknown"], "doc": "", "type": "enum", "name":
+"type": ["null", "string"], "name": "fatherId"}, {"doc": "", "type":
+["null", "string"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown"], "doc": "", "type": "enum", "name":
 "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
 {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
 "type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
@@ -1343,8 +1353,8 @@ class RDInterpretationRequest(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": "boolean", "name":
-"termPresence"}, {"doc": "", "type": ["null", {"items": "string",
-"type": "array"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 ["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
@@ -1468,43 +1478,43 @@ false, "doc": "", "type": "boolean", "name":
 
     def __init__(self, **kwargs):
         self.BAMs = kwargs.get(
-            'BAMs', 'None')
+            'BAMs', None)
         self.BigWigs = kwargs.get(
-            'BigWigs', 'None')
+            'BigWigs', None)
         self.VCFs = kwargs.get(
-            'VCFs', 'None')
+            'VCFs', None)
         self.additionalInfo = kwargs.get(
-            'additionalInfo', 'None')
+            'additionalInfo', None)
         self.analysisReturnURI = kwargs.get(
-            'analysisReturnURI', 'None')
+            'analysisReturnURI', None)
         self.analysisVersion = kwargs.get(
-            'analysisVersion', '1')
+            'analysisVersion', 1)
         self.annotationFile = kwargs.get(
-            'annotationFile', 'None')
+            'annotationFile', None)
         self.complexGeneticPhenomena = kwargs.get(
-            'complexGeneticPhenomena', 'None')
+            'complexGeneticPhenomena', None)
         self.gVCFs = kwargs.get(
-            'gVCFs', 'None')
+            'gVCFs', None)
         self.genomeAssemblyVersion = kwargs.get(
-            'genomeAssemblyVersion', 'GRCh37.p13')
+            'genomeAssemblyVersion', "GRCh37.p13")
         self.inbreedingCoefficientEstimates = kwargs.get(
-            'inbreedingCoefficientEstimates', 'None')
+            'inbreedingCoefficientEstimates', None)
         self.interpretGenome = kwargs.get(
-            'interpretGenome', 'False')
+            'interpretGenome', False)
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', 'None')
+            'modeOfInheritance', None)
         self.otherFamilyHistory = kwargs.get(
-            'otherFamilyHistory', 'None')
+            'otherFamilyHistory', None)
         self.pedigree = kwargs.get(
-            'pedigree', 'None')
+            'pedigree', None)
         self.reportRequestId = kwargs.get(
-            'reportRequestId', 'None')
+            'reportRequestId', None)
         self.reportVersion = kwargs.get(
-            'reportVersion', 'None')
+            'reportVersion', None)
         self.virtualPanel = kwargs.get(
-            'virtualPanel', 'None')
+            'virtualPanel', None)
         self.workspace = kwargs.get(
-            'workspace', 'None')
+            'workspace', None)
 
 
 class RDParticipant(ProtocolElement):
@@ -1519,10 +1529,10 @@ class RDParticipant(ProtocolElement):
 "gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": ["null", "string"], "name": "fatherId"}, {"type": ["null",
-"string"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
-"name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes",
-"no", "unknown"], "doc": "", "type": "enum", "name":
+"type": ["null", "string"], "name": "fatherId"}, {"doc": "", "type":
+["null", "string"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown"], "doc": "", "type": "enum", "name":
 "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
 {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
 "type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
@@ -1542,8 +1552,8 @@ class RDParticipant(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": "boolean", "name":
-"termPresence"}, {"doc": "", "type": ["null", {"items": "string",
-"type": "array"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 ["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
@@ -1633,45 +1643,45 @@ false, "doc": "", "type": "boolean", "name":
 
     def __init__(self, **kwargs):
         self.additionalInformation = kwargs.get(
-            'additionalInformation', 'None')
+            'additionalInformation', None)
         self.adoptedStatus = kwargs.get(
-            'adoptedStatus', 'None')
+            'adoptedStatus', None)
         self.affectionStatus = kwargs.get(
-            'affectionStatus', 'None')
+            'affectionStatus', None)
         self.ancestries = kwargs.get(
-            'ancestries', 'None')
+            'ancestries', None)
         self.consanguineousParents = kwargs.get(
-            'consanguineousParents', 'None')
+            'consanguineousParents', None)
         self.consanguineousPopulation = kwargs.get(
-            'consanguineousPopulation', 'None')
+            'consanguineousPopulation', None)
         self.consentStatus = kwargs.get(
-            'consentStatus', 'None')
+            'consentStatus', None)
         self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', 'v4.2')
+            'dataModelCatalogueVersion', "v4.2")
         self.disorderList = kwargs.get(
-            'disorderList', 'None')
+            'disorderList', None)
         self.fatherId = kwargs.get(
-            'fatherId', 'None')
+            'fatherId', None)
         self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
+            'gelFamilyId', None)
         self.gelId = kwargs.get(
-            'gelId', 'None')
+            'gelId', None)
         self.hpoTermList = kwargs.get(
-            'hpoTermList', 'None')
+            'hpoTermList', None)
         self.lifeStatus = kwargs.get(
-            'lifeStatus', 'None')
+            'lifeStatus', None)
         self.monozygotic = kwargs.get(
-            'monozygotic', 'None')
+            'monozygotic', None)
         self.motherId = kwargs.get(
-            'motherId', 'None')
+            'motherId', None)
         self.pedigreeId = kwargs.get(
-            'pedigreeId', 'None')
+            'pedigreeId', None)
         self.samples = kwargs.get(
-            'samples', 'None')
+            'samples', None)
         self.sex = kwargs.get(
-            'sex', 'None')
+            'sex', None)
         self.twinGroup = kwargs.get(
-            'twinGroup', 'None')
+            'twinGroup', None)
 
 
 class ReportEvent(ProtocolElement):
@@ -1740,27 +1750,27 @@ class ReportEvent(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.eventJustification = kwargs.get(
-            'eventJustification', 'None')
+            'eventJustification', None)
         self.fullyExplainsPhenotype = kwargs.get(
-            'fullyExplainsPhenotype', 'None')
+            'fullyExplainsPhenotype', None)
         self.groupOfVariants = kwargs.get(
-            'groupOfVariants', 'None')
+            'groupOfVariants', None)
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', 'None')
+            'modeOfInheritance', None)
         self.penetrance = kwargs.get(
-            'penetrance', 'None')
+            'penetrance', None)
         self.reportEventId = kwargs.get(
-            'reportEventId', 'None')
+            'reportEventId', None)
         self.score = kwargs.get(
-            'score', 'None')
+            'score', None)
         self.tier = kwargs.get(
-            'tier', 'None')
+            'tier', None)
         self.transcript = kwargs.get(
-            'transcript', 'None')
+            'transcript', None)
         self.variantClassification = kwargs.get(
-            'variantClassification', 'None')
+            'variantClassification', None)
         self.vendorSpecificScores = kwargs.get(
-            'vendorSpecificScores', 'None')
+            'vendorSpecificScores', None)
 
 
 class ReportedSomaticStructuralVariants(ProtocolElement):
@@ -1839,9 +1849,9 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.reportedStructuralVariant = kwargs.get(
-            'reportedStructuralVariant', 'None')
+            'reportedStructuralVariant', None)
         self.somaticOrGermline = kwargs.get(
-            'somaticOrGermline', 'None')
+            'somaticOrGermline', None)
 
 
 class ReportedSomaticVariants(ProtocolElement):
@@ -1920,9 +1930,9 @@ class ReportedSomaticVariants(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.reportedVariant = kwargs.get(
-            'reportedVariant', 'None')
+            'reportedVariant', None)
         self.somaticOrGermline = kwargs.get(
-            'somaticOrGermline', 'None')
+            'somaticOrGermline', None)
 
 
 class ReportedStructuralVariant(ProtocolElement):
@@ -2011,27 +2021,27 @@ class ReportedStructuralVariant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', 'None')
+            'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', 'None')
+            'additionalTextualVariantAnnotations', None)
         self.alternate = kwargs.get(
-            'alternate', 'None')
+            'alternate', None)
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', 'None')
+            'calledGenotypes', None)
         self.chromosome = kwargs.get(
-            'chromosome', 'None')
+            'chromosome', None)
         self.comments = kwargs.get(
-            'comments', 'None')
+            'comments', None)
         self.end = kwargs.get(
-            'end', 'None')
+            'end', None)
         self.reference = kwargs.get(
-            'reference', 'None')
+            'reference', None)
         self.reportEvents = kwargs.get(
-            'reportEvents', 'None')
+            'reportEvents', None)
         self.start = kwargs.get(
-            'start', 'None')
+            'start', None)
         self.type = kwargs.get(
-            'type', 'None')
+            'type', None)
 
 
 class ReportedVariant(ProtocolElement):
@@ -2118,25 +2128,25 @@ class ReportedVariant(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.additionalNumericVariantAnnotations = kwargs.get(
-            'additionalNumericVariantAnnotations', 'None')
+            'additionalNumericVariantAnnotations', None)
         self.additionalTextualVariantAnnotations = kwargs.get(
-            'additionalTextualVariantAnnotations', 'None')
+            'additionalTextualVariantAnnotations', None)
         self.alternate = kwargs.get(
-            'alternate', 'None')
+            'alternate', None)
         self.calledGenotypes = kwargs.get(
-            'calledGenotypes', 'None')
+            'calledGenotypes', None)
         self.chromosome = kwargs.get(
-            'chromosome', 'None')
+            'chromosome', None)
         self.comments = kwargs.get(
-            'comments', 'None')
+            'comments', None)
         self.dbSNPid = kwargs.get(
-            'dbSNPid', 'None')
+            'dbSNPid', None)
         self.position = kwargs.get(
-            'position', 'None')
+            'position', None)
         self.reference = kwargs.get(
-            'reference', 'None')
+            'reference', None)
         self.reportEvents = kwargs.get(
-            'reportEvents', 'None')
+            'reportEvents', None)
 
 
 class SampleType(object):
@@ -2197,23 +2207,23 @@ class SensitiveInformation(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.centerPatientId = kwargs.get(
-            'centerPatientId', 'None')
+            'centerPatientId', None)
         self.centerSampleId = kwargs.get(
-            'centerSampleId', 'None')
+            'centerSampleId', None)
         self.contactNumber = kwargs.get(
-            'contactNumber', 'None')
+            'contactNumber', None)
         self.externalIds = kwargs.get(
-            'externalIds', 'None')
+            'externalIds', None)
         self.fullNameOfResponsibleConsultant = kwargs.get(
-            'fullNameOfResponsibleConsultant', 'None')
+            'fullNameOfResponsibleConsultant', None)
         self.gelID = kwargs.get(
-            'gelID', 'None')
+            'gelID', None)
         self.genomicMedicineCenter = kwargs.get(
-            'genomicMedicineCenter', 'None')
+            'genomicMedicineCenter', None)
         self.hospitalOfResponsibleConsultant = kwargs.get(
-            'hospitalOfResponsibleConsultant', 'None')
+            'hospitalOfResponsibleConsultant', None)
         self.originatingCenter = kwargs.get(
-            'originatingCenter', 'None')
+            'originatingCenter', None)
 
 
 class Sex(object):
@@ -2291,13 +2301,13 @@ class Transcript(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.geneCoverage = kwargs.get(
-            'geneCoverage', 'None')
+            'geneCoverage', None)
         self.geneSymbol = kwargs.get(
-            'geneSymbol', 'None')
+            'geneSymbol', None)
         self.ids = kwargs.get(
-            'ids', 'None')
+            'ids', None)
         self.transcriptId = kwargs.get(
-            'transcriptId', 'None')
+            'transcriptId', None)
 
 
 class VariantClassification(object):
@@ -2368,18 +2378,18 @@ class VirtualPanel(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.Transcripts = kwargs.get(
-            'Transcripts', 'None')
+            'Transcripts', None)
         self.clinicalRelevantVariants = kwargs.get(
-            'clinicalRelevantVariants', 'None')
+            'clinicalRelevantVariants', None)
         self.dataModelCatalogueVersion = kwargs.get(
-            'dataModelCatalogueVersion', 'None')
+            'dataModelCatalogueVersion', None)
         self.ensemblVersion = kwargs.get(
-            'ensemblVersion', 'None')
+            'ensemblVersion', None)
         self.geneIds = kwargs.get(
-            'geneIds', 'None')
+            'geneIds', None)
         self.panelVersion = kwargs.get(
-            'panelVersion', 'None')
+            'panelVersion', None)
         self.relevantRegions = kwargs.get(
-            'relevantRegions', 'None')
+            'relevantRegions', None)
         self.specificDiseaseTitle = kwargs.get(
-            'specificDiseaseTitle', 'None')
+            'specificDiseaseTitle', None)

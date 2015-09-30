@@ -1,54 +1,98 @@
 {
   "participants": [
     {
+      "gelFamilyId": "132536",
       "consentStatus": {
-        "programPhase": "main",
-        "consentDate": "01/04/2015",
-        "pilotToMainOptOut": false,
-        "primaryFindingConsent": true,
+        "primaryFindingConsent": false,
         "programmeConsent": true,
-        "carrierStatusConsent": true,
-        "secondaryFindingConsent": true
+        "carrierStatusConsent": false,
+        "secondaryFindingConsent": false
       },
-      "mother": "GEL_0002",
-      "additionalInformation": {"clinical information" : "The participant was critically ill at the time of recruitment."},
-      "dataModelCatalogueVersion": "V4.2",
-      "father": "GEL_0003",
+      "motherId": null,
+      "pedigreeId": 0,
+      "samples": [
+        "LP1541"
+      ],
+      "fatherId": null,
+      "additionalInformation": {
+        "yearBirth": "1947"
+      },
+      "sex": "female",
       "hpoTermList": [
         {
           "termPresence": true,
           "term": "HP:0003002",
-          "modifiers": ["HP:0006625"]
+          "modifiers": {},
+          "ageOfOnset": null
         },
         {
           "termPresence": true,
-          "term": "HP:0003004",
-          "modifiers": ["HP:0006425"]
+          "term": "HP:0002864",
+          "modifiers": {},
+          "ageOfOnset": null
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0008629",
+          "modifiers": {
+            "laterality_modifier": "Left"
+          },
+          "ageOfOnset": null
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0000365",
+          "modifiers": {
+            "progression_modifier": "Progressive"
+          },
+          "ageOfOnset": null
         },
         {
           "termPresence": true,
           "term": "HP:0003002",
-          "modifiers": ["HP:0006655"],
-          "ageOfOnset": 15
+          "modifiers": {},
+          "ageOfOnset": null
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0002864",
+          "modifiers": {},
+          "ageOfOnset": null
+        },
+        {
+          "termPresence": true,
+          "term": "HP:0003001",
+          "modifiers": {
+            "laterality_modifier": "Left"
+          },
+          "ageOfOnset": null
         }
       ],
-      "consanguineousParents": false,
-      "consanguineousPopulation": "Ashkenazi Jew",
+      "consanguineousParents": "no",
       "disorderList": [
         {
-          "diseaseGroup": "TumourSyndrome",
-          "diseaseDubGroup": "Breast and endocrine",
-          "specificDisease": "Familial breast cancer"
+          "diseaseSubGroup": "Breast and endocrine",
+          "specificDisease": "Neuro-endocrine Tumours- PCC and PGL",
+          "ageOfOnset": null,
+          "diseaseGroup": "Tumour syndromes"
         }
       ],
-      "adoptedStatus": "not_adopted",
-      "sex": "female",
-      "familyId": "GELF_0001",
-      "twinGroup": 1,
-      "monozygotic": false,
-      "id": "GEL_0001",
-      "carrierStatus": "uncertain"
+      "lifeStatus": "not_adopted",
+      "adoptedStatus": null,
+      "ancestries": {
+        "fathersEthnicOrigin": "A",
+        "mothersOtherRelevantAncestry": null,
+        "mothersEthnicOrigin": "A",
+        "fathersOtherRelevantAncestry": null,
+        "chiSquare1KGenomesPhase3Pop": null
+      },
+      "gelId": "132536_1",
+      "dataModelCatalogueVersion": "v4.2",
+      "affectionStatus": "affected",
+      "monozygotic": null,
+      "consanguineousPopulation": null,
+      "twinGroup": null
     }
   ],
-  "familyId": "GELF_0001"
+  "gelFamilyId": "GELF_0001"
 }
