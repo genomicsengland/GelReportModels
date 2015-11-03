@@ -156,23 +156,23 @@ class SchemaClass(object):
         self._writeWithIndent("]", outputFile)
         self._writeNewline(outputFile)
         self._writeWithIndent("def __init__(self, **kwargs):", outputFile)
-        # for field in self.getFields():
-        #     string_ = "self.{} = kwargs.get(".format(field.name)
-        #     self._writeWithIndent(string_, outputFile, 2)
-        #
-        #     # This was added by antonior to fix the problem with default strings
-        #     if isinstance(field.type, str) and field.type == "string":
-        #         string_ = "'{}', {})".format(field.name, field.default)
-        #         self._writeWithIndent(string_, outputFile, 3)
-        #
-        #     string_ = "'{}', '{}')".format(field.name, field.default)
-        #     self._writeWithIndent(string_, outputFile, 3)
-
         for field in self.getFields():
             string_ = "self.{} = kwargs.get(".format(field.name)
             self._writeWithIndent(string_, outputFile, 2)
-            string_ = "'{}', {})".format(field.name, field.default)
-            self._writeWithIndent(string_, outputFile, 3)
+
+            # This was added by antonior to fix the problem with default strings
+            if str(field.type) == '"string"':
+                string_ = "'{}', '{}')".format(field.name, field.default)
+                self._writeWithIndent(string_, outputFile, 3)
+            else:
+                string_ = "'{}', {})".format(field.name, field.default)
+                self._writeWithIndent(string_, outputFile, 3)
+
+        # for field in self.getFields():
+        #     string_ = "self.{} = kwargs.get(".format(field.name)
+        #     self._writeWithIndent(string_, outputFile, 2)
+        #     string_ = "'{}', {})".format(field.name, field.default)
+        #     self._writeWithIndent(string_, outputFile, 3)
 
     def writeEmbeddedTypesClassMethods(self, outputFile):
         """

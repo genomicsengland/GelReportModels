@@ -32,10 +32,13 @@ An enumeration for the different mode of inheritances:
 * `unknown`: Unknown
 */
 enum ModeOfInheritance {
+    monoallelic,
     monoallelic_not_imprinted,
     monoallelic_maternally_imprinted,
     monoallelic_paternally_imprinted,
-    monoallelic,
+    biallelic,
+    monoallelic_and_biallelic,
+    monoallelic_and_more_severe_biallelic,
     xlinked_biallelic,
     xlinked_monoallelic,
     mitochondrial,
@@ -55,7 +58,7 @@ record RDInterpretationRequest {
     /**
     Unique id for this report
     */
-    string reportRequestId;
+    string InterpretationRequestID;
 
     /**
     This is the version of the assembly used to align the reads
@@ -63,9 +66,9 @@ record RDInterpretationRequest {
     string genomeAssemblyVersion="GRCh37.p13";
 
     /**
-    Version of this report
+    Version of this request
     */
-    int reportVersion;
+    int InterpretationRequestVersion;
 
     /**
     Load data to system or also provide interpretation?

@@ -361,7 +361,7 @@
     "name" : "RDInterpretationRequest",
     "doc" : "This record represents basic information for this report",
     "fields" : [ {
-      "name" : "reportRequestId",
+      "name" : "InterpretationRequestID",
       "type" : "string",
       "doc" : "Unique id for this report"
     }, {
@@ -370,9 +370,9 @@
       "doc" : "This is the version of the assembly used to align the reads",
       "default" : "GRCh37.p13"
     }, {
-      "name" : "reportVersion",
+      "name" : "InterpretationRequestVersion",
       "type" : "int",
-      "doc" : "Version of this report"
+      "doc" : "Version of this request"
     }, {
       "name" : "interpretGenome",
       "type" : "boolean",
