@@ -1006,10 +1006,13 @@ class ModeOfInheritance(object):
     cause disease (may be less severe, later onset than males) *
     `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown
     """
+    monoallelic = "monoallelic"
     monoallelic_not_imprinted = "monoallelic_not_imprinted"
     monoallelic_maternally_imprinted = "monoallelic_maternally_imprinted"
     monoallelic_paternally_imprinted = "monoallelic_paternally_imprinted"
-    monoallelic = "monoallelic"
+    biallelic = "biallelic"
+    monoallelic_and_biallelic = "monoallelic_and_biallelic"
+    monoallelic_and_more_severe_biallelic = "monoallelic_and_more_severe_biallelic"
     xlinked_biallelic = "xlinked_biallelic"
     xlinked_monoallelic = "xlinked_monoallelic"
     mitochondrial = "mitochondrial"
@@ -1394,8 +1397,10 @@ false, "doc": "", "type": "boolean", "name":
 "uniparental_disomy", "trisomy", "other_aneuploidy"], "type": "enum",
 "name": "ComplexGeneticPhenomena"}], "name":
 "complexGeneticPhenomena"}, {"doc": "", "type": {"symbols":
-["monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
-"monoallelic_paternally_imprinted", "monoallelic",
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
 "unknown"], "doc": "", "type": "enum", "name": "ModeOfInheritance"},
 "name": "modeOfInheritance"}, {"doc": "", "type": ["null", {"doc": "",

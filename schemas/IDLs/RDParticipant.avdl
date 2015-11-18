@@ -110,13 +110,13 @@ record RDParticipant {
     Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known
     about them in order to unambiguously reconstruct the pedigree.
     */
-    union {null, string}  fatherId; //refers to the pedigreeId of the father
+    union {null, int}  fatherId;
     /**
     refers to the pedigreeId of the mother
     Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known
     about them in order to unambiguously reconstruct the pedigree.
     */
-    union {null, string}  motherId; //refers to the pedigreeId of the mother
+    union {null, int}  motherId;
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
