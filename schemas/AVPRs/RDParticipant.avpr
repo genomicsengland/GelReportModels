@@ -178,11 +178,11 @@
       "doc" : "Sex of the Participant"
     }, {
       "name" : "fatherId",
-      "type" : [ "null", "string" ],
+      "type" : [ "null", "int" ],
       "doc" : "refers to the pedigreeId of the father\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
     }, {
       "name" : "motherId",
-      "type" : [ "null", "string" ],
+      "type" : [ "null", "int" ],
       "doc" : "refers to the pedigreeId of the mother\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
     }, {
       "name" : "twinGroup",
