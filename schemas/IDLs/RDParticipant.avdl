@@ -91,6 +91,11 @@ record RDParticipant {
     int pedigreeId;
 
     /**
+    If this field is true, the member should be consider the proband of this family
+    */
+    boolean isProband;
+
+    /**
     gel internal identifier, only required when the participant belongs to the program
     */
     union {null, string} gelId;

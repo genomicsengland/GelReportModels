@@ -6,7 +6,7 @@ The record Report is the top level class. This includes clinical information + v
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol RDInterpretationRequests {
+protocol InterpretationRequestsRD {
 
 /**
 Caution!! This has been removed
@@ -54,7 +54,7 @@ enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, t
 /**
 This record represents basic information for this report
 */
-record RDInterpretationRequest {
+record InterpretationRequestRD {
     /**
     Unique id for this report
     */
@@ -98,7 +98,12 @@ record RDInterpretationRequest {
     /**
     BigWig Files
     */
-    union {null, array<File>} BigWigs;
+    union {null, array<File>} bigWigs;
+
+    /**
+    Pedigree Diagram Files
+    */
+    union {null, File} pedigreeDiagram;
 
     /**
     Variant Annotation using cellbase
@@ -128,7 +133,7 @@ record RDInterpretationRequest {
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
     */
-    union {null, VirtualPanel} virtualPanel;
+    union {null, array<VirtualPanel>} virtualPanel;
 
     /**
     This is the family history as pertinent to assessing secondary findings.
