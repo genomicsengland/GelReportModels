@@ -8,6 +8,10 @@
     "type" : "int",
     "doc" : "Numbering used to refer to each member of the pedigree"
   }, {
+    "name" : "isProband",
+    "type" : "boolean",
+    "doc" : "If this field is true, the member should be consider the proband of this family"
+  }, {
     "name" : "gelId",
     "type" : [ "null", "string" ],
     "doc" : "gel internal identifier, only required when the participant belongs to the program"

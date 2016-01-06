@@ -1,5 +1,5 @@
 {
-  "protocol" : "RDInterpretedGenomes",
+  "protocol" : "InterpretedGenomesRD",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "Define the Report used by GEL to get the clinical interpretation companies results for bronze level",
   "types" : [ {
@@ -239,9 +239,9 @@
     } ]
   }, {
     "type" : "record",
-    "name" : "RDInterpretationGenome",
+    "name" : "InterpretedGenomeRD",
     "fields" : [ {
-      "name" : "reportRequestId",
+      "name" : "InterpretationRequestID",
       "type" : "string",
       "doc" : "This is the ID of the clinical interpretation request"
     }, {
