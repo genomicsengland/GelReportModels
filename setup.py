@@ -1,7 +1,10 @@
 from distutils.core import setup
+import os
 from pip.req import parse_requirements
-install_reqs = parse_requirements("requirements.txt")
-reqs = [str(ir.req) for ir in install_reqs]
+import uuid
+
+install_reqs = parse_requirements(os.path.join(os.path.dirname(__file__), "requirements.txt"), session=uuid.uuid1())
+reqs = [str(ir.req) for ir in install_reqs if ir.req is not None]
 setup(
     name='GelReportModels',
     version='v1.1.1',
