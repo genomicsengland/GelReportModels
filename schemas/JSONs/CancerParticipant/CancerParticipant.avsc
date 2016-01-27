@@ -89,6 +89,18 @@
           "type" : "string",
           "doc" : "Sample Id (e.g, LP00012645_5GH))"
         }, {
+          "name" : "labId",
+          "type" : "string",
+          "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+        }, {
+          "name" : "gelPhase",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "GelPhase",
+            "symbols" : [ "cruk", "brc", "cll", "iip", "main" ]
+          } ],
+          "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
+        }, {
           "name" : "sampleType",
           "type" : {
             "type" : "enum",
@@ -96,6 +108,10 @@
             "symbols" : [ "germline", "tumor" ]
           },
           "doc" : "Sample Type"
+        }, {
+          "name" : "sampleDiagnosis",
+          "type" : "string",
+          "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
         }, {
           "name" : "source",
           "type" : [ "null", "string" ],
@@ -105,7 +121,7 @@
           "type" : [ "null", {
             "type" : "enum",
             "name" : "PreservationMethod",
-            "symbols" : [ "FFPE", "FF", "Unknown", "LEUK", "GL" ]
+            "symbols" : [ "ffpe", "ff", "unknown", "blood", "gl", "saliva" ]
           } ],
           "doc" : "Preservation method"
         }, {
@@ -121,7 +137,7 @@
           "type" : [ "null", {
             "type" : "enum",
             "name" : "Method",
-            "symbols" : [ "resection", "biopsy" ]
+            "symbols" : [ "resection", "biopsy", "blood" ]
           } ],
           "doc" : "Method"
         }, {

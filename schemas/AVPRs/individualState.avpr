@@ -1,0 +1,30 @@
+{
+  "protocol" : "IndividualState",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the states an individual can inherit",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "State",
+    "doc" : "This is the master state for this sample",
+    "symbols" : [ "ready", "hold", "fail", "caution" ]
+  }, {
+    "type" : "enum",
+    "name" : "Reason",
+    "symbols" : [ ]
+  }, {
+    "type" : "record",
+    "name" : "individualState",
+    "fields" : [ {
+      "name" : "state",
+      "type" : [ "null", "State" ]
+    }, {
+      "name" : "reason",
+      "type" : [ "null", "Reason" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "individualTests",
+    "fields" : [ ]
+  } ],
+  "messages" : { }
+}

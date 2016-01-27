@@ -9,18 +9,15 @@ import idl "CommonParticipant.avdl";
 
 enum SampleType {germline, tumor}
 
-enum PreservationMethod {FFPE, FF, Unknown, LEUK, GL}
-
+enum PreservationMethod {ffpe, ff, unknown, blood, gl, saliva}
 
 //TODO: check in remission....
 
 enum Phase {primary, metastasis}
 
+enum GelPhase {cruk, brc, cll, iip, main}
 
-//TODO: perhaps we should change phase to stage? since we may wish to use Phase for Haplotype Phase?
-
-enum Method {resection, biopsy}
-
+enum Method {resection, biopsy, blood}
 
 
 record CancerSample {
@@ -29,11 +26,25 @@ record CancerSample {
     */
     string sampleId;
 
+    /**
+    Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
+    */
+    string labId;
+
+    /**
+    gelPhase (eg cruk, brc, cll, iip, main)
+    */
+    union {null, GelPhase} gelPhase;
 
     /**
     Sample Type
     */
     SampleType sampleType;
+
+    /**
+    Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)
+    */
+    string sampleDiagnosis;
 
     /**
     Sample Source

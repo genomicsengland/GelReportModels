@@ -1,5 +1,5 @@
 {
-  "protocol" : "RDInterpretationRequests",
+  "protocol" : "InterpretationRequestsRD",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party\nThe record Report is the top level class. This includes clinical information + various version\nThe annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki\nAll annotations are against Ensembl gene models",
   "types" : [ {
@@ -164,6 +164,10 @@
       "name" : "pedigreeId",
       "type" : "int",
       "doc" : "Numbering used to refer to each member of the pedigree"
+    }, {
+      "name" : "isProband",
+      "type" : "boolean",
+      "doc" : "If this field is true, the member should be consider the proband of this family"
     }, {
       "name" : "gelId",
       "type" : [ "null", "string" ],
@@ -358,7 +362,7 @@
     "symbols" : [ "mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy", "other_aneuploidy" ]
   }, {
     "type" : "record",
-    "name" : "RDInterpretationRequest",
+    "name" : "InterpretationRequestRD",
     "doc" : "This record represents basic information for this report",
     "fields" : [ {
       "name" : "InterpretationRequestID",
@@ -407,12 +411,16 @@
       },
       "doc" : "VCFs Files where SVs and CNVs are represented"
     }, {
-      "name" : "BigWigs",
+      "name" : "bigWigs",
       "type" : [ "null", {
         "type" : "array",
         "items" : "File"
       } ],
       "doc" : "BigWig Files"
+    }, {
+      "name" : "pedigreeDiagram",
+      "type" : [ "null", "File" ],
+      "doc" : "Pedigree Diagram Files"
     }, {
       "name" : "annotationFile",
       "type" : [ "null", "File" ],
@@ -435,7 +443,10 @@
       "doc" : "Mode of inheritance to analyze the family"
     }, {
       "name" : "virtualPanel",
-      "type" : [ "null", "VirtualPanel" ],
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "VirtualPanel"
+      } ],
       "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
     }, {
       "name" : "otherFamilyHistory",

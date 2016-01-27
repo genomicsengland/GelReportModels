@@ -1,0 +1,141 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the gel metrics we calculate and store for bams
+*/
+protocol GelBamStats {
+
+enum SamtoolsScope {all, filtered}
+
+record GelMetrics {
+
+    union {null, string} BaseDir;
+    union {null, double} GbQ30NoDupsNoClip;
+    union {null, float} perc_bases_ge_15x_mapQ_ge11;
+    union {null, string} InputDir;
+    union {null, string} DirectoryType;
+    union {null, int} nBases_samtools;
+    union {null, string} FileRelativePath;
+    union {null, string} md5checksum;
+
+}
+
+record VerifyBamId {
+
+    union {null, string} SEQ_ID ;
+    union {null, string} CHIP_ID ;
+    union {null, int} SNPS ;
+    union {null, int} READS ;
+    union {null, int} AVG_DP ;
+    union {null, double} FREEMIX ;
+    union {null, double} FREELK1 ;
+    union {null, double} FREELK0 ;
+    union {null, double} FREE_RH ;
+    union {null, double} FREE_RA ;
+    union {null, double} CHIPMIX ;
+    union {null, double} CHIPLK1 ;
+    union {null, double} CHIPLK0 ;
+    union {null, double} CHIP_RA ;
+    union {null, double} DPREF ;
+    union {null, double} RDPHET ;
+    union {null, double} RDPALT ;
+
+}
+
+record ArrayConcordance {
+
+    union {null, string} numberOfSites ;
+    union {null, string} numberOfDiscordantSites ;
+
+}
+
+record Plink {
+
+    union {null, double} F ;
+    union {null, int} YCOUNT ;
+    union {null, int} STATUS ;
+    union {null, int} SNPSEX ;
+
+}
+
+record InbreedingCoefficientEstimation {
+
+    union {null, double} O ;
+    union {null, int} E ;
+    union {null, int} N ;
+    union {null, int} F ;
+
+}
+
+record TumorChecks {
+
+    union {null, double} percentSomatic1000G;
+    union {null, double} totalSomatic1000G;
+    union {null, double} totalSomaticNot1000G;
+
+}
+
+record BamHeaderOther {
+
+    union {null, string} PIPELINE_ID;
+    union {null, string} PIPELINE_VERSION;
+
+}
+
+record SamtoolsStats {
+
+    union {null,SamtoolsScope} samtoolsScope;
+    union {null, int} SAMTOOLS_1ST_FRAGMENTS;
+    union {null, int} SAMTOOLS_AVERAGE_LENGTH;
+    union {null, double} SAMTOOLS_AVERAGE_QUALITY;
+    union {null, int} SAMTOOLS_BASES_DUPLICATED;
+    union {null, int} SAMTOOLS_BASES_ERROR_RATE;
+    union {null, int} SAMTOOLS_BASES_MAPPED;
+    union {null, int} SAMTOOLS_BASES_MAPPED_CIGAR;
+    union {null, int} SAMTOOLS_BASES_PERCENT_MAPPED;
+    union {null, int} SAMTOOLS_BASES_TRIMMED;
+    union {null, string} SAMTOOLS_ERROR_RATE;
+    union {null, int} SAMTOOLS_FILTERED_SEQUENCES;
+    union {null, double} SAMTOOLS_INSERT_SIZE_AVERAGE;
+    union {null, double} SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION;
+    union {null, int} SAMTOOLS_INWARD_ORIENTED_PAIRS;
+    union {null, int} SAMTOOLS_IS_SORTED;
+    union {null, int} SAMTOOLS_LAST_FRAGMENTS;
+    union {null, int} SAMTOOLS_MAXIMUM_LENGTH;
+    union {null, int} SAMTOOLS_MISMATCHES;
+    union {null, int} SAMTOOLS_NON_PRIMARY_ALIGNMENTS;
+    union {null, int} SAMTOOLS_OUTWARD_ORIENTED_PAIRS;
+    union {null, int} SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES;
+    union {null, int} SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION;
+    union {null, int} SAMTOOLS_RAW_TOTAL_SEQUENCES;
+    union {null, int} SAMTOOLS_READS_DUPLICATED;
+    union {null, int} SAMTOOLS_READS_MAPPED;
+    union {null, int} SAMTOOLS_READS_MAPPED_AND_PAIRED;
+    union {null, int} SAMTOOLS_READS_MQ0;
+    union {null, int} SAMTOOLS_READS_PAIRED;
+    union {null, int} SAMTOOLS_READS_PERCENT_DUPLICATED;
+    union {null, int} SAMTOOLS_READS_PERCENT_FILTERED;
+    union {null, int} SAMTOOLS_READS_PERCENT_MAPPED;
+    union {null, int} SAMTOOLS_READS_PERCENT_MQ0;
+    union {null, int} SAMTOOLS_READS_PROPERLY_PAIRED;
+    union {null, int} SAMTOOLS_READS_QC_FAILED;
+    union {null, int} SAMTOOLS_READS_UNMAPPED;
+    union {null, int} SAMTOOLS_SEQUENCES;
+    union {null, int} SAMTOOLS_TOTAL_LENGTH;
+
+}
+
+record Machine {
+    union {null, int} DATE;
+    union {null, string} MACHINE;
+    union {null, string} FLOWCELL;
+    union {null, int} RUN;
+}
+
+record BamHeaderMachine {
+
+    array <Machine> machines;
+}
+
+
+}
+

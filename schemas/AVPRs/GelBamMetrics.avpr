@@ -1,0 +1,303 @@
+{
+  "protocol" : "GelBamStats",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the gel metrics we calculate and store for bams",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SamtoolsScope",
+    "symbols" : [ "all", "filtered" ]
+  }, {
+    "type" : "record",
+    "name" : "GelMetrics",
+    "fields" : [ {
+      "name" : "BaseDir",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "GbQ30NoDupsNoClip",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "perc_bases_ge_15x_mapQ_ge11",
+      "type" : [ "null", "float" ]
+    }, {
+      "name" : "InputDir",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "DirectoryType",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "nBases_samtools",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "FileRelativePath",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "md5checksum",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VerifyBamId",
+    "fields" : [ {
+      "name" : "SEQ_ID",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "CHIP_ID",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "SNPS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "READS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "AVG_DP",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "FREEMIX",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "FREELK1",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "FREELK0",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "FREE_RH",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "FREE_RA",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "CHIPMIX",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "CHIPLK1",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "CHIPLK0",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "CHIP_RA",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "DPREF",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "RDPHET",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "RDPALT",
+      "type" : [ "null", "double" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ArrayConcordance",
+    "fields" : [ {
+      "name" : "numberOfSites",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "numberOfDiscordantSites",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Plink",
+    "fields" : [ {
+      "name" : "F",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "YCOUNT",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "STATUS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SNPSEX",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "InbreedingCoefficientEstimation",
+    "fields" : [ {
+      "name" : "O",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "E",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "N",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "F",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "TumorChecks",
+    "fields" : [ {
+      "name" : "percentSomatic1000G",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "totalSomatic1000G",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "totalSomaticNot1000G",
+      "type" : [ "null", "double" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "BamHeaderOther",
+    "fields" : [ {
+      "name" : "PIPELINE_ID",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "PIPELINE_VERSION",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "SamtoolsStats",
+    "fields" : [ {
+      "name" : "samtoolsScope",
+      "type" : [ "null", "SamtoolsScope" ]
+    }, {
+      "name" : "SAMTOOLS_1ST_FRAGMENTS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_AVERAGE_LENGTH",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_AVERAGE_QUALITY",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_DUPLICATED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_ERROR_RATE",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_MAPPED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_MAPPED_CIGAR",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_PERCENT_MAPPED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_BASES_TRIMMED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_ERROR_RATE",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "SAMTOOLS_FILTERED_SEQUENCES",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_INSERT_SIZE_AVERAGE",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION",
+      "type" : [ "null", "double" ]
+    }, {
+      "name" : "SAMTOOLS_INWARD_ORIENTED_PAIRS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_IS_SORTED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_LAST_FRAGMENTS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_MAXIMUM_LENGTH",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_MISMATCHES",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_NON_PRIMARY_ALIGNMENTS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_OUTWARD_ORIENTED_PAIRS",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_RAW_TOTAL_SEQUENCES",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_DUPLICATED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_MAPPED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_MAPPED_AND_PAIRED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_MQ0",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PAIRED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PERCENT_DUPLICATED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PERCENT_FILTERED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PERCENT_MAPPED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PERCENT_MQ0",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_PROPERLY_PAIRED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_QC_FAILED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_READS_UNMAPPED",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_SEQUENCES",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "SAMTOOLS_TOTAL_LENGTH",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Machine",
+    "fields" : [ {
+      "name" : "DATE",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "MACHINE",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "FLOWCELL",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "RUN",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "BamHeaderMachine",
+    "fields" : [ {
+      "name" : "machines",
+      "type" : {
+        "type" : "array",
+        "items" : "Machine"
+      }
+    } ]
+  } ],
+  "messages" : { }
+}

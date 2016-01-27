@@ -45,3 +45,5 @@ os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretationRequests.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretedGenomes.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelBamMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelBamMetrics.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelVcfMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelVcfMetrics.html"))
