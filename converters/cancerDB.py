@@ -62,68 +62,68 @@ while row is not None:
 # normal = sys.argv[3]
 # outdir = sys.argv[4]
 
-outdir = "/home/antonior/openclinica/cancer_annotation/"
-tumor = "/home/antonior/Downloads/gel_cruk_srf_patient_tumour_ffpe_1_1_0_2015-07-14_13-35.xlsx"
-tumor_xlsx = xlrd.open_workbook(tumor)
-tumor_sheet = tumor_xlsx.sheet_by_index(0)
-
-header = [str(cel.value) for cel in tumor_sheet.row(0)]
-for nrow in range(1, tumor_sheet.nrows):
-    values = [str(cel.value) for cel in tumor_sheet.row(nrow)]
-    data = {key: value for key, value in zip(header, values)}
-    id = data["Local Patient ID"]
-    if id in all_cancer_samples_tumor:
-        all_cancer_samples_tumor[id]["phase"] = data["Tumour Kind"].lower()
-        all_cancer_samples_normal[id]["phase"] = data["Tumour Kind"].lower()
-        all_cancer_samples_tumor[id]["method"] = data["Sample Type"].lower()
-        all_cancer_samples_normal[id]["method"] = data["Sample Type"].lower()
-        # all_cancer_samples_tumor[id]["cellularity"] = data[]
-        # all_cancer_samples_tumor[id]["phase"] = data[]
-        # if data["Tumour Type"].lower() != all_cancer_participant[id]["primaryDiagnosis"].lower():
-
-
-        fdw = file(os.path.join(outdir,  str(all_cancer_samples_tumor[id]["id"]) + "_" + "_sample.json"), "w")
-        json.dump(all_cancer_samples_tumor[id], fdw, indent=True)
-        fdw.close()
-
-        fdw = file(os.path.join(outdir,  str(all_cancer_samples_normal[id]["id"]) + "_" + "_sample.json"), "w")
-        json.dump(all_cancer_samples_normal[id], fdw, indent=True)
-        fdw.close()
-
-    else:
-        print id
-
-
-blood = "/home/antonior/Downloads/gel_cruk_srf_patient_tumour_ffpe_1_1_0_2015-07-14_13-35.xlsx"
-blood_xlsx = xlrd.open_workbook(tumor)
-blood_sheet = tumor_xlsx.sheet_by_index(0)
-
-header = [str(cel.value) for cel in blood_sheet.row(0)]
-for nrow in range(1, blood_sheet.nrows):
-    values = [str(cel.value) for cel in blood_sheet.row(nrow)]
-    data = {key: value for key, value in zip(header, values)}
-    id = data["Local Patient ID"]
-    if id in all_cancer_participant:
-        all_cancer_participant[id]["primaryDiagnosis"] = data["Tumour Type"]
-        if data["Patient Gender"] == "1":
-            all_cancer_participant[id]["sex"] = "male"
-        else:
-            all_cancer_participant[id]["sex"] = "female"
-
-
-        for well_id in well_ids[all_cancer_participant[id]["id"]]:
-            fdw = file(os.path.join(outdir,  well_id + "_" + "participant.json"), "w")
-            json.dump(all_cancer_participant[id], fdw, indent=True)
-            fdw.close()
-
-    else:
-        print id
-
-
-
-
-
-
+# outdir = "/home/antonior/openclinica/cancer_annotation/"
+# tumor = "/home/antonior/Downloads/gel_cruk_srf_patient_tumour_ffpe_1_1_0_2015-07-14_13-35.xlsx"
+# tumor_xlsx = xlrd.open_workbook(tumor)
+# tumor_sheet = tumor_xlsx.sheet_by_index(0)
+#
+# header = [str(cel.value) for cel in tumor_sheet.row(0)]
+# for nrow in range(1, tumor_sheet.nrows):
+#     values = [str(cel.value) for cel in tumor_sheet.row(nrow)]
+#     data = {key: value for key, value in zip(header, values)}
+#     id = data["Local Patient ID"]
+#     if id in all_cancer_samples_tumor:
+#         all_cancer_samples_tumor[id]["phase"] = data["Tumour Kind"].lower()
+#         all_cancer_samples_normal[id]["phase"] = data["Tumour Kind"].lower()
+#         all_cancer_samples_tumor[id]["method"] = data["Sample Type"].lower()
+#         all_cancer_samples_normal[id]["method"] = data["Sample Type"].lower()
+#         # all_cancer_samples_tumor[id]["cellularity"] = data[]
+#         # all_cancer_samples_tumor[id]["phase"] = data[]
+#         # if data["Tumour Type"].lower() != all_cancer_participant[id]["primaryDiagnosis"].lower():
+#
+#
+#         fdw = file(os.path.join(outdir,  str(all_cancer_samples_tumor[id]["id"]) + "_" + "_sample.json"), "w")
+#         json.dump(all_cancer_samples_tumor[id], fdw, indent=True)
+#         fdw.close()
+#
+#         fdw = file(os.path.join(outdir,  str(all_cancer_samples_normal[id]["id"]) + "_" + "_sample.json"), "w")
+#         json.dump(all_cancer_samples_normal[id], fdw, indent=True)
+#         fdw.close()
+#
+#     else:
+#         print id
+#
+#
+# blood = "/home/antonior/Downloads/gel_cruk_srf_patient_tumour_ffpe_1_1_0_2015-07-14_13-35.xlsx"
+# blood_xlsx = xlrd.open_workbook(tumor)
+# blood_sheet = tumor_xlsx.sheet_by_index(0)
+#
+# header = [str(cel.value) for cel in blood_sheet.row(0)]
+# for nrow in range(1, blood_sheet.nrows):
+#     values = [str(cel.value) for cel in blood_sheet.row(nrow)]
+#     data = {key: value for key, value in zip(header, values)}
+#     id = data["Local Patient ID"]
+#     if id in all_cancer_participant:
+#         all_cancer_participant[id]["primaryDiagnosis"] = data["Tumour Type"]
+#         if data["Patient Gender"] == "1":
+#             all_cancer_participant[id]["sex"] = "male"
+#         else:
+#             all_cancer_participant[id]["sex"] = "female"
+#
+#
+#         for well_id in well_ids[all_cancer_participant[id]["id"]]:
+#             fdw = file(os.path.join(outdir,  well_id + "_" + "participant.json"), "w")
+#             json.dump(all_cancer_participant[id], fdw, indent=True)
+#             fdw.close()
+#
+#     else:
+#         print id
+#
+#
+#
+#
+#
+#
 
 
 
