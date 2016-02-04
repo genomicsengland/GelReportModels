@@ -122,6 +122,21 @@ record ReportEvent {
     string reportEventId;
 
     /**
+    This is the phenotype (usually the HPO term or the disorder name) considered to report this variant
+    */
+    string phenotype;
+
+    /**
+    Gene Panel used from panelApp
+    */
+    {null, string} panelName;
+
+    /**
+    Gene Panel Version
+    */
+    {null, string} panelVersion;
+
+    /**
     Mode of inheritance used to analyze the family
     */
     ReportedModeOfInheritance modeOfInheritance;
