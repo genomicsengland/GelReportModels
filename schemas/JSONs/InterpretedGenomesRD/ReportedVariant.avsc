@@ -70,6 +70,18 @@
           "type" : "string",
           "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
         }, {
+          "name" : "phenotype",
+          "type" : "string",
+          "doc" : "This is the phenotype (usually the HPO term or the disorder name) considered to report this variant"
+        }, {
+          "name" : "panelName",
+          "type" : [ "null", "string" ],
+          "doc" : "Gene Panel used from panelApp"
+        }, {
+          "name" : "panelVersion",
+          "type" : [ "null", "string" ],
+          "doc" : "Gene Panel Version"
+        }, {
           "name" : "modeOfInheritance",
           "type" : {
             "type" : "enum",

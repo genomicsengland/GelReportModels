@@ -129,12 +129,12 @@ record ReportEvent {
     /**
     Gene Panel used from panelApp
     */
-    {null, string} panelName;
+    union {null, string} panelName;
 
     /**
     Gene Panel Version
     */
-    {null, string} panelVersion;
+    union {null, string} panelVersion;
 
     /**
     Mode of inheritance used to analyze the family
