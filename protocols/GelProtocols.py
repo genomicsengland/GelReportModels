@@ -218,10 +218,11 @@ class CalledGenotype(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}], "doc": ""}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -230,6 +231,7 @@ class CalledGenotype(ProtocolElement):
         "depthReference",
         "gelId",
         "genotype",
+        "sampleId",
     }
 
     @classmethod
@@ -245,7 +247,7 @@ class CalledGenotype(ProtocolElement):
 
     __slots__ = [
         'copyNumber', 'depthAlternate', 'depthReference', 'gelId',
-        'genotype'
+        'genotype', 'sampleId'
     ]
 
     def __init__(self, **kwargs):
@@ -259,6 +261,8 @@ class CalledGenotype(ProtocolElement):
             'gelId', 'None')
         self.genotype = kwargs.get(
             'genotype', 'None')
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
 
 
 class CancerCaseLog(ProtocolElement):
@@ -664,42 +668,49 @@ class CancerInterpretedGenome(ProtocolElement):
 {"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
 "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
-{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
-"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
-"somaticOrGermline"}], "type": "record", "name":
-"ReportedSomaticVariants"}, "type": "array"}, "name":
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "name":
+"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
+"SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
+"name": "ReportedSomaticVariants"}, "type": "array"}, "name":
 "reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
 "type": {"fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
@@ -1777,6 +1788,15 @@ class FamilyHistory(object):
     Endocrine_Tumours = "Endocrine_Tumours"
 
 
+class FeatureTypes(object):
+    """
+    No documentation
+    """
+    RegulatoryRegion = "RegulatoryRegion"
+    Gene = "Gene"
+    Transcript = "Transcript"
+
+
 class File(ProtocolElement):
     """
     This defines a file This Record is defined by the sampleID and a
@@ -1853,6 +1873,49 @@ class GenePanels(ProtocolElement):
             'genePanelName', 'None')
         self.genePanelVersion = kwargs.get(
             'genePanelVersion', 'None')
+
+
+class GenomicFeature(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"GenomicFeature", "fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ensemblId",
+        "featureType",
+        "ids",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ensemblId', 'featureType', 'ids'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ensemblId = kwargs.get(
+            'ensemblId', 'None')
+        self.featureType = kwargs.get(
+            'featureType', None)
+        self.ids = kwargs.get(
+            'ids', None)
 
 
 class HpoTerm(ProtocolElement):
@@ -2237,54 +2300,61 @@ class InterpretedGenomeRD(ProtocolElement):
 {"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
 "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "type": "array"}, "name":
-"reportedVariants"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
-"type": "int", "name": "start"}, {"doc": "", "type": "int", "name":
-"end"}, {"doc": "", "type": "string", "name": "type"}, {"doc": "",
-"type": "string", "name": "reference"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"type": {"items": "CalledGenotype", "type":
-"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
-"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedStructuralVariant"}, "type": "array"}],
-"name": "reportedStructuralVariants"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "type": "array"},
+"name": "reportedVariants"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "chromosome"},
+{"doc": "", "type": "int", "name": "start"}, {"doc": "", "type":
+"int", "name": "end"}, {"doc": "", "type": "string", "name": "type"},
+{"doc": "", "type": "string", "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"type": {"items":
+"CalledGenotype", "type": "array"}, "name": "calledGenotypes"},
+{"doc": "", "type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedStructuralVariant"}, "type":
+"array"}], "name": "reportedStructuralVariants"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3720,13 +3790,19 @@ class ReportEvent(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"reportEventId"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -3744,13 +3820,13 @@ class ReportEvent(ProtocolElement):
     requiredFields = {
         "eventJustification",
         "fullyExplainsPhenotype",
+        "genomicFeature",
         "groupOfVariants",
         "modeOfInheritance",
         "penetrance",
         "reportEventId",
         "score",
         "tier",
-        "transcript",
         "variantClassification",
         "vendorSpecificScores",
     }
@@ -3758,22 +3834,22 @@ class ReportEvent(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'transcript': Transcript,
+            'genomicFeature': GenomicFeature,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'transcript': Transcript,
+            'genomicFeature': GenomicFeature,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
         'eventJustification', 'fullyExplainsPhenotype',
-        'groupOfVariants', 'modeOfInheritance', 'penetrance',
-        'reportEventId', 'score', 'tier', 'transcript',
+        'genomicFeature', 'groupOfVariants', 'modeOfInheritance',
+        'penetrance', 'reportEventId', 'score', 'tier',
         'variantClassification', 'vendorSpecificScores'
     ]
 
@@ -3782,10 +3858,12 @@ class ReportEvent(ProtocolElement):
             'eventJustification', 'None')
         self.fullyExplainsPhenotype = kwargs.get(
             'fullyExplainsPhenotype', None)
+        self.genomicFeature = kwargs.get(
+            'genomicFeature', None)
         self.groupOfVariants = kwargs.get(
             'groupOfVariants', None)
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', 'None')
+            'modeOfInheritance', None)
         self.penetrance = kwargs.get(
             'penetrance', None)
         self.reportEventId = kwargs.get(
@@ -3794,8 +3872,6 @@ class ReportEvent(ProtocolElement):
             'score', None)
         self.tier = kwargs.get(
             'tier', None)
-        self.transcript = kwargs.get(
-            'transcript', None)
         self.variantClassification = kwargs.get(
             'variantClassification', None)
         self.vendorSpecificScores = kwargs.get(
@@ -3855,6 +3931,41 @@ class ReportEvents(ProtocolElement):
             'reportEventStatus', None)
 
 
+class ReportedModeOfInheritance(object):
+    """
+    An enumeration for the different mode of inheritances:  *
+    `monoallelic_not_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, not imprinted *
+    `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, maternally imprinted (paternal allele expressed)
+    * `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, paternally imprinted (maternal allele expressed)
+    * `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal,
+    imprinted status unknown * `biallelic`: BIALLELIC, autosomal or
+    pseudoautosomal * `monoallelic_and_biallelic`: BOTH monoallelic
+    and biallelic, autosomal or pseudoautosomal *
+    `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and
+    biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations
+    cause a more SEVERE disease form), autosomal or pseudoautosomal *
+    `xlinked_biallelic`: X-LINKED: hemizygous mutation in males,
+    biallelic mutations in females * `xlinked_monoallelic`: X linked:
+    hemizygous mutation in males, monoallelic mutations in females may
+    cause disease (may be less severe, later onset than males) *
+    `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown
+    """
+    monoallelic = "monoallelic"
+    monoallelic_not_imprinted = "monoallelic_not_imprinted"
+    monoallelic_maternally_imprinted = "monoallelic_maternally_imprinted"
+    monoallelic_paternally_imprinted = "monoallelic_paternally_imprinted"
+    biallelic = "biallelic"
+    monoallelic_and_biallelic = "monoallelic_and_biallelic"
+    monoallelic_and_more_severe_biallelic = "monoallelic_and_more_severe_biallelic"
+    xlinked_biallelic = "xlinked_biallelic"
+    xlinked_monoallelic = "xlinked_monoallelic"
+    mitochondrial = "mitochondrial"
+    unknown = "unknown"
+
+
 class ReportedSomaticStructuralVariants(ProtocolElement):
     """
     No documentation
@@ -3869,18 +3980,26 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
 "type": "string", "name": "alternate"}, {"type": {"items": {"doc": "",
 "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
 "type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
 "copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
 "", "type": {"items": {"fields": [{"doc": "", "type": "string",
-"name": "reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"name": "reportEventId"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -3949,41 +4068,48 @@ class ReportedSomaticVariants(ProtocolElement):
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
-{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
-"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
-"somaticOrGermline"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "name":
+"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
+"SomaticOrGermline"}, "name": "somaticOrGermline"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4030,37 +4156,44 @@ class ReportedStructuralVariant(ProtocolElement):
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4139,18 +4272,26 @@ class ReportedVariant(ProtocolElement):
 "string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
 "", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
 "type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
 "copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
 "", "type": {"items": {"fields": [{"doc": "", "type": "string",
-"name": "reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"name": "reportEventId"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -4471,52 +4612,6 @@ class Tracking(ProtocolElement):
             'reportDate', None)
         self.reportID = kwargs.get(
             'reportID', 'None')
-
-
-class Transcript(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"Transcript", "fields": [{"doc": "", "type": "string", "name":
-"geneSymbol"}, {"doc": "", "type": "string", "name": "transcriptId"},
-{"doc": "", "type": {"values": "string", "type": "map"}, "name":
-"ids"}, {"doc": "", "type": ["null", "double"], "name":
-"geneCoverage"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "geneCoverage",
-        "geneSymbol",
-        "ids",
-        "transcriptId",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'geneCoverage', 'geneSymbol', 'ids', 'transcriptId'
-    ]
-
-    def __init__(self, **kwargs):
-        self.geneCoverage = kwargs.get(
-            'geneCoverage', None)
-        self.geneSymbol = kwargs.get(
-            'geneSymbol', 'None')
-        self.ids = kwargs.get(
-            'ids', None)
-        self.transcriptId = kwargs.get(
-            'transcriptId', 'None')
 
 
 class Tumour(ProtocolElement):
