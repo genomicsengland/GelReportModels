@@ -85,24 +85,26 @@ class ConsequenceType(ProtocolElement):
 "ensemblGeneId"}, {"type": ["null", "string"], "name":
 "ensemblTranscriptId"}, {"type": ["null", "string"], "name":
 "strand"}, {"type": ["null", "string"], "name": "biotype"}, {"type":
-["null", "int"], "name": "cDnaPosition"}, {"type": ["null", "int"],
-"name": "cdsPosition"}, {"type": ["null", "string"], "name": "codon"},
-{"type": ["null", {"fields": [{"type": "string", "name":
-"uniprotAccession"}, {"type": "string", "name": "uniprotName"},
-{"type": "int", "name": "position"}, {"type": "string", "name":
-"reference"}, {"type": "string", "name": "alternate"}, {"type":
-["null", "string"], "name": "uniprotVariantId"}, {"type": ["null",
-"string"], "name": "functionalDescription"}, {"default": [], "type":
-{"items": {"fields": [{"type": "double", "name": "score"}, {"type":
-"string", "name": "source"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "Score"}, "type": "array"},
-"name": "substitutionScores"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "keywords"}, {"default": [], "type":
-{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
-{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
-{"type": "string", "name": "type"}, {"type": ["null", "string"],
-"name": "description"}], "type": "record", "name": "ProteinFeature"},
-"type": "array"}, "name": "features"}], "type": "record", "name":
+["null", {"items": "string", "type": "array"}], "name":
+"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
+"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
+{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
+{"fields": [{"type": "string", "name": "uniprotAccession"}, {"type":
+"string", "name": "uniprotName"}, {"type": "int", "name": "position"},
+{"type": "string", "name": "reference"}, {"type": "string", "name":
+"alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"default": [], "type": {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}, "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"default": [], "type": {"items":
+{"fields": [{"type": ["null", "string"], "name": "id"}, {"type":
+"int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+"string", "name": "type"}, {"type": ["null", "string"], "name":
+"description"}], "type": "record", "name": "ProteinFeature"}, "type":
+"array"}, "name": "features"}], "type": "record", "name":
 "ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
 {"type": {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "name"}], "type": "record",
@@ -112,7 +114,7 @@ class ConsequenceType(ProtocolElement):
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "biotype",
-        "cDnaPosition",
+        "cdnaPosition",
         "cdsPosition",
         "codon",
         "ensemblGeneId",
@@ -121,6 +123,7 @@ class ConsequenceType(ProtocolElement):
         "proteinVariantAnnotation",
         "sequenceOntologyTerms",
         "strand",
+        "transcriptAnnotationFlags",
     }
 
     @classmethod
@@ -141,16 +144,17 @@ class ConsequenceType(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'biotype', 'cDnaPosition', 'cdsPosition', 'codon',
+        'biotype', 'cdnaPosition', 'cdsPosition', 'codon',
         'ensemblGeneId', 'ensemblTranscriptId', 'geneName',
-        'proteinVariantAnnotation', 'sequenceOntologyTerms', 'strand'
+        'proteinVariantAnnotation', 'sequenceOntologyTerms', 'strand',
+        'transcriptAnnotationFlags'
     ]
 
     def __init__(self, **kwargs):
         self.biotype = kwargs.get(
             'biotype', None)
-        self.cDnaPosition = kwargs.get(
-            'cDnaPosition', None)
+        self.cdnaPosition = kwargs.get(
+            'cdnaPosition', None)
         self.cdsPosition = kwargs.get(
             'cdsPosition', None)
         self.codon = kwargs.get(
@@ -167,6 +171,8 @@ class ConsequenceType(ProtocolElement):
             'sequenceOntologyTerms', None)
         self.strand = kwargs.get(
             'strand', None)
+        self.transcriptAnnotationFlags = kwargs.get(
+            'transcriptAnnotationFlags', None)
 
 
 class Cosmic(ProtocolElement):
@@ -824,25 +830,26 @@ class VariantAnnotation(ProtocolElement):
 ["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
 "string"], "name": "ensemblTranscriptId"}, {"type": ["null",
 "string"], "name": "strand"}, {"type": ["null", "string"], "name":
-"biotype"}, {"type": ["null", "int"], "name": "cDnaPosition"},
-{"type": ["null", "int"], "name": "cdsPosition"}, {"type": ["null",
-"string"], "name": "codon"}, {"type": ["null", {"fields": [{"type":
-"string", "name": "uniprotAccession"}, {"type": "string", "name":
-"uniprotName"}, {"type": "int", "name": "position"}, {"type":
-"string", "name": "reference"}, {"type": "string", "name":
-"alternate"}, {"type": ["null", "string"], "name":
-"uniprotVariantId"}, {"type": ["null", "string"], "name":
-"functionalDescription"}, {"default": [], "type": {"items": {"fields":
-[{"type": "double", "name": "score"}, {"type": "string", "name":
-"source"}, {"type": ["null", "string"], "name": "description"}],
-"type": "record", "name": "Score"}, "type": "array"}, "name":
-"substitutionScores"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "keywords"}, {"default": [], "type": {"items":
-{"fields": [{"type": ["null", "string"], "name": "id"}, {"type":
-"int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
-"string", "name": "type"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "ProteinFeature"}, "type":
-"array"}, "name": "features"}], "type": "record", "name":
+"biotype"}, {"type": ["null", {"items": "string", "type": "array"}],
+"name": "transcriptAnnotationFlags"}, {"type": ["null", "int"],
+"name": "cdnaPosition"}, {"type": ["null", "int"], "name":
+"cdsPosition"}, {"type": ["null", "string"], "name": "codon"},
+{"type": ["null", {"fields": [{"type": "string", "name":
+"uniprotAccession"}, {"type": "string", "name": "uniprotName"},
+{"type": "int", "name": "position"}, {"type": "string", "name":
+"reference"}, {"type": "string", "name": "alternate"}, {"type":
+["null", "string"], "name": "uniprotVariantId"}, {"type": ["null",
+"string"], "name": "functionalDescription"}, {"default": [], "type":
+{"items": {"fields": [{"type": "double", "name": "score"}, {"type":
+"string", "name": "source"}, {"type": ["null", "string"], "name":
+"description"}], "type": "record", "name": "Score"}, "type": "array"},
+"name": "substitutionScores"}, {"type": ["null", {"items": "string",
+"type": "array"}], "name": "keywords"}, {"default": [], "type":
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
+{"type": "string", "name": "type"}, {"type": ["null", "string"],
+"name": "description"}], "type": "record", "name": "ProteinFeature"},
+"type": "array"}, "name": "features"}], "type": "record", "name":
 "ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
 {"type": {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "name"}], "type": "record",
@@ -1052,25 +1059,26 @@ class VariantAvro(ProtocolElement):
 ["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
 "string"], "name": "ensemblTranscriptId"}, {"type": ["null",
 "string"], "name": "strand"}, {"type": ["null", "string"], "name":
-"biotype"}, {"type": ["null", "int"], "name": "cDnaPosition"},
-{"type": ["null", "int"], "name": "cdsPosition"}, {"type": ["null",
-"string"], "name": "codon"}, {"type": ["null", {"fields": [{"type":
-"string", "name": "uniprotAccession"}, {"type": "string", "name":
-"uniprotName"}, {"type": "int", "name": "position"}, {"type":
-"string", "name": "reference"}, {"type": "string", "name":
-"alternate"}, {"type": ["null", "string"], "name":
-"uniprotVariantId"}, {"type": ["null", "string"], "name":
-"functionalDescription"}, {"default": [], "type": {"items": {"fields":
-[{"type": "double", "name": "score"}, {"type": "string", "name":
-"source"}, {"type": ["null", "string"], "name": "description"}],
-"type": "record", "name": "Score"}, "type": "array"}, "name":
-"substitutionScores"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "keywords"}, {"default": [], "type": {"items":
-{"fields": [{"type": ["null", "string"], "name": "id"}, {"type":
-"int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
-"string", "name": "type"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "ProteinFeature"}, "type":
-"array"}, "name": "features"}], "type": "record", "name":
+"biotype"}, {"type": ["null", {"items": "string", "type": "array"}],
+"name": "transcriptAnnotationFlags"}, {"type": ["null", "int"],
+"name": "cdnaPosition"}, {"type": ["null", "int"], "name":
+"cdsPosition"}, {"type": ["null", "string"], "name": "codon"},
+{"type": ["null", {"fields": [{"type": "string", "name":
+"uniprotAccession"}, {"type": "string", "name": "uniprotName"},
+{"type": "int", "name": "position"}, {"type": "string", "name":
+"reference"}, {"type": "string", "name": "alternate"}, {"type":
+["null", "string"], "name": "uniprotVariantId"}, {"type": ["null",
+"string"], "name": "functionalDescription"}, {"default": [], "type":
+{"items": {"fields": [{"type": "double", "name": "score"}, {"type":
+"string", "name": "source"}, {"type": ["null", "string"], "name":
+"description"}], "type": "record", "name": "Score"}, "type": "array"},
+"name": "substitutionScores"}, {"type": ["null", {"items": "string",
+"type": "array"}], "name": "keywords"}, {"default": [], "type":
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
+{"type": "string", "name": "type"}, {"type": ["null", "string"],
+"name": "description"}], "type": "record", "name": "ProteinFeature"},
+"type": "array"}, "name": "features"}], "type": "record", "name":
 "ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
 {"type": {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "name"}], "type": "record",

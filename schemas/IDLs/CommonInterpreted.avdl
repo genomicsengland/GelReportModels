@@ -4,6 +4,36 @@ This protocol defines the Commons for GEL models
 */
 protocol CommonInterpreted {
 
+/**
+An enumeration for the different mode of inheritances:
+
+* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
+* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
+* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
+* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
+* `biallelic`: BIALLELIC, autosomal or pseudoautosomal
+* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal
+* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
+* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females
+* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
+* `mitochondrial`: MITOCHONDRIAL
+* `unknown`: Unknown
+*/
+enum ReportedModeOfInheritance {
+    monoallelic,
+    monoallelic_not_imprinted,
+    monoallelic_maternally_imprinted,
+    monoallelic_paternally_imprinted,
+    biallelic,
+    monoallelic_and_biallelic,
+    monoallelic_and_more_severe_biallelic,
+    xlinked_biallelic,
+    xlinked_monoallelic,
+    mitochondrial,
+    unknown
+}
+
+
 
 /**
 This is intended to hold the genotypes for the family members
@@ -18,6 +48,11 @@ record CalledGenotype {
     Participant id of the family member:
     */
     string gelId;
+
+    /**
+    LP Number of the family member:
+    */
+    string sampleId;
 
     /**
     Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
@@ -41,27 +76,24 @@ record CalledGenotype {
 
 }
 
-record Transcript {
+enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+
+
+record GenomicFeature {
     /**
-    HGMD gene symbol
+    Feature Type
     */
-    string geneSymbol;
+    FeatureTypes featureType;
 
     /**
-    Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)
+    Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
     */
-    string transcriptId;
-
+    string ensemblId;
 
     /**
     Others IDs
     */
     map<string> ids;
-
-    /**
-    This is the transcript coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)
-    */
-    union {null, double} geneCoverage;
 
 }
 
@@ -90,16 +122,30 @@ record ReportEvent {
     string reportEventId;
 
     /**
-    This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)
+    This is the phenotype (usually the HPO term or the disorder name) considered to report this variant
     */
-    string modeOfInheritance;
+    string phenotype;
 
     /**
-    This is the transcript of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
-    If more than one gene is considered interesting for this particular variant, should be reported in two different
-    ReportEvents
+    Gene Panel used from panelApp
     */
-    Transcript transcript; //if the variant is to be reported in another transcript then another event needs to be created
+    union {null, string} panelName;
+
+    /**
+    Gene Panel Version
+    */
+    union {null, string} panelVersion;
+
+    /**
+    Mode of inheritance used to analyze the family
+    */
+    ReportedModeOfInheritance modeOfInheritance;
+
+    /**
+    This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
+    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
+    */
+    GenomicFeature genomicFeature;
 
     /**
     This is the penetrance assumed for scoring or classifying this variant

@@ -98,122 +98,6 @@ class Ancestries(ProtocolElement):
             'mothersOtherRelevantAncestry', None)
 
 
-class ArrayConcordance(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"ArrayConcordance", "fields": [{"type": "string", "name":
-"numberOfSites"}, {"type": "string", "name":
-"numberOfDiscordantSites"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "numberOfDiscordantSites",
-        "numberOfSites",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'numberOfDiscordantSites', 'numberOfSites'
-    ]
-
-    def __init__(self, **kwargs):
-        self.numberOfDiscordantSites = kwargs.get(
-            'numberOfDiscordantSites', 'None')
-        self.numberOfSites = kwargs.get(
-            'numberOfSites', 'None')
-
-
-class BamHeaderMachine(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"BamHeaderMachine", "fields": [{"type": {"items": {"fields": [{"type":
-"double", "name": "DATE"}, {"type": "string", "name": "MACHINE"},
-{"type": "string", "name": "FLOWCELL"}, {"type": "string", "name":
-"RUN"}], "type": "record", "name": "Machine"}, "type": "array"},
-"name": "machines"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "machines",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'machines': Machine,
-        }
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'machines': Machine,
-        }
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'machines'
-    ]
-
-    def __init__(self, **kwargs):
-        self.machines = kwargs.get(
-            'machines', None)
-
-
-class BamHeaderOther(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"BamHeaderOther", "fields": [{"type": "string", "name":
-"PIPELINE_ID"}, {"type": "string", "name": "PIPELINE_VERSION"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "PIPELINE_ID",
-        "PIPELINE_VERSION",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'PIPELINE_ID', 'PIPELINE_VERSION'
-    ]
-
-    def __init__(self, **kwargs):
-        self.PIPELINE_ID = kwargs.get(
-            'PIPELINE_ID', 'None')
-        self.PIPELINE_VERSION = kwargs.get(
-            'PIPELINE_VERSION', 'None')
-
-
 class CalledGenotype(ProtocolElement):
     """
     This is intended to hold the genotypes for the family members In
@@ -223,10 +107,11 @@ class CalledGenotype(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}], "doc": ""}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -235,6 +120,7 @@ class CalledGenotype(ProtocolElement):
         "depthReference",
         "gelId",
         "genotype",
+        "sampleId",
     }
 
     @classmethod
@@ -250,7 +136,7 @@ class CalledGenotype(ProtocolElement):
 
     __slots__ = [
         'copyNumber', 'depthAlternate', 'depthReference', 'gelId',
-        'genotype'
+        'genotype', 'sampleId'
     ]
 
     def __init__(self, **kwargs):
@@ -264,6 +150,8 @@ class CalledGenotype(ProtocolElement):
             'gelId', 'None')
         self.genotype = kwargs.get(
             'genotype', 'None')
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
 
 
 class CancerDemographics(ProtocolElement):
@@ -472,42 +360,52 @@ class CancerInterpretedGenome(ProtocolElement):
 {"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
 "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
-{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
-"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
-"somaticOrGermline"}], "type": "record", "name":
-"ReportedSomaticVariants"}, "type": "array"}, "name":
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "name":
+"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
+"SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
+"name": "ReportedSomaticVariants"}, "type": "array"}, "name":
 "reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
 "type": {"fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
@@ -603,30 +501,22 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 {"items": "string", "type": "array"}, "name": "sampleId"}]}, "name":
 "cancerDemographics"}, {"doc": "", "type": {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labId"}, {"doc": "", "type": ["null",
-{"symbols": ["cruk", "brc", "cll", "iip", "main"], "type": "enum",
-"name": "GelPhase"}], "name": "gelPhase"}, {"doc": "", "type":
-{"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": "string",
-"name": "sampleDiagnosis"}, {"doc": "", "type": ["null", "string"],
-"name": "source"}, {"doc": "", "type": ["null", {"symbols": ["ffpe",
-"ff", "unknown", "blood", "gl", "saliva"], "type": "enum", "name":
+"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
+"SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
+"string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
+["FFPE", "FF", "Unknown", "LEUK", "GL"], "type": "enum", "name":
 "PreservationMethod"}], "name": "preservationMethod"}, {"doc": "",
 "type": ["null", {"symbols": ["primary", "metastasis"], "type":
 "enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
-["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
-"name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
-"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
-"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
-"name": "tmn_stage_grouping"}], "type": "record", "name":
-"CancerSample"}, "type": "array"}, "name": "cancerSamples"}, {"doc":
-"", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": "string", "name":
-"germlineSampleId"}, {"doc": "", "type": "string", "name":
-"tumorSampleId"}]}, "type": "array"}, "name": "matchedSamples"}],
-"doc": ""}
+["null", {"symbols": ["resection", "biopsy"], "type": "enum", "name":
+"Method"}], "name": "method"}, {"doc": "", "type": ["null", "double"],
+"name": "cellularity"}, {"doc": "", "type": ["null", "double"],
+"name": "tumorContent"}], "type": "record", "name": "CancerSample"},
+"type": "array"}, "name": "cancerSamples"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "MatchedSamples",
+"fields": [{"doc": "", "type": "string", "name": "germlineSampleId"},
+{"doc": "", "type": "string", "name": "tumorSampleId"}]}, "type":
+"array"}, "name": "matchedSamples"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -674,40 +564,27 @@ class CancerSample(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labId"}, {"doc":
-"", "type": ["null", {"symbols": ["cruk", "brc", "cll", "iip",
-"main"], "type": "enum", "name": "GelPhase"}], "name": "gelPhase"},
-{"doc": "", "type": {"symbols": ["germline", "tumor"], "type": "enum",
-"name": "SampleType"}, "name": "sampleType"}, {"doc": "", "type":
-"string", "name": "sampleDiagnosis"}, {"doc": "", "type": ["null",
-"string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
-["ffpe", "ff", "unknown", "blood", "gl", "saliva"], "type": "enum",
-"name": "PreservationMethod"}], "name": "preservationMethod"}, {"doc":
-"", "type": ["null", {"symbols": ["primary", "metastasis"], "type":
-"enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
-["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
+"sampleId"}, {"doc": "", "type": {"symbols": ["germline", "tumor"],
+"type": "enum", "name": "SampleType"}, "name": "sampleType"}, {"doc":
+"", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+["null", {"symbols": ["FFPE", "FF", "Unknown", "LEUK", "GL"], "type":
+"enum", "name": "PreservationMethod"}], "name": "preservationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["primary", "metastasis"],
+"type": "enum", "name": "Phase"}], "name": "phase"}, {"doc": "",
+"type": ["null", {"symbols": ["resection", "biopsy"], "type": "enum",
 "name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
-"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
-"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
-"name": "tmn_stage_grouping"}]}
+"double"], "name": "cellularity"}, {"doc": "", "type": ["null",
+"double"], "name": "tumorContent"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "cellularity",
-        "gelPhase",
-        "grade",
-        "labId",
         "method",
         "phase",
         "preservationMethod",
-        "sampleDiagnosis",
         "sampleId",
         "sampleType",
         "source",
-        "tmn_stage_grouping",
-        "tnm_stage_version",
         "tumorContent",
     }
 
@@ -723,39 +600,25 @@ class CancerSample(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cellularity', 'gelPhase', 'grade', 'labId', 'method',
-        'phase', 'preservationMethod', 'sampleDiagnosis', 'sampleId',
-        'sampleType', 'source', 'tmn_stage_grouping',
-        'tnm_stage_version', 'tumorContent'
+        'cellularity', 'method', 'phase', 'preservationMethod',
+        'sampleId', 'sampleType', 'source', 'tumorContent'
     ]
 
     def __init__(self, **kwargs):
         self.cellularity = kwargs.get(
             'cellularity', None)
-        self.gelPhase = kwargs.get(
-            'gelPhase', None)
-        self.grade = kwargs.get(
-            'grade', None)
-        self.labId = kwargs.get(
-            'labId', 'None')
         self.method = kwargs.get(
             'method', None)
         self.phase = kwargs.get(
             'phase', None)
         self.preservationMethod = kwargs.get(
             'preservationMethod', None)
-        self.sampleDiagnosis = kwargs.get(
-            'sampleDiagnosis', 'None')
         self.sampleId = kwargs.get(
             'sampleId', 'None')
         self.sampleType = kwargs.get(
             'sampleType', None)
         self.source = kwargs.get(
             'source', None)
-        self.tmn_stage_grouping = kwargs.get(
-            'tmn_stage_grouping', None)
-        self.tnm_stage_version = kwargs.get(
-            'tnm_stage_version', None)
         self.tumorContent = kwargs.get(
             'tumorContent', None)
 
@@ -946,6 +809,15 @@ class EthnicCategory(object):
     Z = "Z"
 
 
+class FeatureTypes(object):
+    """
+    No documentation
+    """
+    RegulatoryRegion = "RegulatoryRegion"
+    Gene = "Gene"
+    Transcript = "Transcript"
+
+
 class File(ProtocolElement):
     """
     This defines a file This Record is defined by the sampleID and a
@@ -986,29 +858,23 @@ class File(ProtocolElement):
             'URIFile', 'None')
 
 
-class GelMetrics(ProtocolElement):
+class GenomicFeature(ProtocolElement):
     """
     No documentation
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"GelMetrics", "fields": [{"type": "string", "name": "BaseDir"},
-{"type": "double", "name": "GbQ30NoDupsNoClip"}, {"type": "float",
-"name": "perc_bases_ge_15x_mapQ_ge11"}, {"type": "string", "name":
-"InputDir"}, {"type": "string", "name": "DirectoryType"}, {"type":
-"double", "name": "nBases_samtools"}, {"type": "string", "name":
-"FileRelativePath"}, {"type": "string", "name": "md5checksum"}]}
+"GenomicFeature", "fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "BaseDir",
-        "DirectoryType",
-        "FileRelativePath",
-        "GbQ30NoDupsNoClip",
-        "InputDir",
-        "md5checksum",
-        "nBases_samtools",
-        "perc_bases_ge_15x_mapQ_ge11",
+        "ensemblId",
+        "featureType",
+        "ids",
     }
 
     @classmethod
@@ -1023,39 +889,16 @@ class GelMetrics(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'BaseDir', 'DirectoryType', 'FileRelativePath',
-        'GbQ30NoDupsNoClip', 'InputDir', 'md5checksum',
-        'nBases_samtools', 'perc_bases_ge_15x_mapQ_ge11'
+        'ensemblId', 'featureType', 'ids'
     ]
 
     def __init__(self, **kwargs):
-        self.BaseDir = kwargs.get(
-            'BaseDir', 'None')
-        self.DirectoryType = kwargs.get(
-            'DirectoryType', 'None')
-        self.FileRelativePath = kwargs.get(
-            'FileRelativePath', 'None')
-        self.GbQ30NoDupsNoClip = kwargs.get(
-            'GbQ30NoDupsNoClip', None)
-        self.InputDir = kwargs.get(
-            'InputDir', 'None')
-        self.md5checksum = kwargs.get(
-            'md5checksum', 'None')
-        self.nBases_samtools = kwargs.get(
-            'nBases_samtools', None)
-        self.perc_bases_ge_15x_mapQ_ge11 = kwargs.get(
-            'perc_bases_ge_15x_mapQ_ge11', None)
-
-
-class GelPhase(object):
-    """
-    No documentation
-    """
-    cruk = "cruk"
-    brc = "brc"
-    cll = "cll"
-    iip = "iip"
-    main = "main"
+        self.ensemblId = kwargs.get(
+            'ensemblId', 'None')
+        self.featureType = kwargs.get(
+            'featureType', None)
+        self.ids = kwargs.get(
+            'ids', None)
 
 
 class HpoTerm(ProtocolElement):
@@ -1103,1200 +946,6 @@ class HpoTerm(ProtocolElement):
             'term', 'None')
         self.termPresence = kwargs.get(
             'termPresence', None)
-
-
-class IlluminaSummaryCancerV2(ProtocolElement):
-    """
-    This is summary for V2 somatic
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"IlluminaSummaryCancerV2", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name":
-"VARIANTSTATS_STOP_GAINED_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_MATURE_MIRNA_DELETIONS"}, {"type": "double", "name":
-"VARIANTSTATS_SYNONYMOUS_SNVS"}, {"type": "double", "name":
-"BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
-"VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
-"PURITY_TUMOR_PLOIDY"}, {"type": "double", "name":
-"SVSTATS_TANDEM_DUPLICATION_TOTAL"}, {"type": "double", "name":
-"SVSTATS_INSERTION_NUMBER_IN_GENES"}, {"type": "double", "name":
-"VARIANTSTATS_TOTAL_DELETIONS"}, {"type": "double", "name":
-"VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS"}, {"type": "double",
-"name": "VARIANTSTATS_FRAMESHIFT_INSERTIONS"}, {"type": "double",
-"name": "PURITY_TUMOR_PURITY"}, {"type": "double", "name":
-"SVSTATS_DELETION_NUMBER_IN_GENES"}, {"type": "double", "name":
-"VARIANTSTATS_TOTAL_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_NON_SYNONYMOUS_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_MATURE_MIRNA_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_STOP_GAINED_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_FRAMESHIFT_DELETIONS"}, {"type": "double", "name":
-"SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES"}, {"type": "double",
-"name": "VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS"}, {"type": "double",
-"name": "VARIANTSTATS_NUMBER_IN_GENES_DELETIONS"}, {"type": "double",
-"name": "VARIANTSTATS_UTR_REGION_DELETIONS"}, {"type": "double",
-"name": "BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER"}, {"type": "double",
-"name": "VARIANTSTATS_DBSNP_INSERTIONS"}, {"type": "double", "name":
-"SVSTATS_CNV_TOTAL"}, {"type": "double", "name":
-"VARIANTSTATS_STOP_LOST_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS"}, {"type": "double",
-"name": "SVSTATS_INVERSION_TOTAL"}, {"type": "double", "name":
-"VARIANTSTATS_SYNONYMOUS_DELETIONS"}, {"type": "double", "name":
-"VARIANTSTATS_STOP_LOST_SNVS"}, {"type": "double", "name":
-"BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER"}, {"type": "double",
-"name": "VARIANTSTATS_MATURE_MIRNA_INSERTIONS"}, {"type": "double",
-"name": "VARIANTSTATS_SPLICE_SITE_REGION_SNVS"}, {"type": "double",
-"name": "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS"}, {"type":
-"double", "name": "VARIANTSTATS_NUMBER_IN_GENES_SNVS"}, {"type":
-"double", "name": "VARIANTSTATS_STOP_GAINED_DELETIONS"}, {"type":
-"double", "name": "VARIANTSTATS_STOP_LOST_DELETIONS"}, {"type":
-"string", "name": "NORMAL_ID"}, {"type": "double", "name":
-"VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS"}, {"type": "double",
-"name": "VARIANTSTATS_UTR_REGION_INSERTIONS"}, {"type": "double",
-"name": "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS"}, {"type":
-"double", "name": "SVSTATS_TRANSLOCATION_BREAKEND_TOTAL"}, {"type":
-"double", "name": "SVSTATS_CNV_NUMBER_IN_GENES"}, {"type": "double",
-"name": "VARIANTSTATS_UTR_REGION_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_DBSNP_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_DBSNP_DELETIONS"}, {"type": "double", "name":
-"VARIANTSTATS_FRAMESHIFT_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_NUMBER_IN_EXONS_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS"}, {"type": "double", "name":
-"VARIANTSTATS_TOTAL_SNVS"}, {"type": "double", "name":
-"SVSTATS_DELETION_TOTAL"}, {"type": "double", "name":
-"SVSTATS_INVERSION_NUMBER_IN_GENES"}, {"type": "string", "name":
-"TUMOR_ID"}, {"type": "double", "name": "SVSTATS_INSERTION_TOTAL"}],
-"doc": ""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER",
-        "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30",
-        "BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER",
-        "BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30",
-        "NORMAL_ID",
-        "PURITY_TUMOR_PLOIDY",
-        "PURITY_TUMOR_PURITY",
-        "SVSTATS_CNV_NUMBER_IN_GENES",
-        "SVSTATS_CNV_TOTAL",
-        "SVSTATS_DELETION_NUMBER_IN_GENES",
-        "SVSTATS_DELETION_TOTAL",
-        "SVSTATS_INSERTION_NUMBER_IN_GENES",
-        "SVSTATS_INSERTION_TOTAL",
-        "SVSTATS_INVERSION_NUMBER_IN_GENES",
-        "SVSTATS_INVERSION_TOTAL",
-        "SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES",
-        "SVSTATS_TANDEM_DUPLICATION_TOTAL",
-        "SVSTATS_TRANSLOCATION_BREAKEND_TOTAL",
-        "TUMOR_ID",
-        "VARIANTSTATS_DBSNP_DELETIONS",
-        "VARIANTSTATS_DBSNP_INSERTIONS",
-        "VARIANTSTATS_DBSNP_SNVS",
-        "VARIANTSTATS_FRAMESHIFT_DELETIONS",
-        "VARIANTSTATS_FRAMESHIFT_INSERTIONS",
-        "VARIANTSTATS_FRAMESHIFT_SNVS",
-        "VARIANTSTATS_MATURE_MIRNA_DELETIONS",
-        "VARIANTSTATS_MATURE_MIRNA_INSERTIONS",
-        "VARIANTSTATS_MATURE_MIRNA_SNVS",
-        "VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS",
-        "VARIANTSTATS_NON_SYNONYMOUS_SNVS",
-        "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS",
-        "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS",
-        "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS",
-        "VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS",
-        "VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS",
-        "VARIANTSTATS_NUMBER_IN_EXONS_SNVS",
-        "VARIANTSTATS_NUMBER_IN_GENES_DELETIONS",
-        "VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS",
-        "VARIANTSTATS_NUMBER_IN_GENES_SNVS",
-        "VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS",
-        "VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS",
-        "VARIANTSTATS_SPLICE_SITE_REGION_SNVS",
-        "VARIANTSTATS_STOP_GAINED_DELETIONS",
-        "VARIANTSTATS_STOP_GAINED_INSERTIONS",
-        "VARIANTSTATS_STOP_GAINED_SNVS",
-        "VARIANTSTATS_STOP_LOST_DELETIONS",
-        "VARIANTSTATS_STOP_LOST_INSERTIONS",
-        "VARIANTSTATS_STOP_LOST_SNVS",
-        "VARIANTSTATS_SYNONYMOUS_DELETIONS",
-        "VARIANTSTATS_SYNONYMOUS_INSERTIONS",
-        "VARIANTSTATS_SYNONYMOUS_SNVS",
-        "VARIANTSTATS_TOTAL_DELETIONS",
-        "VARIANTSTATS_TOTAL_INSERTIONS",
-        "VARIANTSTATS_TOTAL_SNVS",
-        "VARIANTSTATS_UTR_REGION_DELETIONS",
-        "VARIANTSTATS_UTR_REGION_INSERTIONS",
-        "VARIANTSTATS_UTR_REGION_SNVS",
-        "illumina_version",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER',
-        'BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30',
-        'BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER',
-        'BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30', 'NORMAL_ID',
-        'PURITY_TUMOR_PLOIDY', 'PURITY_TUMOR_PURITY',
-        'SVSTATS_CNV_NUMBER_IN_GENES', 'SVSTATS_CNV_TOTAL',
-        'SVSTATS_DELETION_NUMBER_IN_GENES', 'SVSTATS_DELETION_TOTAL',
-        'SVSTATS_INSERTION_NUMBER_IN_GENES',
-        'SVSTATS_INSERTION_TOTAL',
-        'SVSTATS_INVERSION_NUMBER_IN_GENES',
-        'SVSTATS_INVERSION_TOTAL',
-        'SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES',
-        'SVSTATS_TANDEM_DUPLICATION_TOTAL',
-        'SVSTATS_TRANSLOCATION_BREAKEND_TOTAL', 'TUMOR_ID',
-        'VARIANTSTATS_DBSNP_DELETIONS',
-        'VARIANTSTATS_DBSNP_INSERTIONS', 'VARIANTSTATS_DBSNP_SNVS',
-        'VARIANTSTATS_FRAMESHIFT_DELETIONS',
-        'VARIANTSTATS_FRAMESHIFT_INSERTIONS',
-        'VARIANTSTATS_FRAMESHIFT_SNVS',
-        'VARIANTSTATS_MATURE_MIRNA_DELETIONS',
-        'VARIANTSTATS_MATURE_MIRNA_INSERTIONS',
-        'VARIANTSTATS_MATURE_MIRNA_SNVS',
-        'VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS',
-        'VARIANTSTATS_NON_SYNONYMOUS_SNVS',
-        'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS',
-        'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS',
-        'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS',
-        'VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS',
-        'VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS',
-        'VARIANTSTATS_NUMBER_IN_EXONS_SNVS',
-        'VARIANTSTATS_NUMBER_IN_GENES_DELETIONS',
-        'VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS',
-        'VARIANTSTATS_NUMBER_IN_GENES_SNVS',
-        'VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS',
-        'VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS',
-        'VARIANTSTATS_SPLICE_SITE_REGION_SNVS',
-        'VARIANTSTATS_STOP_GAINED_DELETIONS',
-        'VARIANTSTATS_STOP_GAINED_INSERTIONS',
-        'VARIANTSTATS_STOP_GAINED_SNVS',
-        'VARIANTSTATS_STOP_LOST_DELETIONS',
-        'VARIANTSTATS_STOP_LOST_INSERTIONS',
-        'VARIANTSTATS_STOP_LOST_SNVS',
-        'VARIANTSTATS_SYNONYMOUS_DELETIONS',
-        'VARIANTSTATS_SYNONYMOUS_INSERTIONS',
-        'VARIANTSTATS_SYNONYMOUS_SNVS',
-        'VARIANTSTATS_TOTAL_DELETIONS',
-        'VARIANTSTATS_TOTAL_INSERTIONS', 'VARIANTSTATS_TOTAL_SNVS',
-        'VARIANTSTATS_UTR_REGION_DELETIONS',
-        'VARIANTSTATS_UTR_REGION_INSERTIONS',
-        'VARIANTSTATS_UTR_REGION_SNVS', 'illumina_version'
-    ]
-
-    def __init__(self, **kwargs):
-        self.BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER = kwargs.get(
-            'BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER', None)
-        self.BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30 = kwargs.get(
-            'BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30', None)
-        self.BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER = kwargs.get(
-            'BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER', None)
-        self.BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30 = kwargs.get(
-            'BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30', None)
-        self.NORMAL_ID = kwargs.get(
-            'NORMAL_ID', 'None')
-        self.PURITY_TUMOR_PLOIDY = kwargs.get(
-            'PURITY_TUMOR_PLOIDY', None)
-        self.PURITY_TUMOR_PURITY = kwargs.get(
-            'PURITY_TUMOR_PURITY', None)
-        self.SVSTATS_CNV_NUMBER_IN_GENES = kwargs.get(
-            'SVSTATS_CNV_NUMBER_IN_GENES', None)
-        self.SVSTATS_CNV_TOTAL = kwargs.get(
-            'SVSTATS_CNV_TOTAL', None)
-        self.SVSTATS_DELETION_NUMBER_IN_GENES = kwargs.get(
-            'SVSTATS_DELETION_NUMBER_IN_GENES', None)
-        self.SVSTATS_DELETION_TOTAL = kwargs.get(
-            'SVSTATS_DELETION_TOTAL', None)
-        self.SVSTATS_INSERTION_NUMBER_IN_GENES = kwargs.get(
-            'SVSTATS_INSERTION_NUMBER_IN_GENES', None)
-        self.SVSTATS_INSERTION_TOTAL = kwargs.get(
-            'SVSTATS_INSERTION_TOTAL', None)
-        self.SVSTATS_INVERSION_NUMBER_IN_GENES = kwargs.get(
-            'SVSTATS_INVERSION_NUMBER_IN_GENES', None)
-        self.SVSTATS_INVERSION_TOTAL = kwargs.get(
-            'SVSTATS_INVERSION_TOTAL', None)
-        self.SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES = kwargs.get(
-            'SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES', None)
-        self.SVSTATS_TANDEM_DUPLICATION_TOTAL = kwargs.get(
-            'SVSTATS_TANDEM_DUPLICATION_TOTAL', None)
-        self.SVSTATS_TRANSLOCATION_BREAKEND_TOTAL = kwargs.get(
-            'SVSTATS_TRANSLOCATION_BREAKEND_TOTAL', None)
-        self.TUMOR_ID = kwargs.get(
-            'TUMOR_ID', 'None')
-        self.VARIANTSTATS_DBSNP_DELETIONS = kwargs.get(
-            'VARIANTSTATS_DBSNP_DELETIONS', None)
-        self.VARIANTSTATS_DBSNP_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_DBSNP_INSERTIONS', None)
-        self.VARIANTSTATS_DBSNP_SNVS = kwargs.get(
-            'VARIANTSTATS_DBSNP_SNVS', None)
-        self.VARIANTSTATS_FRAMESHIFT_DELETIONS = kwargs.get(
-            'VARIANTSTATS_FRAMESHIFT_DELETIONS', None)
-        self.VARIANTSTATS_FRAMESHIFT_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_FRAMESHIFT_INSERTIONS', None)
-        self.VARIANTSTATS_FRAMESHIFT_SNVS = kwargs.get(
-            'VARIANTSTATS_FRAMESHIFT_SNVS', None)
-        self.VARIANTSTATS_MATURE_MIRNA_DELETIONS = kwargs.get(
-            'VARIANTSTATS_MATURE_MIRNA_DELETIONS', None)
-        self.VARIANTSTATS_MATURE_MIRNA_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_MATURE_MIRNA_INSERTIONS', None)
-        self.VARIANTSTATS_MATURE_MIRNA_SNVS = kwargs.get(
-            'VARIANTSTATS_MATURE_MIRNA_SNVS', None)
-        self.VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS', None)
-        self.VARIANTSTATS_NON_SYNONYMOUS_SNVS = kwargs.get(
-            'VARIANTSTATS_NON_SYNONYMOUS_SNVS', None)
-        self.VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS', None)
-        self.VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_EXONS_SNVS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_EXONS_SNVS', None)
-        self.VARIANTSTATS_NUMBER_IN_GENES_DELETIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_GENES_DELETIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS', None)
-        self.VARIANTSTATS_NUMBER_IN_GENES_SNVS = kwargs.get(
-            'VARIANTSTATS_NUMBER_IN_GENES_SNVS', None)
-        self.VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS = kwargs.get(
-            'VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS', None)
-        self.VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS', None)
-        self.VARIANTSTATS_SPLICE_SITE_REGION_SNVS = kwargs.get(
-            'VARIANTSTATS_SPLICE_SITE_REGION_SNVS', None)
-        self.VARIANTSTATS_STOP_GAINED_DELETIONS = kwargs.get(
-            'VARIANTSTATS_STOP_GAINED_DELETIONS', None)
-        self.VARIANTSTATS_STOP_GAINED_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_STOP_GAINED_INSERTIONS', None)
-        self.VARIANTSTATS_STOP_GAINED_SNVS = kwargs.get(
-            'VARIANTSTATS_STOP_GAINED_SNVS', None)
-        self.VARIANTSTATS_STOP_LOST_DELETIONS = kwargs.get(
-            'VARIANTSTATS_STOP_LOST_DELETIONS', None)
-        self.VARIANTSTATS_STOP_LOST_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_STOP_LOST_INSERTIONS', None)
-        self.VARIANTSTATS_STOP_LOST_SNVS = kwargs.get(
-            'VARIANTSTATS_STOP_LOST_SNVS', None)
-        self.VARIANTSTATS_SYNONYMOUS_DELETIONS = kwargs.get(
-            'VARIANTSTATS_SYNONYMOUS_DELETIONS', None)
-        self.VARIANTSTATS_SYNONYMOUS_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_SYNONYMOUS_INSERTIONS', None)
-        self.VARIANTSTATS_SYNONYMOUS_SNVS = kwargs.get(
-            'VARIANTSTATS_SYNONYMOUS_SNVS', None)
-        self.VARIANTSTATS_TOTAL_DELETIONS = kwargs.get(
-            'VARIANTSTATS_TOTAL_DELETIONS', None)
-        self.VARIANTSTATS_TOTAL_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_TOTAL_INSERTIONS', None)
-        self.VARIANTSTATS_TOTAL_SNVS = kwargs.get(
-            'VARIANTSTATS_TOTAL_SNVS', None)
-        self.VARIANTSTATS_UTR_REGION_DELETIONS = kwargs.get(
-            'VARIANTSTATS_UTR_REGION_DELETIONS', None)
-        self.VARIANTSTATS_UTR_REGION_INSERTIONS = kwargs.get(
-            'VARIANTSTATS_UTR_REGION_INSERTIONS', None)
-        self.VARIANTSTATS_UTR_REGION_SNVS = kwargs.get(
-            'VARIANTSTATS_UTR_REGION_SNVS', None)
-        self.illumina_version = kwargs.get(
-            'illumina_version', None)
-
-
-class IlluminaSummaryV1(ProtocolElement):
-    """
-    This is summary for all V1 summary
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"IlluminaSummaryV1", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name": "PERCENT_Q30_R1"},
-{"type": "double", "name": "PERCENT_Q30_R2"}, {"type": "double",
-"name": "PERCENT_ALIGNED_R1"}, {"type": "double", "name":
-"INVERSIONCOUNT"}, {"type": "double", "name":
-"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"PERCENT_ALIGNED_R2"}, {"type": "double", "name":
-"INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"STOPGAINEDINS"}, {"type": "double", "name": "SYNONYMOUSSNVS"},
-{"type": "double", "name": "SPLICESITEREGIONDEL"}, {"type": "double",
-"name": "STOPLOSTSNVS"}, {"type": "double", "name": "SYNONYMOUSINS"},
-{"type": "double", "name": "SYNONYMOUSDEL"}, {"type": "double",
-"name": "NUMSNVSINCODINGREGIONS"}, {"type": "double", "name":
-"STOPGAINEDSNVS"}, {"type": "string", "name": "SAMPLE_ID"}, {"type":
-"double", "name": "NUMDELINEXONS"}, {"type": "double", "name":
-"TANDEMDUPLICATIONPERCENTINGENES"}, {"type": "double", "name":
-"SNVS_ALL"}, {"type": "double", "name": "CNVNUMBERINGENES"}, {"type":
-"double", "name": "CNVPERCENTINGENES"}, {"type": "double", "name":
-"NUMDELINGENES"}, {"type": "double", "name": "NUMSNVSINGENES"},
-{"type": "double", "name": "INSERTIONS_PERCENT_FOUND_IN_DBSNP"},
-{"type": "double", "name": "SPLICESITEREGIONSNVS"}, {"type": "double",
-"name": "INSERTIONS"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MIN"}, {"type": "double", "name": "STOPLOSTDEL"},
-{"type": "double", "name": "FRAGMENT_LENGTH_SD"}, {"type": "double",
-"name": "NONSYNONYMOUSINS"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MAX"}, {"type": "double", "name": "FRAMESHIFTDEL"},
-{"type": "double", "name": "DELETIONPERCENTINGENES"}, {"type":
-"double", "name": "INDEL_HET_HOM_RATIO"}, {"type": "double", "name":
-"UTRREGIONDEL"}, {"type": "string", "name": "RUNFOLDER"}, {"type":
-"double", "name": "MATUREMIRNAINS"}, {"type": "double", "name":
-"INVERSIONNUMBERINGENES"}, {"type": "double", "name":
-"NUMINSINCODINGREGIONS"}, {"type": "double", "name":
-"INSERTIONPERCENTINGENES"}, {"type": "double", "name":
-"CALLABLE_AUTOSOMAL_FRACTION"}, {"type": "double", "name":
-"NONSYNONYMOUSDEL"}, {"type": "double", "name": "FRAMESHIFTSNVS"},
-{"type": "string", "name": "SVSTATISTICSFLAG"}, {"type": "double",
-"name": "CNVCOUNT"}, {"type": "double", "name": "NONSYNONYMOUSSNVS"},
-{"type": "double", "name": "DELETIONCOUNT"}, {"type": "string",
-"name": "CNVSTATISTICSFLAG"}, {"type": "double", "name":
-"INSERTIONNUMBERINGENES"}, {"type": "double", "name":
-"STOPGAINEDDEL"}, {"type": "double", "name": "MISMATCHRATE_R1"},
-{"type": "double", "name": "SNVS"}, {"type": "double", "name":
-"SNV_HET_HOM_RATIO"}, {"type": "double", "name":
-"SPLICESITEREGIONINS"}, {"type": "double", "name": "NUMINSINEXONS"},
-{"type": "double", "name": "MISMATCHRATE_R2"}, {"type": "double",
-"name": "NUMDELINCODINGREGIONS"}, {"type": "double", "name":
-"INSERTION_HET_HOM_RATIO"}, {"type": "double", "name":
-"NUMINSINGENES"}, {"type": "double", "name": "SNV_TS_TV_RATIO"},
-{"type": "double", "name": "TANDEMDUPLICATIONNUMBERINGENES"}, {"type":
-"double", "name": "SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double",
-"name": "UTRREGIONINS"}, {"type": "double", "name":
-"MATUREMIRNASNVS"}, {"type": "double", "name":
-"DELETIONNUMBERINGENES"}, {"type": "double", "name": "DELETIONS"},
-{"type": "double", "name": "TOTALNUMBERINS"}, {"type": "double",
-"name": "TANDEMDUPLICATIONCOUNT"}, {"type": "string", "name":
-"PAIRED_END"}, {"type": "double", "name": "UTRREGIONSNVS"}, {"type":
-"double", "name": "INDELS"}, {"type": "double", "name":
-"NUMSNVSINEXONS"}, {"type": "double", "name": "FRAMESHIFTINS"},
-{"type": "double", "name": "TOTALNUMBERSNVS"}, {"type": "double",
-"name": "DELETIONS_HET_HOM_RATIO"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MEDIAN"}, {"type": "string", "name":
-"REFERENCE_GENOME"}, {"type": "string", "name":
-"SMALLVARIANTSTATISTICSFLAG"}, {"type": "double", "name":
-"TOTALNUMBERDEL"}, {"type": "double", "name": "MATUREMIRNADEL"},
-{"type": "double", "name": "INVERSIONPERCENTINGENES"}, {"type":
-"double", "name": "STOPLOSTINS"}, {"type": "double", "name":
-"INSERTIONCOUNT"}, {"type": "double", "name":
-"PERCENT_DUPLICATE_PAIRED_READS"}], "doc": ""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "CALLABLE_AUTOSOMAL_FRACTION",
-        "CNVCOUNT",
-        "CNVNUMBERINGENES",
-        "CNVPERCENTINGENES",
-        "CNVSTATISTICSFLAG",
-        "DELETIONCOUNT",
-        "DELETIONNUMBERINGENES",
-        "DELETIONPERCENTINGENES",
-        "DELETIONS",
-        "DELETIONS_HET_HOM_RATIO",
-        "DELETIONS_PERCENT_FOUND_IN_DBSNP",
-        "FRAGMENT_LENGTH_MAX",
-        "FRAGMENT_LENGTH_MEDIAN",
-        "FRAGMENT_LENGTH_MIN",
-        "FRAGMENT_LENGTH_SD",
-        "FRAMESHIFTDEL",
-        "FRAMESHIFTINS",
-        "FRAMESHIFTSNVS",
-        "INDELS",
-        "INDELS_PERCENT_FOUND_IN_DBSNP",
-        "INDEL_HET_HOM_RATIO",
-        "INSERTIONCOUNT",
-        "INSERTIONNUMBERINGENES",
-        "INSERTIONPERCENTINGENES",
-        "INSERTIONS",
-        "INSERTIONS_PERCENT_FOUND_IN_DBSNP",
-        "INSERTION_HET_HOM_RATIO",
-        "INVERSIONCOUNT",
-        "INVERSIONNUMBERINGENES",
-        "INVERSIONPERCENTINGENES",
-        "MATUREMIRNADEL",
-        "MATUREMIRNAINS",
-        "MATUREMIRNASNVS",
-        "MISMATCHRATE_R1",
-        "MISMATCHRATE_R2",
-        "NONSYNONYMOUSDEL",
-        "NONSYNONYMOUSINS",
-        "NONSYNONYMOUSSNVS",
-        "NUMDELINCODINGREGIONS",
-        "NUMDELINEXONS",
-        "NUMDELINGENES",
-        "NUMINSINCODINGREGIONS",
-        "NUMINSINEXONS",
-        "NUMINSINGENES",
-        "NUMSNVSINCODINGREGIONS",
-        "NUMSNVSINEXONS",
-        "NUMSNVSINGENES",
-        "PAIRED_END",
-        "PERCENT_ALIGNED_R1",
-        "PERCENT_ALIGNED_R2",
-        "PERCENT_DUPLICATE_PAIRED_READS",
-        "PERCENT_Q30_R1",
-        "PERCENT_Q30_R2",
-        "REFERENCE_GENOME",
-        "RUNFOLDER",
-        "SAMPLE_ID",
-        "SMALLVARIANTSTATISTICSFLAG",
-        "SNVS",
-        "SNVS_ALL",
-        "SNVS_PERCENT_FOUND_IN_DBSNP",
-        "SNV_HET_HOM_RATIO",
-        "SNV_TS_TV_RATIO",
-        "SPLICESITEREGIONDEL",
-        "SPLICESITEREGIONINS",
-        "SPLICESITEREGIONSNVS",
-        "STOPGAINEDDEL",
-        "STOPGAINEDINS",
-        "STOPGAINEDSNVS",
-        "STOPLOSTDEL",
-        "STOPLOSTINS",
-        "STOPLOSTSNVS",
-        "SVSTATISTICSFLAG",
-        "SYNONYMOUSDEL",
-        "SYNONYMOUSINS",
-        "SYNONYMOUSSNVS",
-        "TANDEMDUPLICATIONCOUNT",
-        "TANDEMDUPLICATIONNUMBERINGENES",
-        "TANDEMDUPLICATIONPERCENTINGENES",
-        "TOTALNUMBERDEL",
-        "TOTALNUMBERINS",
-        "TOTALNUMBERSNVS",
-        "UTRREGIONDEL",
-        "UTRREGIONINS",
-        "UTRREGIONSNVS",
-        "illumina_version",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'CALLABLE_AUTOSOMAL_FRACTION', 'CNVCOUNT', 'CNVNUMBERINGENES',
-        'CNVPERCENTINGENES', 'CNVSTATISTICSFLAG', 'DELETIONCOUNT',
-        'DELETIONNUMBERINGENES', 'DELETIONPERCENTINGENES',
-        'DELETIONS', 'DELETIONS_HET_HOM_RATIO',
-        'DELETIONS_PERCENT_FOUND_IN_DBSNP', 'FRAGMENT_LENGTH_MAX',
-        'FRAGMENT_LENGTH_MEDIAN', 'FRAGMENT_LENGTH_MIN',
-        'FRAGMENT_LENGTH_SD', 'FRAMESHIFTDEL', 'FRAMESHIFTINS',
-        'FRAMESHIFTSNVS', 'INDELS', 'INDELS_PERCENT_FOUND_IN_DBSNP',
-        'INDEL_HET_HOM_RATIO', 'INSERTIONCOUNT',
-        'INSERTIONNUMBERINGENES', 'INSERTIONPERCENTINGENES',
-        'INSERTIONS', 'INSERTIONS_PERCENT_FOUND_IN_DBSNP',
-        'INSERTION_HET_HOM_RATIO', 'INVERSIONCOUNT',
-        'INVERSIONNUMBERINGENES', 'INVERSIONPERCENTINGENES',
-        'MATUREMIRNADEL', 'MATUREMIRNAINS', 'MATUREMIRNASNVS',
-        'MISMATCHRATE_R1', 'MISMATCHRATE_R2', 'NONSYNONYMOUSDEL',
-        'NONSYNONYMOUSINS', 'NONSYNONYMOUSSNVS',
-        'NUMDELINCODINGREGIONS', 'NUMDELINEXONS', 'NUMDELINGENES',
-        'NUMINSINCODINGREGIONS', 'NUMINSINEXONS', 'NUMINSINGENES',
-        'NUMSNVSINCODINGREGIONS', 'NUMSNVSINEXONS', 'NUMSNVSINGENES',
-        'PAIRED_END', 'PERCENT_ALIGNED_R1', 'PERCENT_ALIGNED_R2',
-        'PERCENT_DUPLICATE_PAIRED_READS', 'PERCENT_Q30_R1',
-        'PERCENT_Q30_R2', 'REFERENCE_GENOME', 'RUNFOLDER',
-        'SAMPLE_ID', 'SMALLVARIANTSTATISTICSFLAG', 'SNVS', 'SNVS_ALL',
-        'SNVS_PERCENT_FOUND_IN_DBSNP', 'SNV_HET_HOM_RATIO',
-        'SNV_TS_TV_RATIO', 'SPLICESITEREGIONDEL',
-        'SPLICESITEREGIONINS', 'SPLICESITEREGIONSNVS',
-        'STOPGAINEDDEL', 'STOPGAINEDINS', 'STOPGAINEDSNVS',
-        'STOPLOSTDEL', 'STOPLOSTINS', 'STOPLOSTSNVS',
-        'SVSTATISTICSFLAG', 'SYNONYMOUSDEL', 'SYNONYMOUSINS',
-        'SYNONYMOUSSNVS', 'TANDEMDUPLICATIONCOUNT',
-        'TANDEMDUPLICATIONNUMBERINGENES',
-        'TANDEMDUPLICATIONPERCENTINGENES', 'TOTALNUMBERDEL',
-        'TOTALNUMBERINS', 'TOTALNUMBERSNVS', 'UTRREGIONDEL',
-        'UTRREGIONINS', 'UTRREGIONSNVS', 'illumina_version'
-    ]
-
-    def __init__(self, **kwargs):
-        self.CALLABLE_AUTOSOMAL_FRACTION = kwargs.get(
-            'CALLABLE_AUTOSOMAL_FRACTION', None)
-        self.CNVCOUNT = kwargs.get(
-            'CNVCOUNT', None)
-        self.CNVNUMBERINGENES = kwargs.get(
-            'CNVNUMBERINGENES', None)
-        self.CNVPERCENTINGENES = kwargs.get(
-            'CNVPERCENTINGENES', None)
-        self.CNVSTATISTICSFLAG = kwargs.get(
-            'CNVSTATISTICSFLAG', 'None')
-        self.DELETIONCOUNT = kwargs.get(
-            'DELETIONCOUNT', None)
-        self.DELETIONNUMBERINGENES = kwargs.get(
-            'DELETIONNUMBERINGENES', None)
-        self.DELETIONPERCENTINGENES = kwargs.get(
-            'DELETIONPERCENTINGENES', None)
-        self.DELETIONS = kwargs.get(
-            'DELETIONS', None)
-        self.DELETIONS_HET_HOM_RATIO = kwargs.get(
-            'DELETIONS_HET_HOM_RATIO', None)
-        self.DELETIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'DELETIONS_PERCENT_FOUND_IN_DBSNP', None)
-        self.FRAGMENT_LENGTH_MAX = kwargs.get(
-            'FRAGMENT_LENGTH_MAX', None)
-        self.FRAGMENT_LENGTH_MEDIAN = kwargs.get(
-            'FRAGMENT_LENGTH_MEDIAN', None)
-        self.FRAGMENT_LENGTH_MIN = kwargs.get(
-            'FRAGMENT_LENGTH_MIN', None)
-        self.FRAGMENT_LENGTH_SD = kwargs.get(
-            'FRAGMENT_LENGTH_SD', None)
-        self.FRAMESHIFTDEL = kwargs.get(
-            'FRAMESHIFTDEL', None)
-        self.FRAMESHIFTINS = kwargs.get(
-            'FRAMESHIFTINS', None)
-        self.FRAMESHIFTSNVS = kwargs.get(
-            'FRAMESHIFTSNVS', None)
-        self.INDELS = kwargs.get(
-            'INDELS', None)
-        self.INDELS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'INDELS_PERCENT_FOUND_IN_DBSNP', None)
-        self.INDEL_HET_HOM_RATIO = kwargs.get(
-            'INDEL_HET_HOM_RATIO', None)
-        self.INSERTIONCOUNT = kwargs.get(
-            'INSERTIONCOUNT', None)
-        self.INSERTIONNUMBERINGENES = kwargs.get(
-            'INSERTIONNUMBERINGENES', None)
-        self.INSERTIONPERCENTINGENES = kwargs.get(
-            'INSERTIONPERCENTINGENES', None)
-        self.INSERTIONS = kwargs.get(
-            'INSERTIONS', None)
-        self.INSERTIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'INSERTIONS_PERCENT_FOUND_IN_DBSNP', None)
-        self.INSERTION_HET_HOM_RATIO = kwargs.get(
-            'INSERTION_HET_HOM_RATIO', None)
-        self.INVERSIONCOUNT = kwargs.get(
-            'INVERSIONCOUNT', None)
-        self.INVERSIONNUMBERINGENES = kwargs.get(
-            'INVERSIONNUMBERINGENES', None)
-        self.INVERSIONPERCENTINGENES = kwargs.get(
-            'INVERSIONPERCENTINGENES', None)
-        self.MATUREMIRNADEL = kwargs.get(
-            'MATUREMIRNADEL', None)
-        self.MATUREMIRNAINS = kwargs.get(
-            'MATUREMIRNAINS', None)
-        self.MATUREMIRNASNVS = kwargs.get(
-            'MATUREMIRNASNVS', None)
-        self.MISMATCHRATE_R1 = kwargs.get(
-            'MISMATCHRATE_R1', None)
-        self.MISMATCHRATE_R2 = kwargs.get(
-            'MISMATCHRATE_R2', None)
-        self.NONSYNONYMOUSDEL = kwargs.get(
-            'NONSYNONYMOUSDEL', None)
-        self.NONSYNONYMOUSINS = kwargs.get(
-            'NONSYNONYMOUSINS', None)
-        self.NONSYNONYMOUSSNVS = kwargs.get(
-            'NONSYNONYMOUSSNVS', None)
-        self.NUMDELINCODINGREGIONS = kwargs.get(
-            'NUMDELINCODINGREGIONS', None)
-        self.NUMDELINEXONS = kwargs.get(
-            'NUMDELINEXONS', None)
-        self.NUMDELINGENES = kwargs.get(
-            'NUMDELINGENES', None)
-        self.NUMINSINCODINGREGIONS = kwargs.get(
-            'NUMINSINCODINGREGIONS', None)
-        self.NUMINSINEXONS = kwargs.get(
-            'NUMINSINEXONS', None)
-        self.NUMINSINGENES = kwargs.get(
-            'NUMINSINGENES', None)
-        self.NUMSNVSINCODINGREGIONS = kwargs.get(
-            'NUMSNVSINCODINGREGIONS', None)
-        self.NUMSNVSINEXONS = kwargs.get(
-            'NUMSNVSINEXONS', None)
-        self.NUMSNVSINGENES = kwargs.get(
-            'NUMSNVSINGENES', None)
-        self.PAIRED_END = kwargs.get(
-            'PAIRED_END', 'None')
-        self.PERCENT_ALIGNED_R1 = kwargs.get(
-            'PERCENT_ALIGNED_R1', None)
-        self.PERCENT_ALIGNED_R2 = kwargs.get(
-            'PERCENT_ALIGNED_R2', None)
-        self.PERCENT_DUPLICATE_PAIRED_READS = kwargs.get(
-            'PERCENT_DUPLICATE_PAIRED_READS', None)
-        self.PERCENT_Q30_R1 = kwargs.get(
-            'PERCENT_Q30_R1', None)
-        self.PERCENT_Q30_R2 = kwargs.get(
-            'PERCENT_Q30_R2', None)
-        self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
-        self.RUNFOLDER = kwargs.get(
-            'RUNFOLDER', 'None')
-        self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
-        self.SMALLVARIANTSTATISTICSFLAG = kwargs.get(
-            'SMALLVARIANTSTATISTICSFLAG', 'None')
-        self.SNVS = kwargs.get(
-            'SNVS', None)
-        self.SNVS_ALL = kwargs.get(
-            'SNVS_ALL', None)
-        self.SNVS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'SNVS_PERCENT_FOUND_IN_DBSNP', None)
-        self.SNV_HET_HOM_RATIO = kwargs.get(
-            'SNV_HET_HOM_RATIO', None)
-        self.SNV_TS_TV_RATIO = kwargs.get(
-            'SNV_TS_TV_RATIO', None)
-        self.SPLICESITEREGIONDEL = kwargs.get(
-            'SPLICESITEREGIONDEL', None)
-        self.SPLICESITEREGIONINS = kwargs.get(
-            'SPLICESITEREGIONINS', None)
-        self.SPLICESITEREGIONSNVS = kwargs.get(
-            'SPLICESITEREGIONSNVS', None)
-        self.STOPGAINEDDEL = kwargs.get(
-            'STOPGAINEDDEL', None)
-        self.STOPGAINEDINS = kwargs.get(
-            'STOPGAINEDINS', None)
-        self.STOPGAINEDSNVS = kwargs.get(
-            'STOPGAINEDSNVS', None)
-        self.STOPLOSTDEL = kwargs.get(
-            'STOPLOSTDEL', None)
-        self.STOPLOSTINS = kwargs.get(
-            'STOPLOSTINS', None)
-        self.STOPLOSTSNVS = kwargs.get(
-            'STOPLOSTSNVS', None)
-        self.SVSTATISTICSFLAG = kwargs.get(
-            'SVSTATISTICSFLAG', 'None')
-        self.SYNONYMOUSDEL = kwargs.get(
-            'SYNONYMOUSDEL', None)
-        self.SYNONYMOUSINS = kwargs.get(
-            'SYNONYMOUSINS', None)
-        self.SYNONYMOUSSNVS = kwargs.get(
-            'SYNONYMOUSSNVS', None)
-        self.TANDEMDUPLICATIONCOUNT = kwargs.get(
-            'TANDEMDUPLICATIONCOUNT', None)
-        self.TANDEMDUPLICATIONNUMBERINGENES = kwargs.get(
-            'TANDEMDUPLICATIONNUMBERINGENES', None)
-        self.TANDEMDUPLICATIONPERCENTINGENES = kwargs.get(
-            'TANDEMDUPLICATIONPERCENTINGENES', None)
-        self.TOTALNUMBERDEL = kwargs.get(
-            'TOTALNUMBERDEL', None)
-        self.TOTALNUMBERINS = kwargs.get(
-            'TOTALNUMBERINS', None)
-        self.TOTALNUMBERSNVS = kwargs.get(
-            'TOTALNUMBERSNVS', None)
-        self.UTRREGIONDEL = kwargs.get(
-            'UTRREGIONDEL', None)
-        self.UTRREGIONINS = kwargs.get(
-            'UTRREGIONINS', None)
-        self.UTRREGIONSNVS = kwargs.get(
-            'UTRREGIONSNVS', None)
-        self.illumina_version = kwargs.get(
-            'illumina_version', None)
-
-
-class IlluminaSummaryV2(ProtocolElement):
-    """
-    This is summary for V2 germlines for cancer
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"IlluminaSummaryV2", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name": "STOP_LOST_SNVS"},
-{"type": "double", "name": "SV_INSERTIONS_IN_GENES"}, {"type":
-"string", "name": "SAMPLE_ID"}, {"type": "double", "name":
-"DELETION_HET_HOM_RATIO"}, {"type": "double", "name":
-"STOP_GAINED_DELETIONS"}, {"type": "double", "name":
-"INSERTIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_SD"}, {"type": "double", "name":
-"PERCENT_Q30_BASES_READ_1"}, {"type": "double", "name":
-"PERCENT_Q30_BASES_READ_2"}, {"type": "double", "name":
-"STOP_GAINED_SNVS"}, {"type": "double", "name": "CNV_IN_GENES"},
-{"type": "double", "name": "TOTAL_PF_READS"}, {"type": "double",
-"name": "DELETIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"PERCENT_Q30_BASES"}, {"type": "double", "name":
-"TOTAL_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
-"TOTAL_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
-"SV_INVERSIONS_IN_GENES"}, {"type": "double", "name":
-"SNV_TS_TV_RATIO"}, {"type": "double", "name":
-"INSERTIONS_IN_MATURE_MIRNA"}, {"type": "double", "name":
-"DELETIONS"}, {"type": "double", "name":
-"PERCENT_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
-"INDELS_ALL"}, {"type": "double", "name":
-"PERCENT_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
-"NON_SYNONYMOUS_DELETIONS"}, {"type": "double", "name":
-"TOTAL_PF_BASES"}, {"type": "double", "name":
-"PERCENT_DUPLICATE_PAIRED_READS"}, {"type": "double", "name":
-"PERCENT_ALIGNED_READ_2"}, {"type": "double", "name":
-"PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
-"NON_SYNONYMOUS_SNVS"}, {"type": "double", "name":
-"SV_PERCENT_DELETIONS_IN_GENES"}, {"type": "double", "name":
-"MISMATCH_RATE_READ_1"}, {"type": "double", "name":
-"SV_DELETIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_IN_CODING_REGIONS"}, {"type": "double", "name":
-"INSERTIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"SV_DELETIONS"}, {"type": "double", "name": "INSERTIONS"}, {"type":
-"double", "name": "FRAGMENT_LENGTH_MIN"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MAX"}, {"type": "string", "name": "RUNFOLDER"},
-{"type": "string", "name": "SAMPLE_NAME"}, {"type": "double", "name":
-"INSERTIONS_IN_GENES"}, {"type": "double", "name":
-"SV_PERCENT_INVERSIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_IN_EXONS"}, {"type": "double", "name":
-"STOP_LOST_DELETIONS"}, {"type": "double", "name":
-"SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"SNVS_IN_MATURE_MIRNA"}, {"type": "double", "name":
-"FRAMESHIFT_DELETIONS"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MEDIAN"}, {"type": "double", "name":
-"SNVS_IN_UTR_REGIONS"}, {"type": "double", "name":
-"SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double", "name":
-"SV_INVERSIONS"}, {"type": "double", "name":
-"SV_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"SV_TANDEM_DUPLICATIONS"}, {"type": "double", "name":
-"INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"SV_PERCENT_INSERTIONS_IN_GENES"}, {"type": "double", "name":
-"STOP_GAINED_INSERTIONS"}, {"type": "double", "name":
-"MISMATCH_RATE_READ_2"}, {"type": "double", "name": "DELETIONS_ALL"},
-{"type": "double", "name": "TOTAL_PF_BASES_READ_2"}, {"type":
-"double", "name": "TOTAL_PF_BASES_READ_1"}, {"type": "double", "name":
-"INDEL_HET_HOM_RATIO"}, {"type": "double", "name": "SYNONYMOUS_SNVS"},
-{"type": "double", "name": "DELETIONS_IN_MATURE_MIRNA"}, {"type":
-"double", "name": "SNV_HET_HOM_RATIO"}, {"type": "double", "name":
-"INSERTIONS_IN_CODING_REGIONS"}, {"type": "double", "name":
-"SNVS_IN_GENES"}, {"type": "double", "name": "STOP_LOST_INSERTIONS"},
-{"type": "string", "name": "PAIRED_END"}, {"type": "double", "name":
-"DIVERSITY"}, {"type": "string", "name": "REFERENCE_GENOME"}, {"type":
-"double", "name": "SNVS_IN_EXONS"}, {"type": "double", "name":
-"SNVS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"FRAMESHIFT_INSERTIONS"}, {"type": "double", "name":
-"INSERTIONS_ALL"}, {"type": "double", "name": "SNVS_ALL"}, {"type":
-"double", "name": "INSERTIONS_IN_UTR_REGIONS"}, {"type": "double",
-"name": "CNV_PERCENT_IN_GENES"}, {"type": "double", "name":
-"MEAN_COVERAGE"}, {"type": "double", "name": "CNV"}, {"type":
-"double", "name": "SV_INSERTIONS"}, {"type": "double", "name":
-"SNVS_IN_CODING_REGIONS"}, {"type": "double", "name": "SNVS"},
-{"type": "double", "name": "INSERTION_HET_HOM_RATIO"}, {"type":
-"double", "name": "INDELS"}, {"type": "double", "name":
-"TOTAL_ALIGNED_READ_2"}, {"type": "double", "name":
-"TOTAL_ALIGNED_READ_1"}, {"type": "double", "name":
-"DELETIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
-"INSERTIONS_IN_EXONS"}], "doc": ""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "CNV",
-        "CNV_IN_GENES",
-        "CNV_PERCENT_IN_GENES",
-        "DELETIONS",
-        "DELETIONS_ALL",
-        "DELETIONS_IN_CODING_REGIONS",
-        "DELETIONS_IN_EXONS",
-        "DELETIONS_IN_GENES",
-        "DELETIONS_IN_MATURE_MIRNA",
-        "DELETIONS_IN_SPLICE_SITE_REGIONS",
-        "DELETIONS_IN_UTR_REGIONS",
-        "DELETIONS_PERCENT_FOUND_IN_DBSNP",
-        "DELETION_HET_HOM_RATIO",
-        "DIVERSITY",
-        "FRAGMENT_LENGTH_MAX",
-        "FRAGMENT_LENGTH_MEDIAN",
-        "FRAGMENT_LENGTH_MIN",
-        "FRAGMENT_LENGTH_SD",
-        "FRAMESHIFT_DELETIONS",
-        "FRAMESHIFT_INSERTIONS",
-        "INDELS",
-        "INDELS_ALL",
-        "INDELS_PERCENT_FOUND_IN_DBSNP",
-        "INDEL_HET_HOM_RATIO",
-        "INSERTIONS",
-        "INSERTIONS_ALL",
-        "INSERTIONS_IN_CODING_REGIONS",
-        "INSERTIONS_IN_EXONS",
-        "INSERTIONS_IN_GENES",
-        "INSERTIONS_IN_MATURE_MIRNA",
-        "INSERTIONS_IN_SPLICE_SITE_REGIONS",
-        "INSERTIONS_IN_UTR_REGIONS",
-        "INSERTIONS_PERCENT_FOUND_IN_DBSNP",
-        "INSERTION_HET_HOM_RATIO",
-        "MEAN_COVERAGE",
-        "MISMATCH_RATE_READ_1",
-        "MISMATCH_RATE_READ_2",
-        "NON_SYNONYMOUS_DELETIONS",
-        "NON_SYNONYMOUS_INSERTIONS",
-        "NON_SYNONYMOUS_SNVS",
-        "PAIRED_END",
-        "PERCENT_ALIGNED_BASES_READ_1",
-        "PERCENT_ALIGNED_BASES_READ_2",
-        "PERCENT_ALIGNED_READ_1",
-        "PERCENT_ALIGNED_READ_2",
-        "PERCENT_DUPLICATE_PAIRED_READS",
-        "PERCENT_Q30_BASES",
-        "PERCENT_Q30_BASES_READ_1",
-        "PERCENT_Q30_BASES_READ_2",
-        "REFERENCE_GENOME",
-        "RUNFOLDER",
-        "SAMPLE_ID",
-        "SAMPLE_NAME",
-        "SNVS",
-        "SNVS_ALL",
-        "SNVS_IN_CODING_REGIONS",
-        "SNVS_IN_EXONS",
-        "SNVS_IN_GENES",
-        "SNVS_IN_MATURE_MIRNA",
-        "SNVS_IN_SPLICE_SITE_REGIONS",
-        "SNVS_IN_UTR_REGIONS",
-        "SNVS_PERCENT_FOUND_IN_DBSNP",
-        "SNV_HET_HOM_RATIO",
-        "SNV_TS_TV_RATIO",
-        "STOP_GAINED_DELETIONS",
-        "STOP_GAINED_INSERTIONS",
-        "STOP_GAINED_SNVS",
-        "STOP_LOST_DELETIONS",
-        "STOP_LOST_INSERTIONS",
-        "STOP_LOST_SNVS",
-        "SV_DELETIONS",
-        "SV_DELETIONS_IN_GENES",
-        "SV_INSERTIONS",
-        "SV_INSERTIONS_IN_GENES",
-        "SV_INVERSIONS",
-        "SV_INVERSIONS_IN_GENES",
-        "SV_PERCENT_DELETIONS_IN_GENES",
-        "SV_PERCENT_INSERTIONS_IN_GENES",
-        "SV_PERCENT_INVERSIONS_IN_GENES",
-        "SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES",
-        "SV_TANDEM_DUPLICATIONS",
-        "SV_TANDEM_DUPLICATIONS_IN_GENES",
-        "SYNONYMOUS_SNVS",
-        "TOTAL_ALIGNED_BASES_READ_1",
-        "TOTAL_ALIGNED_BASES_READ_2",
-        "TOTAL_ALIGNED_READ_1",
-        "TOTAL_ALIGNED_READ_2",
-        "TOTAL_PF_BASES",
-        "TOTAL_PF_BASES_READ_1",
-        "TOTAL_PF_BASES_READ_2",
-        "TOTAL_PF_READS",
-        "illumina_version",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'CNV', 'CNV_IN_GENES', 'CNV_PERCENT_IN_GENES', 'DELETIONS',
-        'DELETIONS_ALL', 'DELETIONS_IN_CODING_REGIONS',
-        'DELETIONS_IN_EXONS', 'DELETIONS_IN_GENES',
-        'DELETIONS_IN_MATURE_MIRNA',
-        'DELETIONS_IN_SPLICE_SITE_REGIONS',
-        'DELETIONS_IN_UTR_REGIONS',
-        'DELETIONS_PERCENT_FOUND_IN_DBSNP', 'DELETION_HET_HOM_RATIO',
-        'DIVERSITY', 'FRAGMENT_LENGTH_MAX', 'FRAGMENT_LENGTH_MEDIAN',
-        'FRAGMENT_LENGTH_MIN', 'FRAGMENT_LENGTH_SD',
-        'FRAMESHIFT_DELETIONS', 'FRAMESHIFT_INSERTIONS', 'INDELS',
-        'INDELS_ALL', 'INDELS_PERCENT_FOUND_IN_DBSNP',
-        'INDEL_HET_HOM_RATIO', 'INSERTIONS', 'INSERTIONS_ALL',
-        'INSERTIONS_IN_CODING_REGIONS', 'INSERTIONS_IN_EXONS',
-        'INSERTIONS_IN_GENES', 'INSERTIONS_IN_MATURE_MIRNA',
-        'INSERTIONS_IN_SPLICE_SITE_REGIONS',
-        'INSERTIONS_IN_UTR_REGIONS',
-        'INSERTIONS_PERCENT_FOUND_IN_DBSNP',
-        'INSERTION_HET_HOM_RATIO', 'MEAN_COVERAGE',
-        'MISMATCH_RATE_READ_1', 'MISMATCH_RATE_READ_2',
-        'NON_SYNONYMOUS_DELETIONS', 'NON_SYNONYMOUS_INSERTIONS',
-        'NON_SYNONYMOUS_SNVS', 'PAIRED_END',
-        'PERCENT_ALIGNED_BASES_READ_1',
-        'PERCENT_ALIGNED_BASES_READ_2', 'PERCENT_ALIGNED_READ_1',
-        'PERCENT_ALIGNED_READ_2', 'PERCENT_DUPLICATE_PAIRED_READS',
-        'PERCENT_Q30_BASES', 'PERCENT_Q30_BASES_READ_1',
-        'PERCENT_Q30_BASES_READ_2', 'REFERENCE_GENOME', 'RUNFOLDER',
-        'SAMPLE_ID', 'SAMPLE_NAME', 'SNVS', 'SNVS_ALL',
-        'SNVS_IN_CODING_REGIONS', 'SNVS_IN_EXONS', 'SNVS_IN_GENES',
-        'SNVS_IN_MATURE_MIRNA', 'SNVS_IN_SPLICE_SITE_REGIONS',
-        'SNVS_IN_UTR_REGIONS', 'SNVS_PERCENT_FOUND_IN_DBSNP',
-        'SNV_HET_HOM_RATIO', 'SNV_TS_TV_RATIO',
-        'STOP_GAINED_DELETIONS', 'STOP_GAINED_INSERTIONS',
-        'STOP_GAINED_SNVS', 'STOP_LOST_DELETIONS',
-        'STOP_LOST_INSERTIONS', 'STOP_LOST_SNVS', 'SV_DELETIONS',
-        'SV_DELETIONS_IN_GENES', 'SV_INSERTIONS',
-        'SV_INSERTIONS_IN_GENES', 'SV_INVERSIONS',
-        'SV_INVERSIONS_IN_GENES', 'SV_PERCENT_DELETIONS_IN_GENES',
-        'SV_PERCENT_INSERTIONS_IN_GENES',
-        'SV_PERCENT_INVERSIONS_IN_GENES',
-        'SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES',
-        'SV_TANDEM_DUPLICATIONS', 'SV_TANDEM_DUPLICATIONS_IN_GENES',
-        'SYNONYMOUS_SNVS', 'TOTAL_ALIGNED_BASES_READ_1',
-        'TOTAL_ALIGNED_BASES_READ_2', 'TOTAL_ALIGNED_READ_1',
-        'TOTAL_ALIGNED_READ_2', 'TOTAL_PF_BASES',
-        'TOTAL_PF_BASES_READ_1', 'TOTAL_PF_BASES_READ_2',
-        'TOTAL_PF_READS', 'illumina_version'
-    ]
-
-    def __init__(self, **kwargs):
-        self.CNV = kwargs.get(
-            'CNV', None)
-        self.CNV_IN_GENES = kwargs.get(
-            'CNV_IN_GENES', None)
-        self.CNV_PERCENT_IN_GENES = kwargs.get(
-            'CNV_PERCENT_IN_GENES', None)
-        self.DELETIONS = kwargs.get(
-            'DELETIONS', None)
-        self.DELETIONS_ALL = kwargs.get(
-            'DELETIONS_ALL', None)
-        self.DELETIONS_IN_CODING_REGIONS = kwargs.get(
-            'DELETIONS_IN_CODING_REGIONS', None)
-        self.DELETIONS_IN_EXONS = kwargs.get(
-            'DELETIONS_IN_EXONS', None)
-        self.DELETIONS_IN_GENES = kwargs.get(
-            'DELETIONS_IN_GENES', None)
-        self.DELETIONS_IN_MATURE_MIRNA = kwargs.get(
-            'DELETIONS_IN_MATURE_MIRNA', None)
-        self.DELETIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
-            'DELETIONS_IN_SPLICE_SITE_REGIONS', None)
-        self.DELETIONS_IN_UTR_REGIONS = kwargs.get(
-            'DELETIONS_IN_UTR_REGIONS', None)
-        self.DELETIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'DELETIONS_PERCENT_FOUND_IN_DBSNP', None)
-        self.DELETION_HET_HOM_RATIO = kwargs.get(
-            'DELETION_HET_HOM_RATIO', None)
-        self.DIVERSITY = kwargs.get(
-            'DIVERSITY', None)
-        self.FRAGMENT_LENGTH_MAX = kwargs.get(
-            'FRAGMENT_LENGTH_MAX', None)
-        self.FRAGMENT_LENGTH_MEDIAN = kwargs.get(
-            'FRAGMENT_LENGTH_MEDIAN', None)
-        self.FRAGMENT_LENGTH_MIN = kwargs.get(
-            'FRAGMENT_LENGTH_MIN', None)
-        self.FRAGMENT_LENGTH_SD = kwargs.get(
-            'FRAGMENT_LENGTH_SD', None)
-        self.FRAMESHIFT_DELETIONS = kwargs.get(
-            'FRAMESHIFT_DELETIONS', None)
-        self.FRAMESHIFT_INSERTIONS = kwargs.get(
-            'FRAMESHIFT_INSERTIONS', None)
-        self.INDELS = kwargs.get(
-            'INDELS', None)
-        self.INDELS_ALL = kwargs.get(
-            'INDELS_ALL', None)
-        self.INDELS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'INDELS_PERCENT_FOUND_IN_DBSNP', None)
-        self.INDEL_HET_HOM_RATIO = kwargs.get(
-            'INDEL_HET_HOM_RATIO', None)
-        self.INSERTIONS = kwargs.get(
-            'INSERTIONS', None)
-        self.INSERTIONS_ALL = kwargs.get(
-            'INSERTIONS_ALL', None)
-        self.INSERTIONS_IN_CODING_REGIONS = kwargs.get(
-            'INSERTIONS_IN_CODING_REGIONS', None)
-        self.INSERTIONS_IN_EXONS = kwargs.get(
-            'INSERTIONS_IN_EXONS', None)
-        self.INSERTIONS_IN_GENES = kwargs.get(
-            'INSERTIONS_IN_GENES', None)
-        self.INSERTIONS_IN_MATURE_MIRNA = kwargs.get(
-            'INSERTIONS_IN_MATURE_MIRNA', None)
-        self.INSERTIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
-            'INSERTIONS_IN_SPLICE_SITE_REGIONS', None)
-        self.INSERTIONS_IN_UTR_REGIONS = kwargs.get(
-            'INSERTIONS_IN_UTR_REGIONS', None)
-        self.INSERTIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'INSERTIONS_PERCENT_FOUND_IN_DBSNP', None)
-        self.INSERTION_HET_HOM_RATIO = kwargs.get(
-            'INSERTION_HET_HOM_RATIO', None)
-        self.MEAN_COVERAGE = kwargs.get(
-            'MEAN_COVERAGE', None)
-        self.MISMATCH_RATE_READ_1 = kwargs.get(
-            'MISMATCH_RATE_READ_1', None)
-        self.MISMATCH_RATE_READ_2 = kwargs.get(
-            'MISMATCH_RATE_READ_2', None)
-        self.NON_SYNONYMOUS_DELETIONS = kwargs.get(
-            'NON_SYNONYMOUS_DELETIONS', None)
-        self.NON_SYNONYMOUS_INSERTIONS = kwargs.get(
-            'NON_SYNONYMOUS_INSERTIONS', None)
-        self.NON_SYNONYMOUS_SNVS = kwargs.get(
-            'NON_SYNONYMOUS_SNVS', None)
-        self.PAIRED_END = kwargs.get(
-            'PAIRED_END', 'None')
-        self.PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
-            'PERCENT_ALIGNED_BASES_READ_1', None)
-        self.PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
-            'PERCENT_ALIGNED_BASES_READ_2', None)
-        self.PERCENT_ALIGNED_READ_1 = kwargs.get(
-            'PERCENT_ALIGNED_READ_1', None)
-        self.PERCENT_ALIGNED_READ_2 = kwargs.get(
-            'PERCENT_ALIGNED_READ_2', None)
-        self.PERCENT_DUPLICATE_PAIRED_READS = kwargs.get(
-            'PERCENT_DUPLICATE_PAIRED_READS', None)
-        self.PERCENT_Q30_BASES = kwargs.get(
-            'PERCENT_Q30_BASES', None)
-        self.PERCENT_Q30_BASES_READ_1 = kwargs.get(
-            'PERCENT_Q30_BASES_READ_1', None)
-        self.PERCENT_Q30_BASES_READ_2 = kwargs.get(
-            'PERCENT_Q30_BASES_READ_2', None)
-        self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
-        self.RUNFOLDER = kwargs.get(
-            'RUNFOLDER', 'None')
-        self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
-        self.SAMPLE_NAME = kwargs.get(
-            'SAMPLE_NAME', 'None')
-        self.SNVS = kwargs.get(
-            'SNVS', None)
-        self.SNVS_ALL = kwargs.get(
-            'SNVS_ALL', None)
-        self.SNVS_IN_CODING_REGIONS = kwargs.get(
-            'SNVS_IN_CODING_REGIONS', None)
-        self.SNVS_IN_EXONS = kwargs.get(
-            'SNVS_IN_EXONS', None)
-        self.SNVS_IN_GENES = kwargs.get(
-            'SNVS_IN_GENES', None)
-        self.SNVS_IN_MATURE_MIRNA = kwargs.get(
-            'SNVS_IN_MATURE_MIRNA', None)
-        self.SNVS_IN_SPLICE_SITE_REGIONS = kwargs.get(
-            'SNVS_IN_SPLICE_SITE_REGIONS', None)
-        self.SNVS_IN_UTR_REGIONS = kwargs.get(
-            'SNVS_IN_UTR_REGIONS', None)
-        self.SNVS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
-            'SNVS_PERCENT_FOUND_IN_DBSNP', None)
-        self.SNV_HET_HOM_RATIO = kwargs.get(
-            'SNV_HET_HOM_RATIO', None)
-        self.SNV_TS_TV_RATIO = kwargs.get(
-            'SNV_TS_TV_RATIO', None)
-        self.STOP_GAINED_DELETIONS = kwargs.get(
-            'STOP_GAINED_DELETIONS', None)
-        self.STOP_GAINED_INSERTIONS = kwargs.get(
-            'STOP_GAINED_INSERTIONS', None)
-        self.STOP_GAINED_SNVS = kwargs.get(
-            'STOP_GAINED_SNVS', None)
-        self.STOP_LOST_DELETIONS = kwargs.get(
-            'STOP_LOST_DELETIONS', None)
-        self.STOP_LOST_INSERTIONS = kwargs.get(
-            'STOP_LOST_INSERTIONS', None)
-        self.STOP_LOST_SNVS = kwargs.get(
-            'STOP_LOST_SNVS', None)
-        self.SV_DELETIONS = kwargs.get(
-            'SV_DELETIONS', None)
-        self.SV_DELETIONS_IN_GENES = kwargs.get(
-            'SV_DELETIONS_IN_GENES', None)
-        self.SV_INSERTIONS = kwargs.get(
-            'SV_INSERTIONS', None)
-        self.SV_INSERTIONS_IN_GENES = kwargs.get(
-            'SV_INSERTIONS_IN_GENES', None)
-        self.SV_INVERSIONS = kwargs.get(
-            'SV_INVERSIONS', None)
-        self.SV_INVERSIONS_IN_GENES = kwargs.get(
-            'SV_INVERSIONS_IN_GENES', None)
-        self.SV_PERCENT_DELETIONS_IN_GENES = kwargs.get(
-            'SV_PERCENT_DELETIONS_IN_GENES', None)
-        self.SV_PERCENT_INSERTIONS_IN_GENES = kwargs.get(
-            'SV_PERCENT_INSERTIONS_IN_GENES', None)
-        self.SV_PERCENT_INVERSIONS_IN_GENES = kwargs.get(
-            'SV_PERCENT_INVERSIONS_IN_GENES', None)
-        self.SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
-            'SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES', None)
-        self.SV_TANDEM_DUPLICATIONS = kwargs.get(
-            'SV_TANDEM_DUPLICATIONS', None)
-        self.SV_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
-            'SV_TANDEM_DUPLICATIONS_IN_GENES', None)
-        self.SYNONYMOUS_SNVS = kwargs.get(
-            'SYNONYMOUS_SNVS', None)
-        self.TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
-            'TOTAL_ALIGNED_BASES_READ_1', None)
-        self.TOTAL_ALIGNED_BASES_READ_2 = kwargs.get(
-            'TOTAL_ALIGNED_BASES_READ_2', None)
-        self.TOTAL_ALIGNED_READ_1 = kwargs.get(
-            'TOTAL_ALIGNED_READ_1', None)
-        self.TOTAL_ALIGNED_READ_2 = kwargs.get(
-            'TOTAL_ALIGNED_READ_2', None)
-        self.TOTAL_PF_BASES = kwargs.get(
-            'TOTAL_PF_BASES', None)
-        self.TOTAL_PF_BASES_READ_1 = kwargs.get(
-            'TOTAL_PF_BASES_READ_1', None)
-        self.TOTAL_PF_BASES_READ_2 = kwargs.get(
-            'TOTAL_PF_BASES_READ_2', None)
-        self.TOTAL_PF_READS = kwargs.get(
-            'TOTAL_PF_READS', None)
-        self.illumina_version = kwargs.get(
-            'illumina_version', None)
-
-
-class IlluminaVersion(object):
-    """
-    No documentation
-    """
-    IlluminaSummaryV1 = "IlluminaSummaryV1"
-    IlluminaSummaryV2 = "IlluminaSummaryV2"
-    IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
-
-
-class InbreedingCoefficientEstimates(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"InbreedingCoefficientEstimates", "fields": [{"type": "string",
-"name": "FID"}, {"type": "string", "name": "IID"}, {"type": "double",
-"name": "O_HOM"}, {"type": "double", "name": "E_HOM"}, {"type":
-"double", "name": "N_NM"}, {"type": "double", "name": "F"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "E_HOM",
-        "F",
-        "FID",
-        "IID",
-        "N_NM",
-        "O_HOM",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'E_HOM', 'F', 'FID', 'IID', 'N_NM', 'O_HOM'
-    ]
-
-    def __init__(self, **kwargs):
-        self.E_HOM = kwargs.get(
-            'E_HOM', None)
-        self.F = kwargs.get(
-            'F', None)
-        self.FID = kwargs.get(
-            'FID', 'None')
-        self.IID = kwargs.get(
-            'IID', 'None')
-        self.N_NM = kwargs.get(
-            'N_NM', None)
-        self.O_HOM = kwargs.get(
-            'O_HOM', None)
 
 
 class InterpretationRequestRD(ProtocolElement):
@@ -2539,54 +1188,64 @@ class InterpretedGenomeRD(ProtocolElement):
 {"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
 "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "type": "array"}, "name":
-"reportedVariants"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
-"type": "int", "name": "start"}, {"doc": "", "type": "int", "name":
-"end"}, {"doc": "", "type": "string", "name": "type"}, {"doc": "",
-"type": "string", "name": "reference"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"type": {"items": "CalledGenotype", "type":
-"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
-"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedStructuralVariant"}, "type": "array"}],
-"name": "reportedStructuralVariants"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "type": "array"},
+"name": "reportedVariants"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "chromosome"},
+{"doc": "", "type": "int", "name": "start"}, {"doc": "", "type":
+"int", "name": "end"}, {"doc": "", "type": "string", "name": "type"},
+{"doc": "", "type": "string", "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"type": {"items":
+"CalledGenotype", "type": "array"}, "name": "calledGenotypes"},
+{"doc": "", "type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedStructuralVariant"}, "type":
+"array"}], "name": "reportedStructuralVariants"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -2692,50 +1351,6 @@ class LifeStatus(object):
     miscarriage = "miscarriage"
 
 
-class Machine(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"Machine", "fields": [{"type": "double", "name": "DATE"}, {"type":
-"string", "name": "MACHINE"}, {"type": "string", "name": "FLOWCELL"},
-{"type": "string", "name": "RUN"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "DATE",
-        "FLOWCELL",
-        "MACHINE",
-        "RUN",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'DATE', 'FLOWCELL', 'MACHINE', 'RUN'
-    ]
-
-    def __init__(self, **kwargs):
-        self.DATE = kwargs.get(
-            'DATE', None)
-        self.FLOWCELL = kwargs.get(
-            'FLOWCELL', 'None')
-        self.MACHINE = kwargs.get(
-            'MACHINE', 'None')
-        self.RUN = kwargs.get(
-            'RUN', 'None')
-
-
 class MatchedSamples(ProtocolElement):
     """
     This define a pair of germline and tumor, this pair should/must be
@@ -2781,7 +1396,6 @@ class Method(object):
     """
     resection = "resection"
     biopsy = "biopsy"
-    blood = "blood"
 
 
 class ModeOfInheritance(object):
@@ -2982,67 +1596,15 @@ class Phase(object):
     metastasis = "metastasis"
 
 
-class PlinkSexCheck(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"PlinkSexCheck", "fields": [{"type": "string", "name": "FID"},
-{"type": "string", "name": "IID"}, {"type": "double", "name": "F"},
-{"type": "double", "name": "YCOUNT"}, {"type": "double", "name":
-"STATUS"}, {"type": "double", "name": "SNPSEX"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "F",
-        "FID",
-        "IID",
-        "SNPSEX",
-        "STATUS",
-        "YCOUNT",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'F', 'FID', 'IID', 'SNPSEX', 'STATUS', 'YCOUNT'
-    ]
-
-    def __init__(self, **kwargs):
-        self.F = kwargs.get(
-            'F', None)
-        self.FID = kwargs.get(
-            'FID', 'None')
-        self.IID = kwargs.get(
-            'IID', 'None')
-        self.SNPSEX = kwargs.get(
-            'SNPSEX', None)
-        self.STATUS = kwargs.get(
-            'STATUS', None)
-        self.YCOUNT = kwargs.get(
-            'YCOUNT', None)
-
-
 class PreservationMethod(object):
     """
     No documentation
     """
-    ffpe = "ffpe"
-    ff = "ff"
-    unknown = "unknown"
-    blood = "blood"
-    gl = "gl"
-    saliva = "saliva"
+    FFPE = "FFPE"
+    FF = "FF"
+    Unknown = "Unknown"
+    LEUK = "LEUK"
+    GL = "GL"
 
 
 class RDParticipant(ProtocolElement):
@@ -3216,19 +1778,6 @@ false, "doc": "", "type": "boolean", "name":
             'twinGroup', None)
 
 
-class Reason(object):
-    """
-    No documentation
-    """
-    duplicate = "duplicate"
-    pedigree = "pedigree"
-    contamination = "contamination"
-    quality = "quality"
-    verifybamid = "verifybamid"
-    arrayconcordance = "arrayconcordance"
-    in_qc = "in_qc"
-
-
 class ReportEvent(ProtocolElement):
     """
     No documentation
@@ -3236,13 +1785,22 @@ class ReportEvent(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"reportEventId"}, {"doc": "", "type": "string", "name": "phenotype"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "",
+"type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -3260,13 +1818,16 @@ class ReportEvent(ProtocolElement):
     requiredFields = {
         "eventJustification",
         "fullyExplainsPhenotype",
+        "genomicFeature",
         "groupOfVariants",
         "modeOfInheritance",
+        "panelName",
+        "panelVersion",
         "penetrance",
+        "phenotype",
         "reportEventId",
         "score",
         "tier",
-        "transcript",
         "variantClassification",
         "vendorSpecificScores",
     }
@@ -3274,23 +1835,24 @@ class ReportEvent(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'transcript': Transcript,
+            'genomicFeature': GenomicFeature,
         }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'transcript': Transcript,
+            'genomicFeature': GenomicFeature,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
         'eventJustification', 'fullyExplainsPhenotype',
-        'groupOfVariants', 'modeOfInheritance', 'penetrance',
-        'reportEventId', 'score', 'tier', 'transcript',
-        'variantClassification', 'vendorSpecificScores'
+        'genomicFeature', 'groupOfVariants', 'modeOfInheritance',
+        'panelName', 'panelVersion', 'penetrance', 'phenotype',
+        'reportEventId', 'score', 'tier', 'variantClassification',
+        'vendorSpecificScores'
     ]
 
     def __init__(self, **kwargs):
@@ -3298,24 +1860,65 @@ class ReportEvent(ProtocolElement):
             'eventJustification', 'None')
         self.fullyExplainsPhenotype = kwargs.get(
             'fullyExplainsPhenotype', None)
+        self.genomicFeature = kwargs.get(
+            'genomicFeature', None)
         self.groupOfVariants = kwargs.get(
             'groupOfVariants', None)
         self.modeOfInheritance = kwargs.get(
-            'modeOfInheritance', 'None')
+            'modeOfInheritance', None)
+        self.panelName = kwargs.get(
+            'panelName', None)
+        self.panelVersion = kwargs.get(
+            'panelVersion', None)
         self.penetrance = kwargs.get(
             'penetrance', None)
+        self.phenotype = kwargs.get(
+            'phenotype', 'None')
         self.reportEventId = kwargs.get(
             'reportEventId', 'None')
         self.score = kwargs.get(
             'score', None)
         self.tier = kwargs.get(
             'tier', None)
-        self.transcript = kwargs.get(
-            'transcript', None)
         self.variantClassification = kwargs.get(
             'variantClassification', None)
         self.vendorSpecificScores = kwargs.get(
             'vendorSpecificScores', None)
+
+
+class ReportedModeOfInheritance(object):
+    """
+    An enumeration for the different mode of inheritances:  *
+    `monoallelic_not_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, not imprinted *
+    `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, maternally imprinted (paternal allele expressed)
+    * `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, paternally imprinted (maternal allele expressed)
+    * `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal,
+    imprinted status unknown * `biallelic`: BIALLELIC, autosomal or
+    pseudoautosomal * `monoallelic_and_biallelic`: BOTH monoallelic
+    and biallelic, autosomal or pseudoautosomal *
+    `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and
+    biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations
+    cause a more SEVERE disease form), autosomal or pseudoautosomal *
+    `xlinked_biallelic`: X-LINKED: hemizygous mutation in males,
+    biallelic mutations in females * `xlinked_monoallelic`: X linked:
+    hemizygous mutation in males, monoallelic mutations in females may
+    cause disease (may be less severe, later onset than males) *
+    `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown
+    """
+    monoallelic = "monoallelic"
+    monoallelic_not_imprinted = "monoallelic_not_imprinted"
+    monoallelic_maternally_imprinted = "monoallelic_maternally_imprinted"
+    monoallelic_paternally_imprinted = "monoallelic_paternally_imprinted"
+    biallelic = "biallelic"
+    monoallelic_and_biallelic = "monoallelic_and_biallelic"
+    monoallelic_and_more_severe_biallelic = "monoallelic_and_more_severe_biallelic"
+    xlinked_biallelic = "xlinked_biallelic"
+    xlinked_monoallelic = "xlinked_monoallelic"
+    mitochondrial = "mitochondrial"
+    unknown = "unknown"
 
 
 class ReportedSomaticStructuralVariants(ProtocolElement):
@@ -3332,18 +1935,28 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
 "type": "string", "name": "alternate"}, {"type": {"items": {"doc": "",
 "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
 "type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
 "copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
 "", "type": {"items": {"fields": [{"doc": "", "type": "string",
 "name": "reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -3412,41 +2025,51 @@ class ReportedSomaticVariants(ProtocolElement):
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
-{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
-"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
-"somaticOrGermline"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "name":
+"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
+"SomaticOrGermline"}, "name": "somaticOrGermline"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3493,37 +2116,47 @@ class ReportedStructuralVariant(ProtocolElement):
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"type": {"items": {"doc": "", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "genotype"}, {"doc":
-"", "type": ["null", "int"], "name": "depthReference"}, {"doc": "",
-"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
-"type": ["null", "int"], "name": "copyNumber"}]}, "type": "array"},
-"name": "calledGenotypes"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
-"type": "string", "name": "modeOfInheritance"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "geneSymbol"},
-{"doc": "", "type": "string", "name": "transcriptId"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "ids"}, {"doc":
-"", "type": ["null", "double"], "name": "geneCoverage"}], "type":
-"record", "name": "Transcript"}, "name": "transcript"}, {"doc": "",
-"type": {"symbols": ["complete", "incomplete"], "doc": "", "type":
-"enum", "name": "Penetrance"}, "name": "penetrance"}, {"doc": "",
-"type": "float", "name": "score"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name": "vendorSpecificScores"},
-{"doc": "", "type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN",
-"VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum",
-"name": "VariantClassification"}], "name": "variantClassification"},
-{"doc": "", "type": ["null", "boolean"], "name":
-"fullyExplainsPhenotype"}, {"doc": "", "type": ["null", "int"],
-"name": "groupOfVariants"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}]}
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3602,18 +2235,28 @@ class ReportedVariant(ProtocolElement):
 "string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
 "", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
 "type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
 "copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
 "", "type": {"items": {"fields": [{"doc": "", "type": "string",
 "name": "reportEventId"}, {"doc": "", "type": "string", "name":
-"modeOfInheritance"}, {"doc": "", "type": {"fields": [{"doc": "",
-"type": "string", "name": "geneSymbol"}, {"doc": "", "type": "string",
-"name": "transcriptId"}, {"doc": "", "type": {"values": "string",
-"type": "map"}, "name": "ids"}, {"doc": "", "type": ["null",
-"double"], "name": "geneCoverage"}], "type": "record", "name":
-"Transcript"}, "name": "transcript"}, {"doc": "", "type": {"symbols":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
 ["complete", "incomplete"], "doc": "", "type": "enum", "name":
 "Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
 "name": "score"}, {"doc": "", "type": ["null", {"values": "float",
@@ -3700,189 +2343,6 @@ class SampleType(object):
     """
     germline = "germline"
     tumor = "tumor"
-
-
-class SamtoolsScope(object):
-    """
-    No documentation
-    """
-    all = "all"
-    filtered = "filtered"
-
-
-class SamtoolsStats(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"SamtoolsStats", "fields": [{"type": {"symbols": ["all", "filtered"],
-"type": "enum", "name": "SamtoolsScope"}, "name": "samtoolsScope"},
-{"type": "double", "name": "SAMTOOLS_1ST_FRAGMENTS"}, {"type":
-"double", "name": "SAMTOOLS_AVERAGE_LENGTH"}, {"type": "double",
-"name": "SAMTOOLS_AVERAGE_QUALITY"}, {"type": "double", "name":
-"SAMTOOLS_BASES_DUPLICATED"}, {"type": "double", "name":
-"SAMTOOLS_BASES_MAPPED"}, {"type": "double", "name":
-"SAMTOOLS_BASES_MAPPED_CIGAR"}, {"type": "double", "name":
-"SAMTOOLS_BASES_TRIMMED"}, {"type": "double", "name":
-"SAMTOOLS_ERROR_RATE"}, {"type": "double", "name":
-"SAMTOOLS_FILTERED_SEQUENCES"}, {"type": "double", "name":
-"SAMTOOLS_INSERT_SIZE_AVERAGE"}, {"type": "double", "name":
-"SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION"}, {"type": "double", "name":
-"SAMTOOLS_INWARD_ORIENTED_PAIRS"}, {"type": "double", "name":
-"SAMTOOLS_IS_SORTED"}, {"type": "double", "name":
-"SAMTOOLS_LAST_FRAGMENTS"}, {"type": "double", "name":
-"SAMTOOLS_MAXIMUM_LENGTH"}, {"type": "double", "name":
-"SAMTOOLS_MISMATCHES"}, {"type": "double", "name":
-"SAMTOOLS_NON_PRIMARY_ALIGNMENTS"}, {"type": "double", "name":
-"SAMTOOLS_OUTWARD_ORIENTED_PAIRS"}, {"type": "double", "name":
-"SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES"}, {"type": "double", "name":
-"SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION"}, {"type": "double", "name":
-"SAMTOOLS_RAW_TOTAL_SEQUENCES"}, {"type": "double", "name":
-"SAMTOOLS_READS_DUPLICATED"}, {"type": "double", "name":
-"SAMTOOLS_READS_MAPPED"}, {"type": "double", "name":
-"SAMTOOLS_READS_MAPPED_AND_PAIRED"}, {"type": "double", "name":
-"SAMTOOLS_READS_MQ0"}, {"type": "double", "name":
-"SAMTOOLS_READS_PAIRED"}, {"type": "double", "name":
-"SAMTOOLS_READS_PROPERLY_PAIRED"}, {"type": "double", "name":
-"SAMTOOLS_READS_QC_FAILED"}, {"type": "double", "name":
-"SAMTOOLS_READS_UNMAPPED"}, {"type": "double", "name":
-"SAMTOOLS_SEQUENCES"}, {"type": "double", "name":
-"SAMTOOLS_TOTAL_LENGTH"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "SAMTOOLS_1ST_FRAGMENTS",
-        "SAMTOOLS_AVERAGE_LENGTH",
-        "SAMTOOLS_AVERAGE_QUALITY",
-        "SAMTOOLS_BASES_DUPLICATED",
-        "SAMTOOLS_BASES_MAPPED",
-        "SAMTOOLS_BASES_MAPPED_CIGAR",
-        "SAMTOOLS_BASES_TRIMMED",
-        "SAMTOOLS_ERROR_RATE",
-        "SAMTOOLS_FILTERED_SEQUENCES",
-        "SAMTOOLS_INSERT_SIZE_AVERAGE",
-        "SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION",
-        "SAMTOOLS_INWARD_ORIENTED_PAIRS",
-        "SAMTOOLS_IS_SORTED",
-        "SAMTOOLS_LAST_FRAGMENTS",
-        "SAMTOOLS_MAXIMUM_LENGTH",
-        "SAMTOOLS_MISMATCHES",
-        "SAMTOOLS_NON_PRIMARY_ALIGNMENTS",
-        "SAMTOOLS_OUTWARD_ORIENTED_PAIRS",
-        "SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES",
-        "SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION",
-        "SAMTOOLS_RAW_TOTAL_SEQUENCES",
-        "SAMTOOLS_READS_DUPLICATED",
-        "SAMTOOLS_READS_MAPPED",
-        "SAMTOOLS_READS_MAPPED_AND_PAIRED",
-        "SAMTOOLS_READS_MQ0",
-        "SAMTOOLS_READS_PAIRED",
-        "SAMTOOLS_READS_PROPERLY_PAIRED",
-        "SAMTOOLS_READS_QC_FAILED",
-        "SAMTOOLS_READS_UNMAPPED",
-        "SAMTOOLS_SEQUENCES",
-        "SAMTOOLS_TOTAL_LENGTH",
-        "samtoolsScope",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'SAMTOOLS_1ST_FRAGMENTS', 'SAMTOOLS_AVERAGE_LENGTH',
-        'SAMTOOLS_AVERAGE_QUALITY', 'SAMTOOLS_BASES_DUPLICATED',
-        'SAMTOOLS_BASES_MAPPED', 'SAMTOOLS_BASES_MAPPED_CIGAR',
-        'SAMTOOLS_BASES_TRIMMED', 'SAMTOOLS_ERROR_RATE',
-        'SAMTOOLS_FILTERED_SEQUENCES', 'SAMTOOLS_INSERT_SIZE_AVERAGE',
-        'SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION',
-        'SAMTOOLS_INWARD_ORIENTED_PAIRS', 'SAMTOOLS_IS_SORTED',
-        'SAMTOOLS_LAST_FRAGMENTS', 'SAMTOOLS_MAXIMUM_LENGTH',
-        'SAMTOOLS_MISMATCHES', 'SAMTOOLS_NON_PRIMARY_ALIGNMENTS',
-        'SAMTOOLS_OUTWARD_ORIENTED_PAIRS',
-        'SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES',
-        'SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION',
-        'SAMTOOLS_RAW_TOTAL_SEQUENCES', 'SAMTOOLS_READS_DUPLICATED',
-        'SAMTOOLS_READS_MAPPED', 'SAMTOOLS_READS_MAPPED_AND_PAIRED',
-        'SAMTOOLS_READS_MQ0', 'SAMTOOLS_READS_PAIRED',
-        'SAMTOOLS_READS_PROPERLY_PAIRED', 'SAMTOOLS_READS_QC_FAILED',
-        'SAMTOOLS_READS_UNMAPPED', 'SAMTOOLS_SEQUENCES',
-        'SAMTOOLS_TOTAL_LENGTH', 'samtoolsScope'
-    ]
-
-    def __init__(self, **kwargs):
-        self.SAMTOOLS_1ST_FRAGMENTS = kwargs.get(
-            'SAMTOOLS_1ST_FRAGMENTS', None)
-        self.SAMTOOLS_AVERAGE_LENGTH = kwargs.get(
-            'SAMTOOLS_AVERAGE_LENGTH', None)
-        self.SAMTOOLS_AVERAGE_QUALITY = kwargs.get(
-            'SAMTOOLS_AVERAGE_QUALITY', None)
-        self.SAMTOOLS_BASES_DUPLICATED = kwargs.get(
-            'SAMTOOLS_BASES_DUPLICATED', None)
-        self.SAMTOOLS_BASES_MAPPED = kwargs.get(
-            'SAMTOOLS_BASES_MAPPED', None)
-        self.SAMTOOLS_BASES_MAPPED_CIGAR = kwargs.get(
-            'SAMTOOLS_BASES_MAPPED_CIGAR', None)
-        self.SAMTOOLS_BASES_TRIMMED = kwargs.get(
-            'SAMTOOLS_BASES_TRIMMED', None)
-        self.SAMTOOLS_ERROR_RATE = kwargs.get(
-            'SAMTOOLS_ERROR_RATE', None)
-        self.SAMTOOLS_FILTERED_SEQUENCES = kwargs.get(
-            'SAMTOOLS_FILTERED_SEQUENCES', None)
-        self.SAMTOOLS_INSERT_SIZE_AVERAGE = kwargs.get(
-            'SAMTOOLS_INSERT_SIZE_AVERAGE', None)
-        self.SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION = kwargs.get(
-            'SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION', None)
-        self.SAMTOOLS_INWARD_ORIENTED_PAIRS = kwargs.get(
-            'SAMTOOLS_INWARD_ORIENTED_PAIRS', None)
-        self.SAMTOOLS_IS_SORTED = kwargs.get(
-            'SAMTOOLS_IS_SORTED', None)
-        self.SAMTOOLS_LAST_FRAGMENTS = kwargs.get(
-            'SAMTOOLS_LAST_FRAGMENTS', None)
-        self.SAMTOOLS_MAXIMUM_LENGTH = kwargs.get(
-            'SAMTOOLS_MAXIMUM_LENGTH', None)
-        self.SAMTOOLS_MISMATCHES = kwargs.get(
-            'SAMTOOLS_MISMATCHES', None)
-        self.SAMTOOLS_NON_PRIMARY_ALIGNMENTS = kwargs.get(
-            'SAMTOOLS_NON_PRIMARY_ALIGNMENTS', None)
-        self.SAMTOOLS_OUTWARD_ORIENTED_PAIRS = kwargs.get(
-            'SAMTOOLS_OUTWARD_ORIENTED_PAIRS', None)
-        self.SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES = kwargs.get(
-            'SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES', None)
-        self.SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION = kwargs.get(
-            'SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION', None)
-        self.SAMTOOLS_RAW_TOTAL_SEQUENCES = kwargs.get(
-            'SAMTOOLS_RAW_TOTAL_SEQUENCES', None)
-        self.SAMTOOLS_READS_DUPLICATED = kwargs.get(
-            'SAMTOOLS_READS_DUPLICATED', None)
-        self.SAMTOOLS_READS_MAPPED = kwargs.get(
-            'SAMTOOLS_READS_MAPPED', None)
-        self.SAMTOOLS_READS_MAPPED_AND_PAIRED = kwargs.get(
-            'SAMTOOLS_READS_MAPPED_AND_PAIRED', None)
-        self.SAMTOOLS_READS_MQ0 = kwargs.get(
-            'SAMTOOLS_READS_MQ0', None)
-        self.SAMTOOLS_READS_PAIRED = kwargs.get(
-            'SAMTOOLS_READS_PAIRED', None)
-        self.SAMTOOLS_READS_PROPERLY_PAIRED = kwargs.get(
-            'SAMTOOLS_READS_PROPERLY_PAIRED', None)
-        self.SAMTOOLS_READS_QC_FAILED = kwargs.get(
-            'SAMTOOLS_READS_QC_FAILED', None)
-        self.SAMTOOLS_READS_UNMAPPED = kwargs.get(
-            'SAMTOOLS_READS_UNMAPPED', None)
-        self.SAMTOOLS_SEQUENCES = kwargs.get(
-            'SAMTOOLS_SEQUENCES', None)
-        self.SAMTOOLS_TOTAL_LENGTH = kwargs.get(
-            'SAMTOOLS_TOTAL_LENGTH', None)
-        self.samtoolsScope = kwargs.get(
-            'samtoolsScope', None)
 
 
 class SensitiveInformation(ProtocolElement):
@@ -3973,20 +2433,6 @@ class SomaticOrGermline(object):
     germline = "germline"
 
 
-class State(object):
-    """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  See sample level for full details
-    """
-    ready = "ready"
-    pending = "pending"
-    hold = "hold"
-    fail = "fail"
-    caution = "caution"
-    blocked = "blocked"
-
-
 class TernaryOption(object):
     """
     This the define a yes/no/unknown case
@@ -4006,98 +2452,6 @@ class Tier(object):
     TIER3 = "TIER3"
 
 
-class Transcript(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"Transcript", "fields": [{"doc": "", "type": "string", "name":
-"geneSymbol"}, {"doc": "", "type": "string", "name": "transcriptId"},
-{"doc": "", "type": {"values": "string", "type": "map"}, "name":
-"ids"}, {"doc": "", "type": ["null", "double"], "name":
-"geneCoverage"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "geneCoverage",
-        "geneSymbol",
-        "ids",
-        "transcriptId",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'geneCoverage', 'geneSymbol', 'ids', 'transcriptId'
-    ]
-
-    def __init__(self, **kwargs):
-        self.geneCoverage = kwargs.get(
-            'geneCoverage', None)
-        self.geneSymbol = kwargs.get(
-            'geneSymbol', 'None')
-        self.ids = kwargs.get(
-            'ids', None)
-        self.transcriptId = kwargs.get(
-            'transcriptId', 'None')
-
-
-class TumorChecks(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"TumorChecks", "fields": [{"type": "string", "name": "wellId"},
-{"type": "double", "name": "percentSomatic1000G"}, {"type": "double",
-"name": "totalSomatic1000G"}, {"type": "double", "name":
-"totalSomaticNot1000G"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "percentSomatic1000G",
-        "totalSomatic1000G",
-        "totalSomaticNot1000G",
-        "wellId",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'percentSomatic1000G', 'totalSomatic1000G',
-        'totalSomaticNot1000G', 'wellId'
-    ]
-
-    def __init__(self, **kwargs):
-        self.percentSomatic1000G = kwargs.get(
-            'percentSomatic1000G', None)
-        self.totalSomatic1000G = kwargs.get(
-            'totalSomatic1000G', None)
-        self.totalSomaticNot1000G = kwargs.get(
-            'totalSomaticNot1000G', None)
-        self.wellId = kwargs.get(
-            'wellId', 'None')
-
-
 class VariantClassification(object):
     """
     This is the classification of the variant according to standard
@@ -4108,214 +2462,6 @@ class VariantClassification(object):
     VUS = "VUS"
     LIKELY_PATHOGENIC = "LIKELY_PATHOGENIC"
     PATHOGENIC = "PATHOGENIC"
-
-
-class VcfMetrics(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VcfMetrics", "fields": [{"type": "double", "name":
-"NUMBER_OF_SAMPLES"}, {"type": "double", "name": "NUMBER_OF_INDELS"},
-{"type": "double", "name": "NUMBER_OF_MNPS"}, {"type": "double",
-"name": "NUMBER_OF_MULTIALLELIC_SNP_SITES"}, {"type": "double",
-"name": "NUMBER_OF_SNPS"}, {"type": "double", "name":
-"NUMBER_OF_RECORDS"}, {"type": "double", "name": "NUMBER_OF_OTHERS"},
-{"type": "double", "name": "NUMBER_OF_MULTIALLELIC_SITES"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "NUMBER_OF_INDELS",
-        "NUMBER_OF_MNPS",
-        "NUMBER_OF_MULTIALLELIC_SITES",
-        "NUMBER_OF_MULTIALLELIC_SNP_SITES",
-        "NUMBER_OF_OTHERS",
-        "NUMBER_OF_RECORDS",
-        "NUMBER_OF_SAMPLES",
-        "NUMBER_OF_SNPS",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'NUMBER_OF_INDELS', 'NUMBER_OF_MNPS',
-        'NUMBER_OF_MULTIALLELIC_SITES',
-        'NUMBER_OF_MULTIALLELIC_SNP_SITES', 'NUMBER_OF_OTHERS',
-        'NUMBER_OF_RECORDS', 'NUMBER_OF_SAMPLES', 'NUMBER_OF_SNPS'
-    ]
-
-    def __init__(self, **kwargs):
-        self.NUMBER_OF_INDELS = kwargs.get(
-            'NUMBER_OF_INDELS', None)
-        self.NUMBER_OF_MNPS = kwargs.get(
-            'NUMBER_OF_MNPS', None)
-        self.NUMBER_OF_MULTIALLELIC_SITES = kwargs.get(
-            'NUMBER_OF_MULTIALLELIC_SITES', None)
-        self.NUMBER_OF_MULTIALLELIC_SNP_SITES = kwargs.get(
-            'NUMBER_OF_MULTIALLELIC_SNP_SITES', None)
-        self.NUMBER_OF_OTHERS = kwargs.get(
-            'NUMBER_OF_OTHERS', None)
-        self.NUMBER_OF_RECORDS = kwargs.get(
-            'NUMBER_OF_RECORDS', None)
-        self.NUMBER_OF_SAMPLES = kwargs.get(
-            'NUMBER_OF_SAMPLES', None)
-        self.NUMBER_OF_SNPS = kwargs.get(
-            'NUMBER_OF_SNPS', None)
-
-
-class VcfTSTV(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VcfTSTV", "fields": [{"type": "double", "name": "TS_1"}, {"type":
-"double", "name": "TV"}, {"type": "double", "name": "TS"}, {"type":
-"double", "name": "TS_TV"}, {"type": "double", "name": "TV_1"},
-{"type": "double", "name": "TS_TV_1"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "TS",
-        "TS_1",
-        "TS_TV",
-        "TS_TV_1",
-        "TV",
-        "TV_1",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'TS', 'TS_1', 'TS_TV', 'TS_TV_1', 'TV', 'TV_1'
-    ]
-
-    def __init__(self, **kwargs):
-        self.TS = kwargs.get(
-            'TS', None)
-        self.TS_1 = kwargs.get(
-            'TS_1', None)
-        self.TS_TV = kwargs.get(
-            'TS_TV', None)
-        self.TS_TV_1 = kwargs.get(
-            'TS_TV_1', None)
-        self.TV = kwargs.get(
-            'TV', None)
-        self.TV_1 = kwargs.get(
-            'TV_1', None)
-
-
-class VerifyBamId(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VerifyBamId", "fields": [{"type": "string", "name": "SEQ_ID"},
-{"type": "string", "name": "CHIP_ID"}, {"type": "double", "name":
-"SNPS"}, {"type": "double", "name": "READS"}, {"type": "double",
-"name": "AVG_DP"}, {"type": "double", "name": "FREEMIX"}, {"type":
-"double", "name": "FREELK1"}, {"type": "double", "name": "FREELK0"},
-{"type": "string", "name": "FREE_RH"}, {"type": "string", "name":
-"FREE_RA"}, {"type": "string", "name": "CHIPMIX"}, {"type": "string",
-"name": "CHIPLK1"}, {"type": "string", "name": "CHIPLK0"}, {"type":
-"string", "name": "CHIP_RA"}, {"type": "string", "name": "DPREF"},
-{"type": "string", "name": "RDPHET"}, {"type": "string", "name":
-"RDPALT"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "AVG_DP",
-        "CHIPLK0",
-        "CHIPLK1",
-        "CHIPMIX",
-        "CHIP_ID",
-        "CHIP_RA",
-        "DPREF",
-        "FREELK0",
-        "FREELK1",
-        "FREEMIX",
-        "FREE_RA",
-        "FREE_RH",
-        "RDPALT",
-        "RDPHET",
-        "READS",
-        "SEQ_ID",
-        "SNPS",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'AVG_DP', 'CHIPLK0', 'CHIPLK1', 'CHIPMIX', 'CHIP_ID',
-        'CHIP_RA', 'DPREF', 'FREELK0', 'FREELK1', 'FREEMIX',
-        'FREE_RA', 'FREE_RH', 'RDPALT', 'RDPHET', 'READS', 'SEQ_ID',
-        'SNPS'
-    ]
-
-    def __init__(self, **kwargs):
-        self.AVG_DP = kwargs.get(
-            'AVG_DP', None)
-        self.CHIPLK0 = kwargs.get(
-            'CHIPLK0', 'None')
-        self.CHIPLK1 = kwargs.get(
-            'CHIPLK1', 'None')
-        self.CHIPMIX = kwargs.get(
-            'CHIPMIX', 'None')
-        self.CHIP_ID = kwargs.get(
-            'CHIP_ID', 'None')
-        self.CHIP_RA = kwargs.get(
-            'CHIP_RA', 'None')
-        self.DPREF = kwargs.get(
-            'DPREF', 'None')
-        self.FREELK0 = kwargs.get(
-            'FREELK0', None)
-        self.FREELK1 = kwargs.get(
-            'FREELK1', None)
-        self.FREEMIX = kwargs.get(
-            'FREEMIX', None)
-        self.FREE_RA = kwargs.get(
-            'FREE_RA', 'None')
-        self.FREE_RH = kwargs.get(
-            'FREE_RH', 'None')
-        self.RDPALT = kwargs.get(
-            'RDPALT', 'None')
-        self.RDPHET = kwargs.get(
-            'RDPHET', 'None')
-        self.READS = kwargs.get(
-            'READS', None)
-        self.SEQ_ID = kwargs.get(
-            'SEQ_ID', 'None')
-        self.SNPS = kwargs.get(
-            'SNPS', None)
 
 
 class VirtualPanel(ProtocolElement):
@@ -4389,164 +2535,3 @@ class VirtualPanel(ProtocolElement):
             'relevantRegions', None)
         self.specificDiseaseTitle = kwargs.get(
             'specificDiseaseTitle', 'None')
-
-
-class individualState(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"individualState", "fields": [{"type": {"symbols": ["ready",
-"pending", "hold", "fail", "caution", "blocked"], "doc": "", "type":
-"enum", "name": "State"}, "name": "state"}, {"type": ["null",
-{"symbols": ["duplicate", "consent", "pedigree", "contamination",
-"quality", "plinksex", "inbreedingcoefficient", "in_qc"], "type":
-"enum", "name": "Reason"}], "name": "reason"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "reason",
-        "state",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'reason', 'state'
-    ]
-
-    def __init__(self, **kwargs):
-        self.reason = kwargs.get(
-            'reason', None)
-        self.state = kwargs.get(
-            'state', None)
-
-
-class individualTests(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"individualTests", "fields": [{"type": "boolean", "name": "plinksex"},
-{"type": "boolean", "name": "inbreedingcoefficient"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "inbreedingcoefficient",
-        "plinksex",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'inbreedingcoefficient', 'plinksex'
-    ]
-
-    def __init__(self, **kwargs):
-        self.inbreedingcoefficient = kwargs.get(
-            'inbreedingcoefficient', None)
-        self.plinksex = kwargs.get(
-            'plinksex', None)
-
-
-class sampleState(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
-"pending", "hold", "fail", "caution", "blocked"], "doc": "", "type":
-"enum", "name": "State"}], "name": "state"}, {"type": ["null",
-{"symbols": ["duplicate", "pedigree", "contamination", "quality",
-"verifybamid", "arrayconcordance", "in_qc"], "type": "enum", "name":
-"Reason"}], "name": "reason"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "reason",
-        "state",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'reason', 'state'
-    ]
-
-    def __init__(self, **kwargs):
-        self.reason = kwargs.get(
-            'reason', None)
-        self.state = kwargs.get(
-            'state', None)
-
-
-class sampleTests(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"sampleTests", "fields": [{"type": ["null", "boolean"], "name":
-"verifybamid"}, {"type": ["null", "boolean"], "name":
-"arrayconcordance"}, {"type": ["null", "boolean"], "name":
-"contamination"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "arrayconcordance",
-        "contamination",
-        "verifybamid",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'arrayconcordance', 'contamination', 'verifybamid'
-    ]
-
-    def __init__(self, **kwargs):
-        self.arrayconcordance = kwargs.get(
-            'arrayconcordance', None)
-        self.contamination = kwargs.get(
-            'contamination', None)
-        self.verifybamid = kwargs.get(
-            'verifybamid', None)

@@ -16,10 +16,12 @@ class TestRDParticipantAndPedigree(unittest.TestCase):
         self.assertTrue(Pedigree.validate(pedigree.toJsonDict()))
 
     def test_validation_participant(self):
-        fd = file(os.path.join(BASE_DIR, "resources", "TestingData", "RDParticipantExample.json"))
+        fd = file(os.path.join(BASE_DIR, "resources", "TestingData", "test.json"))
         dict = json.load(fd)
         pedigree = Pedigree.fromJsonDict(dict)
-        self.assertTrue(RDParticipant.validate(pedigree.participants[0].toJsonDict()))
+        for participant in pedigree.participants:
+            print participant.toJsonDict()
+            self.assertTrue(RDParticipant.validate(participant.toJsonDict()))
 
     def test_validation_disease(self):
         fd = file(os.path.join(BASE_DIR, "resources", "TestingData", "RDParticipantExample.json"))
