@@ -69,15 +69,31 @@ record CancerSample {
 
 
     /**
-    Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)
+    Sample Cellularity will be a string
     */
-    union {null, double} cellularity;
+    union {null, string} cellularity;
 
 
     /**
-    Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)
+    Sample TumorContent will be a string
     */
-    union {null, double} tumorContent;
+    union {null, string} tumorContent;
+
+    /**
+    Grade of tumour - a lot of recirds gave this
+    */
+    union {null, string} grade:
+
+    /**
+    TMN version
+    */
+    union {null, string} tnm_stage_version:
+
+    /**
+    TMN stage grouping
+    */
+    union {null, string} tmn_stage_grouping:
+
 
 
 }

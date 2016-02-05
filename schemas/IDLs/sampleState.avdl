@@ -8,8 +8,8 @@ protocol SampleState {
 This is the master state for this sample, for example caution,quality could be used to say that a sample under this
 individual has quality issues.  See sample level for full details
 */
-enum State {ready,hold,fail,caution,blocked}
-enum Reason {duplicate,pedigree,contamination,quality,verifybamid,arrayconcordance}
+enum State {ready,pending,hold,fail,caution,blocked}
+enum Reason {duplicate,pedigree,contamination,quality,verifybamid,arrayconcordance,in_qc}
 
 record sampleState {
 
