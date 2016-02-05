@@ -3221,12 +3221,11 @@ class Reason(object):
     No documentation
     """
     duplicate = "duplicate"
-    consent = "consent"
     pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    verifybamid = "verifybamid"
+    arrayconcordance = "arrayconcordance"
     in_qc = "in_qc"
 
 
