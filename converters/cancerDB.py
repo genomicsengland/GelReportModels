@@ -20,7 +20,7 @@ result = select_rows(server_context, schema_name=schema, query_name=query)
 labkey = defaultdict()
 if result is not None:
     for record in result['rows']:
-        labkey[record["hospital_number"]]=record
+        labkey[record["local_patient_identifier"]]=record
 else:
     print('select_rows: Failed to load results from ' + schema + '.' + table)
 
@@ -74,7 +74,7 @@ while row is not None:
         labkey_gender = labkey_gender.replace("2","female")
 
         if cancer_demo.sex != labkey_gender:
-            print data["center_patient_id"] + " WRONG SEX"
+            print data["center_patient_id"] + " WRONG SEX (labkey "+ str(labkey_gender) +" manifest " + str(cancer_demo.sex) + " )"
     else:
         print data["center_patient_id"] + " NOT IN LABKEY"
 
