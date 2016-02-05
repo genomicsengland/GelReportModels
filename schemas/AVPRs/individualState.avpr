@@ -5,18 +5,18 @@
   "types" : [ {
     "type" : "enum",
     "name" : "State",
-    "doc" : "This is the master state for this sample",
-    "symbols" : [ "ready", "hold", "fail", "caution" ]
+    "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.  See sample level for full details",
+    "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
   }, {
     "type" : "enum",
     "name" : "Reason",
-    "symbols" : [ ]
+    "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient" ]
   }, {
     "type" : "record",
     "name" : "individualState",
     "fields" : [ {
       "name" : "state",
-      "type" : [ "null", "State" ]
+      "type" : "State"
     }, {
       "name" : "reason",
       "type" : [ "null", "Reason" ]
@@ -24,7 +24,13 @@
   }, {
     "type" : "record",
     "name" : "individualTests",
-    "fields" : [ ]
+    "fields" : [ {
+      "name" : "plinksex",
+      "type" : "boolean"
+    }, {
+      "name" : "inbreedingcoefficient",
+      "type" : "boolean"
+    } ]
   } ],
   "messages" : { }
 }

@@ -7,286 +7,1007 @@
     "name" : "SamtoolsScope",
     "symbols" : [ "all", "filtered" ]
   }, {
+    "type" : "enum",
+    "name" : "IlluminaVersion",
+    "symbols" : [ "IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2" ]
+  }, {
     "type" : "record",
     "name" : "GelMetrics",
     "fields" : [ {
       "name" : "BaseDir",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "GbQ30NoDupsNoClip",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "perc_bases_ge_15x_mapQ_ge11",
-      "type" : [ "null", "float" ]
+      "type" : "float"
     }, {
       "name" : "InputDir",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "DirectoryType",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "nBases_samtools",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "FileRelativePath",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "md5checksum",
-      "type" : [ "null", "string" ]
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "IlluminaSummaryV2",
+    "doc" : "This is summary for V2 germlines for cancer",
+    "fields" : [ {
+      "name" : "illumina_version",
+      "type" : "IlluminaVersion"
+    }, {
+      "name" : "STOP_LOST_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "SV_INSERTIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "SAMPLE_ID",
+      "type" : "string"
+    }, {
+      "name" : "DELETION_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "STOP_GAINED_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_SD",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_Q30_BASES_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_Q30_BASES_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "STOP_GAINED_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "CNV_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_PF_READS",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_SPLICE_SITE_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_Q30_BASES",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_ALIGNED_BASES_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_ALIGNED_BASES_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "SV_INVERSIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "SNV_TS_TV_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_IN_MATURE_MIRNA",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_BASES_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "INDELS_ALL",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_BASES_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "NON_SYNONYMOUS_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_PF_BASES",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_DUPLICATE_PAIRED_READS",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "NON_SYNONYMOUS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "SV_PERCENT_DELETIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "MISMATCH_RATE_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "SV_DELETIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_CODING_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_IN_SPLICE_SITE_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "SV_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MIN",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MAX",
+      "type" : "double"
+    }, {
+      "name" : "RUNFOLDER",
+      "type" : "string"
+    }, {
+      "name" : "SAMPLE_NAME",
+      "type" : "string"
+    }, {
+      "name" : "INSERTIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "SV_PERCENT_INVERSIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_EXONS",
+      "type" : "double"
+    }, {
+      "name" : "STOP_LOST_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "NON_SYNONYMOUS_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_IN_MATURE_MIRNA",
+      "type" : "double"
+    }, {
+      "name" : "FRAMESHIFT_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MEDIAN",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_IN_UTR_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "SV_INVERSIONS",
+      "type" : "double"
+    }, {
+      "name" : "SV_TANDEM_DUPLICATIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "SV_TANDEM_DUPLICATIONS",
+      "type" : "double"
+    }, {
+      "name" : "INDELS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "SV_PERCENT_INSERTIONS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "STOP_GAINED_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "MISMATCH_RATE_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_ALL",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_PF_BASES_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_PF_BASES_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "INDEL_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "SYNONYMOUS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_MATURE_MIRNA",
+      "type" : "double"
+    }, {
+      "name" : "SNV_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_IN_CODING_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "STOP_LOST_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "PAIRED_END",
+      "type" : "string"
+    }, {
+      "name" : "DIVERSITY",
+      "type" : "double"
+    }, {
+      "name" : "REFERENCE_GENOME",
+      "type" : "string"
+    }, {
+      "name" : "SNVS_IN_EXONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_IN_SPLICE_SITE_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "FRAMESHIFT_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_ALL",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_ALL",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_IN_UTR_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "CNV_PERCENT_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "MEAN_COVERAGE",
+      "type" : "double"
+    }, {
+      "name" : "CNV",
+      "type" : "double"
+    }, {
+      "name" : "SV_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_IN_CODING_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "SNVS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTION_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "INDELS",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_ALIGNED_READ_2",
+      "type" : "double"
+    }, {
+      "name" : "TOTAL_ALIGNED_READ_1",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_IN_UTR_REGIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_IN_EXONS",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "IlluminaSummaryV1",
+    "doc" : "This is summary for all V1 summary",
+    "fields" : [ {
+      "name" : "illumina_version",
+      "type" : "IlluminaVersion"
+    }, {
+      "name" : "PERCENT_Q30_R1",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_Q30_R2",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_R1",
+      "type" : "double"
+    }, {
+      "name" : "INVERSIONCOUNT",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_ALIGNED_R2",
+      "type" : "double"
+    }, {
+      "name" : "INDELS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "STOPGAINEDINS",
+      "type" : "double"
+    }, {
+      "name" : "SYNONYMOUSSNVS",
+      "type" : "double"
+    }, {
+      "name" : "SPLICESITEREGIONDEL",
+      "type" : "double"
+    }, {
+      "name" : "STOPLOSTSNVS",
+      "type" : "double"
+    }, {
+      "name" : "SYNONYMOUSINS",
+      "type" : "double"
+    }, {
+      "name" : "SYNONYMOUSDEL",
+      "type" : "double"
+    }, {
+      "name" : "NUMSNVSINCODINGREGIONS",
+      "type" : "double"
+    }, {
+      "name" : "STOPGAINEDSNVS",
+      "type" : "double"
+    }, {
+      "name" : "SAMPLE_ID",
+      "type" : "string"
+    }, {
+      "name" : "NUMDELINEXONS",
+      "type" : "double"
+    }, {
+      "name" : "TANDEMDUPLICATIONPERCENTINGENES",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_ALL",
+      "type" : "double"
+    }, {
+      "name" : "CNVNUMBERINGENES",
+      "type" : "double"
+    }, {
+      "name" : "CNVPERCENTINGENES",
+      "type" : "double"
+    }, {
+      "name" : "NUMDELINGENES",
+      "type" : "double"
+    }, {
+      "name" : "NUMSNVSINGENES",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "SPLICESITEREGIONSNVS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MIN",
+      "type" : "double"
+    }, {
+      "name" : "STOPLOSTDEL",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_SD",
+      "type" : "double"
+    }, {
+      "name" : "NONSYNONYMOUSINS",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MAX",
+      "type" : "double"
+    }, {
+      "name" : "FRAMESHIFTDEL",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONPERCENTINGENES",
+      "type" : "double"
+    }, {
+      "name" : "INDEL_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "UTRREGIONDEL",
+      "type" : "double"
+    }, {
+      "name" : "RUNFOLDER",
+      "type" : "string"
+    }, {
+      "name" : "MATUREMIRNAINS",
+      "type" : "double"
+    }, {
+      "name" : "INVERSIONNUMBERINGENES",
+      "type" : "double"
+    }, {
+      "name" : "NUMINSINCODINGREGIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONPERCENTINGENES",
+      "type" : "double"
+    }, {
+      "name" : "CALLABLE_AUTOSOMAL_FRACTION",
+      "type" : "double"
+    }, {
+      "name" : "NONSYNONYMOUSDEL",
+      "type" : "double"
+    }, {
+      "name" : "FRAMESHIFTSNVS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATISTICSFLAG",
+      "type" : "string"
+    }, {
+      "name" : "CNVCOUNT",
+      "type" : "double"
+    }, {
+      "name" : "NONSYNONYMOUSSNVS",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONCOUNT",
+      "type" : "double"
+    }, {
+      "name" : "CNVSTATISTICSFLAG",
+      "type" : "string"
+    }, {
+      "name" : "INSERTIONNUMBERINGENES",
+      "type" : "double"
+    }, {
+      "name" : "STOPGAINEDDEL",
+      "type" : "double"
+    }, {
+      "name" : "MISMATCHRATE_R1",
+      "type" : "double"
+    }, {
+      "name" : "SNVS",
+      "type" : "double"
+    }, {
+      "name" : "SNV_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "SPLICESITEREGIONINS",
+      "type" : "double"
+    }, {
+      "name" : "NUMINSINEXONS",
+      "type" : "double"
+    }, {
+      "name" : "MISMATCHRATE_R2",
+      "type" : "double"
+    }, {
+      "name" : "NUMDELINCODINGREGIONS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTION_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "NUMINSINGENES",
+      "type" : "double"
+    }, {
+      "name" : "SNV_TS_TV_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "TANDEMDUPLICATIONNUMBERINGENES",
+      "type" : "double"
+    }, {
+      "name" : "SNVS_PERCENT_FOUND_IN_DBSNP",
+      "type" : "double"
+    }, {
+      "name" : "UTRREGIONINS",
+      "type" : "double"
+    }, {
+      "name" : "MATUREMIRNASNVS",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONNUMBERINGENES",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "TOTALNUMBERINS",
+      "type" : "double"
+    }, {
+      "name" : "TANDEMDUPLICATIONCOUNT",
+      "type" : "double"
+    }, {
+      "name" : "PAIRED_END",
+      "type" : "string"
+    }, {
+      "name" : "UTRREGIONSNVS",
+      "type" : "double"
+    }, {
+      "name" : "INDELS",
+      "type" : "double"
+    }, {
+      "name" : "NUMSNVSINEXONS",
+      "type" : "double"
+    }, {
+      "name" : "FRAMESHIFTINS",
+      "type" : "double"
+    }, {
+      "name" : "TOTALNUMBERSNVS",
+      "type" : "double"
+    }, {
+      "name" : "DELETIONS_HET_HOM_RATIO",
+      "type" : "double"
+    }, {
+      "name" : "FRAGMENT_LENGTH_MEDIAN",
+      "type" : "double"
+    }, {
+      "name" : "REFERENCE_GENOME",
+      "type" : "string"
+    }, {
+      "name" : "SMALLVARIANTSTATISTICSFLAG",
+      "type" : "string"
+    }, {
+      "name" : "TOTALNUMBERDEL",
+      "type" : "double"
+    }, {
+      "name" : "MATUREMIRNADEL",
+      "type" : "double"
+    }, {
+      "name" : "INVERSIONPERCENTINGENES",
+      "type" : "double"
+    }, {
+      "name" : "STOPLOSTINS",
+      "type" : "double"
+    }, {
+      "name" : "INSERTIONCOUNT",
+      "type" : "double"
+    }, {
+      "name" : "PERCENT_DUPLICATE_PAIRED_READS",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "IlluminaSummaryCancerV2",
+    "doc" : "This is summary for V2 somatic",
+    "fields" : [ {
+      "name" : "illumina_version",
+      "type" : "IlluminaVersion"
+    }, {
+      "name" : "VARIANTSTATS_STOP_GAINED_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_MATURE_MIRNA_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_SYNONYMOUS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_SYNONYMOUS_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30",
+      "type" : "double"
+    }, {
+      "name" : "PURITY_TUMOR_PLOIDY",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_TANDEM_DUPLICATION_TOTAL",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_INSERTION_NUMBER_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_TOTAL_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_FRAMESHIFT_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "PURITY_TUMOR_PURITY",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_DELETION_NUMBER_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_TOTAL_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NON_SYNONYMOUS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_MATURE_MIRNA_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_STOP_GAINED_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_FRAMESHIFT_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_GENES_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_UTR_REGION_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_DBSNP_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_CNV_TOTAL",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_STOP_LOST_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_INVERSION_TOTAL",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_SYNONYMOUS_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_STOP_LOST_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_MATURE_MIRNA_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_SPLICE_SITE_REGION_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_GENES_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_STOP_GAINED_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_STOP_LOST_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "NORMAL_ID",
+      "type" : "string"
+    }, {
+      "name" : "VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_UTR_REGION_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_TRANSLOCATION_BREAKEND_TOTAL",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_CNV_NUMBER_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_UTR_REGION_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_DBSNP_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_DBSNP_DELETIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_FRAMESHIFT_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_EXONS_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS",
+      "type" : "double"
+    }, {
+      "name" : "VARIANTSTATS_TOTAL_SNVS",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_DELETION_TOTAL",
+      "type" : "double"
+    }, {
+      "name" : "SVSTATS_INVERSION_NUMBER_IN_GENES",
+      "type" : "double"
+    }, {
+      "name" : "TUMOR_ID",
+      "type" : "string"
+    }, {
+      "name" : "SVSTATS_INSERTION_TOTAL",
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "VerifyBamId",
     "fields" : [ {
       "name" : "SEQ_ID",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "CHIP_ID",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "SNPS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "READS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "AVG_DP",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "FREEMIX",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "FREELK1",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "FREELK0",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "FREE_RH",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "FREE_RA",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "CHIPMIX",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "CHIPLK1",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "CHIPLK0",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "CHIP_RA",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "DPREF",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "RDPHET",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     }, {
       "name" : "RDPALT",
-      "type" : [ "null", "double" ]
+      "type" : "string"
     } ]
   }, {
     "type" : "record",
     "name" : "ArrayConcordance",
     "fields" : [ {
       "name" : "numberOfSites",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "numberOfDiscordantSites",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     } ]
   }, {
     "type" : "record",
-    "name" : "Plink",
+    "name" : "PlinkSexCheck",
     "fields" : [ {
+      "name" : "FID",
+      "type" : "string"
+    }, {
+      "name" : "IID",
+      "type" : "string"
+    }, {
       "name" : "F",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "YCOUNT",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "STATUS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SNPSEX",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
-    "name" : "InbreedingCoefficientEstimation",
+    "name" : "InbreedingCoefficientEstimates",
     "fields" : [ {
-      "name" : "O",
-      "type" : [ "null", "double" ]
+      "name" : "FID",
+      "type" : "string"
     }, {
-      "name" : "E",
-      "type" : [ "null", "int" ]
+      "name" : "IID",
+      "type" : "string"
     }, {
-      "name" : "N",
-      "type" : [ "null", "int" ]
+      "name" : "O_HOM",
+      "type" : "double"
+    }, {
+      "name" : "E_HOM",
+      "type" : "double"
+    }, {
+      "name" : "N_NM",
+      "type" : "double"
     }, {
       "name" : "F",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "TumorChecks",
     "fields" : [ {
+      "name" : "wellId",
+      "type" : "string"
+    }, {
       "name" : "percentSomatic1000G",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "totalSomatic1000G",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "totalSomaticNot1000G",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "BamHeaderOther",
     "fields" : [ {
       "name" : "PIPELINE_ID",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "PIPELINE_VERSION",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     } ]
   }, {
     "type" : "record",
     "name" : "SamtoolsStats",
     "fields" : [ {
       "name" : "samtoolsScope",
-      "type" : [ "null", "SamtoolsScope" ]
+      "type" : "SamtoolsScope"
     }, {
       "name" : "SAMTOOLS_1ST_FRAGMENTS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_AVERAGE_LENGTH",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_AVERAGE_QUALITY",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_BASES_DUPLICATED",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_BASES_ERROR_RATE",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_BASES_MAPPED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_BASES_MAPPED_CIGAR",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_BASES_PERCENT_MAPPED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_BASES_TRIMMED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_ERROR_RATE",
-      "type" : [ "null", "string" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_FILTERED_SEQUENCES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_INSERT_SIZE_AVERAGE",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_INWARD_ORIENTED_PAIRS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_IS_SORTED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_LAST_FRAGMENTS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_MAXIMUM_LENGTH",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_MISMATCHES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_NON_PRIMARY_ALIGNMENTS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_OUTWARD_ORIENTED_PAIRS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_RAW_TOTAL_SEQUENCES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_DUPLICATED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_MAPPED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_MAPPED_AND_PAIRED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_MQ0",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_PAIRED",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_READS_PERCENT_DUPLICATED",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_READS_PERCENT_FILTERED",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_READS_PERCENT_MAPPED",
-      "type" : [ "null", "int" ]
-    }, {
-      "name" : "SAMTOOLS_READS_PERCENT_MQ0",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_PROPERLY_PAIRED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_QC_FAILED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_READS_UNMAPPED",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_SEQUENCES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "SAMTOOLS_TOTAL_LENGTH",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "Machine",
     "fields" : [ {
       "name" : "DATE",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "MACHINE",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "FLOWCELL",
-      "type" : [ "null", "string" ]
+      "type" : "string"
     }, {
       "name" : "RUN",
-      "type" : [ "null", "int" ]
+      "type" : "string"
     } ]
   }, {
     "type" : "record",

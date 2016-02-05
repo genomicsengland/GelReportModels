@@ -4,53 +4,53 @@
   "doc" : "This protocol defines the gel metrics we calculate and store for vcf",
   "types" : [ {
     "type" : "record",
-    "name" : "TSTV",
+    "name" : "VcfTSTV",
     "fields" : [ {
       "name" : "TS_1",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "TV",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "TS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "TS_TV",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     }, {
       "name" : "TV_1",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "TS_TV_1",
-      "type" : [ "null", "double" ]
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
-    "name" : "METRICS",
+    "name" : "VcfMetrics",
     "fields" : [ {
       "name" : "NUMBER_OF_SAMPLES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_INDELS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_MNPS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_MULTIALLELIC_SNP_SITES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_SNPS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_RECORDS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_OTHERS",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     }, {
       "name" : "NUMBER_OF_MULTIALLELIC_SITES",
-      "type" : [ "null", "int" ]
+      "type" : "double"
     } ]
   } ],
   "messages" : { }
