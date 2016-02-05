@@ -10,7 +10,7 @@
   }, {
     "type" : "enum",
     "name" : "Reason",
-    "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient" ]
+    "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient", "in_qc" ]
   }, {
     "type" : "record",
     "name" : "individualState",

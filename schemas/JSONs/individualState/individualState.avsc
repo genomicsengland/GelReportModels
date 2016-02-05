@@ -1,0 +1,21 @@
+{
+  "type" : "record",
+  "name" : "individualState",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "state",
+    "type" : {
+      "type" : "enum",
+      "name" : "State",
+      "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.  See sample level for full details",
+      "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
+    }
+  }, {
+    "name" : "reason",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Reason",
+      "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient", "in_qc" ]
+    } ]
+  } ]
+}

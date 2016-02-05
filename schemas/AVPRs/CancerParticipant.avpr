@@ -157,12 +157,24 @@
       "doc" : "Method"
     }, {
       "name" : "cellularity",
-      "type" : [ "null", "double" ],
-      "doc" : "Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)"
+      "type" : [ "null", "string" ],
+      "doc" : "Sample Cellularity will be a string"
     }, {
       "name" : "tumorContent",
-      "type" : [ "null", "double" ],
-      "doc" : "Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)"
+      "type" : [ "null", "string" ],
+      "doc" : "Sample TumorContent will be a string"
+    }, {
+      "name" : "grade",
+      "type" : [ "null", "string" ],
+      "doc" : "Grade of tumour - a lot of recirds gave this"
+    }, {
+      "name" : "tnm_stage_version",
+      "type" : [ "null", "string" ],
+      "doc" : "TMN version"
+    }, {
+      "name" : "tmn_stage_grouping",
+      "type" : [ "null", "string" ],
+      "doc" : "TMN stage grouping"
     } ]
   }, {
     "type" : "record",

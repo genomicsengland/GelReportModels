@@ -616,8 +616,11 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
 ["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
 "name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"double"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"double"], "name": "tumorContent"}], "type": "record", "name":
+"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
+"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
+"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
+"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
+"name": "tmn_stage_grouping"}], "type": "record", "name":
 "CancerSample"}, "type": "array"}, "name": "cancerSamples"}, {"doc":
 "", "type": {"items": {"doc": "", "type": "record", "name":
 "MatchedSamples", "fields": [{"doc": "", "type": "string", "name":
@@ -684,13 +687,17 @@ class CancerSample(ProtocolElement):
 "enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
 ["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
 "name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"double"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"double"], "name": "tumorContent"}]}
+"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
+"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
+"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
+"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
+"name": "tmn_stage_grouping"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "cellularity",
         "gelPhase",
+        "grade",
         "labId",
         "method",
         "phase",
@@ -699,6 +706,8 @@ class CancerSample(ProtocolElement):
         "sampleId",
         "sampleType",
         "source",
+        "tmn_stage_grouping",
+        "tnm_stage_version",
         "tumorContent",
     }
 
@@ -714,9 +723,10 @@ class CancerSample(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cellularity', 'gelPhase', 'labId', 'method', 'phase',
-        'preservationMethod', 'sampleDiagnosis', 'sampleId',
-        'sampleType', 'source', 'tumorContent'
+        'cellularity', 'gelPhase', 'grade', 'labId', 'method',
+        'phase', 'preservationMethod', 'sampleDiagnosis', 'sampleId',
+        'sampleType', 'source', 'tmn_stage_grouping',
+        'tnm_stage_version', 'tumorContent'
     ]
 
     def __init__(self, **kwargs):
@@ -724,6 +734,8 @@ class CancerSample(ProtocolElement):
             'cellularity', None)
         self.gelPhase = kwargs.get(
             'gelPhase', None)
+        self.grade = kwargs.get(
+            'grade', None)
         self.labId = kwargs.get(
             'labId', 'None')
         self.method = kwargs.get(
@@ -740,6 +752,10 @@ class CancerSample(ProtocolElement):
             'sampleType', None)
         self.source = kwargs.get(
             'source', None)
+        self.tmn_stage_grouping = kwargs.get(
+            'tmn_stage_grouping', None)
+        self.tnm_stage_version = kwargs.get(
+            'tnm_stage_version', None)
         self.tumorContent = kwargs.get(
             'tumorContent', None)
 
@@ -3205,11 +3221,13 @@ class Reason(object):
     No documentation
     """
     duplicate = "duplicate"
+    consent = "consent"
     pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    verifybamid = "verifybamid"
-    arrayconcordance = "arrayconcordance"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
+    in_qc = "in_qc"
 
 
 class ReportEvent(ProtocolElement):
@@ -3963,6 +3981,7 @@ class State(object):
     individual has quality issues.  See sample level for full details
     """
     ready = "ready"
+    pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
@@ -4383,8 +4402,8 @@ class individualState(ProtocolElement):
 "pending", "hold", "fail", "caution", "blocked"], "doc": "", "type":
 "enum", "name": "State"}, "name": "state"}, {"type": ["null",
 {"symbols": ["duplicate", "consent", "pedigree", "contamination",
-"quality", "plinksex", "inbreedingcoefficient"], "type": "enum",
-"name": "Reason"}], "name": "reason"}]}
+"quality", "plinksex", "inbreedingcoefficient", "in_qc"], "type":
+"enum", "name": "Reason"}], "name": "reason"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4458,11 +4477,11 @@ class sampleState(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
-"hold", "fail", "caution", "blocked"], "doc": "", "type": "enum",
-"name": "State"}], "name": "state"}, {"type": ["null", {"symbols":
-["duplicate", "pedigree", "contamination", "quality", "verifybamid",
-"arrayconcordance"], "type": "enum", "name": "Reason"}], "name":
-"reason"}]}
+"pending", "hold", "fail", "caution", "blocked"], "doc": "", "type":
+"enum", "name": "State"}], "name": "state"}, {"type": ["null",
+{"symbols": ["duplicate", "pedigree", "contamination", "quality",
+"verifybamid", "arrayconcordance", "in_qc"], "type": "enum", "name":
+"Reason"}], "name": "reason"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {

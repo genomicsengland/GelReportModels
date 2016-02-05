@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "TumorChecks",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "wellId",
+    "type" : "string"
+  }, {
+    "name" : "percentSomatic1000G",
+    "type" : "double"
+  }, {
+    "name" : "totalSomatic1000G",
+    "type" : "double"
+  }, {
+    "name" : "totalSomaticNot1000G",
+    "type" : "double"
+  } ]
+}

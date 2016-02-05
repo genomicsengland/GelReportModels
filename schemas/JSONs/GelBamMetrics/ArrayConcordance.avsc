@@ -1,0 +1,12 @@
+{
+  "type" : "record",
+  "name" : "ArrayConcordance",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "numberOfSites",
+    "type" : "string"
+  }, {
+    "name" : "numberOfDiscordantSites",
+    "type" : "string"
+  } ]
+}

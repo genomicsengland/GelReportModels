@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "InbreedingCoefficientEstimates",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "FID",
+    "type" : "string"
+  }, {
+    "name" : "IID",
+    "type" : "string"
+  }, {
+    "name" : "O_HOM",
+    "type" : "double"
+  }, {
+    "name" : "E_HOM",
+    "type" : "double"
+  }, {
+    "name" : "N_NM",
+    "type" : "double"
+  }, {
+    "name" : "F",
+    "type" : "double"
+  } ]
+}

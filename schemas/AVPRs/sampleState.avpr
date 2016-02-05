@@ -6,11 +6,11 @@
     "type" : "enum",
     "name" : "State",
     "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.  See sample level for full details",
-    "symbols" : [ "ready", "hold", "fail", "caution", "blocked" ]
+    "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
   }, {
     "type" : "enum",
     "name" : "Reason",
-    "symbols" : [ "duplicate", "pedigree", "contamination", "quality", "verifybamid", "arrayconcordance" ]
+    "symbols" : [ "duplicate", "pedigree", "contamination", "quality", "verifybamid", "arrayconcordance", "in_qc" ]
   }, {
     "type" : "record",
     "name" : "sampleState",
