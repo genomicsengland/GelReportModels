@@ -239,7 +239,7 @@ record ReportedStructuralVariantCancer {
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEventCancer> reportEvents;
+    array<ReportEventCancer> reportEventsCancer;
 
 
     /**
