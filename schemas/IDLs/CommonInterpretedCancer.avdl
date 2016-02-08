@@ -64,7 +64,7 @@ record GenomicFeature {
     /**
     Gene used in tier
     */
-    string ensemblId;
+    string genName;
 
     /**
     Protein domain hti in tier
