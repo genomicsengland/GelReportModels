@@ -157,10 +157,10 @@ while row is not None:
     row = cursor.fetchone()
 
 
-    # validate = cancer_participant.validate(cancer_participant.toJsonDict())
-    # if validate:
-    #     print json.dumps(cancer_participant.toJsonDict(), indent=True)
-    # print json.dumps(cancer_participant.toJsonDict(), indent=True)
+    validate = cancer_participant.validate(cancer_participant.toJsonDict())
+    if validate:
+        print json.dumps(cancer_participant.toJsonDict(), indent=True)
+    print json.dumps(cancer_participant.toJsonDict(), indent=True)
 
 
 

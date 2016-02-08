@@ -10,7 +10,7 @@ protocol CommonInterpretedCancer {
 This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
-record CalledGenotype {
+record CalledGenotypeCancer {
     /**
     TODO: EIK added allele fraction - ARM to check, DP field instead of fraction
     */
@@ -50,7 +50,7 @@ record CalledGenotype {
 enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
 
 
-record GenomicFeature {
+record GenomicFeatureCancer {
     /**
     Feature Type
     */
@@ -104,7 +104,7 @@ Possible tiers as defined by Genomics England
 */
 enum Tier {NONE, TIER1, TIER2, TIER3}
 
-record ReportEvent {
+record ReportEventCancer {
 
     /**
     Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
@@ -121,7 +121,7 @@ record ReportEvent {
     This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
     If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
     */
-    GenomicFeature genomicFeature;
+    GenomicFeatureCancer genomicFeature;
 
 
     /** Classification of the pathogenicity of this variant with respect to the phenotype
@@ -142,7 +142,7 @@ record ReportEvent {
 }
 
 
-record ReportedVariant {
+record ReportedVariantCancer {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -172,13 +172,13 @@ record ReportedVariant {
     /**
     array of genotypes for the family
     */
-    array<CalledGenotype> calledGenotypes;
+    array<CalledGenotypeCancer> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> reportEvents;
+    array<ReportEventCancer> reportEvents;
 
     /**
     For example HGMD ID)
@@ -199,7 +199,7 @@ record ReportedVariant {
 
 
 
-record ReportedStructuralVariant {
+record ReportedStructuralVariantCancer {
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -233,13 +233,13 @@ record ReportedStructuralVariant {
     string alternate;
 
 
-    array<CalledGenotype> calledGenotypes;
+    array<CalledGenotypeCancer> calledGenotypes;
 
     /**
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEvent> reportEvents;
+    array<ReportEventCancer> reportEvents;
 
 
     /**

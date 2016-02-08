@@ -270,6 +270,62 @@ class CalledGenotype(ProtocolElement):
             'sampleId', 'None')
 
 
+class CalledGenotypeCancer(ProtocolElement):
+    """
+    This is intended to hold the genotypes for the family members In
+    principle it is a phased zygosity as in VCF spec and called by the
+    analysis provider if further phasing is conducted
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"CalledGenotypeCancer", "fields": [{"doc": "", "type": "string",
+"name": "gelId"}, {"doc": "", "type": "string", "name": "sampleId"},
+{"doc": "", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "copyNumber",
+        "depthAlternate",
+        "depthReference",
+        "gelId",
+        "genotype",
+        "sampleId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'copyNumber', 'depthAlternate', 'depthReference', 'gelId',
+        'genotype', 'sampleId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.copyNumber = kwargs.get(
+            'copyNumber', None)
+        self.depthAlternate = kwargs.get(
+            'depthAlternate', None)
+        self.depthReference = kwargs.get(
+            'depthReference', None)
+        self.gelId = kwargs.get(
+            'gelId', 'None')
+        self.genotype = kwargs.get(
+            'genotype', 'None')
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
+
+
 class CancerDemographics(ProtocolElement):
     """
     This defines a Cancer Demographics
@@ -1122,6 +1178,69 @@ class GenomicFeature(ProtocolElement):
             'featureType', None)
         self.ids = kwargs.get(
             'ids', None)
+
+
+class GenomicFeatureCancer(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"GenomicFeatureCancer", "fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": "string", "name":
+"genName"}, {"doc": "", "type": ["null", "string"], "name":
+"proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
+{"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
+"string", "name": "soName"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ensemblId",
+        "featureType",
+        "genName",
+        "ids",
+        "mutation",
+        "proteinDomain",
+        "soName",
+        "soTerm",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ensemblId', 'featureType', 'genName', 'ids', 'mutation',
+        'proteinDomain', 'soName', 'soTerm'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ensemblId = kwargs.get(
+            'ensemblId', 'None')
+        self.featureType = kwargs.get(
+            'featureType', None)
+        self.genName = kwargs.get(
+            'genName', 'None')
+        self.ids = kwargs.get(
+            'ids', None)
+        self.mutation = kwargs.get(
+            'mutation', 'None')
+        self.proteinDomain = kwargs.get(
+            'proteinDomain', None)
+        self.soName = kwargs.get(
+            'soName', 'None')
+        self.soTerm = kwargs.get(
+            'soTerm', 'None')
 
 
 class HpoTerm(ProtocolElement):
@@ -3413,6 +3532,75 @@ class ReportEvent(ProtocolElement):
             'vendorSpecificScores', None)
 
 
+class ReportEventCancer(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ReportEventCancer", "fields": [{"doc": "", "type": "string", "name":
+"reportEventId"}, {"doc": "", "type": "string", "name": "phenotype"},
+{"doc": "", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": "string", "name":
+"genName"}, {"doc": "", "type": ["null", "string"], "name":
+"proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
+{"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
+"string", "name": "soName"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}], "type": "record", "name":
+"GenomicFeatureCancer"}, "name": "genomicFeature"}, {"doc": "",
+"type": ["null", {"symbols": ["A", "B", "C"], "doc": "", "type":
+"enum", "name": "VariantClass"}], "name": "variantClass"}, {"doc": "",
+"type": "string", "name": "eventJustification"}, {"doc": "", "type":
+["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "",
+"type": "enum", "name": "Tier"}], "name": "tier"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "eventJustification",
+        "genomicFeature",
+        "phenotype",
+        "reportEventId",
+        "tier",
+        "variantClass",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'genomicFeature': GenomicFeatureCancer,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'genomicFeature': GenomicFeatureCancer,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'eventJustification', 'genomicFeature', 'phenotype',
+        'reportEventId', 'tier', 'variantClass'
+    ]
+
+    def __init__(self, **kwargs):
+        self.eventJustification = kwargs.get(
+            'eventJustification', 'None')
+        self.genomicFeature = kwargs.get(
+            'genomicFeature', None)
+        self.phenotype = kwargs.get(
+            'phenotype', 'None')
+        self.reportEventId = kwargs.get(
+            'reportEventId', 'None')
+        self.tier = kwargs.get(
+            'tier', None)
+        self.variantClass = kwargs.get(
+            'variantClass', None)
+
+
 class ReportedModeOfInheritance(object):
     """
     An enumeration for the different mode of inheritances:  *
@@ -3749,6 +3937,113 @@ class ReportedStructuralVariant(ProtocolElement):
             'type', 'None')
 
 
+class ReportedStructuralVariantCancer(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ReportedStructuralVariantCancer", "fields": [{"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
+"start"}, {"doc": "", "type": "int", "name": "end"}, {"doc": "",
+"type": "string", "name": "type"}, {"doc": "", "type": "string",
+"name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotypeCancer", "fields": [{"doc": "", "type": "string",
+"name": "gelId"}, {"doc": "", "type": "string", "name": "sampleId"},
+{"doc": "", "type": "string", "name": "genotype"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": {"fields":
+[{"doc": "", "type": {"symbols": ["RegulatoryRegion", "Gene",
+"Transcript"], "type": "enum", "name": "FeatureTypes"}, "name":
+"featureType"}, {"doc": "", "type": "string", "name": "ensemblId"},
+{"doc": "", "type": "string", "name": "genName"}, {"doc": "", "type":
+["null", "string"], "name": "proteinDomain"}, {"doc": "", "type":
+"string", "name": "mutation"}, {"doc": "", "type": "string", "name":
+"soTerm"}, {"doc": "", "type": "string", "name": "soName"}, {"doc":
+"", "type": {"values": "string", "type": "map"}, "name": "ids"}],
+"type": "record", "name": "GenomicFeatureCancer"}, "name":
+"genomicFeature"}, {"doc": "", "type": ["null", {"symbols": ["A", "B",
+"C"], "doc": "", "type": "enum", "name": "VariantClass"}], "name":
+"variantClass"}, {"doc": "", "type": "string", "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
+["null", {"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalNumericVariantAnnotations",
+        "additionalTextualVariantAnnotations",
+        "alternate",
+        "calledGenotypes",
+        "chromosome",
+        "comments",
+        "end",
+        "reference",
+        "reportEvents",
+        "start",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'calledGenotypes': CalledGenotypeCancer,
+            'reportEvents': ReportEventCancer,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'calledGenotypes': CalledGenotypeCancer,
+            'reportEvents': ReportEventCancer,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalNumericVariantAnnotations',
+        'additionalTextualVariantAnnotations', 'alternate',
+        'calledGenotypes', 'chromosome', 'comments', 'end',
+        'reference', 'reportEvents', 'start', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalNumericVariantAnnotations = kwargs.get(
+            'additionalNumericVariantAnnotations', None)
+        self.additionalTextualVariantAnnotations = kwargs.get(
+            'additionalTextualVariantAnnotations', None)
+        self.alternate = kwargs.get(
+            'alternate', 'None')
+        self.calledGenotypes = kwargs.get(
+            'calledGenotypes', None)
+        self.chromosome = kwargs.get(
+            'chromosome', 'None')
+        self.comments = kwargs.get(
+            'comments', None)
+        self.end = kwargs.get(
+            'end', None)
+        self.reference = kwargs.get(
+            'reference', 'None')
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
+        self.start = kwargs.get(
+            'start', None)
+        self.type = kwargs.get(
+            'type', 'None')
+
+
 class ReportedVariant(ProtocolElement):
     """
     No documentation
@@ -3830,6 +4125,109 @@ class ReportedVariant(ProtocolElement):
         embeddedTypes = {
             'calledGenotypes': CalledGenotype,
             'reportEvents': ReportEvent,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalNumericVariantAnnotations',
+        'additionalTextualVariantAnnotations', 'alternate',
+        'calledGenotypes', 'chromosome', 'comments', 'dbSNPid',
+        'position', 'reference', 'reportEvents'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalNumericVariantAnnotations = kwargs.get(
+            'additionalNumericVariantAnnotations', None)
+        self.additionalTextualVariantAnnotations = kwargs.get(
+            'additionalTextualVariantAnnotations', None)
+        self.alternate = kwargs.get(
+            'alternate', 'None')
+        self.calledGenotypes = kwargs.get(
+            'calledGenotypes', None)
+        self.chromosome = kwargs.get(
+            'chromosome', 'None')
+        self.comments = kwargs.get(
+            'comments', None)
+        self.dbSNPid = kwargs.get(
+            'dbSNPid', None)
+        self.position = kwargs.get(
+            'position', None)
+        self.reference = kwargs.get(
+            'reference', 'None')
+        self.reportEvents = kwargs.get(
+            'reportEvents', None)
+
+
+class ReportedVariantCancer(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ReportedVariantCancer", "fields": [{"doc": "", "type": "string",
+"name": "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "CalledGenotypeCancer", "fields":
+[{"doc": "", "type": "string", "name": "gelId"}, {"doc": "", "type":
+"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": "string", "name":
+"phenotype"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
+{"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
+"enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
+"type": "string", "name": "ensemblId"}, {"doc": "", "type": "string",
+"name": "genName"}, {"doc": "", "type": ["null", "string"], "name":
+"proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
+{"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
+"string", "name": "soName"}, {"doc": "", "type": {"values": "string",
+"type": "map"}, "name": "ids"}], "type": "record", "name":
+"GenomicFeatureCancer"}, "name": "genomicFeature"}, {"doc": "",
+"type": ["null", {"symbols": ["A", "B", "C"], "doc": "", "type":
+"enum", "name": "VariantClass"}], "name": "variantClass"}, {"doc": "",
+"type": "string", "name": "eventJustification"}, {"doc": "", "type":
+["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "",
+"type": "enum", "name": "Tier"}], "name": "tier"}], "type": "record",
+"name": "ReportEventCancer"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalNumericVariantAnnotations",
+        "additionalTextualVariantAnnotations",
+        "alternate",
+        "calledGenotypes",
+        "chromosome",
+        "comments",
+        "dbSNPid",
+        "position",
+        "reference",
+        "reportEvents",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'calledGenotypes': CalledGenotypeCancer,
+            'reportEvents': ReportEventCancer,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'calledGenotypes': CalledGenotypeCancer,
+            'reportEvents': ReportEventCancer,
         }
 
         return embeddedTypes[fieldName]
