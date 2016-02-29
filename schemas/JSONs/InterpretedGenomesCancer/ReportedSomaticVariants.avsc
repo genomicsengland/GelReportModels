@@ -8,9 +8,22 @@
       "type" : "record",
       "name" : "ReportedVariant",
       "fields" : [ {
+        "name" : "versionControl",
+        "type" : {
+          "type" : "record",
+          "name" : "VersionControl",
+          "fields" : [ {
+            "name" : "GitVersionControl",
+            "type" : "string",
+            "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+            "default" : "1.1.5"
+          } ]
+        },
+        "doc" : "Model version number"
+      }, {
         "name" : "chromosome",
         "type" : "string",
-        "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+        "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
       }, {
         "name" : "dbSNPid",
         "type" : [ "null", "string" ],
@@ -47,6 +60,10 @@
               "name" : "genotype",
               "type" : "string",
               "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+            }, {
+              "name" : "phaseSet",
+              "type" : [ "null", "int" ],
+              "doc" : "Phase set of variants when variants are phased"
             }, {
               "name" : "depthReference",
               "type" : [ "null", "int" ],

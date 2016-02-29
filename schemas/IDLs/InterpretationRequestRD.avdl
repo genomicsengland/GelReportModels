@@ -72,6 +72,11 @@ record InterpretationRequestRD {
     string genomeAssemblyVersion="GRCh37.p13";
 
     /**
+    Cellbase version
+    */
+    string cellbaseVersion="4.0";
+
+    /**
     Version of this request
     */
     int InterpretationRequestVersion;
@@ -92,11 +97,6 @@ record InterpretationRequestRD {
     array<File> BAMs;
 
     /**
-    gVCFs Files where SNVs and INDELs are represented
-    */
-    array<File> gVCFs;
-
-    /**
     VCFs Files where SVs and CNVs are represented
     */
     array<File> VCFs;
@@ -107,7 +107,7 @@ record InterpretationRequestRD {
     union {null, array<File>} bigWigs;
 
     /**
-    Pedigree Diagram Files
+    Pedigree Diagram Files as an SGV
     */
     union {null, File} pedigreeDiagram;
 
@@ -121,10 +121,6 @@ record InterpretationRequestRD {
     */
     Pedigree pedigree;
 
-    /**
-    File containing the Inbreeding Coefficient Estimation
-    */
-    union {null, File} inbreedingCoefficientEstimates;
 
     /**
     Complex Genetic Phenomena
@@ -142,8 +138,7 @@ record InterpretationRequestRD {
     union {null, array<VirtualPanel>} virtualPanel;
 
     /**
-    This is the family history as pertinent to assessing secondary findings.
-    It is paternal or maternal with reference to the proband.
+    It is paternal or maternal with reference to the participant.
     */
     union {null, OtherFamilyHistory} otherFamilyHistory;
 

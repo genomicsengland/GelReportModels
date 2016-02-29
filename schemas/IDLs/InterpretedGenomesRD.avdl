@@ -37,9 +37,14 @@ record InterpretedGenomeRD {
     string companyName;
 
     /**
-    URI where the company can upload files for this analysis
+    URI in the GEL file system where the company has upload files from this analysis
     */
     string reportURI;
+
+    /**
+    URL where the results can be accessed in the company's web interface
+    */
+    string reportURL;
 
     /**
     List of all reported variants

@@ -2,10 +2,10 @@
 /**
 This protocol defines the Participants and Pedigree
 */
-import idl "VersionControl.avdl";
+
 
 protocol SensitiveInformation {
-
+import idl "VersionControl.avdl";
 record SensitiveInformation {
     /**
     Model version number

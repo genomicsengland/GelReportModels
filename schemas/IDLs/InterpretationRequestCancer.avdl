@@ -26,7 +26,6 @@ import idl "VersionControl.avdl";
 /**
 This record represents basic information for this report
 
-TODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py
 */
 record CancerInterpretationRequest {
     /**
@@ -54,10 +53,6 @@ record CancerInterpretationRequest {
     */
     array<File> BAMs;
 
-    /**
-    gVCFs Files where SNVs and INDELs are represented
-    */
-    array<File> gVCFs;
 
     /**
     VCFs Files where SVs and CNVs are represented
@@ -67,7 +62,7 @@ record CancerInterpretationRequest {
     /**
     BigWig Files
     */
-    array<File> BigWigs;
+    array<File> bigWigs;
 
     /**
     This will be the output file from Cellbase + version used
@@ -80,8 +75,14 @@ record CancerInterpretationRequest {
     VirtualPanel virtualPanels;
 
 
+    /**
+    Location (URI) where the data can be found
+    */
     string analysisURI;
 
+    /**
+    GEL's analysis version for this request. It can increase if a change is made to the underlying data for example
+    */
     string analysisVersion;
 
     /**
@@ -89,8 +90,10 @@ record CancerInterpretationRequest {
     */
     union {null, map<string>} additionalInfo;
 
-    /** EIK: added other Family History */
-    OtherFamilyHistory otherFamilyHistory;
+   /**
+   Other family history for the participant if available
+   */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
 }
 
 

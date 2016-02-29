@@ -13,15 +13,16 @@ Currently SampleID can be a single String or an array of strings if multiple sam
 
 
 enum FileType {   //TODO change names
-    BAM,
-    gVCF,
-    VCF-small,
-    VCF-CNV,
-    VCF-SV,
-    VCF-SV-CNV,
-    SVG,
-    TIER,
-    ANN
+    BAM,  //alignment
+    gVCF,  //genomic VCF for variants
+    VCF_small,  // VCF file for SNV and indel
+    VCF_CNV, // VCF file for copy number variants
+    VCF_SV,  // VCF file for structural variants only
+    VCF_SV_CNV, // VCF file for CNV and SVs
+    SVG,  // an SVG for example of a pedigree
+    TIER,  // a file that contains the tiers for a particular interpretation request using CommonInterpreted.avdl
+    ANN,  // an annotation file from openCBschema/IDLs/variantAnnotation.avdl
+    BigWig  //a bigwig file with the genome coverage
     }
 
 
@@ -37,7 +38,7 @@ record File {
     */
     string URIFile;
 
-    enum
+    FileType fileType;
 }
 
 
@@ -47,9 +48,9 @@ This record defines a gene panel.
 */
 record VirtualPanel {
     /**
-    Name of the Specific Disease
+    Name of the Panel
     */
-    string specificDiseaseTitle;
+    string panelName;
     /**
     Version of the Gene Panel
     */
@@ -57,13 +58,13 @@ record VirtualPanel {
     /**
     Ensembl version used to get teh genes or transcripts
     */
-    string ensemblVersion;
+    union {null, string} ensemblVersion;
 
     /**
     Version of the Data Catalogue against which the information is being provided
     The data catalogue version should internally keep track of the version for the HPO ontology
     */
-    string dataModelCatalogueVersion;
+    string dataModelCatalogueVersion="4.2";
 
     /**
     gene id from ensembl (version as per annotation file)

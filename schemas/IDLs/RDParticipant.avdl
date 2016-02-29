@@ -4,8 +4,9 @@ This protocol defines the Participants and Pedigree
 */
 protocol Pedigrees {
 
+import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
-import idl "VersionControl";
+import idl "VersionControl.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -29,6 +30,11 @@ record Disorder {
     union {null,string} specificDisease;
 
     /**
+    These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used
+    */
+    union {null,array<VirtualPanel>} panels;
+
+    /**
     Age of onset in months
     */
     union {null, int} ageOfOnset;
@@ -46,10 +52,10 @@ record HpoTerm {
     string term;
 
     /**
-    This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
+    This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
     false=term is not present
     */
-    boolean termPresence;  //TODO this is a ternary decision "yes", "no", "unknown"
+    TernaryOption termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -196,6 +202,12 @@ record RDParticipant {
     This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
     */
     union {null, array<string>} samples;
+
+
+    /**
+    Inbreeding Coefficient Estimation
+    */
+    union {null, InbreedingCoefficient} inbreedingCoefficient;
 
 
     /**
