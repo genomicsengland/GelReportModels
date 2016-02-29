@@ -9,6 +9,23 @@ This defines a file
 This Record is defined by the sampleID and a URI
 Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
 */
+
+
+
+enum FileType {   //TODO change names
+    BAM,
+    gVCF,
+    VCF-small,
+    VCF-CNV,
+    VCF-SV,
+    VCF-SV-CNV,
+    SVG,
+    TIER,
+    ANN
+    }
+
+
+
 record File {
     /**
     Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
@@ -19,6 +36,8 @@ record File {
     URI PATH
     */
     string URIFile;
+
+    enum
 }
 
 

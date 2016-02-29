@@ -17,6 +17,7 @@ import idl "variants.avdl";
 
 import idl "CancerParticipant.avdl";
 import idl "CommonRequest.avdl";
+import idl "VersionControl.avdl";
 
 
 
@@ -28,6 +29,11 @@ This record represents basic information for this report
 TODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py
 */
 record CancerInterpretationRequest {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Unique id for this report
     */

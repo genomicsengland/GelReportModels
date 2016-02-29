@@ -5,6 +5,7 @@ This protocol defines the Participants and Pedigree
 protocol Pedigrees {
 
 import idl "CommonParticipant.avdl";
+import idl "VersionControl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -48,7 +49,7 @@ record HpoTerm {
     This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
     false=term is not present
     */
-    boolean termPresence;
+    boolean termPresence;  //TODO this is a ternary decision "yes", "no", "unknown"
 
     /**
     Modifier associated with the HPO term
@@ -84,6 +85,11 @@ enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
 This defines a RD Participant (demographics and pedigree information)
 */
 record RDParticipant {
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
     Numbering used to refer to each member of the pedigree
@@ -205,6 +211,11 @@ record RDParticipant {
 This is the concept of a family with associated phenotypes as present in the record RDParticipant
 */
 record Pedigree {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Family id which internally translate to a sample set
     */

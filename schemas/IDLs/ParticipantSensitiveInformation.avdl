@@ -2,9 +2,16 @@
 /**
 This protocol defines the Participants and Pedigree
 */
+import idl "VersionControl.avdl";
+
 protocol SensitiveInformation {
 
 record SensitiveInformation {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
 
     string gelID;
 

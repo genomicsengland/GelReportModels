@@ -6,8 +6,14 @@ Define the Report used by GEL to get the clinical interpretation companies resul
 protocol InterpretedGenomesRD {
 
 import idl "CommonInterpreted.avdl";
+import idl "VersionControl.avdl";
 
 record InterpretedGenomeRD {
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
     This is the ID of the clinical interpretation request

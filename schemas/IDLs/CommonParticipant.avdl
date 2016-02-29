@@ -10,6 +10,11 @@ Sex
 enum Sex {male, female, undetermined}
 
 /**
+Karyotipic Sex
+*/
+enum PersonKaryotipicSex {unknown,XX,XY,XO,XXY,XXX,XXYY,XXXY,XXXX,XYY,other}
+
+/**
 This the define a yes/no/unknown case
 */
 enum TernaryOption {yes, no, unknown}

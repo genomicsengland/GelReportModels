@@ -15,6 +15,7 @@ import idl "variants.avdl";
 
 import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
+import idl "VersionControl.avdl";
 
 /**
 An enumeration for the different mode of inheritances:
@@ -55,6 +56,11 @@ enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, t
 This record represents basic information for this report
 */
 record InterpretationRequestRD {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Unique id for this report
     */
