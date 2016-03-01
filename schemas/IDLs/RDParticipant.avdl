@@ -128,6 +128,11 @@ record RDParticipant {
     Sex sex;
 
     /**
+    Karyotypic sex of the participant as previously established or by looking at the GEL genome
+    */
+    PersonKaryotipicSex personKaryotipicSex;
+
+    /**
     refers to the pedigreeId of the father
     Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known
     about them in order to unambiguously reconstruct the pedigree.
