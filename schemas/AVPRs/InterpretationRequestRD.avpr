@@ -223,7 +223,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "1.1.5"
+      "default" : "1.2.0"
     } ]
   }, {
     "type" : "record",
@@ -317,6 +317,10 @@
       "type" : "string",
       "doc" : "Family id which internally translate to a sample set"
     }, {
+      "name" : "gelSuperFamilyId",
+      "type" : [ "null", "string" ],
+      "doc" : "superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457"
+    }, {
       "name" : "sex",
       "type" : "Sex",
       "doc" : "Sex of the Participant"
@@ -328,6 +332,14 @@
       "name" : "motherId",
       "type" : [ "null", "int" ],
       "doc" : "refers to the pedigreeId of the mother\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
+    }, {
+      "name" : "superFatherId",
+      "type" : [ "null", "int" ],
+      "doc" : "this id is built using the original familyId and the original pedigreeId of the father"
+    }, {
+      "name" : "superMotherId",
+      "type" : [ "null", "int" ],
+      "doc" : "this id is built using the original familyId and the original pedigreeId of the mother"
     }, {
       "name" : "twinGroup",
       "type" : [ "null", "int" ],

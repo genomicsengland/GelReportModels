@@ -118,6 +118,11 @@ record RDParticipant {
     string gelFamilyId;
 
     /**
+    superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
+    */
+    union {null, string} gelSuperFamilyId;
+
+    /**
     Sex of the Participant
     */
     Sex sex;
@@ -134,6 +139,16 @@ record RDParticipant {
     about them in order to unambiguously reconstruct the pedigree.
     */
     union {null, int}  motherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the father
+    */
+    union {null, int}  superFatherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the mother
+    */
+    union {null, int}  superMotherId;
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number

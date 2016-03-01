@@ -6,7 +6,7 @@
   "fields" : [ {
     "name" : "gelId",
     "type" : "string",
-    "doc" : "Participant id of the family member:"
+    "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
   }, {
     "name" : "sampleId",
     "type" : "string",

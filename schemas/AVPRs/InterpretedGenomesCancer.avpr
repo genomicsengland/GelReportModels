@@ -9,7 +9,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "1.1.5"
+      "default" : "1.2.0"
     } ]
   }, {
     "type" : "enum",
@@ -23,7 +23,7 @@
     "fields" : [ {
       "name" : "gelId",
       "type" : "string",
-      "doc" : "Participant id of the family member:"
+      "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
     }, {
       "name" : "sampleId",
       "type" : "string",
