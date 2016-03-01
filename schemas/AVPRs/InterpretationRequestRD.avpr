@@ -4,9 +4,100 @@
   "doc" : "This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party\nThe record Report is the top level class. This includes clinical information + various version\nThe annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki\nAll annotations are against Ensembl gene models",
   "types" : [ {
     "type" : "enum",
+    "name" : "FileType",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig" ]
+  }, {
+    "type" : "record",
+    "name" : "File",
+    "fields" : [ {
+      "name" : "SampleId",
+      "type" : [ "null", "string", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+    }, {
+      "name" : "URIFile",
+      "type" : "string",
+      "doc" : "URI PATH"
+    }, {
+      "name" : "fileType",
+      "type" : "FileType"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VirtualPanel",
+    "doc" : "This record defines a gene panel.",
+    "fields" : [ {
+      "name" : "panelName",
+      "type" : "string",
+      "doc" : "Name of the Panel"
+    }, {
+      "name" : "panelVersion",
+      "type" : "string",
+      "doc" : "Version of the Gene Panel"
+    }, {
+      "name" : "ensemblVersion",
+      "type" : [ "null", "string" ],
+      "doc" : "Ensembl version used to get teh genes or transcripts"
+    }, {
+      "name" : "dataModelCatalogueVersion",
+      "type" : "string",
+      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
+      "default" : "4.2"
+    }, {
+      "name" : "geneIds",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      },
+      "doc" : "gene id from ensembl (version as per annotation file)"
+    }, {
+      "name" : "Transcripts",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "transcript ids from ensembl"
+    }, {
+      "name" : "relevantRegions",
+      "type" : [ "null", "File" ],
+      "doc" : "BED format file"
+    }, {
+      "name" : "clinicalRelevantVariants",
+      "type" : [ "null", "File" ],
+      "doc" : "VCF File"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OtherFamilyHistory",
+    "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
+    "fields" : [ {
+      "name" : "maternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Relevant Maternal family history"
+    }, {
+      "name" : "paternalFamilyHistory",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "Relevant Maternal family history"
+    } ]
+  }, {
+    "type" : "enum",
     "name" : "Sex",
     "doc" : "Sex",
     "symbols" : [ "male", "female", "undetermined" ]
+  }, {
+    "type" : "enum",
+    "name" : "PersonKaryotipicSex",
+    "doc" : "Karyotipic Sex",
+    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
   }, {
     "type" : "enum",
     "name" : "TernaryOption",
@@ -98,6 +189,44 @@
     } ]
   }, {
     "type" : "record",
+    "name" : "InbreedingCoefficient",
+    "doc" : "Inbreeding coefficient",
+    "fields" : [ {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "This is the sample id against which the coefficient was estimated"
+    }, {
+      "name" : "program",
+      "type" : "string",
+      "doc" : "Name of program used to calculate the coefficient"
+    }, {
+      "name" : "version",
+      "type" : "string",
+      "doc" : "Version of the programme"
+    }, {
+      "name" : "estimationMethod",
+      "type" : "string",
+      "doc" : "Where various methods for estimation exist, which method was used."
+    }, {
+      "name" : "coefficient",
+      "type" : "double",
+      "doc" : "Inbreeding coefficient ideally a real number in [0,1]"
+    }, {
+      "name" : "standardError",
+      "type" : [ "null", "double" ],
+      "doc" : "Standard error of the Inbreeding coefficient"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "1.1.5"
+    } ]
+  }, {
+    "type" : "record",
     "name" : "Disorder",
     "doc" : "This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.\nCurrently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be\ncompleted but we add the others for generality",
     "fields" : [ {
@@ -113,6 +242,13 @@
       "type" : [ "null", "string" ],
       "doc" : "This is Level4 Title for this disorder"
     }, {
+      "name" : "panels",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "VirtualPanel"
+      } ],
+      "doc" : "These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used"
+    }, {
       "name" : "ageOfOnset",
       "type" : [ "null", "int" ],
       "doc" : "Age of onset in months"
@@ -127,8 +263,8 @@
       "doc" : "Identifier of the HPO term"
     }, {
       "name" : "termPresence",
-      "type" : "boolean",
-      "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
+      "type" : "TernaryOption",
+      "doc" : "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
     }, {
       "name" : "modifiers",
       "type" : [ "null", {
@@ -161,6 +297,10 @@
     "name" : "RDParticipant",
     "doc" : "This defines a RD Participant (demographics and pedigree information)",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "pedigreeId",
       "type" : "int",
       "doc" : "Numbering used to refer to each member of the pedigree"
@@ -251,6 +391,10 @@
       } ],
       "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
     }, {
+      "name" : "inbreedingCoefficient",
+      "type" : [ "null", "InbreedingCoefficient" ],
+      "doc" : "Inbreeding Coefficient Estimation"
+    }, {
       "name" : "additionalInformation",
       "type" : [ "null", {
         "type" : "map",
@@ -263,6 +407,10 @@
     "name" : "Pedigree",
     "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "gelFamilyId",
       "type" : "string",
       "doc" : "Family id which internally translate to a sample set"
@@ -272,84 +420,6 @@
         "type" : "array",
         "items" : "RDParticipant"
       }
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "File",
-    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-    "fields" : [ {
-      "name" : "SampleId",
-      "type" : [ "null", "string", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
-    }, {
-      "name" : "URIFile",
-      "type" : "string",
-      "doc" : "URI PATH"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VirtualPanel",
-    "doc" : "This record defines a gene panel.",
-    "fields" : [ {
-      "name" : "specificDiseaseTitle",
-      "type" : "string",
-      "doc" : "Name of the Specific Disease"
-    }, {
-      "name" : "panelVersion",
-      "type" : "string",
-      "doc" : "Version of the Gene Panel"
-    }, {
-      "name" : "ensemblVersion",
-      "type" : "string",
-      "doc" : "Ensembl version used to get teh genes or transcripts"
-    }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
-    }, {
-      "name" : "geneIds",
-      "type" : {
-        "type" : "array",
-        "items" : "string"
-      },
-      "doc" : "gene id from ensembl (version as per annotation file)"
-    }, {
-      "name" : "Transcripts",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "transcript ids from ensembl"
-    }, {
-      "name" : "relevantRegions",
-      "type" : [ "null", "File" ],
-      "doc" : "BED format file"
-    }, {
-      "name" : "clinicalRelevantVariants",
-      "type" : [ "null", "File" ],
-      "doc" : "VCF File"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "OtherFamilyHistory",
-    "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
-    "fields" : [ {
-      "name" : "maternalFamilyHistory",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "Relevant Maternal family history"
-    }, {
-      "name" : "paternalFamilyHistory",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "Relevant Maternal family history"
     } ]
   }, {
     "type" : "enum",
@@ -365,6 +435,10 @@
     "name" : "InterpretationRequestRD",
     "doc" : "This record represents basic information for this report",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "InterpretationRequestID",
       "type" : "string",
       "doc" : "Unique id for this report"
@@ -373,6 +447,11 @@
       "type" : "string",
       "doc" : "This is the version of the assembly used to align the reads",
       "default" : "GRCh37.p13"
+    }, {
+      "name" : "cellbaseVersion",
+      "type" : "string",
+      "doc" : "Cellbase version",
+      "default" : "4.0"
     }, {
       "name" : "InterpretationRequestVersion",
       "type" : "int",
@@ -397,13 +476,6 @@
       },
       "doc" : "BAMs Files"
     }, {
-      "name" : "gVCFs",
-      "type" : {
-        "type" : "array",
-        "items" : "File"
-      },
-      "doc" : "gVCFs Files where SNVs and INDELs are represented"
-    }, {
       "name" : "VCFs",
       "type" : {
         "type" : "array",
@@ -420,7 +492,7 @@
     }, {
       "name" : "pedigreeDiagram",
       "type" : [ "null", "File" ],
-      "doc" : "Pedigree Diagram Files"
+      "doc" : "Pedigree Diagram Files as an SGV"
     }, {
       "name" : "annotationFile",
       "type" : [ "null", "File" ],
@@ -429,10 +501,6 @@
       "name" : "pedigree",
       "type" : "Pedigree",
       "doc" : "Pedigree of the family to analyze"
-    }, {
-      "name" : "inbreedingCoefficientEstimates",
-      "type" : [ "null", "File" ],
-      "doc" : "File containing the Inbreeding Coefficient Estimation"
     }, {
       "name" : "complexGeneticPhenomena",
       "type" : [ "null", "ComplexGeneticPhenomena" ],
@@ -451,7 +519,7 @@
     }, {
       "name" : "otherFamilyHistory",
       "type" : [ "null", "OtherFamilyHistory" ],
-      "doc" : "This is the family history as pertinent to assessing secondary findings.\n    It is paternal or maternal with reference to the proband."
+      "doc" : "It is paternal or maternal with reference to the participant."
     }, {
       "name" : "analysisReturnURI",
       "type" : "string",

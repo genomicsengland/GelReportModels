@@ -10,6 +10,11 @@ Sex
 enum Sex {male, female, undetermined}
 
 /**
+Karyotipic Sex
+*/
+enum PersonKaryotipicSex {unknown,XX,XY,XO,XXY,XXX,XXYY,XXXY,XXXX,XYY,other}
+
+/**
 This the define a yes/no/unknown case
 */
 enum TernaryOption {yes, no, unknown}
@@ -116,5 +121,38 @@ record ConsentStatus {
     */
     boolean carrierStatusConsent=false;
 }
+
+/**
+Inbreeding coefficient
+*/
+record InbreedingCoefficient {
+
+    /**
+    This is the sample id against which the coefficient was estimated
+    */
+    string sampleId;
+    /**
+    Name of program used to calculate the coefficient
+    */
+    string program;
+    /**
+    Version of the programme
+    */
+    string version;
+    /**
+    Where various methods for estimation exist, which method was used.
+    */
+    string estimationMethod;
+    /**
+    Inbreeding coefficient ideally a real number in [0,1]
+    */
+    double coefficient;
+    /**
+    Standard error of the Inbreeding coefficient
+    */
+    union {null, double} standardError;
+}
+
+
 
 }

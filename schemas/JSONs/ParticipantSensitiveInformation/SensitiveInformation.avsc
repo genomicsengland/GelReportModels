@@ -3,6 +3,19 @@
   "name" : "SensitiveInformation",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "versionControl",
+    "type" : {
+      "type" : "record",
+      "name" : "VersionControl",
+      "fields" : [ {
+        "name" : "GitVersionControl",
+        "type" : "string",
+        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+        "default" : "1.1.5"
+      } ]
+    },
+    "doc" : "Model version number"
+  }, {
     "name" : "gelID",
     "type" : "string"
   }, {

@@ -9,6 +9,11 @@
     "symbols" : [ "male", "female", "undetermined" ]
   }, {
     "type" : "enum",
+    "name" : "PersonKaryotipicSex",
+    "doc" : "Karyotipic Sex",
+    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+  }, {
+    "type" : "enum",
     "name" : "TernaryOption",
     "doc" : "This the define a yes/no/unknown case",
     "symbols" : [ "yes", "no", "unknown" ]
@@ -97,6 +102,44 @@
       "default" : false
     } ]
   }, {
+    "type" : "record",
+    "name" : "InbreedingCoefficient",
+    "doc" : "Inbreeding coefficient",
+    "fields" : [ {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "This is the sample id against which the coefficient was estimated"
+    }, {
+      "name" : "program",
+      "type" : "string",
+      "doc" : "Name of program used to calculate the coefficient"
+    }, {
+      "name" : "version",
+      "type" : "string",
+      "doc" : "Version of the programme"
+    }, {
+      "name" : "estimationMethod",
+      "type" : "string",
+      "doc" : "Where various methods for estimation exist, which method was used."
+    }, {
+      "name" : "coefficient",
+      "type" : "double",
+      "doc" : "Inbreeding coefficient ideally a real number in [0,1]"
+    }, {
+      "name" : "standardError",
+      "type" : [ "null", "double" ],
+      "doc" : "Standard error of the Inbreeding coefficient"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "1.1.5"
+    } ]
+  }, {
     "type" : "enum",
     "name" : "SampleType",
     "symbols" : [ "germline", "tumor" ]
@@ -120,6 +163,10 @@
     "type" : "record",
     "name" : "CancerSample",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "sampleId",
       "type" : "string",
       "doc" : "Sample Id (e.g, LP00012645_5GH))"
@@ -194,6 +241,10 @@
     "name" : "CancerDemographics",
     "doc" : "This defines a Cancer Demographics",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "gelId",
       "type" : "string",
       "doc" : "Individual Is (this is the individual id (gel ID))"
@@ -234,6 +285,10 @@
     "name" : "CancerParticipant",
     "doc" : "This defines a Cancer Participant (demographics and sample information)",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "cancerDemographics",
       "type" : "CancerDemographics",
       "doc" : "This contains all the demographic information"
@@ -253,9 +308,13 @@
       "doc" : "List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)"
     } ]
   }, {
+    "type" : "enum",
+    "name" : "FileType",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
+    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig" ]
+  }, {
     "type" : "record",
     "name" : "File",
-    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
     "fields" : [ {
       "name" : "SampleId",
       "type" : [ "null", "string", {
@@ -267,27 +326,31 @@
       "name" : "URIFile",
       "type" : "string",
       "doc" : "URI PATH"
+    }, {
+      "name" : "fileType",
+      "type" : "FileType"
     } ]
   }, {
     "type" : "record",
     "name" : "VirtualPanel",
     "doc" : "This record defines a gene panel.",
     "fields" : [ {
-      "name" : "specificDiseaseTitle",
+      "name" : "panelName",
       "type" : "string",
-      "doc" : "Name of the Specific Disease"
+      "doc" : "Name of the Panel"
     }, {
       "name" : "panelVersion",
       "type" : "string",
       "doc" : "Version of the Gene Panel"
     }, {
       "name" : "ensemblVersion",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "Ensembl version used to get teh genes or transcripts"
     }, {
       "name" : "dataModelCatalogueVersion",
       "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology"
+      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
+      "default" : "4.2"
     }, {
       "name" : "geneIds",
       "type" : {
@@ -333,8 +396,12 @@
   }, {
     "type" : "record",
     "name" : "CancerInterpretationRequest",
-    "doc" : "This record represents basic information for this report\n\nTODO: change/specialise InterpretationRequest > CancerInterpretationRequest currently does not load... python build.py",
+    "doc" : "This record represents basic information for this report",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "reportRequestId",
       "type" : "string",
       "doc" : "Unique id for this report"
@@ -355,13 +422,6 @@
       },
       "doc" : "BAMs Files"
     }, {
-      "name" : "gVCFs",
-      "type" : {
-        "type" : "array",
-        "items" : "File"
-      },
-      "doc" : "gVCFs Files where SNVs and INDELs are represented"
-    }, {
       "name" : "VCFs",
       "type" : {
         "type" : "array",
@@ -369,7 +429,7 @@
       },
       "doc" : "VCFs Files where SVs and CNVs are represented"
     }, {
-      "name" : "BigWigs",
+      "name" : "bigWigs",
       "type" : {
         "type" : "array",
         "items" : "File"
@@ -385,10 +445,12 @@
       "doc" : "this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)\n    (not to be confused with VirtualPanel record - RareDisease only)"
     }, {
       "name" : "analysisURI",
-      "type" : "string"
+      "type" : "string",
+      "doc" : "Location (URI) where the data can be found"
     }, {
       "name" : "analysisVersion",
-      "type" : "string"
+      "type" : "string",
+      "doc" : "GEL's analysis version for this request. It can increase if a change is made to the underlying data for example"
     }, {
       "name" : "additionalInfo",
       "type" : [ "null", {
@@ -398,8 +460,8 @@
       "doc" : "Additional information"
     }, {
       "name" : "otherFamilyHistory",
-      "type" : "OtherFamilyHistory",
-      "doc" : "EIK: added other Family History"
+      "type" : [ "null", "OtherFamilyHistory" ],
+      "doc" : "Other family history for the participant if available"
     } ]
   } ],
   "messages" : { }

@@ -9,8 +9,13 @@
     "doc" : "Identifier of the HPO term"
   }, {
     "name" : "termPresence",
-    "type" : "boolean",
-    "doc" : "This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,\n    false=term is not present"
+    "type" : {
+      "type" : "enum",
+      "name" : "TernaryOption",
+      "doc" : "This the define a yes/no/unknown case",
+      "symbols" : [ "yes", "no", "unknown" ]
+    },
+    "doc" : "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
   }, {
     "name" : "modifiers",
     "type" : [ "null", {

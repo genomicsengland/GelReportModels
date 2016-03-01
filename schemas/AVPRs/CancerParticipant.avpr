@@ -9,6 +9,11 @@
     "symbols" : [ "male", "female", "undetermined" ]
   }, {
     "type" : "enum",
+    "name" : "PersonKaryotipicSex",
+    "doc" : "Karyotipic Sex",
+    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+  }, {
+    "type" : "enum",
     "name" : "TernaryOption",
     "doc" : "This the define a yes/no/unknown case",
     "symbols" : [ "yes", "no", "unknown" ]
@@ -97,6 +102,44 @@
       "default" : false
     } ]
   }, {
+    "type" : "record",
+    "name" : "InbreedingCoefficient",
+    "doc" : "Inbreeding coefficient",
+    "fields" : [ {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "This is the sample id against which the coefficient was estimated"
+    }, {
+      "name" : "program",
+      "type" : "string",
+      "doc" : "Name of program used to calculate the coefficient"
+    }, {
+      "name" : "version",
+      "type" : "string",
+      "doc" : "Version of the programme"
+    }, {
+      "name" : "estimationMethod",
+      "type" : "string",
+      "doc" : "Where various methods for estimation exist, which method was used."
+    }, {
+      "name" : "coefficient",
+      "type" : "double",
+      "doc" : "Inbreeding coefficient ideally a real number in [0,1]"
+    }, {
+      "name" : "standardError",
+      "type" : [ "null", "double" ],
+      "doc" : "Standard error of the Inbreeding coefficient"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "1.1.5"
+    } ]
+  }, {
     "type" : "enum",
     "name" : "SampleType",
     "symbols" : [ "germline", "tumor" ]
@@ -120,6 +163,10 @@
     "type" : "record",
     "name" : "CancerSample",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "sampleId",
       "type" : "string",
       "doc" : "Sample Id (e.g, LP00012645_5GH))"
@@ -194,6 +241,10 @@
     "name" : "CancerDemographics",
     "doc" : "This defines a Cancer Demographics",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "gelId",
       "type" : "string",
       "doc" : "Individual Is (this is the individual id (gel ID))"
@@ -234,6 +285,10 @@
     "name" : "CancerParticipant",
     "doc" : "This defines a Cancer Participant (demographics and sample information)",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "cancerDemographics",
       "type" : "CancerDemographics",
       "doc" : "This contains all the demographic information"

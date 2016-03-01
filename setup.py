@@ -7,7 +7,7 @@ install_reqs = parse_requirements(os.path.join(os.path.dirname(__file__), "requi
 reqs = [str(ir.req) for ir in install_reqs if ir.req is not None]
 setup(
     name='GelReportModels',
-    version='1.1.3',
+    version='1.1.4',
     packages=['protocols'],
     url='',
     license='',
