@@ -2665,18 +2665,21 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
-"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
-"name": "monozygotic"}, {"doc": "", "type": {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
-"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
-"type": {"symbols": ["alive", "aborted", "deceased", "unborn",
-"stillborn", "miscarriage"], "doc": "", "type": "enum", "name":
-"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"type": {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
+"XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
+"name": "PersonKaryotipicSex"}, "name": "personKaryotipicSex"},
+{"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
+"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
+["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
+["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
+["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
+{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
+"name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
+{"doc": "", "type": {"symbols": ["alive", "aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "doc": "", "type": "enum",
+"name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
 "TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
 ["null", "string"], "name": "consanguineousPopulation"}, {"doc": "",
 "type": {"symbols": ["unaffected", "affected", "unknown"], "doc": "",
@@ -3248,18 +3251,21 @@ class Pedigree(ProtocolElement):
 {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
-"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
-"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
-"name": "monozygotic"}, {"doc": "", "type": {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
-"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
-"type": {"symbols": ["alive", "aborted", "deceased", "unborn",
-"stillborn", "miscarriage"], "doc": "", "type": "enum", "name":
-"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"type": {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
+"XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
+"name": "PersonKaryotipicSex"}, "name": "personKaryotipicSex"},
+{"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
+"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
+["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
+["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
+["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
+{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
+"name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
+{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
+"type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
+{"doc": "", "type": {"symbols": ["alive", "aborted", "deceased",
+"unborn", "stillborn", "miscarriage"], "doc": "", "type": "enum",
+"name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
 "TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
 ["null", "string"], "name": "consanguineousPopulation"}, {"doc": "",
 "type": {"symbols": ["unaffected", "affected", "unknown"], "doc": "",
@@ -3481,11 +3487,14 @@ class RDParticipant(ProtocolElement):
 "type": "string", "name": "gelFamilyId"}, {"doc": "", "type": ["null",
 "string"], "name": "gelSuperFamilyId"}, {"doc": "", "type":
 {"symbols": ["male", "female", "undetermined"], "doc": "", "type":
-"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
-"int"], "name": "fatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "motherId"}, {"doc": "", "type": ["null", "int"], "name":
-"superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
-"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type":
+{"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}, "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": {"symbols":
@@ -3587,6 +3596,7 @@ false, "doc": "", "type": "boolean", "name":
         "monozygotic",
         "motherId",
         "pedigreeId",
+        "personKaryotipicSex",
         "samples",
         "sex",
         "superFatherId",
@@ -3627,9 +3637,9 @@ false, "doc": "", "type": "boolean", "name":
         'dataModelCatalogueVersion', 'disorderList', 'fatherId',
         'gelFamilyId', 'gelId', 'gelSuperFamilyId', 'hpoTermList',
         'inbreedingCoefficient', 'isProband', 'lifeStatus',
-        'monozygotic', 'motherId', 'pedigreeId', 'samples', 'sex',
-        'superFatherId', 'superMotherId', 'twinGroup',
-        'versionControl'
+        'monozygotic', 'motherId', 'pedigreeId',
+        'personKaryotipicSex', 'samples', 'sex', 'superFatherId',
+        'superMotherId', 'twinGroup', 'versionControl'
     ]
 
     def __init__(self, **kwargs):
@@ -3673,6 +3683,8 @@ false, "doc": "", "type": "boolean", "name":
             'motherId', None)
         self.pedigreeId = kwargs.get(
             'pedigreeId', None)
+        self.personKaryotipicSex = kwargs.get(
+            'personKaryotipicSex', None)
         self.samples = kwargs.get(
             'samples', None)
         self.sex = kwargs.get(
@@ -3692,12 +3704,11 @@ class Reason(object):
     No documentation
     """
     duplicate = "duplicate"
-    consent = "consent"
     pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    verifybamid = "verifybamid"
+    arrayconcordance = "arrayconcordance"
     in_qc = "in_qc"
 
 

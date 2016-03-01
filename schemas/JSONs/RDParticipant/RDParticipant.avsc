@@ -46,6 +46,15 @@
     },
     "doc" : "Sex of the Participant"
   }, {
+    "name" : "personKaryotipicSex",
+    "type" : {
+      "type" : "enum",
+      "name" : "PersonKaryotipicSex",
+      "doc" : "Karyotipic Sex",
+      "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+    },
+    "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+  }, {
     "name" : "fatherId",
     "type" : [ "null", "int" ],
     "doc" : "refers to the pedigreeId of the father\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
