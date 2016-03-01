@@ -1339,10 +1339,9 @@ class HpoTerm(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
-{"doc": "", "type": {"symbols": ["yes", "no", "unknown"], "doc": "",
-"type": "enum", "name": "TernaryOption"}, "name": "termPresence"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "modifiers"}, {"doc": "", "type": ["null", "int"], "name":
+{"doc": "", "type": "boolean", "name": "termPresence"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"modifiers"}, {"doc": "", "type": ["null", "int"], "name":
 "ageOfOnset"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -2701,7 +2700,7 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"doc":
 "", "type": {"items": {"doc": "", "type": "record", "name": "HpoTerm",
 "fields": [{"doc": "", "type": "string", "name": "term"}, {"doc": "",
-"type": "TernaryOption", "name": "termPresence"}, {"doc": "", "type":
+"type": "boolean", "name": "termPresence"}, {"doc": "", "type":
 ["null", {"values": "string", "type": "map"}], "name": "modifiers"},
 {"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
 "array"}, "name": "hpoTermList"}, {"doc": "", "type": {"fields":
@@ -3289,16 +3288,16 @@ class Pedigree(ProtocolElement):
 {"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
 "array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
 {"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type":
-"TernaryOption", "name": "termPresence"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "modifiers"}, {"doc":
-"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": {"fields":
-[{"doc": "", "type": ["null", {"symbols": ["D", "E", "F", "G", "A",
-"B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"], "doc":
-"", "type": "enum", "name": "EthnicCategory"}], "name":
-"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
-"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
+"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
+["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
+["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
+"N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
+"name": "EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc":
+"", "type": ["null", "string"], "name":
+"mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
 "EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
 ["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
 "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
@@ -3523,16 +3522,16 @@ class RDParticipant(ProtocolElement):
 {"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
 "array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
 {"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type":
-"TernaryOption", "name": "termPresence"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "modifiers"}, {"doc":
-"", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": {"fields":
-[{"doc": "", "type": ["null", {"symbols": ["D", "E", "F", "G", "A",
-"B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"], "doc":
-"", "type": "enum", "name": "EthnicCategory"}], "name":
-"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
-"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
+"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
+["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
+["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
+"N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
+"name": "EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc":
+"", "type": ["null", "string"], "name":
+"mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
 "EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
 ["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
 "", "type": ["null", {"items": {"doc": "", "type": "record", "name":

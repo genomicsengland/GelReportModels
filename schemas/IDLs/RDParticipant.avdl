@@ -55,7 +55,7 @@ record HpoTerm {
     This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
     false=term is not present
     */
-    TernaryOption termPresence;
+    boolean termPresence;
 
     /**
     Modifier associated with the HPO term
