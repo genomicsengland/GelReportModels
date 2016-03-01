@@ -1,0 +1,25 @@
+{
+  "type" : "record",
+  "name" : "GenomicFeature",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "featureType",
+    "type" : {
+      "type" : "enum",
+      "name" : "FeatureTypes",
+      "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+    },
+    "doc" : "Feature Type"
+  }, {
+    "name" : "ensemblId",
+    "type" : "string",
+    "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
+  }, {
+    "name" : "ids",
+    "type" : {
+      "type" : "map",
+      "values" : "string"
+    },
+    "doc" : "Others IDs"
+  } ]
+}
