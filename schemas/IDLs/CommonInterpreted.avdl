@@ -314,5 +314,5 @@ record ReportedStructuralVariant {
 
 //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
-
+//TODO: Add record to report complex genetics phenomena in reports
 }

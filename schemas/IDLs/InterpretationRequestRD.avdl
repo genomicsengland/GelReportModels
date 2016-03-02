@@ -45,6 +45,7 @@ enum ModeOfInheritance {
     unknown
 }
 
+//TODO: Convert this in a record to stored chr, parent....
 enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
 
