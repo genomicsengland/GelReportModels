@@ -4,8 +4,21 @@
   "doc" : "This protocol defines the Participants and Pedigree",
   "types" : [ {
     "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "1.2.0"
+    } ]
+  }, {
+    "type" : "record",
     "name" : "SensitiveInformation",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "gelID",
       "type" : "string"
     }, {

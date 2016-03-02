@@ -1,0 +1,15 @@
+{
+  "type" : "record",
+  "name" : "sampleTests",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "verifybamid",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "arrayconcordance",
+    "type" : [ "null", "boolean" ]
+  }, {
+    "name" : "contamination",
+    "type" : [ "null", "boolean" ]
+  } ]
+}

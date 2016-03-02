@@ -1,0 +1,57 @@
+{
+  "protocol" : "GelVcfStats",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the gel metrics we calculate and store for vcf",
+  "types" : [ {
+    "type" : "record",
+    "name" : "VcfTSTV",
+    "fields" : [ {
+      "name" : "TS_1",
+      "type" : "double"
+    }, {
+      "name" : "TV",
+      "type" : "double"
+    }, {
+      "name" : "TS",
+      "type" : "double"
+    }, {
+      "name" : "TS_TV",
+      "type" : "double"
+    }, {
+      "name" : "TV_1",
+      "type" : "double"
+    }, {
+      "name" : "TS_TV_1",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VcfMetrics",
+    "fields" : [ {
+      "name" : "NUMBER_OF_SAMPLES",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_INDELS",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_MNPS",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_MULTIALLELIC_SNP_SITES",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_SNPS",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_RECORDS",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_OTHERS",
+      "type" : "double"
+    }, {
+      "name" : "NUMBER_OF_MULTIALLELIC_SITES",
+      "type" : "double"
+    } ]
+  } ],
+  "messages" : { }
+}

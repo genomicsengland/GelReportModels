@@ -1,0 +1,106 @@
+{
+  "type" : "record",
+  "name" : "SamtoolsStats",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "samtoolsScope",
+    "type" : {
+      "type" : "enum",
+      "name" : "SamtoolsScope",
+      "symbols" : [ "all", "filtered" ]
+    }
+  }, {
+    "name" : "SAMTOOLS_1ST_FRAGMENTS",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_AVERAGE_LENGTH",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_AVERAGE_QUALITY",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_BASES_DUPLICATED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_BASES_MAPPED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_BASES_MAPPED_CIGAR",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_BASES_TRIMMED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_ERROR_RATE",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_FILTERED_SEQUENCES",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_INSERT_SIZE_AVERAGE",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_INWARD_ORIENTED_PAIRS",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_IS_SORTED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_LAST_FRAGMENTS",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_MAXIMUM_LENGTH",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_MISMATCHES",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_NON_PRIMARY_ALIGNMENTS",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_OUTWARD_ORIENTED_PAIRS",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_RAW_TOTAL_SEQUENCES",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_DUPLICATED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_MAPPED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_MAPPED_AND_PAIRED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_MQ0",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_PAIRED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_PROPERLY_PAIRED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_QC_FAILED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_READS_UNMAPPED",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_SEQUENCES",
+    "type" : "double"
+  }, {
+    "name" : "SAMTOOLS_TOTAL_LENGTH",
+    "type" : "double"
+  } ]
+}

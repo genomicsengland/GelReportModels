@@ -1,0 +1,30 @@
+{
+  "type" : "record",
+  "name" : "GelMetrics",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "BaseDir",
+    "type" : "string"
+  }, {
+    "name" : "GbQ30NoDupsNoClip",
+    "type" : "double"
+  }, {
+    "name" : "perc_bases_ge_15x_mapQ_ge11",
+    "type" : "float"
+  }, {
+    "name" : "InputDir",
+    "type" : "string"
+  }, {
+    "name" : "DirectoryType",
+    "type" : "string"
+  }, {
+    "name" : "nBases_samtools",
+    "type" : "double"
+  }, {
+    "name" : "FileRelativePath",
+    "type" : "string"
+  }, {
+    "name" : "md5checksum",
+    "type" : "string"
+  } ]
+}
