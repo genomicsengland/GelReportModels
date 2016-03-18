@@ -247,57 +247,6 @@
                     "type" : [ "null", "string" ],
                     "doc" : "This is Level4 Title for this disorder"
                   }, {
-                    "name" : "panels",
-                    "type" : [ "null", {
-                      "type" : "array",
-                      "items" : {
-                        "type" : "record",
-                        "name" : "VirtualPanel",
-                        "doc" : "This record defines a gene panel.",
-                        "fields" : [ {
-                          "name" : "panelName",
-                          "type" : "string",
-                          "doc" : "Name of the Panel"
-                        }, {
-                          "name" : "panelVersion",
-                          "type" : "string",
-                          "doc" : "Version of the Gene Panel"
-                        }, {
-                          "name" : "ensemblVersion",
-                          "type" : [ "null", "string" ],
-                          "doc" : "Ensembl version used to get teh genes or transcripts"
-                        }, {
-                          "name" : "dataModelCatalogueVersion",
-                          "type" : "string",
-                          "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-                          "default" : "4.2"
-                        }, {
-                          "name" : "geneIds",
-                          "type" : {
-                            "type" : "array",
-                            "items" : "string"
-                          },
-                          "doc" : "gene id from ensembl (version as per annotation file)"
-                        }, {
-                          "name" : "Transcripts",
-                          "type" : [ "null", {
-                            "type" : "array",
-                            "items" : "string"
-                          } ],
-                          "doc" : "transcript ids from ensembl"
-                        }, {
-                          "name" : "relevantRegions",
-                          "type" : [ "null", "File" ],
-                          "doc" : "BED format file"
-                        }, {
-                          "name" : "clinicalRelevantVariants",
-                          "type" : [ "null", "File" ],
-                          "doc" : "VCF File"
-                        } ]
-                      }
-                    } ],
-                    "doc" : "These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used"
-                  }, {
                     "name" : "ageOfOnset",
                     "type" : [ "null", "int" ],
                     "doc" : "Age of onset in months"
@@ -507,7 +456,51 @@
     "name" : "virtualPanel",
     "type" : [ "null", {
       "type" : "array",
-      "items" : "VirtualPanel"
+      "items" : {
+        "type" : "record",
+        "name" : "VirtualPanel",
+        "doc" : "This record defines a gene panel.",
+        "fields" : [ {
+          "name" : "panelName",
+          "type" : "string",
+          "doc" : "Name of the Panel"
+        }, {
+          "name" : "panelVersion",
+          "type" : "string",
+          "doc" : "Version of the Gene Panel"
+        }, {
+          "name" : "ensemblVersion",
+          "type" : [ "null", "string" ],
+          "doc" : "Ensembl version used to get teh genes or transcripts"
+        }, {
+          "name" : "dataModelCatalogueVersion",
+          "type" : "string",
+          "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
+          "default" : "4.2"
+        }, {
+          "name" : "geneIds",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "doc" : "gene id from ensembl (version as per annotation file)"
+        }, {
+          "name" : "Transcripts",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : "string"
+          } ],
+          "doc" : "transcript ids from ensembl"
+        }, {
+          "name" : "relevantRegions",
+          "type" : [ "null", "File" ],
+          "doc" : "BED format file"
+        }, {
+          "name" : "clinicalRelevantVariants",
+          "type" : [ "null", "File" ],
+          "doc" : "VCF File"
+        } ]
+      }
     } ],
     "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
   }, {

@@ -993,31 +993,14 @@ class Disorder(ProtocolElement):
 "Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
 "diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
-"specificDisease"}, {"doc": "", "type": ["null", {"items": {"doc": "",
-"type": "record", "name": "VirtualPanel", "fields": [{"doc": "",
-"type": "string", "name": "panelName"}, {"doc": "", "type": "string",
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
-"name": "ensemblVersion"}, {"default": "4.2", "doc": "", "type":
-"string", "name": "dataModelCatalogueVersion"}, {"doc": "", "type":
-{"items": "string", "type": "array"}, "name": "geneIds"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"Transcripts"}, {"doc": "", "type": ["null", {"fields": [{"doc": "",
-"type": ["null", "string", {"items": "string", "type": "array"}],
-"name": "SampleId"}, {"doc": "", "type": "string", "name": "URIFile"},
-{"type": {"symbols": ["BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV",
-"VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig"], "doc": "", "type":
-"enum", "name": "FileType"}, "name": "fileType"}], "type": "record",
-"name": "File"}], "name": "relevantRegions"}, {"doc": "", "type":
-["null", "File"], "name": "clinicalRelevantVariants"}]}, "type":
-"array"}], "name": "panels"}, {"doc": "", "type": ["null", "int"],
-"name": "ageOfOnset"}], "doc": ""}
+"specificDisease"}, {"doc": "", "type": ["null", "int"], "name":
+"ageOfOnset"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "ageOfOnset",
         "diseaseGroup",
         "diseaseSubGroup",
-        "panels",
         "specificDisease",
     }
 
@@ -1033,7 +1016,7 @@ class Disorder(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ageOfOnset', 'diseaseGroup', 'diseaseSubGroup', 'panels',
+        'ageOfOnset', 'diseaseGroup', 'diseaseSubGroup',
         'specificDisease'
     ]
 
@@ -1044,8 +1027,6 @@ class Disorder(ProtocolElement):
             'diseaseGroup', None)
         self.diseaseSubGroup = kwargs.get(
             'diseaseSubGroup', None)
-        self.panels = kwargs.get(
-            'panels', None)
         self.specificDisease = kwargs.get(
             'specificDisease', None)
 
@@ -2689,29 +2670,19 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "VirtualPanel",
-"fields": [{"doc": "", "type": "string", "name": "panelName"}, {"doc":
-"", "type": "string", "name": "panelVersion"}, {"doc": "", "type":
-["null", "string"], "name": "ensemblVersion"}, {"default": "4.2",
-"doc": "", "type": "string", "name": "dataModelCatalogueVersion"},
-{"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "Transcripts"}, {"doc": "", "type": ["null",
-"File"], "name": "relevantRegions"}, {"doc": "", "type": ["null",
-"File"], "name": "clinicalRelevantVariants"}]}, "type": "array"}],
-"name": "panels"}, {"doc": "", "type": ["null", "int"], "name":
-"ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"doc":
-"", "type": {"items": {"doc": "", "type": "record", "name": "HpoTerm",
-"fields": [{"doc": "", "type": "string", "name": "term"}, {"doc": "",
-"type": "boolean", "name": "termPresence"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name": "modifiers"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": {"fields":
-[{"doc": "", "type": ["null", {"symbols": ["D", "E", "F", "G", "A",
-"B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"], "doc":
-"", "type": "enum", "name": "EthnicCategory"}], "name":
-"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
-"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
+"name": "term"}, {"doc": "", "type": "boolean", "name":
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
+["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
+"N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
+"name": "EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc":
+"", "type": ["null", "string"], "name":
+"mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
 "EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
 ["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
 "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
@@ -2756,10 +2727,19 @@ false, "doc": "", "type": "boolean", "name":
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
 "unknown"], "doc": "", "type": "enum", "name": "ModeOfInheritance"},
 "name": "modeOfInheritance"}, {"doc": "", "type": ["null", {"items":
-"VirtualPanel", "type": "array"}], "name": "virtualPanel"}, {"doc":
-"", "type": ["null", {"doc": "", "type": "record", "name":
-"OtherFamilyHistory", "fields": [{"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name":
+{"doc": "", "type": "record", "name": "VirtualPanel", "fields":
+[{"doc": "", "type": "string", "name": "panelName"}, {"doc": "",
+"type": "string", "name": "panelVersion"}, {"doc": "", "type":
+["null", "string"], "name": "ensemblVersion"}, {"default": "4.2",
+"doc": "", "type": "string", "name": "dataModelCatalogueVersion"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name":
+"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
+"array"}], "name": "Transcripts"}, {"doc": "", "type": ["null",
+"File"], "name": "relevantRegions"}, {"doc": "", "type": ["null",
+"File"], "name": "clinicalRelevantVariants"}]}, "type": "array"}],
+"name": "virtualPanel"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "OtherFamilyHistory", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
 "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
 "string", "type": "array"}], "name": "paternalFamilyHistory"}]}],
 "name": "otherFamilyHistory"}, {"doc": "", "type": "string", "name":
@@ -3275,29 +3255,13 @@ class Pedigree(ProtocolElement):
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "VirtualPanel",
-"fields": [{"doc": "", "type": "string", "name": "panelName"}, {"doc":
-"", "type": "string", "name": "panelVersion"}, {"doc": "", "type":
-["null", "string"], "name": "ensemblVersion"}, {"default": "4.2",
-"doc": "", "type": "string", "name": "dataModelCatalogueVersion"},
-{"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "Transcripts"}, {"doc": "", "type": ["null",
-{"fields": [{"doc": "", "type": ["null", "string", {"items": "string",
-"type": "array"}], "name": "SampleId"}, {"doc": "", "type": "string",
-"name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small",
-"VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig"],
-"doc": "", "type": "enum", "name": "FileType"}, "name": "fileType"}],
-"type": "record", "name": "File"}], "name": "relevantRegions"},
-{"doc": "", "type": ["null", "File"], "name":
-"clinicalRelevantVariants"}]}, "type": "array"}], "name": "panels"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
-"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
+"name": "term"}, {"doc": "", "type": "boolean", "name":
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 ["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
 "N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
@@ -3512,29 +3476,13 @@ class RDParticipant(ProtocolElement):
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
 "string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "VirtualPanel",
-"fields": [{"doc": "", "type": "string", "name": "panelName"}, {"doc":
-"", "type": "string", "name": "panelVersion"}, {"doc": "", "type":
-["null", "string"], "name": "ensemblVersion"}, {"default": "4.2",
-"doc": "", "type": "string", "name": "dataModelCatalogueVersion"},
-{"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"geneIds"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "Transcripts"}, {"doc": "", "type": ["null",
-{"fields": [{"doc": "", "type": ["null", "string", {"items": "string",
-"type": "array"}], "name": "SampleId"}, {"doc": "", "type": "string",
-"name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small",
-"VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig"],
-"doc": "", "type": "enum", "name": "FileType"}, "name": "fileType"}],
-"type": "record", "name": "File"}], "name": "relevantRegions"},
-{"doc": "", "type": ["null", "File"], "name":
-"clinicalRelevantVariants"}]}, "type": "array"}], "name": "panels"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
-"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
+"name": "term"}, {"doc": "", "type": "boolean", "name":
+"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 ["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
 "N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
@@ -3704,11 +3652,12 @@ class Reason(object):
     No documentation
     """
     duplicate = "duplicate"
+    consent = "consent"
     pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    verifybamid = "verifybamid"
-    arrayconcordance = "arrayconcordance"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
 
 

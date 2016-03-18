@@ -242,13 +242,6 @@
       "type" : [ "null", "string" ],
       "doc" : "This is Level4 Title for this disorder"
     }, {
-      "name" : "panels",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "VirtualPanel"
-      } ],
-      "doc" : "These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used"
-    }, {
       "name" : "ageOfOnset",
       "type" : [ "null", "int" ],
       "doc" : "Age of onset in months"
