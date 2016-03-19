@@ -885,6 +885,68 @@
     } ]
   }, {
     "type" : "record",
+    "name" : "WholeGenomeCoverage",
+    "fields" : [ {
+      "name" : "wellId",
+      "type" : "string"
+    }, {
+      "name" : "n",
+      "type" : "double"
+    }, {
+      "name" : "mean",
+      "type" : "float"
+    }, {
+      "name" : "sd",
+      "type" : "float"
+    }, {
+      "name" : "lower",
+      "type" : "float"
+    }, {
+      "name" : "upper",
+      "type" : "float"
+    }, {
+      "name" : "pct25",
+      "type" : "float"
+    }, {
+      "name" : "median",
+      "type" : "float"
+    }, {
+      "name" : "pct75",
+      "type" : "float"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ExonCoverage",
+    "fields" : [ {
+      "name" : "wellId",
+      "type" : "string"
+    }, {
+      "name" : "n",
+      "type" : "double"
+    }, {
+      "name" : "mean",
+      "type" : "float"
+    }, {
+      "name" : "sd",
+      "type" : "float"
+    }, {
+      "name" : "lower",
+      "type" : "float"
+    }, {
+      "name" : "upper",
+      "type" : "float"
+    }, {
+      "name" : "pct25",
+      "type" : "float"
+    }, {
+      "name" : "median",
+      "type" : "float"
+    }, {
+      "name" : "pct75",
+      "type" : "float"
+    } ]
+  }, {
+    "type" : "record",
     "name" : "BamHeaderOther",
     "fields" : [ {
       "name" : "PIPELINE_ID",

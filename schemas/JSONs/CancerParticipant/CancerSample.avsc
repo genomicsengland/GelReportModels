@@ -69,7 +69,7 @@
   }, {
     "name" : "grade",
     "type" : [ "null", "string" ],
-    "doc" : "Grade of tumour - a lot of recirds gave this"
+    "doc" : "Grade of tumour - a lot of records gave this"
   }, {
     "name" : "tnm_stage_version",
     "type" : [ "null", "string" ],

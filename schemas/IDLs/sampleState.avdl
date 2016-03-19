@@ -6,10 +6,18 @@ protocol SampleState {
 
 /**
 This is the master state for this sample, for example caution,quality could be used to say that a sample under this
-individual has quality issues.  See sample level for full details
+individual has quality issues.
+
+ready: sample is ready to be used
+pending: sample is in the process of being analysed
+hold: sample is on hold pending investigation
+fail: sample has failed a QC check
+caution: sample is ready but should be used with caution
+
+
 */
-enum State {ready,pending,hold,fail,caution,blocked}
-enum Reason {duplicate,pedigree,contamination,quality,verifybamid,arrayconcordance,in_qc}
+enum State {ready,pending,hold,fail,caution}
+enum Reason {duplicate,pedigree,contamination,quality,verifybamid,arrayconcordance,in_qc,pass,other}
 
 record sampleState {
 

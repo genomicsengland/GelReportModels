@@ -14,6 +14,83 @@ import avro.schema
 version = '0.2.0'
 
 
+class ActionType(object):
+    """
+    this is the type of action
+    """
+    drug = "drug"
+    stratification = "stratification"
+    biomarker = "biomarker"
+
+
+class Actions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"Actions", "fields": [{"type": {"symbols": ["drug", "stratification",
+"biomarker"], "doc": "", "type": "enum", "name": "ActionType"},
+"name": "actionType"}, {"doc": "", "type": ["null", "string"], "name":
+"association"}, {"doc": "", "type": ["null", "string"], "name":
+"pathway"}, {"doc": "", "type": ["null", {"items": "string", "type":
+"array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "evidenceType"}, {"doc": "", "type": "string",
+"name": "source"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "actionType",
+        "association",
+        "comments",
+        "drug",
+        "evidence",
+        "evidenceType",
+        "pathway",
+        "source",
+        "status",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'actionType', 'association', 'comments', 'drug', 'evidence',
+        'evidenceType', 'pathway', 'source', 'status'
+    ]
+
+    def __init__(self, **kwargs):
+        self.actionType = kwargs.get(
+            'actionType', None)
+        self.association = kwargs.get(
+            'association', None)
+        self.comments = kwargs.get(
+            'comments', None)
+        self.drug = kwargs.get(
+            'drug', None)
+        self.evidence = kwargs.get(
+            'evidence', None)
+        self.evidenceType = kwargs.get(
+            'evidenceType', None)
+        self.pathway = kwargs.get(
+            'pathway', None)
+        self.source = kwargs.get(
+            'source', 'None')
+        self.status = kwargs.get(
+            'status', None)
+
+
 class AdoptedStatus(object):
     """
     adoptedin means adopted into the family adoptedout means child
@@ -134,6 +211,13 @@ class ArrayConcordance(ProtocolElement):
             'numberOfDiscordantSites', 'None')
         self.numberOfSites = kwargs.get(
             'numberOfSites', 'None')
+
+
+class Association(object):
+    """
+    No documentation
+    """
+    response = "response"
 
 
 class BamHeaderMachine(ProtocolElement):
@@ -1016,6 +1100,69 @@ class EthnicCategory(object):
     Z = "Z"
 
 
+class ExonCoverage(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ExonCoverage", "fields": [{"type": "string", "name": "wellId"},
+{"type": "double", "name": "n"}, {"type": "float", "name": "mean"},
+{"type": "float", "name": "sd"}, {"type": "float", "name": "lower"},
+{"type": "float", "name": "upper"}, {"type": "float", "name":
+"pct25"}, {"type": "float", "name": "median"}, {"type": "float",
+"name": "pct75"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "lower",
+        "mean",
+        "median",
+        "n",
+        "pct25",
+        "pct75",
+        "sd",
+        "upper",
+        "wellId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'lower', 'mean', 'median', 'n', 'pct25', 'pct75', 'sd',
+        'upper', 'wellId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.lower = kwargs.get(
+            'lower', None)
+        self.mean = kwargs.get(
+            'mean', None)
+        self.median = kwargs.get(
+            'median', None)
+        self.n = kwargs.get(
+            'n', None)
+        self.pct25 = kwargs.get(
+            'pct25', None)
+        self.pct75 = kwargs.get(
+            'pct75', None)
+        self.sd = kwargs.get(
+            'sd', None)
+        self.upper = kwargs.get(
+            'upper', None)
+        self.wellId = kwargs.get(
+            'wellId', 'None')
+
+
 class FeatureTypes(object):
     """
     No documentation
@@ -1190,7 +1337,7 @@ class GenomicFeatureCancer(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": "string", "name":
-"genName"}, {"doc": "", "type": ["null", "string"], "name":
+"geneName"}, {"doc": "", "type": ["null", "string"], "name":
 "proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
 {"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
 "string", "name": "soName"}, {"doc": "", "type": {"values": "string",
@@ -1200,7 +1347,7 @@ class GenomicFeatureCancer(ProtocolElement):
     requiredFields = {
         "ensemblId",
         "featureType",
-        "genName",
+        "geneName",
         "ids",
         "mutation",
         "proteinDomain",
@@ -1220,7 +1367,7 @@ class GenomicFeatureCancer(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ensemblId', 'featureType', 'genName', 'ids', 'mutation',
+        'ensemblId', 'featureType', 'geneName', 'ids', 'mutation',
         'proteinDomain', 'soName', 'soTerm'
     ]
 
@@ -1229,8 +1376,8 @@ class GenomicFeatureCancer(ProtocolElement):
             'ensemblId', 'None')
         self.featureType = kwargs.get(
             'featureType', None)
-        self.genName = kwargs.get(
-            'genName', 'None')
+        self.geneName = kwargs.get(
+            'geneName', 'None')
         self.ids = kwargs.get(
             'ids', None)
         self.mutation = kwargs.get(
@@ -3544,20 +3691,33 @@ class ReportEventCancer(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": "string", "name":
-"genName"}, {"doc": "", "type": ["null", "string"], "name":
+"geneName"}, {"doc": "", "type": ["null", "string"], "name":
 "proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
 {"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
 "string", "name": "soName"}, {"doc": "", "type": {"values": "string",
 "type": "map"}, "name": "ids"}], "type": "record", "name":
 "GenomicFeatureCancer"}, "name": "genomicFeature"}, {"doc": "",
-"type": ["null", {"symbols": ["A", "B", "C"], "doc": "", "type":
-"enum", "name": "VariantClass"}], "name": "variantClass"}, {"doc": "",
-"type": "string", "name": "eventJustification"}, {"doc": "", "type":
-["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "",
-"type": "enum", "name": "Tier"}], "name": "tier"}]}
+"type": {"items": {"fields": [{"type": {"symbols": ["drug",
+"stratification", "biomarker"], "doc": "", "type": "enum", "name":
+"ActionType"}, "name": "actionType"}, {"doc": "", "type": ["null",
+"string"], "name": "association"}, {"doc": "", "type": ["null",
+"string"], "name": "pathway"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "evidence"}, {"doc": "", "type":
+["null", "string"], "name": "drug"}, {"doc": "", "type": ["null",
+"string"], "name": "status"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "comments"}, {"doc": "", "type":
+["null", "string"], "name": "evidenceType"}, {"doc": "", "type":
+"string", "name": "source"}], "type": "record", "name": "Actions"},
+"type": "array"}, "name": "actions"}, {"doc": "", "type": ["null",
+{"symbols": ["A", "B", "C"], "doc": "", "type": "enum", "name":
+"VariantClass"}], "name": "variantClass"}, {"doc": "", "type":
+"string", "name": "eventJustification"}, {"doc": "", "type": ["null",
+{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
+"enum", "name": "Tier"}], "name": "tier"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "actions",
         "eventJustification",
         "genomicFeature",
         "phenotype",
@@ -3569,6 +3729,7 @@ class ReportEventCancer(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'actions': Actions,
             'genomicFeature': GenomicFeatureCancer,
         }
         return fieldName in embeddedTypes
@@ -3576,17 +3737,20 @@ class ReportEventCancer(ProtocolElement):
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'actions': Actions,
             'genomicFeature': GenomicFeatureCancer,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'eventJustification', 'genomicFeature', 'phenotype',
-        'reportEventId', 'tier', 'variantClass'
+        'actions', 'eventJustification', 'genomicFeature',
+        'phenotype', 'reportEventId', 'tier', 'variantClass'
     ]
 
     def __init__(self, **kwargs):
+        self.actions = kwargs.get(
+            'actions', None)
         self.eventJustification = kwargs.get(
             'eventJustification', 'None')
         self.genomicFeature = kwargs.get(
@@ -3961,22 +4125,34 @@ class ReportedStructuralVariantCancer(ProtocolElement):
 [{"doc": "", "type": {"symbols": ["RegulatoryRegion", "Gene",
 "Transcript"], "type": "enum", "name": "FeatureTypes"}, "name":
 "featureType"}, {"doc": "", "type": "string", "name": "ensemblId"},
-{"doc": "", "type": "string", "name": "genName"}, {"doc": "", "type":
+{"doc": "", "type": "string", "name": "geneName"}, {"doc": "", "type":
 ["null", "string"], "name": "proteinDomain"}, {"doc": "", "type":
 "string", "name": "mutation"}, {"doc": "", "type": "string", "name":
 "soTerm"}, {"doc": "", "type": "string", "name": "soName"}, {"doc":
 "", "type": {"values": "string", "type": "map"}, "name": "ids"}],
 "type": "record", "name": "GenomicFeatureCancer"}, "name":
-"genomicFeature"}, {"doc": "", "type": ["null", {"symbols": ["A", "B",
-"C"], "doc": "", "type": "enum", "name": "VariantClass"}], "name":
-"variantClass"}, {"doc": "", "type": "string", "name":
-"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
-["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
-"name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
-["null", {"values": "float", "type": "map"}], "name":
+"genomicFeature"}, {"doc": "", "type": {"items": {"fields": [{"type":
+{"symbols": ["drug", "stratification", "biomarker"], "doc": "",
+"type": "enum", "name": "ActionType"}, "name": "actionType"}, {"doc":
+"", "type": ["null", "string"], "name": "association"}, {"doc": "",
+"type": ["null", "string"], "name": "pathway"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "evidence"},
+{"doc": "", "type": ["null", "string"], "name": "drug"}, {"doc": "",
+"type": ["null", "string"], "name": "status"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
+{"doc": "", "type": "string", "name": "source"}], "type": "record",
+"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
+"type": ["null", {"symbols": ["A", "B", "C"], "doc": "", "type":
+"enum", "name": "VariantClass"}], "name": "variantClass"}, {"doc": "",
+"type": "string", "name": "eventJustification"}, {"doc": "", "type":
+["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "",
+"type": "enum", "name": "Tier"}], "name": "tier"}], "type": "record",
+"name": "ReportEventCancer"}, "type": "array"}, "name":
+"reportEventsCancer"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}
 """
@@ -3990,7 +4166,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
         "comments",
         "end",
         "reference",
-        "reportEvents",
+        "reportEventsCancer",
         "start",
         "type",
     }
@@ -3999,7 +4175,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'calledGenotypes': CalledGenotypeCancer,
-            'reportEvents': ReportEventCancer,
+            'reportEventsCancer': ReportEventCancer,
         }
         return fieldName in embeddedTypes
 
@@ -4007,7 +4183,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'calledGenotypes': CalledGenotypeCancer,
-            'reportEvents': ReportEventCancer,
+            'reportEventsCancer': ReportEventCancer,
         }
 
         return embeddedTypes[fieldName]
@@ -4016,7 +4192,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'calledGenotypes', 'chromosome', 'comments', 'end',
-        'reference', 'reportEvents', 'start', 'type'
+        'reference', 'reportEventsCancer', 'start', 'type'
     ]
 
     def __init__(self, **kwargs):
@@ -4036,8 +4212,8 @@ class ReportedStructuralVariantCancer(ProtocolElement):
             'end', None)
         self.reference = kwargs.get(
             'reference', 'None')
-        self.reportEvents = kwargs.get(
-            'reportEvents', None)
+        self.reportEventsCancer = kwargs.get(
+            'reportEventsCancer', None)
         self.start = kwargs.get(
             'start', None)
         self.type = kwargs.get(
@@ -4183,23 +4359,35 @@ class ReportedVariantCancer(ProtocolElement):
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
 "type": "string", "name": "ensemblId"}, {"doc": "", "type": "string",
-"name": "genName"}, {"doc": "", "type": ["null", "string"], "name":
+"name": "geneName"}, {"doc": "", "type": ["null", "string"], "name":
 "proteinDomain"}, {"doc": "", "type": "string", "name": "mutation"},
 {"doc": "", "type": "string", "name": "soTerm"}, {"doc": "", "type":
 "string", "name": "soName"}, {"doc": "", "type": {"values": "string",
 "type": "map"}, "name": "ids"}], "type": "record", "name":
 "GenomicFeatureCancer"}, "name": "genomicFeature"}, {"doc": "",
-"type": ["null", {"symbols": ["A", "B", "C"], "doc": "", "type":
-"enum", "name": "VariantClass"}], "name": "variantClass"}, {"doc": "",
-"type": "string", "name": "eventJustification"}, {"doc": "", "type":
-["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "",
-"type": "enum", "name": "Tier"}], "name": "tier"}], "type": "record",
-"name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}]}
+"type": {"items": {"fields": [{"type": {"symbols": ["drug",
+"stratification", "biomarker"], "doc": "", "type": "enum", "name":
+"ActionType"}, "name": "actionType"}, {"doc": "", "type": ["null",
+"string"], "name": "association"}, {"doc": "", "type": ["null",
+"string"], "name": "pathway"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "evidence"}, {"doc": "", "type":
+["null", "string"], "name": "drug"}, {"doc": "", "type": ["null",
+"string"], "name": "status"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "comments"}, {"doc": "", "type":
+["null", "string"], "name": "evidenceType"}, {"doc": "", "type":
+"string", "name": "source"}], "type": "record", "name": "Actions"},
+"type": "array"}, "name": "actions"}, {"doc": "", "type": ["null",
+{"symbols": ["A", "B", "C"], "doc": "", "type": "enum", "name":
+"VariantClass"}], "name": "variantClass"}, {"doc": "", "type":
+"string", "name": "eventJustification"}, {"doc": "", "type": ["null",
+{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
+"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEventsCancer"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
+["null", {"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4212,14 +4400,14 @@ class ReportedVariantCancer(ProtocolElement):
         "dbSNPid",
         "position",
         "reference",
-        "reportEvents",
+        "reportEventsCancer",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'calledGenotypes': CalledGenotypeCancer,
-            'reportEvents': ReportEventCancer,
+            'reportEventsCancer': ReportEventCancer,
         }
         return fieldName in embeddedTypes
 
@@ -4227,7 +4415,7 @@ class ReportedVariantCancer(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'calledGenotypes': CalledGenotypeCancer,
-            'reportEvents': ReportEventCancer,
+            'reportEventsCancer': ReportEventCancer,
         }
 
         return embeddedTypes[fieldName]
@@ -4236,7 +4424,7 @@ class ReportedVariantCancer(ProtocolElement):
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'calledGenotypes', 'chromosome', 'comments', 'dbSNPid',
-        'position', 'reference', 'reportEvents'
+        'position', 'reference', 'reportEventsCancer'
     ]
 
     def __init__(self, **kwargs):
@@ -4258,8 +4446,8 @@ class ReportedVariantCancer(ProtocolElement):
             'position', None)
         self.reference = kwargs.get(
             'reference', 'None')
-        self.reportEvents = kwargs.get(
-            'reportEvents', None)
+        self.reportEventsCancer = kwargs.get(
+            'reportEventsCancer', None)
 
 
 class SampleType(object):
@@ -4920,6 +5108,69 @@ class VirtualPanel(ProtocolElement):
             'relevantRegions', None)
         self.specificDiseaseTitle = kwargs.get(
             'specificDiseaseTitle', 'None')
+
+
+class WholeGenomeCoverage(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"WholeGenomeCoverage", "fields": [{"type": "string", "name":
+"wellId"}, {"type": "double", "name": "n"}, {"type": "float", "name":
+"mean"}, {"type": "float", "name": "sd"}, {"type": "float", "name":
+"lower"}, {"type": "float", "name": "upper"}, {"type": "float",
+"name": "pct25"}, {"type": "float", "name": "median"}, {"type":
+"float", "name": "pct75"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "lower",
+        "mean",
+        "median",
+        "n",
+        "pct25",
+        "pct75",
+        "sd",
+        "upper",
+        "wellId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'lower', 'mean', 'median', 'n', 'pct25', 'pct75', 'sd',
+        'upper', 'wellId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.lower = kwargs.get(
+            'lower', None)
+        self.mean = kwargs.get(
+            'mean', None)
+        self.median = kwargs.get(
+            'median', None)
+        self.n = kwargs.get(
+            'n', None)
+        self.pct25 = kwargs.get(
+            'pct25', None)
+        self.pct75 = kwargs.get(
+            'pct75', None)
+        self.sd = kwargs.get(
+            'sd', None)
+        self.upper = kwargs.get(
+            'upper', None)
+        self.wellId = kwargs.get(
+            'wellId', 'None')
 
 
 class individualState(ProtocolElement):

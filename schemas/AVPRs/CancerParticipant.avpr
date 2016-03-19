@@ -166,7 +166,7 @@
     }, {
       "name" : "grade",
       "type" : [ "null", "string" ],
-      "doc" : "Grade of tumour - a lot of recirds gave this"
+      "doc" : "Grade of tumour - a lot of records gave this"
     }, {
       "name" : "tnm_stage_version",
       "type" : [ "null", "string" ],
@@ -196,7 +196,7 @@
     "fields" : [ {
       "name" : "gelId",
       "type" : "string",
-      "doc" : "Individual Is (this is the individual id (gel ID))"
+      "doc" : "Individual Id (this is the individual id (gel ID))"
     }, {
       "name" : "primaryDiagnosis",
       "type" : "string",

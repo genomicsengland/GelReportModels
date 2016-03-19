@@ -345,6 +345,34 @@ record TumorChecks {
 
 }
 
+record WholeGenomeCoverage {
+
+    string wellId;
+    double n;
+    float mean;
+    float sd;
+    float lower;
+    float upper;
+    float pct25;
+    float median;
+    float pct75;
+
+}
+
+record ExonCoverage {
+
+    string wellId;
+    double n;
+    float mean;
+    float sd;
+    float lower;
+    float upper;
+    float pct25;
+    float median;
+    float pct75;
+
+}
+
 record BamHeaderOther {
 
     string PIPELINE_ID;

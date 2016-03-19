@@ -41,7 +41,7 @@ record CalledGenotypeCancer {
     union {null, int} depthAlternate;
 
     /**
-    Copy number genotype for imprecise events
+    Copy number genotype for imzcise events
     */
     union {null, int} copyNumber;
 
@@ -49,6 +49,67 @@ record CalledGenotypeCancer {
 
 enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
 
+/**
+This is intended to hold infomration on actionability of the report event
+*/
+
+
+/**
+this is the type of action
+*/
+enum ActionType{drug,stratification,biomarker}
+enum Association{response}
+
+record Actions {
+
+
+    ActionType actionType;
+
+
+    /**
+    type of association e.g response
+    */
+    union {null, string} association;
+
+    /**
+    pathway e.g. activation
+    */
+    union {null, string} pathway;
+
+    /**
+    array of PMIDs
+    */
+    union {null, array<string>} evidence;
+
+    /**
+    drug
+    */
+    union {null, string} drug;
+
+    /**
+    status i.e. clinical, pre-clinical
+    */
+    union {null, string} status;
+
+    /**
+    comments
+    */
+    union {null, array<string>} comments;
+
+
+    /**
+    type of evidence
+    */
+    union {null, string} evidenceType;
+
+
+    /**
+    source of the information
+    */
+    string source;
+
+
+}
 
 record GenomicFeatureCancer {
     /**
@@ -64,10 +125,10 @@ record GenomicFeatureCancer {
     /**
     Gene used in tier
     */
-    string genName;
+    string geneName;
 
     /**
-    Protein domain hti in tier
+    Protein domain used in tier
     */
     union {null, string} proteinDomain;
 
@@ -123,8 +184,14 @@ record ReportEventCancer {
     */
     GenomicFeatureCancer genomicFeature;
 
+    /**
 
-    /** Classification of the pathogenicity of this variant with respect to the phenotype
+    */
+
+    array<Actions> actions;
+
+    /**
+    This is the gel variant class related to variant actionability
     */
     union {null, VariantClass} variantClass;
 
@@ -178,7 +245,7 @@ record ReportedVariantCancer {
     This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
     the variants can have only one Report event.
     */
-    array<ReportEventCancer> reportEvents;
+    array<ReportEventCancer> reportEventsCancer;
 
     /**
     For example HGMD ID)
