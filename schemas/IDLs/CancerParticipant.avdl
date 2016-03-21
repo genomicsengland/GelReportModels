@@ -5,7 +5,6 @@ This protocol defines the Participants
 protocol CancerParticipants {
 
 import idl "CommonParticipant.avdl";
-import idl "CancerParticipant.avdl";
 
 
 enum SampleType {germline, tumor}

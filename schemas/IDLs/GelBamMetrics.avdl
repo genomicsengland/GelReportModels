@@ -309,8 +309,8 @@ record VerifyBamId {
 
 record ArrayConcordance {
 
-    string numberOfSites ;
-    string numberOfDiscordantSites ;
+    double numberOfSites ;
+    double numberOfDiscordantSites ;
 
 }
 
