@@ -155,12 +155,12 @@
               "doc" : "Sex of the Participant"
             }, {
               "name" : "personKaryotipicSex",
-              "type" : {
+              "type" : [ "null", {
                 "type" : "enum",
                 "name" : "PersonKaryotipicSex",
                 "doc" : "Karyotipic Sex",
                 "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
-              },
+              } ],
               "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
             }, {
               "name" : "fatherId",
@@ -299,7 +299,7 @@
                     "doc" : "These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used"
                   }, {
                     "name" : "ageOfOnset",
-                    "type" : [ "null", "int" ],
+                    "type" : [ "null", "string" ],
                     "doc" : "Age of onset in months"
                   } ]
                 }
@@ -319,7 +319,7 @@
                     "doc" : "Identifier of the HPO term"
                   }, {
                     "name" : "termPresence",
-                    "type" : "boolean",
+                    "type" : [ "null", "boolean" ],
                     "doc" : "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
                   }, {
                     "name" : "modifiers",
@@ -330,7 +330,7 @@
                     "doc" : "Modifier associated with the HPO term"
                   }, {
                     "name" : "ageOfOnset",
-                    "type" : [ "null", "int" ],
+                    "type" : [ "null", "string" ],
                     "doc" : "Age of onset in months"
                   } ]
                 }
@@ -483,6 +483,25 @@
             } ]
           }
         }
+      }, {
+        "name" : "analysisPanels",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : {
+            "type" : "record",
+            "name" : "AnalysisPanel",
+            "fields" : [ {
+              "name" : "specificDisease",
+              "type" : "string"
+            }, {
+              "name" : "panelName",
+              "type" : "string"
+            }, {
+              "name" : "panelVersion",
+              "type" : [ "null", "string" ]
+            } ]
+          }
+        } ]
       } ]
     },
     "doc" : "Pedigree of the family to analyze"

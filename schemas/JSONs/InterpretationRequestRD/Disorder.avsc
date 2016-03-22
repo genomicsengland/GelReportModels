@@ -91,7 +91,7 @@
     "doc" : "These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used"
   }, {
     "name" : "ageOfOnset",
-    "type" : [ "null", "int" ],
+    "type" : [ "null", "string" ],
     "doc" : "Age of onset in months"
   } ]
 }

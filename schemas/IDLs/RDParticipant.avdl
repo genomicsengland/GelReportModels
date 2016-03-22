@@ -37,7 +37,7 @@ record Disorder {
     /**
     Age of onset in months
     */
-    union {null, int} ageOfOnset;
+    union {null, string} ageOfOnset;
 }
 
 
@@ -55,7 +55,7 @@ record HpoTerm {
     This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
     false=term is not present
     */
-    boolean termPresence;
+    union {null, boolean} termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -65,7 +65,7 @@ record HpoTerm {
     /**
     Age of onset in months
     */
-    union {null, int} ageOfOnset;
+    union {null, string} ageOfOnset;
 
 }
 
@@ -130,7 +130,7 @@ record RDParticipant {
     /**
     Karyotypic sex of the participant as previously established or by looking at the GEL genome
     */
-    PersonKaryotipicSex personKaryotipicSex;
+    union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
     refers to the pedigreeId of the father
@@ -238,6 +238,12 @@ record RDParticipant {
 
 }
 
+record AnalysisPanel {
+    string specificDisease;
+    string panelName;
+    union {null, string} panelVersion;
+}
+
 
 /**
 This is the concept of a family with associated phenotypes as present in the record RDParticipant
@@ -254,6 +260,8 @@ record Pedigree {
     string gelFamilyId;
 
     array <RDParticipant> participants;
+
+    union {null, array<AnalysisPanel>} analysisPanels;
 
 }
 

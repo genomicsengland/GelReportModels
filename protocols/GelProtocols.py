@@ -33,6 +33,47 @@ class AffectionStatus(object):
     unknown = "unknown"
 
 
+class AnalysisPanel(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"AnalysisPanel", "fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "panelName",
+        "panelVersion",
+        "specificDisease",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'panelName', 'panelVersion', 'specificDisease'
+    ]
+
+    def __init__(self, **kwargs):
+        self.panelName = kwargs.get(
+            'panelName', 'None')
+        self.panelVersion = kwargs.get(
+            'panelVersion', None)
+        self.specificDisease = kwargs.get(
+            'specificDisease', 'None')
+
+
 class Ancestries(ProtocolElement):
     """
     No documentation
@@ -1009,7 +1050,7 @@ class Disorder(ProtocolElement):
 "enum", "name": "FileType"}, "name": "fileType"}], "type": "record",
 "name": "File"}], "name": "relevantRegions"}, {"doc": "", "type":
 ["null", "File"], "name": "clinicalRelevantVariants"}]}, "type":
-"array"}], "name": "panels"}, {"doc": "", "type": ["null", "int"],
+"array"}], "name": "panels"}, {"doc": "", "type": ["null", "string"],
 "name": "ageOfOnset"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -1339,9 +1380,9 @@ class HpoTerm(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
-{"doc": "", "type": "boolean", "name": "termPresence"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"modifiers"}, {"doc": "", "type": ["null", "int"], "name":
+{"doc": "", "type": ["null", "boolean"], "name": "termPresence"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "modifiers"}, {"doc": "", "type": ["null", "string"], "name":
 "ageOfOnset"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -2665,25 +2706,25 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
-"XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
-"name": "PersonKaryotipicSex"}, "name": "personKaryotipicSex"},
-{"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
-"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
-["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
-["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
-["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
-{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
-"name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
-{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
-"type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
-{"doc": "", "type": {"symbols": ["alive", "aborted", "deceased",
-"unborn", "stillborn", "miscarriage"], "doc": "", "type": "enum",
-"name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
-"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
-["null", "string"], "name": "consanguineousPopulation"}, {"doc": "",
-"type": {"symbols": ["unaffected", "affected", "unknown"], "doc": "",
-"type": "enum", "name": "AffectionStatus"}, "name":
+"type": ["null", {"symbols": ["unknown", "XX", "XY", "XO", "XXY",
+"XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type":
+"enum", "name": "PersonKaryotipicSex"}], "name":
+"personKaryotipicSex"}, {"doc": "", "type": ["null", "int"], "name":
+"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
+{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
+"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
+"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
+"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
+"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
+"", "type": "enum", "name": "AdoptedStatus"}, "name":
+"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
+"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
+"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
+"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
+"type": ["null", "string"], "name": "consanguineousPopulation"},
+{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
+"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -2699,22 +2740,23 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "array"}], "name": "Transcripts"}, {"doc": "", "type": ["null",
 "File"], "name": "relevantRegions"}, {"doc": "", "type": ["null",
 "File"], "name": "clinicalRelevantVariants"}]}, "type": "array"}],
-"name": "panels"}, {"doc": "", "type": ["null", "int"], "name":
+"name": "panels"}, {"doc": "", "type": ["null", "string"], "name":
 "ageOfOnset"}]}, "type": "array"}, "name": "disorderList"}, {"doc":
 "", "type": {"items": {"doc": "", "type": "record", "name": "HpoTerm",
 "fields": [{"doc": "", "type": "string", "name": "term"}, {"doc": "",
-"type": "boolean", "name": "termPresence"}, {"doc": "", "type":
-["null", {"values": "string", "type": "map"}], "name": "modifiers"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "hpoTermList"}, {"doc": "", "type": {"fields":
-[{"doc": "", "type": ["null", {"symbols": ["D", "E", "F", "G", "A",
-"B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"], "doc":
-"", "type": "enum", "name": "EthnicCategory"}], "name":
-"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
-"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
-"EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
-["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
-"", "type": ["null", {"items": {"doc": "", "type": "record", "name":
+"type": ["null", "boolean"], "name": "termPresence"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"modifiers"}, {"doc": "", "type": ["null", "string"], "name":
+"ageOfOnset"}]}, "type": "array"}, "name": "hpoTermList"}, {"doc": "",
+"type": {"fields": [{"doc": "", "type": ["null", {"symbols": ["D",
+"E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S",
+"R", "Z"], "doc": "", "type": "enum", "name": "EthnicCategory"}],
+"name": "mothersEthnicOrigin"}, {"doc": "", "type": ["null",
+"string"], "name": "mothersOtherRelevantAncestry"}, {"doc": "",
+"type": ["null", "EthnicCategory"], "name": "fathersEthnicOrigin"},
+{"doc": "", "type": ["null", "string"], "name":
+"fathersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name":
 "ChiSquare1KGenomesPhase3Pop", "fields": [{"doc": "", "type":
 {"symbols": ["AFR", "AMR", "EAS", "EUR", "SAS"], "doc": "", "type":
 "enum", "name": "KGSuperPopCategory"}, "name": "kGSuperPopCategory"},
@@ -2744,8 +2786,12 @@ false, "doc": "", "type": "boolean", "name":
 "double"], "name": "standardError"}]}], "name":
 "inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
 "string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}]}, "name": "pedigree"}, {"doc": "",
-"type": ["null", {"symbols": ["mosaicism", "monosomy", "disomy",
+"array"}, "name": "participants"}, {"type": ["null", {"items":
+{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
+"string", "name": "panelName"}, {"type": ["null", "string"], "name":
+"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
+"array"}], "name": "analysisPanels"}]}, "name": "pedigree"}, {"doc":
+"", "type": ["null", {"symbols": ["mosaicism", "monosomy", "disomy",
 "uniparental_disomy", "trisomy", "other_aneuploidy"], "type": "enum",
 "name": "ComplexGeneticPhenomena"}], "name":
 "complexGeneticPhenomena"}, {"doc": "", "type": {"symbols":
@@ -3251,25 +3297,25 @@ class Pedigree(ProtocolElement):
 {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "undetermined"],
 "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "",
-"type": {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
-"XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
-"name": "PersonKaryotipicSex"}, "name": "personKaryotipicSex"},
-{"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
-"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
-["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
-["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
-["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
-{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
-"name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
-{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
-"type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
-{"doc": "", "type": {"symbols": ["alive", "aborted", "deceased",
-"unborn", "stillborn", "miscarriage"], "doc": "", "type": "enum",
-"name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
-"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
-["null", "string"], "name": "consanguineousPopulation"}, {"doc": "",
-"type": {"symbols": ["unaffected", "affected", "unknown"], "doc": "",
-"type": "enum", "name": "AffectionStatus"}, "name":
+"type": ["null", {"symbols": ["unknown", "XX", "XY", "XO", "XXY",
+"XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type":
+"enum", "name": "PersonKaryotipicSex"}], "name":
+"personKaryotipicSex"}, {"doc": "", "type": ["null", "int"], "name":
+"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
+{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
+"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
+"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
+["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
+"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
+"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
+"", "type": "enum", "name": "AdoptedStatus"}, "name":
+"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
+"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
+"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
+"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
+"type": ["null", "string"], "name": "consanguineousPopulation"},
+{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
+"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -3291,19 +3337,19 @@ class Pedigree(ProtocolElement):
 "type": "record", "name": "File"}], "name": "relevantRegions"},
 {"doc": "", "type": ["null", "File"], "name":
 "clinicalRelevantVariants"}]}, "type": "array"}], "name": "panels"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
-"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
-"hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
-["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
-"N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
-"name": "EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc":
-"", "type": ["null", "string"], "name":
-"mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+{"doc": "", "type": ["null", "string"], "name": "ageOfOnset"}]},
+"type": "array"}, "name": "disorderList"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
+[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
+["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "modifiers"},
+{"doc": "", "type": ["null", "string"], "name": "ageOfOnset"}]},
+"type": "array"}, "name": "hpoTermList"}, {"doc": "", "type":
+{"fields": [{"doc": "", "type": ["null", {"symbols": ["D", "E", "F",
+"G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"],
+"doc": "", "type": "enum", "name": "EthnicCategory"}], "name":
+"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
+"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
 "EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
 ["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
 "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
@@ -3336,10 +3382,15 @@ false, "doc": "", "type": "boolean", "name":
 "double"], "name": "standardError"}]}], "name":
 "inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
 "string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}], "doc": ""}
+"array"}, "name": "participants"}, {"type": ["null", {"items":
+{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
+"string", "name": "panelName"}, {"type": ["null", "string"], "name":
+"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
+"array"}], "name": "analysisPanels"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "analysisPanels",
         "gelFamilyId",
         "participants",
         "versionControl",
@@ -3363,10 +3414,13 @@ false, "doc": "", "type": "boolean", "name":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'gelFamilyId', 'participants', 'versionControl'
+        'analysisPanels', 'gelFamilyId', 'participants',
+        'versionControl'
     ]
 
     def __init__(self, **kwargs):
+        self.analysisPanels = kwargs.get(
+            'analysisPanels', None)
         self.gelFamilyId = kwargs.get(
             'gelFamilyId', 'None')
         self.participants = kwargs.get(
@@ -3487,10 +3541,10 @@ class RDParticipant(ProtocolElement):
 "type": "string", "name": "gelFamilyId"}, {"doc": "", "type": ["null",
 "string"], "name": "gelSuperFamilyId"}, {"doc": "", "type":
 {"symbols": ["male", "female", "undetermined"], "doc": "", "type":
-"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}, "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
 ["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
 "int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
@@ -3528,19 +3582,19 @@ class RDParticipant(ProtocolElement):
 "type": "record", "name": "File"}], "name": "relevantRegions"},
 {"doc": "", "type": ["null", "File"], "name":
 "clinicalRelevantVariants"}]}, "type": "array"}], "name": "panels"},
-{"doc": "", "type": ["null", "int"], "name": "ageOfOnset"}]}, "type":
-"array"}, "name": "disorderList"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "HpoTerm", "fields": [{"doc":
-"", "type": "string", "name": "term"}, {"doc": "", "type": "boolean",
-"name": "termPresence"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "modifiers"}, {"doc": "", "type":
-["null", "int"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
-"hpoTermList"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
-["null", {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M",
-"N", "H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum",
-"name": "EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc":
-"", "type": ["null", "string"], "name":
-"mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+{"doc": "", "type": ["null", "string"], "name": "ageOfOnset"}]},
+"type": "array"}, "name": "disorderList"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "HpoTerm", "fields":
+[{"doc": "", "type": "string", "name": "term"}, {"doc": "", "type":
+["null", "boolean"], "name": "termPresence"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "modifiers"},
+{"doc": "", "type": ["null", "string"], "name": "ageOfOnset"}]},
+"type": "array"}, "name": "hpoTermList"}, {"doc": "", "type":
+{"fields": [{"doc": "", "type": ["null", {"symbols": ["D", "E", "F",
+"G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z"],
+"doc": "", "type": "enum", "name": "EthnicCategory"}], "name":
+"mothersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
+"name": "mothersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
 "EthnicCategory"], "name": "fathersEthnicOrigin"}, {"doc": "", "type":
 ["null", "string"], "name": "fathersOtherRelevantAncestry"}, {"doc":
 "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
