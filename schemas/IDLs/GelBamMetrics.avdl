@@ -1,0 +1,406 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the gel metrics we calculate and store for bams
+*/
+protocol GelBamStats {
+
+enum SamtoolsScope {all, filtered}
+enum IlluminaVersion {IlluminaSummaryV1, IlluminaSummaryV2, IlluminaSummaryCancerV2}
+
+record GelMetrics {
+
+    string BaseDir;
+    double GbQ30NoDupsNoClip;
+    float perc_bases_ge_15x_mapQ_ge11;
+    string InputDir;
+    string DirectoryType;
+    double nBases_samtools;
+    string FileRelativePath;
+    string md5checksum;
+
+}
+
+
+
+/**
+This is summary for V2 germlines for cancer
+*/
+
+record IlluminaSummaryV2 {
+
+    IlluminaVersion illumina_version ;
+	double STOP_LOST_SNVS ;
+	double SV_INSERTIONS_IN_GENES ;
+	string SAMPLE_ID ;
+	double DELETION_HET_HOM_RATIO ;
+	double STOP_GAINED_DELETIONS ;
+	double INSERTIONS_PERCENT_FOUND_IN_DBSNP ;
+	double FRAGMENT_LENGTH_SD ;
+	double PERCENT_Q30_BASES_READ_1 ;
+	double PERCENT_Q30_BASES_READ_2 ;
+	double STOP_GAINED_SNVS ;
+	double CNV_IN_GENES ;
+	double TOTAL_PF_READS ;
+	double DELETIONS_IN_GENES ;
+	double DELETIONS_IN_SPLICE_SITE_REGIONS ;
+	double PERCENT_Q30_BASES ;
+	double TOTAL_ALIGNED_BASES_READ_1 ;
+	double TOTAL_ALIGNED_BASES_READ_2 ;
+	double SV_INVERSIONS_IN_GENES ;
+	double SNV_TS_TV_RATIO ;
+	double INSERTIONS_IN_MATURE_MIRNA ;
+	double DELETIONS ;
+	double PERCENT_ALIGNED_BASES_READ_1 ;
+	double INDELS_ALL ;
+	double PERCENT_ALIGNED_BASES_READ_2 ;
+	double NON_SYNONYMOUS_DELETIONS ;
+	double TOTAL_PF_BASES ;
+	double PERCENT_DUPLICATE_PAIRED_READS ;
+	double PERCENT_ALIGNED_READ_2 ;
+	double PERCENT_ALIGNED_READ_1 ;
+	double NON_SYNONYMOUS_SNVS ;
+	double SV_PERCENT_DELETIONS_IN_GENES ;
+	double MISMATCH_RATE_READ_1 ;
+	double SV_DELETIONS_IN_GENES ;
+	double DELETIONS_IN_CODING_REGIONS ;
+	double INSERTIONS_IN_SPLICE_SITE_REGIONS ;
+	double SV_DELETIONS ;
+	double INSERTIONS ;
+	double FRAGMENT_LENGTH_MIN ;
+	double FRAGMENT_LENGTH_MAX ;
+	string RUNFOLDER ;
+	string SAMPLE_NAME ;
+	double INSERTIONS_IN_GENES ;
+	double SV_PERCENT_INVERSIONS_IN_GENES ;
+	double DELETIONS_IN_EXONS ;
+	double STOP_LOST_DELETIONS ;
+	double SNVS_PERCENT_FOUND_IN_DBSNP ;
+	double NON_SYNONYMOUS_INSERTIONS ;
+	double SNVS_IN_MATURE_MIRNA ;
+	double FRAMESHIFT_DELETIONS ;
+	double FRAGMENT_LENGTH_MEDIAN ;
+	double SNVS_IN_UTR_REGIONS ;
+	double SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES ;
+	double SV_INVERSIONS ;
+	double SV_TANDEM_DUPLICATIONS_IN_GENES ;
+	double DELETIONS_PERCENT_FOUND_IN_DBSNP ;
+	double SV_TANDEM_DUPLICATIONS ;
+	double INDELS_PERCENT_FOUND_IN_DBSNP ;
+	double SV_PERCENT_INSERTIONS_IN_GENES ;
+	double STOP_GAINED_INSERTIONS ;
+	double MISMATCH_RATE_READ_2 ;
+	double DELETIONS_ALL ;
+	double TOTAL_PF_BASES_READ_2 ;
+	double TOTAL_PF_BASES_READ_1 ;
+	double INDEL_HET_HOM_RATIO ;
+	double SYNONYMOUS_SNVS ;
+	double DELETIONS_IN_MATURE_MIRNA ;
+	double SNV_HET_HOM_RATIO ;
+	double INSERTIONS_IN_CODING_REGIONS ;
+	double SNVS_IN_GENES ;
+	double STOP_LOST_INSERTIONS ;
+	string PAIRED_END ;
+	double DIVERSITY ;
+	string REFERENCE_GENOME ;
+	double SNVS_IN_EXONS ;
+	double SNVS_IN_SPLICE_SITE_REGIONS ;
+	double FRAMESHIFT_INSERTIONS ;
+	double INSERTIONS_ALL ;
+	double SNVS_ALL ;
+	double INSERTIONS_IN_UTR_REGIONS ;
+	double CNV_PERCENT_IN_GENES ;
+	double MEAN_COVERAGE ;
+	double CNV ;
+	double SV_INSERTIONS ;
+	double SNVS_IN_CODING_REGIONS ;
+	double SNVS ;
+	double INSERTION_HET_HOM_RATIO ;
+	double INDELS ;
+	double TOTAL_ALIGNED_READ_2 ;
+	double TOTAL_ALIGNED_READ_1 ;
+	double DELETIONS_IN_UTR_REGIONS ;
+	double INSERTIONS_IN_EXONS ;
+
+}
+
+/**
+This is summary for all V1 summary
+*/
+record IlluminaSummaryV1 {
+
+    IlluminaVersion illumina_version ;
+    double PERCENT_Q30_R1 ;
+	double PERCENT_Q30_R2 ;
+	double PERCENT_ALIGNED_R1 ;
+	double INVERSIONCOUNT ;
+	double DELETIONS_PERCENT_FOUND_IN_DBSNP ;
+	double PERCENT_ALIGNED_R2 ;
+	double INDELS_PERCENT_FOUND_IN_DBSNP ;
+	double STOPGAINEDINS ;
+	double SYNONYMOUSSNVS ;
+	double SPLICESITEREGIONDEL ;
+	double STOPLOSTSNVS ;
+	double SYNONYMOUSINS ;
+	double SYNONYMOUSDEL ;
+	double NUMSNVSINCODINGREGIONS ;
+	double STOPGAINEDSNVS ;
+	string SAMPLE_ID ;
+	double NUMDELINEXONS ;
+	double TANDEMDUPLICATIONPERCENTINGENES ;
+	double SNVS_ALL ;
+	double CNVNUMBERINGENES ;
+	double CNVPERCENTINGENES ;
+	double NUMDELINGENES ;
+	double NUMSNVSINGENES ;
+	double INSERTIONS_PERCENT_FOUND_IN_DBSNP ;
+	double SPLICESITEREGIONSNVS ;
+	double INSERTIONS ;
+	double FRAGMENT_LENGTH_MIN ;
+	double STOPLOSTDEL ;
+	double FRAGMENT_LENGTH_SD ;
+	double NONSYNONYMOUSINS ;
+	double FRAGMENT_LENGTH_MAX ;
+	double FRAMESHIFTDEL ;
+	double DELETIONPERCENTINGENES ;
+	double INDEL_HET_HOM_RATIO ;
+	double UTRREGIONDEL ;
+	string RUNFOLDER ;
+	double MATUREMIRNAINS ;
+	double INVERSIONNUMBERINGENES ;
+	double NUMINSINCODINGREGIONS ;
+	double INSERTIONPERCENTINGENES ;
+	double CALLABLE_AUTOSOMAL_FRACTION ;
+	double NONSYNONYMOUSDEL ;
+	double FRAMESHIFTSNVS ;
+	string SVSTATISTICSFLAG ;
+	double CNVCOUNT ;
+	double NONSYNONYMOUSSNVS ;
+	double DELETIONCOUNT ;
+	string CNVSTATISTICSFLAG ;
+	double INSERTIONNUMBERINGENES ;
+	double STOPGAINEDDEL ;
+	double MISMATCHRATE_R1 ;
+	double SNVS ;
+	double SNV_HET_HOM_RATIO ;
+	double SPLICESITEREGIONINS ;
+	double NUMINSINEXONS ;
+	double MISMATCHRATE_R2 ;
+	double NUMDELINCODINGREGIONS ;
+	double INSERTION_HET_HOM_RATIO ;
+	double NUMINSINGENES ;
+	double SNV_TS_TV_RATIO ;
+	double TANDEMDUPLICATIONNUMBERINGENES ;
+	double SNVS_PERCENT_FOUND_IN_DBSNP ;
+	double UTRREGIONINS ;
+	double MATUREMIRNASNVS ;
+	double DELETIONNUMBERINGENES ;
+	double DELETIONS ;
+	double TOTALNUMBERINS ;
+	double TANDEMDUPLICATIONCOUNT ;
+	string PAIRED_END ;
+	double UTRREGIONSNVS ;
+	double INDELS ;
+	double NUMSNVSINEXONS ;
+	double FRAMESHIFTINS ;
+	double TOTALNUMBERSNVS ;
+	double DELETIONS_HET_HOM_RATIO ;
+	double FRAGMENT_LENGTH_MEDIAN ;
+	string REFERENCE_GENOME ;
+	string SMALLVARIANTSTATISTICSFLAG ;
+	double TOTALNUMBERDEL ;
+	double MATUREMIRNADEL ;
+	double INVERSIONPERCENTINGENES ;
+	double STOPLOSTINS ;
+	double INSERTIONCOUNT ;
+	double PERCENT_DUPLICATE_PAIRED_READS ;
+
+}
+
+/**
+This is summary for V2 somatic
+*/
+
+
+record IlluminaSummaryCancerV2 {
+
+    IlluminaVersion illumina_version ;
+	double VARIANTSTATS_STOP_GAINED_SNVS ;
+	double VARIANTSTATS_MATURE_MIRNA_DELETIONS ;
+	double VARIANTSTATS_SYNONYMOUS_SNVS ;
+	double BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30 ;
+	double VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS ;
+	double VARIANTSTATS_SYNONYMOUS_INSERTIONS ;
+	double BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30 ;
+	double PURITY_TUMOR_PLOIDY ;
+	double SVSTATS_TANDEM_DUPLICATION_TOTAL ;
+	double SVSTATS_INSERTION_NUMBER_IN_GENES ;
+	double VARIANTSTATS_TOTAL_DELETIONS ;
+	double VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS ;
+	double VARIANTSTATS_FRAMESHIFT_INSERTIONS ;
+	double PURITY_TUMOR_PURITY ;
+	double SVSTATS_DELETION_NUMBER_IN_GENES ;
+	double VARIANTSTATS_TOTAL_INSERTIONS ;
+	double VARIANTSTATS_NON_SYNONYMOUS_SNVS ;
+	double VARIANTSTATS_MATURE_MIRNA_SNVS ;
+	double VARIANTSTATS_STOP_GAINED_INSERTIONS ;
+	double VARIANTSTATS_FRAMESHIFT_DELETIONS ;
+	double SVSTATS_TANDEM_DUPLICATION_NUMBER_IN_GENES ;
+	double VARIANTSTATS_NUMBER_IN_EXONS_DELETIONS ;
+	double VARIANTSTATS_NUMBER_IN_GENES_DELETIONS ;
+	double VARIANTSTATS_UTR_REGION_DELETIONS ;
+	double BAMSTATS_TUMOR_GIGABASES_PASSING_FILTER ;
+	double VARIANTSTATS_DBSNP_INSERTIONS ;
+	double SVSTATS_CNV_TOTAL ;
+	double VARIANTSTATS_STOP_LOST_INSERTIONS ;
+	double VARIANTSTATS_SPLICE_SITE_REGION_INSERTIONS ;
+    double SVSTATS_INVERSION_TOTAL ;
+	double VARIANTSTATS_SYNONYMOUS_DELETIONS ;
+	double VARIANTSTATS_STOP_LOST_SNVS ;
+	double BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER ;
+	double VARIANTSTATS_MATURE_MIRNA_INSERTIONS ;
+	double VARIANTSTATS_SPLICE_SITE_REGION_SNVS ;
+	double VARIANTSTATS_NUMBER_IN_CODING_REGIONS_INSERTIONS ;
+	double VARIANTSTATS_NUMBER_IN_GENES_SNVS ;
+	double VARIANTSTATS_STOP_GAINED_DELETIONS ;
+	double VARIANTSTATS_STOP_LOST_DELETIONS ;
+	string NORMAL_ID ;
+	double VARIANTSTATS_SPLICE_SITE_REGION_DELETIONS ;
+	double VARIANTSTATS_UTR_REGION_INSERTIONS ;
+	double VARIANTSTATS_NUMBER_IN_CODING_REGIONS_DELETIONS ;
+	double SVSTATS_TRANSLOCATION_BREAKEND_TOTAL ;
+	double SVSTATS_CNV_NUMBER_IN_GENES ;
+	double VARIANTSTATS_UTR_REGION_SNVS ;
+	double VARIANTSTATS_NUMBER_IN_EXONS_INSERTIONS ;
+	double VARIANTSTATS_DBSNP_SNVS ;
+	double VARIANTSTATS_DBSNP_DELETIONS ;
+	double VARIANTSTATS_FRAMESHIFT_SNVS ;
+	double VARIANTSTATS_NUMBER_IN_EXONS_SNVS ;
+	double VARIANTSTATS_NUMBER_IN_GENES_INSERTIONS ;
+	double VARIANTSTATS_TOTAL_SNVS ;
+	double SVSTATS_DELETION_TOTAL ;
+	double SVSTATS_INVERSION_NUMBER_IN_GENES ;
+	string TUMOR_ID ;
+    double SVSTATS_INSERTION_TOTAL ;
+
+
+}
+
+record VerifyBamId {
+
+    string SEQ_ID ;
+    string CHIP_ID ;
+    double SNPS ;
+    double READS ;
+    double AVG_DP ;
+    double FREEMIX ;
+    double FREELK1 ;
+    double FREELK0 ;
+    string FREE_RH ;
+    string FREE_RA ;
+    string CHIPMIX ;
+    string CHIPLK1 ;
+    string CHIPLK0 ;
+    string CHIP_RA ;
+    string DPREF ;
+    string RDPHET ;
+    string RDPALT ;
+
+}
+
+record ArrayConcordance {
+
+    string numberOfSites ;
+    string numberOfDiscordantSites ;
+
+}
+
+record PlinkSexCheck {
+
+    string FID ;
+    string IID ;
+    double F ;
+    double YCOUNT ;
+    double STATUS ;
+    double SNPSEX ;
+
+}
+
+record InbreedingCoefficientEstimates {
+
+    string FID ;
+    string IID ;
+    double O_HOM ;
+    double E_HOM ;
+    double N_NM ;
+    double F ;
+
+}
+
+record TumorChecks {
+
+    string wellId;
+    double percentSomatic1000G;
+    double totalSomatic1000G;
+    double totalSomaticNot1000G;
+
+}
+
+record BamHeaderOther {
+
+    string PIPELINE_ID;
+    string PIPELINE_VERSION;
+
+}
+
+record SamtoolsStats {
+
+    SamtoolsScope samtoolsScope;
+    double SAMTOOLS_1ST_FRAGMENTS;
+    double SAMTOOLS_AVERAGE_LENGTH;
+    double SAMTOOLS_AVERAGE_QUALITY;
+    double SAMTOOLS_BASES_DUPLICATED;
+    double SAMTOOLS_BASES_MAPPED;
+    double SAMTOOLS_BASES_MAPPED_CIGAR;
+    double SAMTOOLS_BASES_TRIMMED;
+    double SAMTOOLS_ERROR_RATE;
+    double SAMTOOLS_FILTERED_SEQUENCES;
+    double SAMTOOLS_INSERT_SIZE_AVERAGE;
+    double SAMTOOLS_INSERT_SIZE_STANDARD_DEVIATION;
+    double SAMTOOLS_INWARD_ORIENTED_PAIRS;
+    double SAMTOOLS_IS_SORTED;
+    double SAMTOOLS_LAST_FRAGMENTS;
+    double SAMTOOLS_MAXIMUM_LENGTH;
+    double SAMTOOLS_MISMATCHES;
+    double SAMTOOLS_NON_PRIMARY_ALIGNMENTS;
+    double SAMTOOLS_OUTWARD_ORIENTED_PAIRS;
+    double SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES;
+    double SAMTOOLS_PAIRS_WITH_OTHER_ORIENTATION;
+    double SAMTOOLS_RAW_TOTAL_SEQUENCES;
+    double SAMTOOLS_READS_DUPLICATED;
+    double SAMTOOLS_READS_MAPPED;
+    double SAMTOOLS_READS_MAPPED_AND_PAIRED;
+    double SAMTOOLS_READS_MQ0;
+    double SAMTOOLS_READS_PAIRED;
+    double SAMTOOLS_READS_PROPERLY_PAIRED;
+    double SAMTOOLS_READS_QC_FAILED;
+    double SAMTOOLS_READS_UNMAPPED;
+    double SAMTOOLS_SEQUENCES;
+    double SAMTOOLS_TOTAL_LENGTH;
+
+}
+
+record Machine {
+    double DATE;
+    string MACHINE;
+    string FLOWCELL;
+    string RUN;
+}
+
+record BamHeaderMachine {
+
+    array <Machine> machines;
+}
+
+
+}
+

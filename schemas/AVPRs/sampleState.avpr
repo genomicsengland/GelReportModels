@@ -1,0 +1,39 @@
+{
+  "protocol" : "SampleState",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the states a sample can inherit",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "State",
+    "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.  See sample level for full details",
+    "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
+  }, {
+    "type" : "enum",
+    "name" : "Reason",
+    "symbols" : [ "duplicate", "pedigree", "contamination", "quality", "verifybamid", "arrayconcordance", "in_qc" ]
+  }, {
+    "type" : "record",
+    "name" : "sampleState",
+    "fields" : [ {
+      "name" : "state",
+      "type" : [ "null", "State" ]
+    }, {
+      "name" : "reason",
+      "type" : [ "null", "Reason" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "sampleTests",
+    "fields" : [ {
+      "name" : "verifybamid",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "arrayconcordance",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "contamination",
+      "type" : [ "null", "boolean" ]
+    } ]
+  } ],
+  "messages" : { }
+}

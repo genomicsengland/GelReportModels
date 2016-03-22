@@ -1,0 +1,57 @@
+{
+  "type" : "record",
+  "name" : "VerifyBamId",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "SEQ_ID",
+    "type" : "string"
+  }, {
+    "name" : "CHIP_ID",
+    "type" : "string"
+  }, {
+    "name" : "SNPS",
+    "type" : "double"
+  }, {
+    "name" : "READS",
+    "type" : "double"
+  }, {
+    "name" : "AVG_DP",
+    "type" : "double"
+  }, {
+    "name" : "FREEMIX",
+    "type" : "double"
+  }, {
+    "name" : "FREELK1",
+    "type" : "double"
+  }, {
+    "name" : "FREELK0",
+    "type" : "double"
+  }, {
+    "name" : "FREE_RH",
+    "type" : "string"
+  }, {
+    "name" : "FREE_RA",
+    "type" : "string"
+  }, {
+    "name" : "CHIPMIX",
+    "type" : "string"
+  }, {
+    "name" : "CHIPLK1",
+    "type" : "string"
+  }, {
+    "name" : "CHIPLK0",
+    "type" : "string"
+  }, {
+    "name" : "CHIP_RA",
+    "type" : "string"
+  }, {
+    "name" : "DPREF",
+    "type" : "string"
+  }, {
+    "name" : "RDPHET",
+    "type" : "string"
+  }, {
+    "name" : "RDPALT",
+    "type" : "string"
+  } ]
+}

@@ -4,7 +4,9 @@ This protocol defines the Participants and Pedigree
 */
 protocol Pedigrees {
 
+import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
+import idl "VersionControl.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -28,6 +30,11 @@ record Disorder {
     union {null,string} specificDisease;
 
     /**
+    These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used
+    */
+    union {null,array<VirtualPanel>} panels;
+
+    /**
     Age of onset in months
     */
     union {null, int} ageOfOnset;
@@ -45,7 +52,7 @@ record HpoTerm {
     string term;
 
     /**
-    This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
+    This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
     false=term is not present
     */
     boolean termPresence;
@@ -86,9 +93,19 @@ This defines a RD Participant (demographics and pedigree information)
 record RDParticipant {
 
     /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
     Numbering used to refer to each member of the pedigree
     */
     int pedigreeId;
+
+    /**
+    If this field is true, the member should be consider the proband of this family
+    */
+    boolean isProband;
 
     /**
     gel internal identifier, only required when the participant belongs to the program
@@ -101,22 +118,42 @@ record RDParticipant {
     string gelFamilyId;
 
     /**
+    superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
+    */
+    union {null, string} gelSuperFamilyId;
+
+    /**
     Sex of the Participant
     */
     Sex sex;
+
+    /**
+    Karyotypic sex of the participant as previously established or by looking at the GEL genome
+    */
+    PersonKaryotipicSex personKaryotipicSex;
 
     /**
     refers to the pedigreeId of the father
     Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known
     about them in order to unambiguously reconstruct the pedigree.
     */
-    union {null, string}  fatherId; //refers to the pedigreeId of the father
+    union {null, int}  fatherId;
     /**
     refers to the pedigreeId of the mother
     Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known
     about them in order to unambiguously reconstruct the pedigree.
     */
-    union {null, string}  motherId; //refers to the pedigreeId of the mother
+    union {null, int}  motherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the father
+    */
+    union {null, int}  superFatherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the mother
+    */
+    union {null, int}  superMotherId;
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
@@ -188,6 +225,12 @@ record RDParticipant {
 
 
     /**
+    Inbreeding Coefficient Estimation
+    */
+    union {null, InbreedingCoefficient} inbreedingCoefficient;
+
+
+    /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
     Null by default
     */
@@ -200,6 +243,11 @@ record RDParticipant {
 This is the concept of a family with associated phenotypes as present in the record RDParticipant
 */
 record Pedigree {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Family id which internally translate to a sample set
     */

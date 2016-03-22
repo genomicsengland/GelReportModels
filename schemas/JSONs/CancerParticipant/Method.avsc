@@ -2,5 +2,5 @@
   "type" : "enum",
   "name" : "Method",
   "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "resection", "biopsy" ]
+  "symbols" : [ "resection", "biopsy", "blood" ]
 }

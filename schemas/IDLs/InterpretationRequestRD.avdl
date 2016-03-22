@@ -6,7 +6,7 @@ The record Report is the top level class. This includes clinical information + v
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol RDInterpretationRequests {
+protocol InterpretationRequestsRD {
 
 /**
 Caution!! This has been removed
@@ -15,6 +15,7 @@ import idl "variants.avdl";
 
 import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
+import idl "VersionControl.avdl";
 
 /**
 An enumeration for the different mode of inheritances:
@@ -45,6 +46,7 @@ enum ModeOfInheritance {
     unknown
 }
 
+//TODO: Convert this in a record to stored chr, parent....
 enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
 
@@ -54,7 +56,12 @@ enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, t
 /**
 This record represents basic information for this report
 */
-record RDInterpretationRequest {
+record InterpretationRequestRD {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Unique id for this report
     */
@@ -64,6 +71,11 @@ record RDInterpretationRequest {
     This is the version of the assembly used to align the reads
     */
     string genomeAssemblyVersion="GRCh37.p13";
+
+    /**
+    Cellbase version
+    */
+    string cellbaseVersion="4.0";
 
     /**
     Version of this request
@@ -86,11 +98,6 @@ record RDInterpretationRequest {
     array<File> BAMs;
 
     /**
-    gVCFs Files where SNVs and INDELs are represented
-    */
-    array<File> gVCFs;
-
-    /**
     VCFs Files where SVs and CNVs are represented
     */
     array<File> VCFs;
@@ -98,7 +105,12 @@ record RDInterpretationRequest {
     /**
     BigWig Files
     */
-    union {null, array<File>} BigWigs;
+    union {null, array<File>} bigWigs;
+
+    /**
+    Pedigree Diagram Files as an SGV
+    */
+    union {null, File} pedigreeDiagram;
 
     /**
     Variant Annotation using cellbase
@@ -110,10 +122,6 @@ record RDInterpretationRequest {
     */
     Pedigree pedigree;
 
-    /**
-    File containing the Inbreeding Coefficient Estimation
-    */
-    union {null, File} inbreedingCoefficientEstimates;
 
     /**
     Complex Genetic Phenomena
@@ -128,11 +136,10 @@ record RDInterpretationRequest {
     /**
     Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
     */
-    union {null, VirtualPanel} virtualPanel;
+    union {null, array<VirtualPanel>} virtualPanel;
 
     /**
-    This is the family history as pertinent to assessing secondary findings.
-    It is paternal or maternal with reference to the proband.
+    It is paternal or maternal with reference to the participant.
     */
     union {null, OtherFamilyHistory} otherFamilyHistory;
 

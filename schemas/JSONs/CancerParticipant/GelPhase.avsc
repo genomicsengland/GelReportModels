@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "GelPhase",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "cruk", "brc", "cll", "iip", "main" ]
+}

@@ -3,9 +3,34 @@
   "name" : "CancerSample",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "versionControl",
+    "type" : {
+      "type" : "record",
+      "name" : "VersionControl",
+      "fields" : [ {
+        "name" : "GitVersionControl",
+        "type" : "string",
+        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+        "default" : "1.2.0"
+      } ]
+    },
+    "doc" : "Model version number"
+  }, {
     "name" : "sampleId",
     "type" : "string",
     "doc" : "Sample Id (e.g, LP00012645_5GH))"
+  }, {
+    "name" : "labId",
+    "type" : "string",
+    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+  }, {
+    "name" : "gelPhase",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "GelPhase",
+      "symbols" : [ "cruk", "brc", "cll", "iip", "main" ]
+    } ],
+    "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
   }, {
     "name" : "sampleType",
     "type" : {
@@ -15,6 +40,10 @@
     },
     "doc" : "Sample Type"
   }, {
+    "name" : "sampleDiagnosis",
+    "type" : "string",
+    "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
+  }, {
     "name" : "source",
     "type" : [ "null", "string" ],
     "doc" : "Sample Source\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
@@ -23,7 +52,7 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "PreservationMethod",
-      "symbols" : [ "FFPE", "FF", "Unknown", "LEUK", "GL" ]
+      "symbols" : [ "ffpe", "ff", "unknown", "blood", "gl", "saliva" ]
     } ],
     "doc" : "Preservation method"
   }, {
@@ -39,16 +68,28 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "Method",
-      "symbols" : [ "resection", "biopsy" ]
+      "symbols" : [ "resection", "biopsy", "blood" ]
     } ],
     "doc" : "Method"
   }, {
     "name" : "cellularity",
-    "type" : [ "null", "double" ],
-    "doc" : "Sample Cellularity will be a number between 0 and 1 - sample level (but just tumor sample)"
+    "type" : [ "null", "string" ],
+    "doc" : "Sample Cellularity will be a string"
   }, {
     "name" : "tumorContent",
-    "type" : [ "null", "double" ],
-    "doc" : "Sample TumorContent will be a number between 0 and 1 - sample level (but just tumor sample)"
+    "type" : [ "null", "string" ],
+    "doc" : "Sample TumorContent will be a string"
+  }, {
+    "name" : "grade",
+    "type" : [ "null", "string" ],
+    "doc" : "Grade of tumour - a lot of recirds gave this"
+  }, {
+    "name" : "tnm_stage_version",
+    "type" : [ "null", "string" ],
+    "doc" : "TMN version"
+  }, {
+    "name" : "tmn_stage_grouping",
+    "type" : [ "null", "string" ],
+    "doc" : "TMN stage grouping"
   } ]
 }

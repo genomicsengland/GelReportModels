@@ -1,0 +1,4 @@
+ujson==1.33
+avro==1.7.7
+humanize==0.5.1
+PyYAML==3.11

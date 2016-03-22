@@ -1,11 +1,10 @@
 import glob
+import json
 import os
 
 __author__ = 'antonior'
 
 BASE_DIR = os.path.dirname(__file__)
-VERSION = "0.2.0"
-
 
 schemas = os.path.join(BASE_DIR, "schemas", "IDLs")
 ga4gh_schemas = os.path.join(BASE_DIR, "ga4ghSchemas", "IDLs")
@@ -23,6 +22,11 @@ for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", "*.avdl")):
 
     os.system("java -jar " + avro_tools_jar + " idl " + idl + " " +
               os.path.join(BASE_DIR, "schemas", "AVPRs", base + ".avpr"))
+
+
+VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
+
+print "version: " + VERSION
 
 
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
@@ -45,3 +49,5 @@ os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretationRequests.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretedGenomes.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelBamMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelBamMetrics.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelVcfMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelVcfMetrics.html"))

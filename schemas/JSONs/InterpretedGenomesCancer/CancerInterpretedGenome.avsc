@@ -3,6 +3,19 @@
   "name" : "CancerInterpretedGenome",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "versionControl",
+    "type" : {
+      "type" : "record",
+      "name" : "VersionControl",
+      "fields" : [ {
+        "name" : "GitVersionControl",
+        "type" : "string",
+        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+        "default" : "1.2.0"
+      } ]
+    },
+    "doc" : "Model version number"
+  }, {
     "name" : "reportRequestId",
     "type" : "string",
     "doc" : "This is the ID of the clinical interpretation request"
@@ -31,9 +44,13 @@
             "type" : "record",
             "name" : "ReportedVariant",
             "fields" : [ {
+              "name" : "versionControl",
+              "type" : "VersionControl",
+              "doc" : "Model version number"
+            }, {
               "name" : "chromosome",
               "type" : "string",
-              "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+              "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
             }, {
               "name" : "dbSNPid",
               "type" : [ "null", "string" ],
@@ -61,11 +78,19 @@
                   "fields" : [ {
                     "name" : "gelId",
                     "type" : "string",
-                    "doc" : "Participant id of the family member:"
+                    "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
+                  }, {
+                    "name" : "sampleId",
+                    "type" : "string",
+                    "doc" : "LP Number of the family member:"
                   }, {
                     "name" : "genotype",
                     "type" : "string",
                     "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+                  }, {
+                    "name" : "phaseSet",
+                    "type" : [ "null", "int" ],
+                    "doc" : "Phase set of variants when variants are phased"
                   }, {
                     "name" : "depthReference",
                     "type" : [ "null", "int" ],
@@ -94,22 +119,43 @@
                     "type" : "string",
                     "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
                   }, {
-                    "name" : "modeOfInheritance",
+                    "name" : "phenotype",
                     "type" : "string",
-                    "doc" : "This is the description of the model of inheritance, (now it's free text, in next version should be an enumeration)"
+                    "doc" : "This is the phenotype (usually the HPO term or the disorder name) considered to report this variant"
                   }, {
-                    "name" : "transcript",
+                    "name" : "panelName",
+                    "type" : [ "null", "string" ],
+                    "doc" : "Gene Panel used from panelApp"
+                  }, {
+                    "name" : "panelVersion",
+                    "type" : [ "null", "string" ],
+                    "doc" : "Gene Panel Version"
+                  }, {
+                    "name" : "modeOfInheritance",
+                    "type" : {
+                      "type" : "enum",
+                      "name" : "ReportedModeOfInheritance",
+                      "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
+                      "symbols" : [ "monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
+                    },
+                    "doc" : "Mode of inheritance used to analyze the family"
+                  }, {
+                    "name" : "genomicFeature",
                     "type" : {
                       "type" : "record",
-                      "name" : "Transcript",
+                      "name" : "GenomicFeature",
                       "fields" : [ {
-                        "name" : "geneSymbol",
-                        "type" : "string",
-                        "doc" : "HGMD gene symbol"
+                        "name" : "featureType",
+                        "type" : {
+                          "type" : "enum",
+                          "name" : "FeatureTypes",
+                          "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+                        },
+                        "doc" : "Feature Type"
                       }, {
-                        "name" : "transcriptId",
+                        "name" : "ensemblId",
                         "type" : "string",
-                        "doc" : "Transcript used, this should be a transcript ID from Ensembl, (i.e, ENST00000544455)"
+                        "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
                       }, {
                         "name" : "ids",
                         "type" : {
@@ -117,13 +163,9 @@
                           "values" : "string"
                         },
                         "doc" : "Others IDs"
-                      }, {
-                        "name" : "geneCoverage",
-                        "type" : [ "null", "double" ],
-                        "doc" : "This is the transcript coverage calculated for all genes in the Gene Panel. This is the coverage (% bases covered > 15x)"
                       } ]
                     },
-                    "doc" : "This is the transcript of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene is considered interesting for this particular variant, should be reported in two different\n    ReportEvents"
+                    "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
                   }, {
                     "name" : "penetrance",
                     "type" : {
@@ -227,6 +269,10 @@
             "type" : "record",
             "name" : "ReportedStructuralVariant",
             "fields" : [ {
+              "name" : "versionControl",
+              "type" : "VersionControl",
+              "doc" : "Model version number"
+            }, {
               "name" : "chromosome",
               "type" : "string",
               "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
