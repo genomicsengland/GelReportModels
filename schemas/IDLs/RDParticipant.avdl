@@ -30,11 +30,6 @@ record Disorder {
     union {null,string} specificDisease;
 
     /**
-    These are a list of panels to be applied to this disorder, if null or empty array specificDisease will be used
-    */
-    union {null,array<VirtualPanel>} panels;
-
-    /**
     Age of onset in months
     */
     union {null, string} ageOfOnset;
