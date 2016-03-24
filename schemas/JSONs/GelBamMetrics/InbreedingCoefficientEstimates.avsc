@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "InbreedingCoefficientEstimates",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Inbreeding coefficient estimates",
   "fields" : [ {
     "name" : "FID",
     "type" : "string"

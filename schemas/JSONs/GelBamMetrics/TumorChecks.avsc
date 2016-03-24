@@ -2,17 +2,18 @@
   "type" : "record",
   "name" : "TumorChecks",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Tumor contamination check results\n\nWe ask whether somatic calls are common in 1000G project.  Common is defined as 0.01.  The percentage of these variants\ngives an indication of the contamination level of the sample.  If another sample contaminates or the germline is\nswapped then the percentage of somatic variants in 1000G will be high.\n\n* `well_id`: Individual sample ID\n* `num_variants_gt_filter`: The number of somatic variants that are common in 1000G\n* `num_variants_lt_filter`: The number of somatic variants rare or non-existant in 1000G\n* `perc_variants_gt_filter`: The percentage of somatic variants that are common in 1000G",
   "fields" : [ {
-    "name" : "wellId",
+    "name" : "well_id",
     "type" : "string"
   }, {
-    "name" : "percentSomatic1000G",
+    "name" : "num_variants_gt_filter",
     "type" : "double"
   }, {
-    "name" : "totalSomatic1000G",
+    "name" : "num_variants_lt_filter",
     "type" : "double"
   }, {
-    "name" : "totalSomaticNot1000G",
+    "name" : "perc_variants_gt_filter",
     "type" : "double"
   } ]
 }

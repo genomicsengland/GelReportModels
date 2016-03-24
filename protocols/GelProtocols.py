@@ -177,13 +177,15 @@ class Ancestries(ProtocolElement):
 
 class ArrayConcordance(ProtocolElement):
     """
-    No documentation
+    Array concordance with WGS data  * `numberOfSites`: Number of
+    sites considered * `numberOfDiscordantSites`: Number of sites
+    discordant between WGS and Genotyping Array
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"ArrayConcordance", "fields": [{"type": "string", "name":
-"numberOfSites"}, {"type": "string", "name":
-"numberOfDiscordantSites"}]}
+"ArrayConcordance", "fields": [{"type": "double", "name":
+"numberOfSites"}, {"type": "double", "name":
+"numberOfDiscordantSites"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -208,9 +210,52 @@ class ArrayConcordance(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.numberOfDiscordantSites = kwargs.get(
-            'numberOfDiscordantSites', 'None')
+            'numberOfDiscordantSites', None)
         self.numberOfSites = kwargs.get(
-            'numberOfSites', 'None')
+            'numberOfSites', None)
+
+
+class ArrayGenotypingRate(ProtocolElement):
+    """
+    Array genotyping rate for the sample * `IID` - Individual sample
+    ID * `number_missing_genotypes`: The number of missing genotypes *
+    `number_total_genotypes`: The number of total genotypes
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ArrayGenotypingRate", "fields": [{"type": "string", "name": "IID"},
+{"type": "double", "name": "number_missing_genotypes"}, {"type":
+"double", "name": "number_total_genotypes"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "IID",
+        "number_missing_genotypes",
+        "number_total_genotypes",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'IID', 'number_missing_genotypes', 'number_total_genotypes'
+    ]
+
+    def __init__(self, **kwargs):
+        self.IID = kwargs.get(
+            'IID', 'None')
+        self.number_missing_genotypes = kwargs.get(
+            'number_missing_genotypes', None)
+        self.number_total_genotypes = kwargs.get(
+            'number_total_genotypes', None)
 
 
 class Association(object):
@@ -608,26 +653,26 @@ class CancerInterpretedGenome(ProtocolElement):
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": "string",
 "name": "reportRequestId"}, {"doc": "", "type": "string", "name":
 "analysisId"}, {"doc": "", "type": "string", "name": "companyName"},
-{"doc": "", "type": "string", "name": "reportURI"}, {"type": {"items":
-{"fields": [{"doc": "", "type": {"fields": [{"doc": "", "type":
-"string", "name": "chromosome"}, {"doc": "", "type": ["null",
-"string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
-"position"}, {"doc": "", "type": "string", "name": "reference"},
-{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
-"type": {"items": {"doc": "", "type": "record", "name":
-"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": "string", "name": "genotype"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
-"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
-"string", "name": "phenotype"}, {"doc": "", "type": ["null",
-"string"], "name": "panelName"}, {"doc": "", "type": ["null",
-"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted",
+{"doc": "", "type": "string", "name": "companyVersion"}, {"doc": "",
+"type": "string", "name": "reportURI"}, {"type": {"items": {"fields":
+[{"doc": "", "type": {"fields": [{"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
+"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": "string", "name":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -687,6 +732,7 @@ class CancerInterpretedGenome(ProtocolElement):
         "analysisId",
         "comments",
         "companyName",
+        "companyVersion",
         "reportRequestId",
         "reportURI",
         "reportedStructuralVariants",
@@ -711,8 +757,9 @@ class CancerInterpretedGenome(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'analysisId', 'comments', 'companyName', 'reportRequestId',
-        'reportURI', 'reportedStructuralVariants', 'reportedVariants'
+        'analysisId', 'comments', 'companyName', 'companyVersion',
+        'reportRequestId', 'reportURI', 'reportedStructuralVariants',
+        'reportedVariants'
     ]
 
     def __init__(self, **kwargs):
@@ -722,6 +769,8 @@ class CancerInterpretedGenome(ProtocolElement):
             'comments', None)
         self.companyName = kwargs.get(
             'companyName', 'None')
+        self.companyVersion = kwargs.get(
+            'companyVersion', 'None')
         self.reportRequestId = kwargs.get(
             'reportRequestId', 'None')
         self.reportURI = kwargs.get(
@@ -1017,6 +1066,65 @@ false, "doc": "", "type": "boolean", "name":
             'secondaryFindingConsent', False)
 
 
+class CoverageSummary(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"CoverageSummary", "fields": [{"type": "string", "name": "wellId"},
+{"type": "double", "name": "n"}, {"type": "double", "name": "mean"},
+{"type": "double", "name": "sd"}, {"type": "double", "name": "pct25"},
+{"type": "double", "name": "median"}, {"type": "double", "name":
+"pct75"}, {"type": "string", "name": "scope"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "mean",
+        "median",
+        "n",
+        "pct25",
+        "pct75",
+        "scope",
+        "sd",
+        "wellId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'mean', 'median', 'n', 'pct25', 'pct75', 'scope', 'sd',
+        'wellId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.mean = kwargs.get(
+            'mean', None)
+        self.median = kwargs.get(
+            'median', None)
+        self.n = kwargs.get(
+            'n', None)
+        self.pct25 = kwargs.get(
+            'pct25', None)
+        self.pct75 = kwargs.get(
+            'pct75', None)
+        self.scope = kwargs.get(
+            'scope', 'None')
+        self.sd = kwargs.get(
+            'sd', None)
+        self.wellId = kwargs.get(
+            'wellId', 'None')
+
+
 class Disorder(ProtocolElement):
     """
     This is quite GEL specific. This is the way is stored in
@@ -1106,61 +1214,41 @@ class ExonCoverage(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"ExonCoverage", "fields": [{"type": "string", "name": "wellId"},
-{"type": "double", "name": "n"}, {"type": "float", "name": "mean"},
-{"type": "float", "name": "sd"}, {"type": "float", "name": "lower"},
-{"type": "float", "name": "upper"}, {"type": "float", "name":
-"pct25"}, {"type": "float", "name": "median"}, {"type": "float",
-"name": "pct75"}]}
+"ExonCoverage", "fields": [{"type": {"items": {"fields": [{"type":
+"string", "name": "wellId"}, {"type": "double", "name": "n"}, {"type":
+"double", "name": "mean"}, {"type": "double", "name": "sd"}, {"type":
+"double", "name": "pct25"}, {"type": "double", "name": "median"},
+{"type": "double", "name": "pct75"}, {"type": "string", "name":
+"scope"}], "type": "record", "name": "CoverageSummary"}, "type":
+"array"}, "name": "coverageSummary"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "lower",
-        "mean",
-        "median",
-        "n",
-        "pct25",
-        "pct75",
-        "sd",
-        "upper",
-        "wellId",
+        "coverageSummary",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'lower', 'mean', 'median', 'n', 'pct25', 'pct75', 'sd',
-        'upper', 'wellId'
+        'coverageSummary'
     ]
 
     def __init__(self, **kwargs):
-        self.lower = kwargs.get(
-            'lower', None)
-        self.mean = kwargs.get(
-            'mean', None)
-        self.median = kwargs.get(
-            'median', None)
-        self.n = kwargs.get(
-            'n', None)
-        self.pct25 = kwargs.get(
-            'pct25', None)
-        self.pct75 = kwargs.get(
-            'pct75', None)
-        self.sd = kwargs.get(
-            'sd', None)
-        self.upper = kwargs.get(
-            'upper', None)
-        self.wellId = kwargs.get(
-            'wellId', 'None')
+        self.coverageSummary = kwargs.get(
+            'coverageSummary', None)
 
 
 class FeatureTypes(object):
@@ -1214,7 +1302,14 @@ class File(ProtocolElement):
 
 class GelMetrics(ProtocolElement):
     """
-    No documentation
+    These are contractual metrics calculated by GEL  * `BaseDir` -
+    Base directory of the data * `GbQ30NoDupsNoClip`: The number of
+    missing genotypes * `perc_bases_ge_15x_mapQ_ge11`: Percentage of
+    bases that have >=15x coverage and mapping quality >=11 *
+    `InputDir`: Input dir of the data * `DirectoryType`: Illumina
+    directory type version * `nBases_samtools`: number of bases from
+    samtools * `FileRelativePath`: relative path of bam file *
+    `md5checksum`: md5 of the delivery
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
@@ -1223,7 +1318,8 @@ class GelMetrics(ProtocolElement):
 "name": "perc_bases_ge_15x_mapQ_ge11"}, {"type": "string", "name":
 "InputDir"}, {"type": "string", "name": "DirectoryType"}, {"type":
 "double", "name": "nBases_samtools"}, {"type": "string", "name":
-"FileRelativePath"}, {"type": "string", "name": "md5checksum"}]}
+"FileRelativePath"}, {"type": "string", "name": "md5checksum"}],
+"doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1439,7 +1535,9 @@ class HpoTerm(ProtocolElement):
 
 class IlluminaSummaryCancerV2(ProtocolElement):
     """
-    This is summary for V2 somatic
+    This is the summary provided by illumina for Somatic calls in V2
+    (current) of their pipeline  Fields of interest include
+    `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
@@ -1752,7 +1850,8 @@ class IlluminaSummaryCancerV2(ProtocolElement):
 
 class IlluminaSummaryV1(ProtocolElement):
     """
-    This is summary for all V1 summary
+    This is the summary provided by illumina for all V1 (old version)
+    of their pipeline
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
@@ -2139,7 +2238,8 @@ class IlluminaSummaryV1(ProtocolElement):
 
 class IlluminaSummaryV2(ProtocolElement):
     """
-    This is summary for V2 germlines for cancer
+    This is the summary provided by Illumina V2 (current) germline
+    samples
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
@@ -2582,14 +2682,15 @@ class IlluminaVersion(object):
 
 class InbreedingCoefficientEstimates(ProtocolElement):
     """
-    No documentation
+    Inbreeding coefficient estimates
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InbreedingCoefficientEstimates", "fields": [{"type": "string",
 "name": "FID"}, {"type": "string", "name": "IID"}, {"type": "double",
 "name": "O_HOM"}, {"type": "double", "name": "E_HOM"}, {"type":
-"double", "name": "N_NM"}, {"type": "double", "name": "F"}]}
+"double", "name": "N_NM"}, {"type": "double", "name": "F"}], "doc":
+""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3324,22 +3425,75 @@ class Phase(object):
     metastasis = "metastasis"
 
 
+class PlinkROH(ProtocolElement):
+    """
+    Plink runs of homozygosity
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"PlinkROH", "fields": [{"type": "string", "name": "FID"}, {"type":
+"string", "name": "IID"}, {"type": "double", "name": "PHE"}, {"type":
+"double", "name": "NSEG"}, {"type": "double", "name": "KB"}, {"type":
+"double", "name": "KBAVG"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "FID",
+        "IID",
+        "KB",
+        "KBAVG",
+        "NSEG",
+        "PHE",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'FID', 'IID', 'KB', 'KBAVG', 'NSEG', 'PHE'
+    ]
+
+    def __init__(self, **kwargs):
+        self.FID = kwargs.get(
+            'FID', 'None')
+        self.IID = kwargs.get(
+            'IID', 'None')
+        self.KB = kwargs.get(
+            'KB', None)
+        self.KBAVG = kwargs.get(
+            'KBAVG', None)
+        self.NSEG = kwargs.get(
+            'NSEG', None)
+        self.PHE = kwargs.get(
+            'PHE', None)
+
+
 class PlinkSexCheck(ProtocolElement):
     """
-    No documentation
+    Plink sex check
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "PlinkSexCheck", "fields": [{"type": "string", "name": "FID"},
 {"type": "string", "name": "IID"}, {"type": "double", "name": "F"},
-{"type": "double", "name": "YCOUNT"}, {"type": "double", "name":
-"STATUS"}, {"type": "double", "name": "SNPSEX"}]}
+{"type": "double", "name": "YCOUNT"}, {"type": "string", "name":
+"STATUS"}, {"type": "double", "name": "SNPSEX"}, {"type": "double",
+"name": "PEDSEX"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "F",
         "FID",
         "IID",
+        "PEDSEX",
         "SNPSEX",
         "STATUS",
         "YCOUNT",
@@ -3357,7 +3511,7 @@ class PlinkSexCheck(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'F', 'FID', 'IID', 'SNPSEX', 'STATUS', 'YCOUNT'
+        'F', 'FID', 'IID', 'PEDSEX', 'SNPSEX', 'STATUS', 'YCOUNT'
     ]
 
     def __init__(self, **kwargs):
@@ -3367,10 +3521,12 @@ class PlinkSexCheck(ProtocolElement):
             'FID', 'None')
         self.IID = kwargs.get(
             'IID', 'None')
+        self.PEDSEX = kwargs.get(
+            'PEDSEX', None)
         self.SNPSEX = kwargs.get(
             'SNPSEX', None)
         self.STATUS = kwargs.get(
-            'STATUS', None)
+            'STATUS', 'None')
         self.YCOUNT = kwargs.get(
             'YCOUNT', None)
 
@@ -3562,13 +3718,21 @@ class Reason(object):
     """
     No documentation
     """
+    coverage = "coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    verifybamid = "verifybamid"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
     arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -4733,14 +4897,16 @@ class State(object):
     """
     This is the master state for this sample, for example
     caution,quality could be used to say that a sample under this
-    individual has quality issues.  See sample level for full details
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed hold: sample
+    is on hold pending investigation fail: sample has failed a QC
+    check caution: sample is ready but should be used with caution
     """
     ready = "ready"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
 
 
 class TernaryOption(object):
@@ -4764,21 +4930,31 @@ class Tier(object):
 
 class TumorChecks(ProtocolElement):
     """
-    No documentation
+    Tumor contamination check results  We ask whether somatic calls
+    are common in 1000G project.  Common is defined as 0.01.  The
+    percentage of these variants gives an indication of the
+    contamination level of the sample.  If another sample contaminates
+    or the germline is swapped then the percentage of somatic variants
+    in 1000G will be high.  * `well_id`: Individual sample ID *
+    `num_variants_gt_filter`: The number of somatic variants that are
+    common in 1000G * `num_variants_lt_filter`: The number of somatic
+    variants rare or non-existant in 1000G *
+    `perc_variants_gt_filter`: The percentage of somatic variants that
+    are common in 1000G
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"TumorChecks", "fields": [{"type": "string", "name": "wellId"},
-{"type": "double", "name": "percentSomatic1000G"}, {"type": "double",
-"name": "totalSomatic1000G"}, {"type": "double", "name":
-"totalSomaticNot1000G"}]}
+"TumorChecks", "fields": [{"type": "string", "name": "well_id"},
+{"type": "double", "name": "num_variants_gt_filter"}, {"type":
+"double", "name": "num_variants_lt_filter"}, {"type": "double",
+"name": "perc_variants_gt_filter"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "percentSomatic1000G",
-        "totalSomatic1000G",
-        "totalSomaticNot1000G",
-        "wellId",
+        "num_variants_gt_filter",
+        "num_variants_lt_filter",
+        "perc_variants_gt_filter",
+        "well_id",
     }
 
     @classmethod
@@ -4793,19 +4969,19 @@ class TumorChecks(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'percentSomatic1000G', 'totalSomatic1000G',
-        'totalSomaticNot1000G', 'wellId'
+        'num_variants_gt_filter', 'num_variants_lt_filter',
+        'perc_variants_gt_filter', 'well_id'
     ]
 
     def __init__(self, **kwargs):
-        self.percentSomatic1000G = kwargs.get(
-            'percentSomatic1000G', None)
-        self.totalSomatic1000G = kwargs.get(
-            'totalSomatic1000G', None)
-        self.totalSomaticNot1000G = kwargs.get(
-            'totalSomaticNot1000G', None)
-        self.wellId = kwargs.get(
-            'wellId', 'None')
+        self.num_variants_gt_filter = kwargs.get(
+            'num_variants_gt_filter', None)
+        self.num_variants_lt_filter = kwargs.get(
+            'num_variants_lt_filter', None)
+        self.perc_variants_gt_filter = kwargs.get(
+            'perc_variants_gt_filter', None)
+        self.well_id = kwargs.get(
+            'well_id', 'None')
 
 
 class VariantClass(object):
@@ -4945,7 +5121,11 @@ class VcfTSTV(ProtocolElement):
 
 class VerifyBamId(ProtocolElement):
     """
-    No documentation
+    Verify Bam ID  This is only run on germline samples  * `SEQ_ID`: *
+    `CHIP_ID`: * `SNPS`: * `READS`: * `AVG_DP`: * `FREEMIX`: *
+    `FREELK1`: * `FREELK0`: * `FREE_RH`: * `FREE_RA`: * `CHIPMIX`: *
+    `CHIPLK1`: * `CHIPLK0`: * `CHIP_RA`: * `DPREF`: * `RDPHET`: *
+    `RDPALT`:
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
@@ -4959,7 +5139,7 @@ class VerifyBamId(ProtocolElement):
 "name": "CHIPLK1"}, {"type": "string", "name": "CHIPLK0"}, {"type":
 "string", "name": "CHIP_RA"}, {"type": "string", "name": "DPREF"},
 {"type": "string", "name": "RDPHET"}, {"type": "string", "name":
-"RDPALT"}]}
+"RDPALT"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -5116,61 +5296,41 @@ class WholeGenomeCoverage(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"WholeGenomeCoverage", "fields": [{"type": "string", "name":
-"wellId"}, {"type": "double", "name": "n"}, {"type": "float", "name":
-"mean"}, {"type": "float", "name": "sd"}, {"type": "float", "name":
-"lower"}, {"type": "float", "name": "upper"}, {"type": "float",
-"name": "pct25"}, {"type": "float", "name": "median"}, {"type":
-"float", "name": "pct75"}]}
+"WholeGenomeCoverage", "fields": [{"type": {"items": {"fields":
+[{"type": "string", "name": "wellId"}, {"type": "double", "name":
+"n"}, {"type": "double", "name": "mean"}, {"type": "double", "name":
+"sd"}, {"type": "double", "name": "pct25"}, {"type": "double", "name":
+"median"}, {"type": "double", "name": "pct75"}, {"type": "string",
+"name": "scope"}], "type": "record", "name": "CoverageSummary"},
+"type": "array"}, "name": "coverageSummary"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "lower",
-        "mean",
-        "median",
-        "n",
-        "pct25",
-        "pct75",
-        "sd",
-        "upper",
-        "wellId",
+        "coverageSummary",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'lower', 'mean', 'median', 'n', 'pct25', 'pct75', 'sd',
-        'upper', 'wellId'
+        'coverageSummary'
     ]
 
     def __init__(self, **kwargs):
-        self.lower = kwargs.get(
-            'lower', None)
-        self.mean = kwargs.get(
-            'mean', None)
-        self.median = kwargs.get(
-            'median', None)
-        self.n = kwargs.get(
-            'n', None)
-        self.pct25 = kwargs.get(
-            'pct25', None)
-        self.pct75 = kwargs.get(
-            'pct75', None)
-        self.sd = kwargs.get(
-            'sd', None)
-        self.upper = kwargs.get(
-            'upper', None)
-        self.wellId = kwargs.get(
-            'wellId', 'None')
+        self.coverageSummary = kwargs.get(
+            'coverageSummary', None)
 
 
 class individualState(ProtocolElement):
@@ -5258,11 +5418,13 @@ class sampleState(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
-"pending", "hold", "fail", "caution", "blocked"], "doc": "", "type":
-"enum", "name": "State"}], "name": "state"}, {"type": ["null",
-{"symbols": ["duplicate", "pedigree", "contamination", "quality",
-"verifybamid", "arrayconcordance", "in_qc"], "type": "enum", "name":
-"Reason"}], "name": "reason"}]}
+"pending", "hold", "fail", "caution"], "doc": "", "type": "enum",
+"name": "State"}], "name": "state"}, {"type": ["null", {"symbols":
+["coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors",
+"pedigree_ibd_sharing", "contamination", "quality", "sex_query",
+"perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip",
+"arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other"], "type":
+"enum", "name": "Reason"}], "name": "reason"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {

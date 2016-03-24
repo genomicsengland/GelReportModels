@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "IlluminaSummaryV1",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is summary for all V1 summary",
+  "doc" : "This is the summary provided by illumina for all V1 (old version) of their pipeline",
   "fields" : [ {
     "name" : "illumina_version",
     "type" : {

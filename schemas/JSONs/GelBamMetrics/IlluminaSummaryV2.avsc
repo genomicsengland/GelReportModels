@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "IlluminaSummaryV2",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is summary for V2 germlines for cancer",
+  "doc" : "This is the summary provided by Illumina V2 (current) germline samples",
   "fields" : [ {
     "name" : "illumina_version",
     "type" : {

@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "IlluminaSummaryCancerV2",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is summary for V2 somatic",
+  "doc" : "This is the summary provided by illumina for Somatic calls in V2 (current) of their pipeline\n\nFields of interest include `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`",
   "fields" : [ {
     "name" : "illumina_version",
     "type" : {

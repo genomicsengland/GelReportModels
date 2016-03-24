@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "GelMetrics",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "These are contractual metrics calculated by GEL\n\n* `BaseDir` - Base directory of the data\n* `GbQ30NoDupsNoClip`: The number of missing genotypes\n* `perc_bases_ge_15x_mapQ_ge11`: Percentage of bases that have >=15x coverage and mapping quality >=11\n* `InputDir`: Input dir of the data\n* `DirectoryType`: Illumina directory type version\n* `nBases_samtools`: number of bases from samtools\n* `FileRelativePath`: relative path of bam file\n* `md5checksum`: md5 of the delivery",
   "fields" : [ {
     "name" : "BaseDir",
     "type" : "string"

@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "PlinkSexCheck",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Plink sex check",
   "fields" : [ {
     "name" : "FID",
     "type" : "string"
@@ -16,9 +17,12 @@
     "type" : "double"
   }, {
     "name" : "STATUS",
-    "type" : "double"
+    "type" : "string"
   }, {
     "name" : "SNPSEX",
+    "type" : "double"
+  }, {
+    "name" : "PEDSEX",
     "type" : "double"
   } ]
 }

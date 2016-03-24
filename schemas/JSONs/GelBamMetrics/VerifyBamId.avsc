@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "VerifyBamId",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Verify Bam ID\n\nThis is only run on germline samples\n\n* `SEQ_ID`:\n* `CHIP_ID`:\n* `SNPS`:\n* `READS`:\n* `AVG_DP`:\n* `FREEMIX`:\n* `FREELK1`:\n* `FREELK0`:\n* `FREE_RH`:\n* `FREE_RA`:\n* `CHIPMIX`:\n* `CHIPLK1`:\n* `CHIPLK0`:\n* `CHIP_RA`:\n* `DPREF`:\n* `RDPHET`:\n* `RDPALT`:",
   "fields" : [ {
     "name" : "SEQ_ID",
     "type" : "string"

@@ -7,6 +7,20 @@ protocol GelBamStats {
 enum SamtoolsScope {all, filtered}
 enum IlluminaVersion {IlluminaSummaryV1, IlluminaSummaryV2, IlluminaSummaryCancerV2}
 
+
+/**
+These are contractual metrics calculated by GEL
+
+* `BaseDir` - Base directory of the data
+* `GbQ30NoDupsNoClip`: The number of missing genotypes
+* `perc_bases_ge_15x_mapQ_ge11`: Percentage of bases that have >=15x coverage and mapping quality >=11
+* `InputDir`: Input dir of the data
+* `DirectoryType`: Illumina directory type version
+* `nBases_samtools`: number of bases from samtools
+* `FileRelativePath`: relative path of bam file
+* `md5checksum`: md5 of the delivery
+
+*/
 record GelMetrics {
 
     string BaseDir;
@@ -23,9 +37,8 @@ record GelMetrics {
 
 
 /**
-This is summary for V2 germlines for cancer
+This is the summary provided by Illumina V2 (current) germline samples
 */
-
 record IlluminaSummaryV2 {
 
     IlluminaVersion illumina_version ;
@@ -124,7 +137,7 @@ record IlluminaSummaryV2 {
 }
 
 /**
-This is summary for all V1 summary
+This is the summary provided by illumina for all V1 (old version) of their pipeline
 */
 record IlluminaSummaryV1 {
 
@@ -217,10 +230,11 @@ record IlluminaSummaryV1 {
 }
 
 /**
-This is summary for V2 somatic
+This is the summary provided by illumina for Somatic calls in V2 (current) of their pipeline
+
+Fields of interest include `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`
+
 */
-
-
 record IlluminaSummaryCancerV2 {
 
     IlluminaVersion illumina_version ;
@@ -285,6 +299,33 @@ record IlluminaSummaryCancerV2 {
 
 }
 
+
+/**
+
+Verify Bam ID
+
+This is only run on germline samples
+
+* `SEQ_ID`:
+* `CHIP_ID`:
+* `SNPS`:
+* `READS`:
+* `AVG_DP`:
+* `FREEMIX`:
+* `FREELK1`:
+* `FREELK0`:
+* `FREE_RH`:
+* `FREE_RA`:
+* `CHIPMIX`:
+* `CHIPLK1`:
+* `CHIPLK0`:
+* `CHIP_RA`:
+* `DPREF`:
+* `RDPHET`:
+* `RDPALT`:
+
+
+*/
 record VerifyBamId {
 
     string SEQ_ID ;
@@ -307,6 +348,15 @@ record VerifyBamId {
 
 }
 
+/**
+
+Array concordance with WGS data
+
+* `numberOfSites`: Number of sites considered
+* `numberOfDiscordantSites`: Number of sites discordant between WGS and Genotyping Array
+
+
+*/
 record ArrayConcordance {
 
     double numberOfSites ;
@@ -314,17 +364,59 @@ record ArrayConcordance {
 
 }
 
+/**
+
+Plink runs of homozygosity
+
+*/
+record PlinkROH {
+
+    string FID ;
+    string IID ;
+    double PHE ;
+    double NSEG ;
+    double KB ;
+    double KBAVG ;
+
+}
+
+/**
+
+Plink sex check
+
+*/
 record PlinkSexCheck {
 
     string FID ;
     string IID ;
     double F ;
     double YCOUNT ;
-    double STATUS ;
+    string STATUS ;
     double SNPSEX ;
+    double PEDSEX ;
 
 }
 
+/**
+
+Array genotyping rate for the sample
+* `IID` - Individual sample ID
+* `number_missing_genotypes`: The number of missing genotypes
+* `number_total_genotypes`: The number of total genotypes
+
+*/
+record ArrayGenotypingRate {
+
+    string IID ;
+    double number_missing_genotypes ;
+    double number_total_genotypes ;
+
+}
+
+/**
+Inbreeding coefficient estimates
+
+*/
 record InbreedingCoefficientEstimates {
 
     string FID ;
@@ -336,40 +428,51 @@ record InbreedingCoefficientEstimates {
 
 }
 
+/**
+Tumor contamination check results
+
+We ask whether somatic calls are common in 1000G project.  Common is defined as 0.01.  The percentage of these variants
+gives an indication of the contamination level of the sample.  If another sample contaminates or the germline is
+swapped then the percentage of somatic variants in 1000G will be high.
+
+* `well_id`: Individual sample ID
+* `num_variants_gt_filter`: The number of somatic variants that are common in 1000G
+* `num_variants_lt_filter`: The number of somatic variants rare or non-existant in 1000G
+* `perc_variants_gt_filter`: The percentage of somatic variants that are common in 1000G
+
+*/
 record TumorChecks {
 
+    string well_id;
+    double num_variants_gt_filter;
+    double num_variants_lt_filter;
+    double perc_variants_gt_filter;
+
+}
+
+
+record CoverageSummary {
+
     string wellId;
-    double percentSomatic1000G;
-    double totalSomatic1000G;
-    double totalSomaticNot1000G;
+    double n;
+    double mean;
+    double sd;
+    double pct25;
+    double median;
+    double pct75;
+    string scope;
 
 }
 
 record WholeGenomeCoverage {
 
-    string wellId;
-    double n;
-    float mean;
-    float sd;
-    float lower;
-    float upper;
-    float pct25;
-    float median;
-    float pct75;
+    array <CoverageSummary> coverageSummary;
 
 }
 
 record ExonCoverage {
 
-    string wellId;
-    double n;
-    float mean;
-    float sd;
-    float lower;
-    float upper;
-    float pct25;
-    float median;
-    float pct75;
+    array <CoverageSummary> coverageSummary;
 
 }
 
