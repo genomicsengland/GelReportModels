@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "Plink",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "F",
+    "type" : "double"
+  }, {
+    "name" : "YCOUNT",
+    "type" : "double"
+  }, {
+    "name" : "STATUS",
+    "type" : "double"
+  }, {
+    "name" : "SNPSEX",
+    "type" : "double"
+  } ]
+}

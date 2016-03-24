@@ -1,0 +1,83 @@
+{
+  "type" : "record",
+  "name" : "ReportEvent",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "reportEventId",
+    "type" : "string",
+    "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
+  }, {
+    "name" : "phenotype",
+    "type" : "string",
+    "doc" : "This is the tumor type considered to report this variant"
+  }, {
+    "name" : "genomicFeature",
+    "type" : {
+      "type" : "record",
+      "name" : "GenomicFeature",
+      "fields" : [ {
+        "name" : "featureType",
+        "type" : {
+          "type" : "enum",
+          "name" : "FeatureTypes",
+          "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+        },
+        "doc" : "Feature Type"
+      }, {
+        "name" : "ensemblId",
+        "type" : "string",
+        "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
+      }, {
+        "name" : "genName",
+        "type" : "string",
+        "doc" : "Gene used in tier"
+      }, {
+        "name" : "proteinDomain",
+        "type" : [ "null", "string" ],
+        "doc" : "Protein domain hti in tier"
+      }, {
+        "name" : "mutation",
+        "type" : "string",
+        "doc" : "Mutation used in tier"
+      }, {
+        "name" : "soTerm",
+        "type" : "string",
+        "doc" : "SO Term used in tier"
+      }, {
+        "name" : "soName",
+        "type" : "string",
+        "doc" : "SO name used in tier"
+      }, {
+        "name" : "ids",
+        "type" : {
+          "type" : "map",
+          "values" : "string"
+        },
+        "doc" : "Others IDs"
+      } ]
+    },
+    "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
+  }, {
+    "name" : "variantClass",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "VariantClass",
+      "doc" : "This is the predicted biological impact of the variant",
+      "symbols" : [ "A", "B", "C" ]
+    } ],
+    "doc" : "Classification of the pathogenicity of this variant with respect to the phenotype"
+  }, {
+    "name" : "eventJustification",
+    "type" : "string",
+    "doc" : "This is the description of why this variant would be reported, for example that it affects the protein in this way\n    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs\n    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included."
+  }, {
+    "name" : "tier",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Tier",
+      "doc" : "Possible tiers as defined by Genomics England",
+      "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
+    } ],
+    "doc" : "Gel Tier"
+  } ]
+}

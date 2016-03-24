@@ -1,0 +1,25 @@
+{
+  "type" : "record",
+  "name" : "PlinkROH",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Plink runs of homozygosity",
+  "fields" : [ {
+    "name" : "FID",
+    "type" : "string"
+  }, {
+    "name" : "IID",
+    "type" : "string"
+  }, {
+    "name" : "PHE",
+    "type" : "double"
+  }, {
+    "name" : "NSEG",
+    "type" : "double"
+  }, {
+    "name" : "KB",
+    "type" : "double"
+  }, {
+    "name" : "KBAVG",
+    "type" : "double"
+  } ]
+}

@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Association",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "response" ]
+}
