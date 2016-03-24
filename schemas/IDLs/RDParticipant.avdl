@@ -4,7 +4,9 @@ This protocol defines the Participants and Pedigree
 */
 protocol Pedigrees {
 
+import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
+import idl "VersionControl.avdl";
 
 /**
 This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp.
@@ -30,7 +32,7 @@ record Disorder {
     /**
     Age of onset in months
     */
-    union {null, int} ageOfOnset;
+    union {null, string} ageOfOnset;
 }
 
 
@@ -45,10 +47,10 @@ record HpoTerm {
     string term;
 
     /**
-    This is whether the term is present in the participant (default is null=unkown) true=term is present in participant,
+    This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
     false=term is not present
     */
-    boolean termPresence;
+    union {null, boolean} termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -58,7 +60,7 @@ record HpoTerm {
     /**
     Age of onset in months
     */
-    union {null, int} ageOfOnset;
+    union {null, string} ageOfOnset;
 
 }
 
@@ -86,6 +88,11 @@ This defines a RD Participant (demographics and pedigree information)
 record RDParticipant {
 
     /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
     Numbering used to refer to each member of the pedigree
     */
     int pedigreeId;
@@ -106,9 +113,19 @@ record RDParticipant {
     string gelFamilyId;
 
     /**
+    superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
+    */
+    union {null, string} gelSuperFamilyId;
+
+    /**
     Sex of the Participant
     */
     Sex sex;
+
+    /**
+    Karyotypic sex of the participant as previously established or by looking at the GEL genome
+    */
+    union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
     refers to the pedigreeId of the father
@@ -122,6 +139,16 @@ record RDParticipant {
     about them in order to unambiguously reconstruct the pedigree.
     */
     union {null, int}  motherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the father
+    */
+    union {null, int}  superFatherId;
+
+    /**
+    this id is built using the original familyId and the original pedigreeId of the mother
+    */
+    union {null, int}  superMotherId;
 
     /**
     Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number
@@ -193,11 +220,23 @@ record RDParticipant {
 
 
     /**
+    Inbreeding Coefficient Estimation
+    */
+    union {null, InbreedingCoefficient} inbreedingCoefficient;
+
+
+    /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
     Null by default
     */
     union {null, map<string>} additionalInformation;
 
+}
+
+record AnalysisPanel {
+    string specificDisease;
+    string panelName;
+    union {null, string} panelVersion;
 }
 
 
@@ -206,11 +245,18 @@ This is the concept of a family with associated phenotypes as present in the rec
 */
 record Pedigree {
     /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
     Family id which internally translate to a sample set
     */
     string gelFamilyId;
 
     array <RDParticipant> participants;
+
+    union {null, array<AnalysisPanel>} analysisPanels;
 
 }
 

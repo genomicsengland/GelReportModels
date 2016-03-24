@@ -8,6 +8,7 @@ protocol CancerInterpretedGenomes {
 //TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 
 import idl "CommonInterpreted.avdl";
+import idl "VersionControl.avdl";
 
 
 
@@ -45,6 +46,11 @@ record ReportedSomaticStructuralVariants {
 }
 
 record CancerInterpretedGenome {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     This is the ID of the clinical interpretation request
     */

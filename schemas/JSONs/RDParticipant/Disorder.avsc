@@ -17,7 +17,7 @@
     "doc" : "This is Level4 Title for this disorder"
   }, {
     "name" : "ageOfOnset",
-    "type" : [ "null", "int" ],
+    "type" : [ "null", "string" ],
     "doc" : "Age of onset in months"
   } ]
 }

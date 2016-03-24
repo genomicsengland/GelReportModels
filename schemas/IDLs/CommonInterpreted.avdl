@@ -4,6 +4,8 @@ This protocol defines the Commons for GEL models
 */
 protocol CommonInterpreted {
 
+import idl "VersionControl.avdl";
+
 /**
 An enumeration for the different mode of inheritances:
 
@@ -40,9 +42,12 @@ This is intended to hold the genotypes for the family members
 In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
 */
 record CalledGenotype {
-    /**
-    TODO: EIK added allele fraction - ARM to check, DP field instead of fraction
-    */
+//TODO: consider refactoring to support cancer and germline specific genotype metrics
+/**
+Genotype
+Genotype score (quality)
+Genotype likelihood
+depth
 
     /**
     Participant id of the family member:
@@ -60,6 +65,11 @@ record CalledGenotype {
     string genotype;
 
     /**
+    Phase set of variants when variants are phased
+    */
+    union {null, int} phaseSet;
+
+    /**
     Depth for Reference Allele
     */
     union {null, int} depthReference;
@@ -73,6 +83,9 @@ record CalledGenotype {
     Copy number genotype for imprecise events
     */
     union {null, int} copyNumber;
+
+
+
 
 }
 
@@ -196,9 +209,13 @@ record ReportEvent {
 
 
 record ReportedVariant {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
-    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header
     */
     string chromosome;
 
@@ -253,6 +270,10 @@ record ReportedVariant {
 
 
 record ReportedStructuralVariant {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
@@ -314,5 +335,5 @@ record ReportedStructuralVariant {
 
 //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
-
+//TODO: Add record to report complex genetics phenomena in reports
 }

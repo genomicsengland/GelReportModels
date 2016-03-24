@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '0.2.0'
+version = '1.2.0'
 
 
 class AllelesCode(object):

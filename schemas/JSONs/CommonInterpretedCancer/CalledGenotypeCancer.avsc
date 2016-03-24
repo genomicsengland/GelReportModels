@@ -26,6 +26,6 @@
   }, {
     "name" : "copyNumber",
     "type" : [ "null", "int" ],
-    "doc" : "Copy number genotype for imzcise events"
+    "doc" : "Copy number genotype for imprecise events"
   } ]
 }

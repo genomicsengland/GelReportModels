@@ -5,7 +5,7 @@ This protocol defines the Participants
 protocol CancerParticipants {
 
 import idl "CommonParticipant.avdl";
-
+import idl "VersionControl.avdl";
 
 enum SampleType {germline, tumor}
 
@@ -21,6 +21,12 @@ enum Method {resection, biopsy, blood}
 
 
 record CancerSample {
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
     /**
     Sample Id (e.g, LP00012645_5GH))
     */
@@ -121,6 +127,11 @@ This defines a Cancer Demographics
 record CancerDemographics{
 
     /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
     Individual Id (this is the individual id (gel ID))
     */
     string gelId;
@@ -166,6 +177,11 @@ record CancerDemographics{
 This defines a Cancer Participant (demographics and sample information)
 */
 record CancerParticipant{
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
     This contains all the demographic information

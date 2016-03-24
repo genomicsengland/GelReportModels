@@ -4,6 +4,19 @@
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines a Cancer Demographics",
   "fields" : [ {
+    "name" : "versionControl",
+    "type" : {
+      "type" : "record",
+      "name" : "VersionControl",
+      "fields" : [ {
+        "name" : "GitVersionControl",
+        "type" : "string",
+        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+        "default" : "1.2.0"
+      } ]
+    },
+    "doc" : "Model version number"
+  }, {
     "name" : "gelId",
     "type" : "string",
     "doc" : "Individual Id (this is the individual id (gel ID))"

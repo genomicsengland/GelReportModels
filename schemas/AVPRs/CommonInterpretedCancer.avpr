@@ -29,66 +29,12 @@
     }, {
       "name" : "copyNumber",
       "type" : [ "null", "int" ],
-      "doc" : "Copy number genotype for imzcise events"
+      "doc" : "Copy number genotype for imprecise events"
     } ]
   }, {
     "type" : "enum",
     "name" : "FeatureTypes",
     "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
-  }, {
-    "type" : "enum",
-    "name" : "ActionType",
-    "doc" : "this is the type of action",
-    "symbols" : [ "drug", "stratification", "biomarker" ]
-  }, {
-    "type" : "enum",
-    "name" : "Association",
-    "symbols" : [ "response" ]
-  }, {
-    "type" : "record",
-    "name" : "Actions",
-    "fields" : [ {
-      "name" : "actionType",
-      "type" : "ActionType"
-    }, {
-      "name" : "association",
-      "type" : [ "null", "string" ],
-      "doc" : "type of association e.g response"
-    }, {
-      "name" : "pathway",
-      "type" : [ "null", "string" ],
-      "doc" : "pathway e.g. activation"
-    }, {
-      "name" : "evidence",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "array of PMIDs"
-    }, {
-      "name" : "drug",
-      "type" : [ "null", "string" ],
-      "doc" : "drug"
-    }, {
-      "name" : "status",
-      "type" : [ "null", "string" ],
-      "doc" : "status i.e. clinical, pre-clinical"
-    }, {
-      "name" : "comments",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "comments"
-    }, {
-      "name" : "evidenceType",
-      "type" : [ "null", "string" ],
-      "doc" : "type of evidence"
-    }, {
-      "name" : "source",
-      "type" : "string",
-      "doc" : "source of the information"
-    } ]
   }, {
     "type" : "record",
     "name" : "GenomicFeatureCancer",
@@ -101,13 +47,13 @@
       "type" : "string",
       "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
     }, {
-      "name" : "geneName",
+      "name" : "genName",
       "type" : "string",
       "doc" : "Gene used in tier"
     }, {
       "name" : "proteinDomain",
       "type" : [ "null", "string" ],
-      "doc" : "Protein domain used in tier"
+      "doc" : "Protein domain hti in tier"
     }, {
       "name" : "mutation",
       "type" : "string",
@@ -154,16 +100,9 @@
       "type" : "GenomicFeatureCancer",
       "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
     }, {
-      "name" : "actions",
-      "type" : {
-        "type" : "array",
-        "items" : "Actions"
-      },
-      "doc" : ""
-    }, {
       "name" : "variantClass",
       "type" : [ "null", "VariantClass" ],
-      "doc" : "This is the gel variant class related to variant actionability"
+      "doc" : "Classification of the pathogenicity of this variant with respect to the phenotype"
     }, {
       "name" : "eventJustification",
       "type" : "string",
@@ -204,7 +143,7 @@
       },
       "doc" : "array of genotypes for the family"
     }, {
-      "name" : "reportEventsCancer",
+      "name" : "reportEvents",
       "type" : {
         "type" : "array",
         "items" : "ReportEventCancer"
