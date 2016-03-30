@@ -15,13 +15,13 @@
     "type" : "string",
     "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
   }, {
-    "name" : "genName",
+    "name" : "geneName",
     "type" : "string",
     "doc" : "Gene used in tier"
   }, {
     "name" : "proteinDomain",
     "type" : [ "null", "string" ],
-    "doc" : "Protein domain hti in tier"
+    "doc" : "Protein domain used in tier"
   }, {
     "name" : "mutation",
     "type" : "string",

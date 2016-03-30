@@ -12,10 +12,13 @@
     } ]
   }, {
     "name" : "reason",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "Reason",
-      "symbols" : [ "coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination", "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other" ]
-    } ]
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "enum",
+        "name" : "Reason",
+        "symbols" : [ "median_coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination", "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other" ]
+      }
+    }
   } ]
 }
