@@ -2,11 +2,12 @@
   "type" : "record",
   "name" : "ArrayConcordance",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Array concordance with WGS data\n\n* `numberOfSites`: Number of sites considered\n* `numberOfDiscordantSites`: Number of sites discordant between WGS and Genotyping Array",
   "fields" : [ {
     "name" : "numberOfSites",
-    "type" : "string"
+    "type" : "double"
   }, {
     "name" : "numberOfDiscordantSites",
-    "type" : "string"
+    "type" : "double"
   } ]
 }

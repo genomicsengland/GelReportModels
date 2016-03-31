@@ -1,8 +1,8 @@
 {
   "type" : "record",
-  "name" : "PlinkSexCheck",
+  "name" : "PlinkROH",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "Plink sex check",
+  "doc" : "Plink runs of homozygosity",
   "fields" : [ {
     "name" : "FID",
     "type" : "string"
@@ -10,19 +10,16 @@
     "name" : "IID",
     "type" : "string"
   }, {
-    "name" : "F",
+    "name" : "PHE",
     "type" : "double"
   }, {
-    "name" : "YCOUNT",
+    "name" : "NSEG",
     "type" : "double"
   }, {
-    "name" : "STATUS",
-    "type" : "string"
-  }, {
-    "name" : "SNPSEX",
+    "name" : "KB",
     "type" : "double"
   }, {
-    "name" : "PEDSEX",
+    "name" : "KBAVG",
     "type" : "double"
   } ]
 }

@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "ActionType",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "this is the type of action",
+  "symbols" : [ "drug", "stratification", "biomarker" ]
+}

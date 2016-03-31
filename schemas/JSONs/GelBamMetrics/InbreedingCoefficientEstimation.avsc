@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "InbreedingCoefficientEstimation",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "O",
+    "type" : "double"
+  }, {
+    "name" : "E",
+    "type" : "double"
+  }, {
+    "name" : "N",
+    "type" : "double"
+  }, {
+    "name" : "F",
+    "type" : "double"
+  } ]
+}

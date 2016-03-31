@@ -1,19 +1,23 @@
 {
   "type" : "record",
-  "name" : "ReportedVariantCancer",
+  "name" : "ReportedStructuralVariant",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
     "name" : "chromosome",
     "type" : "string",
     "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
   }, {
-    "name" : "dbSNPid",
-    "type" : [ "null", "string" ],
-    "doc" : "variant ID in dbSNP"
-  }, {
-    "name" : "position",
+    "name" : "start",
     "type" : "int",
-    "doc" : "position: Position 1-based"
+    "doc" : "start: start position 1-based"
+  }, {
+    "name" : "end",
+    "type" : "int",
+    "doc" : "end: end position 1-based"
+  }, {
+    "name" : "type",
+    "type" : "string",
+    "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
   }, {
     "name" : "reference",
     "type" : "string",
@@ -28,7 +32,7 @@
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "CalledGenotypeCancer",
+        "name" : "CalledGenotype",
         "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
         "fields" : [ {
           "name" : "gelId",
@@ -53,18 +57,17 @@
         }, {
           "name" : "copyNumber",
           "type" : [ "null", "int" ],
-          "doc" : "Copy number genotype for imzcise events"
+          "doc" : "Copy number genotype for imprecise events"
         } ]
       }
-    },
-    "doc" : "array of genotypes for the family"
+    }
   }, {
-    "name" : "reportEventsCancer",
+    "name" : "reportEvents",
     "type" : {
       "type" : "array",
       "items" : {
         "type" : "record",
-        "name" : "ReportEventCancer",
+        "name" : "ReportEvent",
         "fields" : [ {
           "name" : "reportEventId",
           "type" : "string",
@@ -77,7 +80,7 @@
           "name" : "genomicFeature",
           "type" : {
             "type" : "record",
-            "name" : "GenomicFeatureCancer",
+            "name" : "GenomicFeature",
             "fields" : [ {
               "name" : "featureType",
               "type" : {
@@ -91,13 +94,13 @@
               "type" : "string",
               "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
             }, {
-              "name" : "geneName",
+              "name" : "genName",
               "type" : "string",
               "doc" : "Gene used in tier"
             }, {
               "name" : "proteinDomain",
               "type" : [ "null", "string" ],
-              "doc" : "Protein domain used in tier"
+              "doc" : "Protein domain hti in tier"
             }, {
               "name" : "mutation",
               "type" : "string",
@@ -121,63 +124,6 @@
           },
           "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
         }, {
-          "name" : "actions",
-          "type" : {
-            "type" : "array",
-            "items" : {
-              "type" : "record",
-              "name" : "Actions",
-              "fields" : [ {
-                "name" : "actionType",
-                "type" : {
-                  "type" : "enum",
-                  "name" : "ActionType",
-                  "doc" : "this is the type of action",
-                  "symbols" : [ "drug", "stratification", "biomarker" ]
-                }
-              }, {
-                "name" : "association",
-                "type" : [ "null", "string" ],
-                "doc" : "type of association e.g response"
-              }, {
-                "name" : "pathway",
-                "type" : [ "null", "string" ],
-                "doc" : "pathway e.g. activation"
-              }, {
-                "name" : "evidence",
-                "type" : [ "null", {
-                  "type" : "array",
-                  "items" : "string"
-                } ],
-                "doc" : "array of PMIDs"
-              }, {
-                "name" : "drug",
-                "type" : [ "null", "string" ],
-                "doc" : "drug"
-              }, {
-                "name" : "status",
-                "type" : [ "null", "string" ],
-                "doc" : "status i.e. clinical, pre-clinical"
-              }, {
-                "name" : "comments",
-                "type" : [ "null", {
-                  "type" : "array",
-                  "items" : "string"
-                } ],
-                "doc" : "comments"
-              }, {
-                "name" : "evidenceType",
-                "type" : [ "null", "string" ],
-                "doc" : "type of evidence"
-              }, {
-                "name" : "source",
-                "type" : "string",
-                "doc" : "source of the information"
-              } ]
-            }
-          },
-          "doc" : ""
-        }, {
           "name" : "variantClass",
           "type" : [ "null", {
             "type" : "enum",
@@ -185,7 +131,7 @@
             "doc" : "This is the predicted biological impact of the variant",
             "symbols" : [ "A", "B", "C" ]
           } ],
-          "doc" : "This is the gel variant class related to variant actionability"
+          "doc" : "Classification of the pathogenicity of this variant with respect to the phenotype"
         }, {
           "name" : "eventJustification",
           "type" : "string",

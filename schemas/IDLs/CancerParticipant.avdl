@@ -86,7 +86,7 @@ record CancerSample {
     union {null, string} tumorContent;
 
     /**
-    Grade of tumour - a lot of recirds gave this
+    Grade of tumour - a lot of records gave this
     */
     union {null, string} grade;
 
@@ -132,7 +132,7 @@ record CancerDemographics{
     VersionControl versionControl;
 
     /**
-    Individual Is (this is the individual id (gel ID))
+    Individual Id (this is the individual id (gel ID))
     */
     string gelId;
 

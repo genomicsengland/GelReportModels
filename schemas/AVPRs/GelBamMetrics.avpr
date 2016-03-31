@@ -13,6 +13,7 @@
   }, {
     "type" : "record",
     "name" : "GelMetrics",
+    "doc" : "These are contractual metrics calculated by GEL\n\n* `BaseDir` - Base directory of the data\n* `GbQ30NoDupsNoClip`: The number of missing genotypes\n* `perc_bases_ge_15x_mapQ_ge11`: Percentage of bases that have >=15x coverage and mapping quality >=11\n* `InputDir`: Input dir of the data\n* `DirectoryType`: Illumina directory type version\n* `nBases_samtools`: number of bases from samtools\n* `FileRelativePath`: relative path of bam file\n* `md5checksum`: md5 of the delivery",
     "fields" : [ {
       "name" : "BaseDir",
       "type" : "string"
@@ -41,7 +42,7 @@
   }, {
     "type" : "record",
     "name" : "IlluminaSummaryV2",
-    "doc" : "This is summary for V2 germlines for cancer",
+    "doc" : "This is the summary provided by Illumina V2 (current) germline samples",
     "fields" : [ {
       "name" : "illumina_version",
       "type" : "IlluminaVersion"
@@ -322,7 +323,7 @@
   }, {
     "type" : "record",
     "name" : "IlluminaSummaryV1",
-    "doc" : "This is summary for all V1 summary",
+    "doc" : "This is the summary provided by illumina for all V1 (old version) of their pipeline",
     "fields" : [ {
       "name" : "illumina_version",
       "type" : "IlluminaVersion"
@@ -582,7 +583,7 @@
   }, {
     "type" : "record",
     "name" : "IlluminaSummaryCancerV2",
-    "doc" : "This is summary for V2 somatic",
+    "doc" : "This is the summary provided by illumina for Somatic calls in V2 (current) of their pipeline\n\nFields of interest include `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`",
     "fields" : [ {
       "name" : "illumina_version",
       "type" : "IlluminaVersion"
@@ -761,6 +762,7 @@
   }, {
     "type" : "record",
     "name" : "VerifyBamId",
+    "doc" : "Verify Bam ID\n\nThis is only run on germline samples\n\n* `SEQ_ID`:\n* `CHIP_ID`:\n* `SNPS`:\n* `READS`:\n* `AVG_DP`:\n* `FREEMIX`:\n* `FREELK1`:\n* `FREELK0`:\n* `FREE_RH`:\n* `FREE_RA`:\n* `CHIPMIX`:\n* `CHIPLK1`:\n* `CHIPLK0`:\n* `CHIP_RA`:\n* `DPREF`:\n* `RDPHET`:\n* `RDPALT`:",
     "fields" : [ {
       "name" : "SEQ_ID",
       "type" : "string"
@@ -816,16 +818,41 @@
   }, {
     "type" : "record",
     "name" : "ArrayConcordance",
+    "doc" : "Array concordance with WGS data\n\n* `numberOfSites`: Number of sites considered\n* `numberOfDiscordantSites`: Number of sites discordant between WGS and Genotyping Array",
     "fields" : [ {
       "name" : "numberOfSites",
-      "type" : "string"
+      "type" : "double"
     }, {
       "name" : "numberOfDiscordantSites",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "PlinkROH",
+    "doc" : "Plink runs of homozygosity",
+    "fields" : [ {
+      "name" : "FID",
       "type" : "string"
+    }, {
+      "name" : "IID",
+      "type" : "string"
+    }, {
+      "name" : "PHE",
+      "type" : "double"
+    }, {
+      "name" : "NSEG",
+      "type" : "double"
+    }, {
+      "name" : "KB",
+      "type" : "double"
+    }, {
+      "name" : "KBAVG",
+      "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "PlinkSexCheck",
+    "doc" : "Plink sex check",
     "fields" : [ {
       "name" : "FID",
       "type" : "string"
@@ -840,14 +867,32 @@
       "type" : "double"
     }, {
       "name" : "STATUS",
-      "type" : "double"
+      "type" : "string"
     }, {
       "name" : "SNPSEX",
+      "type" : "double"
+    }, {
+      "name" : "PEDSEX",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ArrayGenotypingRate",
+    "doc" : "Array genotyping rate for the sample\n* `IID` - Individual sample ID\n* `number_missing_genotypes`: The number of missing genotypes\n* `number_total_genotypes`: The number of total genotypes",
+    "fields" : [ {
+      "name" : "IID",
+      "type" : "string"
+    }, {
+      "name" : "number_missing_genotypes",
+      "type" : "double"
+    }, {
+      "name" : "number_total_genotypes",
       "type" : "double"
     } ]
   }, {
     "type" : "record",
     "name" : "InbreedingCoefficientEstimates",
+    "doc" : "Inbreeding coefficient estimates",
     "fields" : [ {
       "name" : "FID",
       "type" : "string"
@@ -870,18 +915,67 @@
   }, {
     "type" : "record",
     "name" : "TumorChecks",
+    "doc" : "Tumor contamination check results\n\nWe ask whether somatic calls are common in 1000G project.  Common is defined as 0.01.  The percentage of these variants\ngives an indication of the contamination level of the sample.  If another sample contaminates or the germline is\nswapped then the percentage of somatic variants in 1000G will be high.\n\n* `well_id`: Individual sample ID\n* `num_variants_gt_filter`: The number of somatic variants that are common in 1000G\n* `num_variants_lt_filter`: The number of somatic variants rare or non-existant in 1000G\n* `perc_variants_gt_filter`: The percentage of somatic variants that are common in 1000G",
+    "fields" : [ {
+      "name" : "well_id",
+      "type" : "string"
+    }, {
+      "name" : "num_variants_gt_filter",
+      "type" : "double"
+    }, {
+      "name" : "num_variants_lt_filter",
+      "type" : "double"
+    }, {
+      "name" : "perc_variants_gt_filter",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CoverageSummary",
     "fields" : [ {
       "name" : "wellId",
       "type" : "string"
     }, {
-      "name" : "percentSomatic1000G",
+      "name" : "n",
       "type" : "double"
     }, {
-      "name" : "totalSomatic1000G",
+      "name" : "mean",
       "type" : "double"
     }, {
-      "name" : "totalSomaticNot1000G",
+      "name" : "sd",
       "type" : "double"
+    }, {
+      "name" : "pct25",
+      "type" : "double"
+    }, {
+      "name" : "median",
+      "type" : "double"
+    }, {
+      "name" : "pct75",
+      "type" : "double"
+    }, {
+      "name" : "scope",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "WholeGenomeCoverage",
+    "fields" : [ {
+      "name" : "coverageSummary",
+      "type" : {
+        "type" : "array",
+        "items" : "CoverageSummary"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ExonCoverage",
+    "fields" : [ {
+      "name" : "coverageSummary",
+      "type" : {
+        "type" : "array",
+        "items" : "CoverageSummary"
+      }
     } ]
   }, {
     "type" : "record",

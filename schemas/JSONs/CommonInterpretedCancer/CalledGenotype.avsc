@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "CalledGenotypeCancer",
+  "name" : "CalledGenotype",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
   "fields" : [ {
@@ -26,6 +26,6 @@
   }, {
     "name" : "copyNumber",
     "type" : [ "null", "int" ],
-    "doc" : "Copy number genotype for imzcise events"
+    "doc" : "Copy number genotype for imprecise events"
   } ]
 }

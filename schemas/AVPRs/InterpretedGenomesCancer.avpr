@@ -328,6 +328,10 @@
       "type" : "string",
       "doc" : "Name of the company"
     }, {
+      "name" : "companyVersion",
+      "type" : "string",
+      "doc" : "Version of company pipeline"
+    }, {
       "name" : "reportURI",
       "type" : "string",
       "doc" : "URI where the company can upload files for this analysis"

@@ -1,16 +1,8 @@
 {
   "type" : "record",
-  "name" : "IlluminaSummaryV2",
+  "name" : "IlluminaSummary",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is the summary provided by Illumina V2 (current) germline samples",
   "fields" : [ {
-    "name" : "illumina_version",
-    "type" : {
-      "type" : "enum",
-      "name" : "IlluminaVersion",
-      "symbols" : [ "IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2" ]
-    }
-  }, {
     "name" : "STOP_LOST_SNVS",
     "type" : "double"
   }, {
@@ -222,7 +214,7 @@
     "type" : "double"
   }, {
     "name" : "PAIRED_END",
-    "type" : "string"
+    "type" : "double"
   }, {
     "name" : "DIVERSITY",
     "type" : "double"

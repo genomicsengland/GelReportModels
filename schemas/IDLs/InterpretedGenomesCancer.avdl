@@ -73,6 +73,11 @@ record CancerInterpretedGenome {
     string companyName;
 
     /**
+    Version of company pipeline
+    */
+    string companyVersion;
+
+    /**
     URI where the company can upload files for this analysis
     */
     string reportURI;

@@ -19,7 +19,7 @@
   }, {
     "name" : "gelId",
     "type" : "string",
-    "doc" : "Individual Is (this is the individual id (gel ID))"
+    "doc" : "Individual Id (this is the individual id (gel ID))"
   }, {
     "name" : "primaryDiagnosis",
     "type" : "string",
