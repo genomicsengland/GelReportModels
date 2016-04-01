@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "1.2.0"
+        "default" : "2.0.0"
       } ]
     },
     "doc" : "Model version number"
@@ -42,7 +42,7 @@
       "type" : "enum",
       "name" : "Sex",
       "doc" : "Sex",
-      "symbols" : [ "male", "female", "undetermined" ]
+      "symbols" : [ "male", "female", "unknown", "undetermined" ]
     },
     "doc" : "Sex of the Participant"
   }, {

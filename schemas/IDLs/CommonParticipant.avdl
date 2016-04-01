@@ -7,7 +7,7 @@ protocol CommonParticipant {
 /**
 Sex
 */
-enum Sex {male, female, undetermined}
+enum Sex {male, female, unknown, undetermined}
 
 /**
 Karyotipic Sex
