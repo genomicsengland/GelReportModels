@@ -1660,13 +1660,13 @@ class IlluminaSummaryCancerV2(ProtocolElement):
 "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
 "VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
 "VARIANTSTATS_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
+"BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30"}, {"type": "string", "name":
 "PURITY_TUMOR_PLOIDY"}, {"type": "double", "name":
 "SVSTATS_TANDEM_DUPLICATION_TOTAL"}, {"type": "double", "name":
 "SVSTATS_INSERTION_NUMBER_IN_GENES"}, {"type": "double", "name":
 "VARIANTSTATS_TOTAL_DELETIONS"}, {"type": "double", "name":
 "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS"}, {"type": "double",
-"name": "VARIANTSTATS_FRAMESHIFT_INSERTIONS"}, {"type": "double",
+"name": "VARIANTSTATS_FRAMESHIFT_INSERTIONS"}, {"type": "string",
 "name": "PURITY_TUMOR_PURITY"}, {"type": "double", "name":
 "SVSTATS_DELETION_NUMBER_IN_GENES"}, {"type": "double", "name":
 "VARIANTSTATS_TOTAL_INSERTIONS"}, {"type": "double", "name":
@@ -1850,9 +1850,9 @@ class IlluminaSummaryCancerV2(ProtocolElement):
         self.NORMAL_ID = kwargs.get(
             'NORMAL_ID', 'None')
         self.PURITY_TUMOR_PLOIDY = kwargs.get(
-            'PURITY_TUMOR_PLOIDY', None)
+            'PURITY_TUMOR_PLOIDY', 'None')
         self.PURITY_TUMOR_PURITY = kwargs.get(
-            'PURITY_TUMOR_PURITY', None)
+            'PURITY_TUMOR_PURITY', 'None')
         self.SVSTATS_CNV_NUMBER_IN_GENES = kwargs.get(
             'SVSTATS_CNV_NUMBER_IN_GENES', None)
         self.SVSTATS_CNV_TOTAL = kwargs.get(
