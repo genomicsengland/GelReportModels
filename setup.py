@@ -1,14 +1,17 @@
 import json
 from distutils.core import setup
-import os
-from pip.req import parse_requirements
-import uuid
+reqs = [
+    "sphinx_rtd_theme",
+    "labkey",
+    "ujson==1.33",
+    "avro==1.7.7",
+    "humanize==0.5.1",
+    "PyYAML==3.11",
+]
 
-install_reqs = parse_requirements(os.path.join(os.path.dirname(__file__), "requirements.txt"), session=uuid.uuid1())
-reqs = [str(ir.req) for ir in install_reqs if ir.req is not None]
-
-BASE_DIR = os.path.dirname(__file__)
-VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
+# BASE_DIR = os.path.dirname(__file__)
+# VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
+VERSION = "2.0.0"
 setup(
     name='GelReportModels',
     version=VERSION,
