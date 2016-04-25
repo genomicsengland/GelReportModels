@@ -6,7 +6,7 @@
     "type" : "enum",
     "name" : "Sex",
     "doc" : "Sex",
-    "symbols" : [ "male", "female", "undetermined" ]
+    "symbols" : [ "male", "female", "unknown", "undetermined" ]
   }, {
     "type" : "enum",
     "name" : "PersonKaryotipicSex",

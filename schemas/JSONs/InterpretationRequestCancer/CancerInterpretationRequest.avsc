@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "1.2.0"
+        "default" : "2.0.0"
       } ]
     },
     "doc" : "Model version number"
