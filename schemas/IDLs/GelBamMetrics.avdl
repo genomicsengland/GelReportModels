@@ -450,6 +450,15 @@ record TumorChecks {
 
 }
 
+/**
+GEL AT/GC dropout calculation
+*/
+record GelAtGcDrop {
+
+    double at_drop;
+    double gc_drop;
+
+}
 
 record CoverageSummary {
 
