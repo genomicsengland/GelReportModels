@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '2.0.0'
+version = '2.1.0'
 
 
 class ActionType(object):
@@ -507,7 +507,7 @@ class CancerDemographics(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerDemographics", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "gelId"}, {"doc": "", "type": "string", "name": "primaryDiagnosis"},
@@ -586,7 +586,7 @@ class CancerInterpretationRequest(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
-{"fields": [{"default": "2.0.0", "doc": "", "type": "string", "name":
+{"fields": [{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
@@ -708,7 +708,7 @@ class CancerInterpretedGenome(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "string", "name":
@@ -857,7 +857,7 @@ class CancerParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "CancerDemographics", "fields": [{"doc": "", "type":
@@ -956,7 +956,7 @@ class CancerSample(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": {"fields": [{"default":
-"2.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"2.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
 "versionControl"}, {"doc": "", "type": "string", "name": "sampleId"},
 {"doc": "", "type": "string", "name": "labId"}, {"doc": "", "type":
@@ -1408,6 +1408,43 @@ class FileType(object):
     TIER = "TIER"
     ANN = "ANN"
     BigWig = "BigWig"
+
+
+class GelAtGcDrop(ProtocolElement):
+    """
+    GEL AT/GC dropout calculation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"GelAtGcDrop", "fields": [{"type": "double", "name": "at_drop"},
+{"type": "double", "name": "gc_drop"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "at_drop",
+        "gc_drop",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'at_drop', 'gc_drop'
+    ]
+
+    def __init__(self, **kwargs):
+        self.at_drop = kwargs.get(
+            'at_drop', None)
+        self.gc_drop = kwargs.get(
+            'gc_drop', None)
 
 
 class GelMetrics(ProtocolElement):
@@ -2903,7 +2940,7 @@ class InterpretationRequestRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
@@ -3148,7 +3185,7 @@ class InterpretedGenomeRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -3512,7 +3549,7 @@ class Pedigree(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": {"fields": [{"default":
-"2.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"2.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
 "versionControl"}, {"doc": "", "type": "string", "name":
 "gelFamilyId"}, {"type": {"items": {"doc": "", "type": "record",
@@ -3799,7 +3836,7 @@ class RDParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RDParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "int", "name":
 "pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
@@ -4007,21 +4044,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -4260,7 +4290,7 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticStructuralVariants", "fields": [{"doc": "", "type":
-{"fields": [{"doc": "", "type": {"fields": [{"default": "2.0.0",
+{"fields": [{"doc": "", "type": {"fields": [{"default": "2.1.0",
 "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
 "record", "name": "VersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
@@ -4355,7 +4385,7 @@ class ReportedSomaticVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticVariants", "fields": [{"doc": "", "type": {"fields":
-[{"doc": "", "type": {"fields": [{"default": "2.0.0", "doc": "",
+[{"doc": "", "type": {"fields": [{"default": "2.1.0", "doc": "",
 "type": "string", "name": "GitVersionControl"}], "type": "record",
 "name": "VersionControl"}, "name": "versionControl"}, {"doc": "",
 "type": "string", "name": "chromosome"}, {"doc": "", "type": ["null",
@@ -4450,7 +4480,7 @@ class ReportedStructuralVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedStructuralVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
@@ -4696,7 +4726,7 @@ class ReportedVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
@@ -5126,7 +5156,7 @@ class SensitiveInformation(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"type": "string", "name": "gelID"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
@@ -5222,16 +5252,14 @@ class State(object):
     """
     This is the master state for this sample, for example
     caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    individual has quality issues.  See sample level for full details
     """
     ready = "ready"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
 
 class TernaryOption(object):
@@ -5548,7 +5576,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VersionControl", "fields": [{"default": "2.0.0", "doc": "", "type":
+"VersionControl", "fields": [{"default": "2.1.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -5571,7 +5599,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '2.0.0')
+            'GitVersionControl', '2.1.0')
 
 
 class VirtualPanel(ProtocolElement):
