@@ -16,6 +16,7 @@ import idl "variants.avdl";
 import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
 import idl "VersionControl.avdl";
+import idl "CommonInterpreted.avdl";
 
 /**
 An enumeration for the different mode of inheritances:
@@ -117,10 +118,22 @@ record InterpretationRequestRD {
     */
     union {null, File} annotationFile;
 
+
     /**
     Pedigree of the family to analyze
     */
     Pedigree pedigree;
+
+
+    /**
+    Tiered Variants
+    */
+    array<ReportedVariant> TieredVariants;
+
+    /**
+    Tiering Version
+    */
+    string TieringVersion;
 
 
     /**

@@ -118,12 +118,16 @@ class AnalysisPanel(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "AnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
-["null", "string"], "name": "panelVersion"}]}
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multiple_genetic_origins"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "multiple_genetic_origins",
         "panelName",
         "panelVersion",
+        "review_outcome",
         "specificDisease",
     }
 
@@ -139,14 +143,19 @@ class AnalysisPanel(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'panelName', 'panelVersion', 'specificDisease'
+        'multiple_genetic_origins', 'panelName', 'panelVersion',
+        'review_outcome', 'specificDisease'
     ]
 
     def __init__(self, **kwargs):
+        self.multiple_genetic_origins = kwargs.get(
+            'multiple_genetic_origins', 'None')
         self.panelName = kwargs.get(
             'panelName', 'None')
         self.panelVersion = kwargs.get(
             'panelVersion', None)
+        self.review_outcome = kwargs.get(
+            'review_outcome', 'None')
         self.specificDisease = kwargs.get(
             'specificDisease', 'None')
 
@@ -3044,14 +3053,67 @@ false, "doc": "", "type": "boolean", "name":
 "array"}, "name": "participants"}, {"type": ["null", {"items":
 {"fields": [{"type": "string", "name": "specificDisease"}, {"type":
 "string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
-"array"}], "name": "analysisPanels"}]}, "name": "pedigree"}, {"doc":
-"", "type": ["null", {"symbols": ["mosaicism", "monosomy", "disomy",
-"uniparental_disomy", "trisomy", "other_aneuploidy"], "type": "enum",
-"name": "ComplexGeneticPhenomena"}], "name":
-"complexGeneticPhenomena"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
+"panelVersion"}, {"type": "string", "name": "review_outcome"},
+{"type": "string", "name": "multiple_genetic_origins"}], "type":
+"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
+"analysisPanels"}]}, "name": "pedigree"}, {"doc": "", "type":
+{"items": {"fields": [{"doc": "", "type": "VersionControl", "name":
+"versionControl"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
+"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name": "phaseSet"},
+{"doc": "", "type": ["null", "int"], "name": "depthReference"},
+{"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
+"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name": "reportEventId"},
+{"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
+"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type":
+["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedVariant"}, "type": "array"},
+"name": "TieredVariants"}, {"doc": "", "type": "string", "name":
+"TieringVersion"}, {"doc": "", "type": ["null", {"symbols":
+["mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy",
+"other_aneuploidy"], "type": "enum", "name":
+"ComplexGeneticPhenomena"}], "name": "complexGeneticPhenomena"},
+{"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -3082,6 +3144,8 @@ false, "doc": "", "type": "boolean", "name":
         "BAMs",
         "InterpretationRequestID",
         "InterpretationRequestVersion",
+        "TieredVariants",
+        "TieringVersion",
         "VCFs",
         "additionalInfo",
         "analysisReturnURI",
@@ -3101,6 +3165,7 @@ false, "doc": "", "type": "boolean", "name":
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'BAMs': File,
+            'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
             'otherFamilyHistory': OtherFamilyHistory,
@@ -3114,6 +3179,7 @@ false, "doc": "", "type": "boolean", "name":
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'BAMs': File,
+            'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
             'otherFamilyHistory': OtherFamilyHistory,
@@ -3126,7 +3192,8 @@ false, "doc": "", "type": "boolean", "name":
 
     __slots__ = [
         'BAMs', 'InterpretationRequestID',
-        'InterpretationRequestVersion', 'VCFs', 'additionalInfo',
+        'InterpretationRequestVersion', 'TieredVariants',
+        'TieringVersion', 'VCFs', 'additionalInfo',
         'analysisReturnURI', 'analysisVersion', 'annotationFile',
         'bigWigs', 'cellbaseVersion', 'complexGeneticPhenomena',
         'genomeAssemblyVersion', 'interpretGenome',
@@ -3142,6 +3209,10 @@ false, "doc": "", "type": "boolean", "name":
             'InterpretationRequestID', 'None')
         self.InterpretationRequestVersion = kwargs.get(
             'InterpretationRequestVersion', None)
+        self.TieredVariants = kwargs.get(
+            'TieredVariants', None)
+        self.TieringVersion = kwargs.get(
+            'TieringVersion', 'None')
         self.VCFs = kwargs.get(
             'VCFs', None)
         self.additionalInfo = kwargs.get(
@@ -3633,8 +3704,10 @@ false, "doc": "", "type": "boolean", "name":
 "array"}, "name": "participants"}, {"type": ["null", {"items":
 {"fields": [{"type": "string", "name": "specificDisease"}, {"type":
 "string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
-"array"}], "name": "analysisPanels"}], "doc": ""}
+"panelVersion"}, {"type": "string", "name": "review_outcome"},
+{"type": "string", "name": "multiple_genetic_origins"}], "type":
+"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
+"analysisPanels"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {

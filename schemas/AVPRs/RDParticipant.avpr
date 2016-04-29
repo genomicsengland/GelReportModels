@@ -423,6 +423,12 @@
     }, {
       "name" : "panelVersion",
       "type" : [ "null", "string" ]
+    }, {
+      "name" : "review_outcome",
+      "type" : "string"
+    }, {
+      "name" : "multiple_genetic_origins",
+      "type" : "string"
     } ]
   }, {
     "type" : "record",
