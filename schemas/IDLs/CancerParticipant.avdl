@@ -9,23 +9,19 @@ import idl "VersionControl.avdl";
 
 enum SampleType {germline, tumor}
 
-enum PreservationMethod {ffpe, ff, unknown, blood, gl, saliva}
+enum PreservationMethod {FFPE, FF, UNKNOWN, BLOOD, GL, SALIVA, LEUK}
 
 //TODO: check in remission....
 
 enum Phase {primary, metastasis}
 
-enum GelPhase {cruk, brc, cll, iip, main}
+enum GelPhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
 
 enum Method {resection, biopsy, blood}
 
+enum Sex {M,F}
 
 record CancerSample {
-
-    /**
-    Model version number
-    */
-    VersionControl versionControl;
 
     /**
     Sample Id (e.g, LP00012645_5GH))
@@ -35,7 +31,7 @@ record CancerSample {
     /**
     Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
     */
-    string labId;
+    union {null, string} labId;
 
     /**
     gelPhase (eg cruk, brc, cll, iip, main)
@@ -50,7 +46,7 @@ record CancerSample {
     /**
     Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)
     */
-    string sampleDiagnosis;
+    union {null,string} sampleDiagnosis;
 
     /**
     Sample Source
@@ -112,12 +108,12 @@ record MatchedSamples{
     /**
     Sample Id (e.g, LP00012645_5GH)) for the germline
     */
-    string germlineSampleId;
+    union {null, string} germlineSampleId;
 
     /**
     Sample Id (e.g, LP00012643_7JS)) for the tumor
     */
-    string tumorSampleId;
+    union {null, string} tumorSampleId;
 
 }
 
@@ -127,20 +123,25 @@ This defines a Cancer Demographics
 record CancerDemographics{
 
     /**
-    Model version number
-    */
-    VersionControl versionControl;
-
-    /**
     Individual Id (this is the individual id (gel ID))
     */
     string gelId;
 
     /**
+    Center
+    */
+    string center;
+
+    /**
+    Center patient ID
+    */
+    string centerPatientId;
+
+    /**
     This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
     */
-    string primaryDiagnosis;
+    union {null, string} primaryDiagnosis;
 
     /**
     Version of the Data Catalogue against which the information is being provided
@@ -151,7 +152,7 @@ record CancerDemographics{
     /**
     Sex
     */
-    Sex sex;
+    union {null, Sex} sex;
 
     /**
     What has this participant consented to?
@@ -169,7 +170,14 @@ record CancerDemographics{
     /**
     Sample Id (e.g, LP00012645_5GH))
     */
-    array<string> sampleId;
+    union {null, array<string>} sampleId;
+
+    /**
+    assigned ICD10 code
+    */
+    union {null, string} assignedICD10;
+
+
 }
 
 

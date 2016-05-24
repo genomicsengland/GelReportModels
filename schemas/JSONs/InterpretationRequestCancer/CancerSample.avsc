@@ -3,32 +3,19 @@
   "name" : "CancerSample",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
-    "name" : "versionControl",
-    "type" : {
-      "type" : "record",
-      "name" : "VersionControl",
-      "fields" : [ {
-        "name" : "GitVersionControl",
-        "type" : "string",
-        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
-      } ]
-    },
-    "doc" : "Model version number"
-  }, {
     "name" : "sampleId",
     "type" : "string",
     "doc" : "Sample Id (e.g, LP00012645_5GH))"
   }, {
     "name" : "labId",
-    "type" : "string",
+    "type" : [ "null", "string" ],
     "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
   }, {
     "name" : "gelPhase",
     "type" : [ "null", {
       "type" : "enum",
       "name" : "GelPhase",
-      "symbols" : [ "cruk", "brc", "cll", "iip", "main" ]
+      "symbols" : [ "CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT" ]
     } ],
     "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
   }, {
@@ -41,7 +28,7 @@
     "doc" : "Sample Type"
   }, {
     "name" : "sampleDiagnosis",
-    "type" : "string",
+    "type" : [ "null", "string" ],
     "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
   }, {
     "name" : "source",
@@ -52,7 +39,7 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "PreservationMethod",
-      "symbols" : [ "ffpe", "ff", "unknown", "blood", "gl", "saliva" ]
+      "symbols" : [ "FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK" ]
     } ],
     "doc" : "Preservation method"
   }, {
