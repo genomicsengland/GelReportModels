@@ -610,7 +610,7 @@
       "type" : "double"
     }, {
       "name" : "PURITY_TUMOR_PLOIDY",
-      "type" : "string"
+      "type" : [ "null", "double" ]
     }, {
       "name" : "SVSTATS_TANDEM_DUPLICATION_TOTAL",
       "type" : "double"
@@ -628,7 +628,7 @@
       "type" : "double"
     }, {
       "name" : "PURITY_TUMOR_PURITY",
-      "type" : "string"
+      "type" : [ "null", "double" ]
     }, {
       "name" : "SVSTATS_DELETION_NUMBER_IN_GENES",
       "type" : "double"
@@ -927,6 +927,25 @@
       "type" : "double"
     }, {
       "name" : "perc_variants_gt_filter",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "GelAtGcDrop",
+    "doc" : "GEL AT/GC dropout calculation",
+    "fields" : [ {
+      "name" : "at_drop",
+      "type" : "double"
+    }, {
+      "name" : "gc_drop",
+      "type" : "double"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "InsertSizeGel",
+    "doc" : "GEL Insert size calculation",
+    "fields" : [ {
+      "name" : "median_inward",
       "type" : "double"
     } ]
   }, {

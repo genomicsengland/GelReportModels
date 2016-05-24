@@ -4,25 +4,20 @@
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This defines a Cancer Demographics",
   "fields" : [ {
-    "name" : "versionControl",
-    "type" : {
-      "type" : "record",
-      "name" : "VersionControl",
-      "fields" : [ {
-        "name" : "GitVersionControl",
-        "type" : "string",
-        "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.0.0"
-      } ]
-    },
-    "doc" : "Model version number"
-  }, {
     "name" : "gelId",
     "type" : "string",
     "doc" : "Individual Id (this is the individual id (gel ID))"
   }, {
-    "name" : "primaryDiagnosis",
+    "name" : "center",
     "type" : "string",
+    "doc" : "Center"
+  }, {
+    "name" : "centerPatientId",
+    "type" : "string",
+    "doc" : "Center patient ID"
+  }, {
+    "name" : "primaryDiagnosis",
+    "type" : [ "null", "string" ],
     "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
   }, {
     "name" : "dataModelVersion",
@@ -31,12 +26,11 @@
     "default" : "v2.4"
   }, {
     "name" : "sex",
-    "type" : {
+    "type" : [ "null", {
       "type" : "enum",
       "name" : "Sex",
-      "doc" : "Sex",
-      "symbols" : [ "male", "female", "unknown", "undetermined" ]
-    },
+      "symbols" : [ "M", "F" ]
+    } ],
     "doc" : "Sex"
   }, {
     "name" : "consentStatus",
@@ -76,10 +70,14 @@
     "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
   }, {
     "name" : "sampleId",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : "string"
-    },
+    } ],
     "doc" : "Sample Id (e.g, LP00012645_5GH))"
+  }, {
+    "name" : "assignedICD10",
+    "type" : [ "null", "string" ],
+    "doc" : "assigned ICD10 code"
   } ]
 }
