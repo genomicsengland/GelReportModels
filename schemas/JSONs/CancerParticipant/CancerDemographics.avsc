@@ -16,6 +16,10 @@
     "type" : "string",
     "doc" : "Center patient ID"
   }, {
+    "name" : "labkeyParticipantId",
+    "type" : [ "null", "string" ],
+    "doc" : "Labkey ID - this field together with the study should be a unique id to find the labkey data"
+  }, {
     "name" : "primaryDiagnosis",
     "type" : [ "null", "string" ],
     "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."

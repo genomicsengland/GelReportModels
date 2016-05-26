@@ -47,7 +47,7 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "Phase",
-      "symbols" : [ "primary", "metastasis" ]
+      "symbols" : [ "PRIMARY", "METASTATIC", "RECURRENCE" ]
     } ],
     "doc" : "Tumor Phase"
   }, {
@@ -55,7 +55,7 @@
     "type" : [ "null", {
       "type" : "enum",
       "name" : "Method",
-      "symbols" : [ "resection", "biopsy", "blood" ]
+      "symbols" : [ "RESECTION", "BIOPSY", "BLOOD" ]
     } ],
     "doc" : "Method"
   }, {

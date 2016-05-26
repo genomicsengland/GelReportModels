@@ -13,11 +13,11 @@ enum PreservationMethod {FFPE, FF, UNKNOWN, BLOOD, GL, SALIVA, LEUK}
 
 //TODO: check in remission....
 
-enum Phase {primary, metastasis}
+enum Phase {PRIMARY, METASTATIC, RECURRENCE}
 
 enum GelPhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
 
-enum Method {resection, biopsy, blood}
+enum Method {RESECTION, BIOPSY, BLOOD}
 
 enum Sex {M,F}
 
@@ -136,6 +136,11 @@ record CancerDemographics{
     Center patient ID
     */
     string centerPatientId;
+
+    /**
+    Labkey ID - this field together with the study should be a unique id to find the labkey data
+    */
+    union {null, string} labkeyParticipantId;
 
     /**
     This should be an enumeration when it is well defined

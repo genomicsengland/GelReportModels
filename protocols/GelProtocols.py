@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '2.0.0'
+version = '2.1.0'
 
 
 class ActionType(object):
@@ -509,21 +509,22 @@ class CancerDemographics(ProtocolElement):
 "CancerDemographics", "fields": [{"doc": "", "type": "string", "name":
 "gelId"}, {"doc": "", "type": "string", "name": "center"}, {"doc": "",
 "type": "string", "name": "centerPatientId"}, {"doc": "", "type":
-["null", "string"], "name": "primaryDiagnosis"}, {"default": "v2.4",
-"doc": "", "type": "string", "name": "dataModelVersion"}, {"doc": "",
-"type": ["null", {"symbols": ["M", "F"], "type": "enum", "name":
-"Sex"}], "name": "sex"}, {"doc": "", "type": {"doc": "", "type":
-"record", "name": "ConsentStatus", "fields": [{"default": false,
-"doc": "", "type": "boolean", "name": "programmeConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+["null", "string"], "name": "labkeyParticipantId"}, {"doc": "",
+"type": ["null", "string"], "name": "primaryDiagnosis"}, {"default":
+"v2.4", "doc": "", "type": "string", "name": "dataModelVersion"},
+{"doc": "", "type": ["null", {"symbols": ["M", "F"], "type": "enum",
+"name": "Sex"}], "name": "sex"}, {"doc": "", "type": {"doc": "",
+"type": "record", "name": "ConsentStatus", "fields": [{"default":
+false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}]}, "name":
-"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}],
-"doc": ""}
+"primaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "secondaryFindingConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "carrierStatusConsent"}]},
+"name": "consentStatus"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name": "additionalInformation"}, {"doc":
+"", "type": ["null", {"items": "string", "type": "array"}], "name":
+"sampleId"}, {"doc": "", "type": ["null", "string"], "name":
+"assignedICD10"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -533,6 +534,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
         "centerPatientId",
         "consentStatus",
         "gelId",
+        "labkeyParticipantId",
         "primaryDiagnosis",
         "sampleId",
         "sex",
@@ -556,7 +558,8 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
     __slots__ = [
         'additionalInformation', 'assignedICD10', 'center',
         'centerPatientId', 'consentStatus', 'dataModelVersion',
-        'gelId', 'primaryDiagnosis', 'sampleId', 'sex'
+        'gelId', 'labkeyParticipantId', 'primaryDiagnosis',
+        'sampleId', 'sex'
     ]
 
     def __init__(self, **kwargs):
@@ -574,6 +577,8 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
             'dataModelVersion', 'v2.4')
         self.gelId = kwargs.get(
             'gelId', 'None')
+        self.labkeyParticipantId = kwargs.get(
+            'labkeyParticipantId', None)
         self.primaryDiagnosis = kwargs.get(
             'primaryDiagnosis', None)
         self.sampleId = kwargs.get(
@@ -589,7 +594,7 @@ class CancerInterpretationRequest(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
-{"fields": [{"default": "2.0.0", "doc": "", "type": "string", "name":
+{"fields": [{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
@@ -711,7 +716,7 @@ class CancerInterpretedGenome(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "string", "name":
@@ -860,30 +865,31 @@ class CancerParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "CancerDemographics", "fields": [{"doc": "", "type":
 "string", "name": "gelId"}, {"doc": "", "type": "string", "name":
 "center"}, {"doc": "", "type": "string", "name": "centerPatientId"},
-{"doc": "", "type": ["null", "string"], "name": "primaryDiagnosis"},
-{"default": "v2.4", "doc": "", "type": "string", "name":
-"dataModelVersion"}, {"doc": "", "type": ["null", {"symbols": ["M",
-"F"], "type": "enum", "name": "Sex"}], "name": "sex"}, {"doc": "",
-"type": {"doc": "", "type": "record", "name": "ConsentStatus",
-"fields": [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+{"doc": "", "type": ["null", "string"], "name":
+"labkeyParticipantId"}, {"doc": "", "type": ["null", "string"],
+"name": "primaryDiagnosis"}, {"default": "v2.4", "doc": "", "type":
+"string", "name": "dataModelVersion"}, {"doc": "", "type": ["null",
+{"symbols": ["M", "F"], "type": "enum", "name": "Sex"}], "name":
+"sex"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"ConsentStatus", "fields": [{"default": false, "doc": "", "type":
+"boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "primaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
-"carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}, {"doc": "", "type": ["null", {"items":
-"string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type":
-["null", "string"], "name": "assignedICD10"}]}, "name":
-"cancerDemographics"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}]}, "name":
+"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"},
+{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}]},
+"name": "cancerDemographics"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "",
 "type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
@@ -892,21 +898,21 @@ false, "doc": "", "type": "boolean", "name":
 "string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
 ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK"], "type":
 "enum", "name": "PreservationMethod"}], "name": "preservationMethod"},
-{"doc": "", "type": ["null", {"symbols": ["primary", "metastasis"],
-"type": "enum", "name": "Phase"}], "name": "phase"}, {"doc": "",
-"type": ["null", {"symbols": ["resection", "biopsy", "blood"], "type":
-"enum", "name": "Method"}], "name": "method"}, {"doc": "", "type":
-["null", "string"], "name": "cellularity"}, {"doc": "", "type":
-["null", "string"], "name": "tumorContent"}, {"doc": "", "type":
-["null", "string"], "name": "grade"}, {"doc": "", "type": ["null",
-"string"], "name": "tnm_stage_version"}, {"doc": "", "type": ["null",
-"string"], "name": "tmn_stage_grouping"}], "type": "record", "name":
-"CancerSample"}, "type": "array"}, "name": "cancerSamples"}, {"doc":
-"", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
-"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
-"name": "tumorSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}], "doc": ""}
+{"doc": "", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC",
+"RECURRENCE"], "type": "enum", "name": "Phase"}], "name": "phase"},
+{"doc": "", "type": ["null", {"symbols": ["RESECTION", "BIOPSY",
+"BLOOD"], "type": "enum", "name": "Method"}], "name": "method"},
+{"doc": "", "type": ["null", "string"], "name": "cellularity"},
+{"doc": "", "type": ["null", "string"], "name": "tumorContent"},
+{"doc": "", "type": ["null", "string"], "name": "grade"}, {"doc": "",
+"type": ["null", "string"], "name": "tnm_stage_version"}, {"doc": "",
+"type": ["null", "string"], "name": "tmn_stage_grouping"}], "type":
+"record", "name": "CancerSample"}, "type": "array"}, "name":
+"cancerSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
+["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type":
+["null", "string"], "name": "tumorSampleId"}]}, "type": "array"},
+"name": "matchedSamples"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -970,13 +976,13 @@ class CancerSample(ProtocolElement):
 ["null", {"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL",
 "SALIVA", "LEUK"], "type": "enum", "name": "PreservationMethod"}],
 "name": "preservationMethod"}, {"doc": "", "type": ["null",
-{"symbols": ["primary", "metastasis"], "type": "enum", "name":
-"Phase"}], "name": "phase"}, {"doc": "", "type": ["null", {"symbols":
-["resection", "biopsy", "blood"], "type": "enum", "name": "Method"}],
-"name": "method"}, {"doc": "", "type": ["null", "string"], "name":
-"cellularity"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorContent"}, {"doc": "", "type": ["null", "string"], "name":
-"grade"}, {"doc": "", "type": ["null", "string"], "name":
+{"symbols": ["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum",
+"name": "Phase"}], "name": "phase"}, {"doc": "", "type": ["null",
+{"symbols": ["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name":
+"Method"}], "name": "method"}, {"doc": "", "type": ["null", "string"],
+"name": "cellularity"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorContent"}, {"doc": "", "type": ["null", "string"],
+"name": "grade"}, {"doc": "", "type": ["null", "string"], "name":
 "tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
 "tmn_stage_grouping"}]}
 """
@@ -2970,7 +2976,7 @@ class InterpretationRequestRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
@@ -3215,7 +3221,7 @@ class InterpretedGenomeRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -3490,9 +3496,9 @@ class Method(object):
     """
     No documentation
     """
-    resection = "resection"
-    biopsy = "biopsy"
-    blood = "blood"
+    RESECTION = "RESECTION"
+    BIOPSY = "BIOPSY"
+    BLOOD = "BLOOD"
 
 
 class ModeOfInheritance(object):
@@ -3579,7 +3585,7 @@ class Pedigree(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": {"fields": [{"default":
-"2.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"2.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
 "versionControl"}, {"doc": "", "type": "string", "name":
 "gelFamilyId"}, {"type": {"items": {"doc": "", "type": "record",
@@ -3736,8 +3742,9 @@ class Phase(object):
     """
     No documentation
     """
-    primary = "primary"
-    metastasis = "metastasis"
+    PRIMARY = "PRIMARY"
+    METASTATIC = "METASTATIC"
+    RECURRENCE = "RECURRENCE"
 
 
 class PlinkROH(ProtocolElement):
@@ -3867,7 +3874,7 @@ class RDParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RDParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "int", "name":
 "pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
@@ -4328,7 +4335,7 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticStructuralVariants", "fields": [{"doc": "", "type":
-{"fields": [{"doc": "", "type": {"fields": [{"default": "2.0.0",
+{"fields": [{"doc": "", "type": {"fields": [{"default": "2.1.0",
 "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
 "record", "name": "VersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
@@ -4423,7 +4430,7 @@ class ReportedSomaticVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticVariants", "fields": [{"doc": "", "type": {"fields":
-[{"doc": "", "type": {"fields": [{"default": "2.0.0", "doc": "",
+[{"doc": "", "type": {"fields": [{"default": "2.1.0", "doc": "",
 "type": "string", "name": "GitVersionControl"}], "type": "record",
 "name": "VersionControl"}, "name": "versionControl"}, {"doc": "",
 "type": "string", "name": "chromosome"}, {"doc": "", "type": ["null",
@@ -4518,7 +4525,7 @@ class ReportedStructuralVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedStructuralVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
@@ -4764,7 +4771,7 @@ class ReportedVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
@@ -5194,7 +5201,7 @@ class SensitiveInformation(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.0.0", "doc": "", "type": "string", "name":
+[{"default": "2.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"type": "string", "name": "gelID"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
@@ -5616,7 +5623,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VersionControl", "fields": [{"default": "2.0.0", "doc": "", "type":
+"VersionControl", "fields": [{"default": "2.1.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -5639,7 +5646,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '2.0.0')
+            'GitVersionControl', '2.1.0')
 
 
 class VirtualPanel(ProtocolElement):
