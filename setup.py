@@ -16,6 +16,7 @@ setup(
     name='GelReportModels',
     version=VERSION,
     packages=['protocols'],
+    scripts=['scripts/ModelValidator'],
     url='',
     license='',
     author='Bioinformatics Team at Genomics England',

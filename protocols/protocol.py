@@ -74,6 +74,34 @@ class ProtocolElement(object):
                 out[field.name] = val
         return out
 
+    def validate_parts(self):
+        out = {}
+
+        for field in self.schema.fields:
+            val = getattr(self, field.name)
+            if self.isEmbeddedType(field.name):
+                if isinstance(val, list):
+                    out[field.name] = list(el.validate(el.toJsonDict()) for el in val)
+                elif val is None:
+                    out[field.name] = None
+                else:
+                    out[field.name] = val.validate(val.toJsonDict())
+
+            elif isinstance(val, list):
+                out[field.name] = list(avro.io.validate(field, el) for el in val)
+
+            else:
+                try:
+                    field.type = field.type.fullname
+                    out[field.name] = avro.io.validate(field, val)
+                except:
+                    pass
+
+
+        return out
+
+
+
     @classmethod
     def validate(cls, jsonDict):
         """
@@ -81,6 +109,7 @@ class ProtocolElement(object):
         instance of this element's schema.
         """
         return avro.io.validate(cls.schema, jsonDict)
+
 
     @classmethod
     def fromJsonString(cls, jsonStr):
