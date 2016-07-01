@@ -1,3 +1,10 @@
+version 2.3.0 (unreleased)
+--------------------------
+**RDParticipant.avdl**
+
+* Minor Changes:
+    - Added `yearOfBirth` to RDParticipant (optional field)
+
 version 2.2.1 (26 May, 2016)
 ----------------------------
 **CancerParticipant.avdl**
