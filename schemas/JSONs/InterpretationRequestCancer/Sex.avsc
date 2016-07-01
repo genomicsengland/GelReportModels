@@ -2,6 +2,5 @@
   "type" : "enum",
   "name" : "Sex",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "Sex",
-  "symbols" : [ "male", "female", "unknown", "undetermined" ]
+  "symbols" : [ "M", "F" ]
 }
