@@ -130,7 +130,7 @@ record RDParticipant {
     /**
     Year of Birth
     */
-    string yearOfBirth;
+    union {null, string} yearOfBirth;
 
     /**
     refers to the pedigreeId of the father
