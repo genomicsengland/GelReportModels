@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
+        "default" : "2.3.0"
       } ]
     },
     "doc" : "Model version number"
@@ -54,6 +54,10 @@
       "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
     } ],
     "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+  }, {
+    "name" : "yearOfBirth",
+    "type" : [ "null", "string" ],
+    "doc" : "Year of Birth"
   }, {
     "name" : "fatherId",
     "type" : [ "null", "int" ],
@@ -103,13 +107,8 @@
     "doc" : "Life Status"
   }, {
     "name" : "consanguineousParents",
-    "type" : [ "null", {
-      "type" : "enum",
-      "name" : "TernaryOption",
-      "doc" : "This the define a yes/no/unknown case",
-      "symbols" : [ "yes", "no", "unknown" ]
-    } ],
-    "doc" : "A property of the twinning group but should be entered for all members"
+    "type" : "TernaryOption",
+    "doc" : "The parents of this participant has a consanguineous relationship"
   }, {
     "name" : "consanguineousPopulation",
     "type" : [ "null", "string" ],
@@ -202,13 +201,8 @@
         "doc" : "Mother's Ethnic Origin Description"
       }, {
         "name" : "fathersEthnicOrigin",
-        "type" : [ "null", {
-          "type" : "enum",
-          "name" : "EthnicCategory",
-          "doc" : "This is the list of ethnics in ONS16\n\n* `D`:  Mixed: White and Black Caribbean\n* `E`:  Mixed: White and Black African\n* `F`:  Mixed: White and Asian\n* `G`:  Mixed: Any other mixed background\n* `A`:  White: British\n* `B`:  White: Irish\n* `C`:  White: Any other White background\n* `L`:  Asian or Asian British: Any other Asian background\n* `M`:  Black or Black British: Caribbean\n* `N`:  Black or Black British: African\n* `H`:  Asian or Asian British: Indian\n* `J`:  Asian or Asian British: Pakistani\n* `K`:  Asian or Asian British: Bangladeshi\n* `P`:  Black or Black British: Any other Black background\n* `S`:  Other Ethnic Groups: Any other ethnic group\n* `R`:  Other Ethnic Groups: Chinese\n* `Z`:  Not stated",
-          "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
-        } ],
-        "doc" : "Mother's Ethnic Origin"
+        "type" : [ "null", "EthnicCategory" ],
+        "doc" : "Father's Ethnic Origin"
       }, {
         "name" : "fathersOtherRelevantAncestry",
         "type" : [ "null", "string" ],
