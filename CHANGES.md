@@ -3,7 +3,11 @@ version 2.3.0 (unreleased)
 **RDParticipant.avdl**
 
 * Minor Changes:
-    - Added `yearOfBirth` to RDParticipant (optional field)
+    - Added `yearOfBirth` to `RDParticipant` (optional field)
+    - Added `evidenceIds` to `ReportedVariant` and `ReportedStructuralVariant` (optional field)
+
+* Major Changes:
+    - Added `ClinicalReportRD` a new model to communicate the clinical reports
 
 version 2.2.1 (26 May, 2016)
 ----------------------------

@@ -251,9 +251,14 @@ record ReportedVariant {
     array<ReportEvent> reportEvents;
 
     /**
-    For example HGMD ID)
+    For example a quote from a paper
     */
     union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For example HGMD ID, dbSNP ID or Pubmed Id
+    */
+    union {null,map<string>} evidenceIds;
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -320,6 +325,12 @@ record ReportedStructuralVariant {
     For example HGMD ID)
     */
     union {null,map<string>} additionalTextualVariantAnnotations;
+
+
+    /**
+    For example HGMD ID, dbSNP ID or Pubmed Id
+    */
+    union {null,map<string>} evidenceIds;
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
