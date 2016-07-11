@@ -98,7 +98,10 @@ class SchemaClass(object):
                     t1 = field.type.schemas[1]
                     if (isinstance(t0, avro.schema.PrimitiveSchema) and
                             t0.type == "null"):
-                        if isinstance(t1, avro.schema.RecordSchema):
+                        if isinstance(t1, avro.schema.ArraySchema):
+                            if isinstance(t1.items, avro.schema.RecordSchema):
+                                ret.append((field.name, t1.items.name))
+                        elif isinstance(t1, avro.schema.RecordSchema):
                             ret.append((field.name, t1.name))
                     else:
                         raise Exception("Schema union assumptions violated")
