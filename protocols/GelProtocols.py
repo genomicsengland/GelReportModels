@@ -197,12 +197,16 @@ class Ancestries(ProtocolElement):
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'chiSquare1KGenomesPhase3Pop': ChiSquare1KGenomesPhase3Pop,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'chiSquare1KGenomesPhase3Pop': ChiSquare1KGenomesPhase3Pop,
+        }
 
         return embeddedTypes[fieldName]
 
@@ -3168,10 +3172,12 @@ false, "doc": "", "type": "boolean", "name":
             'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
+            'bigWigs': File,
             'otherFamilyHistory': OtherFamilyHistory,
             'pedigree': Pedigree,
             'pedigreeDiagram': File,
             'versionControl': VersionControl,
+            'virtualPanel': VirtualPanel,
         }
         return fieldName in embeddedTypes
 
@@ -3182,10 +3188,12 @@ false, "doc": "", "type": "boolean", "name":
             'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
+            'bigWigs': File,
             'otherFamilyHistory': OtherFamilyHistory,
             'pedigree': Pedigree,
             'pedigreeDiagram': File,
             'versionControl': VersionControl,
+            'virtualPanel': VirtualPanel,
         }
 
         return embeddedTypes[fieldName]
@@ -3347,6 +3355,7 @@ class InterpretedGenomeRD(ProtocolElement):
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'reportedStructuralVariants': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
             'versionControl': VersionControl,
         }
@@ -3355,6 +3364,7 @@ class InterpretedGenomeRD(ProtocolElement):
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'reportedStructuralVariants': ReportedStructuralVariant,
             'reportedVariants': ReportedVariant,
             'versionControl': VersionControl,
         }
@@ -3720,6 +3730,7 @@ false, "doc": "", "type": "boolean", "name":
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'analysisPanels': AnalysisPanel,
             'participants': RDParticipant,
             'versionControl': VersionControl,
         }
@@ -3728,6 +3739,7 @@ false, "doc": "", "type": "boolean", "name":
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
+            'analysisPanels': AnalysisPanel,
             'participants': RDParticipant,
             'versionControl': VersionControl,
         }
