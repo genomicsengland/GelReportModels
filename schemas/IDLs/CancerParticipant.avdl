@@ -49,10 +49,16 @@ record CancerSample {
     union {null,string} sampleDiagnosis;
 
     /**
-    Sample Source
+    Tumor Type
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva
     */
-    union {null, string} source;
+    union {null, string} tumorType;
+
+
+    /**
+    Tumor Subtype
+    */
+    union {null, string} tumorSubType;
 
     /**
     Preservation method
