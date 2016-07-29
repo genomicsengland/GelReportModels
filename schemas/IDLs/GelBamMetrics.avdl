@@ -447,6 +447,7 @@ record TumorChecks {
     double num_variants_gt_filter;
     double num_variants_lt_filter;
     double perc_variants_gt_filter;
+    double TumorContaminationContEst;
 
 }
 
@@ -479,6 +480,8 @@ record CoverageSummary {
     double median;
     double pct75;
     string scope;
+    double localRMSD;
+    double COSMIC30Xcov;
 
 }
 
