@@ -6,62 +6,6 @@ protocol CommonInterpretedCancer {
 
 
 /**
-*/
-record cancerGenome {
-
-    /**
-    Participant id:
-    */
-    string participantId;
-
-    /**
-    Laboratory sample id:
-    */
-    string sampleId;
-
-    /**
-    LP id for sample:
-    */
-    string LPid;
-
-}
-
-/**
-Possible tiers as defined by Genomics England
-*/
-enum Tier {NONE, TIER1, TIER2, TIER3}
-
-record ReportEventCancer {
-
-    /**
-    Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
-    to validate the report
-    */
-    string reportEventId;
-
-    /**
-    This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
-    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
-    */
-    GenomicFeatureCancer genomicFeatureCancer;
-
-    /**
-    */
-    ReportedVariantCancer reportedVariantCancer;
-
-    /**
-    */
-    array<Actions> actions;
-
-    /**
-    Gel Tier
-    */
-    union {null, Tier} tier;
-
-}
-
-
-/**
 this is the type of actionability for the reported event
 */
 enum ActionType{Therapy, Prognosis, Diagnosis}
@@ -107,6 +51,8 @@ record Actions {
 
 }
 
+
+
 enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
 
 record GenomicFeatureCancer {
@@ -124,7 +70,12 @@ record GenomicFeatureCancer {
      /**
     Refseq transcript
     */
-    string refseqId;
+    string refSeqTranscriptId;
+
+     /**
+    Refseq protein
+    */
+    string refSeqProteinId;
 
     /**
     Gene used in tier
@@ -137,6 +88,52 @@ record GenomicFeatureCancer {
     union {null, string} roleInCancer;
 
 }
+
+
+/**
+Possible tiers as defined by Genomics England
+*/
+enum Tier {NONE, TIER1, TIER2, TIER3}
+
+record ReportEventCancer {
+
+    /**
+    Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
+    to validate the report
+    */
+    string reportEventId;
+
+    /**
+    This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
+    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
+    */
+    GenomicFeatureCancer genomicFeatureCancer;
+
+
+    /**
+    SO Term used in tier
+    */
+    string soTerm;
+
+    /**
+    SO name used in tier
+    */
+    string soName;
+
+    /**
+    */
+    array<Actions> actions;
+
+    /**
+    Gel Tier
+    */
+    union {null, Tier} tier;
+
+}
+
+
+
+
 
 
 record ReportedVariantCancer {
@@ -187,16 +184,6 @@ record ReportedVariantCancer {
     union {null, string} proteinChange;
 
     /**
-    SO Term used in tier
-    */
-    string soTerm;
-
-    /**
-    SO name used in tier
-    */
-    string soName;
-
-    /**
     Depth for Reference Allele
     */
     union {null, int} depthReference;
@@ -230,6 +217,9 @@ record ReportedVariantCancer {
     Comments
     */
     union {null, array<string>} comments;
+
+
+    array<ReportEventCancer> reportEvents;
 
 }
 
