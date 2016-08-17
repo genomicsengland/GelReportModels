@@ -22,6 +22,14 @@ record ClinicalReportRD {
     string interpretationRequestVersion;
 
     /**
+    This is the version of the analytical approach that was carried out on the same interpretationRequest.
+    For example provider produces two types of analysis on the data and end user produces different summaries depending
+    on the analysis version
+    */
+    string interpretationRequestAnalysisVersion;
+
+
+    /**
     Date of this report
     */
     string reportingDate;
@@ -47,9 +55,9 @@ record ClinicalReportRD {
     string genomicInterpretation;
 
     /**
-    References (pubmed Ids)
+    Supporting evidence (pubmed Ids)
     */
-    union {null, array<string>} references;
+    union {null, array<string>} supportingEvidence;
 
     /**
     This map should contains the version of the different DBs used in the process
@@ -57,15 +65,15 @@ record ClinicalReportRD {
     map <string> referenceDatabasesVersions;
 
     /**
-    This map should contains the version of the different DBs software in the process
+    This map should contains the version of the different software in the process
     */
     map <string> softwareVersions;
 
     /**
-    This map of key: panel_name, value: (arrays of (map of key: gene, value: gene coverage))
+    This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+    That is: a map of tables of genes and metrics
     */
-    map<array<map<string>>> genePanelsCoverage;
-
+    map<map<map<float>>> genePanelsCoverage;
 
 }
 }

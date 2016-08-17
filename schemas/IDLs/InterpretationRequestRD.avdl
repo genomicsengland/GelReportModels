@@ -108,6 +108,7 @@ record InterpretationRequestRD {
     */
     union {null, array<File>} bigWigs;
 
+
     /**
     Pedigree Diagram Files as an SGV
     */
@@ -117,6 +118,12 @@ record InterpretationRequestRD {
     Variant Annotation using cellbase
     */
     union {null, File} annotationFile;
+
+    /**
+    Other files that may be vendor specific
+    map of key: type of file, value: record of type File
+    */
+    union {null, map<File>} otherFiles;
 
 
     /**
@@ -166,6 +173,12 @@ record InterpretationRequestRD {
     a particular version, then that version goes here.
     */
     string analysisVersion="1";
+
+    /**
+    This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+    That is: a map of tables of genes and metrics
+    */
+    map<map<map<float>>> genePanelsCoverage;
 
     /**
     Additional information
