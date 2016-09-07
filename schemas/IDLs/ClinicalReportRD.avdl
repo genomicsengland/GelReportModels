@@ -4,7 +4,7 @@ This protocol defines the minimum information that Genomics England needs to gen
 define by a GMC in a CIP environment. Notice that most of the information needed is already collected in the
 Interpretation Request or interpreted genome.
 */
-protocol ClinicalReportRD {
+protocol ClinicalReportsRD {
 
 import idl "CommonInterpreted.avdl";
 import idl "VersionControl.avdl";

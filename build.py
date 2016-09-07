@@ -46,6 +46,7 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
 
 
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "ClinicalReportRD.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretationRequests.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretedGenomes.html"))
 os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))
