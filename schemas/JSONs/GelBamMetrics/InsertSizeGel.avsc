@@ -1,0 +1,10 @@
+{
+  "type" : "record",
+  "name" : "InsertSizeGel",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "GEL Insert size calculation",
+  "fields" : [ {
+    "name" : "median_inward",
+    "type" : "double"
+  } ]
+}
