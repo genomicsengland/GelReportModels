@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+# coding=utf-8
+import argparse
+import json
+import os
+
+from protocols import GelProtocols
+
+class option_parser:
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(
+            description='This script Validate GEL AVRO models.\n'
+                        'If the json is valid this script will return True. If that is not the case it will print a '
+                        'json, this one will contain a validation (true/false) of the independent part of the models, '
+                        'for array the evaluation will be performed in each item',
+            add_help=True
+        )
+        self.parser.add_argument('json',
+                                 metavar='json',
+                                 help='Json file to be validated'
+                                 )
+        self.parser.add_argument('schema',
+                                 metavar='shcema',
+                                 help='Schema name against the json will be validated'
+                                 )
+
+
+def validation(json_file, schema):
+    if os.path.isfile(json_file):
+        fd = open(json_file)
+        data = json.load(fd)
+        general_method = getattr(GelProtocols, schema, None)
+        if callable(general_method):
+            obj = general_method().fromJsonDict(data)
+            if not obj.validate(obj.toJsonDict()):
+                raise Exception(obj.validate_parts())
+            else:
+                print 'true'
+
+        else:
+            print schema + " model is not recognize"
+
+
+if __name__ == '__main__':
+    parser = option_parser()
+    args = parser.parser.parse_args()
+    validation(args.json, args.schema)

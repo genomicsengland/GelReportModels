@@ -11,7 +11,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
+        "default" : "2.3.0"
       } ]
     },
     "doc" : "Model version number"
@@ -230,7 +230,14 @@
                 "type" : "map",
                 "values" : "string"
               } ],
-              "doc" : "For example HGMD ID)"
+              "doc" : "For example a quote from a paper"
+            }, {
+              "name" : "evidenceIds",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "string"
+              } ],
+              "doc" : "For example HGMD ID, dbSNP ID or Pubmed Id"
             }, {
               "name" : "additionalNumericVariantAnnotations",
               "type" : [ "null", {
@@ -320,6 +327,13 @@
                 "values" : "string"
               } ],
               "doc" : "For example HGMD ID)"
+            }, {
+              "name" : "evidenceIds",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "string"
+              } ],
+              "doc" : "For example HGMD ID, dbSNP ID or Pubmed Id"
             }, {
               "name" : "additionalNumericVariantAnnotations",
               "type" : [ "null", {

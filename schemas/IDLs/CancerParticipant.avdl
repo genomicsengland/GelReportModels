@@ -1,6 +1,6 @@
 @namespace("Gel_BioInf_Models")
 /**
-This protocol defines the Participants
+This protocol defines the `CancerParticipant`
 */
 protocol CancerParticipants {
 

@@ -223,7 +223,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "2.1.0"
+      "default" : "2.3.0"
     } ]
   }, {
     "type" : "record",
@@ -321,6 +321,10 @@
       "name" : "personKaryotipicSex",
       "type" : [ "null", "PersonKaryotipicSex" ],
       "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+    }, {
+      "name" : "yearOfBirth",
+      "type" : [ "null", "string" ],
+      "doc" : "Year of Birth"
     }, {
       "name" : "fatherId",
       "type" : [ "null", "int" ],
@@ -423,6 +427,12 @@
     }, {
       "name" : "panelVersion",
       "type" : [ "null", "string" ]
+    }, {
+      "name" : "review_outcome",
+      "type" : "string"
+    }, {
+      "name" : "multiple_genetic_origins",
+      "type" : "string"
     } ]
   }, {
     "type" : "record",

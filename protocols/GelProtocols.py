@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '2.1.0'
+version = '2.3.0'
 
 
 class ActionType(object):
@@ -118,12 +118,16 @@ class AnalysisPanel(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "AnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
-["null", "string"], "name": "panelVersion"}]}
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multiple_genetic_origins"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "multiple_genetic_origins",
         "panelName",
         "panelVersion",
+        "review_outcome",
         "specificDisease",
     }
 
@@ -139,14 +143,19 @@ class AnalysisPanel(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'panelName', 'panelVersion', 'specificDisease'
+        'multiple_genetic_origins', 'panelName', 'panelVersion',
+        'review_outcome', 'specificDisease'
     ]
 
     def __init__(self, **kwargs):
+        self.multiple_genetic_origins = kwargs.get(
+            'multiple_genetic_origins', 'None')
         self.panelName = kwargs.get(
             'panelName', 'None')
         self.panelVersion = kwargs.get(
             'panelVersion', None)
+        self.review_outcome = kwargs.get(
+            'review_outcome', 'None')
         self.specificDisease = kwargs.get(
             'specificDisease', 'None')
 
@@ -594,7 +603,7 @@ class CancerInterpretationRequest(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
-{"fields": [{"default": "2.1.0", "doc": "", "type": "string", "name":
+{"fields": [{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
@@ -716,7 +725,7 @@ class CancerInterpretedGenome(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "string", "name":
@@ -769,14 +778,16 @@ class CancerInterpretedGenome(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedVariant"}, "name":
-"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
-"somatic", "germline"], "doc": "", "type": "enum", "name":
-"SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
-"name": "ReportedSomaticVariants"}, "type": "array"}, "name":
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
+{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
+"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
+"somaticOrGermline"}], "type": "record", "name":
+"ReportedSomaticVariants"}, "type": "array"}, "name":
 "reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
 "type": {"fields": [{"doc": "", "type": "VersionControl", "name":
 "versionControl"}, {"doc": "", "type": "string", "name":
@@ -788,10 +799,12 @@ class CancerInterpretedGenome(ProtocolElement):
 {"doc": "", "type": {"items": "ReportEvent", "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedStructuralVariant"}, "name":
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedStructuralVariant"}, "name":
 "reportedStructuralVariant"}, {"doc": "", "type": "SomaticOrGermline",
 "name": "somaticOrGermline"}], "type": "record", "name":
 "ReportedSomaticStructuralVariants"}, "type": "array"}, "name":
@@ -865,7 +878,7 @@ class CancerParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "CancerDemographics", "fields": [{"doc": "", "type":
@@ -1099,6 +1112,160 @@ class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
             'kGPopCategory', None)
         self.kGSuperPopCategory = kwargs.get(
             'kGSuperPopCategory', None)
+
+
+class ClinicalReportRD(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"ClinicalReportRD", "fields": [{"doc": "", "type": "string", "name":
+"interpretationRequestID"}, {"doc": "", "type": "string", "name":
+"interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
+"reportingDate"}, {"doc": "", "type": "string", "name": "user"},
+{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
+{"fields": [{"default": "2.3.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"},
+"name": "versionControl"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
+"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name": "phaseSet"},
+{"doc": "", "type": ["null", "int"], "name": "depthReference"},
+{"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
+"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name": "reportEventId"},
+{"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
+"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type":
+["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedVariant"}, "type": "array"}, "name":
+"candidateVariants"}, {"doc": "", "type": {"items": {"fields":
+[{"doc": "", "type": "VersionControl", "name": "versionControl"},
+{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
+"type": "int", "name": "start"}, {"doc": "", "type": "int", "name":
+"end"}, {"doc": "", "type": "string", "name": "type"}, {"doc": "",
+"type": "string", "name": "reference"}, {"doc": "", "type": "string",
+"name": "alternate"}, {"type": {"items": "CalledGenotype", "type":
+"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedStructuralVariant"}, "type": "array"},
+"name": "candidateStructuralVariants"}, {"doc": "", "type": "string",
+"name": "genomicInterpretation"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "references"}, {"doc":
+"", "type": {"values": "string", "type": "map"}, "name":
+"referenceDatabasesVersions"}, {"doc": "", "type": {"values":
+"string", "type": "map"}, "name": "softwareVersions"}, {"doc": "",
+"type": {"values": {"items": {"values": "string", "type": "map"},
+"type": "array"}, "type": "map"}, "name": "genePanelsCoverage"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "candidateStructuralVariants",
+        "candidateVariants",
+        "genePanelsCoverage",
+        "genomicInterpretation",
+        "interpretationRequestID",
+        "interpretationRequestVersion",
+        "referenceDatabasesVersions",
+        "references",
+        "reportingDate",
+        "softwareVersions",
+        "user",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'candidateStructuralVariants': ReportedStructuralVariant,
+            'candidateVariants': ReportedVariant,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'candidateStructuralVariants': ReportedStructuralVariant,
+            'candidateVariants': ReportedVariant,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'candidateStructuralVariants', 'candidateVariants',
+        'genePanelsCoverage', 'genomicInterpretation',
+        'interpretationRequestID', 'interpretationRequestVersion',
+        'referenceDatabasesVersions', 'references', 'reportingDate',
+        'softwareVersions', 'user'
+    ]
+
+    def __init__(self, **kwargs):
+        self.candidateStructuralVariants = kwargs.get(
+            'candidateStructuralVariants', None)
+        self.candidateVariants = kwargs.get(
+            'candidateVariants', None)
+        self.genePanelsCoverage = kwargs.get(
+            'genePanelsCoverage', None)
+        self.genomicInterpretation = kwargs.get(
+            'genomicInterpretation', 'None')
+        self.interpretationRequestID = kwargs.get(
+            'interpretationRequestID', 'None')
+        self.interpretationRequestVersion = kwargs.get(
+            'interpretationRequestVersion', 'None')
+        self.referenceDatabasesVersions = kwargs.get(
+            'referenceDatabasesVersions', None)
+        self.references = kwargs.get(
+            'references', None)
+        self.reportingDate = kwargs.get(
+            'reportingDate', 'None')
+        self.softwareVersions = kwargs.get(
+            'softwareVersions', None)
+        self.user = kwargs.get(
+            'user', 'None')
 
 
 class ComplexGeneticPhenomena(object):
@@ -2976,7 +3143,7 @@ class InterpretationRequestRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
@@ -3011,7 +3178,8 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
 "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
 "doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "int"], "name":
+"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
+"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
 "fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
 {"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
 "", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
@@ -3080,14 +3248,69 @@ false, "doc": "", "type": "boolean", "name":
 "array"}, "name": "participants"}, {"type": ["null", {"items":
 {"fields": [{"type": "string", "name": "specificDisease"}, {"type":
 "string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
-"array"}], "name": "analysisPanels"}]}, "name": "pedigree"}, {"doc":
-"", "type": ["null", {"symbols": ["mosaicism", "monosomy", "disomy",
-"uniparental_disomy", "trisomy", "other_aneuploidy"], "type": "enum",
-"name": "ComplexGeneticPhenomena"}], "name":
-"complexGeneticPhenomena"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
+"panelVersion"}, {"type": "string", "name": "review_outcome"},
+{"type": "string", "name": "multiple_genetic_origins"}], "type":
+"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
+"analysisPanels"}]}, "name": "pedigree"}, {"doc": "", "type":
+{"items": {"fields": [{"doc": "", "type": "VersionControl", "name":
+"versionControl"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
+"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"genotype"}, {"doc": "", "type": ["null", "int"], "name": "phaseSet"},
+{"doc": "", "type": ["null", "int"], "name": "depthReference"},
+{"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}, "type":
+"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name": "reportEventId"},
+{"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
+"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type":
+["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown"], "doc": "", "type": "enum", "name":
+"ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
+"", "type": {"fields": [{"doc": "", "type": {"symbols":
+["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "ids"}], "type": "record", "name": "GenomicFeature"},
+"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedVariant"}, "type": "array"}, "name":
+"TieredVariants"}, {"doc": "", "type": "string", "name":
+"TieringVersion"}, {"doc": "", "type": ["null", {"symbols":
+["mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy",
+"other_aneuploidy"], "type": "enum", "name":
+"ComplexGeneticPhenomena"}], "name": "complexGeneticPhenomena"},
+{"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -3118,6 +3341,8 @@ false, "doc": "", "type": "boolean", "name":
         "BAMs",
         "InterpretationRequestID",
         "InterpretationRequestVersion",
+        "TieredVariants",
+        "TieringVersion",
         "VCFs",
         "additionalInfo",
         "analysisReturnURI",
@@ -3137,6 +3362,7 @@ false, "doc": "", "type": "boolean", "name":
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'BAMs': File,
+            'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
             'otherFamilyHistory': OtherFamilyHistory,
@@ -3150,6 +3376,7 @@ false, "doc": "", "type": "boolean", "name":
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'BAMs': File,
+            'TieredVariants': ReportedVariant,
             'VCFs': File,
             'annotationFile': File,
             'otherFamilyHistory': OtherFamilyHistory,
@@ -3162,7 +3389,8 @@ false, "doc": "", "type": "boolean", "name":
 
     __slots__ = [
         'BAMs', 'InterpretationRequestID',
-        'InterpretationRequestVersion', 'VCFs', 'additionalInfo',
+        'InterpretationRequestVersion', 'TieredVariants',
+        'TieringVersion', 'VCFs', 'additionalInfo',
         'analysisReturnURI', 'analysisVersion', 'annotationFile',
         'bigWigs', 'cellbaseVersion', 'complexGeneticPhenomena',
         'genomeAssemblyVersion', 'interpretGenome',
@@ -3178,6 +3406,10 @@ false, "doc": "", "type": "boolean", "name":
             'InterpretationRequestID', 'None')
         self.InterpretationRequestVersion = kwargs.get(
             'InterpretationRequestVersion', None)
+        self.TieredVariants = kwargs.get(
+            'TieredVariants', None)
+        self.TieringVersion = kwargs.get(
+            'TieringVersion', 'None')
         self.VCFs = kwargs.get(
             'VCFs', None)
         self.additionalInfo = kwargs.get(
@@ -3221,7 +3453,7 @@ class InterpretedGenomeRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -3274,27 +3506,30 @@ class InterpretedGenomeRD(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedVariant"}, "type": "array"},
-"name": "reportedVariants"}, {"doc": "", "type": ["null", {"items":
-{"fields": [{"doc": "", "type": "VersionControl", "name":
-"versionControl"}, {"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
-"", "type": "int", "name": "end"}, {"doc": "", "type": "string",
-"name": "type"}, {"doc": "", "type": "string", "name": "reference"},
-{"doc": "", "type": "string", "name": "alternate"}, {"type": {"items":
-"CalledGenotype", "type": "array"}, "name": "calledGenotypes"},
-{"doc": "", "type": {"items": "ReportEvent", "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedStructuralVariant"}, "type":
-"array"}], "name": "reportedStructuralVariants"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}]}
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedVariant"}, "type": "array"}, "name":
+"reportedVariants"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": "VersionControl", "name": "versionControl"},
+{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
+"type": "int", "name": "start"}, {"doc": "", "type": "int", "name":
+"end"}, {"doc": "", "type": "string", "name": "type"}, {"doc": "",
+"type": "string", "name": "reference"}, {"doc": "", "type": "string",
+"name": "alternate"}, {"type": {"items": "CalledGenotype", "type":
+"array"}, "name": "calledGenotypes"}, {"doc": "", "type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedStructuralVariant"}, "type": "array"}],
+"name": "reportedStructuralVariants"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3585,7 +3820,7 @@ class Pedigree(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": {"fields": [{"default":
-"2.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"2.3.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
 "versionControl"}, {"doc": "", "type": "string", "name":
 "gelFamilyId"}, {"type": {"items": {"doc": "", "type": "record",
@@ -3600,7 +3835,8 @@ class Pedigree(ProtocolElement):
 "sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
 "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
 "doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "int"], "name":
+"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
+"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
 "fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
 {"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
 "", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
@@ -3669,8 +3905,10 @@ false, "doc": "", "type": "boolean", "name":
 "array"}, "name": "participants"}, {"type": ["null", {"items":
 {"fields": [{"type": "string", "name": "specificDisease"}, {"type":
 "string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}], "type": "record", "name": "AnalysisPanel"}, "type":
-"array"}], "name": "analysisPanels"}], "doc": ""}
+"panelVersion"}, {"type": "string", "name": "review_outcome"},
+{"type": "string", "name": "multiple_genetic_origins"}], "type":
+"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
+"analysisPanels"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3874,7 +4112,7 @@ class RDParticipant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RDParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "int", "name":
 "pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
@@ -3886,6 +4124,7 @@ class RDParticipant(ProtocolElement):
 ["null", {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
 "XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
 "name": "PersonKaryotipicSex"}], "name": "personKaryotipicSex"},
+{"doc": "", "type": ["null", "string"], "name": "yearOfBirth"},
 {"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
 "type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
 ["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
@@ -3982,6 +4221,7 @@ false, "doc": "", "type": "boolean", "name":
         "superMotherId",
         "twinGroup",
         "versionControl",
+        "yearOfBirth",
     }
 
     @classmethod
@@ -4018,7 +4258,7 @@ false, "doc": "", "type": "boolean", "name":
         'inbreedingCoefficient', 'isProband', 'lifeStatus',
         'monozygotic', 'motherId', 'pedigreeId',
         'personKaryotipicSex', 'samples', 'sex', 'superFatherId',
-        'superMotherId', 'twinGroup', 'versionControl'
+        'superMotherId', 'twinGroup', 'versionControl', 'yearOfBirth'
     ]
 
     def __init__(self, **kwargs):
@@ -4076,6 +4316,8 @@ false, "doc": "", "type": "boolean", "name":
             'twinGroup', None)
         self.versionControl = kwargs.get(
             'versionControl', None)
+        self.yearOfBirth = kwargs.get(
+            'yearOfBirth', None)
 
 
 class Reason(object):
@@ -4328,7 +4570,7 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticStructuralVariants", "fields": [{"doc": "", "type":
-{"fields": [{"doc": "", "type": {"fields": [{"default": "2.1.0",
+{"fields": [{"doc": "", "type": {"fields": [{"default": "2.3.0",
 "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
 "record", "name": "VersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
@@ -4376,10 +4618,12 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedStructuralVariant"}, "name":
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedStructuralVariant"}, "name":
 "reportedStructuralVariant"}, {"doc": "", "type": {"symbols":
 ["unknown", "somatic", "germline"], "doc": "", "type": "enum", "name":
 "SomaticOrGermline"}, "name": "somaticOrGermline"}]}
@@ -4423,7 +4667,7 @@ class ReportedSomaticVariants(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedSomaticVariants", "fields": [{"doc": "", "type": {"fields":
-[{"doc": "", "type": {"fields": [{"default": "2.1.0", "doc": "",
+[{"doc": "", "type": {"fields": [{"default": "2.3.0", "doc": "",
 "type": "string", "name": "GitVersionControl"}], "type": "record",
 "name": "VersionControl"}, "name": "versionControl"}, {"doc": "",
 "type": "string", "name": "chromosome"}, {"doc": "", "type": ["null",
@@ -4471,13 +4715,15 @@ class ReportedSomaticVariants(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}],
-"type": "record", "name": "ReportedVariant"}, "name":
-"reportedVariant"}, {"doc": "", "type": {"symbols": ["unknown",
-"somatic", "germline"], "doc": "", "type": "enum", "name":
-"SomaticOrGermline"}, "name": "somaticOrGermline"}]}
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}], "type":
+"record", "name": "ReportedVariant"}, "name": "reportedVariant"},
+{"doc": "", "type": {"symbols": ["unknown", "somatic", "germline"],
+"doc": "", "type": "enum", "name": "SomaticOrGermline"}, "name":
+"somaticOrGermline"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4518,7 +4764,7 @@ class ReportedStructuralVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedStructuralVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
@@ -4565,9 +4811,11 @@ class ReportedStructuralVariant(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}]}
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4578,6 +4826,7 @@ class ReportedStructuralVariant(ProtocolElement):
         "chromosome",
         "comments",
         "end",
+        "evidenceIds",
         "reference",
         "reportEvents",
         "start",
@@ -4608,7 +4857,8 @@ class ReportedStructuralVariant(ProtocolElement):
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'calledGenotypes', 'chromosome', 'comments', 'end',
-        'reference', 'reportEvents', 'start', 'type', 'versionControl'
+        'evidenceIds', 'reference', 'reportEvents', 'start', 'type',
+        'versionControl'
     ]
 
     def __init__(self, **kwargs):
@@ -4626,6 +4876,8 @@ class ReportedStructuralVariant(ProtocolElement):
             'comments', None)
         self.end = kwargs.get(
             'end', None)
+        self.evidenceIds = kwargs.get(
+            'evidenceIds', None)
         self.reference = kwargs.get(
             'reference', 'None')
         self.reportEvents = kwargs.get(
@@ -4764,7 +5016,7 @@ class ReportedVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
@@ -4811,9 +5063,11 @@ class ReportedVariant(ProtocolElement):
 "record", "name": "ReportEvent"}, "type": "array"}, "name":
 "reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"}]}
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4824,6 +5078,7 @@ class ReportedVariant(ProtocolElement):
         "chromosome",
         "comments",
         "dbSNPid",
+        "evidenceIds",
         "position",
         "reference",
         "reportEvents",
@@ -4853,7 +5108,8 @@ class ReportedVariant(ProtocolElement):
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'calledGenotypes', 'chromosome', 'comments', 'dbSNPid',
-        'position', 'reference', 'reportEvents', 'versionControl'
+        'evidenceIds', 'position', 'reference', 'reportEvents',
+        'versionControl'
     ]
 
     def __init__(self, **kwargs):
@@ -4871,6 +5127,8 @@ class ReportedVariant(ProtocolElement):
             'comments', None)
         self.dbSNPid = kwargs.get(
             'dbSNPid', None)
+        self.evidenceIds = kwargs.get(
+            'evidenceIds', None)
         self.position = kwargs.get(
             'position', None)
         self.reference = kwargs.get(
@@ -5194,7 +5452,7 @@ class SensitiveInformation(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
+[{"default": "2.3.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"type": "string", "name": "gelID"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
@@ -5614,7 +5872,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VersionControl", "fields": [{"default": "2.1.0", "doc": "", "type":
+"VersionControl", "fields": [{"default": "2.3.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -5637,7 +5895,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '2.1.0')
+            'GitVersionControl', '2.3.0')
 
 
 class VirtualPanel(ProtocolElement):

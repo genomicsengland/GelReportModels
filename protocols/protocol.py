@@ -5,6 +5,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import copy
 import sys
 import json
 import inspect
@@ -74,6 +75,35 @@ class ProtocolElement(object):
                 out[field.name] = val
         return out
 
+    def validate_parts(self):
+        out = {}
+
+        for field in self.schema.fields:
+            val = getattr(self, field.name)
+            if self.isEmbeddedType(field.name):
+                if isinstance(val, list):
+                    out[field.name] = list(el.validate_parts() for el in val)
+                elif val is None:
+                    out[field.name] = None
+                else:
+                    out[field.name] = val.validate_parts()
+
+            elif isinstance(val, list):
+                out[field.name] = list(avro.io.validate(field, el) for el in val)
+
+            else:
+                try:
+                    fied_aux = copy.deepcopy(field)
+                    fied_aux.type = field.type.fullname
+                    out[field.name] = avro.io.validate(fied_aux, val)
+                except:
+                    pass
+
+
+        return out
+
+
+
     @classmethod
     def validate(cls, jsonDict):
         """
@@ -81,6 +111,7 @@ class ProtocolElement(object):
         instance of this element's schema.
         """
         return avro.io.validate(cls.schema, jsonDict)
+
 
     @classmethod
     def fromJsonString(cls, jsonStr):
