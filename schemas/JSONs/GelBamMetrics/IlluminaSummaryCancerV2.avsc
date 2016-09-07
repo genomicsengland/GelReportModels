@@ -33,7 +33,7 @@
     "type" : "double"
   }, {
     "name" : "PURITY_TUMOR_PLOIDY",
-    "type" : "string"
+    "type" : [ "null", "double" ]
   }, {
     "name" : "SVSTATS_TANDEM_DUPLICATION_TOTAL",
     "type" : "double"
@@ -51,7 +51,7 @@
     "type" : "double"
   }, {
     "name" : "PURITY_TUMOR_PURITY",
-    "type" : "string"
+    "type" : [ "null", "double" ]
   }, {
     "name" : "SVSTATS_DELETION_NUMBER_IN_GENES",
     "type" : "double"

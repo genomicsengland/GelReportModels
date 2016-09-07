@@ -506,15 +506,14 @@ class CancerDemographics(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerDemographics", "fields": [{"doc": "", "type": {"fields":
-[{"default": "2.1.0", "doc": "", "type": "string", "name":
-"GitVersionControl"}], "type": "record", "name": "VersionControl"},
-"name": "versionControl"}, {"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "primaryDiagnosis"},
-{"default": "v2.4", "doc": "", "type": "string", "name":
-"dataModelVersion"}, {"doc": "", "type": {"symbols": ["male",
-"female", "unknown", "undetermined"], "doc": "", "type": "enum",
-"name": "Sex"}, "name": "sex"}, {"doc": "", "type": {"doc": "",
+"CancerDemographics", "fields": [{"doc": "", "type": "string", "name":
+"gelId"}, {"doc": "", "type": "string", "name": "center"}, {"doc": "",
+"type": "string", "name": "centerPatientId"}, {"doc": "", "type":
+["null", "string"], "name": "labkeyParticipantId"}, {"doc": "",
+"type": ["null", "string"], "name": "primaryDiagnosis"}, {"default":
+"v2.4", "doc": "", "type": "string", "name": "dataModelVersion"},
+{"doc": "", "type": ["null", {"symbols": ["M", "F"], "type": "enum",
+"name": "Sex"}], "name": "sex"}, {"doc": "", "type": {"doc": "",
 "type": "record", "name": "ConsentStatus", "fields": [{"default":
 false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 {"default": false, "doc": "", "type": "boolean", "name":
@@ -523,25 +522,28 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
 "doc": "", "type": "boolean", "name": "carrierStatusConsent"}]},
 "name": "consentStatus"}, {"doc": "", "type": ["null", {"values":
 "string", "type": "map"}], "name": "additionalInformation"}, {"doc":
-"", "type": {"items": "string", "type": "array"}, "name":
-"sampleId"}], "doc": ""}
+"", "type": ["null", {"items": "string", "type": "array"}], "name":
+"sampleId"}, {"doc": "", "type": ["null", "string"], "name":
+"assignedICD10"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "additionalInformation",
+        "assignedICD10",
+        "center",
+        "centerPatientId",
         "consentStatus",
         "gelId",
+        "labkeyParticipantId",
         "primaryDiagnosis",
         "sampleId",
         "sex",
-        "versionControl",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'consentStatus': ConsentStatus,
-            'versionControl': VersionControl,
         }
         return fieldName in embeddedTypes
 
@@ -549,34 +551,40 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"},
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'consentStatus': ConsentStatus,
-            'versionControl': VersionControl,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'additionalInformation', 'consentStatus', 'dataModelVersion',
-        'gelId', 'primaryDiagnosis', 'sampleId', 'sex',
-        'versionControl'
+        'additionalInformation', 'assignedICD10', 'center',
+        'centerPatientId', 'consentStatus', 'dataModelVersion',
+        'gelId', 'labkeyParticipantId', 'primaryDiagnosis',
+        'sampleId', 'sex'
     ]
 
     def __init__(self, **kwargs):
         self.additionalInformation = kwargs.get(
             'additionalInformation', None)
+        self.assignedICD10 = kwargs.get(
+            'assignedICD10', None)
+        self.center = kwargs.get(
+            'center', 'None')
+        self.centerPatientId = kwargs.get(
+            'centerPatientId', 'None')
         self.consentStatus = kwargs.get(
             'consentStatus', None)
         self.dataModelVersion = kwargs.get(
             'dataModelVersion', 'v2.4')
         self.gelId = kwargs.get(
             'gelId', 'None')
+        self.labkeyParticipantId = kwargs.get(
+            'labkeyParticipantId', None)
         self.primaryDiagnosis = kwargs.get(
-            'primaryDiagnosis', 'None')
+            'primaryDiagnosis', None)
         self.sampleId = kwargs.get(
             'sampleId', None)
         self.sex = kwargs.get(
             'sex', None)
-        self.versionControl = kwargs.get(
-            'versionControl', None)
 
 
 class CancerInterpretationRequest(ProtocolElement):
@@ -861,48 +869,50 @@ class CancerParticipant(ProtocolElement):
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "CancerDemographics", "fields": [{"doc": "", "type":
-"VersionControl", "name": "versionControl"}, {"doc": "", "type":
 "string", "name": "gelId"}, {"doc": "", "type": "string", "name":
-"primaryDiagnosis"}, {"default": "v2.4", "doc": "", "type": "string",
-"name": "dataModelVersion"}, {"doc": "", "type": {"symbols": ["male",
-"female", "unknown", "undetermined"], "doc": "", "type": "enum",
-"name": "Sex"}, "name": "sex"}, {"doc": "", "type": {"doc": "",
-"type": "record", "name": "ConsentStatus", "fields": [{"default":
-false, "doc": "", "type": "boolean", "name": "programmeConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"primaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "secondaryFindingConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "carrierStatusConsent"}]},
-"name": "consentStatus"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}, {"doc":
-"", "type": {"items": "string", "type": "array"}, "name":
-"sampleId"}]}, "name": "cancerDemographics"}, {"doc": "", "type":
-{"items": {"fields": [{"doc": "", "type": "VersionControl", "name":
-"versionControl"}, {"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "string", "name": "labId"}, {"doc": "", "type":
-["null", {"symbols": ["cruk", "brc", "cll", "iip", "main"], "type":
-"enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "", "type":
-{"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": "string",
-"name": "sampleDiagnosis"}, {"doc": "", "type": ["null", "string"],
-"name": "source"}, {"doc": "", "type": ["null", {"symbols": ["ffpe",
-"ff", "unknown", "blood", "gl", "saliva"], "type": "enum", "name":
-"PreservationMethod"}], "name": "preservationMethod"}, {"doc": "",
-"type": ["null", {"symbols": ["primary", "metastasis"], "type":
-"enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
-["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
-"name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
-"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
-"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
-"name": "tmn_stage_grouping"}], "type": "record", "name":
-"CancerSample"}, "type": "array"}, "name": "cancerSamples"}, {"doc":
-"", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": "string", "name":
-"germlineSampleId"}, {"doc": "", "type": "string", "name":
-"tumorSampleId"}]}, "type": "array"}, "name": "matchedSamples"}],
-"doc": ""}
+"center"}, {"doc": "", "type": "string", "name": "centerPatientId"},
+{"doc": "", "type": ["null", "string"], "name":
+"labkeyParticipantId"}, {"doc": "", "type": ["null", "string"],
+"name": "primaryDiagnosis"}, {"default": "v2.4", "doc": "", "type":
+"string", "name": "dataModelVersion"}, {"doc": "", "type": ["null",
+{"symbols": ["M", "F"], "type": "enum", "name": "Sex"}], "name":
+"sex"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"ConsentStatus", "fields": [{"default": false, "doc": "", "type":
+"boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "primaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}]}, "name":
+"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"},
+{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}]},
+"name": "cancerDemographics"}, {"doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
+["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
+"type": "enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "",
+"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
+"SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
+"string"], "name": "sampleDiagnosis"}, {"doc": "", "type": ["null",
+"string"], "name": "source"}, {"doc": "", "type": ["null", {"symbols":
+["FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK"], "type":
+"enum", "name": "PreservationMethod"}], "name": "preservationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC",
+"RECURRENCE"], "type": "enum", "name": "Phase"}], "name": "phase"},
+{"doc": "", "type": ["null", {"symbols": ["RESECTION", "BIOPSY",
+"BLOOD"], "type": "enum", "name": "Method"}], "name": "method"},
+{"doc": "", "type": ["null", "string"], "name": "cellularity"},
+{"doc": "", "type": ["null", "string"], "name": "tumorContent"},
+{"doc": "", "type": ["null", "string"], "name": "grade"}, {"doc": "",
+"type": ["null", "string"], "name": "tnm_stage_version"}, {"doc": "",
+"type": ["null", "string"], "name": "tmn_stage_grouping"}], "type":
+"record", "name": "CancerSample"}, "type": "array"}, "name":
+"cancerSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
+["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type":
+["null", "string"], "name": "tumorSampleId"}]}, "type": "array"},
+"name": "matchedSamples"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -955,28 +965,26 @@ class CancerSample(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerSample", "fields": [{"doc": "", "type": {"fields": [{"default":
-"2.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
-"type": "record", "name": "VersionControl"}, "name":
-"versionControl"}, {"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "string", "name": "labId"}, {"doc": "", "type":
-["null", {"symbols": ["cruk", "brc", "cll", "iip", "main"], "type":
-"enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "", "type":
-{"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": "string",
-"name": "sampleDiagnosis"}, {"doc": "", "type": ["null", "string"],
-"name": "source"}, {"doc": "", "type": ["null", {"symbols": ["ffpe",
-"ff", "unknown", "blood", "gl", "saliva"], "type": "enum", "name":
-"PreservationMethod"}], "name": "preservationMethod"}, {"doc": "",
-"type": ["null", {"symbols": ["primary", "metastasis"], "type":
-"enum", "name": "Phase"}], "name": "phase"}, {"doc": "", "type":
-["null", {"symbols": ["resection", "biopsy", "blood"], "type": "enum",
-"name": "Method"}], "name": "method"}, {"doc": "", "type": ["null",
-"string"], "name": "cellularity"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorContent"}, {"doc": "", "type": ["null",
-"string"], "name": "grade"}, {"doc": "", "type": ["null", "string"],
-"name": "tnm_stage_version"}, {"doc": "", "type": ["null", "string"],
-"name": "tmn_stage_grouping"}]}
+"CancerSample", "fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": ["null", "string"], "name": "labId"},
+{"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
+"IIP", "MAIN", "EXPT"], "type": "enum", "name": "GelPhase"}], "name":
+"gelPhase"}, {"doc": "", "type": {"symbols": ["germline", "tumor"],
+"type": "enum", "name": "SampleType"}, "name": "sampleType"}, {"doc":
+"", "type": ["null", "string"], "name": "sampleDiagnosis"}, {"doc":
+"", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+["null", {"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL",
+"SALIVA", "LEUK"], "type": "enum", "name": "PreservationMethod"}],
+"name": "preservationMethod"}, {"doc": "", "type": ["null",
+{"symbols": ["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum",
+"name": "Phase"}], "name": "phase"}, {"doc": "", "type": ["null",
+{"symbols": ["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name":
+"Method"}], "name": "method"}, {"doc": "", "type": ["null", "string"],
+"name": "cellularity"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorContent"}, {"doc": "", "type": ["null", "string"],
+"name": "grade"}, {"doc": "", "type": ["null", "string"], "name":
+"tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
+"tmn_stage_grouping"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -994,21 +1002,16 @@ class CancerSample(ProtocolElement):
         "tmn_stage_grouping",
         "tnm_stage_version",
         "tumorContent",
-        "versionControl",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'versionControl': VersionControl,
-        }
+        embeddedTypes = {}
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'versionControl': VersionControl,
-        }
+        embeddedTypes = {}
 
         return embeddedTypes[fieldName]
 
@@ -1016,7 +1019,7 @@ class CancerSample(ProtocolElement):
         'cellularity', 'gelPhase', 'grade', 'labId', 'method',
         'phase', 'preservationMethod', 'sampleDiagnosis', 'sampleId',
         'sampleType', 'source', 'tmn_stage_grouping',
-        'tnm_stage_version', 'tumorContent', 'versionControl'
+        'tnm_stage_version', 'tumorContent'
     ]
 
     def __init__(self, **kwargs):
@@ -1027,7 +1030,7 @@ class CancerSample(ProtocolElement):
         self.grade = kwargs.get(
             'grade', None)
         self.labId = kwargs.get(
-            'labId', 'None')
+            'labId', None)
         self.method = kwargs.get(
             'method', None)
         self.phase = kwargs.get(
@@ -1035,7 +1038,7 @@ class CancerSample(ProtocolElement):
         self.preservationMethod = kwargs.get(
             'preservationMethod', None)
         self.sampleDiagnosis = kwargs.get(
-            'sampleDiagnosis', 'None')
+            'sampleDiagnosis', None)
         self.sampleId = kwargs.get(
             'sampleId', 'None')
         self.sampleType = kwargs.get(
@@ -1048,8 +1051,6 @@ class CancerSample(ProtocolElement):
             'tnm_stage_version', None)
         self.tumorContent = kwargs.get(
             'tumorContent', None)
-        self.versionControl = kwargs.get(
-            'versionControl', None)
 
 
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
@@ -1520,11 +1521,12 @@ class GelPhase(object):
     """
     No documentation
     """
-    cruk = "cruk"
-    brc = "brc"
-    cll = "cll"
-    iip = "iip"
-    main = "main"
+    CRUK = "CRUK"
+    OXFORD = "OXFORD"
+    CLL = "CLL"
+    IIP = "IIP"
+    MAIN = "MAIN"
+    EXPT = "EXPT"
 
 
 class GenomicFeature(ProtocolElement):
@@ -1698,14 +1700,14 @@ class IlluminaSummaryCancerV2(ProtocolElement):
 "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
 "VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
 "VARIANTSTATS_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30"}, {"type": "string", "name":
-"PURITY_TUMOR_PLOIDY"}, {"type": "double", "name":
+"BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30"}, {"type": ["null", "double"],
+"name": "PURITY_TUMOR_PLOIDY"}, {"type": "double", "name":
 "SVSTATS_TANDEM_DUPLICATION_TOTAL"}, {"type": "double", "name":
 "SVSTATS_INSERTION_NUMBER_IN_GENES"}, {"type": "double", "name":
 "VARIANTSTATS_TOTAL_DELETIONS"}, {"type": "double", "name":
 "VARIANTSTATS_NUMBER_IN_CODING_REGIONS_SNVS"}, {"type": "double",
-"name": "VARIANTSTATS_FRAMESHIFT_INSERTIONS"}, {"type": "string",
-"name": "PURITY_TUMOR_PURITY"}, {"type": "double", "name":
+"name": "VARIANTSTATS_FRAMESHIFT_INSERTIONS"}, {"type": ["null",
+"double"], "name": "PURITY_TUMOR_PURITY"}, {"type": "double", "name":
 "SVSTATS_DELETION_NUMBER_IN_GENES"}, {"type": "double", "name":
 "VARIANTSTATS_TOTAL_INSERTIONS"}, {"type": "double", "name":
 "VARIANTSTATS_NON_SYNONYMOUS_SNVS"}, {"type": "double", "name":
@@ -1888,9 +1890,9 @@ class IlluminaSummaryCancerV2(ProtocolElement):
         self.NORMAL_ID = kwargs.get(
             'NORMAL_ID', 'None')
         self.PURITY_TUMOR_PLOIDY = kwargs.get(
-            'PURITY_TUMOR_PLOIDY', 'None')
+            'PURITY_TUMOR_PLOIDY', None)
         self.PURITY_TUMOR_PURITY = kwargs.get(
-            'PURITY_TUMOR_PURITY', 'None')
+            'PURITY_TUMOR_PURITY', None)
         self.SVSTATS_CNV_NUMBER_IN_GENES = kwargs.get(
             'SVSTATS_CNV_NUMBER_IN_GENES', None)
         self.SVSTATS_CNV_TOTAL = kwargs.get(
@@ -2933,6 +2935,40 @@ class InbreedingCoefficientEstimates(ProtocolElement):
             'O_HOM', None)
 
 
+class InsertSizeGel(ProtocolElement):
+    """
+    GEL Insert size calculation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"InsertSizeGel", "fields": [{"type": "double", "name":
+"median_inward"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "median_inward",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'median_inward'
+    ]
+
+    def __init__(self, **kwargs):
+        self.median_inward = kwargs.get(
+            'median_inward', None)
+
+
 class InterpretationRequestRD(ProtocolElement):
     """
     This record represents basic information for this report
@@ -3424,9 +3460,9 @@ class MatchedSamples(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": "string", "name":
-"germlineSampleId"}, {"doc": "", "type": "string", "name":
-"tumorSampleId"}], "doc": ""}
+"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorSampleId"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3451,18 +3487,18 @@ class MatchedSamples(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.germlineSampleId = kwargs.get(
-            'germlineSampleId', 'None')
+            'germlineSampleId', None)
         self.tumorSampleId = kwargs.get(
-            'tumorSampleId', 'None')
+            'tumorSampleId', None)
 
 
 class Method(object):
     """
     No documentation
     """
-    resection = "resection"
-    biopsy = "biopsy"
-    blood = "blood"
+    RESECTION = "RESECTION"
+    BIOPSY = "BIOPSY"
+    BLOOD = "BLOOD"
 
 
 class ModeOfInheritance(object):
@@ -3706,8 +3742,9 @@ class Phase(object):
     """
     No documentation
     """
-    primary = "primary"
-    metastasis = "metastasis"
+    PRIMARY = "PRIMARY"
+    METASTATIC = "METASTATIC"
+    RECURRENCE = "RECURRENCE"
 
 
 class PlinkROH(ProtocolElement):
@@ -3820,12 +3857,13 @@ class PreservationMethod(object):
     """
     No documentation
     """
-    ffpe = "ffpe"
-    ff = "ff"
-    unknown = "unknown"
-    blood = "blood"
-    gl = "gl"
-    saliva = "saliva"
+    FFPE = "FFPE"
+    FF = "FF"
+    UNKNOWN = "UNKNOWN"
+    BLOOD = "BLOOD"
+    GL = "GL"
+    SALIVA = "SALIVA"
+    LEUK = "LEUK"
 
 
 class RDParticipant(ProtocolElement):
@@ -4044,14 +4082,21 @@ class Reason(object):
     """
     No documentation
     """
+    median_coverage = "median_coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    consent = "consent"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
+    arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -5252,14 +5297,16 @@ class State(object):
     """
     This is the master state for this sample, for example
     caution,quality could be used to say that a sample under this
-    individual has quality issues.  See sample level for full details
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed hold: sample
+    is on hold pending investigation fail: sample has failed a QC
+    check caution: sample is ready but should be used with caution
     """
     ready = "ready"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
 
 
 class TernaryOption(object):
