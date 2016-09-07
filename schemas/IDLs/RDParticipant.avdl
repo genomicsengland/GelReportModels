@@ -128,9 +128,11 @@ record RDParticipant {
     union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
+    TODO: next
     Year of Birth
-    */
     union {null, string} yearOfBirth;
+    */
+
 
     /**
     refers to the pedigreeId of the father
