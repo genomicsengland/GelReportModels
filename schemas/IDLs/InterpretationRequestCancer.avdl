@@ -19,10 +19,6 @@ import idl "CancerParticipant.avdl";
 import idl "CommonRequest.avdl";
 import idl "VersionControl.avdl";
 
-
-
-
-
 /**
 This record represents basic information for this report
 
@@ -67,13 +63,9 @@ record CancerInterpretationRequest {
     /**
     This will be the output file from Cellbase + version used
     */
-    File annotationFile;
+    union{null, File} annotationFile;
 
-    /** this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)
-    (not to be confused with VirtualPanel record - RareDisease only)
-    */
-    VirtualPanel virtualPanels;
-
+    CancerParticipant cancerParticipant;
 
     /**
     Location (URI) where the data can be found
@@ -90,10 +82,7 @@ record CancerInterpretationRequest {
     */
     union {null, map<string>} additionalInfo;
 
-   /**
-   Other family history for the participant if available
-   */
-    union {null, OtherFamilyHistory} otherFamilyHistory;
+
 }
 
 

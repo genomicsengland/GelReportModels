@@ -5,76 +5,19 @@ This protocol defines the Commons for GEL models
 protocol CommonInterpretedCancer {
 
 
-
 /**
-This is intended to hold the genotypes for the family members
-In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
+this is the type of actionability for the reported event
 */
-record CalledGenotypeCancer {
-    /**
-    TODO: EIK added allele fraction - ARM to check, DP field instead of fraction
-    */
-
-    /**
-    Participant id of the family member:
-    */
-    string gelId;
-
-    /**
-    LP Number of the family member:
-    */
-    string sampleId;
-
-    /**
-    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
-    */
-    string genotype;
-
-    /**
-    Depth for Reference Allele
-    */
-    union {null, int} depthReference;
-
-    /**
-    Depth for Alternate Allele
-    */
-    union {null, int} depthAlternate;
-
-    /**
-    Copy number genotype for imzcise events
-    */
-    union {null, int} copyNumber;
-
-}
-
-enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
-
-/**
-This is intended to hold infomration on actionability of the report event
-*/
-
-
-/**
-this is the type of action
-*/
-enum ActionType{drug,stratification,biomarker}
-enum Association{response}
+enum ActionType{Therapy, Prognosis, Diagnosis}
 
 record Actions {
 
-
     ActionType actionType;
 
-
     /**
-    type of association e.g response
+    This is the tumor type considered to act on this variant
     */
-    union {null, string} association;
-
-    /**
-    pathway e.g. activation
-    */
-    union {null, string} pathway;
+    string tumorType;
 
     /**
     array of PMIDs
@@ -96,22 +39,24 @@ record Actions {
     */
     union {null, array<string>} comments;
 
-
     /**
     type of evidence
     */
     union {null, string} evidenceType;
-
 
     /**
     source of the information
     */
     string source;
 
-
 }
 
+
+
+enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+
 record GenomicFeatureCancer {
+
     /**
     Feature Type
     */
@@ -122,42 +67,27 @@ record GenomicFeatureCancer {
     */
     string ensemblId;
 
+     /**
+    Refseq transcript
+    */
+    string refSeqTranscriptId;
+
+     /**
+    Refseq protein
+    */
+    string refSeqProteinId;
+
     /**
     Gene used in tier
     */
     string geneName;
 
     /**
-    Protein domain used in tier
+    Role in cancer: oncogege, TSG or both
     */
-    union {null, string} proteinDomain;
-
-    /**
-    Mutation used in tier
-    */
-    string mutation;
-
-    /**
-    SO Term used in tier
-    */
-    string soTerm;
-
-    /**
-    SO name used in tier
-    */
-    string soName;
-
-    /**
-    Others IDs
-    */
-    map<string> ids;
+    union {null, string} roleInCancer;
 
 }
-
-/**
-This is the predicted biological impact of the variant
-*/
-enum VariantClass{A, B, C}
 
 
 /**
@@ -174,39 +104,36 @@ record ReportEventCancer {
     string reportEventId;
 
     /**
-    This is the tumor type considered to report this variant
-    */
-    string phenotype;
-
-   /**
     This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
     If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
     */
-    GenomicFeatureCancer genomicFeature;
+    GenomicFeatureCancer genomicFeatureCancer;
+
 
     /**
-
+    SO Term used in tier
     */
+    string soTerm;
 
+    /**
+    SO name used in tier
+    */
+    string soName;
+
+    /**
+    */
     array<Actions> actions;
-
-    /**
-    This is the gel variant class related to variant actionability
-    */
-    union {null, VariantClass} variantClass;
-
-    /**
-    This is the description of why this variant would be reported, for example that it affects the protein in this way
-    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
-    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
-    */
-    string eventJustification;
 
     /**
     Gel Tier
     */
     union {null, Tier} tier;
+
 }
+
+
+
+
 
 
 record ReportedVariantCancer {
@@ -215,11 +142,6 @@ record ReportedVariantCancer {
     chromosome, named as: 1-22,X,Y,MT(other contigs name)
     */
     string chromosome;
-
-    /**
-    variant ID in dbSNP
-    */
-    union {null, string} dbSNPid;
 
     /**
     position: Position 1-based
@@ -237,15 +159,49 @@ record ReportedVariantCancer {
     string alternate;
 
     /**
-    array of genotypes for the family
+    variant ID in Cosmic
     */
-    array<CalledGenotypeCancer> calledGenotypes;
+    union {null, string} CosmicId;
 
     /**
-    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-    the variants can have only one Report event.
+    link to Cosmic
     */
-    array<ReportEventCancer> reportEventsCancer;
+    union {null, string} CosmicLink;
+
+    /**
+    variant ID in dbSNP
+    */
+    union {null, string} dbSNPid;
+
+    /**
+    cDNA change, HGVS nomenclature (e.g.)
+    */
+    union {null, string} cDNAchange;
+
+    /**
+    protein change, HGVS nomenclature (e.g.)
+    */
+    union {null, string} proteinChange;
+
+    /**
+    Depth for Reference Allele
+    */
+    union {null, int} depthReference;
+
+    /**
+    Depth for Alternate Allele
+    */
+    union {null, int} depthAlternate;
+
+    /**
+    Variant Allele Frequency
+    */
+    union {null, int} VAF;
+
+    /**
+    AF in germline DBs
+    */
+    union {null, int} commonAF;
 
     /**
     For example HGMD ID)
@@ -262,8 +218,10 @@ record ReportedVariantCancer {
     */
     union {null, array<string>} comments;
 
-}
 
+    array<ReportEventCancer> reportEvents;
+
+}
 
 
 record ReportedStructuralVariantCancer {
@@ -299,16 +257,6 @@ record ReportedStructuralVariantCancer {
     */
     string alternate;
 
-
-    array<CalledGenotypeCancer> calledGenotypes;
-
-    /**
-    This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-    the variants can have only one Report event.
-    */
-    array<ReportEventCancer> reportEventsCancer;
-
-
     /**
     For example HGMD ID)
     */
@@ -326,7 +274,5 @@ record ReportedStructuralVariantCancer {
 
 }
 
-//enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
-
-
 }
+
