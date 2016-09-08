@@ -33,6 +33,12 @@
         }, {
           "name" : "scope",
           "type" : "string"
+        }, {
+          "name" : "localRMSD",
+          "type" : "double"
+        }, {
+          "name" : "COSMIC30Xcov",
+          "type" : "double"
         } ]
       }
     }

@@ -182,9 +182,13 @@
       "type" : [ "null", "string" ],
       "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
     }, {
-      "name" : "source",
+      "name" : "tumorType",
       "type" : [ "null", "string" ],
-      "doc" : "Sample Source\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+      "doc" : "Tumor Type\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+    }, {
+      "name" : "tumorSubType",
+      "type" : [ "null", "string" ],
+      "doc" : "Tumor Subtype"
     }, {
       "name" : "preservationMethod",
       "type" : [ "null", "PreservationMethod" ],
@@ -318,7 +322,7 @@
     "type" : "enum",
     "name" : "FileType",
     "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig" ]
+    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
   }, {
     "type" : "record",
     "name" : "File",
@@ -444,12 +448,11 @@
       "doc" : "BigWig Files"
     }, {
       "name" : "annotationFile",
-      "type" : "File",
+      "type" : [ "null", "File" ],
       "doc" : "This will be the output file from Cellbase + version used"
     }, {
-      "name" : "virtualPanels",
-      "type" : "VirtualPanel",
-      "doc" : "this object calls virtualPanels (e.g. CancerPanel, SomaticPanel and GermlinePanel)\n    (not to be confused with VirtualPanel record - RareDisease only)"
+      "name" : "cancerParticipant",
+      "type" : "CancerParticipant"
     }, {
       "name" : "analysisURI",
       "type" : "string",
@@ -465,10 +468,6 @@
         "values" : "string"
       } ],
       "doc" : "Additional information"
-    }, {
-      "name" : "otherFamilyHistory",
-      "type" : [ "null", "OtherFamilyHistory" ],
-      "doc" : "Other family history for the participant if available"
     } ]
   } ],
   "messages" : { }

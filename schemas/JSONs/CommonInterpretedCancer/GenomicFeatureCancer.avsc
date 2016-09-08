@@ -15,31 +15,20 @@
     "type" : "string",
     "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
   }, {
+    "name" : "refSeqTranscriptId",
+    "type" : "string",
+    "doc" : "Refseq transcript"
+  }, {
+    "name" : "refSeqProteinId",
+    "type" : "string",
+    "doc" : "Refseq protein"
+  }, {
     "name" : "geneName",
     "type" : "string",
     "doc" : "Gene used in tier"
   }, {
-    "name" : "proteinDomain",
+    "name" : "roleInCancer",
     "type" : [ "null", "string" ],
-    "doc" : "Protein domain used in tier"
-  }, {
-    "name" : "mutation",
-    "type" : "string",
-    "doc" : "Mutation used in tier"
-  }, {
-    "name" : "soTerm",
-    "type" : "string",
-    "doc" : "SO Term used in tier"
-  }, {
-    "name" : "soName",
-    "type" : "string",
-    "doc" : "SO name used in tier"
-  }, {
-    "name" : "ids",
-    "type" : {
-      "type" : "map",
-      "values" : "string"
-    },
-    "doc" : "Others IDs"
+    "doc" : "Role in cancer: oncogege, TSG or both"
   } ]
 }

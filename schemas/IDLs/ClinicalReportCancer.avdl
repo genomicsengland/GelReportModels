@@ -7,6 +7,7 @@ Interpretation Request or interpreted genome.
 protocol ClinicalReportCancer {
 
 import idl "CommonInterpreted.avdl";
+import idl "CancerParticipant.avdl";
 import idl "VersionControl.avdl";
 
 record ClinicalReportCancer {

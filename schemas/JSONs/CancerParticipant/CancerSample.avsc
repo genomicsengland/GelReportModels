@@ -31,9 +31,13 @@
     "type" : [ "null", "string" ],
     "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
   }, {
-    "name" : "source",
+    "name" : "tumorType",
     "type" : [ "null", "string" ],
-    "doc" : "Sample Source\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+    "doc" : "Tumor Type\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+  }, {
+    "name" : "tumorSubType",
+    "type" : [ "null", "string" ],
+    "doc" : "Tumor Subtype"
   }, {
     "name" : "preservationMethod",
     "type" : [ "null", {

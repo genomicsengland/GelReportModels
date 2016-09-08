@@ -279,6 +279,10 @@
       "type" : "string",
       "doc" : "This is the version of the interpretation Request Id, second number in XXX-123-2"
     }, {
+      "name" : "interpretationRequestAnalysisVersion",
+      "type" : "string",
+      "doc" : "This is the version of the analytical approach that was carried out on the same interpretationRequest.\n    For example provider produces two types of analysis on the data and end user produces different summaries depending\n    on the analysis version"
+    }, {
       "name" : "reportingDate",
       "type" : "string",
       "doc" : "Date of this report"
@@ -305,12 +309,12 @@
       "type" : "string",
       "doc" : "Summary of the interpretation, this should reflects the positive conclusions of this interpretation"
     }, {
-      "name" : "references",
+      "name" : "supportingEvidence",
       "type" : [ "null", {
         "type" : "array",
         "items" : "string"
       } ],
-      "doc" : "References (pubmed Ids)"
+      "doc" : "Supporting evidence (pubmed Ids)"
     }, {
       "name" : "referenceDatabasesVersions",
       "type" : {
@@ -324,20 +328,20 @@
         "type" : "map",
         "values" : "string"
       },
-      "doc" : "This map should contains the version of the different DBs software in the process"
+      "doc" : "This map should contains the version of the different software in the process"
     }, {
       "name" : "genePanelsCoverage",
       "type" : {
         "type" : "map",
         "values" : {
-          "type" : "array",
-          "items" : {
+          "type" : "map",
+          "values" : {
             "type" : "map",
-            "values" : "string"
+            "values" : "float"
           }
         }
       },
-      "doc" : "This map of key: panel_name, value: (arrays of (map of key: gene, value: gene coverage))"
+      "doc" : "This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))\n    That is: a map of tables of genes and metrics"
     } ]
   } ],
   "messages" : { }

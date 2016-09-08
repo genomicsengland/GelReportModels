@@ -15,5 +15,8 @@
   }, {
     "name" : "perc_variants_gt_filter",
     "type" : "double"
+  }, {
+    "name" : "TumorContaminationContEst",
+    "type" : "double"
   } ]
 }

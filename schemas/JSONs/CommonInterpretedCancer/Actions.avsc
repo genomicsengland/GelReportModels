@@ -7,17 +7,13 @@
     "type" : {
       "type" : "enum",
       "name" : "ActionType",
-      "doc" : "this is the type of action",
-      "symbols" : [ "drug", "stratification", "biomarker" ]
+      "doc" : "this is the type of actionability for the reported event",
+      "symbols" : [ "Therapy", "Prognosis", "Diagnosis" ]
     }
   }, {
-    "name" : "association",
-    "type" : [ "null", "string" ],
-    "doc" : "type of association e.g response"
-  }, {
-    "name" : "pathway",
-    "type" : [ "null", "string" ],
-    "doc" : "pathway e.g. activation"
+    "name" : "tumorType",
+    "type" : "string",
+    "doc" : "This is the tumor type considered to act on this variant"
   }, {
     "name" : "evidence",
     "type" : [ "null", {

@@ -24,14 +24,6 @@
     "type" : "string",
     "doc" : "This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters\n    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.\n    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools"
   }, {
-    "name" : "companyName",
-    "type" : "string",
-    "doc" : "Name of the company"
-  }, {
-    "name" : "companyVersion",
-    "type" : "string",
-    "doc" : "Version of company pipeline"
-  }, {
     "name" : "reportURI",
     "type" : "string",
     "doc" : "URI where the company can upload files for this analysis"
