@@ -120,10 +120,12 @@ record InterpretationRequestRD {
     union {null, File} annotationFile;
 
     /**
+    TODO: next
     Other files that may be vendor specific
     map of key: type of file, value: record of type File
-    */
     union {null, map<File>} otherFiles;
+    */
+
 
 
     /**
@@ -175,10 +177,12 @@ record InterpretationRequestRD {
     string analysisVersion="1";
 
     /**
+    TODO: next
     This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
     That is: a map of tables of genes and metrics
-    */
     map<map<map<float>>> genePanelsCoverage;
+    */
+
 
     /**
     Additional information
