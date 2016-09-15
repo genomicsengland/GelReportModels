@@ -12,6 +12,7 @@ import inspect
 import itertools
 
 import avro.io
+from avro.schema import UnionSchema, ArraySchema
 
 
 class ProtocolElementEncoder(json.JSONEncoder):
@@ -84,20 +85,26 @@ class ProtocolElement(object):
                 if isinstance(val, list):
                     out[field.name] = list(el.validate_parts() for el in val)
                 elif val is None:
-                    out[field.name] = None
+                    if isinstance(field.type, UnionSchema) and 'null' in [t.type for t in field.type.schemas]:
+                        out[field.name] = True
+                    else:
+                        out[field.name] = False
+
                 else:
                     out[field.name] = val.validate_parts()
-
             elif isinstance(val, list):
-                out[field.name] = list(avro.io.validate(field, el) for el in val)
-
+                if isinstance(field.type, UnionSchema):
+                    out[field.name] = False
+                    for sc in field.type.schemas:
+                        if isinstance(sc, ArraySchema):
+                            out[field.name] = list(avro.io.validate(sc.items, el) for el in val)
+                else:
+                    if isinstance(field.type, ArraySchema):
+                        out[field.name] = list(avro.io.validate(field.type.items, el) for el in val)
+                    else:
+                        out[field.name] = False
             else:
-                try:
-                    fied_aux = copy.deepcopy(field)
-                    fied_aux.type = field.type.fullname
-                    out[field.name] = avro.io.validate(fied_aux, val)
-                except:
-                    pass
+                out[field.name] = avro.io.validate(field.type, val)
 
 
         return out
