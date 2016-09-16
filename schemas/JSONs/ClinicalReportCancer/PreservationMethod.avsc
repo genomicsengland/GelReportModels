@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "PreservationMethod",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK" ]
+}
