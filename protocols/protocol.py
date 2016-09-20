@@ -154,8 +154,11 @@ class ProtocolElement(object):
             return None
 
         embeddedType = cls.getEmbeddedType(field.name)
-        if isinstance(field.type, avro.schema.ArraySchema):
-            return [embeddedType.fromJsonDict(elem) for elem in val]
+        if isinstance(field.type, UnionSchema):
+            if isinstance(field.type.schemas[1], ArraySchema):
+                return list(embeddedType.fromJsonDict(elem) for elem in val)
+        elif isinstance(field.type, avro.schema.ArraySchema):
+            return list(embeddedType.fromJsonDict(elem) for elem in val)
         else:
             return embeddedType.fromJsonDict(val)
 
