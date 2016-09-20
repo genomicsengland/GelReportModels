@@ -57,10 +57,9 @@ record CalledGenotype {
     string genotype;
 
     /**
-    TODO: next
     Phase set of variants when variants are phased
-    union {null, int} phaseSet;
     */
+    union {null, int} phaseSet;
 
 
     /**
@@ -243,10 +242,10 @@ record ReportedVariant {
     union {null,map<string>} additionalTextualVariantAnnotations;
 
     /**
-    TODO: Next
     For example HGMD ID, dbSNP ID or Pubmed Id
-    union {null,map<string>} evidenceIds;
     */
+    union {null,map<string>} evidenceIds;
+
 
 
     /**
@@ -313,11 +312,10 @@ record ReportedStructuralVariant {
 
 
     /**
-    TODO: Next
     For example HGMD ID, dbSNP ID or Pubmed Id
-
-    union {null,map<string>} evidenceIds;
     */
+    union {null,map<string>} evidenceIds;
+
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)

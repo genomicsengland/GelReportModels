@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
+        "default" : "3.0.0"
       } ]
     },
     "doc" : "Model version number"
@@ -99,6 +99,13 @@
     "type" : [ "null", "File" ],
     "doc" : "Variant Annotation using cellbase"
   }, {
+    "name" : "otherFiles",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "File"
+    } ],
+    "doc" : "Other files that may be vendor specific\n    map of key: type of file, value: record of type File"
+  }, {
     "name" : "pedigree",
     "type" : {
       "type" : "record",
@@ -162,6 +169,10 @@
                 "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
               } ],
               "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+            }, {
+              "name" : "yearOfBirth",
+              "type" : [ "null", "string" ],
+              "doc" : "Year of Birth"
             }, {
               "name" : "fatherId",
               "type" : [ "null", "int" ],
@@ -508,6 +519,10 @@
                 "type" : "string",
                 "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
               }, {
+                "name" : "phaseSet",
+                "type" : [ "null", "int" ],
+                "doc" : "Phase set of variants when variants are phased"
+              }, {
                 "name" : "depthReference",
                 "type" : [ "null", "int" ],
                 "doc" : "Depth for Reference Allele"
@@ -644,6 +659,13 @@
           } ],
           "doc" : "For example a quote from a paper"
         }, {
+          "name" : "evidenceIds",
+          "type" : [ "null", {
+            "type" : "map",
+            "values" : "string"
+          } ],
+          "doc" : "For example HGMD ID, dbSNP ID or Pubmed Id"
+        }, {
           "name" : "additionalNumericVariantAnnotations",
           "type" : [ "null", {
             "type" : "map",
@@ -765,6 +787,19 @@
     "type" : "string",
     "doc" : "In the event that the provider has multiple versions of their system and an analysis will need to be provided against\n    a particular version, then that version goes here.",
     "default" : "1"
+  }, {
+    "name" : "genePanelsCoverage",
+    "type" : {
+      "type" : "map",
+      "values" : {
+        "type" : "map",
+        "values" : {
+          "type" : "map",
+          "values" : "float"
+        }
+      }
+    },
+    "doc" : "This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))\n    That is: a map of tables of genes and metrics"
   }, {
     "name" : "additionalInfo",
     "type" : [ "null", {

@@ -128,10 +128,9 @@ record RDParticipant {
     union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
-    TODO: next
     Year of Birth
-    union {null, string} yearOfBirth;
     */
+    union {null, string} yearOfBirth;
 
 
     /**

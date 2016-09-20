@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
+        "default" : "3.0.0"
       } ]
     },
     "doc" : "Model version number"
@@ -70,6 +70,10 @@
             "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
           } ],
           "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+        }, {
+          "name" : "yearOfBirth",
+          "type" : [ "null", "string" ],
+          "doc" : "Year of Birth"
         }, {
           "name" : "fatherId",
           "type" : [ "null", "int" ],

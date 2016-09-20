@@ -16,6 +16,10 @@
     "type" : "string",
     "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
   }, {
+    "name" : "phaseSet",
+    "type" : [ "null", "int" ],
+    "doc" : "Phase set of variants when variants are phased"
+  }, {
     "name" : "depthReference",
     "type" : [ "null", "int" ],
     "doc" : "Depth for Reference Allele"
