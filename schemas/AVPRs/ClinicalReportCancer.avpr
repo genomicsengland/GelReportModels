@@ -1,5 +1,5 @@
 {
-  "protocol" : "ClinicalReportCancer",
+  "protocol" : "ClinicalReportsCancer",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants\ndefine by a GMC in a CIP environment. Notice that most of the information needed is already collected in the\nInterpretation Request or interpreted genome.",
   "types" : [ {

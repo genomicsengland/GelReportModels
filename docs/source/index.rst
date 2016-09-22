@@ -3,20 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to g's documentation!
+GelReportModels Documentation
 =============================
 
-Contents:
 
+* :ref:`models-documentation`
+
+.. _models-documentation:
+
+Models Documentation
+--------------------
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    models
 
