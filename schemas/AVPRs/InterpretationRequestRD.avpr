@@ -475,7 +475,7 @@
     }, {
       "name" : "HGNC",
       "type" : [ "null", "string" ],
-      "doc" : "This field is optional, BUT it should be filled if possible"
+      "doc" : "This filed is optional, BUT it should be filled if it is possible"
     }, {
       "name" : "other_ids",
       "type" : {
