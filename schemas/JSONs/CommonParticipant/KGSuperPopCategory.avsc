@@ -2,6 +2,6 @@
   "type" : "enum",
   "name" : "KGSuperPopCategory",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "1K Population",
+  "doc" : "1K Super Population",
   "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
 }

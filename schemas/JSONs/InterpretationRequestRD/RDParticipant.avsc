@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "2.1.0"
+        "default" : "3.0.0"
       } ]
     },
     "doc" : "Model version number"
@@ -54,6 +54,10 @@
       "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
     } ],
     "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+  }, {
+    "name" : "yearOfBirth",
+    "type" : [ "null", "string" ],
+    "doc" : "Year of Birth"
   }, {
     "name" : "fatherId",
     "type" : [ "null", "int" ],
@@ -182,6 +186,7 @@
     "type" : {
       "type" : "record",
       "name" : "Ancestries",
+      "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
       "fields" : [ {
         "name" : "mothersEthnicOrigin",
         "type" : [ "null", {
@@ -216,7 +221,7 @@
               "type" : {
                 "type" : "enum",
                 "name" : "KGSuperPopCategory",
-                "doc" : "1K Population",
+                "doc" : "1K Super Population",
                 "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
               },
               "doc" : "1K Super Population"
@@ -225,7 +230,7 @@
               "type" : [ "null", {
                 "type" : "enum",
                 "name" : "KGPopCategory",
-                "doc" : "1K Super Population",
+                "doc" : "1K Population",
                 "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
               } ],
               "doc" : "1K Population"
@@ -240,11 +245,6 @@
       } ]
     },
     "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
-  }, {
-    "name" : "dataModelCatalogueVersion",
-    "type" : "string",
-    "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-    "default" : "v4.2"
   }, {
     "name" : "consentStatus",
     "type" : {

@@ -12,7 +12,7 @@ enum Sex {male, female, unknown, undetermined}
 /**
 Karyotipic Sex
 */
-enum PersonKaryotipicSex {unknown,XX,XY,XO,XXY,XXX,XXYY,XXXY,XXXX,XYY,other}
+enum PersonKaryotipicSex {unknown, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, other}
 
 /**
 This the define a yes/no/unknown case
@@ -43,13 +43,13 @@ This is the list of ethnics in ONS16
 enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 
 /**
-1K Super Population
-*/
-enum KGPopCategory {ACB,ASW,BEB,CDX,CEU,CHB,CHS,CLM,ESN,FIN,GBR,GIH,GWD,IBS,ITU,JPT,KHV,LWK,MSL,MXL,PEL,PJL,PUR,STU,TSI,YRI}
-/**
 1K Population
 */
-enum KGSuperPopCategory {AFR,AMR,EAS,EUR,SAS}
+enum KGPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
+/**
+1K Super Population
+*/
+enum KGSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
 
 /**
 Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
@@ -69,7 +69,9 @@ record ChiSquare1KGenomesPhase3Pop {
     float chiSquare;
 }
 
-
+/**
+Ancestries, defined as Ethnic category(ies) and Chi-square test
+*/
 record Ancestries {
     /**
     Mother's Ethnic Origin

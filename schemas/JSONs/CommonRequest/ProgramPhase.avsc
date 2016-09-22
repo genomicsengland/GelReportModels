@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ProgramPhase",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is to distinguish into which part of the program the participant was consented to",
-  "symbols" : [ "pilot", "main" ]
-}

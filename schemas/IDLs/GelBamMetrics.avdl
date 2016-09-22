@@ -354,8 +354,6 @@ Array concordance with WGS data
 
 * `numberOfSites`: Number of sites considered
 * `numberOfDiscordantSites`: Number of sites discordant between WGS and Genotyping Array
-
-
 */
 record ArrayConcordance {
 

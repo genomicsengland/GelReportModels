@@ -24,12 +24,12 @@
   }, {
     "type" : "enum",
     "name" : "KGPopCategory",
-    "doc" : "1K Super Population",
+    "doc" : "1K Population",
     "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
   }, {
     "type" : "enum",
     "name" : "KGSuperPopCategory",
-    "doc" : "1K Population",
+    "doc" : "1K Super Population",
     "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
   }, {
     "type" : "record",
@@ -51,6 +51,7 @@
   }, {
     "type" : "record",
     "name" : "Ancestries",
+    "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
     "fields" : [ {
       "name" : "mothersEthnicOrigin",
       "type" : [ "null", "EthnicCategory" ],
@@ -136,7 +137,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "2.1.0"
+      "default" : "3.0.0"
     } ]
   }, {
     "type" : "enum",
@@ -259,11 +260,6 @@
       "name" : "primaryDiagnosis",
       "type" : [ "null", "string" ],
       "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
-    }, {
-      "name" : "dataModelVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-      "default" : "v2.4"
     }, {
       "name" : "sex",
       "type" : [ "null", "Sex" ],

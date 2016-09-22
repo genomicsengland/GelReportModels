@@ -128,10 +128,9 @@ record RDParticipant {
     union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
-    TODO: next
     Year of Birth
-    union {null, string} yearOfBirth;
     */
+    union {null, string} yearOfBirth;
 
 
     /**
@@ -206,12 +205,6 @@ record RDParticipant {
     Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
     */
     Ancestries ancestries;
-
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelCatalogueVersion="v4.2";
 
     /**
     What has this participant consented to?

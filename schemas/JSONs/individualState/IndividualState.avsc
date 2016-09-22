@@ -1,0 +1,20 @@
+{
+  "type" : "record",
+  "name" : "IndividualState",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "state",
+    "type" : {
+      "type" : "enum",
+      "name" : "State",
+      "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
+    }
+  }, {
+    "name" : "reason",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Reason",
+      "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient", "in_qc" ]
+    } ]
+  } ]
+}

@@ -32,8 +32,31 @@ enum ReportedModeOfInheritance {
     mitochondrial,
     unknown
 }
+/**
+It is a representation of the zygosity
 
+* `reference_homozygous`: 0/0, 0|0
+* `heterozygous`: 0/1, 1/0, 1|0, 0|1
+* `alternate_homozygous`: 1/1, 1|1
+* `missing`: ./., .|.
+* `half_missing_reference`: ./0, 0/., 0|., .|0
+* `half_missing_alternate`: ./1, 1/., 1|., .|1
+* `alternate_hemizigous`: 1
+* `reference_hemizigous`: 0
+* `unk`: Anything unexpected
+*/
+enum Zygosity {
+    reference_homozygous,
+    heterozygous,
+    alternate_homozygous,
+    missing,
+    half_missing_reference,
+    half_missing_alternate,
+    alternate_hemizigous,
+    reference_hemizigous,
+    unk
 
+}
 
 /**
 This is intended to hold the genotypes for the family members
@@ -52,15 +75,14 @@ record CalledGenotype {
     string sampleId;
 
     /**
-    Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased
+    Zygosity
     */
-    string genotype;
+    Zygosity genotype;
 
     /**
-    TODO: next
     Phase set of variants when variants are phased
-    union {null, int} phaseSet;
     */
+    union {null, int} phaseSet;
 
 
     /**
@@ -95,9 +117,14 @@ record GenomicFeature {
     string ensemblId;
 
     /**
+    This filed is optional, BUT it should be filled if it is possible
+    */
+    union {null, string} HGNC;
+
+    /**
     Others IDs
     */
-    map<string> ids;
+    map<string> other_ids;
 
 }
 
@@ -243,10 +270,10 @@ record ReportedVariant {
     union {null,map<string>} additionalTextualVariantAnnotations;
 
     /**
-    TODO: Next
     For example HGMD ID, dbSNP ID or Pubmed Id
-    union {null,map<string>} evidenceIds;
     */
+    union {null,map<string>} evidenceIds;
+
 
 
     /**
@@ -313,11 +340,10 @@ record ReportedStructuralVariant {
 
 
     /**
-    TODO: Next
     For example HGMD ID, dbSNP ID or Pubmed Id
-
-    union {null,map<string>} evidenceIds;
     */
+    union {null,map<string>} evidenceIds;
+
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -333,5 +359,5 @@ record ReportedStructuralVariant {
 
 //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
-//TODO: Add record to report complex genetics phenomena in reports
+//TODO: Think about this ^ with Eik and Augusto
 }

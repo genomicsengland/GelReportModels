@@ -2,6 +2,5 @@
   "type" : "enum",
   "name" : "FileType",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-  "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
+  "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
 }

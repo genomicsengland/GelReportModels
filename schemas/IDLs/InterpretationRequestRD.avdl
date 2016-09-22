@@ -18,34 +18,7 @@ import idl "CommonRequest.avdl";
 import idl "VersionControl.avdl";
 import idl "CommonInterpreted.avdl";
 
-/**
-An enumeration for the different mode of inheritances:
 
-* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
-* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
-* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
-* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
-* `biallelic`: BIALLELIC, autosomal or pseudoautosomal
-* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal
-* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
-* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females
-* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
-* `mitochondrial`: MITOCHONDRIAL
-* `unknown`: Unknown
-*/
-enum ModeOfInheritance {
-    monoallelic,
-    monoallelic_not_imprinted,
-    monoallelic_maternally_imprinted,
-    monoallelic_paternally_imprinted,
-    biallelic,
-    monoallelic_and_biallelic,
-    monoallelic_and_more_severe_biallelic,
-    xlinked_biallelic,
-    xlinked_monoallelic,
-    mitochondrial,
-    unknown
-}
 
 //TODO: Convert this in a record to stored chr, parent....
 enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
@@ -108,7 +81,6 @@ record InterpretationRequestRD {
     */
     union {null, array<File>} bigWigs;
 
-
     /**
     Pedigree Diagram Files as an SGV
     */
@@ -120,19 +92,15 @@ record InterpretationRequestRD {
     union {null, File} annotationFile;
 
     /**
-    TODO: next
     Other files that may be vendor specific
     map of key: type of file, value: record of type File
-    union {null, map<File>} otherFiles;
     */
-
-
+    union {null, map<File>} otherFiles;
 
     /**
     Pedigree of the family to analyze
     */
     Pedigree pedigree;
-
 
     /**
     Tiered Variants
@@ -144,21 +112,10 @@ record InterpretationRequestRD {
     */
     string TieringVersion;
 
-
     /**
     Complex Genetic Phenomena
     */
     union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
-
-    /**
-    Mode of inheritance to analyze the family
-    */
-    ModeOfInheritance modeOfInheritance;
-
-    /**
-    Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File
-    */
-    union {null, array<VirtualPanel>} virtualPanel;
 
     /**
     It is paternal or maternal with reference to the participant.
@@ -172,17 +129,16 @@ record InterpretationRequestRD {
 
     /**
     In the event that the provider has multiple versions of their system and an analysis will need to be provided against
-    a particular version, then that version goes here.
+    a particular version, then that version goes here. If it is null the provider is free to analyse it against its more
+    recent stable version.
     */
-    string analysisVersion="1";
+    union {null, string} analysisVersion;
 
     /**
-    TODO: next
     This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
     That is: a map of tables of genes and metrics
-    map<map<map<float>>> genePanelsCoverage;
     */
-
+    union {null, map<map<map<float>>>} genePanelsCoverage;
 
     /**
     Additional information

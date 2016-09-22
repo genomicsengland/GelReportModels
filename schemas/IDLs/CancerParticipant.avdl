@@ -11,8 +11,6 @@ enum SampleType {germline, tumor}
 
 enum PreservationMethod {FFPE, FF, UNKNOWN, BLOOD, GL, SALIVA, LEUK}
 
-//TODO: check in remission....
-
 enum Phase {PRIMARY, METASTATIC, RECURRENCE}
 
 enum GelPhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
@@ -153,12 +151,6 @@ record CancerDemographics{
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
     */
     union {null, string} primaryDiagnosis;
-
-    /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelVersion="v2.4";
 
     /**
     Sex

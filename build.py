@@ -26,7 +26,7 @@ for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", "*.avdl")):
 
 VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
 
-print "version: " + VERSION
+print ("version: " + VERSION)
 
 
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
@@ -45,10 +45,13 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
 
 
 
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDParticipant.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "ClinicalReportRD.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretationRequests.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "RDInterpretedGenomes.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "CancerParticipant.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelBamMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelBamMetrics.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelVcfMetrics.avpr") + " > " + os.path.join(BASE_DIR, "doc", "html_schemas", "GelVcfMetrics.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "ClinicalReportRD.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "ClinicalReportCancer.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDInterpretationRequests.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerInterpretationRequests.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDInterpretedGenomes.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerInterpretedGenomes.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerParticipant.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelBamMetrics.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "GelBamMetrics.html"))
+os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelVcfMetrics.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "GelVcfMetrics.html"))
