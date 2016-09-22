@@ -2,6 +2,7 @@
   "type" : "record",
   "name" : "Ancestries",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
   "fields" : [ {
     "name" : "mothersEthnicOrigin",
     "type" : [ "null", {
@@ -36,7 +37,7 @@
           "type" : {
             "type" : "enum",
             "name" : "KGSuperPopCategory",
-            "doc" : "1K Population",
+            "doc" : "1K Super Population",
             "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
           },
           "doc" : "1K Super Population"
@@ -45,7 +46,7 @@
           "type" : [ "null", {
             "type" : "enum",
             "name" : "KGPopCategory",
-            "doc" : "1K Super Population",
+            "doc" : "1K Population",
             "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
           } ],
           "doc" : "1K Population"

@@ -45,7 +45,11 @@
         "type" : "string",
         "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
       }, {
-        "name" : "ids",
+        "name" : "HGNC",
+        "type" : [ "null", "string" ],
+        "doc" : "This filed is optional, BUT it should be filled if it is possible"
+      }, {
+        "name" : "other_ids",
         "type" : {
           "type" : "map",
           "values" : "string"

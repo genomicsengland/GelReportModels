@@ -207,12 +207,6 @@ record RDParticipant {
     Ancestries ancestries;
 
     /**
-    Version of the Data Catalogue against which the information is being provided
-    The data catalogue version should internally keep track of the version for the HPO ontology
-    */
-    string dataModelCatalogueVersion="v4.2";
-
-    /**
     What has this participant consented to?
     A participant that has been consented to the programme should also have sequence data associated with them; however
     this needs to be programmatically checked

@@ -2,7 +2,7 @@
   "type" : "record",
   "name" : "OtherFamilyHistory",
   "namespace" : "Gel_BioInf_Models",
-  "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
+  "doc" : "Family history for secondary findings.\nArrays of strings describing discrete family history phenotypes.\nUsually: `EndocrineTumours`, `colorectal`, `BreastOvarian` and `HDOrStroke` but can be others",
   "fields" : [ {
     "name" : "maternalFamilyHistory",
     "type" : [ "null", {

@@ -5,18 +5,18 @@
   "types" : [ {
     "type" : "enum",
     "name" : "FileType",
-    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
+    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
   }, {
     "type" : "record",
     "name" : "File",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file\n*",
     "fields" : [ {
       "name" : "SampleId",
       "type" : [ "null", "string", {
         "type" : "array",
         "items" : "string"
       } ],
-      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
     }, {
       "name" : "URIFile",
       "type" : "string",
@@ -24,55 +24,14 @@
     }, {
       "name" : "fileType",
       "type" : "FileType"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VirtualPanel",
-    "doc" : "This record defines a gene panel.",
-    "fields" : [ {
-      "name" : "panelName",
-      "type" : "string",
-      "doc" : "Name of the Panel"
     }, {
-      "name" : "panelVersion",
-      "type" : "string",
-      "doc" : "Version of the Gene Panel"
-    }, {
-      "name" : "ensemblVersion",
-      "type" : [ "null", "string" ],
-      "doc" : "Ensembl version used to get teh genes or transcripts"
-    }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-      "default" : "4.2"
-    }, {
-      "name" : "geneIds",
-      "type" : {
-        "type" : "array",
-        "items" : "string"
-      },
-      "doc" : "gene id from ensembl (version as per annotation file)"
-    }, {
-      "name" : "Transcripts",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "transcript ids from ensembl"
-    }, {
-      "name" : "relevantRegions",
-      "type" : [ "null", "File" ],
-      "doc" : "BED format file"
-    }, {
-      "name" : "clinicalRelevantVariants",
-      "type" : [ "null", "File" ],
-      "doc" : "VCF File"
+      "name" : "md5Sum",
+      "type" : [ "null", "File" ]
     } ]
   }, {
     "type" : "record",
     "name" : "OtherFamilyHistory",
-    "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
+    "doc" : "Family history for secondary findings.\nArrays of strings describing discrete family history phenotypes.\nUsually: `EndocrineTumours`, `colorectal`, `BreastOvarian` and `HDOrStroke` but can be others",
     "fields" : [ {
       "name" : "maternalFamilyHistory",
       "type" : [ "null", {
@@ -111,12 +70,12 @@
   }, {
     "type" : "enum",
     "name" : "KGPopCategory",
-    "doc" : "1K Super Population",
+    "doc" : "1K Population",
     "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
   }, {
     "type" : "enum",
     "name" : "KGSuperPopCategory",
-    "doc" : "1K Population",
+    "doc" : "1K Super Population",
     "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
   }, {
     "type" : "record",
@@ -138,6 +97,7 @@
   }, {
     "type" : "record",
     "name" : "Ancestries",
+    "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
     "fields" : [ {
       "name" : "mothersEthnicOrigin",
       "type" : [ "null", "EthnicCategory" ],
@@ -387,11 +347,6 @@
       "name" : "ancestries",
       "type" : "Ancestries",
       "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
-    }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-      "default" : "v4.2"
     }, {
       "name" : "consentStatus",
       "type" : "ConsentStatus",

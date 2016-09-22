@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CarrierStatus",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "Definitions of enumeration used in RDParticipant",
-  "symbols" : [ "unaffected", "affected", "carrier", "uncertain", "presymptomatic" ]
-}

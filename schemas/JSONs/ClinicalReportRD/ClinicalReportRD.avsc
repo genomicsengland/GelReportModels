@@ -67,8 +67,13 @@
                 "doc" : "LP Number of the family member:"
               }, {
                 "name" : "genotype",
-                "type" : "string",
-                "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+                "type" : {
+                  "type" : "enum",
+                  "name" : "Zygosity",
+                  "doc" : "It is a representation of the zygosity\n\n* `reference_homozygous`: 0/0, 0|0\n* `heterozygous`: 0/1, 1/0, 1|0, 0|1\n* `alternate_homozygous`: 1/1, 1|1\n* `missing`: ./., .|.\n* `half_missing_reference`: ./0, 0/., 0|., .|0\n* `half_missing_alternate`: ./1, 1/., 1|., .|1\n* `alternate_hemizigous`: 1\n* `reference_hemizigous`: 0\n* `unk`: Anything unexpected",
+                  "symbols" : [ "reference_homozygous", "heterozygous", "alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk" ]
+                },
+                "doc" : "Zygosity"
               }, {
                 "name" : "phaseSet",
                 "type" : [ "null", "int" ],
@@ -139,7 +144,11 @@
                     "type" : "string",
                     "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
                   }, {
-                    "name" : "ids",
+                    "name" : "HGNC",
+                    "type" : [ "null", "string" ],
+                    "doc" : "This filed is optional, BUT it should be filled if it is possible"
+                  }, {
+                    "name" : "other_ids",
                     "type" : {
                       "type" : "map",
                       "values" : "string"

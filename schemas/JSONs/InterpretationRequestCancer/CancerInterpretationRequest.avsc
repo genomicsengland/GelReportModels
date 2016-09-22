@@ -36,13 +36,14 @@
       "items" : {
         "type" : "record",
         "name" : "File",
+        "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file\n*",
         "fields" : [ {
           "name" : "SampleId",
           "type" : [ "null", "string", {
             "type" : "array",
             "items" : "string"
           } ],
-          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+          "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
         }, {
           "name" : "URIFile",
           "type" : "string",
@@ -52,9 +53,11 @@
           "type" : {
             "type" : "enum",
             "name" : "FileType",
-            "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-            "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
+            "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
           }
+        }, {
+          "name" : "md5Sum",
+          "type" : [ "null", "File" ]
         } ]
       }
     },
@@ -113,11 +116,6 @@
             "name" : "primaryDiagnosis",
             "type" : [ "null", "string" ],
             "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
-          }, {
-            "name" : "dataModelVersion",
-            "type" : "string",
-            "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-            "default" : "v2.4"
           }, {
             "name" : "sex",
             "type" : [ "null", {

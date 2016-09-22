@@ -5,18 +5,18 @@
   "types" : [ {
     "type" : "enum",
     "name" : "FileType",
-    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
+    "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
   }, {
     "type" : "record",
     "name" : "File",
+    "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file\n*",
     "fields" : [ {
       "name" : "SampleId",
       "type" : [ "null", "string", {
         "type" : "array",
         "items" : "string"
       } ],
-      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids"
+      "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
     }, {
       "name" : "URIFile",
       "type" : "string",
@@ -24,55 +24,14 @@
     }, {
       "name" : "fileType",
       "type" : "FileType"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VirtualPanel",
-    "doc" : "This record defines a gene panel.",
-    "fields" : [ {
-      "name" : "panelName",
-      "type" : "string",
-      "doc" : "Name of the Panel"
     }, {
-      "name" : "panelVersion",
-      "type" : "string",
-      "doc" : "Version of the Gene Panel"
-    }, {
-      "name" : "ensemblVersion",
-      "type" : [ "null", "string" ],
-      "doc" : "Ensembl version used to get teh genes or transcripts"
-    }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-      "default" : "4.2"
-    }, {
-      "name" : "geneIds",
-      "type" : {
-        "type" : "array",
-        "items" : "string"
-      },
-      "doc" : "gene id from ensembl (version as per annotation file)"
-    }, {
-      "name" : "Transcripts",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "transcript ids from ensembl"
-    }, {
-      "name" : "relevantRegions",
-      "type" : [ "null", "File" ],
-      "doc" : "BED format file"
-    }, {
-      "name" : "clinicalRelevantVariants",
-      "type" : [ "null", "File" ],
-      "doc" : "VCF File"
+      "name" : "md5Sum",
+      "type" : [ "null", "File" ]
     } ]
   }, {
     "type" : "record",
     "name" : "OtherFamilyHistory",
-    "doc" : "Family history for secondary findings\nArrays of strings describing discrete family history phenotypes",
+    "doc" : "Family history for secondary findings.\nArrays of strings describing discrete family history phenotypes.\nUsually: `EndocrineTumours`, `colorectal`, `BreastOvarian` and `HDOrStroke` but can be others",
     "fields" : [ {
       "name" : "maternalFamilyHistory",
       "type" : [ "null", {
@@ -111,12 +70,12 @@
   }, {
     "type" : "enum",
     "name" : "KGPopCategory",
-    "doc" : "1K Super Population",
+    "doc" : "1K Population",
     "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
   }, {
     "type" : "enum",
     "name" : "KGSuperPopCategory",
-    "doc" : "1K Population",
+    "doc" : "1K Super Population",
     "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
   }, {
     "type" : "record",
@@ -138,6 +97,7 @@
   }, {
     "type" : "record",
     "name" : "Ancestries",
+    "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
     "fields" : [ {
       "name" : "mothersEthnicOrigin",
       "type" : [ "null", "EthnicCategory" ],
@@ -388,11 +348,6 @@
       "type" : "Ancestries",
       "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
     }, {
-      "name" : "dataModelCatalogueVersion",
-      "type" : "string",
-      "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-      "default" : "v4.2"
-    }, {
       "name" : "consentStatus",
       "type" : "ConsentStatus",
       "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
@@ -465,6 +420,11 @@
     "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
     "symbols" : [ "monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
   }, {
+    "type" : "enum",
+    "name" : "Zygosity",
+    "doc" : "It is a representation of the zygosity\n\n* `reference_homozygous`: 0/0, 0|0\n* `heterozygous`: 0/1, 1/0, 1|0, 0|1\n* `alternate_homozygous`: 1/1, 1|1\n* `missing`: ./., .|.\n* `half_missing_reference`: ./0, 0/., 0|., .|0\n* `half_missing_alternate`: ./1, 1/., 1|., .|1\n* `alternate_hemizigous`: 1\n* `reference_hemizigous`: 0\n* `unk`: Anything unexpected",
+    "symbols" : [ "reference_homozygous", "heterozygous", "alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk" ]
+  }, {
     "type" : "record",
     "name" : "CalledGenotype",
     "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
@@ -478,8 +438,8 @@
       "doc" : "LP Number of the family member:"
     }, {
       "name" : "genotype",
-      "type" : "string",
-      "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+      "type" : "Zygosity",
+      "doc" : "Zygosity"
     }, {
       "name" : "phaseSet",
       "type" : [ "null", "int" ],
@@ -513,7 +473,11 @@
       "type" : "string",
       "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
     }, {
-      "name" : "ids",
+      "name" : "HGNC",
+      "type" : [ "null", "string" ],
+      "doc" : "This filed is optional, BUT it should be filled if it is possible"
+    }, {
+      "name" : "other_ids",
       "type" : {
         "type" : "map",
         "values" : "string"
@@ -735,11 +699,6 @@
     } ]
   }, {
     "type" : "enum",
-    "name" : "ModeOfInheritance",
-    "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
-    "symbols" : [ "monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
-  }, {
-    "type" : "enum",
     "name" : "ComplexGeneticPhenomena",
     "symbols" : [ "mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy", "other_aneuploidy" ]
   }, {
@@ -836,17 +795,6 @@
       "type" : [ "null", "ComplexGeneticPhenomena" ],
       "doc" : "Complex Genetic Phenomena"
     }, {
-      "name" : "modeOfInheritance",
-      "type" : "ModeOfInheritance",
-      "doc" : "Mode of inheritance to analyze the family"
-    }, {
-      "name" : "virtualPanel",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "VirtualPanel"
-      } ],
-      "doc" : "Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File"
-    }, {
       "name" : "otherFamilyHistory",
       "type" : [ "null", "OtherFamilyHistory" ],
       "doc" : "It is paternal or maternal with reference to the participant."
@@ -856,12 +804,11 @@
       "doc" : "name of the directory or endpoint where the analysed genome will be returned."
     }, {
       "name" : "analysisVersion",
-      "type" : "string",
-      "doc" : "In the event that the provider has multiple versions of their system and an analysis will need to be provided against\n    a particular version, then that version goes here.",
-      "default" : "1"
+      "type" : [ "null", "string" ],
+      "doc" : "In the event that the provider has multiple versions of their system and an analysis will need to be provided against\n    a particular version, then that version goes here. If it is null the provider is free to analyse it against its more\n    recent stable version."
     }, {
       "name" : "genePanelsCoverage",
-      "type" : {
+      "type" : [ "null", {
         "type" : "map",
         "values" : {
           "type" : "map",
@@ -870,7 +817,7 @@
             "values" : "float"
           }
         }
-      },
+      } ],
       "doc" : "This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))\n    That is: a map of tables of genes and metrics"
     }, {
       "name" : "additionalInfo",

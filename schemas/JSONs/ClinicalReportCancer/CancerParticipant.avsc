@@ -43,11 +43,6 @@
         "type" : [ "null", "string" ],
         "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
       }, {
-        "name" : "dataModelVersion",
-        "type" : "string",
-        "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
-        "default" : "v2.4"
-      }, {
         "name" : "sex",
         "type" : [ "null", {
           "type" : "enum",

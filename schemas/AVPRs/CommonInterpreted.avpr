@@ -8,6 +8,11 @@
     "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
     "symbols" : [ "monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
   }, {
+    "type" : "enum",
+    "name" : "Zygosity",
+    "doc" : "It is a representation of the zygosity\n\n* `reference_homozygous`: 0/0, 0|0\n* `heterozygous`: 0/1, 1/0, 1|0, 0|1\n* `alternate_homozygous`: 1/1, 1|1\n* `missing`: ./., .|.\n* `half_missing_reference`: ./0, 0/., 0|., .|0\n* `half_missing_alternate`: ./1, 1/., 1|., .|1\n* `alternate_hemizigous`: 1\n* `reference_hemizigous`: 0\n* `unk`: Anything unexpected",
+    "symbols" : [ "reference_homozygous", "heterozygous", "alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk" ]
+  }, {
     "type" : "record",
     "name" : "CalledGenotype",
     "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
@@ -21,8 +26,8 @@
       "doc" : "LP Number of the family member:"
     }, {
       "name" : "genotype",
-      "type" : "string",
-      "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+      "type" : "Zygosity",
+      "doc" : "Zygosity"
     }, {
       "name" : "phaseSet",
       "type" : [ "null", "int" ],
@@ -56,7 +61,11 @@
       "type" : "string",
       "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
     }, {
-      "name" : "ids",
+      "name" : "HGNC",
+      "type" : [ "null", "string" ],
+      "doc" : "This filed is optional, BUT it should be filled if it is possible"
+    }, {
+      "name" : "other_ids",
       "type" : {
         "type" : "map",
         "values" : "string"
