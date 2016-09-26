@@ -109,6 +109,13 @@ class ProtocolElement(object):
 
         return out
 
+    def extended_validation(self):
+        for field in self.schema.fields:
+            val = getattr(self, field.name)
+            if field.type.type == 'string':
+                if val == '':
+                    return False
+        return self.validate(self.toJsonDict())
 
 
     @classmethod

@@ -28,6 +28,20 @@
     "type" : "string",
     "doc" : "URI where the company can upload files for this analysis"
   }, {
+    "name" : "referenceDatabasesVersions",
+    "type" : {
+      "type" : "map",
+      "values" : "string"
+    },
+    "doc" : "This map should contains the version of the different DBs used in the process"
+  }, {
+    "name" : "softwareVersions",
+    "type" : {
+      "type" : "map",
+      "values" : "string"
+    },
+    "doc" : "This map should contains the version of the different software in the process"
+  }, {
     "name" : "reportedVariants",
     "type" : {
       "type" : "array",

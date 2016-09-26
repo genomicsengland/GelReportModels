@@ -9,6 +9,12 @@ protocol ClinicalReportsRD {
 import idl "CommonInterpreted.avdl";
 import idl "VersionControl.avdl";
 
+record AdditionalAnalysisPanel {
+    string specificDisease;
+    string panelName;
+    union {null, string} panelVersion;
+}
+
 record ClinicalReportRD {
 
     /**
@@ -42,17 +48,19 @@ record ClinicalReportRD {
     /**
     Candidate Variants - as defined in CommonInterpreted
     */
-    array<ReportedVariant> candidateVariants;
+    union {null, array<ReportedVariant>} candidateVariants;
 
     /**
     Candidate Structural Variants - as defined in CommonInterpreted
     */
-    array<ReportedStructuralVariant> candidateStructuralVariants;
+    union {null, array<ReportedStructuralVariant>} candidateStructuralVariants;
 
     /**
     Summary of the interpretation, this should reflects the positive conclusions of this interpretation
     */
     string genomicInterpretation;
+
+    union {null, AdditionalAnalysisPanel} additionalAnalysisPanels;
 
     /**
     Supporting evidence (pubmed Ids)
@@ -73,7 +81,7 @@ record ClinicalReportRD {
     This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
     That is: a map of tables of genes and metrics
     */
-    map<map<map<float>>> genePanelsCoverage;
+    union {null, map<map<map<float>>>} genePanelsCoverage;
 
 }
 }

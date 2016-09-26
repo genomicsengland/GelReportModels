@@ -52,6 +52,16 @@ record InterpretedGenomeRD {
     array<ReportedVariant> reportedVariants;
 
     /**
+    This map should contains the version of the different DBs used in the process
+    */
+    map <string> referenceDatabasesVersions;
+
+    /**
+    This map should contains the version of the different software in the process
+    */
+    map <string> softwareVersions;
+
+    /**
     List of all reported structural variants
     */
     union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;

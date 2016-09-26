@@ -296,6 +296,19 @@
     } ]
   }, {
     "type" : "record",
+    "name" : "AdditionalAnalysisPanel",
+    "fields" : [ {
+      "name" : "specificDisease",
+      "type" : "string"
+    }, {
+      "name" : "panelName",
+      "type" : "string"
+    }, {
+      "name" : "panelVersion",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
     "name" : "ClinicalReportRD",
     "fields" : [ {
       "name" : "interpretationRequestID",
@@ -319,22 +332,25 @@
       "doc" : "Author of this report"
     }, {
       "name" : "candidateVariants",
-      "type" : {
+      "type" : [ "null", {
         "type" : "array",
         "items" : "ReportedVariant"
-      },
+      } ],
       "doc" : "Candidate Variants - as defined in CommonInterpreted"
     }, {
       "name" : "candidateStructuralVariants",
-      "type" : {
+      "type" : [ "null", {
         "type" : "array",
         "items" : "ReportedStructuralVariant"
-      },
+      } ],
       "doc" : "Candidate Structural Variants - as defined in CommonInterpreted"
     }, {
       "name" : "genomicInterpretation",
       "type" : "string",
       "doc" : "Summary of the interpretation, this should reflects the positive conclusions of this interpretation"
+    }, {
+      "name" : "additionalAnalysisPanels",
+      "type" : [ "null", "AdditionalAnalysisPanel" ]
     }, {
       "name" : "supportingEvidence",
       "type" : [ "null", {
@@ -358,7 +374,7 @@
       "doc" : "This map should contains the version of the different software in the process"
     }, {
       "name" : "genePanelsCoverage",
-      "type" : {
+      "type" : [ "null", {
         "type" : "map",
         "values" : {
           "type" : "map",
@@ -367,7 +383,7 @@
             "values" : "float"
           }
         }
-      },
+      } ],
       "doc" : "This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))\n    That is: a map of tables of genes and metrics"
     } ]
   } ],
