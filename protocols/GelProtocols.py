@@ -4735,12 +4735,15 @@ class RDFamilyChange(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RDFamilyChange", "fields": [{"doc": "", "type": "string", "name":
-"FamilyId"}, {"doc": "", "type": {"symbols": ["C0", "C1", "C2", "C3",
-"C4", "C5", "C6", "C7", "C8", "C9"], "doc": "", "type": "enum",
-"name": "RDFamilyChangeCode"}, "name": "code"}, {"doc": "", "type":
-{"doc": "", "type": "record", "name": "Pedigree", "fields": [{"doc":
-"", "type": {"fields": [{"default": "3.0.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name":
+"FamilyId"}, {"doc": "", "type": {"symbols": ["FamilyAdded",
+"FamilyDeleted", "ProbandChanged", "ParticipantAdded",
+"ParticipantRemoved", "ConsentStatusChanged",
+"AffectionStatusChanged", "PanelAssignmentChanged", "SexChanged",
+"SampleChanged"], "doc": "", "type": "enum", "name":
+"RDFamilyChangeCode"}, "name": "code"}, {"doc": "", "type": {"doc":
+"", "type": "record", "name": "Pedigree", "fields": [{"doc": "",
+"type": {"fields": [{"default": "3.0.0", "doc": "", "type": "string",
+"name": "GitVersionControl"}], "type": "record", "name":
 "VersionControl"}, "name": "versionControl"}, {"doc": "", "type":
 "string", "name": "gelFamilyId"}, {"type": {"items": {"doc": "",
 "type": "record", "name": "RDParticipant", "fields": [{"doc": "",
@@ -4865,30 +4868,30 @@ false, "doc": "", "type": "boolean", "name":
 
 class RDFamilyChangeCode(object):
     """
-    This code define the change type:  * `C0`: **Family Added**: This
-    is a new family. * `C1`: **Family Deleted**: This family should be
-    removed. * `C2`: **Proband**: The proband participant is now a
-    different member of the family. * `C3`: **Participant Added**: A
-    new participant has been sequenced and added to the family. *
-    `C4`: **Participant Removed**: A participant has been removed. *
-    `C5`: **Consent Status**: One or more participant in this family
-    has a different consent status. * `C6`: **Affection Status**:
-    HPOterms or Disorder changed in one or more participants in this
-    family. * `C7`: **Panel Assignment**: Gene Panels has changed in
-    this family. * `C8`: **Sex**: Sex has changed for one or more
-    participants in this family. * `C9`: **samples**: The sample/s
-    associated to one or more participant in this family has changed.
+    This code define the change type:  * `FamilyAdded`: This is a new
+    family. * `FamilyDeleted`: This family should be removed. *
+    `ProbandChanged`: The proband participant is now a different
+    member of the family. * `ParticipantAdded`: A new participant has
+    been sequenced and added to the family. * `ParticipantRemoved`: A
+    participant has been removed. * `ConsentStatusChanged`: One or
+    more participant in this family has a different consent status. *
+    `AffectionStatusChanged`: HPOterms or Disorder changed in one or
+    more participants in this family. * `PanelAssignmentChanged`: Gene
+    Panels has changed in this family. * `SexChanged`: Sex has changed
+    for one or more participants in this family. * `SampleChanged`:
+    The sample/s associated to one or more participant in this family
+    has changed.
     """
-    C0 = "C0"
-    C1 = "C1"
-    C2 = "C2"
-    C3 = "C3"
-    C4 = "C4"
-    C5 = "C5"
-    C6 = "C6"
-    C7 = "C7"
-    C8 = "C8"
-    C9 = "C9"
+    FamilyAdded = "FamilyAdded"
+    FamilyDeleted = "FamilyDeleted"
+    ProbandChanged = "ProbandChanged"
+    ParticipantAdded = "ParticipantAdded"
+    ParticipantRemoved = "ParticipantRemoved"
+    ConsentStatusChanged = "ConsentStatusChanged"
+    AffectionStatusChanged = "AffectionStatusChanged"
+    PanelAssignmentChanged = "PanelAssignmentChanged"
+    SexChanged = "SexChanged"
+    SampleChanged = "SampleChanged"
 
 
 class RDParticipant(ProtocolElement):
