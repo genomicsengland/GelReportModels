@@ -417,8 +417,8 @@
   }, {
     "type" : "enum",
     "name" : "RDFamilyChangeCode",
-    "doc" : "This code define the change type:\n\n* `C0`: **Family Added**: This is a new family.\n* `C1`: **Family Deleted**: This family should be removed.\n* `C2`: **Proband**: The proband participant is now a different member of the family.\n* `C3`: **Participant Added**: A new participant has been sequenced and added to the family.\n* `C4`: **Participant Removed**: A participant has been removed.\n* `C5`: **Consent Status**: One or more participant in this family has a different consent status.\n* `C6`: **Affection Status**: HPOterms or Disorder changed in one or more participants in this family.\n* `C7`: **Panel Assignment**: Gene Panels has changed in this family.\n* `C8`: **Sex**: Sex has changed for one or more participants in this family.\n* `C9`: **samples**: The sample/s associated to one or more participant in this family has changed.",
-    "symbols" : [ "C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9" ]
+    "doc" : "This code define the change type:\n\n* `FamilyAdded`: This is a new family.\n* `FamilyDeleted`: This family should be removed.\n* `ProbandChanged`: The proband participant is now a different member of the family.\n* `ParticipantAdded`: A new participant has been sequenced and added to the family.\n* `ParticipantRemoved`: A participant has been removed.\n* `ConsentStatusChanged`: One or more participant in this family has a different consent status.\n* `AffectionStatusChanged`: HPOterms or Disorder changed in one or more participants in this family.\n* `PanelAssignmentChanged`: Gene Panels has changed in this family.\n* `SexChanged`: Sex has changed for one or more participants in this family.\n* `SampleChanged`: The sample/s associated to one or more participant in this family has changed.",
+    "symbols" : [ "FamilyAdded", "FamilyDeleted", "ProbandChanged", "ParticipantAdded", "ParticipantRemoved", "ConsentStatusChanged", "AffectionStatusChanged", "PanelAssignmentChanged", "SexChanged", "SampleChanged" ]
   }, {
     "type" : "record",
     "name" : "RDFamilyChange",
