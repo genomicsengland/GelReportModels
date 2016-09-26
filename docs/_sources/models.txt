@@ -25,6 +25,12 @@ Clinical Report Models
 * |RDClinicalReport|
 * |CancerClinicalReport|
 
+Audits Models
+-------------
+
+* |AuditLog|
+* |RDParticipantChangeLog|
+
 
 .. |Pedigree| raw:: html
 
@@ -50,6 +56,12 @@ Clinical Report Models
 .. |CancerClinicalReport| raw:: html
 
     <a href="html_schemas/ClinicalReportCancer.html" target="_blank"> Cancer Disease Clinical Report </a>
+.. |AuditLog| raw:: html
+
+    <a href="html_schemas/AuditLog.html" target="_blank"> Case Audit Log </a>
+.. |RDParticipantChangeLog| raw:: html
+
+    <a href="html_schemas/RDParticipantChangeLog.html#/schema/Gel_BioInf_Models.RDFamilyChange" target="_blank"> RDParticipant Change Log </a>
 
 
 

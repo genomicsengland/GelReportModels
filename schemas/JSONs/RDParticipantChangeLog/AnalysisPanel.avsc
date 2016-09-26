@@ -1,0 +1,21 @@
+{
+  "type" : "record",
+  "name" : "AnalysisPanel",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "specificDisease",
+    "type" : "string"
+  }, {
+    "name" : "panelName",
+    "type" : "string"
+  }, {
+    "name" : "panelVersion",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "review_outcome",
+    "type" : "string"
+  }, {
+    "name" : "multiple_genetic_origins",
+    "type" : "string"
+  } ]
+}
