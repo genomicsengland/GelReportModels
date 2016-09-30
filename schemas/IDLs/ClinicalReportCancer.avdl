@@ -6,7 +6,7 @@ Interpretation Request or interpreted genome.
 */
 protocol ClinicalReportsCancer {
 
-import idl "CommonInterpreted.avdl";
+import idl "CommonInterpretedCancer.avdl";
 import idl "CancerParticipant.avdl";
 import idl "VersionControl.avdl";
 
@@ -35,12 +35,12 @@ record ClinicalReportCancer {
     /**
     Candidate Variants - as defined in CommonInterpreted
     */
-    array<ReportedVariant> candidateVariants;
+    array<ReportedSomaticVariants> candidateVariants;
 
     /**
     Candidate Structural Variants - as defined in CommonInterpreted
     */
-    array<ReportedStructuralVariant> candidateStructuralVariants;
+    array<ReportedSomaticStructuralVariants> candidateStructuralVariants;
 
     /**
     Summary of the interpretation, this should reflects the positive conclusions of this interpretation

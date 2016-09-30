@@ -3,5 +3,5 @@
   "name" : "ActionType",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "this is the type of actionability for the reported event",
-  "symbols" : [ "Therapy", "Prognosis", "Diagnosis" ]
+  "symbols" : [ "Therapy", "Therapeutic", "Prognosis", "Diagnosis" ]
 }

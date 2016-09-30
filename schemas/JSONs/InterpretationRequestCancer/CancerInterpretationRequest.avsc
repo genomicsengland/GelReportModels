@@ -106,7 +106,7 @@
             "doc" : "Center"
           }, {
             "name" : "centerPatientId",
-            "type" : "string",
+            "type" : [ "null", "string" ],
             "doc" : "Center patient ID"
           }, {
             "name" : "labkeyParticipantId",
@@ -242,9 +242,9 @@
               } ],
               "doc" : "Method"
             }, {
-              "name" : "cellularity",
-              "type" : [ "null", "string" ],
-              "doc" : "Sample Cellularity will be a string"
+              "name" : "tumorPurity",
+              "type" : [ "null", "double" ],
+              "doc" : "Sample tumorPurity"
             }, {
               "name" : "tumorContent",
               "type" : [ "null", "string" ],
@@ -295,6 +295,307 @@
     "name" : "analysisVersion",
     "type" : "string",
     "doc" : "GEL's analysis version for this request. It can increase if a change is made to the underlying data for example"
+  }, {
+    "name" : "TieredVariants",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ReportedSomaticVariants",
+        "fields" : [ {
+          "name" : "reportedVariantCancer",
+          "type" : {
+            "type" : "record",
+            "name" : "ReportedVariantCancer",
+            "fields" : [ {
+              "name" : "chromosome",
+              "type" : "string",
+              "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+            }, {
+              "name" : "position",
+              "type" : "int",
+              "doc" : "position: Position 1-based"
+            }, {
+              "name" : "reference",
+              "type" : "string",
+              "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+            }, {
+              "name" : "alternate",
+              "type" : "string",
+              "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
+            }, {
+              "name" : "CosmicId",
+              "type" : [ "null", "string" ],
+              "doc" : "variant ID in Cosmic"
+            }, {
+              "name" : "CosmicLink",
+              "type" : [ "null", "string" ],
+              "doc" : "link to Cosmic"
+            }, {
+              "name" : "dbSNPid",
+              "type" : [ "null", "string" ],
+              "doc" : "variant ID in dbSNP"
+            }, {
+              "name" : "cDNAchange",
+              "type" : [ "null", "string" ],
+              "doc" : "cDNA change, HGVS nomenclature (e.g.)"
+            }, {
+              "name" : "proteinChange",
+              "type" : [ "null", "string" ],
+              "doc" : "protein change, HGVS nomenclature (e.g.)"
+            }, {
+              "name" : "depthReference",
+              "type" : [ "null", "int" ],
+              "doc" : "Depth for Reference Allele"
+            }, {
+              "name" : "depthAlternate",
+              "type" : [ "null", "int" ],
+              "doc" : "Depth for Alternate Allele"
+            }, {
+              "name" : "VAF",
+              "type" : [ "null", "double" ],
+              "doc" : "Variant Allele Frequency"
+            }, {
+              "name" : "commonAF",
+              "type" : [ "null", "int" ],
+              "doc" : "AF in germline DBs"
+            }, {
+              "name" : "additionalTextualVariantAnnotations",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "string"
+              } ],
+              "doc" : "For example HGMD ID)"
+            }, {
+              "name" : "additionalNumericVariantAnnotations",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "float"
+              } ],
+              "doc" : "For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)"
+            }, {
+              "name" : "comments",
+              "type" : [ "null", {
+                "type" : "array",
+                "items" : "string"
+              } ],
+              "doc" : "Comments"
+            }, {
+              "name" : "reportEvents",
+              "type" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "record",
+                  "name" : "ReportEventCancer",
+                  "fields" : [ {
+                    "name" : "reportEventId",
+                    "type" : "string",
+                    "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
+                  }, {
+                    "name" : "genomicFeatureCancer",
+                    "type" : {
+                      "type" : "record",
+                      "name" : "GenomicFeatureCancer",
+                      "fields" : [ {
+                        "name" : "featureType",
+                        "type" : {
+                          "type" : "enum",
+                          "name" : "FeatureTypes",
+                          "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+                        },
+                        "doc" : "Feature Type"
+                      }, {
+                        "name" : "ensemblId",
+                        "type" : "string",
+                        "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
+                      }, {
+                        "name" : "refSeqTranscriptId",
+                        "type" : "string",
+                        "doc" : "Refseq transcript"
+                      }, {
+                        "name" : "refSeqProteinId",
+                        "type" : "string",
+                        "doc" : "Refseq protein"
+                      }, {
+                        "name" : "geneName",
+                        "type" : "string",
+                        "doc" : "Gene used in tier"
+                      }, {
+                        "name" : "roleInCancer",
+                        "type" : [ "null", "string" ],
+                        "doc" : "Role in cancer: oncogege, TSG or both"
+                      } ]
+                    },
+                    "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
+                  }, {
+                    "name" : "soTerms",
+                    "type" : {
+                      "type" : "array",
+                      "items" : "string"
+                    },
+                    "doc" : "SO Term used in tier"
+                  }, {
+                    "name" : "soNames",
+                    "type" : {
+                      "type" : "array",
+                      "items" : "string"
+                    },
+                    "doc" : "SO name used in tier"
+                  }, {
+                    "name" : "actions",
+                    "type" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "record",
+                        "name" : "Actions",
+                        "fields" : [ {
+                          "name" : "actionType",
+                          "type" : "string"
+                        }, {
+                          "name" : "evidence",
+                          "type" : [ "null", {
+                            "type" : "array",
+                            "items" : "string"
+                          } ],
+                          "doc" : "array of PMIDs"
+                        }, {
+                          "name" : "drug",
+                          "type" : [ "null", "string" ],
+                          "doc" : "drug"
+                        }, {
+                          "name" : "status",
+                          "type" : [ "null", "string" ],
+                          "doc" : "status i.e. clinical, pre-clinical"
+                        }, {
+                          "name" : "variantActionable",
+                          "type" : "boolean",
+                          "doc" : "Is variant level actionable"
+                        }, {
+                          "name" : "comments",
+                          "type" : [ "null", {
+                            "type" : "array",
+                            "items" : "string"
+                          } ],
+                          "doc" : "comments"
+                        }, {
+                          "name" : "evidenceType",
+                          "type" : [ "null", "string" ],
+                          "doc" : "type of evidence"
+                        }, {
+                          "name" : "source",
+                          "type" : "string",
+                          "doc" : "source of the information"
+                        } ]
+                      }
+                    },
+                    "doc" : ""
+                  }, {
+                    "name" : "tier",
+                    "type" : [ "null", {
+                      "type" : "enum",
+                      "name" : "Tier",
+                      "doc" : "Possible tiers as defined by Genomics England",
+                      "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
+                    } ],
+                    "doc" : "Gel Tier"
+                  } ]
+                }
+              }
+            } ]
+          },
+          "doc" : "This is the normal record for one reported variant"
+        }, {
+          "name" : "somaticOrGermline",
+          "type" : {
+            "type" : "enum",
+            "name" : "SomaticOrGermline",
+            "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+            "symbols" : [ "unknown", "somatic", "germline" ]
+          },
+          "doc" : "Describe whether this is a somatic or Germline variant"
+        } ]
+      }
+    },
+    "doc" : "Tiered Variants"
+  }, {
+    "name" : "structuralTieredVariants",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ReportedSomaticStructuralVariants",
+        "fields" : [ {
+          "name" : "reportedStructuralVariantCancer",
+          "type" : {
+            "type" : "record",
+            "name" : "ReportedStructuralVariantCancer",
+            "fields" : [ {
+              "name" : "chromosome",
+              "type" : "string",
+              "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+            }, {
+              "name" : "start",
+              "type" : "int",
+              "doc" : "start: start position 1-based"
+            }, {
+              "name" : "end",
+              "type" : "int",
+              "doc" : "end: end position 1-based"
+            }, {
+              "name" : "type",
+              "type" : "string",
+              "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
+            }, {
+              "name" : "reference",
+              "type" : "string",
+              "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+            }, {
+              "name" : "alternate",
+              "type" : "string",
+              "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
+            }, {
+              "name" : "additionalTextualVariantAnnotations",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "string"
+              } ],
+              "doc" : "For example HGMD ID)"
+            }, {
+              "name" : "additionalNumericVariantAnnotations",
+              "type" : [ "null", {
+                "type" : "map",
+                "values" : "float"
+              } ],
+              "doc" : "For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)"
+            }, {
+              "name" : "comments",
+              "type" : [ "null", {
+                "type" : "array",
+                "items" : "string"
+              } ],
+              "doc" : "Comments"
+            } ]
+          },
+          "doc" : "This is the normal record for one reported variant"
+        }, {
+          "name" : "somaticOrGermline",
+          "type" : "SomaticOrGermline",
+          "doc" : "Describe whether this is a somatic or Germline variant"
+        } ]
+      }
+    },
+    "doc" : "Structural Tiered Variants"
+  }, {
+    "name" : "TieringVersion",
+    "type" : "string",
+    "doc" : "Tiering Version"
+  }, {
+    "name" : "workspace",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    },
+    "doc" : "The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access"
   }, {
     "name" : "additionalInfo",
     "type" : [ "null", {

@@ -75,9 +75,9 @@ record CancerSample {
 
 
     /**
-    Sample Cellularity will be a string
+    Sample tumorPurity
     */
-    union {null, string} cellularity;
+    union {null, double} tumorPurity;
 
 
     /**
@@ -139,7 +139,7 @@ record CancerDemographics{
     /**
     Center patient ID
     */
-    string centerPatientId;
+    union {null, string} centerPatientId;
 
     /**
     Labkey ID - this field together with the study should be a unique id to find the labkey data
@@ -202,12 +202,12 @@ record CancerParticipant{
     /**
     List of samples (normal and tumor sample)
     */
-    array <CancerSample> cancerSamples;
+    array<CancerSample> cancerSamples;
 
     /**
     List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)
     */
-    array <MatchedSamples> matchedSamples;
+    array<MatchedSamples> matchedSamples;
 
 
 }

@@ -4,46 +4,54 @@
   "doc" : "This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants\ndefine by a GMC in a CIP environment. Notice that most of the information needed is already collected in the\nInterpretation Request or interpreted genome.",
   "types" : [ {
     "type" : "enum",
-    "name" : "ReportedModeOfInheritance",
-    "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
-    "symbols" : [ "monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown" ]
+    "name" : "ActionType",
+    "doc" : "this is the type of actionability for the reported event",
+    "symbols" : [ "Therapy", "Therapeutic", "Prognosis", "Diagnosis" ]
   }, {
     "type" : "enum",
-    "name" : "Zygosity",
-    "doc" : "It is a representation of the zygosity\n\n* `reference_homozygous`: 0/0, 0|0\n* `heterozygous`: 0/1, 1/0, 1|0, 0|1\n* `alternate_homozygous`: 1/1, 1|1\n* `missing`: ./., .|.\n* `half_missing_reference`: ./0, 0/., 0|., .|0\n* `half_missing_alternate`: ./1, 1/., 1|., .|1\n* `alternate_hemizigous`: 1\n* `reference_hemizigous`: 0\n* `unk`: Anything unexpected",
-    "symbols" : [ "reference_homozygous", "heterozygous", "alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk" ]
+    "name" : "SomaticOrGermline",
+    "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+    "symbols" : [ "unknown", "somatic", "germline" ]
   }, {
     "type" : "record",
-    "name" : "CalledGenotype",
-    "doc" : "This is intended to hold the genotypes for the family members\nIn principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted",
+    "name" : "Actions",
     "fields" : [ {
-      "name" : "gelId",
+      "name" : "actionType",
+      "type" : "string"
+    }, {
+      "name" : "evidence",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "array of PMIDs"
+    }, {
+      "name" : "drug",
+      "type" : [ "null", "string" ],
+      "doc" : "drug"
+    }, {
+      "name" : "status",
+      "type" : [ "null", "string" ],
+      "doc" : "status i.e. clinical, pre-clinical"
+    }, {
+      "name" : "variantActionable",
+      "type" : "boolean",
+      "doc" : "Is variant level actionable"
+    }, {
+      "name" : "comments",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ],
+      "doc" : "comments"
+    }, {
+      "name" : "evidenceType",
+      "type" : [ "null", "string" ],
+      "doc" : "type of evidence"
+    }, {
+      "name" : "source",
       "type" : "string",
-      "doc" : "Participant id of the family member:"
-    }, {
-      "name" : "sampleId",
-      "type" : "string",
-      "doc" : "LP Number of the family member:"
-    }, {
-      "name" : "genotype",
-      "type" : "Zygosity",
-      "doc" : "Zygosity"
-    }, {
-      "name" : "phaseSet",
-      "type" : [ "null", "int" ],
-      "doc" : "Phase set of variants when variants are phased"
-    }, {
-      "name" : "depthReference",
-      "type" : [ "null", "int" ],
-      "doc" : "Depth for Reference Allele"
-    }, {
-      "name" : "depthAlternate",
-      "type" : [ "null", "int" ],
-      "doc" : "Depth for Alternate Allele"
-    }, {
-      "name" : "copyNumber",
-      "type" : [ "null", "int" ],
-      "doc" : "Copy number genotype for imprecise events"
+      "doc" : "source of the information"
     } ]
   }, {
     "type" : "enum",
@@ -51,7 +59,7 @@
     "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
   }, {
     "type" : "record",
-    "name" : "GenomicFeature",
+    "name" : "GenomicFeatureCancer",
     "fields" : [ {
       "name" : "featureType",
       "type" : "FeatureTypes",
@@ -61,27 +69,22 @@
       "type" : "string",
       "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
     }, {
-      "name" : "HGNC",
-      "type" : [ "null", "string" ],
-      "doc" : "This filed is optional, BUT it should be filled if it is possible"
+      "name" : "refSeqTranscriptId",
+      "type" : "string",
+      "doc" : "Refseq transcript"
     }, {
-      "name" : "other_ids",
-      "type" : {
-        "type" : "map",
-        "values" : "string"
-      },
-      "doc" : "Others IDs"
+      "name" : "refSeqProteinId",
+      "type" : "string",
+      "doc" : "Refseq protein"
+    }, {
+      "name" : "geneName",
+      "type" : "string",
+      "doc" : "Gene used in tier"
+    }, {
+      "name" : "roleInCancer",
+      "type" : [ "null", "string" ],
+      "doc" : "Role in cancer: oncogege, TSG or both"
     } ]
-  }, {
-    "type" : "enum",
-    "name" : "VariantClassification",
-    "doc" : "This is the classification of the variant according to standard practice guidelines (e.g. ACMG)",
-    "symbols" : [ "BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC" ]
-  }, {
-    "type" : "enum",
-    "name" : "Penetrance",
-    "doc" : "Penetrance assumed in the analysis",
-    "symbols" : [ "complete", "incomplete" ]
   }, {
     "type" : "enum",
     "name" : "Tier",
@@ -89,78 +92,48 @@
     "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
   }, {
     "type" : "record",
-    "name" : "ReportEvent",
+    "name" : "ReportEventCancer",
     "fields" : [ {
       "name" : "reportEventId",
       "type" : "string",
       "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
     }, {
-      "name" : "phenotype",
-      "type" : "string",
-      "doc" : "This is the phenotype (usually the HPO term or the disorder name) considered to report this variant"
-    }, {
-      "name" : "panelName",
-      "type" : [ "null", "string" ],
-      "doc" : "Gene Panel used from panelApp"
-    }, {
-      "name" : "panelVersion",
-      "type" : [ "null", "string" ],
-      "doc" : "Gene Panel Version"
-    }, {
-      "name" : "modeOfInheritance",
-      "type" : "ReportedModeOfInheritance",
-      "doc" : "Mode of inheritance used to analyze the family"
-    }, {
-      "name" : "genomicFeature",
-      "type" : "GenomicFeature",
+      "name" : "genomicFeatureCancer",
+      "type" : "GenomicFeatureCancer",
       "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
     }, {
-      "name" : "penetrance",
-      "type" : "Penetrance",
-      "doc" : "This is the penetrance assumed for scoring or classifying this variant"
+      "name" : "soTerms",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      },
+      "doc" : "SO Term used in tier"
     }, {
-      "name" : "score",
-      "type" : "float",
-      "doc" : "This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using\n    a specific mode of Inheritance"
+      "name" : "soNames",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      },
+      "doc" : "SO name used in tier"
     }, {
-      "name" : "vendorSpecificScores",
-      "type" : [ "null", {
-        "type" : "map",
-        "values" : "float"
-      } ],
-      "doc" : "Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)"
-    }, {
-      "name" : "variantClassification",
-      "type" : [ "null", "VariantClassification" ],
-      "doc" : "Classification of the pathogenicity of this variant with respect to the phenotype"
-    }, {
-      "name" : "fullyExplainsPhenotype",
-      "type" : [ "null", "boolean" ],
-      "doc" : "This variant using this mode of inheritance can fully explain the phenotype? true or false"
-    }, {
-      "name" : "groupOfVariants",
-      "type" : [ "null", "int" ],
-      "doc" : "This value groups variants that together could explain the phenotype according to the\n    mode of inheritance used. All the variants sharing the same value will be considered in the same group.\n    This value is an integer unique in the whole analysis."
-    }, {
-      "name" : "eventJustification",
-      "type" : "string",
-      "doc" : "This is the description of why this variant would be reported, for example that it affects the protein in this way\n    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs\n    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included."
+      "name" : "actions",
+      "type" : {
+        "type" : "array",
+        "items" : "Actions"
+      },
+      "doc" : ""
     }, {
       "name" : "tier",
       "type" : [ "null", "Tier" ],
-      "doc" : "Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions\n    This should be filled with the information provided by GEL"
+      "doc" : "Gel Tier"
     } ]
   }, {
     "type" : "record",
-    "name" : "ReportedVariant",
+    "name" : "ReportedVariantCancer",
     "fields" : [ {
       "name" : "chromosome",
       "type" : "string",
-      "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
-    }, {
-      "name" : "dbSNPid",
-      "type" : [ "null", "string" ],
-      "doc" : "variant ID in dbSNP"
+      "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
     }, {
       "name" : "position",
       "type" : "int",
@@ -174,33 +147,48 @@
       "type" : "string",
       "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
     }, {
-      "name" : "calledGenotypes",
-      "type" : {
-        "type" : "array",
-        "items" : "CalledGenotype"
-      },
-      "doc" : "array of genotypes for the family"
+      "name" : "CosmicId",
+      "type" : [ "null", "string" ],
+      "doc" : "variant ID in Cosmic"
     }, {
-      "name" : "reportEvents",
-      "type" : {
-        "type" : "array",
-        "items" : "ReportEvent"
-      },
-      "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
+      "name" : "CosmicLink",
+      "type" : [ "null", "string" ],
+      "doc" : "link to Cosmic"
+    }, {
+      "name" : "dbSNPid",
+      "type" : [ "null", "string" ],
+      "doc" : "variant ID in dbSNP"
+    }, {
+      "name" : "cDNAchange",
+      "type" : [ "null", "string" ],
+      "doc" : "cDNA change, HGVS nomenclature (e.g.)"
+    }, {
+      "name" : "proteinChange",
+      "type" : [ "null", "string" ],
+      "doc" : "protein change, HGVS nomenclature (e.g.)"
+    }, {
+      "name" : "depthReference",
+      "type" : [ "null", "int" ],
+      "doc" : "Depth for Reference Allele"
+    }, {
+      "name" : "depthAlternate",
+      "type" : [ "null", "int" ],
+      "doc" : "Depth for Alternate Allele"
+    }, {
+      "name" : "VAF",
+      "type" : [ "null", "double" ],
+      "doc" : "Variant Allele Frequency"
+    }, {
+      "name" : "commonAF",
+      "type" : [ "null", "int" ],
+      "doc" : "AF in germline DBs"
     }, {
       "name" : "additionalTextualVariantAnnotations",
       "type" : [ "null", {
         "type" : "map",
         "values" : "string"
       } ],
-      "doc" : "For example a quote from a paper"
-    }, {
-      "name" : "evidenceIds",
-      "type" : [ "null", {
-        "type" : "map",
-        "values" : "string"
-      } ],
-      "doc" : "For example HGMD ID, dbSNP ID or Pubmed Id"
+      "doc" : "For example HGMD ID)"
     }, {
       "name" : "additionalNumericVariantAnnotations",
       "type" : [ "null", {
@@ -215,10 +203,16 @@
         "items" : "string"
       } ],
       "doc" : "Comments"
+    }, {
+      "name" : "reportEvents",
+      "type" : {
+        "type" : "array",
+        "items" : "ReportEventCancer"
+      }
     } ]
   }, {
     "type" : "record",
-    "name" : "ReportedStructuralVariant",
+    "name" : "ReportedStructuralVariantCancer",
     "fields" : [ {
       "name" : "chromosome",
       "type" : "string",
@@ -244,32 +238,12 @@
       "type" : "string",
       "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
     }, {
-      "name" : "calledGenotypes",
-      "type" : {
-        "type" : "array",
-        "items" : "CalledGenotype"
-      }
-    }, {
-      "name" : "reportEvents",
-      "type" : {
-        "type" : "array",
-        "items" : "ReportEvent"
-      },
-      "doc" : "This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,\n    the variants can have only one Report event."
-    }, {
       "name" : "additionalTextualVariantAnnotations",
       "type" : [ "null", {
         "type" : "map",
         "values" : "string"
       } ],
       "doc" : "For example HGMD ID)"
-    }, {
-      "name" : "evidenceIds",
-      "type" : [ "null", {
-        "type" : "map",
-        "values" : "string"
-      } ],
-      "doc" : "For example HGMD ID, dbSNP ID or Pubmed Id"
     }, {
       "name" : "additionalNumericVariantAnnotations",
       "type" : [ "null", {
@@ -284,6 +258,30 @@
         "items" : "string"
       } ],
       "doc" : "Comments"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ReportedSomaticVariants",
+    "fields" : [ {
+      "name" : "reportedVariantCancer",
+      "type" : "ReportedVariantCancer",
+      "doc" : "This is the normal record for one reported variant"
+    }, {
+      "name" : "somaticOrGermline",
+      "type" : "SomaticOrGermline",
+      "doc" : "Describe whether this is a somatic or Germline variant"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ReportedSomaticStructuralVariants",
+    "fields" : [ {
+      "name" : "reportedStructuralVariantCancer",
+      "type" : "ReportedStructuralVariantCancer",
+      "doc" : "This is the normal record for one reported variant"
+    }, {
+      "name" : "somaticOrGermline",
+      "type" : "SomaticOrGermline",
+      "doc" : "Describe whether this is a somatic or Germline variant"
     } ]
   }, {
     "type" : "enum",
@@ -486,9 +484,9 @@
       "type" : [ "null", "Method" ],
       "doc" : "Method"
     }, {
-      "name" : "cellularity",
-      "type" : [ "null", "string" ],
-      "doc" : "Sample Cellularity will be a string"
+      "name" : "tumorPurity",
+      "type" : [ "null", "double" ],
+      "doc" : "Sample tumorPurity"
     }, {
       "name" : "tumorContent",
       "type" : [ "null", "string" ],
@@ -533,7 +531,7 @@
       "doc" : "Center"
     }, {
       "name" : "centerPatientId",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "Center patient ID"
     }, {
       "name" : "labkeyParticipantId",
@@ -620,14 +618,14 @@
       "name" : "candidateVariants",
       "type" : {
         "type" : "array",
-        "items" : "ReportedVariant"
+        "items" : "ReportedSomaticVariants"
       },
       "doc" : "Candidate Variants - as defined in CommonInterpreted"
     }, {
       "name" : "candidateStructuralVariants",
       "type" : {
         "type" : "array",
-        "items" : "ReportedStructuralVariant"
+        "items" : "ReportedSomaticStructuralVariants"
       },
       "doc" : "Candidate Structural Variants - as defined in CommonInterpreted"
     }, {

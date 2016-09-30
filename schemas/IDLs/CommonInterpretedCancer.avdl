@@ -8,16 +8,22 @@ protocol CommonInterpretedCancer {
 /**
 this is the type of actionability for the reported event
 */
-enum ActionType{Therapy, Prognosis, Diagnosis}
+enum ActionType{Therapy, Therapeutic, Prognosis, Diagnosis}
+
+/**
+this defines whether the variant reported is considered to be a somatic or germline finding.
+*/
+enum SomaticOrGermline {unknown, somatic, germline}
 
 record Actions {
 
-    ActionType actionType;
+    string actionType;
 
     /**
     This is the tumor type considered to act on this variant
-    */
     string tumorType;
+    */
+
 
     /**
     array of PMIDs
@@ -33,6 +39,11 @@ record Actions {
     status i.e. clinical, pre-clinical
     */
     union {null, string} status;
+
+    /**
+    Is variant level actionable
+    */
+    boolean variantActionable;
 
     /**
     comments
@@ -113,12 +124,12 @@ record ReportEventCancer {
     /**
     SO Term used in tier
     */
-    string soTerm;
+    array<string> soTerms;
 
     /**
     SO name used in tier
     */
-    string soName;
+    array<string> soNames;
 
     /**
     */
@@ -130,10 +141,6 @@ record ReportEventCancer {
     union {null, Tier} tier;
 
 }
-
-
-
-
 
 
 record ReportedVariantCancer {
@@ -196,7 +203,7 @@ record ReportedVariantCancer {
     /**
     Variant Allele Frequency
     */
-    union {null, int} VAF;
+    union {null, double} VAF;
 
     /**
     AF in germline DBs
@@ -271,6 +278,35 @@ record ReportedStructuralVariantCancer {
     Comments
     */
     union {null, array<string>} comments;
+
+}
+
+
+record ReportedSomaticVariants {
+    /**
+    This is the normal record for one reported variant
+    */
+    ReportedVariantCancer reportedVariantCancer;
+
+    /**
+    Describe whether this is a somatic or Germline variant
+    */
+    SomaticOrGermline somaticOrGermline;
+
+}
+
+
+
+record ReportedSomaticStructuralVariants {
+    /**
+    This is the normal record for one reported variant
+    */
+    ReportedStructuralVariantCancer reportedStructuralVariantCancer;
+
+    /**
+    Describe whether this is a somatic or Germline variant
+    */
+    SomaticOrGermline somaticOrGermline;
 
 }
 

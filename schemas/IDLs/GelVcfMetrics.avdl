@@ -27,6 +27,25 @@ record VcfMetrics {
 
 }
 
+record CancerSummaryMetrics{
+
+    double samtools_reads_mapped;
+    double samtools_reads_mapped_normal;
+    double samtools_pairs_on_different_chromosomes;
+    double samtools_pairs_on_different_chromosomes_normal;
+    double samtools_insert_size_average;
+    double samtools_insert_size_average_normal;
+    int variantstats_total_snvs;
+    int variantstats_total_indels;
+    string tumor_contamination_cont_est;
+    double mean;
+    double mean_normal;
+    double local_rmsd_normal;
+    double local_rmsd;
+    double cosmic_30x_cov;
+}
+
+
 
 }
 

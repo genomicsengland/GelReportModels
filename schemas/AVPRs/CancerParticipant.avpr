@@ -203,9 +203,9 @@
       "type" : [ "null", "Method" ],
       "doc" : "Method"
     }, {
-      "name" : "cellularity",
-      "type" : [ "null", "string" ],
-      "doc" : "Sample Cellularity will be a string"
+      "name" : "tumorPurity",
+      "type" : [ "null", "double" ],
+      "doc" : "Sample tumorPurity"
     }, {
       "name" : "tumorContent",
       "type" : [ "null", "string" ],
@@ -250,7 +250,7 @@
       "doc" : "Center"
     }, {
       "name" : "centerPatientId",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "Center patient ID"
     }, {
       "name" : "labkeyParticipantId",

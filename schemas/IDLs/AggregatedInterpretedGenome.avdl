@@ -1,0 +1,157 @@
+@namespace("Gel_BioInf_Models")
+
+/**
+This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
+The record Report is the top level class. This includes clinical information + various version
+The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
+All annotations are against Ensembl gene models
+*/
+protocol AggregateInterpretedGenomesRDp {
+
+/**
+Caution!! This has been removed
+import idl "variants.avdl";
+*/
+import idl "RDParticipant.avdl";
+import idl "CommonRequest.avdl";
+import idl "VersionControl.avdl";
+import idl "CommonInterpreted.avdl";
+
+
+
+//TODO: Convert this in a record to stored chr, parent....
+enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
+
+
+InterpretedGenomesRDRecord{
+    /**
+    Date of this report: YYYY-MM-DD
+    */
+    string interpretedGenomeDate;
+
+
+    /**
+    Version
+    */
+    string analysisVersion;
+
+    /**
+    InterpretedGenome
+    */
+    InterpretedGenomeRD interpretedGenome;
+
+}
+
+
+/**
+This record represents basic information for this report
+*/
+record AggregateInterpretedGenomesRD {
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
+    CohortId, this is the id for a cohort. This is the dateset used to analyse a family in a specific time,
+    due to the associated data can change, two cohorts can share a family
+    */
+    string cohortId;
+
+    /**
+    This is the version of the assembly used to align the reads
+    */
+    string genomeAssemblyVersion="GRCh37";
+
+    /**
+    Cellbase version
+    */
+    string cellbaseVersion="4.0";
+
+
+    /**
+    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+    */
+    array<string> workspace;
+
+    /**
+    BAMs Files
+    */
+    array<File> BAMs;
+
+    /**
+    VCFs Files where SVs and CNVs are represented
+    */
+    array<File> VCFs;
+
+    /**
+    BigWig Files
+    */
+    union {null, array<File>} bigWigs;
+
+    /**
+    Pedigree Diagram Files as an SGV
+    */
+    union {null, File} pedigreeDiagram;
+
+    /**
+    Variant Annotation using cellbase
+    */
+    union {null, File} annotationFile;
+
+    /**
+    Other files that may be vendor specific
+    map of key: type of file, value: record of type File
+    */
+    union {null, map<File>} otherFiles;
+
+    /**
+    Pedigree of the family to analyze
+    */
+    Pedigree pedigree;
+
+    /**
+    Tiered Variants
+    */
+    array<ReportedVariant> TieredVariants;
+
+    /**
+    Tiering Version
+    */
+    string TieringVersion;
+
+    /**
+    Complex Genetic Phenomena
+    */
+    union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+
+    /**
+    It is paternal or maternal with reference to the participant.
+    */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
+
+
+    /**
+    It is paternal or maternal with reference to the participant.
+    */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
+
+
+    /**
+    This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+    That is: a map of tables of genes and metrics
+    */
+    union {null, map<map<map<float>>>} genePanelsCoverage;
+
+    /**
+    Additional information
+    */
+    union {null, map<string>} additionalInfo;
+
+    array<InterpretedGenomesRDRecord> interpretedGenomesRDRecords;
+
+
+}
+
+
+}

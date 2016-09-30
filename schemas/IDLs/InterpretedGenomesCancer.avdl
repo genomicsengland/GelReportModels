@@ -7,43 +7,9 @@ protocol CancerInterpretedGenomes {
 
 //TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 
-import idl "CommonInterpreted.avdl";
+import idl "CommonInterpretedCancer.avdl";
 import idl "VersionControl.avdl";
 
-
-
-/** this defines whether the variant reported is considered to be a somatic or germline finding.
-*/
-
-enum SomaticOrGermline {unknown, somatic, germline}
-
-record ReportedSomaticVariants {
-    /**
-    This is the normal record for one reported variant
-    */
-    ReportedVariant reportedVariant;
-
-    /**
-    Describe whether this is a somatic or Germline variant
-    */
-    SomaticOrGermline somaticOrGermline;
-
-}
-
-
-
-record ReportedSomaticStructuralVariants {
-    /**
-    This is the normal record for one reported variant
-    */
-    ReportedStructuralVariant reportedStructuralVariant;
-
-    /**
-    Describe whether this is a somatic or Germline variant
-    */
-    SomaticOrGermline somaticOrGermline;
-
-}
 
 record CancerInterpretedGenome {
     /**

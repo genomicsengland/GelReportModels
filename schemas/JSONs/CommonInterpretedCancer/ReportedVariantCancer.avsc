@@ -48,7 +48,7 @@
     "doc" : "Depth for Alternate Allele"
   }, {
     "name" : "VAF",
-    "type" : [ "null", "int" ],
+    "type" : [ "null", "double" ],
     "doc" : "Variant Allele Frequency"
   }, {
     "name" : "commonAF",
@@ -123,12 +123,18 @@
           },
           "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
         }, {
-          "name" : "soTerm",
-          "type" : "string",
+          "name" : "soTerms",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
           "doc" : "SO Term used in tier"
         }, {
-          "name" : "soName",
-          "type" : "string",
+          "name" : "soNames",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
           "doc" : "SO name used in tier"
         }, {
           "name" : "actions",
@@ -139,16 +145,7 @@
               "name" : "Actions",
               "fields" : [ {
                 "name" : "actionType",
-                "type" : {
-                  "type" : "enum",
-                  "name" : "ActionType",
-                  "doc" : "this is the type of actionability for the reported event",
-                  "symbols" : [ "Therapy", "Prognosis", "Diagnosis" ]
-                }
-              }, {
-                "name" : "tumorType",
-                "type" : "string",
-                "doc" : "This is the tumor type considered to act on this variant"
+                "type" : "string"
               }, {
                 "name" : "evidence",
                 "type" : [ "null", {
@@ -164,6 +161,10 @@
                 "name" : "status",
                 "type" : [ "null", "string" ],
                 "doc" : "status i.e. clinical, pre-clinical"
+              }, {
+                "name" : "variantActionable",
+                "type" : "boolean",
+                "doc" : "Is variant level actionable"
               }, {
                 "name" : "comments",
                 "type" : [ "null", {

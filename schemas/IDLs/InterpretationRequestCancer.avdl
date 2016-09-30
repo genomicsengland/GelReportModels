@@ -17,6 +17,7 @@ import idl "variants.avdl";
 
 import idl "CancerParticipant.avdl";
 import idl "CommonRequest.avdl";
+import idl "CommonInterpretedCancer.avdl";
 import idl "VersionControl.avdl";
 
 /**
@@ -76,6 +77,27 @@ record CancerInterpretationRequest {
     GEL's analysis version for this request. It can increase if a change is made to the underlying data for example
     */
     string analysisVersion;
+
+
+    /**
+    Tiered Variants
+    */
+    array<ReportedSomaticVariants> TieredVariants;
+
+    /**
+    Structural Tiered Variants
+    */
+    array<ReportedSomaticStructuralVariants> structuralTieredVariants;
+
+    /**
+    Tiering Version
+    */
+    string TieringVersion;
+
+    /**
+    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+    */
+    array<string> workspace;
 
     /**
     Additional information

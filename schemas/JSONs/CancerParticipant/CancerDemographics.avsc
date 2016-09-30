@@ -13,7 +13,7 @@
     "doc" : "Center"
   }, {
     "name" : "centerPatientId",
-    "type" : "string",
+    "type" : [ "null", "string" ],
     "doc" : "Center patient ID"
   }, {
     "name" : "labkeyParticipantId",

@@ -164,6 +164,9 @@ class ProtocolElement(object):
         if isinstance(field.type, UnionSchema):
             if isinstance(field.type.schemas[1], ArraySchema):
                 return list(embeddedType.fromJsonDict(elem) for elem in val)
+            else:
+                return embeddedType.fromJsonDict(val)
+
         elif isinstance(field.type, avro.schema.ArraySchema):
             return list(embeddedType.fromJsonDict(elem) for elem in val)
         else:

@@ -63,9 +63,9 @@
     } ],
     "doc" : "Method"
   }, {
-    "name" : "cellularity",
-    "type" : [ "null", "string" ],
-    "doc" : "Sample Cellularity will be a string"
+    "name" : "tumorPurity",
+    "type" : [ "null", "double" ],
+    "doc" : "Sample tumorPurity"
   }, {
     "name" : "tumorContent",
     "type" : [ "null", "string" ],
