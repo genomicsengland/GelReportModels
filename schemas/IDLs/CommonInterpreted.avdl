@@ -117,7 +117,7 @@ record GenomicFeature {
     string ensemblId;
 
     /**
-    This filed is optional, BUT it should be filled if it is possible
+    This field is optional, BUT it should be filled if possible
     */
     union {null, string} HGNC;
 
