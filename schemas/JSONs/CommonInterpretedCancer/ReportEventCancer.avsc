@@ -93,6 +93,10 @@
           } ],
           "doc" : "comments"
         }, {
+          "name" : "url",
+          "type" : [ "null", "string" ],
+          "doc" : "link to original source"
+        }, {
           "name" : "evidenceType",
           "type" : [ "null", "string" ],
           "doc" : "type of evidence"

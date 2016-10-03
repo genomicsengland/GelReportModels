@@ -324,13 +324,12 @@
               "type" : "string",
               "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
             }, {
-              "name" : "CosmicId",
-              "type" : [ "null", "string" ],
+              "name" : "CosmicIds",
+              "type" : [ "null", {
+                "type" : "array",
+                "items" : "string"
+              } ],
               "doc" : "variant ID in Cosmic"
-            }, {
-              "name" : "CosmicLink",
-              "type" : [ "null", "string" ],
-              "doc" : "link to Cosmic"
             }, {
               "name" : "dbSNPid",
               "type" : [ "null", "string" ],
@@ -477,6 +476,10 @@
                             "items" : "string"
                           } ],
                           "doc" : "comments"
+                        }, {
+                          "name" : "url",
+                          "type" : [ "null", "string" ],
+                          "doc" : "link to original source"
                         }, {
                           "name" : "evidenceType",
                           "type" : [ "null", "string" ],
