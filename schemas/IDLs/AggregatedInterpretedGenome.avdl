@@ -16,6 +16,7 @@ import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
 import idl "VersionControl.avdl";
 import idl "CommonInterpreted.avdl";
+import idl "InterpretedGenomesRD.avdl";
 
 
 
@@ -23,12 +24,11 @@ import idl "CommonInterpreted.avdl";
 enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
 
-InterpretedGenomesRDRecord{
+record InterpretedGenomesRDRecord{
     /**
     Date of this report: YYYY-MM-DD
     */
     string interpretedGenomeDate;
-
 
     /**
     Version
@@ -124,12 +124,6 @@ record AggregateInterpretedGenomesRD {
     Complex Genetic Phenomena
     */
     union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
-
-    /**
-    It is paternal or maternal with reference to the participant.
-    */
-    union {null, OtherFamilyHistory} otherFamilyHistory;
-
 
     /**
     It is paternal or maternal with reference to the participant.
