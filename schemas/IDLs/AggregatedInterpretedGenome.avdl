@@ -46,7 +46,7 @@ record InterpretedGenomesRDRecord{
 /**
 This record represents basic information for this report
 */
-record AggregateInterpretedGenomesRD {
+record AggregatedInterpretedGenomesRD {
     /**
     Model version number
     */

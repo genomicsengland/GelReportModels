@@ -18,6 +18,7 @@ Interpreted Genomes Models
 
 * |IGenomeRD|
 * |IGenomeCancer|
+* |AggregatedInterpretedGenomesRD|
 
 Clinical Report Models
 ----------------------
@@ -62,6 +63,9 @@ Audits Models
 .. |RDParticipantChangeLog| raw:: html
 
     <a href="html_schemas/RDParticipantChangeLog.html#/schema/Gel_BioInf_Models.RDFamilyChange" target="_blank"> RDParticipant Change Log </a>
+.. |AggregatedInterpretedGenomesRD| raw:: html
+
+    <a href="html_schemas/AggregateInterpretedGenome.html#/schema/Gel_BioInf_Models.AggregateInterpretedGenomesRD" target="_blank"> RDParticipant Change Log </a>
 
 
 

@@ -51,6 +51,11 @@ record Actions {
     union {null, array<string>} comments;
 
     /**
+    link to original source
+    */
+    union {null, string} url;
+
+    /**
     type of evidence
     */
     union {null, string} evidenceType;
@@ -168,12 +173,8 @@ record ReportedVariantCancer {
     /**
     variant ID in Cosmic
     */
-    union {null, string} CosmicId;
+    union {null, array<string>} CosmicIds;
 
-    /**
-    link to Cosmic
-    */
-    union {null, string} CosmicLink;
 
     /**
     variant ID in dbSNP
