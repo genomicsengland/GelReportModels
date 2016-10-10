@@ -1,0 +1,16 @@
+{
+  "protocol" : "GitVersionControl",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the Participants and Pedigree",
+  "types" : [ {
+    "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "2.1.0"
+    } ]
+  } ],
+  "messages" : { }
+}

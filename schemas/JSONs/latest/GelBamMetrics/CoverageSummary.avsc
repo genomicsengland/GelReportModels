@@ -1,0 +1,36 @@
+{
+  "type" : "record",
+  "name" : "CoverageSummary",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "wellId",
+    "type" : "string"
+  }, {
+    "name" : "n",
+    "type" : "double"
+  }, {
+    "name" : "mean",
+    "type" : "double"
+  }, {
+    "name" : "sd",
+    "type" : "double"
+  }, {
+    "name" : "pct25",
+    "type" : "double"
+  }, {
+    "name" : "median",
+    "type" : "double"
+  }, {
+    "name" : "pct75",
+    "type" : "double"
+  }, {
+    "name" : "scope",
+    "type" : "string"
+  }, {
+    "name" : "localRMSD",
+    "type" : "double"
+  }, {
+    "name" : "COSMIC30Xcov",
+    "type" : "double"
+  } ]
+}

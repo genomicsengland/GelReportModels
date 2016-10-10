@@ -1,0 +1,68 @@
+{
+  "type" : "record",
+  "name" : "ReportedSomaticStructuralVariants",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "reportedStructuralVariantCancer",
+    "type" : {
+      "type" : "record",
+      "name" : "ReportedStructuralVariantCancer",
+      "fields" : [ {
+        "name" : "chromosome",
+        "type" : "string",
+        "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+      }, {
+        "name" : "start",
+        "type" : "int",
+        "doc" : "start: start position 1-based"
+      }, {
+        "name" : "end",
+        "type" : "int",
+        "doc" : "end: end position 1-based"
+      }, {
+        "name" : "type",
+        "type" : "string",
+        "doc" : "The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes\n    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU..."
+      }, {
+        "name" : "reference",
+        "type" : "string",
+        "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+      }, {
+        "name" : "alternate",
+        "type" : "string",
+        "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
+      }, {
+        "name" : "additionalTextualVariantAnnotations",
+        "type" : [ "null", {
+          "type" : "map",
+          "values" : "string"
+        } ],
+        "doc" : "For example HGMD ID)"
+      }, {
+        "name" : "additionalNumericVariantAnnotations",
+        "type" : [ "null", {
+          "type" : "map",
+          "values" : "float"
+        } ],
+        "doc" : "For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)"
+      }, {
+        "name" : "comments",
+        "type" : [ "null", {
+          "type" : "array",
+          "items" : "string"
+        } ],
+        "doc" : "Comments"
+      } ]
+    },
+    "doc" : "This is the normal record for one reported variant"
+  }, {
+    "name" : "somaticOrGermline",
+    "type" : {
+      "type" : "enum",
+      "name" : "SomaticOrGermline",
+      "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+      "symbols" : [ "unknown", "somatic", "germline" ]
+    },
+    "doc" : "Describe whether this is a somatic or Germline variant"
+  } ]
+}

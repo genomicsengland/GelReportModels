@@ -1,0 +1,30 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the states an individual can inherit
+*/
+protocol IndividualState {
+
+/**
+This is the master state for this sample, for example caution,quality could be used to say that a sample under this
+individual has quality issues.  See sample level for full details
+*/
+enum State {ready,pending,hold,fail,caution,blocked}
+
+enum Reason {duplicate,consent,pedigree,contamination,quality,plinksex,inbreedingcoefficient,in_qc}
+
+record individualState {
+
+    State state ;
+    union {null, Reason} reason ;
+
+}
+
+
+record individualTests {
+
+    boolean plinksex ;
+    boolean inbreedingcoefficient ;
+
+}
+
+}

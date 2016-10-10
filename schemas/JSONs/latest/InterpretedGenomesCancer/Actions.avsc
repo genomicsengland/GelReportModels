@@ -1,0 +1,47 @@
+{
+  "type" : "record",
+  "name" : "Actions",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "actionType",
+    "type" : "string"
+  }, {
+    "name" : "evidence",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "array of PMIDs"
+  }, {
+    "name" : "drug",
+    "type" : [ "null", "string" ],
+    "doc" : "drug"
+  }, {
+    "name" : "status",
+    "type" : [ "null", "string" ],
+    "doc" : "status i.e. clinical, pre-clinical"
+  }, {
+    "name" : "variantActionable",
+    "type" : "boolean",
+    "doc" : "Is variant level actionable"
+  }, {
+    "name" : "comments",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "comments"
+  }, {
+    "name" : "url",
+    "type" : [ "null", "string" ],
+    "doc" : "link to original source"
+  }, {
+    "name" : "evidenceType",
+    "type" : [ "null", "string" ],
+    "doc" : "type of evidence"
+  }, {
+    "name" : "source",
+    "type" : "string",
+    "doc" : "source of the information"
+  } ]
+}

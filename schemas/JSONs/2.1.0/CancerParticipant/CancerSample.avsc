@@ -1,0 +1,86 @@
+{
+  "type" : "record",
+  "name" : "CancerSample",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "sampleId",
+    "type" : "string",
+    "doc" : "Sample Id (e.g, LP00012645_5GH))"
+  }, {
+    "name" : "labId",
+    "type" : [ "null", "string" ],
+    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+  }, {
+    "name" : "gelPhase",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "GelPhase",
+      "symbols" : [ "CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT" ]
+    } ],
+    "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
+  }, {
+    "name" : "sampleType",
+    "type" : {
+      "type" : "enum",
+      "name" : "SampleType",
+      "symbols" : [ "germline", "tumor" ]
+    },
+    "doc" : "Sample Type"
+  }, {
+    "name" : "sampleDiagnosis",
+    "type" : [ "null", "string" ],
+    "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
+  }, {
+    "name" : "tumorType",
+    "type" : [ "null", "string" ],
+    "doc" : "Tumor Type\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+  }, {
+    "name" : "tumorSubType",
+    "type" : [ "null", "string" ],
+    "doc" : "Tumor Subtype"
+  }, {
+    "name" : "preservationMethod",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "PreservationMethod",
+      "symbols" : [ "FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK" ]
+    } ],
+    "doc" : "Preservation method"
+  }, {
+    "name" : "phase",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Phase",
+      "symbols" : [ "PRIMARY", "METASTATIC", "RECURRENCE" ]
+    } ],
+    "doc" : "Tumor Phase"
+  }, {
+    "name" : "method",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Method",
+      "symbols" : [ "RESECTION", "BIOPSY", "BLOOD" ]
+    } ],
+    "doc" : "Method"
+  }, {
+    "name" : "cellularity",
+    "type" : [ "null", "string" ],
+    "doc" : "Sample Cellularity will be a string"
+  }, {
+    "name" : "tumorContent",
+    "type" : [ "null", "string" ],
+    "doc" : "Sample TumorContent will be a string"
+  }, {
+    "name" : "grade",
+    "type" : [ "null", "string" ],
+    "doc" : "Grade of tumour - a lot of records gave this"
+  }, {
+    "name" : "tnm_stage_version",
+    "type" : [ "null", "string" ],
+    "doc" : "TMN version"
+  }, {
+    "name" : "tmn_stage_grouping",
+    "type" : [ "null", "string" ],
+    "doc" : "TMN stage grouping"
+  } ]
+}

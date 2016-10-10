@@ -1,0 +1,223 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the `CancerParticipant`
+*/
+protocol CancerParticipants {
+
+import idl "CommonParticipant.avdl";
+import idl "VersionControl.avdl";
+
+enum SampleType {germline, tumor}
+
+enum PreservationMethod {FFPE, FF, UNKNOWN, BLOOD, GL, SALIVA, LEUK}
+
+//TODO: check in remission....
+
+enum Phase {PRIMARY, METASTATIC, RECURRENCE}
+
+enum GelPhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
+
+enum Method {RESECTION, BIOPSY, BLOOD}
+
+enum Sex {M,F}
+
+record CancerSample {
+
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    string sampleId;
+
+    /**
+    Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
+    */
+    union {null, string} labId;
+
+    /**
+    gelPhase (eg cruk, brc, cll, iip, main)
+    */
+    union {null, GelPhase} gelPhase;
+
+    /**
+    Sample Type
+    */
+    SampleType sampleType;
+
+    /**
+    Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)
+    */
+    union {null,string} sampleDiagnosis;
+
+    /**
+    Tumor Type
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva
+    */
+    union {null, string} tumorType;
+
+
+    /**
+    Tumor Subtype
+    */
+    union {null, string} tumorSubType;
+
+    /**
+    Preservation method
+    */
+    union {null, PreservationMethod} preservationMethod;
+
+    /**
+    Tumor Phase
+    */
+    union {null, Phase} phase;
+
+    /**
+    Method
+    */
+    union {null, Method} method;
+
+
+    /**
+    Sample Cellularity will be a string
+    */
+    union {null, string} cellularity;
+
+
+    /**
+    Sample TumorContent will be a string
+    */
+    union {null, string} tumorContent;
+
+    /**
+    Grade of tumour - a lot of records gave this
+    */
+    union {null, string} grade;
+
+    /**
+    TMN version
+    */
+    union {null, string} tnm_stage_version;
+
+    /**
+    TMN stage grouping
+    */
+    union {null, string} tmn_stage_grouping;
+
+
+
+}
+
+/**
+This define a pair of germline and tumor, this pair should/must be analyzed together
+*/
+record MatchedSamples{
+
+    /**
+    Sample Id (e.g, LP00012645_5GH)) for the germline
+    */
+    union {null, string} germlineSampleId;
+
+    /**
+    Sample Id (e.g, LP00012643_7JS)) for the tumor
+    */
+    union {null, string} tumorSampleId;
+
+}
+
+/**
+This defines a Cancer Demographics
+*/
+record CancerDemographics{
+
+    /**
+    Individual Id (this is the individual id (gel ID))
+    */
+    string gelId;
+
+    /**
+    Center
+    */
+    string center;
+
+    /**
+    Center patient ID
+    */
+    string centerPatientId;
+
+    /**
+    Labkey ID - this field together with the study should be a unique id to find the labkey data
+    */
+    union {null, string} labkeyParticipantId;
+
+    /**
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+    */
+    union {null, string} primaryDiagnosis;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelVersion="v2.4";
+
+    /**
+    Sex
+    */
+    union {null, Sex} sex;
+
+    /**
+    What has this participant consented to?
+    A participant that has been consented to the programme should also have sequence data associated with them; however
+    this needs to be programmatically checked
+    */
+    ConsentStatus consentStatus;
+
+
+    /**
+    We could add a map here to store additional information for example URIs to images, ECGs, etc
+    */
+    union {null, map<string>} additionalInformation;
+
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    union {null, array<string>} sampleId;
+
+    /**
+    assigned ICD10 code
+    */
+    union {null, string} assignedICD10;
+
+
+}
+
+
+/**
+This defines a Cancer Participant (demographics and sample information)
+*/
+record CancerParticipant{
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
+    This contains all the demographic information
+    */
+    CancerDemographics cancerDemographics;
+
+    /**
+    List of samples (normal and tumor sample)
+    */
+    array <CancerSample> cancerSamples;
+
+    /**
+    List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)
+    */
+    array <MatchedSamples> matchedSamples;
+
+
+}
+
+}

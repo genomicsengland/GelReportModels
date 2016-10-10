@@ -1,0 +1,15 @@
+{
+  "type" : "record",
+  "name" : "MatchedSamples",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This define a pair of germline and tumor, this pair should/must be analyzed together",
+  "fields" : [ {
+    "name" : "germlineSampleId",
+    "type" : [ "null", "string" ],
+    "doc" : "Sample Id (e.g, LP00012645_5GH)) for the germline"
+  }, {
+    "name" : "tumorSampleId",
+    "type" : [ "null", "string" ],
+    "doc" : "Sample Id (e.g, LP00012643_7JS)) for the tumor"
+  } ]
+}

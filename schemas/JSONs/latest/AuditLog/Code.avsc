@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "Code",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This code define the change type, it can define a general change in the case as CLOSED or can define\na change in one or more variants:\n\n* `C0`: **Case Closed successfully**: Clinical Report was generated with **one or more Candidate Variants**.\n* `C1`: **Case Closed unsuccessfully**: Clinical Report couldn't be generated because **no Candidate Variants were found**.\n* `C2`: **Case Blocked**: Errors were found in this cases and was sent to quarantine for further investigation\n* `C3`: **Case Shared**: This cases was shared with other group of users.\n* `C4`: **Supporting evidence change**: One or More supporting evidence were modified to the cases __(See ClinicalReport)__.\n* `C5`: **Variant added**: One or more variant were selected as Candidate Variants.\n* `C6`: **Variant removed**: One or more variant were removed as Candidate Variants.\n* `C7`: **Variant modified**: One or more Candidate Variants were modified __(Any change or comment over this variants should be capture)__.",
+  "symbols" : [ "C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7" ]
+}

@@ -1,0 +1,141 @@
+{
+  "protocol" : "CommonParticipant",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the Common things between participant models",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "Sex",
+    "doc" : "Sex",
+    "symbols" : [ "male", "female", "unknown", "undetermined" ]
+  }, {
+    "type" : "enum",
+    "name" : "PersonKaryotipicSex",
+    "doc" : "Karyotipic Sex",
+    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+  }, {
+    "type" : "enum",
+    "name" : "Penetrance",
+    "doc" : "Penetrance assumed in the analysis",
+    "symbols" : [ "complete", "incomplete" ]
+  }, {
+    "type" : "enum",
+    "name" : "TernaryOption",
+    "doc" : "This the define a yes/no/unknown case",
+    "symbols" : [ "yes", "no", "unknown" ]
+  }, {
+    "type" : "enum",
+    "name" : "EthnicCategory",
+    "doc" : "This is the list of ethnics in ONS16\n\n* `D`:  Mixed: White and Black Caribbean\n* `E`:  Mixed: White and Black African\n* `F`:  Mixed: White and Asian\n* `G`:  Mixed: Any other mixed background\n* `A`:  White: British\n* `B`:  White: Irish\n* `C`:  White: Any other White background\n* `L`:  Asian or Asian British: Any other Asian background\n* `M`:  Black or Black British: Caribbean\n* `N`:  Black or Black British: African\n* `H`:  Asian or Asian British: Indian\n* `J`:  Asian or Asian British: Pakistani\n* `K`:  Asian or Asian British: Bangladeshi\n* `P`:  Black or Black British: Any other Black background\n* `S`:  Other Ethnic Groups: Any other ethnic group\n* `R`:  Other Ethnic Groups: Chinese\n* `Z`:  Not stated",
+    "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGPopCategory",
+    "doc" : "1K Population",
+    "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+  }, {
+    "type" : "enum",
+    "name" : "KGSuperPopCategory",
+    "doc" : "1K Super Population",
+    "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+  }, {
+    "type" : "record",
+    "name" : "ChiSquare1KGenomesPhase3Pop",
+    "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations",
+    "fields" : [ {
+      "name" : "kGSuperPopCategory",
+      "type" : "KGSuperPopCategory",
+      "doc" : "1K Super Population"
+    }, {
+      "name" : "kGPopCategory",
+      "type" : [ "null", "KGPopCategory" ],
+      "doc" : "1K Population"
+    }, {
+      "name" : "chiSquare",
+      "type" : "float",
+      "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Ancestries",
+    "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
+    "fields" : [ {
+      "name" : "mothersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Mother's Ethnic Origin"
+    }, {
+      "name" : "mothersOtherRelevantAncestry",
+      "type" : [ "null", "string" ],
+      "doc" : "Mother's Ethnic Origin Description"
+    }, {
+      "name" : "fathersEthnicOrigin",
+      "type" : [ "null", "EthnicCategory" ],
+      "doc" : "Father's Ethnic Origin"
+    }, {
+      "name" : "fathersOtherRelevantAncestry",
+      "type" : [ "null", "string" ],
+      "doc" : "Father's Ethnic Origin Description"
+    }, {
+      "name" : "chiSquare1KGenomesPhase3Pop",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "ChiSquare1KGenomesPhase3Pop"
+      } ],
+      "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ConsentStatus",
+    "doc" : "Consent Status",
+    "fields" : [ {
+      "name" : "programmeConsent",
+      "type" : "boolean",
+      "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
+      "default" : false
+    }, {
+      "name" : "primaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for feedback of primary findings?",
+      "default" : false
+    }, {
+      "name" : "secondaryFindingConsent",
+      "type" : "boolean",
+      "doc" : "Consent for secondary finding lookup",
+      "default" : false
+    }, {
+      "name" : "carrierStatusConsent",
+      "type" : "boolean",
+      "doc" : "Consent for carrier status check?",
+      "default" : false
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "InbreedingCoefficient",
+    "doc" : "Inbreeding coefficient",
+    "fields" : [ {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "This is the sample id against which the coefficient was estimated"
+    }, {
+      "name" : "program",
+      "type" : "string",
+      "doc" : "Name of program used to calculate the coefficient"
+    }, {
+      "name" : "version",
+      "type" : "string",
+      "doc" : "Version of the programme"
+    }, {
+      "name" : "estimationMethod",
+      "type" : "string",
+      "doc" : "Where various methods for estimation exist, which method was used."
+    }, {
+      "name" : "coefficient",
+      "type" : "double",
+      "doc" : "Inbreeding coefficient ideally a real number in [0,1]"
+    }, {
+      "name" : "standardError",
+      "type" : [ "null", "double" ],
+      "doc" : "Standard error of the Inbreeding coefficient"
+    } ]
+  } ],
+  "messages" : { }
+}

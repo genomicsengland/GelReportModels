@@ -13,7 +13,7 @@ if len(sys.argv) > 1:
 else:
     v = 'latest'
 
-print v
+module_version = v.replace('.', '_')
 
 schemas = os.path.join(BASE_DIR, "schemas", "IDLs", v)
 ga4gh_schemas = os.path.join(BASE_DIR, "ga4ghSchemas", "IDLs")
@@ -21,7 +21,7 @@ openCB_schema = os.path.join(BASE_DIR, "openCBschema", "IDLs")
 if v == 'latest':
     outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
 else:
-    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=v))
+    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=module_version))
 
 
 ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")

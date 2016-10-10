@@ -1,0 +1,107 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the Commons for GEL models
+*/
+protocol CommonRequest {
+
+/**
+This defines a file
+This Record is defined by the sampleID and a URI
+Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
+*/
+
+
+
+enum FileType {   //TODO change names
+    BAM,  //alignment
+    gVCF,  //genomic VCF for variants
+    VCF_small,  // VCF file for SNV and indel
+    VCF_CNV, // VCF file for copy number variants
+    VCF_SV,  // VCF file for structural variants only
+    VCF_SV_CNV, // VCF file for CNV and SVs
+    SVG,  // an SVG for example of a pedigree
+    TIER,  // a file that contains the tiers for a particular interpretation request using CommonInterpreted.avdl
+    ANN,  // an annotation file from openCBschema/IDLs/variantAnnotation.avdl
+    BigWig,  //a bigwig file with the genome coverage
+    OTHER //other unspecied file type
+    }
+
+
+
+record File {
+    /**
+    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the smaple ids
+    */
+    union {null, string, array<string>} SampleId;
+
+    /**
+    URI PATH
+    */
+    string URIFile;
+
+    FileType fileType;
+}
+
+
+
+/**
+This record defines a gene panel.
+*/
+record VirtualPanel {
+    /**
+    Name of the Panel
+    */
+    string panelName;
+    /**
+    Version of the Gene Panel
+    */
+    string panelVersion;
+    /**
+    Ensembl version used to get teh genes or transcripts
+    */
+    union {null, string} ensemblVersion;
+
+    /**
+    Version of the Data Catalogue against which the information is being provided
+    The data catalogue version should internally keep track of the version for the HPO ontology
+    */
+    string dataModelCatalogueVersion="4.2";
+
+    /**
+    gene id from ensembl (version as per annotation file)
+    */
+    array<string> geneIds;
+
+    /**
+    transcript ids from ensembl
+    */
+    union {null, array<string>} Transcripts;
+
+    /**
+    BED format file
+    */
+    union {null, File} relevantRegions;
+
+    /**
+    VCF File
+    */
+    union {null, File} clinicalRelevantVariants;
+
+}
+//TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours  colorectal  BreastOvarian  HDOrStroke
+/**
+Family history for secondary findings
+Arrays of strings describing discrete family history phenotypes
+*/
+record OtherFamilyHistory {
+    /**
+    Relevant Maternal family history
+    */
+    union {null, array<string>} maternalFamilyHistory;
+    /**
+    Relevant Maternal family history
+    */
+    union {null, array<string>} paternalFamilyHistory;
+}
+
+}

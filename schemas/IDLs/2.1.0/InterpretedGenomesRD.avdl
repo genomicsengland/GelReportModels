@@ -1,0 +1,65 @@
+@namespace("Gel_BioInf_Models")
+
+/**
+Define the Report used by GEL to get the clinical interpretation companies results for bronze level
+*/
+protocol InterpretedGenomesRD {
+
+import idl "CommonInterpreted.avdl";
+import idl "VersionControl.avdl";
+
+record InterpretedGenomeRD {
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
+
+    /**
+    This is the ID of the clinical interpretation request
+    */
+    string InterpretationRequestID;
+
+    /** This object define the type of report being returned for the participant)
+    ReportType reportType;
+    */
+
+    /**
+    This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
+    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
+    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+    */
+    string analysisId;
+
+    /**
+    Name of the company
+    */
+    string companyName;
+
+    /**
+    URI in the GEL file system where the company has upload files from this analysis
+    */
+    string reportURI;
+
+    /**
+    URL where the results can be accessed in the company's web interface
+    */
+    string reportURL;
+
+    /**
+    List of all reported variants
+    */
+    array<ReportedVariant> reportedVariants;
+
+    /**
+    List of all reported structural variants
+    */
+    union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
+
+    /**
+    Comments about the report
+    */
+    union {null, array<string>} comments;
+
+}
+}

@@ -8,6 +8,7 @@ GelReportModels Documentation
 
 
 * :ref:`models-documentation`
+* :ref:`validation`
 
 .. _models-documentation:
 
@@ -18,3 +19,11 @@ Models Documentation
 
     models
 
+.. _models-validation:
+
+Models Validation
+-----------------
+.. toctree::
+    :maxdepth: 2
+
+    validation

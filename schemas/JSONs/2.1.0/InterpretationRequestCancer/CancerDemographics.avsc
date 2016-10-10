@@ -1,0 +1,87 @@
+{
+  "type" : "record",
+  "name" : "CancerDemographics",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This defines a Cancer Demographics",
+  "fields" : [ {
+    "name" : "gelId",
+    "type" : "string",
+    "doc" : "Individual Id (this is the individual id (gel ID))"
+  }, {
+    "name" : "center",
+    "type" : "string",
+    "doc" : "Center"
+  }, {
+    "name" : "centerPatientId",
+    "type" : "string",
+    "doc" : "Center patient ID"
+  }, {
+    "name" : "labkeyParticipantId",
+    "type" : [ "null", "string" ],
+    "doc" : "Labkey ID - this field together with the study should be a unique id to find the labkey data"
+  }, {
+    "name" : "primaryDiagnosis",
+    "type" : [ "null", "string" ],
+    "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+  }, {
+    "name" : "dataModelVersion",
+    "type" : "string",
+    "doc" : "Version of the Data Catalogue against which the information is being provided\n    The data catalogue version should internally keep track of the version for the HPO ontology",
+    "default" : "v2.4"
+  }, {
+    "name" : "sex",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Sex",
+      "symbols" : [ "M", "F" ]
+    } ],
+    "doc" : "Sex"
+  }, {
+    "name" : "consentStatus",
+    "type" : {
+      "type" : "record",
+      "name" : "ConsentStatus",
+      "doc" : "Consent Status",
+      "fields" : [ {
+        "name" : "programmeConsent",
+        "type" : "boolean",
+        "doc" : "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known",
+        "default" : false
+      }, {
+        "name" : "primaryFindingConsent",
+        "type" : "boolean",
+        "doc" : "Consent for feedback of primary findings?",
+        "default" : false
+      }, {
+        "name" : "secondaryFindingConsent",
+        "type" : "boolean",
+        "doc" : "Consent for secondary finding lookup",
+        "default" : false
+      }, {
+        "name" : "carrierStatusConsent",
+        "type" : "boolean",
+        "doc" : "Consent for carrier status check?",
+        "default" : false
+      } ]
+    },
+    "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
+  }, {
+    "name" : "additionalInformation",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+  }, {
+    "name" : "sampleId",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "Sample Id (e.g, LP00012645_5GH))"
+  }, {
+    "name" : "assignedICD10",
+    "type" : [ "null", "string" ],
+    "doc" : "assigned ICD10 code"
+  } ]
+}

@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "IndividualTests",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.  See sample level for full details",
+  "fields" : [ {
+    "name" : "plinksex",
+    "type" : "boolean"
+  }, {
+    "name" : "inbreedingcoefficient",
+    "type" : "boolean"
+  } ]
+}

@@ -1,0 +1,278 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the Commons for GEL models
+*/
+protocol CommonInterpretedCancer {
+
+
+/**
+this is the type of actionability for the reported event
+*/
+enum ActionType{Therapy, Prognosis, Diagnosis}
+
+record Actions {
+
+    ActionType actionType;
+
+    /**
+    This is the tumor type considered to act on this variant
+    */
+    string tumorType;
+
+    /**
+    array of PMIDs
+    */
+    union {null, array<string>} evidence;
+
+    /**
+    drug
+    */
+    union {null, string} drug;
+
+    /**
+    status i.e. clinical, pre-clinical
+    */
+    union {null, string} status;
+
+    /**
+    comments
+    */
+    union {null, array<string>} comments;
+
+    /**
+    type of evidence
+    */
+    union {null, string} evidenceType;
+
+    /**
+    source of the information
+    */
+    string source;
+
+}
+
+
+
+enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+
+record GenomicFeatureCancer {
+
+    /**
+    Feature Type
+    */
+    FeatureTypes featureType;
+
+    /**
+    Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
+    */
+    string ensemblId;
+
+     /**
+    Refseq transcript
+    */
+    string refSeqTranscriptId;
+
+     /**
+    Refseq protein
+    */
+    string refSeqProteinId;
+
+    /**
+    Gene used in tier
+    */
+    string geneName;
+
+    /**
+    Role in cancer: oncogege, TSG or both
+    */
+    union {null, string} roleInCancer;
+
+}
+
+
+/**
+Possible tiers as defined by Genomics England
+*/
+enum Tier {NONE, TIER1, TIER2, TIER3}
+
+record ReportEventCancer {
+
+    /**
+    Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
+    to validate the report
+    */
+    string reportEventId;
+
+    /**
+    This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
+    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
+    */
+    GenomicFeatureCancer genomicFeatureCancer;
+
+
+    /**
+    SO Term used in tier
+    */
+    string soTerm;
+
+    /**
+    SO name used in tier
+    */
+    string soName;
+
+    /**
+    */
+    array<Actions> actions;
+
+    /**
+    Gel Tier
+    */
+    union {null, Tier} tier;
+
+}
+
+
+
+
+
+
+record ReportedVariantCancer {
+
+    /**
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    */
+    string chromosome;
+
+    /**
+    position: Position 1-based
+    */
+    int position;
+
+    /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+    /**
+    variant ID in Cosmic
+    */
+    union {null, string} CosmicId;
+
+    /**
+    link to Cosmic
+    */
+    union {null, string} CosmicLink;
+
+    /**
+    variant ID in dbSNP
+    */
+    union {null, string} dbSNPid;
+
+    /**
+    cDNA change, HGVS nomenclature (e.g.)
+    */
+    union {null, string} cDNAchange;
+
+    /**
+    protein change, HGVS nomenclature (e.g.)
+    */
+    union {null, string} proteinChange;
+
+    /**
+    Depth for Reference Allele
+    */
+    union {null, int} depthReference;
+
+    /**
+    Depth for Alternate Allele
+    */
+    union {null, int} depthAlternate;
+
+    /**
+    Variant Allele Frequency
+    */
+    union {null, int} VAF;
+
+    /**
+    AF in germline DBs
+    */
+    union {null, int} commonAF;
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Comments
+    */
+    union {null, array<string>} comments;
+
+
+    array<ReportEventCancer> reportEvents;
+
+}
+
+
+record ReportedStructuralVariantCancer {
+
+    /**
+    chromosome, named as: 1-22,X,Y,MT(other contigs name)
+    */
+    string chromosome;
+
+    /**
+    start: start position 1-based
+    */
+    int start;
+
+    /**
+    end: end position 1-based
+    */
+    int end;
+
+    /**
+    The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
+    (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
+    */
+    string type;
+
+    /**
+    reference: Reference Allele sequence, the same provided in vcf
+    */
+    string reference;
+
+    /**
+    alternate: Alternate Allele sequence, the same provided in vcf
+    */
+    string alternate;
+
+    /**
+    For example HGMD ID)
+    */
+    union {null,map<string>} additionalTextualVariantAnnotations;
+
+    /**
+    For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+    */
+    union {null, map<float>} additionalNumericVariantAnnotations;
+
+    /**
+    Comments
+    */
+    union {null, array<string>} comments;
+
+}
+
+}
+
