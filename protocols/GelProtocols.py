@@ -265,7 +265,12 @@ false, "doc": "", "type": "boolean", "name":
 "panelVersion"}, {"type": "string", "name": "review_outcome"},
 {"type": "string", "name": "multiple_genetic_origins"}], "type":
 "record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}]}, "name": "pedigree"}, {"doc": "", "type":
+"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "specificDisease"}, {"type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
+"DiseasePenetrance"}, "type": "array"}], "name":
+"diseasePenetrances"}]}, "name": "pedigree"}, {"doc": "", "type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
 "dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
@@ -300,25 +305,23 @@ false, "doc": "", "type": "boolean", "name":
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
 "HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
 "name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
-"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
-{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
+["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
+"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
+"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
+"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
+"name": "eventJustification"}, {"doc": "", "type": ["null",
+{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
+"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -2088,16 +2091,13 @@ class ClinicalReportRD(ProtocolElement):
 "name": "supportingEvidence"}, {"doc": "", "type": {"values":
 "string", "type": "map"}, "name": "referenceDatabasesVersions"},
 {"doc": "", "type": {"values": "string", "type": "map"}, "name":
-"softwareVersions"}, {"doc": "", "type": ["null", {"values":
-{"values": {"values": "float", "type": "map"}, "type": "map"}, "type":
-"map"}], "name": "genePanelsCoverage"}]}
+"softwareVersions"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "additionalAnalysisPanels",
         "candidateStructuralVariants",
         "candidateVariants",
-        "genePanelsCoverage",
         "genomicInterpretation",
         "interpretationRequestAnalysisVersion",
         "interpretationRequestID",
@@ -2130,8 +2130,7 @@ class ClinicalReportRD(ProtocolElement):
 
     __slots__ = [
         'additionalAnalysisPanels', 'candidateStructuralVariants',
-        'candidateVariants', 'genePanelsCoverage',
-        'genomicInterpretation',
+        'candidateVariants', 'genomicInterpretation',
         'interpretationRequestAnalysisVersion',
         'interpretationRequestID', 'interpretationRequestVersion',
         'referenceDatabasesVersions', 'reportingDate',
@@ -2145,8 +2144,6 @@ class ClinicalReportRD(ProtocolElement):
             'candidateStructuralVariants', None)
         self.candidateVariants = kwargs.get(
             'candidateVariants', None)
-        self.genePanelsCoverage = kwargs.get(
-            'genePanelsCoverage', None)
         self.genomicInterpretation = kwargs.get(
             'genomicInterpretation', 'None')
         self.interpretationRequestAnalysisVersion = kwargs.get(
@@ -2315,6 +2312,45 @@ class CoverageSummary(ProtocolElement):
             'sd', None)
         self.wellId = kwargs.get(
             'wellId', 'None')
+
+
+class DiseasePenetrance(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"DiseasePenetrance", "fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "penetrance",
+        "specificDisease",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'penetrance', 'specificDisease'
+    ]
+
+    def __init__(self, **kwargs):
+        self.penetrance = kwargs.get(
+            'penetrance', None)
+        self.specificDisease = kwargs.get(
+            'specificDisease', 'None')
 
 
 class Disorder(ProtocolElement):
@@ -4279,7 +4315,12 @@ false, "doc": "", "type": "boolean", "name":
 "panelVersion"}, {"type": "string", "name": "review_outcome"},
 {"type": "string", "name": "multiple_genetic_origins"}], "type":
 "record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}]}, "name": "pedigree"}, {"doc": "", "type":
+"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "specificDisease"}, {"type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
+"DiseasePenetrance"}, "type": "array"}], "name":
+"diseasePenetrances"}]}, "name": "pedigree"}, {"doc": "", "type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
 "dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
@@ -4314,25 +4355,23 @@ false, "doc": "", "type": "boolean", "name":
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
 "HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
 "name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
-"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
-"VariantClassification"}], "name": "variantClassification"}, {"doc":
-"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
-{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
+"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
+["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
+"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
+"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
+"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
+"name": "eventJustification"}, {"doc": "", "type": ["null",
+{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
+"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -5136,11 +5175,17 @@ false, "doc": "", "type": "boolean", "name":
 "panelVersion"}, {"type": "string", "name": "review_outcome"},
 {"type": "string", "name": "multiple_genetic_origins"}], "type":
 "record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}], "doc": ""}
+"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "specificDisease"}, {"type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
+"DiseasePenetrance"}, "type": "array"}], "name":
+"diseasePenetrances"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "analysisPanels",
+        "diseasePenetrances",
         "gelFamilyId",
         "participants",
         "versionControl",
@@ -5150,6 +5195,7 @@ false, "doc": "", "type": "boolean", "name":
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'analysisPanels': AnalysisPanel,
+            'diseasePenetrances': DiseasePenetrance,
             'participants': RDParticipant,
             'versionControl': VersionControl,
         }
@@ -5159,6 +5205,7 @@ false, "doc": "", "type": "boolean", "name":
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'analysisPanels': AnalysisPanel,
+            'diseasePenetrances': DiseasePenetrance,
             'participants': RDParticipant,
             'versionControl': VersionControl,
         }
@@ -5166,13 +5213,15 @@ false, "doc": "", "type": "boolean", "name":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'analysisPanels', 'gelFamilyId', 'participants',
-        'versionControl'
+        'analysisPanels', 'diseasePenetrances', 'gelFamilyId',
+        'participants', 'versionControl'
     ]
 
     def __init__(self, **kwargs):
         self.analysisPanels = kwargs.get(
             'analysisPanels', None)
+        self.diseasePenetrances = kwargs.get(
+            'diseasePenetrances', None)
         self.gelFamilyId = kwargs.get(
             'gelFamilyId', 'None')
         self.participants = kwargs.get(
@@ -5435,7 +5484,12 @@ false, "doc": "", "type": "boolean", "name":
 "panelVersion"}, {"type": "string", "name": "review_outcome"},
 {"type": "string", "name": "multiple_genetic_origins"}], "type":
 "record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}]}, "name": "Family"}]}
+"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "specificDisease"}, {"type": {"symbols":
+["complete", "incomplete"], "doc": "", "type": "enum", "name":
+"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
+"DiseasePenetrance"}, "type": "array"}], "name":
+"diseasePenetrances"}]}, "name": "Family"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {

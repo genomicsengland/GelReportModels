@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AdoptedStatus",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
-  "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
-}

@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Penetrance",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "Penetrance assumed in the analysis",
-  "symbols" : [ "complete", "incomplete" ]
-}

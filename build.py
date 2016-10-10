@@ -2,29 +2,55 @@ import glob
 import json
 import os
 
+import sys
+
 __author__ = 'antonior'
 
 BASE_DIR = os.path.dirname(__file__)
 
-schemas = os.path.join(BASE_DIR, "schemas", "IDLs")
+if len(sys.argv) > 1:
+    v = sys.argv[1]
+else:
+    v = 'latest'
+
+print v
+
+schemas = os.path.join(BASE_DIR, "schemas", "IDLs", v)
 ga4gh_schemas = os.path.join(BASE_DIR, "ga4ghSchemas", "IDLs")
 openCB_schema = os.path.join(BASE_DIR, "openCBschema", "IDLs")
-outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
+if v == 'latest':
+    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
+else:
+    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=v))
+
+
 ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")
 openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols.py")
 avro_tools_jar = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
+json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", v)
+avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", v)
+html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", v)
 
-for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", "*.avdl")):
+if not os.path.exists(json_folder):
+    os.system('mkdir -p ' + json_folder)
+
+if not os.path.exists(avrp_folder):
+    os.system('mkdir -p ' + avrp_folder)
+
+if not os.path.exists(html_folder):
+    os.system('mkdir -p ' + html_folder)
+
+
+for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", v, "*.avdl")):
     print "transforming: " + idl
     base = os.path.basename(idl).replace(".avdl", "")
-    os.system("java -jar " + avro_tools_jar + " idl2schemata " + idl + " " +
-              os.path.join(BASE_DIR, "schemas", "JSONs", base))
 
-    os.system("java -jar " + avro_tools_jar + " idl " + idl + " " +
-              os.path.join(BASE_DIR, "schemas", "AVPRs", base + ".avpr"))
+    os.system("java -jar " + avro_tools_jar + " idl2schemata " + idl + " " + os.path.join(json_folder, base))
+
+    os.system("java -jar " + avro_tools_jar + " idl " + idl + " " + os.path.join(avrp_folder, base + ".avpr"))
 
 
-VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
+VERSION = json.load(open(os.path.join(json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
 
 print ("version: " + VERSION)
 
@@ -43,17 +69,15 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
                                    + openCB_schema + " " + VERSION))
 
 
-
-
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipant.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDParticipant.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "ClinicalReportRD.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "ClinicalReportCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "ClinicalReportCancer.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDInterpretationRequests.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretationRequestCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerInterpretationRequests.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesRD.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDInterpretedGenomes.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "InterpretedGenomesCancer.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerInterpretedGenomes.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "CancerParticipant.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "CancerParticipant.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "GelBamMetrics.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "GelBamMetrics.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "AuditLog.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "AuditLog.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "RDParticipantChangeLog.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "RDParticipantChangeLog.html"))
-os.system("avrodoc " + os.path.join(BASE_DIR, "schemas", "AVPRs", "AggregatedInterpretedGenome.avpr") + " > " + os.path.join(BASE_DIR, "docs", "html_schemas", "AggregatedInterpretedGenome.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipant.avpr") + " > " + os.path.join(html_folder, "RDParticipant.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "ClinicalReportRD.avpr") + " > " + os.path.join(html_folder, "ClinicalReportRD.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "ClinicalReportCancer.avpr") + " > " + os.path.join(html_folder, "ClinicalReportCancer.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "InterpretationRequestRD.avpr") + " > " + os.path.join(html_folder, "RDInterpretationRequests.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "InterpretationRequestCancer.avpr") + " > " + os.path.join(html_folder, "CancerInterpretationRequests.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "InterpretedGenomesRD.avpr") + " > " + os.path.join(html_folder, "RDInterpretedGenomes.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "InterpretedGenomesCancer.avpr") + " > " + os.path.join(html_folder, "CancerInterpretedGenomes.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "CancerParticipant.avpr") + " > " + os.path.join(html_folder, "CancerParticipant.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "GelBamMetrics.avpr") + " > " + os.path.join(html_folder, "GelBamMetrics.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "AuditLog.avpr") + " > " + os.path.join(html_folder, "AuditLog.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipantChangeLog.avpr") + " > " + os.path.join(html_folder, "RDParticipantChangeLog.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "AggregatedInterpretedGenome.avpr") + " > " + os.path.join(html_folder, "AggregatedInterpretedGenome.html"))
