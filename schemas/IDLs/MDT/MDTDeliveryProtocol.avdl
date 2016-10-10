@@ -1,0 +1,179 @@
+@namespace("Gel_BioInf_Models.MDT")
+
+/** This protocol defines the integration mechanism to store analysis results in
+    the MDT (Multi-disciplinary Tool). */
+protocol MDTDelivery {
+
+/**
+    TODO: I think we don't really need this. Let's discuss if it's convenient for any reason.
+    Defines a delivery task. A delivery task identifies an instance of the whole delivery
+    interaction cycle, whether successful or not. This allows traceability and identification
+    of failed deliveries */
+record DeliveryTask {
+    /* Unique id of the delivery task, linked to one TieringResult */
+    int tieringResultId;
+
+    /** Base path on MDT storage where GEL should transfer files associated with the study */
+    string basePath;
+
+    string protocolVersion;
+    string rareOrCancer;
+}
+
+/** Represents the results of a tiering process and its input patient data. TieringResult
+    is simply a more specific, less ambiguous term for "cohort".
+     We cannot use the InterpretationRequestRD structure because there may be many interpretation
+     requests for the same tiering results. */
+record TieringResult {
+    /** Model version number */
+    VersionControl versionControl;
+
+    /** This is the version of the assembly used to align the reads */
+    string genomeAssemblyVersion="GRCh37.p13";
+
+    /**  Cellbase version */
+    string cellbaseVersion="4.0";
+
+    /**
+    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+    */
+    array<string> workspace; /* TODO do we need this here? */
+
+    /** BAMs Files */
+    array<File> BAMs;
+
+    /** VCFs Files where SVs and CNVs are represented  */
+    array<File> VCFs;
+
+    /** BigWig Files */
+    union {null, array<File>} bigWigs;
+
+    /**  Pedigree Diagram Files as an SGV */
+    union {null, File} pedigreeDiagram;
+
+    /**  Variant Annotation using cellbase */
+    union {null, File} annotationFile;
+
+    /** Other files that may be vendor specific
+        map of key: type of file, value: record of type File */
+    union {null, map<File>} otherFiles;
+
+    /** Pedigree */
+    Pedigree pedigree;
+
+    /** Tiered Variants */
+    array<ReportedVariant> TieredVariants;
+
+    /** Tiering Version */
+    string TieringVersion;
+
+    /** Complex Genetic Phenomena */
+    union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+
+    /** It is paternal or maternal with reference to the participant. */
+    union {null, OtherFamilyHistory} otherFamilyHistory;
+
+    /** This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+        That is: a map of tables of genes and metrics */
+    union {null, map<map<map<float>>>} genePanelsCoverage;
+
+    /** Additional information */
+    union {null, map<string>} additionalInfo;
+}
+
+/** Represents an interpretation request - without the data of the tiering results and patient data.
+    These data are stored in TieringResult records and are referenced through field tieringResultId
+    It is named MDTInterpretationRequest to avoid any confusion with InterpretationRequest. */
+record MDTInterpretationRequest {
+    /** Unique id for this report */
+    string mdtInterpretationRequestId;
+
+    /** Reference to TieringResult which interpretation is requested */
+    int tieringResultId;
+
+    /** Version of this interpretation request */
+    int interpretationRequestVersion;
+
+    /** Load data to system or also provide interpretation? */
+    boolean interpretGenome=false;
+
+    /** The genome shall be assigned to the
+        workspaces(projects or domains with a predefined set of users) to control user access */
+    array<string> workspace; /* TODO do we need this here? */
+
+    /** name of the directory or endpoint where the analysed genome will be returned. */
+    string analysisReturnURI;
+
+    /** In the event that the provider has multiple versions of their system and an analysis
+        will need to be provided against a particular version, then that version goes here.
+        If it is null the provider is free to analyse it against its more recent stable version. */
+    union {null, string} analysisVersion;
+
+    /** Additional information */
+    union {null, map<string>} additionalInfo;
+}
+
+/** Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
+    one TieringResult.
+    Semantic validations:
+        - All MDTInterpretationRequest must refer to the TieringResult identified by tieringResult.
+        - For each MDTInterpretationRequest in interpretationRequests, there must exist at least one
+          InterpretedGenomesRD in interpretationResults referring to it.
+        - All InterpretedGenomesRD in interpretationResults must be valid (QC-passed). */
+record InterpretationData {
+    TieringResult tieringResult;
+    array<MDTInterpretationRequest> interpretationRequests;
+    array<InterpretedGenomesRD> interpretationResults;
+    /* TODO: decide if reuse InterpretedGenomesRD or define new record */
+}
+
+
+/************ OPERATIONS EXPOSED BY BOTH SIDES *******************/
+
+/** Server returns a token to be used in subsequent calls.
+    TODO: Token expiration policy? */
+string login(string username, string password)
+
+/** Invalidate token */
+void logout(string token)
+
+
+/************ OPERATIONS EXPOSED BY MDT **************************/
+
+/** Creates a new delivery task and allocates a directory for it
+TODO: if DeliveryTask is not needed, this operation could just return a string with the path*/
+DeliveryTask createDeliveryTask(string token, int tieringResultId, string protocolVersion, string rareOrCancer);
+
+/** Notifies that RSync file transfers for this task are complete and MDT can
+proceed to process them (validate, ingest, or whichever process they need to do).*/
+void filesDelivered(string token, int tieringResultId);
+
+/** Sets all interpretation data (excluding file contents) for this TieringResult. The server
+    associates the metadata to the files. All files referenced by the TieringResult in interpretation_data
+    must exist in MDT Server - i.e. must have been successfully and completely copied. If no associated
+    data existed, it is created; if any data existed, it is completely replaced by the new data. */
+void putInterpretationData(string token, InterpretationData interpretationData);
+
+/** Deletes all data (including files) associated with the tieringResultId */
+void delete(string token, tieringResultId);
+
+/* TODO: optionally, we could add operations to get a deliveryTask and to get interpretationData for a given TieringResultsId. This would be good mainly for debbugging purposes... thoughts? */
+
+
+/************ OPERATIONS EXPOSED BY GEL **************************/
+
+/** Notifies that MDT has correctly processed files for this tieringResultId, and that it is ready to
+    receive interpretation data. */
+void filesOk(string token, int tieringResultId);
+
+/* TODO: how can file processing by MDT fail? *?
+
+/** Notifies that MDT has finished processing request
+    status: "OK" or "ERROR"
+    message: description of error if any, or empty if success */
+/* TODO: review this. Does MDT need to notify when it has processed the files, or the metadata? */
+void deliveryFinished(int delivery_id, string status, string message);
+
+
+
+}
