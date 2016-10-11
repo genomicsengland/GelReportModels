@@ -7,6 +7,8 @@ reqs = [
     "avro==1.7.7",
     "humanize==0.5.1",
     "PyYAML==3.11",
+    "pysam",
+    "yaml"
 ]
 
 # BASE_DIR = os.path.dirname(__file__)
