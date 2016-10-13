@@ -1,0 +1,26 @@
+{
+  "type" : "record",
+  "name" : "HpoTerm",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This defines an HPO term and its modifiers (possibly multiple)\nIf HPO term presence is unknown we don't have a entry on the list",
+  "fields" : [ {
+    "name" : "term",
+    "type" : "string",
+    "doc" : "Identifier of the HPO term"
+  }, {
+    "name" : "termPresence",
+    "type" : [ "null", "boolean" ],
+    "doc" : "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
+  }, {
+    "name" : "modifiers",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "Modifier associated with the HPO term"
+  }, {
+    "name" : "ageOfOnset",
+    "type" : [ "null", "string" ],
+    "doc" : "Age of onset in months"
+  } ]
+}

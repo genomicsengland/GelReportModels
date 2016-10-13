@@ -1,3 +1,5 @@
+pysam
+yaml
 sphinx_rtd_theme
 labkey
 ujson==1.33

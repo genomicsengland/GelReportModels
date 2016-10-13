@@ -1,8 +1,8 @@
-import glob
 import json
 import os
 
 import sys
+import fnmatch
 
 __author__ = 'antonior'
 
@@ -41,7 +41,12 @@ if not os.path.exists(html_folder):
     os.system('mkdir -p ' + html_folder)
 
 
-for idl in glob.glob(os.path.join(BASE_DIR, "schemas", "IDLs", v, "*.avdl")):
+idl_base_path = os.path.join(BASE_DIR, "schemas", "IDLs", v)
+idls = [os.path.join(dirpath, f)
+        for dirpath, dirnames, files in os.walk(idl_base_path)
+        for f in fnmatch.filter(files, '*.avdl')]
+
+for idl in idls:
     print "transforming: " + idl
     base = os.path.basename(idl).replace(".avdl", "")
 
