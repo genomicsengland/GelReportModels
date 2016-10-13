@@ -35,7 +35,6 @@ def validation(json_file, schema, version):
     else:
         protocol = importlib.import_module('protocols.GelProtocols_' + version.replace('.', '_'))
 
-
     if os.path.isfile(json_file):
         fd = open(json_file)
         data = json.load(fd)

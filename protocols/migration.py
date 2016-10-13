@@ -163,7 +163,6 @@ class Migration2_1To3(object):
         else:
             raise Exception('This model can not be converted')
 
-
     def migrate_interpretation_request(self, interpretation_request):
         """
 
@@ -179,6 +178,29 @@ class Migration2_1To3(object):
 
         if new_interpretation_request.validate(new_interpretation_request.toJsonDict()):
             return new_interpretation_request
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_clinical_report(self, clinical_report):
+        """
+
+        :type clinical_report: GelProtocols_2_1_0.ClinicalReportRD
+        :rtype: GelProtocols.ClinicalReportRD
+        """
+
+        new_clinical_report = self.new_model.ClinicalReportRD.fromJsonDict(clinical_report.toJsonDict())
+        new_clinical_report.candidateVariants = []
+        new_clinical_report.candidateStructuralVariants = []
+        for reported_variant in clinical_report.candidateVariants:
+            new_clinical_report.reportedVariants.append(self.migrate_reported_variant(reported_variant))
+
+        if clinical_report.candidateStructuralVariants:
+            for reported_structural_variant in clinical_report.candidateStructuralVariants:
+                new_clinical_report.ReportedStructuralVariant.append(
+                    self.migrate_reported_structural_variant(reported_structural_variant))
+
+        if new_clinical_report.validate(new_clinical_report.toJsonDict()):
+            return new_clinical_report
         else:
             raise Exception('This model can not be converted')
 

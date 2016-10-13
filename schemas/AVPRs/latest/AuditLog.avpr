@@ -200,10 +200,10 @@
       "doc" : "This field is optional, BUT it should be filled if possible"
     }, {
       "name" : "other_ids",
-      "type" : {
+      "type" : [ "null", {
         "type" : "map",
         "values" : "string"
-      },
+      } ],
       "doc" : "Others IDs"
     } ]
   }, {

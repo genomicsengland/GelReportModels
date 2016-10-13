@@ -126,7 +126,7 @@ record GenomicFeature {
     /**
     Others IDs
     */
-    map<string> other_ids;
+    union {null, map<string>} other_ids;
 
 }
 

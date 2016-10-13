@@ -303,25 +303,26 @@ false, "doc": "", "type": "boolean", "name":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
-"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
-"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
-["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
-"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
-"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
-"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
-"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
-"name": "eventJustification"}, {"doc": "", "type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+"Penetrance", "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -731,14 +732,14 @@ class AuditLog(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -2041,14 +2042,14 @@ class ClinicalReportRD(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -2692,8 +2693,8 @@ class GenomicFeature(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}]}
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4353,25 +4354,26 @@ false, "doc": "", "type": "boolean", "name":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
-"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
-"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
-["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
-"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
-"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
-"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
-"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
-"name": "eventJustification"}, {"doc": "", "type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+"Penetrance", "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -4550,14 +4552,14 @@ class InterpretedGenomeRD(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -4709,14 +4711,14 @@ class InterpretedGenomesRDRecord(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -4977,14 +4979,14 @@ class ModifiedVariant(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -5808,14 +5810,14 @@ class ReportEvent(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -6186,14 +6188,14 @@ class ReportedStructuralVariant(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
@@ -6383,14 +6385,14 @@ class ReportedVariant(ProtocolElement):
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}, {"doc": "", "type": "float",
-"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
-"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
-["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}, "name": "penetrance"}, {"doc": "", "type":
+"float", "name": "score"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name": "vendorSpecificScores"}, {"doc": "",
+"type": ["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
 "LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
