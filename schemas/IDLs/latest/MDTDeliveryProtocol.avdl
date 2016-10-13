@@ -85,33 +85,6 @@ record TieringResult {
     union {null, map<string>} additionalInfo;
 }
 
-/** Represents an interpretation request - without the data of the tiering results and patient data.
-    These data are stored in TieringResult records and are referenced through field tieringResultId
-    It is named MDTInterpretationRequest to avoid any confusion with InterpretationRequest. */
-//record MDTInterpretationRequest {
-//    /** Unique id for this report */
-//    string mdtInterpretationRequestId;
-//
-//    /** Reference to TieringResult which interpretation is requested */
-//    int tieringResultId;
-//
-//    /** Version of this interpretation request */
-//    int interpretationRequestVersion;
-//
-//    /** Load data to system or also provide interpretation? */
-//    boolean interpretGenome=false;
-//
-//    /** In the event that the provider has multiple versions of their system and an analysis
-//        will need to be provided against a particular version, then that version goes here.
-//        If it is null the provider is free to analyse it against its more recent stable version. */
-//    union {null, string} analysisVersion;
-//
-//    /** Additional information */
-//    union {null, map<string>} additionalInfo;
-//}
-
-
-
 
 
 /** Represents the set of all interpretation data (excluding file contents) to be stored in MDT for

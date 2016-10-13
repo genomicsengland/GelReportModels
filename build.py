@@ -85,4 +85,4 @@ os.system("avrodoc " + os.path.join(avrp_folder, "CancerParticipant.avpr") + " >
 os.system("avrodoc " + os.path.join(avrp_folder, "GelBamMetrics.avpr") + " > " + os.path.join(html_folder, "GelBamMetrics.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "AuditLog.avpr") + " > " + os.path.join(html_folder, "AuditLog.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipantChangeLog.avpr") + " > " + os.path.join(html_folder, "RDParticipantChangeLog.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "AggregatedInterpretedGenome.avpr") + " > " + os.path.join(html_folder, "AggregatedInterpretedGenome.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "MDTDeliveryProtocol.avpr") + " > " + os.path.join(html_folder, "MDTDeliveryProtocol.html"))

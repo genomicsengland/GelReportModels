@@ -8,7 +8,7 @@ GelReportModels Documentation
 
 
 * :ref:`models-documentation`
-* :ref:`validation`
+* :ref:`models-validation`
 
 .. _models-documentation:
 

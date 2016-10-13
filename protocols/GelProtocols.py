@@ -4407,25 +4407,26 @@ false, "doc": "", "type": "boolean", "name":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
-"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
-"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
-["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
-"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
-"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
-"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
-"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
-"name": "eventJustification"}, {"doc": "", "type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+"Penetrance", "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -7428,25 +7429,26 @@ false, "doc": "", "type": "boolean", "name":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
 "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
-"HGNC"}, {"doc": "", "type": {"values": "string", "type": "map"},
-"name": "other_ids"}], "type": "record", "name": "GenomicFeature"},
-"name": "genomicFeature"}, {"doc": "", "type": "Penetrance", "name":
-"penetrance"}, {"doc": "", "type": "float", "name": "score"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
-"vendorSpecificScores"}, {"doc": "", "type": ["null", {"symbols":
-["BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC"],
-"doc": "", "type": "enum", "name": "VariantClassification"}], "name":
-"variantClassification"}, {"doc": "", "type": ["null", "boolean"],
-"name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
-"int"], "name": "groupOfVariants"}, {"doc": "", "type": "string",
-"name": "eventJustification"}, {"doc": "", "type": ["null",
-{"symbols": ["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type":
-"enum", "name": "Tier"}], "name": "tier"}], "type": "record", "name":
-"ReportEvent"}, "type": "array"}, "name": "reportEvents"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
-"", "type": ["null", {"values": "float", "type": "map"}], "name":
+"HGNC"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "other_ids"}], "type": "record", "name":
+"GenomicFeature"}, "name": "genomicFeature"}, {"doc": "", "type":
+"Penetrance", "name": "penetrance"}, {"doc": "", "type": "float",
+"name": "score"}, {"doc": "", "type": ["null", {"values": "float",
+"type": "map"}], "name": "vendorSpecificScores"}, {"doc": "", "type":
+["null", {"symbols": ["BENIGN", "LIKELY_BENIGN", "VUS",
+"LIKELY_PATHOGENIC", "PATHOGENIC"], "doc": "", "type": "enum", "name":
+"VariantClassification"}], "name": "variantClassification"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
+{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
+{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
+"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
+"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
+"record", "name": "ReportEvent"}, "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
+"float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":

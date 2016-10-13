@@ -18,7 +18,7 @@ Interpreted Genomes Models
 
 * |IGenomeRD|
 * |IGenomeCancer|
-* |AggregatedInterpretedGenomesRD|
+* |MDTDeliveryProtocol|
 
 Clinical Report Models
 ----------------------
@@ -63,9 +63,9 @@ Audits Models
 .. |RDParticipantChangeLog| raw:: html
 
     <a href="html_schemas/latest/RDParticipantChangeLog.html#/schema/Gel_BioInf_Models.RDFamilyChange" target="_blank"> RDParticipant Change Log </a>
-.. |AggregatedInterpretedGenomesRD| raw:: html
+.. |MDTDeliveryProtocol| raw:: html
 
-    <a href="html_schemas/latest/AggregateInterpretedGenome.html#/schema/Gel_BioInf_Models.AggregateInterpretedGenomesRD" target="_blank"> RDParticipant Change Log </a>
+    <a href="html_schemas/latest/MDTDeliveryProtocol.html#/schema/Gel_BioInf_Models.InterpretationData" target="_blank"> InterpretationDataRD </a>
 
 
 
