@@ -60,7 +60,7 @@ record ClinicalReportRD {
     */
     string genomicInterpretation;
 
-    union {null, AdditionalAnalysisPanel} additionalAnalysisPanels;
+    union {null, array<AdditionalAnalysisPanel>} additionalAnalysisPanels;
 
     /**
     Supporting evidence (pubmed Ids)

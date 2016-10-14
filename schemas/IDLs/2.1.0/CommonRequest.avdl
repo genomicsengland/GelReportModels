@@ -22,8 +22,7 @@ enum FileType {   //TODO change names
     SVG,  // an SVG for example of a pedigree
     TIER,  // a file that contains the tiers for a particular interpretation request using CommonInterpreted.avdl
     ANN,  // an annotation file from openCBschema/IDLs/variantAnnotation.avdl
-    BigWig,  //a bigwig file with the genome coverage
-    OTHER //other unspecied file type
+    BigWig  //a bigwig file with the genome coverage
     }
 
 
@@ -103,5 +102,7 @@ record OtherFamilyHistory {
     */
     union {null, array<string>} paternalFamilyHistory;
 }
+
+
 
 }

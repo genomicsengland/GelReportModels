@@ -34,6 +34,7 @@ class Migration2_1To3(object):
         :rtype: GelProtocols.RDParticipant
         """
         new_rd_participant = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
+        new_rd_participant.versionControl = GelProtocols.VersionControl()
         if 'yearOfBirth' in member.additionalInformation:
             new_rd_participant.yearOfBirth = member.additionalInformation['yearOfBirth']
 
@@ -147,6 +148,7 @@ class Migration2_1To3(object):
         new_interpreted_genome = self.new_model.InterpretedGenomeRD.fromJsonDict(interpreted_genome.toJsonDict())
         new_interpreted_genome.reportedVariants = []
         new_interpreted_genome.ReportedStructuralVariant = []
+        interpreted_genome.versionControl - GelProtocols.VersionControl()
 
         for reported_variant in interpreted_genome.reportedVariants:
             new_interpreted_genome.reportedVariants.append(self.migrate_reported_variant(reported_variant))
@@ -173,6 +175,7 @@ class Migration2_1To3(object):
         new_interpretation_request = self.new_model.InterpretationRequestRD.fromJsonDict(interpretation_request.toJsonDict())
         new_interpretation_request.TieredVariants = []
         new_interpretation_request.pedigree = self.migrate_pedigree(interpretation_request.pedigree)
+        new_interpretation_request = GelProtocols.VersionControl()
         for tiered_variant in interpretation_request.TieredVariants:
             new_interpretation_request.TieredVariants.append(self.migrate_reported_variant(tiered_variant))
 
