@@ -30,6 +30,19 @@
         "type" : "record",
         "name" : "ReportedVariant",
         "fields" : [ {
+          "name" : "versionControl",
+          "type" : {
+            "type" : "record",
+            "name" : "VersionControl",
+            "fields" : [ {
+              "name" : "GitVersionControl",
+              "type" : "string",
+              "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+              "default" : "2.1.0"
+            } ]
+          },
+          "doc" : "Model version number"
+        }, {
           "name" : "chromosome",
           "type" : "string",
           "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
@@ -60,7 +73,7 @@
               "fields" : [ {
                 "name" : "gelId",
                 "type" : "string",
-                "doc" : "Participant id of the family member:"
+                "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
               }, {
                 "name" : "sampleId",
                 "type" : "string",
@@ -69,6 +82,10 @@
                 "name" : "genotype",
                 "type" : "string",
                 "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+              }, {
+                "name" : "phaseSet",
+                "type" : [ "null", "int" ],
+                "doc" : "Phase set of variants when variants are phased"
               }, {
                 "name" : "depthReference",
                 "type" : [ "null", "int" ],
@@ -204,7 +221,7 @@
             "type" : "map",
             "values" : "string"
           } ],
-          "doc" : "For example a quote from a paper"
+          "doc" : "For example HGMD ID)"
         }, {
           "name" : "additionalNumericVariantAnnotations",
           "type" : [ "null", {
@@ -231,6 +248,10 @@
         "type" : "record",
         "name" : "ReportedStructuralVariant",
         "fields" : [ {
+          "name" : "versionControl",
+          "type" : "VersionControl",
+          "doc" : "Model version number"
+        }, {
           "name" : "chromosome",
           "type" : "string",
           "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
@@ -317,18 +338,5 @@
       "values" : "string"
     },
     "doc" : "This map should contains the version of the different software in the process"
-  }, {
-    "name" : "genePanelsCoverage",
-    "type" : {
-      "type" : "map",
-      "values" : {
-        "type" : "map",
-        "values" : {
-          "type" : "map",
-          "values" : "float"
-        }
-      }
-    },
-    "doc" : "This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))\n    That is: a map of tables of genes and metrics"
   } ]
 }

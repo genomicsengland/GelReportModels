@@ -3,6 +3,15 @@
   "namespace" : "Gel_BioInf_Models",
   "doc" : "Define the Report used by GEL to get the clinical interpretation companies results for bronze level",
   "types" : [ {
+    "type" : "record",
+    "name" : "VersionControl",
+    "fields" : [ {
+      "name" : "GitVersionControl",
+      "type" : "string",
+      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
+      "default" : "2.1.0"
+    } ]
+  }, {
     "type" : "enum",
     "name" : "ReportedModeOfInheritance",
     "doc" : "An enumeration for the different mode of inheritances:\n\n* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted\n* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)\n* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)\n* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown\n* `biallelic`: BIALLELIC, autosomal or pseudoautosomal\n* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal\n* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal\n* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females\n* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)\n* `mitochondrial`: MITOCHONDRIAL\n* `unknown`: Unknown",
@@ -14,7 +23,7 @@
     "fields" : [ {
       "name" : "gelId",
       "type" : "string",
-      "doc" : "Participant id of the family member:"
+      "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
     }, {
       "name" : "sampleId",
       "type" : "string",
@@ -23,6 +32,10 @@
       "name" : "genotype",
       "type" : "string",
       "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+    }, {
+      "name" : "phaseSet",
+      "type" : [ "null", "int" ],
+      "doc" : "Phase set of variants when variants are phased"
     }, {
       "name" : "depthReference",
       "type" : [ "null", "int" ],
@@ -141,6 +154,10 @@
     "type" : "record",
     "name" : "ReportedVariant",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "chromosome",
       "type" : "string",
       "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
@@ -180,7 +197,7 @@
         "type" : "map",
         "values" : "string"
       } ],
-      "doc" : "For example a quote from a paper"
+      "doc" : "For example HGMD ID)"
     }, {
       "name" : "additionalNumericVariantAnnotations",
       "type" : [ "null", {
@@ -200,6 +217,10 @@
     "type" : "record",
     "name" : "ReportedStructuralVariant",
     "fields" : [ {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
+    }, {
       "name" : "chromosome",
       "type" : "string",
       "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
@@ -257,15 +278,6 @@
         "items" : "string"
       } ],
       "doc" : "Comments"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "VersionControl",
-    "fields" : [ {
-      "name" : "GitVersionControl",
-      "type" : "string",
-      "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "2.1.0"
     } ]
   }, {
     "type" : "enum",

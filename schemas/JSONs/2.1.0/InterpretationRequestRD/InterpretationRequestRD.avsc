@@ -70,7 +70,7 @@
             "type" : "enum",
             "name" : "FileType",
             "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file",
-            "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig", "OTHER" ]
+            "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig" ]
           }
         } ]
       }
@@ -468,6 +468,10 @@
         "type" : "record",
         "name" : "ReportedVariant",
         "fields" : [ {
+          "name" : "versionControl",
+          "type" : "VersionControl",
+          "doc" : "Model version number"
+        }, {
           "name" : "chromosome",
           "type" : "string",
           "doc" : "chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header"
@@ -498,7 +502,7 @@
               "fields" : [ {
                 "name" : "gelId",
                 "type" : "string",
-                "doc" : "Participant id of the family member:"
+                "doc" : "Genotype\nGenotype score (quality)\nGenotype likelihood\ndepth\n\n    /**\n    Participant id of the family member:"
               }, {
                 "name" : "sampleId",
                 "type" : "string",
@@ -507,6 +511,10 @@
                 "name" : "genotype",
                 "type" : "string",
                 "doc" : "Zygosity as per VCF spec possibility phased such as 0|1, 1|0 for phased or 0/1 for unphased"
+              }, {
+                "name" : "phaseSet",
+                "type" : [ "null", "int" ],
+                "doc" : "Phase set of variants when variants are phased"
               }, {
                 "name" : "depthReference",
                 "type" : [ "null", "int" ],
@@ -642,7 +650,7 @@
             "type" : "map",
             "values" : "string"
           } ],
-          "doc" : "For example a quote from a paper"
+          "doc" : "For example HGMD ID)"
         }, {
           "name" : "additionalNumericVariantAnnotations",
           "type" : [ "null", {

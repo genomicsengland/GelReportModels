@@ -326,18 +326,21 @@
   }, {
     "name" : "additionalAnalysisPanels",
     "type" : [ "null", {
-      "type" : "record",
-      "name" : "AdditionalAnalysisPanel",
-      "fields" : [ {
-        "name" : "specificDisease",
-        "type" : "string"
-      }, {
-        "name" : "panelName",
-        "type" : "string"
-      }, {
-        "name" : "panelVersion",
-        "type" : [ "null", "string" ]
-      } ]
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "AdditionalAnalysisPanel",
+        "fields" : [ {
+          "name" : "specificDisease",
+          "type" : "string"
+        }, {
+          "name" : "panelName",
+          "type" : "string"
+        }, {
+          "name" : "panelVersion",
+          "type" : [ "null", "string" ]
+        } ]
+      }
     } ]
   }, {
     "name" : "supportingEvidence",

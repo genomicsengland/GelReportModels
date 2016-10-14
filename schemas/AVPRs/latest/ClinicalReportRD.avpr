@@ -479,7 +479,10 @@
       "doc" : "Summary of the interpretation, this should reflects the positive conclusions of this interpretation"
     }, {
       "name" : "additionalAnalysisPanels",
-      "type" : [ "null", "AdditionalAnalysisPanel" ]
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "AdditionalAnalysisPanel"
+      } ]
     }, {
       "name" : "supportingEvidence",
       "type" : [ "null", {
