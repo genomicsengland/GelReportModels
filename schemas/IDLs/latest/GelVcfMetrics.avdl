@@ -37,6 +37,7 @@ record CancerSummaryMetrics{
     double samtools_insert_size_average_normal;
     int variantstats_total_snvs;
     int variantstats_total_indels;
+    union {null, int} variantstats_total_svs;
     string tumor_contamination_cont_est;
     double mean;
     double mean_normal;

@@ -1306,7 +1306,8 @@ class CancerSummaryMetrics(ProtocolElement):
 "name": "samtools_insert_size_average"}, {"type": "double", "name":
 "samtools_insert_size_average_normal"}, {"type": "int", "name":
 "variantstats_total_snvs"}, {"type": "int", "name":
-"variantstats_total_indels"}, {"type": "string", "name":
+"variantstats_total_indels"}, {"type": ["null", "int"], "name":
+"variantstats_total_svs"}, {"type": "string", "name":
 "tumor_contamination_cont_est"}, {"type": "double", "name": "mean"},
 {"type": "double", "name": "mean_normal"}, {"type": "double", "name":
 "local_rmsd_normal"}, {"type": "double", "name": "local_rmsd"},
@@ -1328,6 +1329,7 @@ class CancerSummaryMetrics(ProtocolElement):
         "tumor_contamination_cont_est",
         "variantstats_total_indels",
         "variantstats_total_snvs",
+        "variantstats_total_svs",
     }
 
     @classmethod
@@ -1349,7 +1351,7 @@ class CancerSummaryMetrics(ProtocolElement):
         'samtools_pairs_on_different_chromosomes_normal',
         'samtools_reads_mapped', 'samtools_reads_mapped_normal',
         'tumor_contamination_cont_est', 'variantstats_total_indels',
-        'variantstats_total_snvs'
+        'variantstats_total_snvs', 'variantstats_total_svs'
     ]
 
     def __init__(self, **kwargs):
@@ -1381,6 +1383,8 @@ class CancerSummaryMetrics(ProtocolElement):
             'variantstats_total_indels', None)
         self.variantstats_total_snvs = kwargs.get(
             'variantstats_total_snvs', None)
+        self.variantstats_total_svs = kwargs.get(
+            'variantstats_total_svs', None)
 
 
 class CaseShared(ProtocolElement):

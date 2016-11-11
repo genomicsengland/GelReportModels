@@ -27,6 +27,9 @@
     "name" : "variantstats_total_indels",
     "type" : "int"
   }, {
+    "name" : "variantstats_total_svs",
+    "type" : [ "null", "int" ]
+  }, {
     "name" : "tumor_contamination_cont_est",
     "type" : "string"
   }, {
