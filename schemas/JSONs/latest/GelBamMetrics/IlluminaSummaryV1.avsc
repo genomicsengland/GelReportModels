@@ -8,7 +8,7 @@
     "type" : {
       "type" : "enum",
       "name" : "IlluminaVersion",
-      "symbols" : [ "IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2" ]
+      "symbols" : [ "IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4", "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4" ]
     }
   }, {
     "name" : "PERCENT_Q30_R1",
