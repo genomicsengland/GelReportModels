@@ -70,7 +70,7 @@ class Migration2_1To3(object):
         new_genomic_feature = self.new_model.GenomicFeature()
         new_genomic_feature.featureType = genomic_feature.featureType
         new_genomic_feature.ensemblId = genomic_feature.ensemblId
-        if 'HGNC' in genomic_feature.ids:
+        if genomic_feature.ids and 'HGNC' in genomic_feature.ids:
             new_genomic_feature.HGNC = genomic_feature.ids['HGNC']
         new_genomic_feature.other_ids = genomic_feature.ids
 
