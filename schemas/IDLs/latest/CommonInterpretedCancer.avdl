@@ -212,6 +212,11 @@ record ReportedVariantCancer {
     union {null, int} commonAF;
 
     /**
+    Largest reference interrupted homopolymer length intersecting with the indel
+    */
+    union {null, int} IHP;
+
+    /**
     For example HGMD ID)
     */
     union {null,map<string>} additionalTextualVariantAnnotations;
