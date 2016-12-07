@@ -82,6 +82,10 @@
               "type" : [ "null", "int" ],
               "doc" : "AF in germline DBs"
             }, {
+              "name" : "IHP",
+              "type" : [ "null", "int" ],
+              "doc" : "Largest reference interrupted homopolymer length intersecting with the indel"
+            }, {
               "name" : "additionalTextualVariantAnnotations",
               "type" : [ "null", {
                 "type" : "map",
