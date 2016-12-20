@@ -805,12 +805,13 @@ false, "doc": "", "type": "boolean", "name":
 "int"], "name": "depthReference"}, {"doc": "", "type": ["null",
 "int"], "name": "depthAlternate"}, {"doc": "", "type": ["null",
 "double"], "name": "VAF"}, {"doc": "", "type": ["null", "int"],
-"name": "commonAF"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"},
-{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"name": "commonAF"}, {"doc": "", "type": ["null", "int"], "name":
+"IHP"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "additionalTextualVariantAnnotations"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -979,9 +980,10 @@ class CancerInterpretedGenome(ProtocolElement):
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
 "VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
-["null", {"values": "float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
@@ -1495,9 +1497,10 @@ class ClinicalReportCancer(ProtocolElement):
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
 "VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
-["null", {"values": "float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
@@ -7832,9 +7835,10 @@ class ReportedSomaticVariants(ProtocolElement):
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
 "VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "additionalTextualVariantAnnotations"}, {"doc": "", "type":
-["null", {"values": "float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
@@ -8239,13 +8243,13 @@ class ReportedVariantCancer(ProtocolElement):
 ["null", "int"], "name": "depthReference"}, {"doc": "", "type":
 ["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
 ["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
-"int"], "name": "commonAF"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}, {"type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
+"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
+"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -8275,6 +8279,7 @@ class ReportedVariantCancer(ProtocolElement):
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "CosmicIds",
+        "IHP",
         "VAF",
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
@@ -8308,7 +8313,8 @@ class ReportedVariantCancer(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'CosmicIds', 'VAF', 'additionalNumericVariantAnnotations',
+        'CosmicIds', 'IHP', 'VAF',
+        'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'cDNAchange', 'chromosome', 'comments', 'commonAF', 'dbSNPid',
         'depthAlternate', 'depthReference', 'position',
@@ -8318,6 +8324,8 @@ class ReportedVariantCancer(ProtocolElement):
     def __init__(self, **kwargs):
         self.CosmicIds = kwargs.get(
             'CosmicIds', None)
+        self.IHP = kwargs.get(
+            'IHP', None)
         self.VAF = kwargs.get(
             'VAF', None)
         self.additionalNumericVariantAnnotations = kwargs.get(
