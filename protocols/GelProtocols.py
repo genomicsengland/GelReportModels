@@ -2559,18 +2559,18 @@ class HpoTerm(ProtocolElement):
 class IlluminaSummaryCancerV2(ProtocolElement):
     """
     This is the summary provided by illumina for Somatic calls in V2
-    (current) of their pipeline  Fields of interest include
+    (current) of their pipeline Fields of interest include
     `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "IlluminaSummaryCancerV2", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name":
-"VARIANTSTATS_STOP_GAINED_SNVS"}, {"type": "double", "name":
-"VARIANTSTATS_MATURE_MIRNA_DELETIONS"}, {"type": "double", "name":
-"VARIANTSTATS_SYNONYMOUS_SNVS"}, {"type": "double", "name":
+["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
+"IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
+"name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
+"double", "name": "VARIANTSTATS_STOP_GAINED_SNVS"}, {"type": "double",
+"name": "VARIANTSTATS_MATURE_MIRNA_DELETIONS"}, {"type": "double",
+"name": "VARIANTSTATS_SYNONYMOUS_SNVS"}, {"type": "double", "name":
 "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30"}, {"type": "double", "name":
 "VARIANTSTATS_NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
 "VARIANTSTATS_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
@@ -2871,6 +2871,1210 @@ class IlluminaSummaryCancerV2(ProtocolElement):
             'illumina_version', None)
 
 
+class IlluminaSummaryCancerV4(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"IlluminaSummaryCancerV4", "fields": [{"type": {"symbols":
+["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
+"IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
+"name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
+"long", "name": "NORMAL_TOTAL_PF_READS"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_BASES_READ_1"}, {"type": "string", "name":
+"TUMOR_MEDIAN_READ_LENGTH_READ_1"}, {"type": "string", "name":
+"TUMOR_MEDIAN_READ_LENGTH_READ_2"}, {"type": "long", "name":
+"NORMAL_TOTAL_PF_BASES_READ_2"}, {"type": "double", "name":
+"NORMAL_PERCENT_DUPLICATE_ALIGNED_READS"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"NORMAL_TOTAL_PF_BASES_READ_1"}, {"type": "string", "name":
+"TUMOR_SAMPLE_NAME"}, {"type": "double", "name":
+"SOMATIC_SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double",
+"name": "NORMAL_MISMATCH_RATE"}, {"type": "long", "name":
+"NORMAL_TOTAL_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"FRAMESHIFT_SOMATIC_INSERTIONS"}, {"type": "double", "name":
+"NORMAL_PERCENT_SOFT_CLIPPED_BASES"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_GENES"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_IN_MATURE_MIRNA"}, {"type": "double", "name":
+"NORMAL_PERCENT_Q30_BASES_READ_2"}, {"type": "double", "name":
+"TUMOR_PERCENT_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "double",
+"name": "NORMAL_PERCENT_Q30_BASES_READ_1"}, {"type": "double", "name":
+"SOMATIC_SV_PERCENT_BREAKENDS_IN_GENES"}, {"type": "double", "name":
+"TUMOR_PERCENT_DUPLICATE_ALIGNED_READS"}, {"type": "long", "name":
+"SOMATIC_SV_DELETIONS"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_IN_GENES"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_IN_EXONS"}, {"type": "double", "name":
+"TUMOR_COVERAGE_AT_15X"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_READ_PAIRS"}, {"type": "double", "name":
+"OVERALL_PLOIDY"}, {"type": "long", "name": "SOMATIC_INDELS"},
+{"type": "double", "name": "TUMOR_MEAN_COVERAGE"}, {"type": "double",
+"name": "NORMAL_MISMATCH_RATE_READ_2"}, {"type": "double", "name":
+"NORMAL_PERCENT_GC_DROPOUT"}, {"type": "double", "name":
+"NORMAL_MISMATCH_RATE_READ_1"}, {"type": "double", "name":
+"SOMATIC_INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"SOMATIC_SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_READ_1"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_READ_2"}, {"type": "double", "name":
+"SOMATIC_SNV_TS_TV_RATIO"}, {"type": "long", "name":
+"SOMATIC_SV_INVERSIONS"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"TUMOR_READ_ENRICHMENT_AT_80_GC"}, {"type": "long", "name":
+"SYNONYMOUS_SOMATIC_SNVS"}, {"type": "double", "name":
+"SOMATIC_INSERTIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double",
+"name": "MEAN_SOMATIC_SNV_FREQUENCY"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
+"SOMATIC_DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_EXONS"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_ALL"}, {"type": "long", "name":
+"SOMATIC_SV_BREAKENDS_ALL"}, {"type": "long", "name":
+"SOMATIC_SV_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double", "name":
+"TUMOR_MISMATCH_RATE"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_READ_PAIRS"}, {"type": "double", "name":
+"TUMOR_PERCENT_Q25_BASES_READ_1"}, {"type": "double", "name":
+"TUMOR_PERCENT_Q25_BASES_READ_2"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_BASES_READ_1"}, {"type": "long", "name":
+"SOMATIC_SV_BREAKENDS_IN_GENES"}, {"type": "long", "name":
+"STOP_LOST_SOMATIC_DELETIONS"}, {"type": "long", "name":
+"NORMAL_TOTAL_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"NON_SYNONYMOUS_SOMATIC_INSERTIONS"}, {"type": "long", "name":
+"SOMATIC_SV_TANDEM_DUPLICATIONS"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"STOP_GAINED_SOMATIC_DELETIONS"}, {"type": "double", "name":
+"ESTIMATED_CHROMOSOME_COUNT"}, {"type": "long", "name":
+"NORMAL_TOTAL_PF_READ_1"}, {"type": "long", "name":
+"NORMAL_TOTAL_MAPQ_GT_10_READS"}, {"type": "long", "name":
+"NORMAL_TOTAL_PF_READ_2"}, {"type": "long", "name":
+"SOMATIC_SV_INSERTIONS_IN_GENES"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_BASES"}, {"type": "double", "name":
+"TUMOR_READ_ENRICHMENT_AT_75_GC"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_UTR_REGIONS"}, {"type": "string", "name":
+"NORMAL_SAMPLE_ID"}, {"type": "double", "name":
+"NORMAL_COVERAGE_AT_1X"}, {"type": "long", "name":
+"TUMOR_TOTAL_PROPER_READ_PAIRS"}, {"type": "double", "name":
+"NORMAL_PERCENT_Q25_BASES_READ_1"}, {"type": "double", "name":
+"NORMAL_PERCENT_Q25_BASES_READ_2"}, {"type": "string", "name":
+"TUMOR_MEDIAN_READ_LENGTH"}, {"type": "double", "name":
+"NORMAL_COVERAGE_AT_15X"}, {"type": "long", "name":
+"STOP_GAINED_SOMATIC_SNVS"}, {"type": "long", "name":
+"TUMOR_TOTAL_PF_READ_2"}, {"type": "double", "name":
+"NORMAL_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS"}, {"type": "long",
+"name": "TUMOR_TOTAL_PF_READ_1"}, {"type": "double", "name":
+"TUMOR_MISMATCH_RATE_READ_2"}, {"type": "double", "name":
+"TUMOR_MISMATCH_RATE_READ_1"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_READS"}, {"type": "long", "name":
+"TUMOR_TOTAL_PF_BASES"}, {"type": "long", "name": "SOMATIC_CNVS_ALL"},
+{"type": "long", "name": "SOMATIC_SV_INVERSIONS_ALL"}, {"type":
+"long", "name": "SOMATIC_CNVS"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_READS"}, {"type": "double", "name":
+"TUMOR_PERCENT_Q30_BASES_READ_2"}, {"type": "double", "name":
+"TUMOR_PERCENT_Q30_BASES_READ_1"}, {"type": "string", "name":
+"NORMAL_MEDIAN_READ_LENGTH"}, {"type": "long", "name":
+"STOP_LOST_SOMATIC_INSERTIONS"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_EXONS"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS"}, {"type": "double", "name":
+"TUMOR_PERCENT_GC_DROPOUT"}, {"type": "long", "name":
+"NORMAL_TOTAL_PF_BASES"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
+"TUMOR_PERCENT_Q30_BASES"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_READ_2"}, {"type": "long", "name":
+"SOMATIC_SV_INSERTIONS"}, {"type": "long", "name":
+"NORMAL_UNIQUE_ALIGNED_READS"}, {"type": "double", "name":
+"NORMAL_COVERAGE_AT_10X"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_READ_1"}, {"type": "long", "name":
+"SOMATIC_DELETIONS_IN_UTR_REGIONS"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_READ_2"}, {"type": "double", "name":
+"NORMAL_READ_ENRICHMENT_AT_75_GC"}, {"type": "double", "name":
+"NORMAL_PERCENT_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "long",
+"name": "TUMOR_TOTAL_DUPLICATE_ALIGNED_READS"}, {"type": "long",
+"name": "SOMATIC_DELETIONS_ALL"}, {"type": "long", "name":
+"STOP_LOST_SOMATIC_SNVS"}, {"type": "long", "name":
+"SOMATIC_SNVS_ALL"}, {"type": "long", "name":
+"NON_SYNONYMOUS_SOMATIC_SNVS"}, {"type": "long", "name":
+"TUMOR_TOTAL_PF_BASES_READ_1"}, {"type": "long", "name":
+"TUMOR_TOTAL_PF_BASES_READ_2"}, {"type": "long", "name":
+"SOMATIC_SV_INSERTIONS_ALL"}, {"type": "double", "name":
+"NORMAL_PERCENT_AT_DROPOUT"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_GENES"}, {"type": "double", "name":
+"TUMOR_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS"}, {"type": "double",
+"name": "NORMAL_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES"},
+{"type": "long", "name": "SOMATIC_DELETIONS"}, {"type": "string",
+"name": "TUMOR_SAMPLE_ID"}, {"type": "string", "name":
+"NORMAL_MEDIAN_READ_LENGTH_READ_2"}, {"type": "double", "name":
+"PERCENT_SOMATIC_CNVS_IN_GENES"}, {"type": "string", "name":
+"NORMAL_MEDIAN_READ_LENGTH_READ_1"}, {"type": "long", "name":
+"SOMATIC_SV_INVERSIONS_IN_GENES"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_BASES_READ_2"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
+"TUMOR_PERCENT_AT_DROPOUT"}, {"type": "long", "name":
+"SOMATIC_CNVS_IN_GENES"}, {"type": "double", "name":
+"TUMOR_COVERAGE_AT_10X"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_BASES_READ_2"}, {"type": "long", "name":
+"TUMOR_TOTAL_MAPQ_GT_10_READS"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_BASES_READ_1"}, {"type": "long", "name":
+"SOMATIC_SNVS"}, {"type": "double", "name":
+"NORMAL_PERCENT_Q30_BASES"}, {"type": "long", "name":
+"TUMOR_UNIQUE_ALIGNED_READS"}, {"type": "long", "name":
+"SOMATIC_INSERTIONS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"TUMOR_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES"},
+{"type": "string", "name": "NORMAL_SAMPLE_NAME"}, {"type": "long",
+"name": "NORMAL_TOTAL_ALIGNED_READS"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_READS"}, {"type": "long", "name":
+"SOMATIC_INDELS_ALL"}, {"type": "double", "name":
+"NORMAL_MEAN_COVERAGE"}, {"type": "long", "name":
+"SOMATIC_SV_BREAKENDS"}, {"type": "double", "name":
+"SOMATIC_SV_PERCENT_INSERTIONS_IN_GENES"}, {"type": "long", "name":
+"NON_SYNONYMOUS_SOMATIC_DELETIONS"}, {"type": "double", "name":
+"TUMOR_COVERAGE_AT_1X"}, {"type": "long", "name":
+"TUMOR_TOTAL_ALIGNED_BASES"}, {"type": "double", "name":
+"SOMATIC_SV_PERCENT_DELETIONS_IN_GENES"}, {"type": "long", "name":
+"SOMATIC_SV_DELETIONS_ALL"}, {"type": "long", "name":
+"ESTIMATED_PURITY"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_BASES_READ_2"}, {"type": "long", "name":
+"TUMOR_TOTAL_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"SOMATIC_SNVS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"TUMOR_TOTAL_PF_READS"}, {"type": "long", "name":
+"SOMATIC_SV_TANDEM_DUPLICATIONS_ALL"}, {"type": "double", "name":
+"NORMAL_PERCENT_ALIGNED_BASES"}, {"type": "double", "name":
+"TUMOR_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES"}, {"type":
+"long", "name": "SOMATIC_INSERTIONS_IN_SPLICE_SITE_REGIONS"}, {"type":
+"double", "name": "SOMATIC_SV_PERCENT_INVERSIONS_IN_GENES"}, {"type":
+"double", "name": "TUMOR_PERCENT_SOFT_CLIPPED_BASES"}, {"type":
+"double", "name": "NORMAL_READ_ENRICHMENT_AT_80_GC"}, {"type": "long",
+"name": "FRAMESHIFT_SOMATIC_DELETIONS"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
+"TUMOR_PERCENT_ALIGNED_READ_2"}, {"type": "long", "name":
+"NORMAL_TOTAL_ALIGNED_BASES"}, {"type": "long", "name":
+"SOMATIC_SV_DELETIONS_IN_GENES"}, {"type": "long", "name":
+"STOP_GAINED_SOMATIC_INSERTIONS"}, {"type": "long", "name":
+"NORMAL_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES"},
+{"type": "double", "name": "MEDIAN_SOMATIC_SNV_DISTANCE"}, {"type":
+"long", "name": "NORMAL_TOTAL_DUPLICATE_ALIGNED_READS"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ESTIMATED_CHROMOSOME_COUNT",
+        "ESTIMATED_PURITY",
+        "FRAMESHIFT_SOMATIC_DELETIONS",
+        "FRAMESHIFT_SOMATIC_INSERTIONS",
+        "MEAN_SOMATIC_SNV_FREQUENCY",
+        "MEDIAN_SOMATIC_SNV_DISTANCE",
+        "NON_SYNONYMOUS_SOMATIC_DELETIONS",
+        "NON_SYNONYMOUS_SOMATIC_INSERTIONS",
+        "NON_SYNONYMOUS_SOMATIC_SNVS",
+        "NORMAL_COVERAGE_AT_10X",
+        "NORMAL_COVERAGE_AT_15X",
+        "NORMAL_COVERAGE_AT_1X",
+        "NORMAL_MEAN_COVERAGE",
+        "NORMAL_MEDIAN_READ_LENGTH",
+        "NORMAL_MEDIAN_READ_LENGTH_READ_1",
+        "NORMAL_MEDIAN_READ_LENGTH_READ_2",
+        "NORMAL_MISMATCH_RATE",
+        "NORMAL_MISMATCH_RATE_READ_1",
+        "NORMAL_MISMATCH_RATE_READ_2",
+        "NORMAL_PERCENT_ALIGNED_BASES",
+        "NORMAL_PERCENT_ALIGNED_BASES_READ_1",
+        "NORMAL_PERCENT_ALIGNED_BASES_READ_2",
+        "NORMAL_PERCENT_ALIGNED_READS",
+        "NORMAL_PERCENT_ALIGNED_READ_1",
+        "NORMAL_PERCENT_ALIGNED_READ_2",
+        "NORMAL_PERCENT_AT_DROPOUT",
+        "NORMAL_PERCENT_DUPLICATE_ALIGNED_READS",
+        "NORMAL_PERCENT_DUPLICATE_PROPER_READ_PAIRS",
+        "NORMAL_PERCENT_GC_DROPOUT",
+        "NORMAL_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS",
+        "NORMAL_PERCENT_Q25_BASES_READ_1",
+        "NORMAL_PERCENT_Q25_BASES_READ_2",
+        "NORMAL_PERCENT_Q30_BASES",
+        "NORMAL_PERCENT_Q30_BASES_READ_1",
+        "NORMAL_PERCENT_Q30_BASES_READ_2",
+        "NORMAL_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES",
+        "NORMAL_PERCENT_SOFT_CLIPPED_BASES",
+        "NORMAL_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES",
+        "NORMAL_READ_ENRICHMENT_AT_75_GC",
+        "NORMAL_READ_ENRICHMENT_AT_80_GC",
+        "NORMAL_SAMPLE_ID",
+        "NORMAL_SAMPLE_NAME",
+        "NORMAL_TOTAL_ALIGNED_BASES",
+        "NORMAL_TOTAL_ALIGNED_BASES_READ_1",
+        "NORMAL_TOTAL_ALIGNED_BASES_READ_2",
+        "NORMAL_TOTAL_ALIGNED_READS",
+        "NORMAL_TOTAL_ALIGNED_READ_1",
+        "NORMAL_TOTAL_ALIGNED_READ_2",
+        "NORMAL_TOTAL_ALIGNED_READ_PAIRS",
+        "NORMAL_TOTAL_DUPLICATE_ALIGNED_READS",
+        "NORMAL_TOTAL_DUPLICATE_PROPER_READ_PAIRS",
+        "NORMAL_TOTAL_MAPQ_GT_10_READS",
+        "NORMAL_TOTAL_PF_BASES",
+        "NORMAL_TOTAL_PF_BASES_READ_1",
+        "NORMAL_TOTAL_PF_BASES_READ_2",
+        "NORMAL_TOTAL_PF_READS",
+        "NORMAL_TOTAL_PF_READ_1",
+        "NORMAL_TOTAL_PF_READ_2",
+        "NORMAL_TOTAL_PROPER_READ_PAIRS",
+        "NORMAL_UNIQUE_ALIGNED_READS",
+        "OVERALL_PLOIDY",
+        "PERCENT_SOMATIC_CNVS_IN_GENES",
+        "SOMATIC_CNVS",
+        "SOMATIC_CNVS_ALL",
+        "SOMATIC_CNVS_IN_GENES",
+        "SOMATIC_DELETIONS",
+        "SOMATIC_DELETIONS_ALL",
+        "SOMATIC_DELETIONS_IN_CODING_REGIONS",
+        "SOMATIC_DELETIONS_IN_EXONS",
+        "SOMATIC_DELETIONS_IN_GENES",
+        "SOMATIC_DELETIONS_IN_MATURE_MIRNA",
+        "SOMATIC_DELETIONS_IN_SPLICE_SITE_REGIONS",
+        "SOMATIC_DELETIONS_IN_UTR_REGIONS",
+        "SOMATIC_DELETIONS_PERCENT_FOUND_IN_DBSNP",
+        "SOMATIC_INDELS",
+        "SOMATIC_INDELS_ALL",
+        "SOMATIC_INDELS_PERCENT_FOUND_IN_DBSNP",
+        "SOMATIC_INSERTIONS",
+        "SOMATIC_INSERTIONS_ALL",
+        "SOMATIC_INSERTIONS_IN_CODING_REGIONS",
+        "SOMATIC_INSERTIONS_IN_EXONS",
+        "SOMATIC_INSERTIONS_IN_GENES",
+        "SOMATIC_INSERTIONS_IN_MATURE_MIRNA",
+        "SOMATIC_INSERTIONS_IN_SPLICE_SITE_REGIONS",
+        "SOMATIC_INSERTIONS_IN_UTR_REGIONS",
+        "SOMATIC_INSERTIONS_PERCENT_FOUND_IN_DBSNP",
+        "SOMATIC_SNVS",
+        "SOMATIC_SNVS_ALL",
+        "SOMATIC_SNVS_IN_CODING_REGIONS",
+        "SOMATIC_SNVS_IN_EXONS",
+        "SOMATIC_SNVS_IN_GENES",
+        "SOMATIC_SNVS_IN_MATURE_MIRNA",
+        "SOMATIC_SNVS_IN_SPLICE_SITE_REGIONS",
+        "SOMATIC_SNVS_IN_UTR_REGIONS",
+        "SOMATIC_SNVS_PERCENT_FOUND_IN_DBSNP",
+        "SOMATIC_SNV_TS_TV_RATIO",
+        "SOMATIC_SV_BREAKENDS",
+        "SOMATIC_SV_BREAKENDS_ALL",
+        "SOMATIC_SV_BREAKENDS_IN_GENES",
+        "SOMATIC_SV_DELETIONS",
+        "SOMATIC_SV_DELETIONS_ALL",
+        "SOMATIC_SV_DELETIONS_IN_GENES",
+        "SOMATIC_SV_INSERTIONS",
+        "SOMATIC_SV_INSERTIONS_ALL",
+        "SOMATIC_SV_INSERTIONS_IN_GENES",
+        "SOMATIC_SV_INVERSIONS",
+        "SOMATIC_SV_INVERSIONS_ALL",
+        "SOMATIC_SV_INVERSIONS_IN_GENES",
+        "SOMATIC_SV_PERCENT_BREAKENDS_IN_GENES",
+        "SOMATIC_SV_PERCENT_DELETIONS_IN_GENES",
+        "SOMATIC_SV_PERCENT_INSERTIONS_IN_GENES",
+        "SOMATIC_SV_PERCENT_INVERSIONS_IN_GENES",
+        "SOMATIC_SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES",
+        "SOMATIC_SV_TANDEM_DUPLICATIONS",
+        "SOMATIC_SV_TANDEM_DUPLICATIONS_ALL",
+        "SOMATIC_SV_TANDEM_DUPLICATIONS_IN_GENES",
+        "STOP_GAINED_SOMATIC_DELETIONS",
+        "STOP_GAINED_SOMATIC_INSERTIONS",
+        "STOP_GAINED_SOMATIC_SNVS",
+        "STOP_LOST_SOMATIC_DELETIONS",
+        "STOP_LOST_SOMATIC_INSERTIONS",
+        "STOP_LOST_SOMATIC_SNVS",
+        "SYNONYMOUS_SOMATIC_SNVS",
+        "TUMOR_COVERAGE_AT_10X",
+        "TUMOR_COVERAGE_AT_15X",
+        "TUMOR_COVERAGE_AT_1X",
+        "TUMOR_MEAN_COVERAGE",
+        "TUMOR_MEDIAN_READ_LENGTH",
+        "TUMOR_MEDIAN_READ_LENGTH_READ_1",
+        "TUMOR_MEDIAN_READ_LENGTH_READ_2",
+        "TUMOR_MISMATCH_RATE",
+        "TUMOR_MISMATCH_RATE_READ_1",
+        "TUMOR_MISMATCH_RATE_READ_2",
+        "TUMOR_PERCENT_ALIGNED_BASES",
+        "TUMOR_PERCENT_ALIGNED_BASES_READ_1",
+        "TUMOR_PERCENT_ALIGNED_BASES_READ_2",
+        "TUMOR_PERCENT_ALIGNED_READS",
+        "TUMOR_PERCENT_ALIGNED_READ_1",
+        "TUMOR_PERCENT_ALIGNED_READ_2",
+        "TUMOR_PERCENT_AT_DROPOUT",
+        "TUMOR_PERCENT_DUPLICATE_ALIGNED_READS",
+        "TUMOR_PERCENT_DUPLICATE_PROPER_READ_PAIRS",
+        "TUMOR_PERCENT_GC_DROPOUT",
+        "TUMOR_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS",
+        "TUMOR_PERCENT_Q25_BASES_READ_1",
+        "TUMOR_PERCENT_Q25_BASES_READ_2",
+        "TUMOR_PERCENT_Q30_BASES",
+        "TUMOR_PERCENT_Q30_BASES_READ_1",
+        "TUMOR_PERCENT_Q30_BASES_READ_2",
+        "TUMOR_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES",
+        "TUMOR_PERCENT_SOFT_CLIPPED_BASES",
+        "TUMOR_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES",
+        "TUMOR_READ_ENRICHMENT_AT_75_GC",
+        "TUMOR_READ_ENRICHMENT_AT_80_GC",
+        "TUMOR_SAMPLE_ID",
+        "TUMOR_SAMPLE_NAME",
+        "TUMOR_TOTAL_ALIGNED_BASES",
+        "TUMOR_TOTAL_ALIGNED_BASES_READ_1",
+        "TUMOR_TOTAL_ALIGNED_BASES_READ_2",
+        "TUMOR_TOTAL_ALIGNED_READS",
+        "TUMOR_TOTAL_ALIGNED_READ_1",
+        "TUMOR_TOTAL_ALIGNED_READ_2",
+        "TUMOR_TOTAL_ALIGNED_READ_PAIRS",
+        "TUMOR_TOTAL_DUPLICATE_ALIGNED_READS",
+        "TUMOR_TOTAL_DUPLICATE_PROPER_READ_PAIRS",
+        "TUMOR_TOTAL_MAPQ_GT_10_READS",
+        "TUMOR_TOTAL_PF_BASES",
+        "TUMOR_TOTAL_PF_BASES_READ_1",
+        "TUMOR_TOTAL_PF_BASES_READ_2",
+        "TUMOR_TOTAL_PF_READS",
+        "TUMOR_TOTAL_PF_READ_1",
+        "TUMOR_TOTAL_PF_READ_2",
+        "TUMOR_TOTAL_PROPER_READ_PAIRS",
+        "TUMOR_UNIQUE_ALIGNED_READS",
+        "illumina_version",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ESTIMATED_CHROMOSOME_COUNT', 'ESTIMATED_PURITY',
+        'FRAMESHIFT_SOMATIC_DELETIONS',
+        'FRAMESHIFT_SOMATIC_INSERTIONS', 'MEAN_SOMATIC_SNV_FREQUENCY',
+        'MEDIAN_SOMATIC_SNV_DISTANCE',
+        'NON_SYNONYMOUS_SOMATIC_DELETIONS',
+        'NON_SYNONYMOUS_SOMATIC_INSERTIONS',
+        'NON_SYNONYMOUS_SOMATIC_SNVS', 'NORMAL_COVERAGE_AT_10X',
+        'NORMAL_COVERAGE_AT_15X', 'NORMAL_COVERAGE_AT_1X',
+        'NORMAL_MEAN_COVERAGE', 'NORMAL_MEDIAN_READ_LENGTH',
+        'NORMAL_MEDIAN_READ_LENGTH_READ_1',
+        'NORMAL_MEDIAN_READ_LENGTH_READ_2', 'NORMAL_MISMATCH_RATE',
+        'NORMAL_MISMATCH_RATE_READ_1', 'NORMAL_MISMATCH_RATE_READ_2',
+        'NORMAL_PERCENT_ALIGNED_BASES',
+        'NORMAL_PERCENT_ALIGNED_BASES_READ_1',
+        'NORMAL_PERCENT_ALIGNED_BASES_READ_2',
+        'NORMAL_PERCENT_ALIGNED_READS',
+        'NORMAL_PERCENT_ALIGNED_READ_1',
+        'NORMAL_PERCENT_ALIGNED_READ_2', 'NORMAL_PERCENT_AT_DROPOUT',
+        'NORMAL_PERCENT_DUPLICATE_ALIGNED_READS',
+        'NORMAL_PERCENT_DUPLICATE_PROPER_READ_PAIRS',
+        'NORMAL_PERCENT_GC_DROPOUT',
+        'NORMAL_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS',
+        'NORMAL_PERCENT_Q25_BASES_READ_1',
+        'NORMAL_PERCENT_Q25_BASES_READ_2', 'NORMAL_PERCENT_Q30_BASES',
+        'NORMAL_PERCENT_Q30_BASES_READ_1',
+        'NORMAL_PERCENT_Q30_BASES_READ_2',
+        'NORMAL_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES',
+        'NORMAL_PERCENT_SOFT_CLIPPED_BASES',
+        'NORMAL_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES',
+        'NORMAL_READ_ENRICHMENT_AT_75_GC',
+        'NORMAL_READ_ENRICHMENT_AT_80_GC', 'NORMAL_SAMPLE_ID',
+        'NORMAL_SAMPLE_NAME', 'NORMAL_TOTAL_ALIGNED_BASES',
+        'NORMAL_TOTAL_ALIGNED_BASES_READ_1',
+        'NORMAL_TOTAL_ALIGNED_BASES_READ_2',
+        'NORMAL_TOTAL_ALIGNED_READS', 'NORMAL_TOTAL_ALIGNED_READ_1',
+        'NORMAL_TOTAL_ALIGNED_READ_2',
+        'NORMAL_TOTAL_ALIGNED_READ_PAIRS',
+        'NORMAL_TOTAL_DUPLICATE_ALIGNED_READS',
+        'NORMAL_TOTAL_DUPLICATE_PROPER_READ_PAIRS',
+        'NORMAL_TOTAL_MAPQ_GT_10_READS', 'NORMAL_TOTAL_PF_BASES',
+        'NORMAL_TOTAL_PF_BASES_READ_1',
+        'NORMAL_TOTAL_PF_BASES_READ_2', 'NORMAL_TOTAL_PF_READS',
+        'NORMAL_TOTAL_PF_READ_1', 'NORMAL_TOTAL_PF_READ_2',
+        'NORMAL_TOTAL_PROPER_READ_PAIRS',
+        'NORMAL_UNIQUE_ALIGNED_READS', 'OVERALL_PLOIDY',
+        'PERCENT_SOMATIC_CNVS_IN_GENES', 'SOMATIC_CNVS',
+        'SOMATIC_CNVS_ALL', 'SOMATIC_CNVS_IN_GENES',
+        'SOMATIC_DELETIONS', 'SOMATIC_DELETIONS_ALL',
+        'SOMATIC_DELETIONS_IN_CODING_REGIONS',
+        'SOMATIC_DELETIONS_IN_EXONS', 'SOMATIC_DELETIONS_IN_GENES',
+        'SOMATIC_DELETIONS_IN_MATURE_MIRNA',
+        'SOMATIC_DELETIONS_IN_SPLICE_SITE_REGIONS',
+        'SOMATIC_DELETIONS_IN_UTR_REGIONS',
+        'SOMATIC_DELETIONS_PERCENT_FOUND_IN_DBSNP', 'SOMATIC_INDELS',
+        'SOMATIC_INDELS_ALL', 'SOMATIC_INDELS_PERCENT_FOUND_IN_DBSNP',
+        'SOMATIC_INSERTIONS', 'SOMATIC_INSERTIONS_ALL',
+        'SOMATIC_INSERTIONS_IN_CODING_REGIONS',
+        'SOMATIC_INSERTIONS_IN_EXONS', 'SOMATIC_INSERTIONS_IN_GENES',
+        'SOMATIC_INSERTIONS_IN_MATURE_MIRNA',
+        'SOMATIC_INSERTIONS_IN_SPLICE_SITE_REGIONS',
+        'SOMATIC_INSERTIONS_IN_UTR_REGIONS',
+        'SOMATIC_INSERTIONS_PERCENT_FOUND_IN_DBSNP', 'SOMATIC_SNVS',
+        'SOMATIC_SNVS_ALL', 'SOMATIC_SNVS_IN_CODING_REGIONS',
+        'SOMATIC_SNVS_IN_EXONS', 'SOMATIC_SNVS_IN_GENES',
+        'SOMATIC_SNVS_IN_MATURE_MIRNA',
+        'SOMATIC_SNVS_IN_SPLICE_SITE_REGIONS',
+        'SOMATIC_SNVS_IN_UTR_REGIONS',
+        'SOMATIC_SNVS_PERCENT_FOUND_IN_DBSNP',
+        'SOMATIC_SNV_TS_TV_RATIO', 'SOMATIC_SV_BREAKENDS',
+        'SOMATIC_SV_BREAKENDS_ALL', 'SOMATIC_SV_BREAKENDS_IN_GENES',
+        'SOMATIC_SV_DELETIONS', 'SOMATIC_SV_DELETIONS_ALL',
+        'SOMATIC_SV_DELETIONS_IN_GENES', 'SOMATIC_SV_INSERTIONS',
+        'SOMATIC_SV_INSERTIONS_ALL', 'SOMATIC_SV_INSERTIONS_IN_GENES',
+        'SOMATIC_SV_INVERSIONS', 'SOMATIC_SV_INVERSIONS_ALL',
+        'SOMATIC_SV_INVERSIONS_IN_GENES',
+        'SOMATIC_SV_PERCENT_BREAKENDS_IN_GENES',
+        'SOMATIC_SV_PERCENT_DELETIONS_IN_GENES',
+        'SOMATIC_SV_PERCENT_INSERTIONS_IN_GENES',
+        'SOMATIC_SV_PERCENT_INVERSIONS_IN_GENES',
+        'SOMATIC_SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES',
+        'SOMATIC_SV_TANDEM_DUPLICATIONS',
+        'SOMATIC_SV_TANDEM_DUPLICATIONS_ALL',
+        'SOMATIC_SV_TANDEM_DUPLICATIONS_IN_GENES',
+        'STOP_GAINED_SOMATIC_DELETIONS',
+        'STOP_GAINED_SOMATIC_INSERTIONS', 'STOP_GAINED_SOMATIC_SNVS',
+        'STOP_LOST_SOMATIC_DELETIONS', 'STOP_LOST_SOMATIC_INSERTIONS',
+        'STOP_LOST_SOMATIC_SNVS', 'SYNONYMOUS_SOMATIC_SNVS',
+        'TUMOR_COVERAGE_AT_10X', 'TUMOR_COVERAGE_AT_15X',
+        'TUMOR_COVERAGE_AT_1X', 'TUMOR_MEAN_COVERAGE',
+        'TUMOR_MEDIAN_READ_LENGTH', 'TUMOR_MEDIAN_READ_LENGTH_READ_1',
+        'TUMOR_MEDIAN_READ_LENGTH_READ_2', 'TUMOR_MISMATCH_RATE',
+        'TUMOR_MISMATCH_RATE_READ_1', 'TUMOR_MISMATCH_RATE_READ_2',
+        'TUMOR_PERCENT_ALIGNED_BASES',
+        'TUMOR_PERCENT_ALIGNED_BASES_READ_1',
+        'TUMOR_PERCENT_ALIGNED_BASES_READ_2',
+        'TUMOR_PERCENT_ALIGNED_READS', 'TUMOR_PERCENT_ALIGNED_READ_1',
+        'TUMOR_PERCENT_ALIGNED_READ_2', 'TUMOR_PERCENT_AT_DROPOUT',
+        'TUMOR_PERCENT_DUPLICATE_ALIGNED_READS',
+        'TUMOR_PERCENT_DUPLICATE_PROPER_READ_PAIRS',
+        'TUMOR_PERCENT_GC_DROPOUT',
+        'TUMOR_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS',
+        'TUMOR_PERCENT_Q25_BASES_READ_1',
+        'TUMOR_PERCENT_Q25_BASES_READ_2', 'TUMOR_PERCENT_Q30_BASES',
+        'TUMOR_PERCENT_Q30_BASES_READ_1',
+        'TUMOR_PERCENT_Q30_BASES_READ_2',
+        'TUMOR_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES',
+        'TUMOR_PERCENT_SOFT_CLIPPED_BASES',
+        'TUMOR_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES',
+        'TUMOR_READ_ENRICHMENT_AT_75_GC',
+        'TUMOR_READ_ENRICHMENT_AT_80_GC', 'TUMOR_SAMPLE_ID',
+        'TUMOR_SAMPLE_NAME', 'TUMOR_TOTAL_ALIGNED_BASES',
+        'TUMOR_TOTAL_ALIGNED_BASES_READ_1',
+        'TUMOR_TOTAL_ALIGNED_BASES_READ_2',
+        'TUMOR_TOTAL_ALIGNED_READS', 'TUMOR_TOTAL_ALIGNED_READ_1',
+        'TUMOR_TOTAL_ALIGNED_READ_2',
+        'TUMOR_TOTAL_ALIGNED_READ_PAIRS',
+        'TUMOR_TOTAL_DUPLICATE_ALIGNED_READS',
+        'TUMOR_TOTAL_DUPLICATE_PROPER_READ_PAIRS',
+        'TUMOR_TOTAL_MAPQ_GT_10_READS', 'TUMOR_TOTAL_PF_BASES',
+        'TUMOR_TOTAL_PF_BASES_READ_1', 'TUMOR_TOTAL_PF_BASES_READ_2',
+        'TUMOR_TOTAL_PF_READS', 'TUMOR_TOTAL_PF_READ_1',
+        'TUMOR_TOTAL_PF_READ_2', 'TUMOR_TOTAL_PROPER_READ_PAIRS',
+        'TUMOR_UNIQUE_ALIGNED_READS', 'illumina_version'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ESTIMATED_CHROMOSOME_COUNT = kwargs.get(
+            'ESTIMATED_CHROMOSOME_COUNT', None)
+        self.ESTIMATED_PURITY = kwargs.get(
+            'ESTIMATED_PURITY', None)
+        self.FRAMESHIFT_SOMATIC_DELETIONS = kwargs.get(
+            'FRAMESHIFT_SOMATIC_DELETIONS', None)
+        self.FRAMESHIFT_SOMATIC_INSERTIONS = kwargs.get(
+            'FRAMESHIFT_SOMATIC_INSERTIONS', None)
+        self.MEAN_SOMATIC_SNV_FREQUENCY = kwargs.get(
+            'MEAN_SOMATIC_SNV_FREQUENCY', None)
+        self.MEDIAN_SOMATIC_SNV_DISTANCE = kwargs.get(
+            'MEDIAN_SOMATIC_SNV_DISTANCE', None)
+        self.NON_SYNONYMOUS_SOMATIC_DELETIONS = kwargs.get(
+            'NON_SYNONYMOUS_SOMATIC_DELETIONS', None)
+        self.NON_SYNONYMOUS_SOMATIC_INSERTIONS = kwargs.get(
+            'NON_SYNONYMOUS_SOMATIC_INSERTIONS', None)
+        self.NON_SYNONYMOUS_SOMATIC_SNVS = kwargs.get(
+            'NON_SYNONYMOUS_SOMATIC_SNVS', None)
+        self.NORMAL_COVERAGE_AT_10X = kwargs.get(
+            'NORMAL_COVERAGE_AT_10X', None)
+        self.NORMAL_COVERAGE_AT_15X = kwargs.get(
+            'NORMAL_COVERAGE_AT_15X', None)
+        self.NORMAL_COVERAGE_AT_1X = kwargs.get(
+            'NORMAL_COVERAGE_AT_1X', None)
+        self.NORMAL_MEAN_COVERAGE = kwargs.get(
+            'NORMAL_MEAN_COVERAGE', None)
+        self.NORMAL_MEDIAN_READ_LENGTH = kwargs.get(
+            'NORMAL_MEDIAN_READ_LENGTH', 'None')
+        self.NORMAL_MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
+            'NORMAL_MEDIAN_READ_LENGTH_READ_1', 'None')
+        self.NORMAL_MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
+            'NORMAL_MEDIAN_READ_LENGTH_READ_2', 'None')
+        self.NORMAL_MISMATCH_RATE = kwargs.get(
+            'NORMAL_MISMATCH_RATE', None)
+        self.NORMAL_MISMATCH_RATE_READ_1 = kwargs.get(
+            'NORMAL_MISMATCH_RATE_READ_1', None)
+        self.NORMAL_MISMATCH_RATE_READ_2 = kwargs.get(
+            'NORMAL_MISMATCH_RATE_READ_2', None)
+        self.NORMAL_PERCENT_ALIGNED_BASES = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_BASES', None)
+        self.NORMAL_PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_BASES_READ_1', None)
+        self.NORMAL_PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_BASES_READ_2', None)
+        self.NORMAL_PERCENT_ALIGNED_READS = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_READS', None)
+        self.NORMAL_PERCENT_ALIGNED_READ_1 = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_READ_1', None)
+        self.NORMAL_PERCENT_ALIGNED_READ_2 = kwargs.get(
+            'NORMAL_PERCENT_ALIGNED_READ_2', None)
+        self.NORMAL_PERCENT_AT_DROPOUT = kwargs.get(
+            'NORMAL_PERCENT_AT_DROPOUT', None)
+        self.NORMAL_PERCENT_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'NORMAL_PERCENT_DUPLICATE_ALIGNED_READS', None)
+        self.NORMAL_PERCENT_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'NORMAL_PERCENT_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.NORMAL_PERCENT_GC_DROPOUT = kwargs.get(
+            'NORMAL_PERCENT_GC_DROPOUT', None)
+        self.NORMAL_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS = kwargs.get(
+            'NORMAL_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS', None)
+        self.NORMAL_PERCENT_Q25_BASES_READ_1 = kwargs.get(
+            'NORMAL_PERCENT_Q25_BASES_READ_1', None)
+        self.NORMAL_PERCENT_Q25_BASES_READ_2 = kwargs.get(
+            'NORMAL_PERCENT_Q25_BASES_READ_2', None)
+        self.NORMAL_PERCENT_Q30_BASES = kwargs.get(
+            'NORMAL_PERCENT_Q30_BASES', None)
+        self.NORMAL_PERCENT_Q30_BASES_READ_1 = kwargs.get(
+            'NORMAL_PERCENT_Q30_BASES_READ_1', None)
+        self.NORMAL_PERCENT_Q30_BASES_READ_2 = kwargs.get(
+            'NORMAL_PERCENT_Q30_BASES_READ_2', None)
+        self.NORMAL_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES = kwargs.get(
+            'NORMAL_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES', None)
+        self.NORMAL_PERCENT_SOFT_CLIPPED_BASES = kwargs.get(
+            'NORMAL_PERCENT_SOFT_CLIPPED_BASES', None)
+        self.NORMAL_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES = kwargs.get(
+            'NORMAL_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES', None)
+        self.NORMAL_READ_ENRICHMENT_AT_75_GC = kwargs.get(
+            'NORMAL_READ_ENRICHMENT_AT_75_GC', None)
+        self.NORMAL_READ_ENRICHMENT_AT_80_GC = kwargs.get(
+            'NORMAL_READ_ENRICHMENT_AT_80_GC', None)
+        self.NORMAL_SAMPLE_ID = kwargs.get(
+            'NORMAL_SAMPLE_ID', 'None')
+        self.NORMAL_SAMPLE_NAME = kwargs.get(
+            'NORMAL_SAMPLE_NAME', 'None')
+        self.NORMAL_TOTAL_ALIGNED_BASES = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_BASES', None)
+        self.NORMAL_TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_BASES_READ_1', None)
+        self.NORMAL_TOTAL_ALIGNED_BASES_READ_2 = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_BASES_READ_2', None)
+        self.NORMAL_TOTAL_ALIGNED_READS = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_READS', None)
+        self.NORMAL_TOTAL_ALIGNED_READ_1 = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_READ_1', None)
+        self.NORMAL_TOTAL_ALIGNED_READ_2 = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_READ_2', None)
+        self.NORMAL_TOTAL_ALIGNED_READ_PAIRS = kwargs.get(
+            'NORMAL_TOTAL_ALIGNED_READ_PAIRS', None)
+        self.NORMAL_TOTAL_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'NORMAL_TOTAL_DUPLICATE_ALIGNED_READS', None)
+        self.NORMAL_TOTAL_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'NORMAL_TOTAL_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.NORMAL_TOTAL_MAPQ_GT_10_READS = kwargs.get(
+            'NORMAL_TOTAL_MAPQ_GT_10_READS', None)
+        self.NORMAL_TOTAL_PF_BASES = kwargs.get(
+            'NORMAL_TOTAL_PF_BASES', None)
+        self.NORMAL_TOTAL_PF_BASES_READ_1 = kwargs.get(
+            'NORMAL_TOTAL_PF_BASES_READ_1', None)
+        self.NORMAL_TOTAL_PF_BASES_READ_2 = kwargs.get(
+            'NORMAL_TOTAL_PF_BASES_READ_2', None)
+        self.NORMAL_TOTAL_PF_READS = kwargs.get(
+            'NORMAL_TOTAL_PF_READS', None)
+        self.NORMAL_TOTAL_PF_READ_1 = kwargs.get(
+            'NORMAL_TOTAL_PF_READ_1', None)
+        self.NORMAL_TOTAL_PF_READ_2 = kwargs.get(
+            'NORMAL_TOTAL_PF_READ_2', None)
+        self.NORMAL_TOTAL_PROPER_READ_PAIRS = kwargs.get(
+            'NORMAL_TOTAL_PROPER_READ_PAIRS', None)
+        self.NORMAL_UNIQUE_ALIGNED_READS = kwargs.get(
+            'NORMAL_UNIQUE_ALIGNED_READS', None)
+        self.OVERALL_PLOIDY = kwargs.get(
+            'OVERALL_PLOIDY', None)
+        self.PERCENT_SOMATIC_CNVS_IN_GENES = kwargs.get(
+            'PERCENT_SOMATIC_CNVS_IN_GENES', None)
+        self.SOMATIC_CNVS = kwargs.get(
+            'SOMATIC_CNVS', None)
+        self.SOMATIC_CNVS_ALL = kwargs.get(
+            'SOMATIC_CNVS_ALL', None)
+        self.SOMATIC_CNVS_IN_GENES = kwargs.get(
+            'SOMATIC_CNVS_IN_GENES', None)
+        self.SOMATIC_DELETIONS = kwargs.get(
+            'SOMATIC_DELETIONS', None)
+        self.SOMATIC_DELETIONS_ALL = kwargs.get(
+            'SOMATIC_DELETIONS_ALL', None)
+        self.SOMATIC_DELETIONS_IN_CODING_REGIONS = kwargs.get(
+            'SOMATIC_DELETIONS_IN_CODING_REGIONS', None)
+        self.SOMATIC_DELETIONS_IN_EXONS = kwargs.get(
+            'SOMATIC_DELETIONS_IN_EXONS', None)
+        self.SOMATIC_DELETIONS_IN_GENES = kwargs.get(
+            'SOMATIC_DELETIONS_IN_GENES', None)
+        self.SOMATIC_DELETIONS_IN_MATURE_MIRNA = kwargs.get(
+            'SOMATIC_DELETIONS_IN_MATURE_MIRNA', None)
+        self.SOMATIC_DELETIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'SOMATIC_DELETIONS_IN_SPLICE_SITE_REGIONS', None)
+        self.SOMATIC_DELETIONS_IN_UTR_REGIONS = kwargs.get(
+            'SOMATIC_DELETIONS_IN_UTR_REGIONS', None)
+        self.SOMATIC_DELETIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'SOMATIC_DELETIONS_PERCENT_FOUND_IN_DBSNP', None)
+        self.SOMATIC_INDELS = kwargs.get(
+            'SOMATIC_INDELS', None)
+        self.SOMATIC_INDELS_ALL = kwargs.get(
+            'SOMATIC_INDELS_ALL', None)
+        self.SOMATIC_INDELS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'SOMATIC_INDELS_PERCENT_FOUND_IN_DBSNP', None)
+        self.SOMATIC_INSERTIONS = kwargs.get(
+            'SOMATIC_INSERTIONS', None)
+        self.SOMATIC_INSERTIONS_ALL = kwargs.get(
+            'SOMATIC_INSERTIONS_ALL', None)
+        self.SOMATIC_INSERTIONS_IN_CODING_REGIONS = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_CODING_REGIONS', None)
+        self.SOMATIC_INSERTIONS_IN_EXONS = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_EXONS', None)
+        self.SOMATIC_INSERTIONS_IN_GENES = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_GENES', None)
+        self.SOMATIC_INSERTIONS_IN_MATURE_MIRNA = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_MATURE_MIRNA', None)
+        self.SOMATIC_INSERTIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_SPLICE_SITE_REGIONS', None)
+        self.SOMATIC_INSERTIONS_IN_UTR_REGIONS = kwargs.get(
+            'SOMATIC_INSERTIONS_IN_UTR_REGIONS', None)
+        self.SOMATIC_INSERTIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'SOMATIC_INSERTIONS_PERCENT_FOUND_IN_DBSNP', None)
+        self.SOMATIC_SNVS = kwargs.get(
+            'SOMATIC_SNVS', None)
+        self.SOMATIC_SNVS_ALL = kwargs.get(
+            'SOMATIC_SNVS_ALL', None)
+        self.SOMATIC_SNVS_IN_CODING_REGIONS = kwargs.get(
+            'SOMATIC_SNVS_IN_CODING_REGIONS', None)
+        self.SOMATIC_SNVS_IN_EXONS = kwargs.get(
+            'SOMATIC_SNVS_IN_EXONS', None)
+        self.SOMATIC_SNVS_IN_GENES = kwargs.get(
+            'SOMATIC_SNVS_IN_GENES', None)
+        self.SOMATIC_SNVS_IN_MATURE_MIRNA = kwargs.get(
+            'SOMATIC_SNVS_IN_MATURE_MIRNA', None)
+        self.SOMATIC_SNVS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'SOMATIC_SNVS_IN_SPLICE_SITE_REGIONS', None)
+        self.SOMATIC_SNVS_IN_UTR_REGIONS = kwargs.get(
+            'SOMATIC_SNVS_IN_UTR_REGIONS', None)
+        self.SOMATIC_SNVS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'SOMATIC_SNVS_PERCENT_FOUND_IN_DBSNP', None)
+        self.SOMATIC_SNV_TS_TV_RATIO = kwargs.get(
+            'SOMATIC_SNV_TS_TV_RATIO', None)
+        self.SOMATIC_SV_BREAKENDS = kwargs.get(
+            'SOMATIC_SV_BREAKENDS', None)
+        self.SOMATIC_SV_BREAKENDS_ALL = kwargs.get(
+            'SOMATIC_SV_BREAKENDS_ALL', None)
+        self.SOMATIC_SV_BREAKENDS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_BREAKENDS_IN_GENES', None)
+        self.SOMATIC_SV_DELETIONS = kwargs.get(
+            'SOMATIC_SV_DELETIONS', None)
+        self.SOMATIC_SV_DELETIONS_ALL = kwargs.get(
+            'SOMATIC_SV_DELETIONS_ALL', None)
+        self.SOMATIC_SV_DELETIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_DELETIONS_IN_GENES', None)
+        self.SOMATIC_SV_INSERTIONS = kwargs.get(
+            'SOMATIC_SV_INSERTIONS', None)
+        self.SOMATIC_SV_INSERTIONS_ALL = kwargs.get(
+            'SOMATIC_SV_INSERTIONS_ALL', None)
+        self.SOMATIC_SV_INSERTIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_INSERTIONS_IN_GENES', None)
+        self.SOMATIC_SV_INVERSIONS = kwargs.get(
+            'SOMATIC_SV_INVERSIONS', None)
+        self.SOMATIC_SV_INVERSIONS_ALL = kwargs.get(
+            'SOMATIC_SV_INVERSIONS_ALL', None)
+        self.SOMATIC_SV_INVERSIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_INVERSIONS_IN_GENES', None)
+        self.SOMATIC_SV_PERCENT_BREAKENDS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_PERCENT_BREAKENDS_IN_GENES', None)
+        self.SOMATIC_SV_PERCENT_DELETIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_PERCENT_DELETIONS_IN_GENES', None)
+        self.SOMATIC_SV_PERCENT_INSERTIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_PERCENT_INSERTIONS_IN_GENES', None)
+        self.SOMATIC_SV_PERCENT_INVERSIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_PERCENT_INVERSIONS_IN_GENES', None)
+        self.SOMATIC_SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES', None)
+        self.SOMATIC_SV_TANDEM_DUPLICATIONS = kwargs.get(
+            'SOMATIC_SV_TANDEM_DUPLICATIONS', None)
+        self.SOMATIC_SV_TANDEM_DUPLICATIONS_ALL = kwargs.get(
+            'SOMATIC_SV_TANDEM_DUPLICATIONS_ALL', None)
+        self.SOMATIC_SV_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
+            'SOMATIC_SV_TANDEM_DUPLICATIONS_IN_GENES', None)
+        self.STOP_GAINED_SOMATIC_DELETIONS = kwargs.get(
+            'STOP_GAINED_SOMATIC_DELETIONS', None)
+        self.STOP_GAINED_SOMATIC_INSERTIONS = kwargs.get(
+            'STOP_GAINED_SOMATIC_INSERTIONS', None)
+        self.STOP_GAINED_SOMATIC_SNVS = kwargs.get(
+            'STOP_GAINED_SOMATIC_SNVS', None)
+        self.STOP_LOST_SOMATIC_DELETIONS = kwargs.get(
+            'STOP_LOST_SOMATIC_DELETIONS', None)
+        self.STOP_LOST_SOMATIC_INSERTIONS = kwargs.get(
+            'STOP_LOST_SOMATIC_INSERTIONS', None)
+        self.STOP_LOST_SOMATIC_SNVS = kwargs.get(
+            'STOP_LOST_SOMATIC_SNVS', None)
+        self.SYNONYMOUS_SOMATIC_SNVS = kwargs.get(
+            'SYNONYMOUS_SOMATIC_SNVS', None)
+        self.TUMOR_COVERAGE_AT_10X = kwargs.get(
+            'TUMOR_COVERAGE_AT_10X', None)
+        self.TUMOR_COVERAGE_AT_15X = kwargs.get(
+            'TUMOR_COVERAGE_AT_15X', None)
+        self.TUMOR_COVERAGE_AT_1X = kwargs.get(
+            'TUMOR_COVERAGE_AT_1X', None)
+        self.TUMOR_MEAN_COVERAGE = kwargs.get(
+            'TUMOR_MEAN_COVERAGE', None)
+        self.TUMOR_MEDIAN_READ_LENGTH = kwargs.get(
+            'TUMOR_MEDIAN_READ_LENGTH', 'None')
+        self.TUMOR_MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
+            'TUMOR_MEDIAN_READ_LENGTH_READ_1', 'None')
+        self.TUMOR_MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
+            'TUMOR_MEDIAN_READ_LENGTH_READ_2', 'None')
+        self.TUMOR_MISMATCH_RATE = kwargs.get(
+            'TUMOR_MISMATCH_RATE', None)
+        self.TUMOR_MISMATCH_RATE_READ_1 = kwargs.get(
+            'TUMOR_MISMATCH_RATE_READ_1', None)
+        self.TUMOR_MISMATCH_RATE_READ_2 = kwargs.get(
+            'TUMOR_MISMATCH_RATE_READ_2', None)
+        self.TUMOR_PERCENT_ALIGNED_BASES = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_BASES', None)
+        self.TUMOR_PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_BASES_READ_1', None)
+        self.TUMOR_PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_BASES_READ_2', None)
+        self.TUMOR_PERCENT_ALIGNED_READS = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_READS', None)
+        self.TUMOR_PERCENT_ALIGNED_READ_1 = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_READ_1', None)
+        self.TUMOR_PERCENT_ALIGNED_READ_2 = kwargs.get(
+            'TUMOR_PERCENT_ALIGNED_READ_2', None)
+        self.TUMOR_PERCENT_AT_DROPOUT = kwargs.get(
+            'TUMOR_PERCENT_AT_DROPOUT', None)
+        self.TUMOR_PERCENT_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'TUMOR_PERCENT_DUPLICATE_ALIGNED_READS', None)
+        self.TUMOR_PERCENT_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'TUMOR_PERCENT_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.TUMOR_PERCENT_GC_DROPOUT = kwargs.get(
+            'TUMOR_PERCENT_GC_DROPOUT', None)
+        self.TUMOR_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS = kwargs.get(
+            'TUMOR_PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS', None)
+        self.TUMOR_PERCENT_Q25_BASES_READ_1 = kwargs.get(
+            'TUMOR_PERCENT_Q25_BASES_READ_1', None)
+        self.TUMOR_PERCENT_Q25_BASES_READ_2 = kwargs.get(
+            'TUMOR_PERCENT_Q25_BASES_READ_2', None)
+        self.TUMOR_PERCENT_Q30_BASES = kwargs.get(
+            'TUMOR_PERCENT_Q30_BASES', None)
+        self.TUMOR_PERCENT_Q30_BASES_READ_1 = kwargs.get(
+            'TUMOR_PERCENT_Q30_BASES_READ_1', None)
+        self.TUMOR_PERCENT_Q30_BASES_READ_2 = kwargs.get(
+            'TUMOR_PERCENT_Q30_BASES_READ_2', None)
+        self.TUMOR_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES = kwargs.get(
+            'TUMOR_PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES', None)
+        self.TUMOR_PERCENT_SOFT_CLIPPED_BASES = kwargs.get(
+            'TUMOR_PERCENT_SOFT_CLIPPED_BASES', None)
+        self.TUMOR_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES = kwargs.get(
+            'TUMOR_Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES', None)
+        self.TUMOR_READ_ENRICHMENT_AT_75_GC = kwargs.get(
+            'TUMOR_READ_ENRICHMENT_AT_75_GC', None)
+        self.TUMOR_READ_ENRICHMENT_AT_80_GC = kwargs.get(
+            'TUMOR_READ_ENRICHMENT_AT_80_GC', None)
+        self.TUMOR_SAMPLE_ID = kwargs.get(
+            'TUMOR_SAMPLE_ID', 'None')
+        self.TUMOR_SAMPLE_NAME = kwargs.get(
+            'TUMOR_SAMPLE_NAME', 'None')
+        self.TUMOR_TOTAL_ALIGNED_BASES = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_BASES', None)
+        self.TUMOR_TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_BASES_READ_1', None)
+        self.TUMOR_TOTAL_ALIGNED_BASES_READ_2 = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_BASES_READ_2', None)
+        self.TUMOR_TOTAL_ALIGNED_READS = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_READS', None)
+        self.TUMOR_TOTAL_ALIGNED_READ_1 = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_READ_1', None)
+        self.TUMOR_TOTAL_ALIGNED_READ_2 = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_READ_2', None)
+        self.TUMOR_TOTAL_ALIGNED_READ_PAIRS = kwargs.get(
+            'TUMOR_TOTAL_ALIGNED_READ_PAIRS', None)
+        self.TUMOR_TOTAL_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'TUMOR_TOTAL_DUPLICATE_ALIGNED_READS', None)
+        self.TUMOR_TOTAL_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'TUMOR_TOTAL_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.TUMOR_TOTAL_MAPQ_GT_10_READS = kwargs.get(
+            'TUMOR_TOTAL_MAPQ_GT_10_READS', None)
+        self.TUMOR_TOTAL_PF_BASES = kwargs.get(
+            'TUMOR_TOTAL_PF_BASES', None)
+        self.TUMOR_TOTAL_PF_BASES_READ_1 = kwargs.get(
+            'TUMOR_TOTAL_PF_BASES_READ_1', None)
+        self.TUMOR_TOTAL_PF_BASES_READ_2 = kwargs.get(
+            'TUMOR_TOTAL_PF_BASES_READ_2', None)
+        self.TUMOR_TOTAL_PF_READS = kwargs.get(
+            'TUMOR_TOTAL_PF_READS', None)
+        self.TUMOR_TOTAL_PF_READ_1 = kwargs.get(
+            'TUMOR_TOTAL_PF_READ_1', None)
+        self.TUMOR_TOTAL_PF_READ_2 = kwargs.get(
+            'TUMOR_TOTAL_PF_READ_2', None)
+        self.TUMOR_TOTAL_PROPER_READ_PAIRS = kwargs.get(
+            'TUMOR_TOTAL_PROPER_READ_PAIRS', None)
+        self.TUMOR_UNIQUE_ALIGNED_READS = kwargs.get(
+            'TUMOR_UNIQUE_ALIGNED_READS', None)
+        self.illumina_version = kwargs.get(
+            'illumina_version', None)
+
+
+class IlluminaSummaryCancerV4_CancerStats(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"IlluminaSummaryCancerV4_CancerStats", "fields": [{"type": "string",
+"name": "SAMPLE_ID"}, {"type": "string", "name": "SAMPLE_NAME"},
+{"type": "string", "name": "RUN_FOLDER"}, {"type": "string", "name":
+"REFERENCE_GENOME"}, {"type": "boolean", "name": "PAIRED_END"},
+{"type": "string", "name": "METRICS_VERSION"}, {"type": "string",
+"name": "METRICS_DELIVERABLE"}, {"type": "long", "name": "DIVERSITY"},
+{"type": "double", "name": "AUTOSOME_MEAN_COVERAGE"}, {"type":
+"double", "name": "AUTOSOME_COVERAGE_AT_1X"}, {"type": "double",
+"name": "AUTOSOME_COVERAGE_AT_10X"}, {"type": "double", "name":
+"AUTOSOME_COVERAGE_AT_15X"}, {"type": "double", "name":
+"AUTOSOME_EXON_MEAN_COVERAGE"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_1X"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_10X"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_15X"}, {"type": "double", "name":
+"MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X"}, {"type": "double",
+"name": "MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE"}, {"type": "double",
+"name": "MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X"}, {"type": "long",
+"name": "TOTAL_PF_READS"}, {"type": "long", "name":
+"TOTAL_PF_READ_1"}, {"type": "long", "name": "TOTAL_PF_READ_2"},
+{"type": "string", "name": "MEDIAN_READ_LENGTH"}, {"type": "string",
+"name": "MEDIAN_READ_LENGTH_READ_1"}, {"type": "string", "name":
+"MEDIAN_READ_LENGTH_READ_2"}, {"type": "long", "name":
+"TOTAL_MAPQ_GT_10_READS"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READS"}, {"type": "long", "name":
+"UNIQUE_ALIGNED_READS"}, {"type": "long", "name":
+"TOTAL_DUPLICATE_ALIGNED_READS"}, {"type": "double", "name":
+"PERCENT_DUPLICATE_ALIGNED_READS"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_1"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_2"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READS"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READ_2"}, {"type": "long", "name":
+"TOTAL_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"TOTAL_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "double", "name":
+"PERCENT_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "double", "name":
+"PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_PAIRS"}, {"type": "double", "name":
+"PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES"}, {"type":
+"double", "name": "PERCENT_AT_DROPOUT"}, {"type": "double", "name":
+"PERCENT_GC_DROPOUT"}, {"type": "double", "name":
+"READ_ENRICHMENT_AT_75_GC"}, {"type": "double", "name":
+"READ_ENRICHMENT_AT_80_GC"}, {"type": "long", "name":
+"TOTAL_PF_BASES"}, {"type": "long", "name": "TOTAL_PF_BASES_READ_1"},
+{"type": "long", "name": "TOTAL_PF_BASES_READ_2"}, {"type": "double",
+"name": "PERCENT_SOFT_CLIPPED_BASES"}, {"type": "double", "name":
+"PERCENT_Q25_BASES_READ_1"}, {"type": "double", "name":
+"PERCENT_Q25_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_Q30_BASES"}, {"type": "double", "name":
+"PERCENT_Q30_BASES_READ_1"}, {"type": "double", "name":
+"PERCENT_Q30_BASES_READ_2"}, {"type": "long", "name":
+"TOTAL_ALIGNED_BASES"}, {"type": "long", "name":
+"TOTAL_ALIGNED_BASES_READ_1"}, {"type": "long", "name":
+"TOTAL_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_ALIGNED_BASES"}, {"type": "double", "name":
+"PERCENT_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
+"PERCENT_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
+"MISMATCH_RATE"}, {"type": "double", "name": "MISMATCH_RATE_READ_1"},
+{"type": "double", "name": "MISMATCH_RATE_READ_2"}, {"type": "long",
+"name": "Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES"},
+{"type": "double", "name": "MEAN_COVERAGE"}, {"type": "double",
+"name": "COVERAGE_AT_1X"}, {"type": "double", "name":
+"COVERAGE_AT_10X"}, {"type": "double", "name": "COVERAGE_AT_15X"},
+{"type": "long", "name": "FRAGMENT_LENGTH_MEDIAN"}, {"type": "long",
+"name": "FRAGMENT_LENGTH_MIN"}, {"type": "long", "name":
+"FRAGMENT_LENGTH_MAX"}, {"type": "long", "name":
+"FRAGMENT_LENGTH_SD"}, {"type": "double", "name":
+"PERCENT_OVERLAPPING_BASES"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "AUTOSOME_COVERAGE_AT_10X",
+        "AUTOSOME_COVERAGE_AT_15X",
+        "AUTOSOME_COVERAGE_AT_1X",
+        "AUTOSOME_EXON_COVERAGE_AT_10X",
+        "AUTOSOME_EXON_COVERAGE_AT_15X",
+        "AUTOSOME_EXON_COVERAGE_AT_1X",
+        "AUTOSOME_EXON_MEAN_COVERAGE",
+        "AUTOSOME_MEAN_COVERAGE",
+        "COVERAGE_AT_10X",
+        "COVERAGE_AT_15X",
+        "COVERAGE_AT_1X",
+        "DIVERSITY",
+        "FRAGMENT_LENGTH_MAX",
+        "FRAGMENT_LENGTH_MEDIAN",
+        "FRAGMENT_LENGTH_MIN",
+        "FRAGMENT_LENGTH_SD",
+        "MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X",
+        "MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X",
+        "MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE",
+        "MEAN_COVERAGE",
+        "MEDIAN_READ_LENGTH",
+        "MEDIAN_READ_LENGTH_READ_1",
+        "MEDIAN_READ_LENGTH_READ_2",
+        "METRICS_DELIVERABLE",
+        "METRICS_VERSION",
+        "MISMATCH_RATE",
+        "MISMATCH_RATE_READ_1",
+        "MISMATCH_RATE_READ_2",
+        "PAIRED_END",
+        "PERCENT_ALIGNED_BASES",
+        "PERCENT_ALIGNED_BASES_READ_1",
+        "PERCENT_ALIGNED_BASES_READ_2",
+        "PERCENT_ALIGNED_READS",
+        "PERCENT_ALIGNED_READ_1",
+        "PERCENT_ALIGNED_READ_2",
+        "PERCENT_AT_DROPOUT",
+        "PERCENT_DUPLICATE_ALIGNED_READS",
+        "PERCENT_DUPLICATE_PROPER_READ_PAIRS",
+        "PERCENT_GC_DROPOUT",
+        "PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS",
+        "PERCENT_OVERLAPPING_BASES",
+        "PERCENT_Q25_BASES_READ_1",
+        "PERCENT_Q25_BASES_READ_2",
+        "PERCENT_Q30_BASES",
+        "PERCENT_Q30_BASES_READ_1",
+        "PERCENT_Q30_BASES_READ_2",
+        "PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES",
+        "PERCENT_SOFT_CLIPPED_BASES",
+        "Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES",
+        "READ_ENRICHMENT_AT_75_GC",
+        "READ_ENRICHMENT_AT_80_GC",
+        "REFERENCE_GENOME",
+        "RUN_FOLDER",
+        "SAMPLE_ID",
+        "SAMPLE_NAME",
+        "TOTAL_ALIGNED_BASES",
+        "TOTAL_ALIGNED_BASES_READ_1",
+        "TOTAL_ALIGNED_BASES_READ_2",
+        "TOTAL_ALIGNED_READS",
+        "TOTAL_ALIGNED_READ_1",
+        "TOTAL_ALIGNED_READ_2",
+        "TOTAL_ALIGNED_READ_PAIRS",
+        "TOTAL_DUPLICATE_ALIGNED_READS",
+        "TOTAL_DUPLICATE_PROPER_READ_PAIRS",
+        "TOTAL_MAPQ_GT_10_READS",
+        "TOTAL_PF_BASES",
+        "TOTAL_PF_BASES_READ_1",
+        "TOTAL_PF_BASES_READ_2",
+        "TOTAL_PF_READS",
+        "TOTAL_PF_READ_1",
+        "TOTAL_PF_READ_2",
+        "TOTAL_PROPER_READ_PAIRS",
+        "UNIQUE_ALIGNED_READS",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'AUTOSOME_COVERAGE_AT_10X', 'AUTOSOME_COVERAGE_AT_15X',
+        'AUTOSOME_COVERAGE_AT_1X', 'AUTOSOME_EXON_COVERAGE_AT_10X',
+        'AUTOSOME_EXON_COVERAGE_AT_15X',
+        'AUTOSOME_EXON_COVERAGE_AT_1X', 'AUTOSOME_EXON_MEAN_COVERAGE',
+        'AUTOSOME_MEAN_COVERAGE', 'COVERAGE_AT_10X',
+        'COVERAGE_AT_15X', 'COVERAGE_AT_1X', 'DIVERSITY',
+        'FRAGMENT_LENGTH_MAX', 'FRAGMENT_LENGTH_MEDIAN',
+        'FRAGMENT_LENGTH_MIN', 'FRAGMENT_LENGTH_SD',
+        'MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X',
+        'MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X',
+        'MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE', 'MEAN_COVERAGE',
+        'MEDIAN_READ_LENGTH', 'MEDIAN_READ_LENGTH_READ_1',
+        'MEDIAN_READ_LENGTH_READ_2', 'METRICS_DELIVERABLE',
+        'METRICS_VERSION', 'MISMATCH_RATE', 'MISMATCH_RATE_READ_1',
+        'MISMATCH_RATE_READ_2', 'PAIRED_END', 'PERCENT_ALIGNED_BASES',
+        'PERCENT_ALIGNED_BASES_READ_1',
+        'PERCENT_ALIGNED_BASES_READ_2', 'PERCENT_ALIGNED_READS',
+        'PERCENT_ALIGNED_READ_1', 'PERCENT_ALIGNED_READ_2',
+        'PERCENT_AT_DROPOUT', 'PERCENT_DUPLICATE_ALIGNED_READS',
+        'PERCENT_DUPLICATE_PROPER_READ_PAIRS', 'PERCENT_GC_DROPOUT',
+        'PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS',
+        'PERCENT_OVERLAPPING_BASES', 'PERCENT_Q25_BASES_READ_1',
+        'PERCENT_Q25_BASES_READ_2', 'PERCENT_Q30_BASES',
+        'PERCENT_Q30_BASES_READ_1', 'PERCENT_Q30_BASES_READ_2',
+        'PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES',
+        'PERCENT_SOFT_CLIPPED_BASES',
+        'Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES',
+        'READ_ENRICHMENT_AT_75_GC', 'READ_ENRICHMENT_AT_80_GC',
+        'REFERENCE_GENOME', 'RUN_FOLDER', 'SAMPLE_ID', 'SAMPLE_NAME',
+        'TOTAL_ALIGNED_BASES', 'TOTAL_ALIGNED_BASES_READ_1',
+        'TOTAL_ALIGNED_BASES_READ_2', 'TOTAL_ALIGNED_READS',
+        'TOTAL_ALIGNED_READ_1', 'TOTAL_ALIGNED_READ_2',
+        'TOTAL_ALIGNED_READ_PAIRS', 'TOTAL_DUPLICATE_ALIGNED_READS',
+        'TOTAL_DUPLICATE_PROPER_READ_PAIRS', 'TOTAL_MAPQ_GT_10_READS',
+        'TOTAL_PF_BASES', 'TOTAL_PF_BASES_READ_1',
+        'TOTAL_PF_BASES_READ_2', 'TOTAL_PF_READS', 'TOTAL_PF_READ_1',
+        'TOTAL_PF_READ_2', 'TOTAL_PROPER_READ_PAIRS',
+        'UNIQUE_ALIGNED_READS'
+    ]
+
+    def __init__(self, **kwargs):
+        self.AUTOSOME_COVERAGE_AT_10X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_10X', None)
+        self.AUTOSOME_COVERAGE_AT_15X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_15X', None)
+        self.AUTOSOME_COVERAGE_AT_1X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_1X', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_10X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_10X', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_15X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_15X', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_1X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_1X', None)
+        self.AUTOSOME_EXON_MEAN_COVERAGE = kwargs.get(
+            'AUTOSOME_EXON_MEAN_COVERAGE', None)
+        self.AUTOSOME_MEAN_COVERAGE = kwargs.get(
+            'AUTOSOME_MEAN_COVERAGE', None)
+        self.COVERAGE_AT_10X = kwargs.get(
+            'COVERAGE_AT_10X', None)
+        self.COVERAGE_AT_15X = kwargs.get(
+            'COVERAGE_AT_15X', None)
+        self.COVERAGE_AT_1X = kwargs.get(
+            'COVERAGE_AT_1X', None)
+        self.DIVERSITY = kwargs.get(
+            'DIVERSITY', None)
+        self.FRAGMENT_LENGTH_MAX = kwargs.get(
+            'FRAGMENT_LENGTH_MAX', None)
+        self.FRAGMENT_LENGTH_MEDIAN = kwargs.get(
+            'FRAGMENT_LENGTH_MEDIAN', None)
+        self.FRAGMENT_LENGTH_MIN = kwargs.get(
+            'FRAGMENT_LENGTH_MIN', None)
+        self.FRAGMENT_LENGTH_SD = kwargs.get(
+            'FRAGMENT_LENGTH_SD', None)
+        self.MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X', None)
+        self.MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X', None)
+        self.MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE', None)
+        self.MEAN_COVERAGE = kwargs.get(
+            'MEAN_COVERAGE', None)
+        self.MEDIAN_READ_LENGTH = kwargs.get(
+            'MEDIAN_READ_LENGTH', 'None')
+        self.MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
+            'MEDIAN_READ_LENGTH_READ_1', 'None')
+        self.MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
+            'MEDIAN_READ_LENGTH_READ_2', 'None')
+        self.METRICS_DELIVERABLE = kwargs.get(
+            'METRICS_DELIVERABLE', 'None')
+        self.METRICS_VERSION = kwargs.get(
+            'METRICS_VERSION', 'None')
+        self.MISMATCH_RATE = kwargs.get(
+            'MISMATCH_RATE', None)
+        self.MISMATCH_RATE_READ_1 = kwargs.get(
+            'MISMATCH_RATE_READ_1', None)
+        self.MISMATCH_RATE_READ_2 = kwargs.get(
+            'MISMATCH_RATE_READ_2', None)
+        self.PAIRED_END = kwargs.get(
+            'PAIRED_END', None)
+        self.PERCENT_ALIGNED_BASES = kwargs.get(
+            'PERCENT_ALIGNED_BASES', None)
+        self.PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
+            'PERCENT_ALIGNED_BASES_READ_1', None)
+        self.PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
+            'PERCENT_ALIGNED_BASES_READ_2', None)
+        self.PERCENT_ALIGNED_READS = kwargs.get(
+            'PERCENT_ALIGNED_READS', None)
+        self.PERCENT_ALIGNED_READ_1 = kwargs.get(
+            'PERCENT_ALIGNED_READ_1', None)
+        self.PERCENT_ALIGNED_READ_2 = kwargs.get(
+            'PERCENT_ALIGNED_READ_2', None)
+        self.PERCENT_AT_DROPOUT = kwargs.get(
+            'PERCENT_AT_DROPOUT', None)
+        self.PERCENT_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'PERCENT_DUPLICATE_ALIGNED_READS', None)
+        self.PERCENT_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'PERCENT_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.PERCENT_GC_DROPOUT = kwargs.get(
+            'PERCENT_GC_DROPOUT', None)
+        self.PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS = kwargs.get(
+            'PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS', None)
+        self.PERCENT_OVERLAPPING_BASES = kwargs.get(
+            'PERCENT_OVERLAPPING_BASES', None)
+        self.PERCENT_Q25_BASES_READ_1 = kwargs.get(
+            'PERCENT_Q25_BASES_READ_1', None)
+        self.PERCENT_Q25_BASES_READ_2 = kwargs.get(
+            'PERCENT_Q25_BASES_READ_2', None)
+        self.PERCENT_Q30_BASES = kwargs.get(
+            'PERCENT_Q30_BASES', None)
+        self.PERCENT_Q30_BASES_READ_1 = kwargs.get(
+            'PERCENT_Q30_BASES_READ_1', None)
+        self.PERCENT_Q30_BASES_READ_2 = kwargs.get(
+            'PERCENT_Q30_BASES_READ_2', None)
+        self.PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES = kwargs.get(
+            'PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES', None)
+        self.PERCENT_SOFT_CLIPPED_BASES = kwargs.get(
+            'PERCENT_SOFT_CLIPPED_BASES', None)
+        self.Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES = kwargs.get(
+            'Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES', None)
+        self.READ_ENRICHMENT_AT_75_GC = kwargs.get(
+            'READ_ENRICHMENT_AT_75_GC', None)
+        self.READ_ENRICHMENT_AT_80_GC = kwargs.get(
+            'READ_ENRICHMENT_AT_80_GC', None)
+        self.REFERENCE_GENOME = kwargs.get(
+            'REFERENCE_GENOME', 'None')
+        self.RUN_FOLDER = kwargs.get(
+            'RUN_FOLDER', 'None')
+        self.SAMPLE_ID = kwargs.get(
+            'SAMPLE_ID', 'None')
+        self.SAMPLE_NAME = kwargs.get(
+            'SAMPLE_NAME', 'None')
+        self.TOTAL_ALIGNED_BASES = kwargs.get(
+            'TOTAL_ALIGNED_BASES', None)
+        self.TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
+            'TOTAL_ALIGNED_BASES_READ_1', None)
+        self.TOTAL_ALIGNED_BASES_READ_2 = kwargs.get(
+            'TOTAL_ALIGNED_BASES_READ_2', None)
+        self.TOTAL_ALIGNED_READS = kwargs.get(
+            'TOTAL_ALIGNED_READS', None)
+        self.TOTAL_ALIGNED_READ_1 = kwargs.get(
+            'TOTAL_ALIGNED_READ_1', None)
+        self.TOTAL_ALIGNED_READ_2 = kwargs.get(
+            'TOTAL_ALIGNED_READ_2', None)
+        self.TOTAL_ALIGNED_READ_PAIRS = kwargs.get(
+            'TOTAL_ALIGNED_READ_PAIRS', None)
+        self.TOTAL_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'TOTAL_DUPLICATE_ALIGNED_READS', None)
+        self.TOTAL_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'TOTAL_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.TOTAL_MAPQ_GT_10_READS = kwargs.get(
+            'TOTAL_MAPQ_GT_10_READS', None)
+        self.TOTAL_PF_BASES = kwargs.get(
+            'TOTAL_PF_BASES', None)
+        self.TOTAL_PF_BASES_READ_1 = kwargs.get(
+            'TOTAL_PF_BASES_READ_1', None)
+        self.TOTAL_PF_BASES_READ_2 = kwargs.get(
+            'TOTAL_PF_BASES_READ_2', None)
+        self.TOTAL_PF_READS = kwargs.get(
+            'TOTAL_PF_READS', None)
+        self.TOTAL_PF_READ_1 = kwargs.get(
+            'TOTAL_PF_READ_1', None)
+        self.TOTAL_PF_READ_2 = kwargs.get(
+            'TOTAL_PF_READ_2', None)
+        self.TOTAL_PROPER_READ_PAIRS = kwargs.get(
+            'TOTAL_PROPER_READ_PAIRS', None)
+        self.UNIQUE_ALIGNED_READS = kwargs.get(
+            'UNIQUE_ALIGNED_READS', None)
+
+
 class IlluminaSummaryV1(ProtocolElement):
     """
     This is the summary provided by illumina for all V1 (old version)
@@ -2879,14 +4083,14 @@ class IlluminaSummaryV1(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "IlluminaSummaryV1", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name": "PERCENT_Q30_R1"},
-{"type": "double", "name": "PERCENT_Q30_R2"}, {"type": "double",
-"name": "PERCENT_ALIGNED_R1"}, {"type": "double", "name":
-"INVERSIONCOUNT"}, {"type": "double", "name":
-"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"PERCENT_ALIGNED_R2"}, {"type": "double", "name":
+["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
+"IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
+"name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
+"double", "name": "PERCENT_Q30_R1"}, {"type": "double", "name":
+"PERCENT_Q30_R2"}, {"type": "double", "name": "PERCENT_ALIGNED_R1"},
+{"type": "double", "name": "INVERSIONCOUNT"}, {"type": "double",
+"name": "DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double",
+"name": "PERCENT_ALIGNED_R2"}, {"type": "double", "name":
 "INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
 "STOPGAINEDINS"}, {"type": "double", "name": "SYNONYMOUSSNVS"},
 {"type": "double", "name": "SPLICESITEREGIONDEL"}, {"type": "double",
@@ -3261,94 +4465,91 @@ class IlluminaSummaryV1(ProtocolElement):
 
 class IlluminaSummaryV2(ProtocolElement):
     """
-    This is the summary provided by Illumina V2 (current) germline
-    samples
+    This is the summary provided by Illumina V2 germline samples
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "IlluminaSummaryV2", "fields": [{"type": {"symbols":
-["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2"],
-"type": "enum", "name": "IlluminaVersion"}, "name":
-"illumina_version"}, {"type": "double", "name": "STOP_LOST_SNVS"},
-{"type": "double", "name": "SV_INSERTIONS_IN_GENES"}, {"type":
-"string", "name": "SAMPLE_ID"}, {"type": "double", "name":
-"DELETION_HET_HOM_RATIO"}, {"type": "double", "name":
-"STOP_GAINED_DELETIONS"}, {"type": "double", "name":
-"INSERTIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
+"IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
+"name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
+"long", "name": "STOP_LOST_SNVS"}, {"type": "long", "name":
+"SV_INSERTIONS_IN_GENES"}, {"type": "string", "name": "SAMPLE_ID"},
+{"type": "double", "name": "DELETION_HET_HOM_RATIO"}, {"type": "long",
+"name": "STOP_GAINED_DELETIONS"}, {"type": "double", "name":
+"INSERTIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "long", "name":
 "FRAGMENT_LENGTH_SD"}, {"type": "double", "name":
 "PERCENT_Q30_BASES_READ_1"}, {"type": "double", "name":
-"PERCENT_Q30_BASES_READ_2"}, {"type": "double", "name":
-"STOP_GAINED_SNVS"}, {"type": "double", "name": "CNV_IN_GENES"},
-{"type": "double", "name": "TOTAL_PF_READS"}, {"type": "double",
-"name": "DELETIONS_IN_GENES"}, {"type": "double", "name":
+"PERCENT_Q30_BASES_READ_2"}, {"type": "long", "name":
+"STOP_GAINED_SNVS"}, {"type": "long", "name": "CNV_IN_GENES"},
+{"type": "long", "name": "TOTAL_PF_READS"}, {"type": "long", "name":
+"DELETIONS_IN_GENES"}, {"type": "long", "name":
 "DELETIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"PERCENT_Q30_BASES"}, {"type": "double", "name":
-"TOTAL_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
-"TOTAL_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_Q30_BASES"}, {"type": "long", "name":
+"TOTAL_ALIGNED_BASES_READ_1"}, {"type": "long", "name":
+"TOTAL_ALIGNED_BASES_READ_2"}, {"type": "long", "name":
 "SV_INVERSIONS_IN_GENES"}, {"type": "double", "name":
-"SNV_TS_TV_RATIO"}, {"type": "double", "name":
-"INSERTIONS_IN_MATURE_MIRNA"}, {"type": "double", "name":
-"DELETIONS"}, {"type": "double", "name":
-"PERCENT_ALIGNED_BASES_READ_1"}, {"type": "double", "name":
-"INDELS_ALL"}, {"type": "double", "name":
-"PERCENT_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
-"NON_SYNONYMOUS_DELETIONS"}, {"type": "double", "name":
+"SNV_TS_TV_RATIO"}, {"type": "long", "name":
+"INSERTIONS_IN_MATURE_MIRNA"}, {"type": "long", "name": "DELETIONS"},
+{"type": "double", "name": "PERCENT_ALIGNED_BASES_READ_1"}, {"type":
+"long", "name": "INDELS_ALL"}, {"type": "double", "name":
+"PERCENT_ALIGNED_BASES_READ_2"}, {"type": "long", "name":
+"NON_SYNONYMOUS_DELETIONS"}, {"type": "long", "name":
 "TOTAL_PF_BASES"}, {"type": "double", "name":
 "PERCENT_DUPLICATE_PAIRED_READS"}, {"type": "double", "name":
 "PERCENT_ALIGNED_READ_2"}, {"type": "double", "name":
-"PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READ_1"}, {"type": "long", "name":
 "NON_SYNONYMOUS_SNVS"}, {"type": "double", "name":
 "SV_PERCENT_DELETIONS_IN_GENES"}, {"type": "double", "name":
-"MISMATCH_RATE_READ_1"}, {"type": "double", "name":
-"SV_DELETIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_IN_CODING_REGIONS"}, {"type": "double", "name":
-"INSERTIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"SV_DELETIONS"}, {"type": "double", "name": "INSERTIONS"}, {"type":
-"double", "name": "FRAGMENT_LENGTH_MIN"}, {"type": "double", "name":
+"MISMATCH_RATE_READ_1"}, {"type": "long", "name":
+"SV_DELETIONS_IN_GENES"}, {"type": "long", "name":
+"DELETIONS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"INSERTIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"SV_DELETIONS"}, {"type": "long", "name": "INSERTIONS"}, {"type":
+"long", "name": "FRAGMENT_LENGTH_MIN"}, {"type": "long", "name":
 "FRAGMENT_LENGTH_MAX"}, {"type": "string", "name": "RUNFOLDER"},
-{"type": "string", "name": "SAMPLE_NAME"}, {"type": "double", "name":
+{"type": "string", "name": "SAMPLE_NAME"}, {"type": "long", "name":
 "INSERTIONS_IN_GENES"}, {"type": "double", "name":
-"SV_PERCENT_INVERSIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_IN_EXONS"}, {"type": "double", "name":
+"SV_PERCENT_INVERSIONS_IN_GENES"}, {"type": "long", "name":
+"DELETIONS_IN_EXONS"}, {"type": "long", "name":
 "STOP_LOST_DELETIONS"}, {"type": "double", "name":
-"SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"NON_SYNONYMOUS_INSERTIONS"}, {"type": "double", "name":
-"SNVS_IN_MATURE_MIRNA"}, {"type": "double", "name":
-"FRAMESHIFT_DELETIONS"}, {"type": "double", "name":
-"FRAGMENT_LENGTH_MEDIAN"}, {"type": "double", "name":
+"SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "long", "name":
+"NON_SYNONYMOUS_INSERTIONS"}, {"type": "long", "name":
+"SNVS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"FRAMESHIFT_DELETIONS"}, {"type": "long", "name":
+"FRAGMENT_LENGTH_MEDIAN"}, {"type": "long", "name":
 "SNVS_IN_UTR_REGIONS"}, {"type": "double", "name":
-"SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double", "name":
-"SV_INVERSIONS"}, {"type": "double", "name":
+"SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "long", "name":
+"SV_INVERSIONS"}, {"type": "long", "name":
 "SV_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "double", "name":
-"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "long", "name":
 "SV_TANDEM_DUPLICATIONS"}, {"type": "double", "name":
 "INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
-"SV_PERCENT_INSERTIONS_IN_GENES"}, {"type": "double", "name":
+"SV_PERCENT_INSERTIONS_IN_GENES"}, {"type": "long", "name":
 "STOP_GAINED_INSERTIONS"}, {"type": "double", "name":
-"MISMATCH_RATE_READ_2"}, {"type": "double", "name": "DELETIONS_ALL"},
-{"type": "double", "name": "TOTAL_PF_BASES_READ_2"}, {"type":
-"double", "name": "TOTAL_PF_BASES_READ_1"}, {"type": "double", "name":
-"INDEL_HET_HOM_RATIO"}, {"type": "double", "name": "SYNONYMOUS_SNVS"},
-{"type": "double", "name": "DELETIONS_IN_MATURE_MIRNA"}, {"type":
-"double", "name": "SNV_HET_HOM_RATIO"}, {"type": "double", "name":
-"INSERTIONS_IN_CODING_REGIONS"}, {"type": "double", "name":
-"SNVS_IN_GENES"}, {"type": "double", "name": "STOP_LOST_INSERTIONS"},
-{"type": "string", "name": "PAIRED_END"}, {"type": "double", "name":
+"MISMATCH_RATE_READ_2"}, {"type": "long", "name": "DELETIONS_ALL"},
+{"type": "long", "name": "TOTAL_PF_BASES_READ_2"}, {"type": "long",
+"name": "TOTAL_PF_BASES_READ_1"}, {"type": "double", "name":
+"INDEL_HET_HOM_RATIO"}, {"type": "long", "name": "SYNONYMOUS_SNVS"},
+{"type": "long", "name": "DELETIONS_IN_MATURE_MIRNA"}, {"type":
+"double", "name": "SNV_HET_HOM_RATIO"}, {"type": "long", "name":
+"INSERTIONS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"SNVS_IN_GENES"}, {"type": "long", "name": "STOP_LOST_INSERTIONS"},
+{"type": "boolean", "name": "PAIRED_END"}, {"type": "long", "name":
 "DIVERSITY"}, {"type": "string", "name": "REFERENCE_GENOME"}, {"type":
-"double", "name": "SNVS_IN_EXONS"}, {"type": "double", "name":
-"SNVS_IN_SPLICE_SITE_REGIONS"}, {"type": "double", "name":
-"FRAMESHIFT_INSERTIONS"}, {"type": "double", "name":
-"INSERTIONS_ALL"}, {"type": "double", "name": "SNVS_ALL"}, {"type":
-"double", "name": "INSERTIONS_IN_UTR_REGIONS"}, {"type": "double",
-"name": "CNV_PERCENT_IN_GENES"}, {"type": "double", "name":
-"MEAN_COVERAGE"}, {"type": "double", "name": "CNV"}, {"type":
-"double", "name": "SV_INSERTIONS"}, {"type": "double", "name":
-"SNVS_IN_CODING_REGIONS"}, {"type": "double", "name": "SNVS"},
-{"type": "double", "name": "INSERTION_HET_HOM_RATIO"}, {"type":
-"double", "name": "INDELS"}, {"type": "double", "name":
-"TOTAL_ALIGNED_READ_2"}, {"type": "double", "name":
-"TOTAL_ALIGNED_READ_1"}, {"type": "double", "name":
-"DELETIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"long", "name": "SNVS_IN_EXONS"}, {"type": "long", "name":
+"SNVS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"FRAMESHIFT_INSERTIONS"}, {"type": "long", "name": "INSERTIONS_ALL"},
+{"type": "long", "name": "SNVS_ALL"}, {"type": "long", "name":
+"INSERTIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"CNV_PERCENT_IN_GENES"}, {"type": "double", "name": "MEAN_COVERAGE"},
+{"type": "long", "name": "CNV"}, {"type": "long", "name":
+"SV_INSERTIONS"}, {"type": "long", "name": "SNVS_IN_CODING_REGIONS"},
+{"type": "long", "name": "SNVS"}, {"type": "double", "name":
+"INSERTION_HET_HOM_RATIO"}, {"type": "long", "name": "INDELS"},
+{"type": "long", "name": "TOTAL_ALIGNED_READ_2"}, {"type": "long",
+"name": "TOTAL_ALIGNED_READ_1"}, {"type": "long", "name":
+"DELETIONS_IN_UTR_REGIONS"}, {"type": "long", "name":
 "INSERTIONS_IN_EXONS"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -3589,7 +4790,7 @@ class IlluminaSummaryV2(ProtocolElement):
         self.NON_SYNONYMOUS_SNVS = kwargs.get(
             'NON_SYNONYMOUS_SNVS', None)
         self.PAIRED_END = kwargs.get(
-            'PAIRED_END', 'None')
+            'PAIRED_END', None)
         self.PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
             'PERCENT_ALIGNED_BASES_READ_1', None)
         self.PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
@@ -3694,13 +4895,708 @@ class IlluminaSummaryV2(ProtocolElement):
             'illumina_version', None)
 
 
+class IlluminaSummaryV4(ProtocolElement):
+    """
+    This is the summary provided by Illumina V4 germline samples in
+    file SAMPLE_ID.summary.csv
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"IlluminaSummaryV4", "fields": [{"type": {"symbols":
+["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
+"IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
+"name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
+"double", "name": "ARRAY_CONCORDANCE"}, {"type": "double", "name":
+"ARRAY_CONCORDANCE_USAGE"}, {"type": "double", "name":
+"AUTOSOME_CALLABILITY"}, {"type": "double", "name":
+"AUTOSOME_COVERAGE_AT_10X"}, {"type": "double", "name":
+"AUTOSOME_COVERAGE_AT_15X"}, {"type": "double", "name":
+"AUTOSOME_COVERAGE_AT_1X"}, {"type": "double", "name":
+"AUTOSOME_EXON_CALLABILITY"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_10X"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_15X"}, {"type": "double", "name":
+"AUTOSOME_EXON_COVERAGE_AT_1X"}, {"type": "double", "name":
+"AUTOSOME_EXON_MEAN_COVERAGE"}, {"type": "double", "name":
+"AUTOSOME_MEAN_COVERAGE"}, {"type": "double", "name": "CALLABILITY"},
+{"type": "long", "name": "CNVS"}, {"type": "long", "name":
+"CNVS_ALL"}, {"type": "long", "name": "CNVS_IN_GENES"}, {"type":
+"double", "name": "CONTAMINATION"}, {"type": "double", "name":
+"COVERAGE_AT_10X"}, {"type": "double", "name": "COVERAGE_AT_15X"},
+{"type": "double", "name": "COVERAGE_AT_1X"}, {"type": "long", "name":
+"DELETIONS"}, {"type": "long", "name": "DELETIONS_ALL"}, {"type":
+"long", "name": "DELETIONS_IN_CODING_REGIONS"}, {"type": "long",
+"name": "DELETIONS_IN_EXONS"}, {"type": "long", "name":
+"DELETIONS_IN_GENES"}, {"type": "long", "name":
+"DELETIONS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"DELETIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"DELETIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"DELETIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"DELETION_HET_HOM_RATIO"}, {"type": "long", "name": "DIVERSITY"},
+{"type": "long", "name": "FRAGMENT_LENGTH_MAX"}, {"type": "long",
+"name": "FRAGMENT_LENGTH_MEDIAN"}, {"type": "long", "name":
+"FRAGMENT_LENGTH_MIN"}, {"type": "long", "name":
+"FRAGMENT_LENGTH_SD"}, {"type": "long", "name":
+"FRAMESHIFT_DELETIONS"}, {"type": "long", "name":
+"FRAMESHIFT_INSERTIONS"}, {"type": "long", "name": "INDELS"}, {"type":
+"long", "name": "INDELS_ALL"}, {"type": "double", "name":
+"INDELS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"INDEL_HET_HOM_RATIO"}, {"type": "long", "name": "INSERTIONS"},
+{"type": "long", "name": "INSERTIONS_ALL"}, {"type": "long", "name":
+"INSERTIONS_IN_CODING_REGIONS"}, {"type": "long", "name":
+"INSERTIONS_IN_EXONS"}, {"type": "long", "name":
+"INSERTIONS_IN_GENES"}, {"type": "long", "name":
+"INSERTIONS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"INSERTIONS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"INSERTIONS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"INSERTIONS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"INSERTION_HET_HOM_RATIO"}, {"type": "double", "name":
+"MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X"}, {"type": "double", "name":
+"MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X"}, {"type": "double",
+"name": "MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE"}, {"type": "double",
+"name": "MEAN_COVERAGE"}, {"type": "string", "name":
+"MEDIAN_READ_LENGTH"}, {"type": "string", "name":
+"MEDIAN_READ_LENGTH_READ_1"}, {"type": "string", "name":
+"MEDIAN_READ_LENGTH_READ_2"}, {"type": "string", "name":
+"METRICS_DELIVERABLE"}, {"type": "string", "name": "METRICS_VERSION"},
+{"type": "double", "name": "MISMATCH_RATE"}, {"type": "double",
+"name": "MISMATCH_RATE_READ_1"}, {"type": "double", "name":
+"MISMATCH_RATE_READ_2"}, {"type": "long", "name":
+"NON_SYNONYMOUS_DELETIONS"}, {"type": "long", "name":
+"NON_SYNONYMOUS_INSERTIONS"}, {"type": "long", "name":
+"NON_SYNONYMOUS_SNVS"}, {"type": "boolean", "name": "PAIRED_END"},
+{"type": "double", "name": "PERCENT_ALIGNED_BASES"}, {"type":
+"double", "name": "PERCENT_ALIGNED_BASES_READ_1"}, {"type": "double",
+"name": "PERCENT_ALIGNED_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READS"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READ_1"}, {"type": "double", "name":
+"PERCENT_ALIGNED_READ_2"}, {"type": "double", "name":
+"PERCENT_AT_DROPOUT"}, {"type": "double", "name":
+"PERCENT_CNVS_IN_GENES"}, {"type": "double", "name":
+"PERCENT_DUPLICATE_ALIGNED_READS"}, {"type": "double", "name":
+"PERCENT_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "double", "name":
+"PERCENT_GC_DROPOUT"}, {"type": "double", "name":
+"PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS"}, {"type": "double",
+"name": "PERCENT_OVERLAPPING_BASES"}, {"type": "double", "name":
+"PERCENT_Q25_BASES_READ_1"}, {"type": "double", "name":
+"PERCENT_Q25_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_Q30_BASES"}, {"type": "double", "name":
+"PERCENT_Q30_BASES_READ_1"}, {"type": "double", "name":
+"PERCENT_Q30_BASES_READ_2"}, {"type": "double", "name":
+"PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES"}, {"type":
+"double", "name": "PERCENT_SOFT_CLIPPED_BASES"}, {"type": "long",
+"name": "Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES"},
+{"type": "double", "name": "READ_ENRICHMENT_AT_75_GC"}, {"type":
+"double", "name": "READ_ENRICHMENT_AT_80_GC"}, {"type": "string",
+"name": "REFERENCE_GENOME"}, {"type": "string", "name": "RUN_FOLDER"},
+{"type": "string", "name": "SAMPLE_ID"}, {"type": "string", "name":
+"SAMPLE_NAME"}, {"type": "long", "name": "SNVS"}, {"type": "long",
+"name": "SNVS_ALL"}, {"type": "long", "name":
+"SNVS_IN_CODING_REGIONS"}, {"type": "long", "name": "SNVS_IN_EXONS"},
+{"type": "long", "name": "SNVS_IN_GENES"}, {"type": "long", "name":
+"SNVS_IN_MATURE_MIRNA"}, {"type": "long", "name":
+"SNVS_IN_SPLICE_SITE_REGIONS"}, {"type": "long", "name":
+"SNVS_IN_UTR_REGIONS"}, {"type": "double", "name":
+"SNVS_PERCENT_FOUND_IN_DBSNP"}, {"type": "double", "name":
+"SNV_HET_HOM_RATIO"}, {"type": "double", "name": "SNV_TS_TV_RATIO"},
+{"type": "long", "name": "STOP_GAINED_DELETIONS"}, {"type": "long",
+"name": "STOP_GAINED_INSERTIONS"}, {"type": "long", "name":
+"STOP_GAINED_SNVS"}, {"type": "long", "name": "STOP_LOST_DELETIONS"},
+{"type": "long", "name": "STOP_LOST_INSERTIONS"}, {"type": "long",
+"name": "STOP_LOST_SNVS"}, {"type": "long", "name": "SV_BREAKENDS"},
+{"type": "long", "name": "SV_BREAKENDS_ALL"}, {"type": "long", "name":
+"SV_BREAKENDS_IN_GENES"}, {"type": "long", "name": "SV_DELETIONS"},
+{"type": "long", "name": "SV_DELETIONS_ALL"}, {"type": "long", "name":
+"SV_DELETIONS_IN_GENES"}, {"type": "long", "name": "SV_INSERTIONS"},
+{"type": "long", "name": "SV_INSERTIONS_ALL"}, {"type": "long",
+"name": "SV_INSERTIONS_IN_GENES"}, {"type": "long", "name":
+"SV_INVERSIONS"}, {"type": "long", "name": "SV_INVERSIONS_ALL"},
+{"type": "long", "name": "SV_INVERSIONS_IN_GENES"}, {"type": "double",
+"name": "SV_PERCENT_BREAKENDS_IN_GENES"}, {"type": "double", "name":
+"SV_PERCENT_DELETIONS_IN_GENES"}, {"type": "double", "name":
+"SV_PERCENT_INSERTIONS_IN_GENES"}, {"type": "double", "name":
+"SV_PERCENT_INVERSIONS_IN_GENES"}, {"type": "double", "name":
+"SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "long", "name":
+"SV_TANDEM_DUPLICATIONS"}, {"type": "long", "name":
+"SV_TANDEM_DUPLICATIONS_ALL"}, {"type": "long", "name":
+"SV_TANDEM_DUPLICATIONS_IN_GENES"}, {"type": "long", "name":
+"SYNONYMOUS_SNVS"}, {"type": "long", "name": "TOTAL_ALIGNED_BASES"},
+{"type": "long", "name": "TOTAL_ALIGNED_BASES_READ_1"}, {"type":
+"long", "name": "TOTAL_ALIGNED_BASES_READ_2"}, {"type": "long",
+"name": "TOTAL_ALIGNED_READS"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_1"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_2"}, {"type": "long", "name":
+"TOTAL_ALIGNED_READ_PAIRS"}, {"type": "long", "name":
+"TOTAL_DUPLICATE_ALIGNED_READS"}, {"type": "long", "name":
+"TOTAL_DUPLICATE_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"TOTAL_MAPQ_GT_10_READS"}, {"type": "long", "name": "TOTAL_PF_BASES"},
+{"type": "long", "name": "TOTAL_PF_BASES_READ_1"}, {"type": "long",
+"name": "TOTAL_PF_BASES_READ_2"}, {"type": "long", "name":
+"TOTAL_PF_READS"}, {"type": "long", "name": "TOTAL_PF_READ_1"},
+{"type": "long", "name": "TOTAL_PF_READ_2"}, {"type": "long", "name":
+"TOTAL_PROPER_READ_PAIRS"}, {"type": "long", "name":
+"UNIQUE_ALIGNED_READS"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ARRAY_CONCORDANCE",
+        "ARRAY_CONCORDANCE_USAGE",
+        "AUTOSOME_CALLABILITY",
+        "AUTOSOME_COVERAGE_AT_10X",
+        "AUTOSOME_COVERAGE_AT_15X",
+        "AUTOSOME_COVERAGE_AT_1X",
+        "AUTOSOME_EXON_CALLABILITY",
+        "AUTOSOME_EXON_COVERAGE_AT_10X",
+        "AUTOSOME_EXON_COVERAGE_AT_15X",
+        "AUTOSOME_EXON_COVERAGE_AT_1X",
+        "AUTOSOME_EXON_MEAN_COVERAGE",
+        "AUTOSOME_MEAN_COVERAGE",
+        "CALLABILITY",
+        "CNVS",
+        "CNVS_ALL",
+        "CNVS_IN_GENES",
+        "CONTAMINATION",
+        "COVERAGE_AT_10X",
+        "COVERAGE_AT_15X",
+        "COVERAGE_AT_1X",
+        "DELETIONS",
+        "DELETIONS_ALL",
+        "DELETIONS_IN_CODING_REGIONS",
+        "DELETIONS_IN_EXONS",
+        "DELETIONS_IN_GENES",
+        "DELETIONS_IN_MATURE_MIRNA",
+        "DELETIONS_IN_SPLICE_SITE_REGIONS",
+        "DELETIONS_IN_UTR_REGIONS",
+        "DELETIONS_PERCENT_FOUND_IN_DBSNP",
+        "DELETION_HET_HOM_RATIO",
+        "DIVERSITY",
+        "FRAGMENT_LENGTH_MAX",
+        "FRAGMENT_LENGTH_MEDIAN",
+        "FRAGMENT_LENGTH_MIN",
+        "FRAGMENT_LENGTH_SD",
+        "FRAMESHIFT_DELETIONS",
+        "FRAMESHIFT_INSERTIONS",
+        "INDELS",
+        "INDELS_ALL",
+        "INDELS_PERCENT_FOUND_IN_DBSNP",
+        "INDEL_HET_HOM_RATIO",
+        "INSERTIONS",
+        "INSERTIONS_ALL",
+        "INSERTIONS_IN_CODING_REGIONS",
+        "INSERTIONS_IN_EXONS",
+        "INSERTIONS_IN_GENES",
+        "INSERTIONS_IN_MATURE_MIRNA",
+        "INSERTIONS_IN_SPLICE_SITE_REGIONS",
+        "INSERTIONS_IN_UTR_REGIONS",
+        "INSERTIONS_PERCENT_FOUND_IN_DBSNP",
+        "INSERTION_HET_HOM_RATIO",
+        "MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X",
+        "MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X",
+        "MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE",
+        "MEAN_COVERAGE",
+        "MEDIAN_READ_LENGTH",
+        "MEDIAN_READ_LENGTH_READ_1",
+        "MEDIAN_READ_LENGTH_READ_2",
+        "METRICS_DELIVERABLE",
+        "METRICS_VERSION",
+        "MISMATCH_RATE",
+        "MISMATCH_RATE_READ_1",
+        "MISMATCH_RATE_READ_2",
+        "NON_SYNONYMOUS_DELETIONS",
+        "NON_SYNONYMOUS_INSERTIONS",
+        "NON_SYNONYMOUS_SNVS",
+        "PAIRED_END",
+        "PERCENT_ALIGNED_BASES",
+        "PERCENT_ALIGNED_BASES_READ_1",
+        "PERCENT_ALIGNED_BASES_READ_2",
+        "PERCENT_ALIGNED_READS",
+        "PERCENT_ALIGNED_READ_1",
+        "PERCENT_ALIGNED_READ_2",
+        "PERCENT_AT_DROPOUT",
+        "PERCENT_CNVS_IN_GENES",
+        "PERCENT_DUPLICATE_ALIGNED_READS",
+        "PERCENT_DUPLICATE_PROPER_READ_PAIRS",
+        "PERCENT_GC_DROPOUT",
+        "PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS",
+        "PERCENT_OVERLAPPING_BASES",
+        "PERCENT_Q25_BASES_READ_1",
+        "PERCENT_Q25_BASES_READ_2",
+        "PERCENT_Q30_BASES",
+        "PERCENT_Q30_BASES_READ_1",
+        "PERCENT_Q30_BASES_READ_2",
+        "PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES",
+        "PERCENT_SOFT_CLIPPED_BASES",
+        "Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES",
+        "READ_ENRICHMENT_AT_75_GC",
+        "READ_ENRICHMENT_AT_80_GC",
+        "REFERENCE_GENOME",
+        "RUN_FOLDER",
+        "SAMPLE_ID",
+        "SAMPLE_NAME",
+        "SNVS",
+        "SNVS_ALL",
+        "SNVS_IN_CODING_REGIONS",
+        "SNVS_IN_EXONS",
+        "SNVS_IN_GENES",
+        "SNVS_IN_MATURE_MIRNA",
+        "SNVS_IN_SPLICE_SITE_REGIONS",
+        "SNVS_IN_UTR_REGIONS",
+        "SNVS_PERCENT_FOUND_IN_DBSNP",
+        "SNV_HET_HOM_RATIO",
+        "SNV_TS_TV_RATIO",
+        "STOP_GAINED_DELETIONS",
+        "STOP_GAINED_INSERTIONS",
+        "STOP_GAINED_SNVS",
+        "STOP_LOST_DELETIONS",
+        "STOP_LOST_INSERTIONS",
+        "STOP_LOST_SNVS",
+        "SV_BREAKENDS",
+        "SV_BREAKENDS_ALL",
+        "SV_BREAKENDS_IN_GENES",
+        "SV_DELETIONS",
+        "SV_DELETIONS_ALL",
+        "SV_DELETIONS_IN_GENES",
+        "SV_INSERTIONS",
+        "SV_INSERTIONS_ALL",
+        "SV_INSERTIONS_IN_GENES",
+        "SV_INVERSIONS",
+        "SV_INVERSIONS_ALL",
+        "SV_INVERSIONS_IN_GENES",
+        "SV_PERCENT_BREAKENDS_IN_GENES",
+        "SV_PERCENT_DELETIONS_IN_GENES",
+        "SV_PERCENT_INSERTIONS_IN_GENES",
+        "SV_PERCENT_INVERSIONS_IN_GENES",
+        "SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES",
+        "SV_TANDEM_DUPLICATIONS",
+        "SV_TANDEM_DUPLICATIONS_ALL",
+        "SV_TANDEM_DUPLICATIONS_IN_GENES",
+        "SYNONYMOUS_SNVS",
+        "TOTAL_ALIGNED_BASES",
+        "TOTAL_ALIGNED_BASES_READ_1",
+        "TOTAL_ALIGNED_BASES_READ_2",
+        "TOTAL_ALIGNED_READS",
+        "TOTAL_ALIGNED_READ_1",
+        "TOTAL_ALIGNED_READ_2",
+        "TOTAL_ALIGNED_READ_PAIRS",
+        "TOTAL_DUPLICATE_ALIGNED_READS",
+        "TOTAL_DUPLICATE_PROPER_READ_PAIRS",
+        "TOTAL_MAPQ_GT_10_READS",
+        "TOTAL_PF_BASES",
+        "TOTAL_PF_BASES_READ_1",
+        "TOTAL_PF_BASES_READ_2",
+        "TOTAL_PF_READS",
+        "TOTAL_PF_READ_1",
+        "TOTAL_PF_READ_2",
+        "TOTAL_PROPER_READ_PAIRS",
+        "UNIQUE_ALIGNED_READS",
+        "illumina_version",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ARRAY_CONCORDANCE', 'ARRAY_CONCORDANCE_USAGE',
+        'AUTOSOME_CALLABILITY', 'AUTOSOME_COVERAGE_AT_10X',
+        'AUTOSOME_COVERAGE_AT_15X', 'AUTOSOME_COVERAGE_AT_1X',
+        'AUTOSOME_EXON_CALLABILITY', 'AUTOSOME_EXON_COVERAGE_AT_10X',
+        'AUTOSOME_EXON_COVERAGE_AT_15X',
+        'AUTOSOME_EXON_COVERAGE_AT_1X', 'AUTOSOME_EXON_MEAN_COVERAGE',
+        'AUTOSOME_MEAN_COVERAGE', 'CALLABILITY', 'CNVS', 'CNVS_ALL',
+        'CNVS_IN_GENES', 'CONTAMINATION', 'COVERAGE_AT_10X',
+        'COVERAGE_AT_15X', 'COVERAGE_AT_1X', 'DELETIONS',
+        'DELETIONS_ALL', 'DELETIONS_IN_CODING_REGIONS',
+        'DELETIONS_IN_EXONS', 'DELETIONS_IN_GENES',
+        'DELETIONS_IN_MATURE_MIRNA',
+        'DELETIONS_IN_SPLICE_SITE_REGIONS',
+        'DELETIONS_IN_UTR_REGIONS',
+        'DELETIONS_PERCENT_FOUND_IN_DBSNP', 'DELETION_HET_HOM_RATIO',
+        'DIVERSITY', 'FRAGMENT_LENGTH_MAX', 'FRAGMENT_LENGTH_MEDIAN',
+        'FRAGMENT_LENGTH_MIN', 'FRAGMENT_LENGTH_SD',
+        'FRAMESHIFT_DELETIONS', 'FRAMESHIFT_INSERTIONS', 'INDELS',
+        'INDELS_ALL', 'INDELS_PERCENT_FOUND_IN_DBSNP',
+        'INDEL_HET_HOM_RATIO', 'INSERTIONS', 'INSERTIONS_ALL',
+        'INSERTIONS_IN_CODING_REGIONS', 'INSERTIONS_IN_EXONS',
+        'INSERTIONS_IN_GENES', 'INSERTIONS_IN_MATURE_MIRNA',
+        'INSERTIONS_IN_SPLICE_SITE_REGIONS',
+        'INSERTIONS_IN_UTR_REGIONS',
+        'INSERTIONS_PERCENT_FOUND_IN_DBSNP',
+        'INSERTION_HET_HOM_RATIO',
+        'MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X',
+        'MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X',
+        'MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE', 'MEAN_COVERAGE',
+        'MEDIAN_READ_LENGTH', 'MEDIAN_READ_LENGTH_READ_1',
+        'MEDIAN_READ_LENGTH_READ_2', 'METRICS_DELIVERABLE',
+        'METRICS_VERSION', 'MISMATCH_RATE', 'MISMATCH_RATE_READ_1',
+        'MISMATCH_RATE_READ_2', 'NON_SYNONYMOUS_DELETIONS',
+        'NON_SYNONYMOUS_INSERTIONS', 'NON_SYNONYMOUS_SNVS',
+        'PAIRED_END', 'PERCENT_ALIGNED_BASES',
+        'PERCENT_ALIGNED_BASES_READ_1',
+        'PERCENT_ALIGNED_BASES_READ_2', 'PERCENT_ALIGNED_READS',
+        'PERCENT_ALIGNED_READ_1', 'PERCENT_ALIGNED_READ_2',
+        'PERCENT_AT_DROPOUT', 'PERCENT_CNVS_IN_GENES',
+        'PERCENT_DUPLICATE_ALIGNED_READS',
+        'PERCENT_DUPLICATE_PROPER_READ_PAIRS', 'PERCENT_GC_DROPOUT',
+        'PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS',
+        'PERCENT_OVERLAPPING_BASES', 'PERCENT_Q25_BASES_READ_1',
+        'PERCENT_Q25_BASES_READ_2', 'PERCENT_Q30_BASES',
+        'PERCENT_Q30_BASES_READ_1', 'PERCENT_Q30_BASES_READ_2',
+        'PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES',
+        'PERCENT_SOFT_CLIPPED_BASES',
+        'Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES',
+        'READ_ENRICHMENT_AT_75_GC', 'READ_ENRICHMENT_AT_80_GC',
+        'REFERENCE_GENOME', 'RUN_FOLDER', 'SAMPLE_ID', 'SAMPLE_NAME',
+        'SNVS', 'SNVS_ALL', 'SNVS_IN_CODING_REGIONS', 'SNVS_IN_EXONS',
+        'SNVS_IN_GENES', 'SNVS_IN_MATURE_MIRNA',
+        'SNVS_IN_SPLICE_SITE_REGIONS', 'SNVS_IN_UTR_REGIONS',
+        'SNVS_PERCENT_FOUND_IN_DBSNP', 'SNV_HET_HOM_RATIO',
+        'SNV_TS_TV_RATIO', 'STOP_GAINED_DELETIONS',
+        'STOP_GAINED_INSERTIONS', 'STOP_GAINED_SNVS',
+        'STOP_LOST_DELETIONS', 'STOP_LOST_INSERTIONS',
+        'STOP_LOST_SNVS', 'SV_BREAKENDS', 'SV_BREAKENDS_ALL',
+        'SV_BREAKENDS_IN_GENES', 'SV_DELETIONS', 'SV_DELETIONS_ALL',
+        'SV_DELETIONS_IN_GENES', 'SV_INSERTIONS', 'SV_INSERTIONS_ALL',
+        'SV_INSERTIONS_IN_GENES', 'SV_INVERSIONS',
+        'SV_INVERSIONS_ALL', 'SV_INVERSIONS_IN_GENES',
+        'SV_PERCENT_BREAKENDS_IN_GENES',
+        'SV_PERCENT_DELETIONS_IN_GENES',
+        'SV_PERCENT_INSERTIONS_IN_GENES',
+        'SV_PERCENT_INVERSIONS_IN_GENES',
+        'SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES',
+        'SV_TANDEM_DUPLICATIONS', 'SV_TANDEM_DUPLICATIONS_ALL',
+        'SV_TANDEM_DUPLICATIONS_IN_GENES', 'SYNONYMOUS_SNVS',
+        'TOTAL_ALIGNED_BASES', 'TOTAL_ALIGNED_BASES_READ_1',
+        'TOTAL_ALIGNED_BASES_READ_2', 'TOTAL_ALIGNED_READS',
+        'TOTAL_ALIGNED_READ_1', 'TOTAL_ALIGNED_READ_2',
+        'TOTAL_ALIGNED_READ_PAIRS', 'TOTAL_DUPLICATE_ALIGNED_READS',
+        'TOTAL_DUPLICATE_PROPER_READ_PAIRS', 'TOTAL_MAPQ_GT_10_READS',
+        'TOTAL_PF_BASES', 'TOTAL_PF_BASES_READ_1',
+        'TOTAL_PF_BASES_READ_2', 'TOTAL_PF_READS', 'TOTAL_PF_READ_1',
+        'TOTAL_PF_READ_2', 'TOTAL_PROPER_READ_PAIRS',
+        'UNIQUE_ALIGNED_READS', 'illumina_version'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ARRAY_CONCORDANCE = kwargs.get(
+            'ARRAY_CONCORDANCE', None)
+        self.ARRAY_CONCORDANCE_USAGE = kwargs.get(
+            'ARRAY_CONCORDANCE_USAGE', None)
+        self.AUTOSOME_CALLABILITY = kwargs.get(
+            'AUTOSOME_CALLABILITY', None)
+        self.AUTOSOME_COVERAGE_AT_10X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_10X', None)
+        self.AUTOSOME_COVERAGE_AT_15X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_15X', None)
+        self.AUTOSOME_COVERAGE_AT_1X = kwargs.get(
+            'AUTOSOME_COVERAGE_AT_1X', None)
+        self.AUTOSOME_EXON_CALLABILITY = kwargs.get(
+            'AUTOSOME_EXON_CALLABILITY', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_10X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_10X', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_15X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_15X', None)
+        self.AUTOSOME_EXON_COVERAGE_AT_1X = kwargs.get(
+            'AUTOSOME_EXON_COVERAGE_AT_1X', None)
+        self.AUTOSOME_EXON_MEAN_COVERAGE = kwargs.get(
+            'AUTOSOME_EXON_MEAN_COVERAGE', None)
+        self.AUTOSOME_MEAN_COVERAGE = kwargs.get(
+            'AUTOSOME_MEAN_COVERAGE', None)
+        self.CALLABILITY = kwargs.get(
+            'CALLABILITY', None)
+        self.CNVS = kwargs.get(
+            'CNVS', None)
+        self.CNVS_ALL = kwargs.get(
+            'CNVS_ALL', None)
+        self.CNVS_IN_GENES = kwargs.get(
+            'CNVS_IN_GENES', None)
+        self.CONTAMINATION = kwargs.get(
+            'CONTAMINATION', None)
+        self.COVERAGE_AT_10X = kwargs.get(
+            'COVERAGE_AT_10X', None)
+        self.COVERAGE_AT_15X = kwargs.get(
+            'COVERAGE_AT_15X', None)
+        self.COVERAGE_AT_1X = kwargs.get(
+            'COVERAGE_AT_1X', None)
+        self.DELETIONS = kwargs.get(
+            'DELETIONS', None)
+        self.DELETIONS_ALL = kwargs.get(
+            'DELETIONS_ALL', None)
+        self.DELETIONS_IN_CODING_REGIONS = kwargs.get(
+            'DELETIONS_IN_CODING_REGIONS', None)
+        self.DELETIONS_IN_EXONS = kwargs.get(
+            'DELETIONS_IN_EXONS', None)
+        self.DELETIONS_IN_GENES = kwargs.get(
+            'DELETIONS_IN_GENES', None)
+        self.DELETIONS_IN_MATURE_MIRNA = kwargs.get(
+            'DELETIONS_IN_MATURE_MIRNA', None)
+        self.DELETIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'DELETIONS_IN_SPLICE_SITE_REGIONS', None)
+        self.DELETIONS_IN_UTR_REGIONS = kwargs.get(
+            'DELETIONS_IN_UTR_REGIONS', None)
+        self.DELETIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'DELETIONS_PERCENT_FOUND_IN_DBSNP', None)
+        self.DELETION_HET_HOM_RATIO = kwargs.get(
+            'DELETION_HET_HOM_RATIO', None)
+        self.DIVERSITY = kwargs.get(
+            'DIVERSITY', None)
+        self.FRAGMENT_LENGTH_MAX = kwargs.get(
+            'FRAGMENT_LENGTH_MAX', None)
+        self.FRAGMENT_LENGTH_MEDIAN = kwargs.get(
+            'FRAGMENT_LENGTH_MEDIAN', None)
+        self.FRAGMENT_LENGTH_MIN = kwargs.get(
+            'FRAGMENT_LENGTH_MIN', None)
+        self.FRAGMENT_LENGTH_SD = kwargs.get(
+            'FRAGMENT_LENGTH_SD', None)
+        self.FRAMESHIFT_DELETIONS = kwargs.get(
+            'FRAMESHIFT_DELETIONS', None)
+        self.FRAMESHIFT_INSERTIONS = kwargs.get(
+            'FRAMESHIFT_INSERTIONS', None)
+        self.INDELS = kwargs.get(
+            'INDELS', None)
+        self.INDELS_ALL = kwargs.get(
+            'INDELS_ALL', None)
+        self.INDELS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'INDELS_PERCENT_FOUND_IN_DBSNP', None)
+        self.INDEL_HET_HOM_RATIO = kwargs.get(
+            'INDEL_HET_HOM_RATIO', None)
+        self.INSERTIONS = kwargs.get(
+            'INSERTIONS', None)
+        self.INSERTIONS_ALL = kwargs.get(
+            'INSERTIONS_ALL', None)
+        self.INSERTIONS_IN_CODING_REGIONS = kwargs.get(
+            'INSERTIONS_IN_CODING_REGIONS', None)
+        self.INSERTIONS_IN_EXONS = kwargs.get(
+            'INSERTIONS_IN_EXONS', None)
+        self.INSERTIONS_IN_GENES = kwargs.get(
+            'INSERTIONS_IN_GENES', None)
+        self.INSERTIONS_IN_MATURE_MIRNA = kwargs.get(
+            'INSERTIONS_IN_MATURE_MIRNA', None)
+        self.INSERTIONS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'INSERTIONS_IN_SPLICE_SITE_REGIONS', None)
+        self.INSERTIONS_IN_UTR_REGIONS = kwargs.get(
+            'INSERTIONS_IN_UTR_REGIONS', None)
+        self.INSERTIONS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'INSERTIONS_PERCENT_FOUND_IN_DBSNP', None)
+        self.INSERTION_HET_HOM_RATIO = kwargs.get(
+            'INSERTION_HET_HOM_RATIO', None)
+        self.MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_COVERAGE_AT_15X', None)
+        self.MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_EXON_COVERAGE_AT_15X', None)
+        self.MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE = kwargs.get(
+            'MAPQ_GT_10_AUTOSOME_MEDIAN_COVERAGE', None)
+        self.MEAN_COVERAGE = kwargs.get(
+            'MEAN_COVERAGE', None)
+        self.MEDIAN_READ_LENGTH = kwargs.get(
+            'MEDIAN_READ_LENGTH', 'None')
+        self.MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
+            'MEDIAN_READ_LENGTH_READ_1', 'None')
+        self.MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
+            'MEDIAN_READ_LENGTH_READ_2', 'None')
+        self.METRICS_DELIVERABLE = kwargs.get(
+            'METRICS_DELIVERABLE', 'None')
+        self.METRICS_VERSION = kwargs.get(
+            'METRICS_VERSION', 'None')
+        self.MISMATCH_RATE = kwargs.get(
+            'MISMATCH_RATE', None)
+        self.MISMATCH_RATE_READ_1 = kwargs.get(
+            'MISMATCH_RATE_READ_1', None)
+        self.MISMATCH_RATE_READ_2 = kwargs.get(
+            'MISMATCH_RATE_READ_2', None)
+        self.NON_SYNONYMOUS_DELETIONS = kwargs.get(
+            'NON_SYNONYMOUS_DELETIONS', None)
+        self.NON_SYNONYMOUS_INSERTIONS = kwargs.get(
+            'NON_SYNONYMOUS_INSERTIONS', None)
+        self.NON_SYNONYMOUS_SNVS = kwargs.get(
+            'NON_SYNONYMOUS_SNVS', None)
+        self.PAIRED_END = kwargs.get(
+            'PAIRED_END', None)
+        self.PERCENT_ALIGNED_BASES = kwargs.get(
+            'PERCENT_ALIGNED_BASES', None)
+        self.PERCENT_ALIGNED_BASES_READ_1 = kwargs.get(
+            'PERCENT_ALIGNED_BASES_READ_1', None)
+        self.PERCENT_ALIGNED_BASES_READ_2 = kwargs.get(
+            'PERCENT_ALIGNED_BASES_READ_2', None)
+        self.PERCENT_ALIGNED_READS = kwargs.get(
+            'PERCENT_ALIGNED_READS', None)
+        self.PERCENT_ALIGNED_READ_1 = kwargs.get(
+            'PERCENT_ALIGNED_READ_1', None)
+        self.PERCENT_ALIGNED_READ_2 = kwargs.get(
+            'PERCENT_ALIGNED_READ_2', None)
+        self.PERCENT_AT_DROPOUT = kwargs.get(
+            'PERCENT_AT_DROPOUT', None)
+        self.PERCENT_CNVS_IN_GENES = kwargs.get(
+            'PERCENT_CNVS_IN_GENES', None)
+        self.PERCENT_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'PERCENT_DUPLICATE_ALIGNED_READS', None)
+        self.PERCENT_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'PERCENT_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.PERCENT_GC_DROPOUT = kwargs.get(
+            'PERCENT_GC_DROPOUT', None)
+        self.PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS = kwargs.get(
+            'PERCENT_NON_SPATIAL_DUPLICATE_READ_PAIRS', None)
+        self.PERCENT_OVERLAPPING_BASES = kwargs.get(
+            'PERCENT_OVERLAPPING_BASES', None)
+        self.PERCENT_Q25_BASES_READ_1 = kwargs.get(
+            'PERCENT_Q25_BASES_READ_1', None)
+        self.PERCENT_Q25_BASES_READ_2 = kwargs.get(
+            'PERCENT_Q25_BASES_READ_2', None)
+        self.PERCENT_Q30_BASES = kwargs.get(
+            'PERCENT_Q30_BASES', None)
+        self.PERCENT_Q30_BASES_READ_1 = kwargs.get(
+            'PERCENT_Q30_BASES_READ_1', None)
+        self.PERCENT_Q30_BASES_READ_2 = kwargs.get(
+            'PERCENT_Q30_BASES_READ_2', None)
+        self.PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES = kwargs.get(
+            'PERCENT_READ_PAIRS_ALIGNED_TO_DIFFERENT_CHROMOSOMES', None)
+        self.PERCENT_SOFT_CLIPPED_BASES = kwargs.get(
+            'PERCENT_SOFT_CLIPPED_BASES', None)
+        self.Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES = kwargs.get(
+            'Q30_BASES_EXCLUDING_CLIPPED_AND_DUPLICATE_READ_BASES', None)
+        self.READ_ENRICHMENT_AT_75_GC = kwargs.get(
+            'READ_ENRICHMENT_AT_75_GC', None)
+        self.READ_ENRICHMENT_AT_80_GC = kwargs.get(
+            'READ_ENRICHMENT_AT_80_GC', None)
+        self.REFERENCE_GENOME = kwargs.get(
+            'REFERENCE_GENOME', 'None')
+        self.RUN_FOLDER = kwargs.get(
+            'RUN_FOLDER', 'None')
+        self.SAMPLE_ID = kwargs.get(
+            'SAMPLE_ID', 'None')
+        self.SAMPLE_NAME = kwargs.get(
+            'SAMPLE_NAME', 'None')
+        self.SNVS = kwargs.get(
+            'SNVS', None)
+        self.SNVS_ALL = kwargs.get(
+            'SNVS_ALL', None)
+        self.SNVS_IN_CODING_REGIONS = kwargs.get(
+            'SNVS_IN_CODING_REGIONS', None)
+        self.SNVS_IN_EXONS = kwargs.get(
+            'SNVS_IN_EXONS', None)
+        self.SNVS_IN_GENES = kwargs.get(
+            'SNVS_IN_GENES', None)
+        self.SNVS_IN_MATURE_MIRNA = kwargs.get(
+            'SNVS_IN_MATURE_MIRNA', None)
+        self.SNVS_IN_SPLICE_SITE_REGIONS = kwargs.get(
+            'SNVS_IN_SPLICE_SITE_REGIONS', None)
+        self.SNVS_IN_UTR_REGIONS = kwargs.get(
+            'SNVS_IN_UTR_REGIONS', None)
+        self.SNVS_PERCENT_FOUND_IN_DBSNP = kwargs.get(
+            'SNVS_PERCENT_FOUND_IN_DBSNP', None)
+        self.SNV_HET_HOM_RATIO = kwargs.get(
+            'SNV_HET_HOM_RATIO', None)
+        self.SNV_TS_TV_RATIO = kwargs.get(
+            'SNV_TS_TV_RATIO', None)
+        self.STOP_GAINED_DELETIONS = kwargs.get(
+            'STOP_GAINED_DELETIONS', None)
+        self.STOP_GAINED_INSERTIONS = kwargs.get(
+            'STOP_GAINED_INSERTIONS', None)
+        self.STOP_GAINED_SNVS = kwargs.get(
+            'STOP_GAINED_SNVS', None)
+        self.STOP_LOST_DELETIONS = kwargs.get(
+            'STOP_LOST_DELETIONS', None)
+        self.STOP_LOST_INSERTIONS = kwargs.get(
+            'STOP_LOST_INSERTIONS', None)
+        self.STOP_LOST_SNVS = kwargs.get(
+            'STOP_LOST_SNVS', None)
+        self.SV_BREAKENDS = kwargs.get(
+            'SV_BREAKENDS', None)
+        self.SV_BREAKENDS_ALL = kwargs.get(
+            'SV_BREAKENDS_ALL', None)
+        self.SV_BREAKENDS_IN_GENES = kwargs.get(
+            'SV_BREAKENDS_IN_GENES', None)
+        self.SV_DELETIONS = kwargs.get(
+            'SV_DELETIONS', None)
+        self.SV_DELETIONS_ALL = kwargs.get(
+            'SV_DELETIONS_ALL', None)
+        self.SV_DELETIONS_IN_GENES = kwargs.get(
+            'SV_DELETIONS_IN_GENES', None)
+        self.SV_INSERTIONS = kwargs.get(
+            'SV_INSERTIONS', None)
+        self.SV_INSERTIONS_ALL = kwargs.get(
+            'SV_INSERTIONS_ALL', None)
+        self.SV_INSERTIONS_IN_GENES = kwargs.get(
+            'SV_INSERTIONS_IN_GENES', None)
+        self.SV_INVERSIONS = kwargs.get(
+            'SV_INVERSIONS', None)
+        self.SV_INVERSIONS_ALL = kwargs.get(
+            'SV_INVERSIONS_ALL', None)
+        self.SV_INVERSIONS_IN_GENES = kwargs.get(
+            'SV_INVERSIONS_IN_GENES', None)
+        self.SV_PERCENT_BREAKENDS_IN_GENES = kwargs.get(
+            'SV_PERCENT_BREAKENDS_IN_GENES', None)
+        self.SV_PERCENT_DELETIONS_IN_GENES = kwargs.get(
+            'SV_PERCENT_DELETIONS_IN_GENES', None)
+        self.SV_PERCENT_INSERTIONS_IN_GENES = kwargs.get(
+            'SV_PERCENT_INSERTIONS_IN_GENES', None)
+        self.SV_PERCENT_INVERSIONS_IN_GENES = kwargs.get(
+            'SV_PERCENT_INVERSIONS_IN_GENES', None)
+        self.SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
+            'SV_PERCENT_TANDEM_DUPLICATIONS_IN_GENES', None)
+        self.SV_TANDEM_DUPLICATIONS = kwargs.get(
+            'SV_TANDEM_DUPLICATIONS', None)
+        self.SV_TANDEM_DUPLICATIONS_ALL = kwargs.get(
+            'SV_TANDEM_DUPLICATIONS_ALL', None)
+        self.SV_TANDEM_DUPLICATIONS_IN_GENES = kwargs.get(
+            'SV_TANDEM_DUPLICATIONS_IN_GENES', None)
+        self.SYNONYMOUS_SNVS = kwargs.get(
+            'SYNONYMOUS_SNVS', None)
+        self.TOTAL_ALIGNED_BASES = kwargs.get(
+            'TOTAL_ALIGNED_BASES', None)
+        self.TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
+            'TOTAL_ALIGNED_BASES_READ_1', None)
+        self.TOTAL_ALIGNED_BASES_READ_2 = kwargs.get(
+            'TOTAL_ALIGNED_BASES_READ_2', None)
+        self.TOTAL_ALIGNED_READS = kwargs.get(
+            'TOTAL_ALIGNED_READS', None)
+        self.TOTAL_ALIGNED_READ_1 = kwargs.get(
+            'TOTAL_ALIGNED_READ_1', None)
+        self.TOTAL_ALIGNED_READ_2 = kwargs.get(
+            'TOTAL_ALIGNED_READ_2', None)
+        self.TOTAL_ALIGNED_READ_PAIRS = kwargs.get(
+            'TOTAL_ALIGNED_READ_PAIRS', None)
+        self.TOTAL_DUPLICATE_ALIGNED_READS = kwargs.get(
+            'TOTAL_DUPLICATE_ALIGNED_READS', None)
+        self.TOTAL_DUPLICATE_PROPER_READ_PAIRS = kwargs.get(
+            'TOTAL_DUPLICATE_PROPER_READ_PAIRS', None)
+        self.TOTAL_MAPQ_GT_10_READS = kwargs.get(
+            'TOTAL_MAPQ_GT_10_READS', None)
+        self.TOTAL_PF_BASES = kwargs.get(
+            'TOTAL_PF_BASES', None)
+        self.TOTAL_PF_BASES_READ_1 = kwargs.get(
+            'TOTAL_PF_BASES_READ_1', None)
+        self.TOTAL_PF_BASES_READ_2 = kwargs.get(
+            'TOTAL_PF_BASES_READ_2', None)
+        self.TOTAL_PF_READS = kwargs.get(
+            'TOTAL_PF_READS', None)
+        self.TOTAL_PF_READ_1 = kwargs.get(
+            'TOTAL_PF_READ_1', None)
+        self.TOTAL_PF_READ_2 = kwargs.get(
+            'TOTAL_PF_READ_2', None)
+        self.TOTAL_PROPER_READ_PAIRS = kwargs.get(
+            'TOTAL_PROPER_READ_PAIRS', None)
+        self.UNIQUE_ALIGNED_READS = kwargs.get(
+            'UNIQUE_ALIGNED_READS', None)
+        self.illumina_version = kwargs.get(
+            'illumina_version', None)
+
+
 class IlluminaVersion(object):
     """
     No documentation
     """
     IlluminaSummaryV1 = "IlluminaSummaryV1"
     IlluminaSummaryV2 = "IlluminaSummaryV2"
+    IlluminaSummaryV4 = "IlluminaSummaryV4"
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
+    IlluminaSummaryCancerV4 = "IlluminaSummaryCancerV4"
 
 
 class InbreedingCoefficient(ProtocolElement):

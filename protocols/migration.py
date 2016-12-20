@@ -70,7 +70,7 @@ class Migration2_1To3(object):
         new_genomic_feature = self.new_model.GenomicFeature()
         new_genomic_feature.featureType = genomic_feature.featureType
         new_genomic_feature.ensemblId = genomic_feature.ensemblId
-        if 'HGNC' in genomic_feature.ids:
+        if genomic_feature.ids and 'HGNC' in genomic_feature.ids:
             new_genomic_feature.HGNC = genomic_feature.ids['HGNC']
         new_genomic_feature.other_ids = genomic_feature.ids
 
@@ -195,11 +195,11 @@ class Migration2_1To3(object):
         new_clinical_report.candidateVariants = []
         new_clinical_report.candidateStructuralVariants = []
         for reported_variant in clinical_report.candidateVariants:
-            new_clinical_report.reportedVariants.append(self.migrate_reported_variant(reported_variant))
+            new_clinical_report.candidateVariants.append(self.migrate_reported_variant(reported_variant))
 
         if clinical_report.candidateStructuralVariants:
             for reported_structural_variant in clinical_report.candidateStructuralVariants:
-                new_clinical_report.ReportedStructuralVariant.append(
+                new_clinical_report.candidateStructuralVariants.append(
                     self.migrate_reported_structural_variant(reported_structural_variant))
 
         if new_clinical_report.validate(new_clinical_report.toJsonDict()):
