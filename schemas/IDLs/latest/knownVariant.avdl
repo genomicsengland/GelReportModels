@@ -2,7 +2,7 @@
 
 protocol KnownVariants {
 
-    import idl "../external/avro/variant.avdl";
+    import idl "../../../openCBschema/avro/variant.avdl";
     import idl "comment.avdl";
 
     enum CurationClassification {

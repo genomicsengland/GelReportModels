@@ -111,6 +111,35 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>clean-generated-java</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>openCBschema</directory>
+                                    <includes>
+                                        <include>avro/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>openCBschema</directory>
+                                    <includes>
+                                        <include>avro</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.0.0</version>
@@ -126,8 +155,6 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <!--classifier>sources</classifier-->
-                            <!--failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact-->
                             <outputDirectory>openCBschema</outputDirectory>
                         </configuration>
                     </execution>
