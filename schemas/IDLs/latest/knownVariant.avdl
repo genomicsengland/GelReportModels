@@ -1,4 +1,4 @@
-@namespace("org.opencb.biodata.models.variant.avro")
+@namespace("org.gel.cva.models.avro")
 
 protocol KnownVariants {
 
@@ -36,7 +36,7 @@ protocol KnownVariants {
     }
 
     record KnownVariantAvro {
-        VariantAvro variant;
+        org.opencb.biodata.models.variant.avro.VariantAvro variant;
         CurationClassification classification;
         CurationScore curationScore;
         array<CurationHistoryEntry> history = [];
