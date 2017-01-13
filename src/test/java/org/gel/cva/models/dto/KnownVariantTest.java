@@ -15,18 +15,18 @@
  */
 package org.gel.cva.models.dto;
 
+import org.gel.cva.models.avro.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.gel.cva.models.avro.CurationClassification;
-import org.gel.cva.models.avro.KnownVariantAvro;
 import org.opencb.biodata.models.variant.VariantFactory;
 import org.opencb.biodata.models.variant.VariantSource;
 import org.opencb.biodata.models.variant.VariantVcfFactory;
 import org.opencb.biodata.models.variant.Variant;
 import org.opencb.biodata.models.variant.StudyEntry;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +51,15 @@ public class KnownVariantTest {
         source.setSamples(sampleNames);
     }
 
+    private void testDefaultEvidenceEntry(KnownVariant knownVariant) {
+        assertNotNull(knownVariant.getEvidences());
+        assertEquals(1, knownVariant.getEvidences().size());
+        EvidenceEntry defaultEvidenceEntry = (EvidenceEntry)knownVariant.getEvidences().get(0);
+        assertEquals(AlleleOrigin.unknown, defaultEvidenceEntry.getAlleleOrigin());
+        assertEquals(EvidenceSource.unknown, defaultEvidenceEntry.getSource());
+        assertEquals("None", defaultEvidenceEntry.getSubmitter());
+    }
+
     @Test
     public void testCreateEmptyCuratedVariant() {
         KnownVariant knownVariant = new KnownVariant();
@@ -58,8 +67,7 @@ public class KnownVariantTest {
         assertEquals(new Integer(0), knownVariant.getCurationScore());
         assertNotNull(knownVariant.getCurationHistory());
         assertEquals(0, knownVariant.getCurationHistory().size());
-        assertNotNull(knownVariant.getEvidences());
-        assertEquals(0, knownVariant.getEvidences().size());
+        this.testDefaultEvidenceEntry(knownVariant);
         assertNotNull(knownVariant.getComments());
         assertEquals(0, knownVariant.getComments().size());
         assertNotNull(knownVariant.getVariant());
@@ -88,8 +96,7 @@ public class KnownVariantTest {
         assertEquals(new Integer(0), knownVariant.getCurationScore());
         assertNotNull(knownVariant.getCurationHistory());
         assertEquals(0, knownVariant.getCurationHistory().size());
-        assertNotNull(knownVariant.getEvidences());
-        assertEquals(0, knownVariant.getEvidences().size());
+        this.testDefaultEvidenceEntry(knownVariant);
         assertNotNull(knownVariant.getComments());
         assertEquals(0, knownVariant.getComments().size());
         assertNotNull(knownVariant.getVariant());
@@ -121,8 +128,7 @@ public class KnownVariantTest {
         assertEquals(new Integer(5), knownVariant.getCurationScore());
         assertNotNull(knownVariant.getCurationHistory());
         assertEquals(0, knownVariant.getCurationHistory().size());
-        assertNotNull(knownVariant.getEvidences());
-        assertEquals(0, knownVariant.getEvidences().size());
+        this.testDefaultEvidenceEntry(knownVariant);
         assertNotNull(knownVariant.getComments());
         assertEquals(0, knownVariant.getComments().size());
         assertNotNull(knownVariant.getVariant());
@@ -136,6 +142,26 @@ public class KnownVariantTest {
         assertNotNull(curatedVariantAvro.getEvidences());
         assertNotNull(curatedVariantAvro.getComments());
         assertNotNull(curatedVariantAvro.getVariant());
+
+        // adds evidences
+        EvidenceEntry evidenceEntry = new EvidenceEntry();
+        evidenceEntry.setSubmitter("test");
+        evidenceEntry.setAlleleOrigin(AlleleOrigin.germline);
+        evidenceEntry.setSource(EvidenceSource.unknown);
+        evidenceEntry.setDatabaseName("whateverDB");
+        evidenceEntry.setDescription("This is a test known variant");
+        evidenceEntry.setStudy("100KG");
+        evidenceEntry.setNumberIndividuals(1);
+        evidenceEntry.setEthnicity("test");
+        evidenceEntry.setGeographicalOrigin("here");
+        List<EvidencePhenotype> phenotypes = new ArrayList<EvidencePhenotype>();
+        EvidencePhenotype evidencePhenotype = new EvidencePhenotype();
+        evidencePhenotype.setInheritanceMode(InheritanceMode.autosomal_recessive);
+        evidencePhenotype.setPhenotype("TestPhenotype");
+        phenotypes.add(evidencePhenotype);
+        evidenceEntry.setPhenotypes(phenotypes);
+        knownVariant.addEvidence(evidenceEntry);
+        assertEquals(2, knownVariant.getEvidences().size());
     }
 
     @Test(expected = IllegalArgumentException.class)

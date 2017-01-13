@@ -20,13 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
+import org.gel.cva.models.avro.*;
 import org.opencb.biodata.models.variant.Variant;
-import org.gel.cva.models.avro.KnownVariantAvro;
-import org.gel.cva.models.avro.CurationClassification;
-import org.gel.cva.models.avro.CurationHistoryEntry;
-import org.gel.cva.models.avro.Comment;
-import org.gel.cva.models.avro.CurationScore;
-import org.gel.cva.models.avro.EvidenceEntry;
 
 import java.io.Serializable;
 import java.util.*;
@@ -149,7 +144,15 @@ public class KnownVariant implements Serializable {
      * @return
      */
     private List getDefaultEvidences() {
-        return new LinkedList<EvidenceEntry>();
+        EvidenceEntry evidenceEntry = new EvidenceEntry();
+        Date now = new Date();
+        evidenceEntry.setDate(now.getTime());
+        evidenceEntry.setAlleleOrigin(AlleleOrigin.unknown);
+        evidenceEntry.setSource(EvidenceSource.unknown);
+        evidenceEntry.setSubmitter("None");
+        List evidences = new LinkedList<EvidenceEntry>();
+        evidences.add(evidenceEntry);
+        return evidences;
     }
 
     /**
@@ -285,6 +288,27 @@ public class KnownVariant implements Serializable {
      */
     public KnownVariantAvro getImpl() {
         return impl;
+    }
+
+    /**
+     * Adds an evidence to the list of evidences
+     * @param evidenceEntry
+     */
+    public void addEvidence(EvidenceEntry evidenceEntry) {
+        // checks required fields at evidence
+        if (evidenceEntry.getSubmitter() == null || evidenceEntry.getSubmitter().equals("")){
+            throw new IllegalArgumentException("Submitter is required to register an evidence");
+        }
+        if (evidenceEntry.getSource() == null) {
+            evidenceEntry.setSource(EvidenceSource.unknown);
+        }
+        if (evidenceEntry.getAlleleOrigin() == null) {
+            evidenceEntry.setAlleleOrigin(AlleleOrigin.unknown);
+        }
+        // adds the evidence to the current list in KnownVariant
+        List<EvidenceEntry> evidences = this.getEvidences();
+        evidences.add(evidenceEntry);
+        this.setEvidences(evidences);
     }
 }
 

@@ -23,7 +23,7 @@ protocol KnownVariants {
     }
 
     record CurationHistoryEntry {
-            double date;
+            long date;
             CurationScore previousScore;
             CurationScore newScore;
             CurationClassification previousClassification;
@@ -32,11 +32,51 @@ protocol KnownVariants {
             array<Comment> comments = [];
     }
 
+    enum EvidenceSource {
+        database,
+        clinical_testing,
+        research,
+        literature_manual_curation,
+        literature_automatic_curation,
+        unknown
+    }
+
+    enum AlleleOrigin {
+        somatic,
+        germline,
+        unknown
+    }
+
+    enum InheritanceMode {
+        autosomal_dominant,
+        autosomal_recessive,
+        X_linked_dominant,
+        X_linked_recessive,
+        mitochondrial,
+        Y_linked,
+        codominant
+    }
+
+    record EvidencePhenotype {
+        string phenotype;   // preferably a SO term
+        InheritanceMode inheritanceMode;
+    }
+
     record EvidenceEntry {
-        double date;
-        string source;
-        string description;
+        long date;
+        string submitter;
+        EvidenceSource source;
+        AlleleOrigin alleleOrigin;
+        array<EvidencePhenotype> phenotypes = [];
+        string version;
+        string pubmedId;
         string url;
+        string study;
+        string database_name;
+        int numberIndividuals;
+        string ethnicity;
+        string geographicalOrigin;
+        string description;
         array<Comment> comments = [];
     }
 
