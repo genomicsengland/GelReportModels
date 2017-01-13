@@ -24,6 +24,8 @@
         <avro.version>1.7.7</avro.version>
         <protobuf.version>3.1.0</protobuf.version>
         <grpc.version>1.0.1</grpc.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -74,6 +76,7 @@
                             <fieldVisibility>private</fieldVisibility>
                             <stringType>String</stringType>
                             <sourceDirectory>${project.basedir}/schemas/IDLs/latest/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
