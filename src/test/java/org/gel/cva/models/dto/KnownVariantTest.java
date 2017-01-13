@@ -66,7 +66,8 @@ public class KnownVariantTest {
         KnownVariantAvro curatedVariantAvro = knownVariant.getImpl();
         assertNotNull(curatedVariantAvro);
         assertEquals(CurationClassification.VUS, curatedVariantAvro.getClassification());
-        assertEquals(new Integer(0), curatedVariantAvro.getCurationScore().getVariantScore());
+        assertEquals(new Integer(0),
+                KnownVariant.curation_score_mapping.inverse().get(curatedVariantAvro.getCurationScore()));
         assertNotNull(curatedVariantAvro.getHistory());
         assertNotNull(curatedVariantAvro.getEvidences());
         assertNotNull(curatedVariantAvro.getComments());
@@ -96,7 +97,8 @@ public class KnownVariantTest {
         KnownVariantAvro curatedVariantAvro = knownVariant.getImpl();
         assertNotNull(curatedVariantAvro);
         assertEquals(CurationClassification.VUS, curatedVariantAvro.getClassification());
-        assertEquals(new Integer(0), curatedVariantAvro.getCurationScore().getVariantScore());
+        assertEquals(new Integer(0),
+                KnownVariant.curation_score_mapping.inverse().get(curatedVariantAvro.getCurationScore()));
         assertNotNull(curatedVariantAvro.getHistory());
         assertNotNull(curatedVariantAvro.getEvidences());
         assertNotNull(curatedVariantAvro.getComments());
@@ -128,7 +130,8 @@ public class KnownVariantTest {
         KnownVariantAvro curatedVariantAvro = knownVariant.getImpl();
         assertNotNull(curatedVariantAvro);
         assertEquals(CurationClassification.DISEASE_ASSOCIATED_VARIANT, curatedVariantAvro.getClassification());
-        assertEquals(new Integer(5), curatedVariantAvro.getCurationScore().getVariantScore());
+        assertEquals(new Integer(5),
+                KnownVariant.curation_score_mapping.inverse().get(curatedVariantAvro.getCurationScore()));
         assertNotNull(curatedVariantAvro.getHistory());
         assertNotNull(curatedVariantAvro.getEvidences());
         assertNotNull(curatedVariantAvro.getComments());

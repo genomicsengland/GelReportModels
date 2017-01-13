@@ -13,8 +13,13 @@ protocol KnownVariants {
         VUS                                 // Variants of uncertain significance
     }
 
-    record CurationScore {
-        int variantScore;                   // values between 0 and 5...
+    enum CurationScore {    // values between 0 and 5...
+        NOT_CURATED,
+        CURATION_CONFIDENCE_1,
+        CURATION_CONFIDENCE_2,
+        CURATION_CONFIDENCE_3,
+        CURATION_CONFIDENCE_4,
+        CURATION_CONFIDENCE_5
     }
 
     record CurationHistoryEntry {

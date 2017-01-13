@@ -17,6 +17,9 @@
 package org.gel.cva.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableMap;
 import org.opencb.biodata.models.variant.Variant;
 import org.gel.cva.models.avro.KnownVariantAvro;
 import org.gel.cva.models.avro.CurationClassification;
@@ -43,6 +46,15 @@ public class KnownVariant implements Serializable {
     static private Integer SUP_CURATION_SCORE = 5;
     static private Integer DEFAULT_CURATION_SCORE = 0;
     static private String DEFAULT_CURATION_CLASSIFICATION = "VUS";
+    static public BiMap<Integer, CurationScore> curation_score_mapping = HashBiMap.create();
+    static {
+        curation_score_mapping.put(0, CurationScore.NOT_CURATED);
+        curation_score_mapping.put(1, CurationScore.CURATION_CONFIDENCE_1);
+        curation_score_mapping.put(2, CurationScore.CURATION_CONFIDENCE_2);
+        curation_score_mapping.put(3, CurationScore.CURATION_CONFIDENCE_3);
+        curation_score_mapping.put(4, CurationScore.CURATION_CONFIDENCE_4);
+        curation_score_mapping.put(5, CurationScore.CURATION_CONFIDENCE_5);
+    };
 
     /**
      * Empty constructor, set default values
@@ -121,7 +133,7 @@ public class KnownVariant implements Serializable {
      * @return
      */
     private CurationScore getDefaultCurationScore() {
-        return new CurationScore(KnownVariant.DEFAULT_CURATION_SCORE);
+        return curation_score_mapping.get(KnownVariant.DEFAULT_CURATION_SCORE);
     }
 
     /**
@@ -184,7 +196,7 @@ public class KnownVariant implements Serializable {
                     KnownVariant.INF_CURATION_SCORE, KnownVariant.SUP_CURATION_SCORE, curationScore));
         }
         else {
-            impl.setCurationScore(new CurationScore(curationScore));
+            impl.setCurationScore(curation_score_mapping.get(curationScore));
         }
     }
 
@@ -193,7 +205,7 @@ public class KnownVariant implements Serializable {
      * @return
      */
     public Integer getCurationScore() {
-        return impl.getCurationScore().getVariantScore();
+        return curation_score_mapping.inverse().get(impl.getCurationScore());
     }
 
     /**
