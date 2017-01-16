@@ -15,7 +15,7 @@
  */
 package org.gel.cva.models.dto;
 
-import org.gel.cva.models.avro.*;
+import org.gel.models.cva.avro.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

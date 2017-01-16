@@ -19,8 +19,7 @@ package org.gel.cva.models.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.ImmutableMap;
-import org.gel.cva.models.avro.*;
+import org.gel.models.cva.avro.*;
 import org.opencb.biodata.models.variant.Variant;
 
 import java.io.Serializable;
