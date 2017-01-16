@@ -1,4 +1,4 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 
 /** This protocol defines the integration mechanism to store analysis results in
     the MDT (Multi-disciplinary Tool). */
@@ -31,7 +31,7 @@ record DeliveryTask {
      requests for the same tiering results. */
 record TieringResult {
     /** Model version number */
-    Gel_BioInf_Models.VersionControl versionControl;
+    org.gel.models.report.avro.VersionControl versionControl;
 
     /** This is the version of the assembly used to align the reads */
     string genomeAssemblyVersion="GRCh37.p13";

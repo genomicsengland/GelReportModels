@@ -1,4 +1,4 @@
-@namespace("org.gel.cva.models.avro")
+@namespace("org.gel.models.cva.avro")
 
 protocol KnownVariants {
 

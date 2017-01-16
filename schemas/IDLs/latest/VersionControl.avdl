@@ -1,4 +1,4 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 /**
 This protocol defines the Participants and Pedigree
 */
