@@ -134,7 +134,7 @@ public class KnownVariant implements Serializable {
      * Default curation history
      * @return
      */
-    private List getDefaultCurationHistory() {
+    private List<CurationHistoryEntry> getDefaultCurationHistory() {
         return new LinkedList<CurationHistoryEntry>();
     }
 
@@ -142,7 +142,7 @@ public class KnownVariant implements Serializable {
      * Default evidences
      * @return
      */
-    private List getDefaultEvidences() {
+    private List<EvidenceEntry> getDefaultEvidences() {
         EvidenceEntry evidenceEntry = new EvidenceEntry();
         Date now = new Date();
         evidenceEntry.setDate(now.getTime());
@@ -158,7 +158,7 @@ public class KnownVariant implements Serializable {
      * Default comments
      * @return
      */
-    private List getDefaultComments() {
+    private List<Comment> getDefaultComments() {
         return new LinkedList<Comment>();
     }
 
