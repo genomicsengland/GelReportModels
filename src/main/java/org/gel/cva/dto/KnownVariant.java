@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.gel.cva.models.dto;
+package org.gel.cva.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.BiMap;

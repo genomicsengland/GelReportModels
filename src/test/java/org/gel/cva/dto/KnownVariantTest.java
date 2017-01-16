@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gel.cva.models.dto;
+package org.gel.cva.dto;
 
 import org.gel.models.cva.avro.*;
 import org.junit.Before;
