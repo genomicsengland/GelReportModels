@@ -36,6 +36,7 @@ protocol KnownVariants {
         database,
         clinical_testing,
         research,
+        trial,
         literature_manual_curation,
         literature_automatic_curation,
         unknown
@@ -44,6 +45,7 @@ protocol KnownVariants {
     enum AlleleOrigin {
         somatic,
         germline,
+        both,
         unknown
     }
 
