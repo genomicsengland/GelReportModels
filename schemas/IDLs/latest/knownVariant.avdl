@@ -4,6 +4,8 @@ protocol KnownVariants {
 
     import idl "../../../openCBschema/avro/variant.avdl";
     import idl "comment.avdl";
+    import idl "CommonInterpreted.avdl";
+    import idl "CommonParticipant.avdl";
 
     enum CurationClassification {
         benign_variant,                     // SO:0001770
@@ -32,13 +34,14 @@ protocol KnownVariants {
             array<Comment> comments = [];
     }
 
-    enum EvidenceSource {
+    enum SourceClass {
         database,
         clinical_testing,
         research,
         trial,
         literature_manual_curation,
         literature_automatic_curation,
+        literature_database_curation,
         unknown
     }
 
@@ -49,36 +52,25 @@ protocol KnownVariants {
         unknown
     }
 
-    enum InheritanceMode {
-        autosomal_dominant,
-        autosomal_recessive,
-        X_linked_dominant,
-        X_linked_recessive,
-        mitochondrial,
-        Y_linked,
-        codominant
-    }
-
     record EvidencePhenotype {
         string phenotype;   // preferably a SO term
-        InheritanceMode inheritanceMode;
+        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
     }
 
     record EvidenceEntry {
         long date;
         string submitter;
-        EvidenceSource source;
+        union {null, string} sourceName;
+        SourceClass sourceClass;
+        union {null, string} sourceVersion;
+        union {null, string} sourceUrl;
         AlleleOrigin alleleOrigin;
         array<EvidencePhenotype> phenotypes = [];
-        string version;
-        string pubmedId;
-        string url;
-        string study;
-        string database_name;
-        int numberIndividuals;
-        string ethnicity;
-        string geographicalOrigin;
-        string description;
+        union {null, string} pubmedId;
+        union {null, string} study;
+        union {null, int} numberIndividuals;
+        union {null, org.gel.models.report.avro.EthnicCategory} ethnicity;
+        union {null, string} description;
         array<Comment> comments = [];
     }
 
@@ -91,5 +83,4 @@ protocol KnownVariants {
         array<Comment> comments = [];
         // TODO: link report events
     }
-
 }
