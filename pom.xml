@@ -123,13 +123,13 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>openCBschema</directory>
+                                    <directory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</directory>
                                     <includes>
                                         <include>avro/*</include>
                                     </includes>
                                 </fileset>
                                 <fileset>
-                                    <directory>openCBschema</directory>
+                                    <directory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</directory>
                                     <includes>
                                         <include>avro</include>
                                     </includes>
@@ -155,8 +155,45 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <outputDirectory>openCBschema</outputDirectory>
+                            <outputDirectory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</outputDirectory>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy org.webjars dependency to jar</id>
+                        <phase>initialize</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <move todir="schemas/IDLs/latest/org.opencb.biodata.models.sequence" flatten="true">
+                                    <fileset dir="schemas/IDLs/latest/org.opencb.biodata.models.sequence/avro">
+                                        <include name="**/*.avdl"/>
+                                    </fileset>
+                                </move>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <tasks>
+                                <delete dir="schemas/IDLs/latest/org.opencb.biodata.models.sequence/avro"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

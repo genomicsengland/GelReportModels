@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Phase",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "PRIMARY", "METASTATIC", "RECURRENCE" ]
-}

@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Zygosity",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "It is a representation of the zygosity\n\n* `reference_homozygous`: 0/0, 0|0\n* `heterozygous`: 0/1, 1/0, 1|0, 0|1\n* `alternate_homozygous`: 1/1, 1|1\n* `missing`: ./., .|.\n* `half_missing_reference`: ./0, 0/., 0|., .|0\n* `half_missing_alternate`: ./1, 1/., 1|., .|1\n* `alternate_hemizigous`: 1\n* `reference_hemizigous`: 0\n* `unk`: Anything unexpected",
-  "symbols" : [ "reference_homozygous", "heterozygous", "alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk" ]
-}

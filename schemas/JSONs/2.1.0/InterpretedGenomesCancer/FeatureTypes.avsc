@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "FeatureTypes",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
-}

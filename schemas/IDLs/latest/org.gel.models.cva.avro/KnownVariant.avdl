@@ -1,0 +1,93 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol KnownVariants {
+
+    // CVA references
+    import idl "Comment.avdl";
+    // Report models references
+    import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
+    import idl "../org.gel.models.report.avro/CommonParticipant.avdl";
+    // OpenCB references
+    import idl "../org.opencb.biodata.models.sequence/variant.avdl";
+
+
+    enum CurationClassification {
+        benign_variant,                     // SO:0001770
+        disease_associated_variant,         // SO:0001771
+        disease_causing_variant,            // SO:0001772
+        quantitative_variant,               // SO:0001774
+        VUS                                 // Variants of uncertain significance
+    }
+
+    enum CurationScore {    // values between 0 and 5...
+        NOT_CURATED,
+        CURATION_CONFIDENCE_1,
+        CURATION_CONFIDENCE_2,
+        CURATION_CONFIDENCE_3,
+        CURATION_CONFIDENCE_4,
+        CURATION_CONFIDENCE_5
+    }
+
+    record CurationHistoryEntry {
+            long date;
+            CurationScore previousScore;
+            CurationScore newScore;
+            CurationClassification previousClassification;
+            CurationClassification newClassification;
+            string curator;
+            array<Comment> comments = [];
+    }
+
+    enum SourceClass {
+        database,
+        clinical_testing,
+        research,
+        trial,
+        literature_manual_curation,
+        literature_automatic_curation,
+        literature_database_curation,
+        unknown
+    }
+
+    enum AlleleOrigin {
+        somatic,
+        germline,
+        both,
+        unknown
+    }
+
+    record EvidencePhenotype {
+        string phenotype;   // preferably a SO term
+        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+    }
+
+    // TODO: create record for source
+    record EvidenceEntry {
+        // TODO: decide to use string with date YYMMDDHHmm
+        long date;
+        string submitter;
+        union {null, string} sourceName;
+        SourceClass sourceClass;
+        union {null, string} sourceVersion;
+        union {null, string} sourceUrl;
+        union {null, string} sourceId;
+        AlleleOrigin alleleOrigin;
+        array<EvidencePhenotype> phenotypes = [];
+        union {null, string} pubmedId;
+        union {null, string} study;
+        union {null, int} numberIndividuals;
+        union {null, org.gel.models.report.avro.EthnicCategory} ethnicity;
+        union {null, string} description;
+        array<Comment> comments = [];
+    }
+
+    record KnownVariantAvro {
+        org.opencb.biodata.models.variant.avro.VariantAvro variant;
+        CurationClassification classification;
+        CurationScore curationScore;
+        array<CurationHistoryEntry> history = [];
+        array<EvidenceEntry> evidences = [];
+        array<Comment> comments = [];
+        // TODO: link report events
+    }
+}
