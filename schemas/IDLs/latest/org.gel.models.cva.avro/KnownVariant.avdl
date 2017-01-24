@@ -29,7 +29,7 @@ protocol KnownVariants {
     }
 
     record CurationHistoryEntry {
-            long date;
+            string date;    // format YYYYMMDDHHmm
             CurationScore previousScore;
             CurationScore newScore;
             CurationClassification previousClassification;
@@ -61,16 +61,18 @@ protocol KnownVariants {
         org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
     }
 
-    // TODO: create record for source
+    record EvidenceSource {
+        union {null, string} name;
+        SourceClass class;
+        union {null, string} version;
+        union {null, string} url;
+        union {null, string} id;
+    }
+
     record EvidenceEntry {
-        // TODO: decide to use string with date YYMMDDHHmm
-        long date;
+        string date;    // format YYYYMMDDHHmm
         string submitter;
-        union {null, string} sourceName;
-        SourceClass sourceClass;
-        union {null, string} sourceVersion;
-        union {null, string} sourceUrl;
-        union {null, string} sourceId;
+        EvidenceSource source;
         AlleleOrigin alleleOrigin;
         array<EvidencePhenotype> phenotypes = [];
         union {null, string} pubmedId;

@@ -4,7 +4,7 @@ protocol Comments {
 
     record Comment {
         string text;
-        long date;
+        string date;    // format YYYYMMDDHHmm
         string author;
     }
 }
