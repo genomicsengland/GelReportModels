@@ -29,7 +29,7 @@ class Actions(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "Actions", "fields": [{"type": "string", "name": "actionType"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
 "name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
@@ -95,7 +95,7 @@ class AdditionalAnalysisPanel(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
 ["null", "string"], "name": "panelVersion"}]}
@@ -155,7 +155,7 @@ class AnalysisPanel(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "AnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
 ["null", "string"], "name": "panelVersion"}, {"type": "string",
@@ -205,7 +205,7 @@ class Ancestries(ProtocolElement):
     Ancestries, defined as Ethnic category(ies) and Chi-square test
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "Ancestries", "fields": [{"doc": "", "type": ["null", {"symbols":
 ["D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P",
 "S", "R", "Z"], "doc": "", "type": "enum", "name": "EthnicCategory"}],
@@ -276,7 +276,7 @@ class ArrayConcordance(ProtocolElement):
     discordant between WGS and Genotyping Array
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ArrayConcordance", "fields": [{"type": "double", "name":
 "numberOfSites"}, {"type": "double", "name":
 "numberOfDiscordantSites"}], "doc": ""}
@@ -316,7 +316,7 @@ class ArrayGenotypingRate(ProtocolElement):
     `number_total_genotypes`: The number of total genotypes
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ArrayGenotypingRate", "fields": [{"type": "string", "name": "IID"},
 {"type": "double", "name": "number_missing_genotypes"}, {"type":
 "double", "name": "number_total_genotypes"}], "doc": ""}
@@ -357,7 +357,7 @@ class AuditLog(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "AuditLog", "fields": [{"doc": "", "type": "string", "name":
 "interpretationRequestID"}, {"doc": "", "type": "string", "name":
 "interpretationRequestVersion"}, {"type": {"symbols": ["C0", "C1",
@@ -499,7 +499,7 @@ class BamHeaderMachine(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "BamHeaderMachine", "fields": [{"type": {"items": {"fields": [{"type":
 "double", "name": "DATE"}, {"type": "string", "name": "MACHINE"},
 {"type": "string", "name": "FLOWCELL"}, {"type": "string", "name":
@@ -540,7 +540,7 @@ class BamHeaderOther(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "BamHeaderOther", "fields": [{"type": "string", "name":
 "PIPELINE_ID"}, {"type": "string", "name": "PIPELINE_VERSION"}]}
 """
@@ -579,7 +579,7 @@ class CalledGenotype(ProtocolElement):
     analysis provider if further phasing is conducted
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
 "gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
 "", "type": {"symbols": ["reference_homozygous", "heterozygous",
@@ -641,7 +641,7 @@ class CancerDemographics(ProtocolElement):
     This defines a Cancer Demographics
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerDemographics", "fields": [{"doc": "", "type": "string", "name":
 "gelId"}, {"doc": "", "type": "string", "name": "center"}, {"doc": "",
 "type": ["null", "string"], "name": "centerPatientId"}, {"doc": "",
@@ -724,7 +724,7 @@ class CancerInterpretationRequest(ProtocolElement):
     This record represents basic information for this report
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
 {"fields": [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -958,7 +958,7 @@ class CancerInterpretedGenome(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -1099,7 +1099,7 @@ class CancerParticipant(ProtocolElement):
     information)
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerParticipant", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -1201,7 +1201,7 @@ class CancerSample(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerSample", "fields": [{"doc": "", "type": "string", "name":
 "sampleId"}, {"doc": "", "type": ["null", "string"], "name": "labId"},
 {"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
@@ -1299,7 +1299,7 @@ class CancerSummaryMetrics(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerSummaryMetrics", "fields": [{"type": "double", "name":
 "samtools_reads_mapped"}, {"type": "double", "name":
 "samtools_reads_mapped_normal"}, {"type": "double", "name":
@@ -1394,7 +1394,7 @@ class CaseShared(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CaseShared", "fields": [{"type": {"items": "string", "type":
 "array"}, "name": "previousGroups"}, {"type": {"items": "string",
 "type": "array"}, "name": "modifiedGroups"}]}
@@ -1433,7 +1433,7 @@ class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
     Phase 3 populations
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ChiSquare1KGenomesPhase3Pop", "fields": [{"doc": "", "type":
 {"symbols": ["AFR", "AMR", "EAS", "EUR", "SAS"], "doc": "", "type":
 "enum", "name": "KGSuperPopCategory"}, "name": "kGSuperPopCategory"},
@@ -1480,7 +1480,7 @@ class ClinicalReportCancer(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ClinicalReportCancer", "fields": [{"doc": "", "type": "string",
 "name": "interpretationRequestID"}, {"doc": "", "type": "string",
 "name": "interpretationRequestVersion"}, {"doc": "", "type": "string",
@@ -1682,7 +1682,7 @@ class ClinicalReportRD(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ClinicalReportRD", "fields": [{"doc": "", "type": "string", "name":
 "interpretationRequestID"}, {"doc": "", "type": "string", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
@@ -1889,7 +1889,7 @@ class ConsentStatus(ProtocolElement):
     Consent Status
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ConsentStatus", "fields": [{"default": false, "doc": "", "type":
 "boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
 "type": "boolean", "name": "primaryFindingConsent"}, {"default":
@@ -1932,7 +1932,7 @@ class CoverageSummary(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CoverageSummary", "fields": [{"doc": "", "type": "double", "name":
 "avg"}, {"doc": "", "type": "double", "name": "med"}, {"doc": "",
 "type": "double", "name": "bases"}, {"doc": "", "type": ["null",
@@ -2012,7 +2012,7 @@ class DeliveryTask(ProtocolElement):
     deliveries
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "DeliveryTask", "fields": [{"type": "int", "name": "tieringResultId"},
 {"doc": "", "type": "string", "name": "basePath"}, {"type": "string",
 "name": "protocolVersion"}, {"type": "string", "name":
@@ -2058,7 +2058,7 @@ class DiseasePenetrance(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "DiseasePenetrance", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
@@ -2100,7 +2100,7 @@ class Disorder(ProtocolElement):
     needs to be completed but we add the others for generality
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "Disorder", "fields": [{"doc": "", "type": ["null", "string"], "name":
 "diseaseGroup"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubGroup"}, {"doc": "", "type": ["null", "string"], "name":
@@ -2180,7 +2180,7 @@ class ExomeCoverage(ProtocolElement):
     Renamed from ExonCoverage
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ExomeCoverage", "fields": [{"type": {"items": {"fields": [{"doc": "",
 "type": "double", "name": "avg"}, {"doc": "", "type": "double",
 "name": "med"}, {"doc": "", "type": "double", "name": "bases"},
@@ -2240,14 +2240,15 @@ class File(ProtocolElement):
     strings if multiple samples are associated with the same file *
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name": "File",
-"fields": [{"doc": "", "type": ["null", "string", {"items": "string",
-"type": "array"}], "name": "SampleId"}, {"doc": "", "type": "string",
-"name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small",
-"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV",
-"VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum",
-"ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name":
-"fileType"}, {"type": ["null", "File"], "name": "md5Sum"}], "doc": ""}
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"File", "fields": [{"doc": "", "type": ["null", "string", {"items":
+"string", "type": "array"}], "name": "SampleId"}, {"doc": "", "type":
+"string", "name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF",
+"VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV",
+"VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig",
+"MD5Sum", "ROH", "OTHER"], "type": "enum", "name": "FileType"},
+"name": "fileType"}, {"type": ["null", "File"], "name": "md5Sum"}],
+"doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -2313,7 +2314,7 @@ class GelAtGcDrop(ProtocolElement):
     GEL AT/GC dropout calculation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "GelAtGcDrop", "fields": [{"type": "double", "name": "at_drop"},
 {"type": "double", "name": "gc_drop"}], "doc": ""}
 """
@@ -2357,7 +2358,7 @@ class GelMetrics(ProtocolElement):
     `md5checksum`: md5 of the delivery
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "GelMetrics", "fields": [{"type": "string", "name": "BaseDir"},
 {"type": "double", "name": "GbQ30NoDupsNoClip"}, {"type": "float",
 "name": "perc_bases_ge_15x_mapQ_ge11"}, {"type": "string", "name":
@@ -2431,7 +2432,7 @@ class GenomicFeature(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "GenomicFeature", "fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
@@ -2478,7 +2479,7 @@ class GenomicFeatureCancer(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "GenomicFeatureCancer", "fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
 "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
@@ -2534,7 +2535,7 @@ class HpoTerm(ProtocolElement):
     HPO term presence is unknown we don't have a entry on the list
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
 {"doc": "", "type": ["null", "boolean"], "name": "termPresence"},
 {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
@@ -2582,7 +2583,7 @@ class IlluminaSummaryCancerV2(ProtocolElement):
     `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryCancerV2", "fields": [{"type": {"symbols":
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
@@ -2895,7 +2896,7 @@ class IlluminaSummaryCancerV4(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryCancerV4", "fields": [{"type": {"symbols":
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
@@ -3747,7 +3748,7 @@ class IlluminaSummaryCancerV4_CancerStats(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryCancerV4_CancerStats", "fields": [{"type": "string",
 "name": "SAMPLE_ID"}, {"type": "string", "name": "SAMPLE_NAME"},
 {"type": "string", "name": "RUN_FOLDER"}, {"type": "string", "name":
@@ -4100,7 +4101,7 @@ class IlluminaSummaryV1(ProtocolElement):
     of their pipeline
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryV1", "fields": [{"type": {"symbols":
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
@@ -4487,7 +4488,7 @@ class IlluminaSummaryV2(ProtocolElement):
     This is the summary provided by Illumina V2 germline samples
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryV2", "fields": [{"type": {"symbols":
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
@@ -4920,7 +4921,7 @@ class IlluminaSummaryV4(ProtocolElement):
     file SAMPLE_ID.summary.csv
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IlluminaSummaryV4", "fields": [{"type": {"symbols":
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
@@ -5623,7 +5624,7 @@ class InbreedingCoefficient(ProtocolElement):
     Inbreeding coefficient
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InbreedingCoefficient", "fields": [{"doc": "", "type": "string",
 "name": "sampleId"}, {"doc": "", "type": "string", "name": "program"},
 {"doc": "", "type": "string", "name": "version"}, {"doc": "", "type":
@@ -5677,7 +5678,7 @@ class InbreedingCoefficientEstimates(ProtocolElement):
     Inbreeding coefficient estimates
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InbreedingCoefficientEstimates", "fields": [{"type": "string",
 "name": "FID"}, {"type": "string", "name": "IID"}, {"type": "double",
 "name": "O_HOM"}, {"type": "double", "name": "E_HOM"}, {"type":
@@ -5729,7 +5730,7 @@ class IndividualState(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IndividualState", "fields": [{"type": {"symbols": ["ready",
 "pending", "hold", "fail", "caution", "blocked"], "type": "enum",
 "name": "State"}, "name": "state"}, {"type": ["null", {"symbols":
@@ -5772,7 +5773,7 @@ class IndividualTests(ProtocolElement):
     individual has quality issues.  See sample level for full details
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "IndividualTests", "fields": [{"type": "boolean", "name": "plinksex"},
 {"type": "boolean", "name": "inbreedingcoefficient"}], "doc": ""}
 """
@@ -5809,7 +5810,7 @@ class InsertSizeGel(ProtocolElement):
     GEL Insert size calculation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InsertSizeGel", "fields": [{"type": "double", "name":
 "median_inward"}], "doc": ""}
 """
@@ -5849,7 +5850,7 @@ class InterpretationData(ProtocolElement):
     approved by the originating GMCs
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InterpretationData", "fields": [{"type": {"doc": "", "type":
 "record", "name": "TieringResult", "fields": [{"doc": "", "type":
 {"fields": [{"default": "3.0.0", "doc": "", "type": "string", "name":
@@ -6103,7 +6104,7 @@ class InterpretationRequestRD(ProtocolElement):
     This record represents basic information for this report
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -6410,7 +6411,7 @@ class InterpretedGenomeRD(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -6622,7 +6623,7 @@ class Machine(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "Machine", "fields": [{"type": "double", "name": "DATE"}, {"type":
 "string", "name": "MACHINE"}, {"type": "string", "name": "FLOWCELL"},
 {"type": "string", "name": "RUN"}]}
@@ -6667,7 +6668,7 @@ class MatchedSamples(ProtocolElement):
     analyzed together
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
 "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
 "name": "tumorSampleId"}], "doc": ""}
@@ -6714,7 +6715,7 @@ class ModifiedVariant(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ModifiedVariant", "fields": [{"type": {"fields": [{"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": ["null",
 "string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
@@ -6815,7 +6816,7 @@ class OtherFamilyHistory(ProtocolElement):
     but can be others
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name":
 "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
@@ -6856,7 +6857,7 @@ class Pedigree(ProtocolElement):
     present in the record RDParticipant
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": {"fields": [{"default":
 "3.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
@@ -7039,7 +7040,7 @@ class PlinkROH(ProtocolElement):
     Plink runs of homozygosity
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "PlinkROH", "fields": [{"type": "string", "name": "FID"}, {"type":
 "string", "name": "IID"}, {"type": "double", "name": "PHE"}, {"type":
 "double", "name": "NSEG"}, {"type": "double", "name": "KB"}, {"type":
@@ -7090,7 +7091,7 @@ class PlinkSexCheck(ProtocolElement):
     Plink sex check
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "PlinkSexCheck", "fields": [{"type": "string", "name": "FID"},
 {"type": "string", "name": "IID"}, {"type": "double", "name": "F"},
 {"type": "double", "name": "YCOUNT"}, {"type": "string", "name":
@@ -7158,7 +7159,7 @@ class RDFamilyChange(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "RDFamilyChange", "fields": [{"doc": "", "type": "string", "name":
 "FamilyId"}, {"doc": "", "type": {"symbols": ["FamilyAdded",
 "FamilyDeleted", "ProbandChanged", "ParticipantAdded",
@@ -7330,7 +7331,7 @@ class RDParticipant(ProtocolElement):
     information)
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "RDParticipant", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -7540,21 +7541,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -7562,7 +7556,7 @@ class ReportEvent(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": "string", "name": "phenotype"},
 {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
@@ -7671,7 +7665,7 @@ class ReportEventCancer(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportEventCancer", "fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
@@ -7784,7 +7778,7 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedSomaticStructuralVariants", "fields": [{"doc": "", "type":
 {"fields": [{"doc": "", "type": "string", "name": "chromosome"},
 {"doc": "", "type": "int", "name": "start"}, {"doc": "", "type":
@@ -7838,7 +7832,7 @@ class ReportedSomaticVariants(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedSomaticVariants", "fields": [{"doc": "", "type": {"fields":
 [{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
 "type": "int", "name": "position"}, {"doc": "", "type": "string",
@@ -7924,7 +7918,7 @@ class ReportedStructuralVariant(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedStructuralVariant", "fields": [{"doc": "", "type": "string",
 "name": "chromosome"}, {"doc": "", "type": "int", "name": "start"},
 {"doc": "", "type": "int", "name": "end"}, {"doc": "", "type":
@@ -8053,7 +8047,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedStructuralVariantCancer", "fields": [{"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
 "start"}, {"doc": "", "type": "int", "name": "end"}, {"doc": "",
@@ -8121,7 +8115,7 @@ class ReportedVariant(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedVariant", "fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": ["null", "string"], "name":
 "dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
@@ -8247,7 +8241,7 @@ class ReportedVariantCancer(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "ReportedVariantCancer", "fields": [{"doc": "", "type": "string",
 "name": "chromosome"}, {"doc": "", "type": "int", "name": "position"},
 {"doc": "", "type": "string", "name": "reference"}, {"doc": "",
@@ -8395,7 +8389,7 @@ class SamtoolsStats(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "SamtoolsStats", "fields": [{"type": {"symbols": ["all", "filtered"],
 "type": "enum", "name": "SamtoolsScope"}, "name": "samtoolsScope"},
 {"type": "double", "name": "SAMTOOLS_1ST_FRAGMENTS"}, {"type":
@@ -8570,7 +8564,7 @@ class SensitiveInformation(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -8666,18 +8660,14 @@ class SomaticOrGermline(object):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    No documentation
     """
     ready = "ready"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -8685,7 +8675,7 @@ class SupplementaryAnalysisResults(ProtocolElement):
     This is the record for results of supplementary analysis
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "SupplementaryAnalysisResults", "fields": [{"type": "int", "name":
 "numberOfSomaticVariants"}, {"type": "double", "name":
 "numberOfSomaticSnvsPerMb"}, {"type": "double", "name":
@@ -8761,7 +8751,7 @@ class SupportingEvidences(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "SupportingEvidences", "fields": [{"type": {"items": "string", "type":
 "array"}, "name": "previousSupportingEvidences"}, {"type": {"items":
 "string", "type": "array"}, "name": "modifiedSupportingEvidences"}]}
@@ -8822,7 +8812,7 @@ class TieringResult(ProtocolElement):
     for the same tiering results.
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "TieringResult", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -9119,7 +9109,7 @@ class TumorChecks(ProtocolElement):
     are common in 1000G
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "TumorChecks", "fields": [{"type": "string", "name": "well_id"},
 {"type": "double", "name": "num_variants_gt_filter"}, {"type":
 "double", "name": "num_variants_lt_filter"}, {"type": "double",
@@ -9181,7 +9171,7 @@ class VariantsCoverage(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "VariantsCoverage", "fields": [{"type": "string", "name": "bedName"},
 {"type": {"items": {"fields": [{"doc": "", "type": "double", "name":
 "avg"}, {"doc": "", "type": "double", "name": "med"}, {"doc": "",
@@ -9233,7 +9223,7 @@ class VcfMetrics(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "VcfMetrics", "fields": [{"type": "double", "name":
 "NUMBER_OF_SAMPLES"}, {"type": "double", "name": "NUMBER_OF_INDELS"},
 {"type": "double", "name": "NUMBER_OF_MNPS"}, {"type": "double",
@@ -9296,7 +9286,7 @@ class VcfTSTV(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "VcfTSTV", "fields": [{"type": "double", "name": "TS_1"}, {"type":
 "double", "name": "TV"}, {"type": "double", "name": "TS"}, {"type":
 "double", "name": "TS_TV"}, {"type": "double", "name": "TV_1"},
@@ -9351,7 +9341,7 @@ class VerifyBamId(ProtocolElement):
     `RDPALT`:
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "VerifyBamId", "fields": [{"type": "string", "name": "SEQ_ID"},
 {"type": "string", "name": "CHIP_ID"}, {"type": "double", "name":
 "SNPS"}, {"type": "double", "name": "READS"}, {"type": "double",
@@ -9445,7 +9435,7 @@ class VersionControl(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "VersionControl", "fields": [{"default": "3.0.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
@@ -9477,7 +9467,7 @@ class WholeGenomeCoverage(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "WholeGenomeCoverage", "fields": [{"type": {"items": {"fields":
 [{"doc": "", "type": "double", "name": "avg"}, {"doc": "", "type":
 "double", "name": "med"}, {"doc": "", "type": "double", "name":
@@ -9547,7 +9537,7 @@ class sampleState(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
 "pending", "hold", "fail", "caution"], "doc": "", "type": "enum",
 "name": "State"}], "name": "state"}, {"type": {"items": {"symbols":
@@ -9591,7 +9581,7 @@ class sampleTests(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "sampleTests", "fields": [{"type": ["null", "boolean"], "name":
 "verifybamid"}, {"type": ["null", "boolean"], "name":
 "arrayconcordance"}, {"type": ["null", "boolean"], "name":

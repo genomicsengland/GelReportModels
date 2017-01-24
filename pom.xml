@@ -71,7 +71,7 @@
                 <version>1.7.7</version>
                 <executions>
                     <execution>
-                        <id>schemas</id>
+                        <id>Generate Java sources</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -83,6 +83,26 @@
                             <stringType>String</stringType>
                             <sourceDirectory>${project.basedir}/schemas/IDLs/latest/</sourceDirectory>
                             <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution><!-- Run our version calculation script -->
+                        <id>Generate Python sources and documentation</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>python</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>build.py</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -132,6 +152,18 @@
                                     <directory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</directory>
                                     <includes>
                                         <include>avro</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>schemas/AVPRs</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>schemas/JSONs</directory>
+                                    <includes>
+                                        <include>**/*</include>
                                     </includes>
                                 </fileset>
                             </filesets>

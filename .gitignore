@@ -3,3 +3,5 @@
 build
 target
 schemas/IDLs/latest/org.opencb.biodata.models.sequence
+schemas/AVPRs/*
+schemas/JSONs/*

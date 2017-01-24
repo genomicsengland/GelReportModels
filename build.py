@@ -15,9 +15,10 @@ else:
 
 module_version = v.replace('.', '_')
 
-schemas = os.path.join(BASE_DIR, "schemas", "IDLs", v)
-ga4gh_schemas = os.path.join(BASE_DIR, "ga4ghSchemas", "IDLs")
-openCB_schema = os.path.join(BASE_DIR, "openCBschema", "IDLs")
+schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.report.avro")
+ga4gh_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.ga4gh.models")
+openCB_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.opencb.biodata.models.sequence")
+cva_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.cva.avro")
 if v == 'latest':
     outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
 else:
@@ -26,6 +27,7 @@ else:
 
 ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")
 openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols.py")
+cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols.py")
 avro_tools_jar = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
 json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", v)
 avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", v)
@@ -49,9 +51,7 @@ idls = [os.path.join(dirpath, f)
 for idl in idls:
     print "transforming: " + idl
     base = os.path.basename(idl).replace(".avdl", "")
-
     os.system("java -jar " + avro_tools_jar + " idl2schemata " + idl + " " + os.path.join(json_folder, base))
-
     os.system("java -jar " + avro_tools_jar + " idl " + idl + " " + os.path.join(avrp_folder, base + ".avpr"))
 
 
@@ -71,7 +71,11 @@ os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4
 
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
                                    + openCB_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
-                                   + openCB_schema + " " + VERSION))
+                                   + openCB_schemas + " " + VERSION))
+
+os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
+                                   + cva_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
+                                   + cva_schemas + " " + VERSION))
 
 
 os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipant.avpr") + " > " + os.path.join(html_folder, "RDParticipant.html"))
@@ -86,3 +90,5 @@ os.system("avrodoc " + os.path.join(avrp_folder, "GelBamMetrics.avpr") + " > " +
 os.system("avrodoc " + os.path.join(avrp_folder, "AuditLog.avpr") + " > " + os.path.join(html_folder, "AuditLog.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipantChangeLog.avpr") + " > " + os.path.join(html_folder, "RDParticipantChangeLog.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "MDTDeliveryProtocol.avpr") + " > " + os.path.join(html_folder, "MDTDeliveryProtocol.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "KnownVariant.avpr") + " > " + os.path.join(html_folder, "KnownVariant.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "Comment.avpr") + " > " + os.path.join(html_folder, "Comment.html"))
