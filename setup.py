@@ -12,7 +12,7 @@ reqs = [
 
 # BASE_DIR = os.path.dirname(__file__)
 # VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
-VERSION = "3.0.4"
+VERSION = "3.0.5"
 setup(
     name='GelReportModels',
     version=VERSION,

@@ -51,20 +51,15 @@ This is the record for results of supplementary analysis
 */
 record SupplementaryAnalysisResults {
 
-    int NUMBER_OF_SOMATIC_SNVS ;
-    double NUMBER_OF_SOMATIC_SNVS_PER_MB ;
-    double NUMBER_OF_NONSYN_SOMATIC_SNVS_PER_MB ;
-    array<string> ContextualAnalysisTriNucleotide;
-    array<double> ContextualAnalysisNormSubstitutions;
-    array<string> MutationalSignatureType;
-    array<double> MutationalSignatureContribution;
+    int numberOfSomaticVariants ;
+    double numberOfSomaticSnvsPerMb ;
+    double numberOfNonsynSomaticSnvsPerMb ;
+    map<int> ContextualAnalysisSubstitutionsCounts;
+    map<double> MutationalSignatureContribution;
     array<string> GenomicRegionsOfHypermutation;
-    array<double> SNValleleFrequencyHistogramAF;
-    array<int> SNValleleFrequencyHistogramCounts;
-    array<double> IndelAlleleFrequencyHistogramAF;
-    array<int> IndelAlleleFrequencyHistogramCounts;
-    array<int> IndelLengthHistogramLength;
-    array<int> IndelLengthHistogramCounts;
+    map<int> SNValleleFrequencyHistogramCounts;
+    map<int> IndelAlleleFrequencyHistogramCounts;
+    map<int> IndelLengthHistogramCounts;
 }
 
 }

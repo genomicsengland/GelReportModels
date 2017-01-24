@@ -23,35 +23,35 @@
           "doc" : "Number of bases - renamed from \"n\""
         }, {
           "name" : "pct25",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Percentile 25"
         }, {
           "name" : "pct75",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Percentile 75"
         }, {
           "name" : "lt15x",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Fraction of coverage values with a depth of coverage less than 15x"
         }, {
           "name" : "gte15x",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 15x"
         }, {
           "name" : "gte30x",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 30x"
         }, {
           "name" : "gte50x",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 50x"
         }, {
           "name" : "sd",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "Standard deviation of coverage values"
         }, {
           "name" : "localRMSD",
-          "type" : "double",
+          "type" : [ "null", "double" ],
           "doc" : "estimation of root mean square deviation: weighted average RMSD of chunks of 100k bases"
         }, {
           "name" : "scope",

@@ -888,28 +888,28 @@ record CoverageSummary {
     double bases;
 
     /** Percentile 25 */
-    double pct25;
+    union {null, double} pct25;
 
     /** Percentile 75 */
-    double pct75;
+    union {null, double} pct75;
 
     /** Fraction of coverage values with a depth of coverage less than 15x */
-    double lt15x;
+    union {null, double} lt15x;
 
     /** Fraction of coverage values with a depth of coverage greater than or equal to 15x */
-    double gte15x;
+    union {null, double} gte15x;
 
     /** Fraction of coverage values with a depth of coverage greater than or equal to 30x */
-    double gte30x;
+    union {null, double} gte30x;
 
     /** Fraction of coverage values with a depth of coverage greater than or equal to 50x */
-    double gte50x;
+    union {null, double} gte50x;
 
     /** Standard deviation of coverage values */
-    double sd;
+    union {null, double} sd;
 
     /** estimation of root mean square deviation: weighted average RMSD of chunks of 100k bases */
-    double localRMSD;
+    union {null, double} localRMSD;
 
     /** Scope to which these summary stats refer to.
     *   Examples: "allchrs" (all chromosomes), "X", "chr6", "6", "autosomes" */
