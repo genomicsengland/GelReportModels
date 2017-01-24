@@ -1933,25 +1933,32 @@ class CoverageSummary(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CoverageSummary", "fields": [{"type": "string", "name": "wellId"},
-{"type": "double", "name": "n"}, {"type": "double", "name": "mean"},
-{"type": "double", "name": "sd"}, {"type": "double", "name": "pct25"},
-{"type": "double", "name": "median"}, {"type": "double", "name":
-"pct75"}, {"type": "string", "name": "scope"}, {"type": "double",
-"name": "localRMSD"}, {"type": "double", "name": "COSMIC30Xcov"}]}
+"CoverageSummary", "fields": [{"doc": "", "type": "double", "name":
+"avg"}, {"doc": "", "type": "double", "name": "med"}, {"doc": "",
+"type": "double", "name": "bases"}, {"doc": "", "type": ["null",
+"double"], "name": "pct25"}, {"doc": "", "type": ["null", "double"],
+"name": "pct75"}, {"doc": "", "type": ["null", "double"], "name":
+"lt15x"}, {"doc": "", "type": ["null", "double"], "name": "gte15x"},
+{"doc": "", "type": ["null", "double"], "name": "gte30x"}, {"doc": "",
+"type": ["null", "double"], "name": "gte50x"}, {"doc": "", "type":
+["null", "double"], "name": "sd"}, {"doc": "", "type": ["null",
+"double"], "name": "localRMSD"}, {"doc": "", "type": "string", "name":
+"scope"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "COSMIC30Xcov",
+        "avg",
+        "bases",
+        "gte15x",
+        "gte30x",
+        "gte50x",
         "localRMSD",
-        "mean",
-        "median",
-        "n",
+        "lt15x",
+        "med",
         "pct25",
         "pct75",
         "scope",
         "sd",
-        "wellId",
     }
 
     @classmethod
@@ -1966,21 +1973,27 @@ class CoverageSummary(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'COSMIC30Xcov', 'localRMSD', 'mean', 'median', 'n', 'pct25',
-        'pct75', 'scope', 'sd', 'wellId'
+        'avg', 'bases', 'gte15x', 'gte30x', 'gte50x', 'localRMSD',
+        'lt15x', 'med', 'pct25', 'pct75', 'scope', 'sd'
     ]
 
     def __init__(self, **kwargs):
-        self.COSMIC30Xcov = kwargs.get(
-            'COSMIC30Xcov', None)
+        self.avg = kwargs.get(
+            'avg', None)
+        self.bases = kwargs.get(
+            'bases', None)
+        self.gte15x = kwargs.get(
+            'gte15x', None)
+        self.gte30x = kwargs.get(
+            'gte30x', None)
+        self.gte50x = kwargs.get(
+            'gte50x', None)
         self.localRMSD = kwargs.get(
             'localRMSD', None)
-        self.mean = kwargs.get(
-            'mean', None)
-        self.median = kwargs.get(
-            'median', None)
-        self.n = kwargs.get(
-            'n', None)
+        self.lt15x = kwargs.get(
+            'lt15x', None)
+        self.med = kwargs.get(
+            'med', None)
         self.pct25 = kwargs.get(
             'pct25', None)
         self.pct75 = kwargs.get(
@@ -1989,8 +2002,6 @@ class CoverageSummary(ProtocolElement):
             'scope', 'None')
         self.sd = kwargs.get(
             'sd', None)
-        self.wellId = kwargs.get(
-            'wellId', 'None')
 
 
 class DeliveryTask(ProtocolElement):
@@ -2164,20 +2175,25 @@ class EthnicCategory(object):
     Z = "Z"
 
 
-class ExonCoverage(ProtocolElement):
+class ExomeCoverage(ProtocolElement):
     """
-    No documentation
+    Renamed from ExonCoverage
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"ExonCoverage", "fields": [{"type": {"items": {"fields": [{"type":
-"string", "name": "wellId"}, {"type": "double", "name": "n"}, {"type":
-"double", "name": "mean"}, {"type": "double", "name": "sd"}, {"type":
-"double", "name": "pct25"}, {"type": "double", "name": "median"},
-{"type": "double", "name": "pct75"}, {"type": "string", "name":
-"scope"}, {"type": "double", "name": "localRMSD"}, {"type": "double",
-"name": "COSMIC30Xcov"}], "type": "record", "name":
-"CoverageSummary"}, "type": "array"}, "name": "coverageSummary"}]}
+"ExomeCoverage", "fields": [{"type": {"items": {"fields": [{"doc": "",
+"type": "double", "name": "avg"}, {"doc": "", "type": "double",
+"name": "med"}, {"doc": "", "type": "double", "name": "bases"},
+{"doc": "", "type": ["null", "double"], "name": "pct25"}, {"doc": "",
+"type": ["null", "double"], "name": "pct75"}, {"doc": "", "type":
+["null", "double"], "name": "lt15x"}, {"doc": "", "type": ["null",
+"double"], "name": "gte15x"}, {"doc": "", "type": ["null", "double"],
+"name": "gte30x"}, {"doc": "", "type": ["null", "double"], "name":
+"gte50x"}, {"doc": "", "type": ["null", "double"], "name": "sd"},
+{"doc": "", "type": ["null", "double"], "name": "localRMSD"}, {"doc":
+"", "type": "string", "name": "scope"}], "type": "record", "name":
+"CoverageSummary"}, "type": "array"}, "name": "coverageSummary"}],
+"doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -8664,6 +8680,82 @@ class State(object):
     caution = "caution"
 
 
+class SupplementaryAnalysisResults(ProtocolElement):
+    """
+    This is the record for results of supplementary analysis
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"SupplementaryAnalysisResults", "fields": [{"type": "int", "name":
+"numberOfSomaticVariants"}, {"type": "double", "name":
+"numberOfSomaticSnvsPerMb"}, {"type": "double", "name":
+"numberOfNonsynSomaticSnvsPerMb"}, {"type": {"values": "int", "type":
+"map"}, "name": "ContextualAnalysisSubstitutionsCounts"}, {"type":
+{"values": "double", "type": "map"}, "name":
+"MutationalSignatureContribution"}, {"type": {"items": "string",
+"type": "array"}, "name": "GenomicRegionsOfHypermutation"}, {"type":
+{"values": "int", "type": "map"}, "name":
+"SNValleleFrequencyHistogramCounts"}, {"type": {"values": "int",
+"type": "map"}, "name": "IndelAlleleFrequencyHistogramCounts"},
+{"type": {"values": "int", "type": "map"}, "name":
+"IndelLengthHistogramCounts"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ContextualAnalysisSubstitutionsCounts",
+        "GenomicRegionsOfHypermutation",
+        "IndelAlleleFrequencyHistogramCounts",
+        "IndelLengthHistogramCounts",
+        "MutationalSignatureContribution",
+        "SNValleleFrequencyHistogramCounts",
+        "numberOfNonsynSomaticSnvsPerMb",
+        "numberOfSomaticSnvsPerMb",
+        "numberOfSomaticVariants",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ContextualAnalysisSubstitutionsCounts',
+        'GenomicRegionsOfHypermutation',
+        'IndelAlleleFrequencyHistogramCounts',
+        'IndelLengthHistogramCounts',
+        'MutationalSignatureContribution',
+        'SNValleleFrequencyHistogramCounts',
+        'numberOfNonsynSomaticSnvsPerMb', 'numberOfSomaticSnvsPerMb',
+        'numberOfSomaticVariants'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ContextualAnalysisSubstitutionsCounts = kwargs.get(
+            'ContextualAnalysisSubstitutionsCounts', None)
+        self.GenomicRegionsOfHypermutation = kwargs.get(
+            'GenomicRegionsOfHypermutation', None)
+        self.IndelAlleleFrequencyHistogramCounts = kwargs.get(
+            'IndelAlleleFrequencyHistogramCounts', None)
+        self.IndelLengthHistogramCounts = kwargs.get(
+            'IndelLengthHistogramCounts', None)
+        self.MutationalSignatureContribution = kwargs.get(
+            'MutationalSignatureContribution', None)
+        self.SNValleleFrequencyHistogramCounts = kwargs.get(
+            'SNValleleFrequencyHistogramCounts', None)
+        self.numberOfNonsynSomaticSnvsPerMb = kwargs.get(
+            'numberOfNonsynSomaticSnvsPerMb', None)
+        self.numberOfSomaticSnvsPerMb = kwargs.get(
+            'numberOfSomaticSnvsPerMb', None)
+        self.numberOfSomaticVariants = kwargs.get(
+            'numberOfSomaticVariants', None)
+
+
 class SupportingEvidences(ProtocolElement):
     """
     No documentation
@@ -9084,6 +9176,58 @@ class VariantClassification(object):
     PATHOGENIC = "PATHOGENIC"
 
 
+class VariantsCoverage(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"VariantsCoverage", "fields": [{"type": "string", "name": "bedName"},
+{"type": {"items": {"fields": [{"doc": "", "type": "double", "name":
+"avg"}, {"doc": "", "type": "double", "name": "med"}, {"doc": "",
+"type": "double", "name": "bases"}, {"doc": "", "type": ["null",
+"double"], "name": "pct25"}, {"doc": "", "type": ["null", "double"],
+"name": "pct75"}, {"doc": "", "type": ["null", "double"], "name":
+"lt15x"}, {"doc": "", "type": ["null", "double"], "name": "gte15x"},
+{"doc": "", "type": ["null", "double"], "name": "gte30x"}, {"doc": "",
+"type": ["null", "double"], "name": "gte50x"}, {"doc": "", "type":
+["null", "double"], "name": "sd"}, {"doc": "", "type": ["null",
+"double"], "name": "localRMSD"}, {"doc": "", "type": "string", "name":
+"scope"}], "type": "record", "name": "CoverageSummary"}, "type":
+"array"}, "name": "coverageSummary"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "bedName",
+        "coverageSummary",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'bedName', 'coverageSummary'
+    ]
+
+    def __init__(self, **kwargs):
+        self.bedName = kwargs.get(
+            'bedName', 'None')
+        self.coverageSummary = kwargs.get(
+            'coverageSummary', None)
+
+
 class VcfMetrics(ProtocolElement):
     """
     No documentation
@@ -9335,13 +9479,18 @@ class WholeGenomeCoverage(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "WholeGenomeCoverage", "fields": [{"type": {"items": {"fields":
-[{"type": "string", "name": "wellId"}, {"type": "double", "name":
-"n"}, {"type": "double", "name": "mean"}, {"type": "double", "name":
-"sd"}, {"type": "double", "name": "pct25"}, {"type": "double", "name":
-"median"}, {"type": "double", "name": "pct75"}, {"type": "string",
-"name": "scope"}, {"type": "double", "name": "localRMSD"}, {"type":
-"double", "name": "COSMIC30Xcov"}], "type": "record", "name":
-"CoverageSummary"}, "type": "array"}, "name": "coverageSummary"}]}
+[{"doc": "", "type": "double", "name": "avg"}, {"doc": "", "type":
+"double", "name": "med"}, {"doc": "", "type": "double", "name":
+"bases"}, {"doc": "", "type": ["null", "double"], "name": "pct25"},
+{"doc": "", "type": ["null", "double"], "name": "pct75"}, {"doc": "",
+"type": ["null", "double"], "name": "lt15x"}, {"doc": "", "type":
+["null", "double"], "name": "gte15x"}, {"doc": "", "type": ["null",
+"double"], "name": "gte30x"}, {"doc": "", "type": ["null", "double"],
+"name": "gte50x"}, {"doc": "", "type": ["null", "double"], "name":
+"sd"}, {"doc": "", "type": ["null", "double"], "name": "localRMSD"},
+{"doc": "", "type": "string", "name": "scope"}], "type": "record",
+"name": "CoverageSummary"}, "type": "array"}, "name":
+"coverageSummary"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
