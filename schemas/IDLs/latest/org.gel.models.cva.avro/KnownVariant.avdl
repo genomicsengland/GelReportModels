@@ -11,34 +11,171 @@ protocol KnownVariants {
     import idl "../org.opencb.biodata.models.sequence/variant.avdl";
 
 
+    /**
+    Mendelian variants classification with ACMG terminology as defined in Richards, S. et al. (2015). Standards and
+    guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College of
+    Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423.
+    https://doi.org/10.1038/gim.2015.30
+    Classification for pharmacogenomic variants, variants associated to disease and somatic variants based on the ACMG
+    recommendations and ClinVar classification (https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
+    - benign_variant : Benign variants interpreted for Mendelian disorders
+    - likely_benign_variant : Likely benign variants interpreted for Mendelian disorders
+    - pathogenic_variant : Pathogenic variants interpreted for Mendelian disorders
+    - likely_pathogenic_variant : Likely pathogenic variants interpreted for Mendelian disorders
+    - uncertain_significance : Uncertain significance variants interpreted for Mendelian disorders. Variants with
+    conflicting evidences should be classified as uncertain_significance
+    - drug_response : Drug response variant for pharmacogenomic evidence
+    - established_risk_allele : Established risk allele for variants associated to disease
+    - likely_risk_allele : Likely risk allele for variants associated to disease
+    - uncertain_risk_allele : Uncertain risk allele for variants associated to disease
+    - responsive: Responsive variants for somatic variants
+    - resistant: Resistant variants for somatic variants
+    - driver : Driver variants for somatic variants
+    - paseenger: Passenger variants for somatic variants
+    */
     enum CurationClassification {
-        benign_variant,                     // SO:0001770
-        disease_associated_variant,         // SO:0001771
-        disease_causing_variant,            // SO:0001772
-        quantitative_variant,               // SO:0001774
-        VUS                                 // Variants of uncertain significance
+        benign_variant,
+        likely_benign_variant,
+        pathogenic_variant,
+        likely_pathogenic_variant,
+        uncertain_significance,
+        drug_response,
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        responsive,
+        resistant,
+        driver,
+        passenger
     }
 
-    enum CurationScore {    // values between 0 and 5...
-        NOT_CURATED,
-        CURATION_CONFIDENCE_1,
-        CURATION_CONFIDENCE_2,
-        CURATION_CONFIDENCE_3,
-        CURATION_CONFIDENCE_4,
-        CURATION_CONFIDENCE_5
+    /**
+    Variant classification with Sequence Ontology terms. This is an optional classification, that might be inferred
+    from the CurationClassification.
+    - benign_variant : http://www.sequenceontology.org/browser/current_svn/term/SO:0001770
+    - disease_associated_variant : http://www.sequenceontology.org/browser/current_svn/term/SO:0001771
+    - disease_causing_variant: http://www.sequenceontology.org/browser/current_svn/term/SO:0001772
+    - quantitative_variant: http://www.sequenceontology.org/browser/current_svn/term/SO:0001774
+    */
+    enum CurationSOClassification {
+        benign_variant,
+        disease_associated_variant,
+        disease_causing_variant,
+        quantitative_variant
     }
 
+    /**
+    Manual curation confidence
+    */
+    enum ManualCurationConfidence {
+        not_curated,
+        very_low_confidence,
+        low_confidence,
+        moderate_confidence,
+        high_confidence,
+        very_high_confidence
+    }
+
+    /**
+    The consistency of evidences for a given phenotype. This aggregates all evidences for a given phenotype and all
+    evidences with no phenotype associated (e.g.: in silico impact prediction, population frequency).
+    - consensus : All evidences are consistent
+    - conflict : There are conflicting evidences. This should correspond to a CurationClassification of
+    uncertain_significance for mendelian disorders.
+    */
+    enum ConsistencyStatus {
+        consensus,
+        conflict
+    }
+
+    /**
+    The curation record
+    */
+    record Curation {
+        /**
+        The phenotype to which the curation refers (e.g.: HPO term)
+        */
+        string phenotype;
+        /**
+        The inheritance mode to which the curation refers
+        */
+        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+        /**
+        The ACMG classification of impact
+        */
+        CurationClassification classification;
+        /**
+        The Sequence Ontology classification of impact. The value might be inferred.
+        */
+        union {null, CurationSOClassification} soClassification;
+        /**
+        The manual curation confidence
+        */
+        union {null, ManualCurationConfidence} manualCurationConfidence;
+        /**
+        The consistency status. This field is somehow redundant with ACMG classification, but works as a shortcut to
+        query for consistency of evidences. The value be inferred.
+        */
+        ConsistencyStatus consistencyStatus;
+    }
+
+    /**
+    A curation history entry, stores previous curation, the date of the change and the author.
+    */
     record CurationHistoryEntry {
-            string date;    // format YYYYMMDDHHmm
-            CurationScore previousScore;
-            CurationScore newScore;
-            CurationClassification previousClassification;
-            CurationClassification newClassification;
-            string curator;
-            array<Comment> comments = [];
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        The previous curation state
+        */
+        Curation previousCuration;
+        /**
+        The new curation state
+        */
+        Curation newCuration;
+        /**
+        The author of the curation event
+        */
+        string curator;
+        /**
+        Comments on the curation event
+        */
+        array<Comment> comments = [];
     }
 
-    enum SourceClass {
+    /**
+    A curation for a known variant, must be unique by phenotype and inheritanceMode
+    */
+    record CurationEntry {
+        /**
+        The curation
+        */
+        Curation curation;
+        /**
+        The curation history
+        */
+        array<CurationHistoryEntry> history = [];
+    }
+
+    /**
+    The source type of an evidence
+    - database : Database (e.g.: ClinVar)
+    - clinical_testing : Clinical testing (e.g.: any clinical testing external to 100K Genomes Project)
+    - research : Research study (e.g.: CFTR2)
+    - trial : Trial results
+    - literatura_manual_curation : An article from the literature manually curated
+    - literature_automatic_curation : An article from the literature automatically curated
+    - literature_database_curation : An article from the literature referenced in a database (e.g.: ClinVar references
+    to PubMed)
+    - insilico_impact_prediction : Aggregation of in silico predictions. Independent in silico predictions should not
+    be added as evidence
+    - population_allele_frequency : Allele frequency in the population (e.g.: ExAC)
+    - conservation : Evolutionary conservation
+    - other : Any other type
+    */
+    enum SourceType {
         database,
         clinical_testing,
         research,
@@ -46,9 +183,55 @@ protocol KnownVariants {
         literature_manual_curation,
         literature_automatic_curation,
         literature_database_curation,
-        unknown
+        insilico_impact_prediction,
+        population_allele_frequency,
+        conservation,
+        other
     }
 
+    /**
+    The phenotype and mode of inheritance for an evidence
+    */
+    record EvidencePhenotype {
+        /**
+        The phenotype (e.g.: HPO term)
+        */
+        string phenotype;
+        /**
+        The mode of inheritance
+        */
+        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+    }
+
+    /**
+    The source of an evidence
+    */
+    record EvidenceSource {
+        /**
+        Name of source
+        */
+        union {null, string} name;
+        /**
+        Type of source
+        */
+        SourceType type;
+        /**
+        Version of source
+        */
+        union {null, string} version;
+        /**
+        URL of source if any
+        */
+        union {null, string} url;
+        /**
+        ID of record in the source
+        */
+        union {null, string} id;
+    }
+
+    /**
+    Allele origin
+    */
     enum AlleleOrigin {
         somatic,
         germline,
@@ -56,39 +239,106 @@ protocol KnownVariants {
         unknown
     }
 
-    record EvidencePhenotype {
-        string phenotype;   // preferably a SO term
-        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+    /**
+    Evidence of pathogenicity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation
+    of sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and
+    the Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
+    */
+    enum EvidencePathogenicity {
+        very_strong,
+        strong,
+        moderate,
+        supporting
     }
 
-    record EvidenceSource {
-        union {null, string} name;
-        SourceClass class;
-        union {null, string} version;
-        union {null, string} url;
-        union {null, string} id;
+    /**
+    Evidence of benignity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation of
+    sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and the
+    Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
+    */
+    enum EvidenceBenignity {
+        stand_alone,
+        strong,
+        supporting
     }
 
+    /**
+    An entry for an evidence
+    */
     record EvidenceEntry {
-        string date;    // format YYYYMMDDHHmm
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        Submitter of the evidence
+        */
         string submitter;
+        /**
+        Source of the evidence
+        */
         EvidenceSource source;
+        /**
+        Allele origin
+        */
         AlleleOrigin alleleOrigin;
+        /**
+        Phenotypes associated to this evidence
+        */
         array<EvidencePhenotype> phenotypes = [];
+        /**
+        Evidence of pathogenicity
+        */
+        union {null, EvidencePathogenicity} pathogenicity;
+        /**
+        Evidence of benignity
+        */
+        union {null, EvidenceBenignity} benignity;
+        /**
+        Identifier in PubMed
+        */
         union {null, string} pubmedId;
+        /**
+        Study
+        */
         union {null, string} study;
+        /**
+        Number of individuals assessed
+        */
         union {null, int} numberIndividuals;
+        /**
+        Ethnicity of individuals assessed
+        */
         union {null, org.gel.models.report.avro.EthnicCategory} ethnicity;
+        /**
+        Evidence description
+        */
         union {null, string} description;
+        /**
+        Comments for the evidence
+        */
         array<Comment> comments = [];
     }
 
+    /**
+    Main record for a known variant
+    */
     record KnownVariantAvro {
+        /**
+        OpenCB variant model containing also annotations, but no genotypes information.
+        */
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
-        CurationClassification classification;
-        CurationScore curationScore;
-        array<CurationHistoryEntry> history = [];
+        /**
+        The list of curations to different phenotypes for a known variant
+        */
+        array<CurationEntry> curations = [];
+        /**
+        The list of evidences for this variant
+        */
         array<EvidenceEntry> evidences = [];
+        /**
+        Comments for this variant
+        */
         array<Comment> comments = [];
         // TODO: link report events
     }

@@ -4,7 +4,10 @@ protocol Comments {
 
     record Comment {
         string text;
-        string date;    // format YYYYMMDDHHmm
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
         string author;
     }
 }
