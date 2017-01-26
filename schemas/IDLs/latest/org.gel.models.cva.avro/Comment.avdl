@@ -2,12 +2,21 @@
 
 protocol Comments {
 
+    /**
+    A generic comment.
+    */
     record Comment {
+        /**
+        The text of the comment
+        */
         string text;
         /**
         Date in format yyyyMMddhhmm
         */
         string date;
+        /**
+        The author of the comment
+        */
         string author;
     }
 }

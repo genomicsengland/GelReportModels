@@ -13,25 +13,29 @@ protocol KnownVariants {
 
     /**
     Mendelian variants classification with ACMG terminology as defined in Richards, S. et al. (2015). Standards and
-    guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College of
-    Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423.
-    https://doi.org/10.1038/gim.2015.30
-    Classification for pharmacogenomic variants, variants associated to disease and somatic variants based on the ACMG
-    recommendations and ClinVar classification (https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
-    - benign_variant : Benign variants interpreted for Mendelian disorders
-    - likely_benign_variant : Likely benign variants interpreted for Mendelian disorders
-    - pathogenic_variant : Pathogenic variants interpreted for Mendelian disorders
-    - likely_pathogenic_variant : Likely pathogenic variants interpreted for Mendelian disorders
-    - uncertain_significance : Uncertain significance variants interpreted for Mendelian disorders. Variants with
-    conflicting evidences should be classified as uncertain_significance
-    - drug_response : Drug response variant for pharmacogenomic evidence
-    - established_risk_allele : Established risk allele for variants associated to disease
-    - likely_risk_allele : Likely risk allele for variants associated to disease
-    - uncertain_risk_allele : Uncertain risk allele for variants associated to disease
-    - responsive: Responsive variants for somatic variants
-    - resistant: Resistant variants for somatic variants
-    - driver : Driver variants for somatic variants
-    - paseenger: Passenger variants for somatic variants
+    guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College
+    of Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5),
+    405–423. https://doi.org/10.1038/gim.2015.30.
+
+Classification for pharmacogenomic variants, variants associated to
+disease and somatic variants based on the ACMG recommendations and ClinVar classification
+(https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
+
+* `benign_variant` : Benign variants interpreted for Mendelian disorders
+* `likely_benign_variant` : Likely benign variants interpreted for Mendelian disorders with a certainty of at least 90%
+* `pathogenic_variant` : Pathogenic variants interpreted for Mendelian disorders
+* `likely_pathogenic_variant` : Likely pathogenic variants interpreted for Mendelian disorders with a certainty of at
+least 90%
+* `uncertain_significance` : Uncertain significance variants interpreted for Mendelian disorders. Variants with
+conflicting evidences should be classified as uncertain_significance
+* `drug_response` : Drug response variant for pharmacogenomic evidence
+* `established_risk_allele` : Established risk allele for variants associated to disease
+* `likely_risk_allele` : Likely risk allele for variants associated to disease
+* `uncertain_risk_allele` : Uncertain risk allele for variants associated to disease
+* `responsive` : Responsive variants for somatic variants
+* `resistant` : Resistant variants for somatic variants
+* `driver` : Driver variants for somatic variants
+* `passenger` : Passenger variants for somatic variants
     */
     enum CurationClassification {
         benign_variant,
@@ -43,19 +47,20 @@ protocol KnownVariants {
         established_risk_allele,
         likely_risk_allele,
         uncertain_risk_allele,
-        responsive,
-        resistant,
-        driver,
-        passenger
+        responsive,  //TODO: associate with SO term
+        resistant,   //TODO: associate with SO term
+        driver,      //TODO: associate with SO term
+        passenger    //TODO: associate with SO term
     }
 
     /**
     Variant classification with Sequence Ontology terms. This is an optional classification, that might be inferred
-    from the CurationClassification.
-    - benign_variant : http://www.sequenceontology.org/browser/current_svn/term/SO:0001770
-    - disease_associated_variant : http://www.sequenceontology.org/browser/current_svn/term/SO:0001771
-    - disease_causing_variant: http://www.sequenceontology.org/browser/current_svn/term/SO:0001772
-    - quantitative_variant: http://www.sequenceontology.org/browser/current_svn/term/SO:0001774
+    from the `CurationClassification`.
+
+* `benign_variant` : [SO:0001770](http://www.sequenceontology.org/browser/current_svn/term/SO:0001770)
+* `disease_associated_variant` : [SO:0001771](http://www.sequenceontology.org/browser/current_svn/term/SO:0001771)
+* `disease_causing_variant`: [SO:0001772](http://www.sequenceontology.org/browser/current_svn/term/SO:0001772)
+* `quantitative_variant` : [SO:0001774](http://www.sequenceontology.org/browser/current_svn/term/SO:0001774)
     */
     enum CurationSOClassification {
         benign_variant,
@@ -79,37 +84,54 @@ protocol KnownVariants {
     /**
     The consistency of evidences for a given phenotype. This aggregates all evidences for a given phenotype and all
     evidences with no phenotype associated (e.g.: in silico impact prediction, population frequency).
-    - consensus : All evidences are consistent
-    - conflict : There are conflicting evidences. This should correspond to a CurationClassification of
-    uncertain_significance for mendelian disorders.
+
+* `consensus` : All evidences are consistent.
+* `conflict` : There are conflicting evidences. This should correspond to a `CurationClassification` of
+`uncertain_significance` for mendelian disorders.
+* `resolved_conflict` : There are conflicting evidences that have been reviewed and resolved by a curator.
     */
     enum ConsistencyStatus {
         consensus,
-        conflict
+        conflict,
+        resolved_conflict
     }
 
     /**
-    The curation record
+    The entity representing a phenotype and its inheritance pattern.
     */
-    record Curation {
+    record HeritablePhenotype {
         /**
-        The phenotype to which the curation refers (e.g.: HPO term)
+        The phenotype (e.g.: HPO term, MIM term, DO term etc.)
         */
         string phenotype;
         /**
-        The inheritance mode to which the curation refers
+        The mode of inheritance
         */
         org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+    }
+
+    /**
+    The curation record contains all information that might be stored from a curation event.
+    */
+    record Curation {
         /**
-        The ACMG classification of impact
+        The heritable phenotype to which the curation refers.
+        */
+        HeritablePhenotype heritablePhenotype;
+        /**
+        The classification of impact.
         */
         CurationClassification classification;
+        /**
+        The automatic classification of impact based on the evidences.
+        */
+        union {null, CurationClassification} automaticClassification;
         /**
         The Sequence Ontology classification of impact. The value might be inferred.
         */
         union {null, CurationSOClassification} soClassification;
         /**
-        The manual curation confidence
+        The manual curation confidence.
         */
         union {null, ManualCurationConfidence} manualCurationConfidence;
         /**
@@ -120,7 +142,7 @@ protocol KnownVariants {
     }
 
     /**
-    A curation history entry, stores previous curation, the date of the change and the author.
+    A curation history entry, stores previous and new curation state, the date of the change and the author.
     */
     record CurationHistoryEntry {
         /**
@@ -130,11 +152,11 @@ protocol KnownVariants {
         /**
         The previous curation state
         */
-        Curation previousCuration;
+        union {null, Curation} previousCuration;
         /**
         The new curation state
         */
-        Curation newCuration;
+        union {null, Curation} newCuration;
         /**
         The author of the curation event
         */
@@ -146,11 +168,12 @@ protocol KnownVariants {
     }
 
     /**
-    A curation for a known variant, must be unique by phenotype and inheritanceMode
+    A curation for a known variant contains the current curation state and the curation history.
+    Must be unique by `curation.phenotype` and `curation.inheritanceMode`.
     */
     record CurationEntry {
         /**
-        The curation
+        The current curation state
         */
         Curation curation;
         /**
@@ -160,20 +183,21 @@ protocol KnownVariants {
     }
 
     /**
-    The source type of an evidence
-    - database : Database (e.g.: ClinVar)
-    - clinical_testing : Clinical testing (e.g.: any clinical testing external to 100K Genomes Project)
-    - research : Research study (e.g.: CFTR2)
-    - trial : Trial results
-    - literatura_manual_curation : An article from the literature manually curated
-    - literature_automatic_curation : An article from the literature automatically curated
-    - literature_database_curation : An article from the literature referenced in a database (e.g.: ClinVar references
-    to PubMed)
-    - insilico_impact_prediction : Aggregation of in silico predictions. Independent in silico predictions should not
-    be added as evidence
-    - population_allele_frequency : Allele frequency in the population (e.g.: ExAC)
-    - conservation : Evolutionary conservation
-    - other : Any other type
+    The source type of an evidence:
+
+* `database` : Database (e.g.: ClinVar)
+* `clinical_testing` : Clinical testing (e.g.: any clinical testing external to 100K Genomes Project)
+* `research` : Research study (e.g.: CFTR2)
+* `trial` : Trial results
+* `literatura_manual_curation` : An article from the literature manually curated
+* `literature_automatic_curation` : An article from the literature automatically curated
+* `literature_database_curation` : An article from the literature referenced in a database (e.g.: ClinVar references
+to PubMed)
+* `insilico_impact_prediction` : Aggregation of in silico predictions. Independent in silico predictions should not
+be added as evidence
+* `population_allele_frequency` : Allele frequency in the population (e.g.: ExAC)
+* `conservation` : Evolutionary conservation
+* `other` : Any other type
     */
     enum SourceType {
         database,
@@ -190,21 +214,7 @@ protocol KnownVariants {
     }
 
     /**
-    The phenotype and mode of inheritance for an evidence
-    */
-    record EvidencePhenotype {
-        /**
-        The phenotype (e.g.: HPO term)
-        */
-        string phenotype;
-        /**
-        The mode of inheritance
-        */
-        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
-    }
-
-    /**
-    The source of an evidence
+    The source of an evidence.
     */
     record EvidenceSource {
         /**
@@ -243,6 +253,38 @@ protocol KnownVariants {
     Evidence of pathogenicity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation
     of sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and
     the Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
+
+* `very_strong`:
+    - PVS1 null variant (nonsense, frameshift, canonical ±1 or 2 splice sites, initiation codon, single or multiexon
+    deletion) in a gene where LOF is a known mechanism of disease
+* `strong`:
+    - PS1 Same amino acid change as a previously established pathogenic variant regardless of nucleotide change
+    - PS2 De novo (both maternity and paternity confirmed) in a patient with the disease and no family history
+    - PS3 Well-established in vitro or in vivo functional studies supportive of a damaging effect on the gene or gene
+    product
+    - PS4 The prevalence of the variant in affected individuals is significantly increased compared with the prevalence
+    in controls
+* `moderate`:
+    - PM1 Located in a mutational hot spot and/or critical and well-established functional domain (e.g., active site of
+    an enzyme) without benign variation
+    - PM2 Absent from controls (or at extremely low frequency if recessive) in Exome Sequencing Project, 1000 Genomes
+    Project, or Exome Aggregation Consortium
+    - PM3 For recessive disorders, detected in trans with a pathogenic variant
+    - PM4 Protein length changes as a result of in-frame deletions/insertions in a nonrepeat region or stop-loss
+    variants
+    - PM5 Novel missense change at an amino acid residue where a different missense change determined to be pathogenic
+    has been seen before
+    - PM6 Assumed de novo, but without confirmation of paternity and maternity
+* `supporting`:
+    - PP1 Cosegregation with disease in multiple affected family members in a gene definitively known to cause the
+    disease
+    - PP2 Missense variant in a gene that has a low rate of benign missense variation and in which missense variants are
+    a common mechanism of disease
+    - PP3 Multiple lines of computational evidence support a deleterious effect on the gene or gene product
+    (conservation, evolutionary, splicing impact, etc.)
+    - PP4 Patient’s phenotype or family history is highly specific for a disease with a single genetic etiology
+    - PP5 Reputable source recently reports variant as pathogenic, but the evidence is not available to the laboratory
+    to perform an independent evaluation
     */
     enum EvidencePathogenicity {
         very_strong,
@@ -255,6 +297,29 @@ protocol KnownVariants {
     Evidence of benignity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation of
     sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and the
     Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
+
+* `stand_alone`:
+    - BA1 Allele frequency is >5% in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation
+    Consortium
+* `strong`:
+    - BS1 Allele frequency is greater than expected for disorder
+    - BS2 Observed in a healthy adult individual for a recessive (homozygous), dominant (heterozygous), or X-linked
+    (hemizygous) disorder, with full penetrance expected at an early age
+    - BS3 Well-established in vitro or in vivo functional studies show no damaging effect on protein function or
+    splicing
+    - BS4 Lack of segregation in affected members of a family
+* `supporting`:
+    - BP1 Missense variant in a gene for which primarily truncating variants are known to cause disease
+    - BP2 Observed in trans with a pathogenic variant for a fully penetrant dominant gene/disorder or observed in cis
+    with a pathogenic variant in any inheritance pattern
+    - BP3 In-frame deletions/insertions in a repetitive region without a known function
+    - BP4 Multiple lines of computational evidence suggest no impact on gene or gene product (conservation,
+    evolutionary, splicing impact, etc.)
+    - BP5 Variant found in a case with an alternate molecular basis for disease
+    - BP6 Reputable source recently reports variant as benign, but the evidence is not available to the laboratory to
+    perform an independent evaluation
+    - BP7 A synonymous (silent) variant for which splicing prediction algorithms predict no impact to the splice
+    consensus sequence nor the creation of a new splice site AND the nucleotide is not highly conserved
     */
     enum EvidenceBenignity {
         stand_alone,
@@ -283,9 +348,9 @@ protocol KnownVariants {
         */
         AlleleOrigin alleleOrigin;
         /**
-        Phenotypes associated to this evidence
+        Heritable phenotypes associated to this evidence
         */
-        array<EvidencePhenotype> phenotypes = [];
+        array<HeritablePhenotype> heritablePhenotypes = [];
         /**
         Evidence of pathogenicity
         */
@@ -325,11 +390,12 @@ protocol KnownVariants {
     */
     record KnownVariantAvro {
         /**
-        OpenCB variant model containing also annotations, but no genotypes information.
+        OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
+        Sample information like studies and genotypes is removed.
         */
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
         /**
-        The list of curations to different phenotypes for a known variant
+        The list of curations for different phenotypes for a known variant
         */
         array<CurationEntry> curations = [];
         /**
