@@ -390,6 +390,10 @@ be added as evidence
     */
     record KnownVariantAvro {
         /**
+        The original submitter of the variant
+        */
+        string submitter;
+        /**
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
         */
