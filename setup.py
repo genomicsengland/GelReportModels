@@ -7,11 +7,12 @@ reqs = [
     "avro==1.7.7",
     "humanize==0.5.1",
     "PyYAML==3.11",
+    "pysam"
 ]
 
 # BASE_DIR = os.path.dirname(__file__)
 # VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
-VERSION = "3.0.0"
+VERSION = "3.0.5"
 setup(
     name='GelReportModels',
     version=VERSION,

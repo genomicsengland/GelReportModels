@@ -109,6 +109,13 @@ class ProtocolElement(object):
 
         return out
 
+    def extended_validation(self):
+        for field in self.schema.fields:
+            val = getattr(self, field.name)
+            if field.type.type == 'string':
+                if val == '':
+                    return False
+        return self.validate(self.toJsonDict())
 
 
     @classmethod
@@ -157,6 +164,9 @@ class ProtocolElement(object):
         if isinstance(field.type, UnionSchema):
             if isinstance(field.type.schemas[1], ArraySchema):
                 return list(embeddedType.fromJsonDict(elem) for elem in val)
+            else:
+                return embeddedType.fromJsonDict(val)
+
         elif isinstance(field.type, avro.schema.ArraySchema):
             return list(embeddedType.fromJsonDict(elem) for elem in val)
         else:

@@ -14,6 +14,50 @@ import avro.schema
 version = '3.0.0'
 
 
+class AdditionalAttribute(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "AdditionalAttribute", "fields": [{"type":
+{"values": "string", "type": "map"}, "name": "attribute"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "attribute",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'attribute'
+    ]
+
+    def __init__(self, **kwargs):
+        self.attribute = kwargs.get(
+            'attribute', None)
+
+
+class Aggregation(object):
+    """
+    No documentation
+    """
+    NONE = "NONE"
+    BASIC = "BASIC"
+    EVS = "EVS"
+    EXAC = "EXAC"
+
+
 class AllelesCode(object):
     """
     No documentation
@@ -22,6 +66,62 @@ class AllelesCode(object):
     ALLELES_MISSING = "ALLELES_MISSING"
     MULTIPLE_ALTERNATES = "MULTIPLE_ALTERNATES"
     HAPLOID = "HAPLOID"
+
+
+class AlternateCoordinate(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "AlternateCoordinate", "fields": [{"type": ["null",
+"string"], "name": "chromosome"}, {"doc": "", "type": ["null", "int"],
+"name": "start"}, {"doc": "", "type": ["null", "int"], "name": "end"},
+{"doc": "", "type": ["null", "string"], "name": "reference"}, {"doc":
+"", "type": "string", "name": "alternate"}, {"type": {"symbols":
+["SNV", "SNP", "MNV", "MNP", "INDEL", "SV", "INSERTION", "DELETION",
+"TRANSLOCATION", "INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC",
+"MIXED"], "doc": "", "type": "enum", "name": "VariantType"}, "name":
+"type"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alternate",
+        "chromosome",
+        "end",
+        "reference",
+        "start",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'alternate', 'chromosome', 'end', 'reference', 'start', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.alternate = kwargs.get(
+            'alternate', 'None')
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.end = kwargs.get(
+            'end', None)
+        self.reference = kwargs.get(
+            'reference', None)
+        self.start = kwargs.get(
+            'start', None)
+        self.type = kwargs.get(
+            'type', None)
 
 
 class ClinVar(ProtocolElement):
@@ -85,31 +185,32 @@ class ConsequenceType(ProtocolElement):
 "ensemblGeneId"}, {"type": ["null", "string"], "name":
 "ensemblTranscriptId"}, {"type": ["null", "string"], "name":
 "strand"}, {"type": ["null", "string"], "name": "biotype"}, {"type":
-["null", {"items": "string", "type": "array"}], "name":
-"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
-"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
-{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
-{"fields": [{"type": "string", "name": "uniprotAccession"}, {"type":
-"string", "name": "uniprotName"}, {"type": "int", "name": "position"},
-{"type": "string", "name": "reference"}, {"type": "string", "name":
-"alternate"}, {"type": ["null", "string"], "name":
-"uniprotVariantId"}, {"type": ["null", "string"], "name":
-"functionalDescription"}, {"default": [], "type": {"items": {"fields":
-[{"type": "double", "name": "score"}, {"type": "string", "name":
-"source"}, {"type": ["null", "string"], "name": "description"}],
-"type": "record", "name": "Score"}, "type": "array"}, "name":
-"substitutionScores"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "keywords"}, {"default": [], "type": {"items":
-{"fields": [{"type": ["null", "string"], "name": "id"}, {"type":
-"int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
-"string", "name": "type"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "ProteinFeature"}, "type":
-"array"}, "name": "features"}], "type": "record", "name":
-"ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
-{"type": {"items": {"fields": [{"type": "string", "name":
-"accession"}, {"type": "string", "name": "name"}], "type": "record",
-"name": "SequenceOntologyTerm"}, "type": "array"}, "name":
-"sequenceOntologyTerms"}]}
+["null", "int"], "name": "exonNumber"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "transcriptAnnotationFlags"},
+{"type": ["null", "int"], "name": "cdnaPosition"}, {"type": ["null",
+"int"], "name": "cdsPosition"}, {"type": ["null", "string"], "name":
+"codon"}, {"type": ["null", {"fields": [{"default": null, "type":
+["null", "string"], "name": "uniprotAccession"}, {"default": null,
+"type": ["null", "string"], "name": "uniprotName"}, {"type": "int",
+"name": "position"}, {"type": ["null", "string"], "name":
+"reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", "string"], "name": "uniprotVariantId"}, {"type":
+["null", "string"], "name": "functionalDescription"}, {"type":
+["null", {"items": {"fields": [{"type": "double", "name": "score"},
+{"type": "string", "name": "source"}, {"type": ["null", "string"],
+"name": "description"}], "type": "record", "name": "Score"}, "type":
+"array"}], "name": "substitutionScores"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "keywords"}, {"type": ["null",
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
+{"type": ["null", "string"], "name": "type"}, {"type": ["null",
+"string"], "name": "description"}], "type": "record", "name":
+"ProteinFeature"}, "type": "array"}], "name": "features"}], "type":
+"record", "name": "ProteinVariantAnnotation"}], "name":
+"proteinVariantAnnotation"}, {"type": {"items": {"fields": [{"type":
+"string", "name": "accession"}, {"type": "string", "name": "name"}],
+"type": "record", "name": "SequenceOntologyTerm"}, "type": "array"},
+"name": "sequenceOntologyTerms"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -119,6 +220,7 @@ class ConsequenceType(ProtocolElement):
         "codon",
         "ensemblGeneId",
         "ensemblTranscriptId",
+        "exonNumber",
         "geneName",
         "proteinVariantAnnotation",
         "sequenceOntologyTerms",
@@ -145,9 +247,9 @@ class ConsequenceType(ProtocolElement):
 
     __slots__ = [
         'biotype', 'cdnaPosition', 'cdsPosition', 'codon',
-        'ensemblGeneId', 'ensemblTranscriptId', 'geneName',
-        'proteinVariantAnnotation', 'sequenceOntologyTerms', 'strand',
-        'transcriptAnnotationFlags'
+        'ensemblGeneId', 'ensemblTranscriptId', 'exonNumber',
+        'geneName', 'proteinVariantAnnotation',
+        'sequenceOntologyTerms', 'strand', 'transcriptAnnotationFlags'
     ]
 
     def __init__(self, **kwargs):
@@ -163,6 +265,8 @@ class ConsequenceType(ProtocolElement):
             'ensemblGeneId', None)
         self.ensemblTranscriptId = kwargs.get(
             'ensemblTranscriptId', None)
+        self.exonNumber = kwargs.get(
+            'exonNumber', None)
         self.geneName = kwargs.get(
             'geneName', None)
         self.proteinVariantAnnotation = kwargs.get(
@@ -318,9 +422,10 @@ class FileEntry(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
-"record", "name": "FileEntry", "fields": [{"type": "string", "name":
-"fileId"}, {"type": "string", "name": "call"}, {"type": {"values":
-"string", "type": "map"}, "name": "attributes"}]}
+"record", "name": "FileEntry", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "fileId"}, {"doc": "", "type": ["null", "string"],
+"name": "call"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "attributes"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -348,9 +453,9 @@ class FileEntry(ProtocolElement):
         self.attributes = kwargs.get(
             'attributes', None)
         self.call = kwargs.get(
-            'call', 'None')
+            'call', None)
         self.fileId = kwargs.get(
-            'fileId', 'None')
+            'fileId', None)
 
 
 class GeneDrugInteraction(ProtocolElement):
@@ -400,6 +505,68 @@ class GeneDrugInteraction(ProtocolElement):
             'studyType', None)
         self.type = kwargs.get(
             'type', None)
+
+
+class GeneTraitAssociation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "GeneTraitAssociation", "fields": [{"type":
+"string", "name": "id"}, {"type": "string", "name": "name"}, {"type":
+["null", "string"], "name": "hpo"}, {"type": ["null", "float"],
+"name": "score"}, {"type": ["null", "int"], "name":
+"numberOfPubmeds"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "associationTypes"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "sources"}, {"type": "string",
+"name": "source"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "associationTypes",
+        "hpo",
+        "id",
+        "name",
+        "numberOfPubmeds",
+        "score",
+        "source",
+        "sources",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'associationTypes', 'hpo', 'id', 'name', 'numberOfPubmeds',
+        'score', 'source', 'sources'
+    ]
+
+    def __init__(self, **kwargs):
+        self.associationTypes = kwargs.get(
+            'associationTypes', None)
+        self.hpo = kwargs.get(
+            'hpo', None)
+        self.id = kwargs.get(
+            'id', 'None')
+        self.name = kwargs.get(
+            'name', 'None')
+        self.numberOfPubmeds = kwargs.get(
+            'numberOfPubmeds', None)
+        self.score = kwargs.get(
+            'score', None)
+        self.source = kwargs.get(
+            'source', 'None')
+        self.sources = kwargs.get(
+            'sources', None)
 
 
 class Genotype(ProtocolElement):
@@ -500,10 +667,9 @@ class PopulationFrequency(ProtocolElement):
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
 "record", "name": "PopulationFrequency", "fields": [{"type": "string",
 "name": "study"}, {"type": "string", "name": "population"}, {"type":
-["null", "string"], "name": "superPopulation"}, {"type": "string",
-"name": "refAllele"}, {"type": "string", "name": "altAllele"},
-{"type": "float", "name": "refAlleleFreq"}, {"type": "float", "name":
-"altAlleleFreq"}, {"type": ["null", "float"], "name":
+"string", "name": "refAllele"}, {"type": "string", "name":
+"altAllele"}, {"type": "float", "name": "refAlleleFreq"}, {"type":
+"float", "name": "altAlleleFreq"}, {"type": ["null", "float"], "name":
 "refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
 "hetGenotypeFreq"}, {"type": ["null", "float"], "name":
 "altHomGenotypeFreq"}]}
@@ -519,7 +685,6 @@ class PopulationFrequency(ProtocolElement):
         "refAlleleFreq",
         "refHomGenotypeFreq",
         "study",
-        "superPopulation",
     }
 
     @classmethod
@@ -536,7 +701,7 @@ class PopulationFrequency(ProtocolElement):
     __slots__ = [
         'altAllele', 'altAlleleFreq', 'altHomGenotypeFreq',
         'hetGenotypeFreq', 'population', 'refAllele', 'refAlleleFreq',
-        'refHomGenotypeFreq', 'study', 'superPopulation'
+        'refHomGenotypeFreq', 'study'
     ]
 
     def __init__(self, **kwargs):
@@ -558,8 +723,6 @@ class PopulationFrequency(ProtocolElement):
             'refHomGenotypeFreq', None)
         self.study = kwargs.get(
             'study', 'None')
-        self.superPopulation = kwargs.get(
-            'superPopulation', None)
 
 
 class ProteinFeature(ProtocolElement):
@@ -570,8 +733,8 @@ class ProteinFeature(ProtocolElement):
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
 "record", "name": "ProteinFeature", "fields": [{"type": ["null",
 "string"], "name": "id"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": "string", "name": "type"}, {"type":
-["null", "string"], "name": "description"}]}
+"int", "name": "end"}, {"type": ["null", "string"], "name": "type"},
+{"type": ["null", "string"], "name": "description"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -607,7 +770,7 @@ class ProteinFeature(ProtocolElement):
         self.start = kwargs.get(
             'start', None)
         self.type = kwargs.get(
-            'type', 'None')
+            'type', None)
 
 
 class ProteinVariantAnnotation(ProtocolElement):
@@ -616,33 +779,34 @@ class ProteinVariantAnnotation(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
-"record", "name": "ProteinVariantAnnotation", "fields": [{"type":
-"string", "name": "uniprotAccession"}, {"type": "string", "name":
-"uniprotName"}, {"type": "int", "name": "position"}, {"type":
-"string", "name": "reference"}, {"type": "string", "name":
+"record", "name": "ProteinVariantAnnotation", "fields": [{"default":
+null, "type": ["null", "string"], "name": "uniprotAccession"},
+{"default": null, "type": ["null", "string"], "name": "uniprotName"},
+{"type": "int", "name": "position"}, {"type": ["null", "string"],
+"name": "reference"}, {"type": ["null", "string"], "name":
 "alternate"}, {"type": ["null", "string"], "name":
 "uniprotVariantId"}, {"type": ["null", "string"], "name":
-"functionalDescription"}, {"default": [], "type": {"items": {"fields":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
 [{"type": "double", "name": "score"}, {"type": "string", "name":
 "source"}, {"type": ["null", "string"], "name": "description"}],
-"type": "record", "name": "Score"}, "type": "array"}, "name":
+"type": "record", "name": "Score"}, "type": "array"}], "name":
 "substitutionScores"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "keywords"}, {"default": [], "type": {"items":
-{"fields": [{"type": ["null", "string"], "name": "id"}, {"type":
-"int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
-"string", "name": "type"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "ProteinFeature"}, "type":
-"array"}, "name": "features"}]}
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "alternate",
+        "features",
         "functionalDescription",
         "keywords",
         "position",
         "reference",
-        "uniprotAccession",
-        "uniprotName",
+        "substitutionScores",
         "uniprotVariantId",
     }
 
@@ -671,9 +835,9 @@ class ProteinVariantAnnotation(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.alternate = kwargs.get(
-            'alternate', 'None')
+            'alternate', None)
         self.features = kwargs.get(
-            'features', [])
+            'features', None)
         self.functionalDescription = kwargs.get(
             'functionalDescription', None)
         self.keywords = kwargs.get(
@@ -681,13 +845,13 @@ class ProteinVariantAnnotation(ProtocolElement):
         self.position = kwargs.get(
             'position', None)
         self.reference = kwargs.get(
-            'reference', 'None')
+            'reference', None)
         self.substitutionScores = kwargs.get(
-            'substitutionScores', [])
+            'substitutionScores', None)
         self.uniprotAccession = kwargs.get(
-            'uniprotAccession', 'None')
+            'uniprotAccession', None)
         self.uniprotName = kwargs.get(
-            'uniprotName', 'None')
+            'uniprotName', None)
         self.uniprotVariantId = kwargs.get(
             'uniprotVariantId', None)
 
@@ -811,113 +975,289 @@ class SequenceOntologyTerm(ProtocolElement):
             'name', 'None')
 
 
+class StructuralVariation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "StructuralVariation", "fields": [{"default": 0,
+"type": "int", "name": "ciStartLeft"}, {"default": 0, "type": "int",
+"name": "ciStartRight"}, {"default": 0, "type": "int", "name":
+"ciEndLeft"}, {"default": 0, "type": "int", "name": "ciEndRight"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "copyNumber",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ciEndLeft', 'ciEndRight', 'ciStartLeft', 'ciStartRight',
+        'copyNumber'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ciEndLeft = kwargs.get(
+            'ciEndLeft', 0)
+        self.ciEndRight = kwargs.get(
+            'ciEndRight', 0)
+        self.ciStartLeft = kwargs.get(
+            'ciStartLeft', 0)
+        self.ciStartRight = kwargs.get(
+            'ciStartRight', 0)
+        self.copyNumber = kwargs.get(
+            'copyNumber', None)
+
+
+class StudyEntry(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "StudyEntry", "fields": [{"doc": "", "type":
+["null", "string"], "name": "studyId"}, {"default": [], "doc": "",
+"type": {"items": {"fields": [{"doc": "", "type": ["null", "string"],
+"name": "fileId"}, {"doc": "", "type": ["null", "string"], "name":
+"call"}, {"doc": "", "type": {"values": "string", "type": "map"},
+"name": "attributes"}], "type": "record", "name": "FileEntry"},
+"type": "array"}, "name": "files"}, {"default": null, "doc": "",
+"type": ["null", {"items": {"fields": [{"type": ["null", "string"],
+"name": "chromosome"}, {"doc": "", "type": ["null", "int"], "name":
+"start"}, {"doc": "", "type": ["null", "int"], "name": "end"}, {"doc":
+"", "type": ["null", "string"], "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"type": {"symbols": ["SNV",
+"SNP", "MNV", "MNP", "INDEL", "SV", "INSERTION", "DELETION",
+"TRANSLOCATION", "INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC",
+"MIXED"], "doc": "", "type": "enum", "name": "VariantType"}, "name":
+"type"}], "type": "record", "name": "AlternateCoordinate"}, "type":
+"array"}], "name": "secondaryAlternates"}, {"doc": "", "type":
+{"items": "string", "type": "array"}, "name": "format"}, {"doc": "",
+"type": {"items": {"items": "string", "type": "array"}, "type":
+"array"}, "name": "samplesData"}, {"doc": "", "type": {"values":
+{"fields": [{"type": ["null", "string"], "name": "refAllele"},
+{"type": ["null", "string"], "name": "altAllele"}, {"type": ["null",
+"int"], "name": "refAlleleCount"}, {"type": ["null", "int"], "name":
+"altAlleleCount"}, {"type": {"values": "int", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
+"passedFilters"}, {"type": ["null", "int"], "name":
+"mendelianErrors"}, {"type": ["null", "float"], "name":
+"casesPercentDominant"}, {"type": ["null", "float"], "name":
+"controlsPercentDominant"}, {"type": ["null", "float"], "name":
+"casesPercentRecessive"}, {"type": ["null", "float"], "name":
+"controlsPercentRecessive"}, {"type": ["null", "float"], "name":
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", "VariantType"], "name":
+"variantType"}, {"default": null, "type": ["null", {"fields":
+[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
+"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
+{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
+"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
+"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
+["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
+"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
+["null", "float"], "name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}], "type": "record",
+"name": "VariantStats"}, "type": "map"}, "name": "stats"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "format",
+        "samplesData",
+        "stats",
+        "studyId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'files': FileEntry,
+            'secondaryAlternates': AlternateCoordinate,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'files': FileEntry,
+            'secondaryAlternates': AlternateCoordinate,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'files', 'format', 'samplesData', 'secondaryAlternates',
+        'stats', 'studyId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.files = kwargs.get(
+            'files', [])
+        self.format = kwargs.get(
+            'format', None)
+        self.samplesData = kwargs.get(
+            'samplesData', None)
+        self.secondaryAlternates = kwargs.get(
+            'secondaryAlternates', None)
+        self.stats = kwargs.get(
+            'stats', None)
+        self.studyId = kwargs.get(
+            'studyId', None)
+
+
 class VariantAnnotation(ProtocolElement):
     """
     No documentation
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
-"record", "name": "VariantAnnotation", "fields": [{"type": "string",
-"name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": "string", "name": "reference"},
-{"type": "string", "name": "alternate"}, {"type": ["null", "string"],
-"name": "id"}, {"default": [], "type": {"items": {"fields": [{"type":
-["null", "string"], "name": "id"}, {"type": ["null", "string"],
-"name": "source"}], "type": "record", "name": "Xref"}, "type":
-"array"}, "name": "xrefs"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "hgvs"}, {"default": [], "type": {"items":
+"record", "name": "VariantAnnotation", "fields": [{"type": ["null",
+"string"], "name": "chromosome"}, {"type": ["null", "int"], "name":
+"start"}, {"type": ["null", "string"], "name": "reference"}, {"type":
+["null", "string"], "name": "alternate"}, {"type": ["null", "string"],
+"name": "ancestralAllele"}, {"type": ["null", "string"], "name":
+"id"}, {"type": ["null", {"items": {"fields": [{"type": ["null",
+"string"], "name": "id"}, {"type": ["null", "string"], "name":
+"source"}], "type": "record", "name": "Xref"}, "type": "array"}],
+"name": "xrefs"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "hgvs"}, {"type": ["null", "string"], "name":
+"displayConsequenceType"}, {"default": [], "type": {"items":
 {"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
 ["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
 "string"], "name": "ensemblTranscriptId"}, {"type": ["null",
 "string"], "name": "strand"}, {"type": ["null", "string"], "name":
-"biotype"}, {"type": ["null", {"items": "string", "type": "array"}],
-"name": "transcriptAnnotationFlags"}, {"type": ["null", "int"],
-"name": "cdnaPosition"}, {"type": ["null", "int"], "name":
-"cdsPosition"}, {"type": ["null", "string"], "name": "codon"},
-{"type": ["null", {"fields": [{"type": "string", "name":
-"uniprotAccession"}, {"type": "string", "name": "uniprotName"},
-{"type": "int", "name": "position"}, {"type": "string", "name":
-"reference"}, {"type": "string", "name": "alternate"}, {"type":
-["null", "string"], "name": "uniprotVariantId"}, {"type": ["null",
-"string"], "name": "functionalDescription"}, {"default": [], "type":
-{"items": {"fields": [{"type": "double", "name": "score"}, {"type":
-"string", "name": "source"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "Score"}, "type": "array"},
-"name": "substitutionScores"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "keywords"}, {"default": [], "type":
-{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
-{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
-{"type": "string", "name": "type"}, {"type": ["null", "string"],
-"name": "description"}], "type": "record", "name": "ProteinFeature"},
-"type": "array"}, "name": "features"}], "type": "record", "name":
+"biotype"}, {"type": ["null", "int"], "name": "exonNumber"}, {"type":
+["null", {"items": "string", "type": "array"}], "name":
+"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
+"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
+{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
+{"fields": [{"default": null, "type": ["null", "string"], "name":
+"uniprotAccession"}, {"default": null, "type": ["null", "string"],
+"name": "uniprotName"}, {"type": "int", "name": "position"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"],
+"name": "alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}], "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}], "type": "record", "name":
 "ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
 {"type": {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "name"}], "type": "record",
 "name": "SequenceOntologyTerm"}, "type": "array"}, "name":
 "sequenceOntologyTerms"}], "type": "record", "name":
 "ConsequenceType"}, "type": "array"}, "name": "consequenceTypes"},
-{"default": [], "type": {"items": {"fields": [{"type": "string",
-"name": "study"}, {"type": "string", "name": "population"}, {"type":
-["null", "string"], "name": "superPopulation"}, {"type": "string",
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"study"}, {"type": "string", "name": "population"}, {"type": "string",
 "name": "refAllele"}, {"type": "string", "name": "altAllele"},
 {"type": "float", "name": "refAlleleFreq"}, {"type": "float", "name":
 "altAlleleFreq"}, {"type": ["null", "float"], "name":
 "refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
 "hetGenotypeFreq"}, {"type": ["null", "float"], "name":
 "altHomGenotypeFreq"}], "type": "record", "name":
-"PopulationFrequency"}, "type": "array"}, "name":
-"populationFrequencies"}, {"default": [], "type": {"items": "Score",
-"type": "array"}, "name": "conservation"}, {"default": [], "type":
-{"items": {"fields": [{"type": ["null", "string"], "name":
-"geneName"}, {"type": ["null", "string"], "name": "transcriptId"},
-{"type": ["null", "string"], "name": "experimentalFactor"}, {"type":
-["null", "string"], "name": "factorValue"}, {"type": ["null",
-"string"], "name": "experimentId"}, {"type": ["null", "string"],
-"name": "technologyPlatform"}, {"type": ["null", {"symbols": ["UP",
-"DOWN"], "type": "enum", "name": "ExpressionCall"}], "name":
-"expression"}, {"type": ["null", "float"], "name": "pvalue"}], "type":
-"record", "name": "Expression"}, "type": "array"}, "name":
-"expression"}, {"default": [], "type": {"items": {"fields": [{"type":
-["null", "string"], "name": "geneName"}, {"type": ["null", "string"],
-"name": "drugName"}, {"type": ["null", "string"], "name": "source"},
-{"type": ["null", "string"], "name": "studyType"}, {"type": ["null",
-"string"], "name": "type"}], "type": "record", "name":
-"GeneDrugInteraction"}, "type": "array"}, "name":
-"geneDrugInteraction"}, {"type": ["null", {"fields": [{"default": [],
-"type": {"items": {"fields": [{"type": "string", "name": "accession"},
-{"type": "string", "name": "clinicalSignificance"}, {"type": {"items":
-"string", "type": "array"}, "name": "traits"}, {"type": {"items":
-"string", "type": "array"}, "name": "geneNames"}, {"type": "string",
-"name": "reviewStatus"}], "type": "record", "name": "ClinVar"},
-"type": "array"}, "name": "clinvar"}, {"default": [], "type":
+"PopulationFrequency"}, "type": "array"}], "name":
+"populationFrequencies"}, {"type": ["null", "string"], "name":
+"minorAllele"}, {"type": ["null", "float"], "name":
+"minorAlleleFreq"}, {"type": ["null", {"items": "Score", "type":
+"array"}], "name": "conservation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "transcriptId"}, {"type": ["null",
+"string"], "name": "experimentalFactor"}, {"type": ["null", "string"],
+"name": "factorValue"}, {"type": ["null", "string"], "name":
+"experimentId"}, {"type": ["null", "string"], "name":
+"technologyPlatform"}, {"type": ["null", {"symbols": ["UP", "DOWN"],
+"type": "enum", "name": "ExpressionCall"}], "name": "expression"},
+{"type": ["null", "float"], "name": "pvalue"}], "type": "record",
+"name": "Expression"}, "type": "array"}], "name": "geneExpression"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"id"}, {"type": "string", "name": "name"}, {"type": ["null",
+"string"], "name": "hpo"}, {"type": ["null", "float"], "name":
+"score"}, {"type": ["null", "int"], "name": "numberOfPubmeds"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"associationTypes"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "sources"}, {"type": "string", "name": "source"}],
+"type": "record", "name": "GeneTraitAssociation"}, "type": "array"}],
+"name": "geneTraitAssociation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "drugName"}, {"type": ["null", "string"],
+"name": "source"}, {"type": ["null", "string"], "name": "studyType"},
+{"type": ["null", "string"], "name": "type"}], "type": "record",
+"name": "GeneDrugInteraction"}, "type": "array"}], "name":
+"geneDrugInteraction"}, {"type": ["null", {"fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": {"items": "string", "type": "array"}, "name": "geneNames"},
+{"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
 {"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
 {"type": {"items": "string", "type": "array"}, "name": "traits"},
 {"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
 "name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
-"array"}, "name": "gwas"}, {"default": [], "type": {"items":
-{"fields": [{"type": "string", "name": "mutationId"}, {"type":
-"string", "name": "primarySite"}, {"type": "string", "name":
-"siteSubtype"}, {"type": "string", "name": "primaryHistology"},
-{"type": "string", "name": "histologySubtype"}, {"type": "string",
-"name": "sampleSource"}, {"type": "string", "name": "tumourOrigin"},
-{"type": "string", "name": "geneName"}, {"type": "string", "name":
-"mutationSomaticStatus"}], "type": "record", "name": "Cosmic"},
-"type": "array"}, "name": "cosmic"}], "type": "record", "name":
-"VariantTraitAssociation"}], "name": "variantTraitAssociation"},
-{"type": ["null", {"values": "string", "type": "map"}], "name":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}], "type": "record", "name": "VariantTraitAssociation"}],
+"name": "variantTraitAssociation"}, {"type": ["null", {"items":
+"Score", "type": "array"}], "name": "functionalScore"}, {"default":
+null, "type": ["null", {"values": {"fields": [{"type": {"values":
+"string", "type": "map"}, "name": "attribute"}], "type": "record",
+"name": "AdditionalAttribute"}, "type": "map"}], "name":
 "additionalAttributes"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "additionalAttributes",
         "alternate",
+        "ancestralAllele",
         "chromosome",
-        "end",
+        "conservation",
+        "displayConsequenceType",
+        "functionalScore",
+        "geneDrugInteraction",
+        "geneExpression",
+        "geneTraitAssociation",
         "hgvs",
         "id",
+        "minorAllele",
+        "minorAlleleFreq",
+        "populationFrequencies",
         "reference",
         "start",
         "variantTraitAssociation",
+        "xrefs",
     }
 
     @classmethod
@@ -925,8 +1265,10 @@ class VariantAnnotation(ProtocolElement):
         embeddedTypes = {
             'consequenceTypes': ConsequenceType,
             'conservation': Score,
-            'expression': Expression,
+            'functionalScore': Score,
             'geneDrugInteraction': GeneDrugInteraction,
+            'geneExpression': Expression,
+            'geneTraitAssociation': GeneTraitAssociation,
             'populationFrequencies': PopulationFrequency,
             'variantTraitAssociation': VariantTraitAssociation,
             'xrefs': Xref,
@@ -938,8 +1280,10 @@ class VariantAnnotation(ProtocolElement):
         embeddedTypes = {
             'consequenceTypes': ConsequenceType,
             'conservation': Score,
-            'expression': Expression,
+            'functionalScore': Score,
             'geneDrugInteraction': GeneDrugInteraction,
+            'geneExpression': Expression,
+            'geneTraitAssociation': GeneTraitAssociation,
             'populationFrequencies': PopulationFrequency,
             'variantTraitAssociation': VariantTraitAssociation,
             'xrefs': Xref,
@@ -948,43 +1292,56 @@ class VariantAnnotation(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'additionalAttributes', 'alternate', 'chromosome',
-        'consequenceTypes', 'conservation', 'end', 'expression',
-        'geneDrugInteraction', 'hgvs', 'id', 'populationFrequencies',
-        'reference', 'start', 'variantTraitAssociation', 'xrefs'
+        'additionalAttributes', 'alternate', 'ancestralAllele',
+        'chromosome', 'consequenceTypes', 'conservation',
+        'displayConsequenceType', 'functionalScore',
+        'geneDrugInteraction', 'geneExpression',
+        'geneTraitAssociation', 'hgvs', 'id', 'minorAllele',
+        'minorAlleleFreq', 'populationFrequencies', 'reference',
+        'start', 'variantTraitAssociation', 'xrefs'
     ]
 
     def __init__(self, **kwargs):
         self.additionalAttributes = kwargs.get(
             'additionalAttributes', None)
         self.alternate = kwargs.get(
-            'alternate', 'None')
+            'alternate', None)
+        self.ancestralAllele = kwargs.get(
+            'ancestralAllele', None)
         self.chromosome = kwargs.get(
-            'chromosome', 'None')
+            'chromosome', None)
         self.consequenceTypes = kwargs.get(
             'consequenceTypes', [])
         self.conservation = kwargs.get(
-            'conservation', [])
-        self.end = kwargs.get(
-            'end', None)
-        self.expression = kwargs.get(
-            'expression', [])
+            'conservation', None)
+        self.displayConsequenceType = kwargs.get(
+            'displayConsequenceType', None)
+        self.functionalScore = kwargs.get(
+            'functionalScore', None)
         self.geneDrugInteraction = kwargs.get(
-            'geneDrugInteraction', [])
+            'geneDrugInteraction', None)
+        self.geneExpression = kwargs.get(
+            'geneExpression', None)
+        self.geneTraitAssociation = kwargs.get(
+            'geneTraitAssociation', None)
         self.hgvs = kwargs.get(
             'hgvs', None)
         self.id = kwargs.get(
             'id', None)
+        self.minorAllele = kwargs.get(
+            'minorAllele', None)
+        self.minorAlleleFreq = kwargs.get(
+            'minorAlleleFreq', None)
         self.populationFrequencies = kwargs.get(
-            'populationFrequencies', [])
+            'populationFrequencies', None)
         self.reference = kwargs.get(
-            'reference', 'None')
+            'reference', None)
         self.start = kwargs.get(
             'start', None)
         self.variantTraitAssociation = kwargs.get(
             'variantTraitAssociation', None)
         self.xrefs = kwargs.get(
-            'xrefs', [])
+            'xrefs', None)
 
 
 class VariantAvro(ProtocolElement):
@@ -994,160 +1351,192 @@ class VariantAvro(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
 "record", "name": "VariantAvro", "fields": [{"doc": "", "type":
-"string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
-"start"}, {"doc": "", "type": "int", "name": "end"}, {"doc": "",
-"type": "string", "name": "reference"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"doc": "", "type": ["null", "string"], "name":
-"strand"}, {"default": [], "doc": "", "type": {"items": "string",
-"type": "array"}, "name": "ids"}, {"doc": "", "type": "int", "name":
-"length"}, {"doc": "", "type": {"symbols": ["SNP", "SNV", "MNP",
-"MNV", "INDEL", "SV", "CNV", "NO_VARIATION", "SYMBOLIC", "MIXED"],
-"doc": "", "type": "enum", "name": "VariantType"}, "name": "type"},
-{"doc": "", "type": ["null", {"values": {"items": "string", "type":
-"array"}, "type": "map"}], "name": "hgvs"}, {"doc": "", "type":
-{"items": {"fields": [{"type": ["null", "string"], "name": "studyId"},
-{"default": [], "type": {"items": {"fields": [{"type": "string",
-"name": "fileId"}, {"type": "string", "name": "call"}, {"type":
-{"values": "string", "type": "map"}, "name": "attributes"}], "type":
-"record", "name": "FileEntry"}, "type": "array"}, "name": "files"},
-{"default": null, "type": ["null", {"items": "string", "type":
-"array"}], "name": "secondaryAlternates"}, {"type": {"items":
-"string", "type": "array"}, "name": "format"}, {"type": {"items":
+["null", "string"], "name": "id"}, {"default": [], "doc": "", "type":
+{"items": "string", "type": "array"}, "name": "names"}, {"doc": "",
+"type": "string", "name": "chromosome"}, {"doc": "", "type": "int",
+"name": "start"}, {"doc": "", "type": "int", "name": "end"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "strand"}, {"default": null, "doc": "",
+"type": ["null", {"fields": [{"default": 0, "type": "int", "name":
+"ciStartLeft"}, {"default": 0, "type": "int", "name": "ciStartRight"},
+{"default": 0, "type": "int", "name": "ciEndLeft"}, {"default": 0,
+"type": "int", "name": "ciEndRight"}, {"doc": "", "type": ["null",
+"int"], "name": "copyNumber"}], "type": "record", "name":
+"StructuralVariation"}], "name": "sv"}, {"doc": "", "type": "int",
+"name": "length"}, {"doc": "", "type": {"symbols": ["SNV", "SNP",
+"MNV", "MNP", "INDEL", "SV", "INSERTION", "DELETION", "TRANSLOCATION",
+"INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "",
+"type": "enum", "name": "VariantType"}, "name": "type"}, {"default":
+null, "doc": "", "type": ["null", {"values": {"items": "string",
+"type": "array"}, "type": "map"}], "name": "hgvs"}, {"doc": "",
+"type": {"items": {"fields": [{"doc": "", "type": ["null", "string"],
+"name": "studyId"}, {"default": [], "doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": ["null", "string"], "name": "fileId"},
+{"doc": "", "type": ["null", "string"], "name": "call"}, {"doc": "",
+"type": {"values": "string", "type": "map"}, "name": "attributes"}],
+"type": "record", "name": "FileEntry"}, "type": "array"}, "name":
+"files"}, {"default": null, "doc": "", "type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "chromosome"},
+{"doc": "", "type": ["null", "int"], "name": "start"}, {"doc": "",
+"type": ["null", "int"], "name": "end"}, {"doc": "", "type": ["null",
+"string"], "name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"type": "VariantType", "name": "type"}], "type":
+"record", "name": "AlternateCoordinate"}, "type": "array"}], "name":
+"secondaryAlternates"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "format"}, {"doc": "", "type": {"items":
 {"items": "string", "type": "array"}, "type": "array"}, "name":
-"samplesData"}, {"type": {"values": {"fields": [{"type": ["null",
-"string"], "name": "refAllele"}, {"type": ["null", "string"], "name":
-"altAllele"}, {"type": ["null", "int"], "name": "refAlleleCount"},
-{"type": ["null", "int"], "name": "altAlleleCount"}, {"type":
-{"values": "int", "type": "map"}, "name": "genotypesCount"}, {"type":
-{"values": "float", "type": "map"}, "name": "genotypesFreq"}, {"type":
-["null", "int"], "name": "missingAlleles"}, {"type": ["null", "int"],
-"name": "missingGenotypes"}, {"type": ["null", "float"], "name":
-"refAlleleFreq"}, {"type": ["null", "float"], "name":
-"altAlleleFreq"}, {"type": ["null", "float"], "name": "maf"}, {"type":
-["null", "float"], "name": "mgf"}, {"type": ["null", "string"],
-"name": "mafAllele"}, {"type": ["null", "string"], "name":
-"mgfGenotype"}, {"type": ["null", "boolean"], "name":
+"samplesData"}, {"doc": "", "type": {"values": {"fields": [{"type":
+["null", "string"], "name": "refAllele"}, {"type": ["null", "string"],
+"name": "altAllele"}, {"type": ["null", "int"], "name":
+"refAlleleCount"}, {"type": ["null", "int"], "name":
+"altAlleleCount"}, {"type": {"values": "int", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
 "passedFilters"}, {"type": ["null", "int"], "name":
 "mendelianErrors"}, {"type": ["null", "float"], "name":
 "casesPercentDominant"}, {"type": ["null", "float"], "name":
 "controlsPercentDominant"}, {"type": ["null", "float"], "name":
 "casesPercentRecessive"}, {"type": ["null", "float"], "name":
 "controlsPercentRecessive"}, {"type": ["null", "float"], "name":
-"quality"}, {"type": ["null", "int"], "name": "numSamples"}, {"type":
-"VariantType", "name": "variantType"}, {"type": {"fields": [{"type":
-["null", "float"], "name": "chi2"}, {"type": ["null", "float"],
-"name": "pValue"}, {"type": ["null", "int"], "name": "n"}, {"type":
-["null", "int"], "name": "n_AA_11"}, {"type": ["null", "int"], "name":
-"n_Aa_10"}, {"type": ["null", "int"], "name": "n_aa_00"}, {"type":
-["null", "float"], "name": "e_AA_11"}, {"type": ["null", "float"],
-"name": "e_Aa_10"}, {"type": ["null", "float"], "name": "e_aa_00"},
-{"type": ["null", "float"], "name": "p"}, {"type": ["null", "float"],
-"name": "q"}], "type": "record", "name": "VariantHardyWeinbergStats"},
-"name": "hw"}], "type": "record", "name": "VariantStats"}, "type":
-"map"}, "name": "stats"}], "type": "record", "name":
-"VariantSourceEntry"}, "type": "array"}, "name": "studies"}, {"doc":
-"", "type": ["null", {"fields": [{"type": "string", "name":
-"chromosome"}, {"type": "int", "name": "start"}, {"type": "int",
-"name": "end"}, {"type": "string", "name": "reference"}, {"type":
-"string", "name": "alternate"}, {"type": ["null", "string"], "name":
-"id"}, {"default": [], "type": {"items": {"fields": [{"type": ["null",
-"string"], "name": "id"}, {"type": ["null", "string"], "name":
-"source"}], "type": "record", "name": "Xref"}, "type": "array"},
-"name": "xrefs"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "hgvs"}, {"default": [], "type": {"items":
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", "VariantType"], "name":
+"variantType"}, {"default": null, "type": ["null", {"fields":
+[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
+"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
+{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
+"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
+"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
+["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
+"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
+["null", "float"], "name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}], "type": "record",
+"name": "VariantStats"}, "type": "map"}, "name": "stats"}], "type":
+"record", "name": "StudyEntry"}, "type": "array"}, "name": "studies"},
+{"default": null, "doc": "", "type": ["null", {"fields": [{"type":
+["null", "string"], "name": "chromosome"}, {"type": ["null", "int"],
+"name": "start"}, {"type": ["null", "string"], "name": "reference"},
+{"type": ["null", "string"], "name": "alternate"}, {"type": ["null",
+"string"], "name": "ancestralAllele"}, {"type": ["null", "string"],
+"name": "id"}, {"type": ["null", {"items": {"fields": [{"type":
+["null", "string"], "name": "id"}, {"type": ["null", "string"],
+"name": "source"}], "type": "record", "name": "Xref"}, "type":
+"array"}], "name": "xrefs"}, {"type": ["null", {"items": "string",
+"type": "array"}], "name": "hgvs"}, {"type": ["null", "string"],
+"name": "displayConsequenceType"}, {"default": [], "type": {"items":
 {"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
 ["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
 "string"], "name": "ensemblTranscriptId"}, {"type": ["null",
 "string"], "name": "strand"}, {"type": ["null", "string"], "name":
-"biotype"}, {"type": ["null", {"items": "string", "type": "array"}],
-"name": "transcriptAnnotationFlags"}, {"type": ["null", "int"],
-"name": "cdnaPosition"}, {"type": ["null", "int"], "name":
-"cdsPosition"}, {"type": ["null", "string"], "name": "codon"},
-{"type": ["null", {"fields": [{"type": "string", "name":
-"uniprotAccession"}, {"type": "string", "name": "uniprotName"},
-{"type": "int", "name": "position"}, {"type": "string", "name":
-"reference"}, {"type": "string", "name": "alternate"}, {"type":
-["null", "string"], "name": "uniprotVariantId"}, {"type": ["null",
-"string"], "name": "functionalDescription"}, {"default": [], "type":
-{"items": {"fields": [{"type": "double", "name": "score"}, {"type":
-"string", "name": "source"}, {"type": ["null", "string"], "name":
-"description"}], "type": "record", "name": "Score"}, "type": "array"},
-"name": "substitutionScores"}, {"type": ["null", {"items": "string",
-"type": "array"}], "name": "keywords"}, {"default": [], "type":
-{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
-{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
-{"type": "string", "name": "type"}, {"type": ["null", "string"],
-"name": "description"}], "type": "record", "name": "ProteinFeature"},
-"type": "array"}, "name": "features"}], "type": "record", "name":
+"biotype"}, {"type": ["null", "int"], "name": "exonNumber"}, {"type":
+["null", {"items": "string", "type": "array"}], "name":
+"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
+"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
+{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
+{"fields": [{"default": null, "type": ["null", "string"], "name":
+"uniprotAccession"}, {"default": null, "type": ["null", "string"],
+"name": "uniprotName"}, {"type": "int", "name": "position"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"],
+"name": "alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}], "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}], "type": "record", "name":
 "ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
 {"type": {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "name"}], "type": "record",
 "name": "SequenceOntologyTerm"}, "type": "array"}, "name":
 "sequenceOntologyTerms"}], "type": "record", "name":
 "ConsequenceType"}, "type": "array"}, "name": "consequenceTypes"},
-{"default": [], "type": {"items": {"fields": [{"type": "string",
-"name": "study"}, {"type": "string", "name": "population"}, {"type":
-["null", "string"], "name": "superPopulation"}, {"type": "string",
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"study"}, {"type": "string", "name": "population"}, {"type": "string",
 "name": "refAllele"}, {"type": "string", "name": "altAllele"},
 {"type": "float", "name": "refAlleleFreq"}, {"type": "float", "name":
 "altAlleleFreq"}, {"type": ["null", "float"], "name":
 "refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
 "hetGenotypeFreq"}, {"type": ["null", "float"], "name":
 "altHomGenotypeFreq"}], "type": "record", "name":
-"PopulationFrequency"}, "type": "array"}, "name":
-"populationFrequencies"}, {"default": [], "type": {"items": "Score",
-"type": "array"}, "name": "conservation"}, {"default": [], "type":
-{"items": {"fields": [{"type": ["null", "string"], "name":
-"geneName"}, {"type": ["null", "string"], "name": "transcriptId"},
-{"type": ["null", "string"], "name": "experimentalFactor"}, {"type":
-["null", "string"], "name": "factorValue"}, {"type": ["null",
-"string"], "name": "experimentId"}, {"type": ["null", "string"],
-"name": "technologyPlatform"}, {"type": ["null", {"symbols": ["UP",
-"DOWN"], "type": "enum", "name": "ExpressionCall"}], "name":
-"expression"}, {"type": ["null", "float"], "name": "pvalue"}], "type":
-"record", "name": "Expression"}, "type": "array"}, "name":
-"expression"}, {"default": [], "type": {"items": {"fields": [{"type":
-["null", "string"], "name": "geneName"}, {"type": ["null", "string"],
-"name": "drugName"}, {"type": ["null", "string"], "name": "source"},
-{"type": ["null", "string"], "name": "studyType"}, {"type": ["null",
-"string"], "name": "type"}], "type": "record", "name":
-"GeneDrugInteraction"}, "type": "array"}, "name":
-"geneDrugInteraction"}, {"type": ["null", {"fields": [{"default": [],
-"type": {"items": {"fields": [{"type": "string", "name": "accession"},
-{"type": "string", "name": "clinicalSignificance"}, {"type": {"items":
-"string", "type": "array"}, "name": "traits"}, {"type": {"items":
-"string", "type": "array"}, "name": "geneNames"}, {"type": "string",
-"name": "reviewStatus"}], "type": "record", "name": "ClinVar"},
-"type": "array"}, "name": "clinvar"}, {"default": [], "type":
+"PopulationFrequency"}, "type": "array"}], "name":
+"populationFrequencies"}, {"type": ["null", "string"], "name":
+"minorAllele"}, {"type": ["null", "float"], "name":
+"minorAlleleFreq"}, {"type": ["null", {"items": "Score", "type":
+"array"}], "name": "conservation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "transcriptId"}, {"type": ["null",
+"string"], "name": "experimentalFactor"}, {"type": ["null", "string"],
+"name": "factorValue"}, {"type": ["null", "string"], "name":
+"experimentId"}, {"type": ["null", "string"], "name":
+"technologyPlatform"}, {"type": ["null", {"symbols": ["UP", "DOWN"],
+"type": "enum", "name": "ExpressionCall"}], "name": "expression"},
+{"type": ["null", "float"], "name": "pvalue"}], "type": "record",
+"name": "Expression"}, "type": "array"}], "name": "geneExpression"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"id"}, {"type": "string", "name": "name"}, {"type": ["null",
+"string"], "name": "hpo"}, {"type": ["null", "float"], "name":
+"score"}, {"type": ["null", "int"], "name": "numberOfPubmeds"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"associationTypes"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "sources"}, {"type": "string", "name": "source"}],
+"type": "record", "name": "GeneTraitAssociation"}, "type": "array"}],
+"name": "geneTraitAssociation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "drugName"}, {"type": ["null", "string"],
+"name": "source"}, {"type": ["null", "string"], "name": "studyType"},
+{"type": ["null", "string"], "name": "type"}], "type": "record",
+"name": "GeneDrugInteraction"}, "type": "array"}], "name":
+"geneDrugInteraction"}, {"type": ["null", {"fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": {"items": "string", "type": "array"}, "name": "geneNames"},
+{"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
 {"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
 {"type": {"items": "string", "type": "array"}, "name": "traits"},
 {"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
 "name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
-"array"}, "name": "gwas"}, {"default": [], "type": {"items":
-{"fields": [{"type": "string", "name": "mutationId"}, {"type":
-"string", "name": "primarySite"}, {"type": "string", "name":
-"siteSubtype"}, {"type": "string", "name": "primaryHistology"},
-{"type": "string", "name": "histologySubtype"}, {"type": "string",
-"name": "sampleSource"}, {"type": "string", "name": "tumourOrigin"},
-{"type": "string", "name": "geneName"}, {"type": "string", "name":
-"mutationSomaticStatus"}], "type": "record", "name": "Cosmic"},
-"type": "array"}, "name": "cosmic"}], "type": "record", "name":
-"VariantTraitAssociation"}], "name": "variantTraitAssociation"},
-{"type": ["null", {"values": "string", "type": "map"}], "name":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}], "type": "record", "name": "VariantTraitAssociation"}],
+"name": "variantTraitAssociation"}, {"type": ["null", {"items":
+"Score", "type": "array"}], "name": "functionalScore"}, {"default":
+null, "type": ["null", {"values": {"fields": [{"type": {"values":
+"string", "type": "map"}, "name": "attribute"}], "type": "record",
+"name": "AdditionalAttribute"}, "type": "map"}], "name":
 "additionalAttributes"}], "type": "record", "name":
 "VariantAnnotation"}], "name": "annotation"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "alternate",
-        "annotation",
         "chromosome",
         "end",
-        "hgvs",
+        "id",
         "length",
         "reference",
         "start",
-        "strand",
         "studies",
         "type",
     }
@@ -1156,7 +1545,8 @@ class VariantAvro(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'annotation': VariantAnnotation,
-            'studies': VariantSourceEntry,
+            'studies': StudyEntry,
+            'sv': StructuralVariation,
         }
         return fieldName in embeddedTypes
 
@@ -1164,14 +1554,16 @@ class VariantAvro(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'annotation': VariantAnnotation,
-            'studies': VariantSourceEntry,
+            'studies': StudyEntry,
+            'sv': StructuralVariation,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'alternate', 'annotation', 'chromosome', 'end', 'hgvs', 'ids',
-        'length', 'reference', 'start', 'strand', 'studies', 'type'
+        'alternate', 'annotation', 'chromosome', 'end', 'hgvs', 'id',
+        'length', 'names', 'reference', 'start', 'strand', 'studies',
+        'sv', 'type'
     ]
 
     def __init__(self, **kwargs):
@@ -1185,10 +1577,12 @@ class VariantAvro(ProtocolElement):
             'end', None)
         self.hgvs = kwargs.get(
             'hgvs', None)
-        self.ids = kwargs.get(
-            'ids', [])
+        self.id = kwargs.get(
+            'id', None)
         self.length = kwargs.get(
             'length', None)
+        self.names = kwargs.get(
+            'names', [])
         self.reference = kwargs.get(
             'reference', 'None')
         self.start = kwargs.get(
@@ -1197,6 +1591,8 @@ class VariantAvro(ProtocolElement):
             'strand', None)
         self.studies = kwargs.get(
             'studies', None)
+        self.sv = kwargs.get(
+            'sv', None)
         self.type = kwargs.get(
             'type', None)
 
@@ -1212,13 +1608,102 @@ class VariantFileMetadata(ProtocolElement):
 null, "type": ["null", "string"], "name": "fileName"}, {"default":
 null, "type": ["null", "string"], "name": "studyName"}, {"default":
 [], "type": {"items": "string", "type": "array"}, "name": "samples"},
-{"type": {"values": "string", "type": "map"}, "name": "metadata"}]}
+{"type": {"symbols": ["NONE", "BASIC", "EVS", "EXAC"], "type": "enum",
+"name": "Aggregation"}, "name": "aggregation"}, {"type": ["null",
+{"fields": [{"type": "int", "name": "numRecords"}, {"type": "int",
+"name": "samplesCount"}, {"type": "int", "name": "passCount"},
+{"type": "int", "name": "transitionsCount"}, {"type": "int", "name":
+"transversionsCount"}, {"type": "double", "name": "meanQuality"},
+{"type": {"values": "int", "type": "map"}, "name":
+"variantTypeCounts"}, {"type": {"values": "int", "type": "map"},
+"name": "chromosomeCounts"}, {"type": {"values": "int", "type":
+"map"}, "name": "consequenceTypesCount"}], "type": "record", "name":
+"VariantGlobalStats"}], "name": "stats"}, {"type": {"values":
+["string", {"fields": [{"type": "string", "name": "fileFormat"},
+{"type": {"values": {"items": ["string", {"values": "string", "type":
+"map"}], "type": "array"}, "type": "map"}, "name": "meta"}], "type":
+"record", "name": "VcfHeader"}], "type": "map"}, "name": "metadata"},
+{"type": ["null", "VcfHeader"], "name": "header"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "aggregation",
         "fileId",
+        "header",
         "metadata",
+        "stats",
         "studyId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'header': VcfHeader,
+            'stats': VariantGlobalStats,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'header': VcfHeader,
+            'stats': VariantGlobalStats,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'aggregation', 'fileId', 'fileName', 'header', 'metadata',
+        'samples', 'stats', 'studyId', 'studyName'
+    ]
+
+    def __init__(self, **kwargs):
+        self.aggregation = kwargs.get(
+            'aggregation', None)
+        self.fileId = kwargs.get(
+            'fileId', 'None')
+        self.fileName = kwargs.get(
+            'fileName', None)
+        self.header = kwargs.get(
+            'header', None)
+        self.metadata = kwargs.get(
+            'metadata', None)
+        self.samples = kwargs.get(
+            'samples', [])
+        self.stats = kwargs.get(
+            'stats', None)
+        self.studyId = kwargs.get(
+            'studyId', 'None')
+        self.studyName = kwargs.get(
+            'studyName', None)
+
+
+class VariantGlobalStats(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantGlobalStats", "fields": [{"type": "int",
+"name": "numRecords"}, {"type": "int", "name": "samplesCount"},
+{"type": "int", "name": "passCount"}, {"type": "int", "name":
+"transitionsCount"}, {"type": "int", "name": "transversionsCount"},
+{"type": "double", "name": "meanQuality"}, {"type": {"values": "int",
+"type": "map"}, "name": "variantTypeCounts"}, {"type": {"values":
+"int", "type": "map"}, "name": "chromosomeCounts"}, {"type":
+{"values": "int", "type": "map"}, "name": "consequenceTypesCount"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "chromosomeCounts",
+        "consequenceTypesCount",
+        "meanQuality",
+        "numRecords",
+        "passCount",
+        "samplesCount",
+        "transitionsCount",
+        "transversionsCount",
+        "variantTypeCounts",
     }
 
     @classmethod
@@ -1233,23 +1718,30 @@ null, "type": ["null", "string"], "name": "studyName"}, {"default":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'fileId', 'fileName', 'metadata', 'samples', 'studyId',
-        'studyName'
+        'chromosomeCounts', 'consequenceTypesCount', 'meanQuality',
+        'numRecords', 'passCount', 'samplesCount', 'transitionsCount',
+        'transversionsCount', 'variantTypeCounts'
     ]
 
     def __init__(self, **kwargs):
-        self.fileId = kwargs.get(
-            'fileId', 'None')
-        self.fileName = kwargs.get(
-            'fileName', None)
-        self.metadata = kwargs.get(
-            'metadata', None)
-        self.samples = kwargs.get(
-            'samples', [])
-        self.studyId = kwargs.get(
-            'studyId', 'None')
-        self.studyName = kwargs.get(
-            'studyName', None)
+        self.chromosomeCounts = kwargs.get(
+            'chromosomeCounts', None)
+        self.consequenceTypesCount = kwargs.get(
+            'consequenceTypesCount', None)
+        self.meanQuality = kwargs.get(
+            'meanQuality', None)
+        self.numRecords = kwargs.get(
+            'numRecords', None)
+        self.passCount = kwargs.get(
+            'passCount', None)
+        self.samplesCount = kwargs.get(
+            'samplesCount', None)
+        self.transitionsCount = kwargs.get(
+            'transitionsCount', None)
+        self.transversionsCount = kwargs.get(
+            'transversionsCount', None)
+        self.variantTypeCounts = kwargs.get(
+            'variantTypeCounts', None)
 
 
 class VariantHardyWeinbergStats(ProtocolElement):
@@ -1324,99 +1816,6 @@ class VariantHardyWeinbergStats(ProtocolElement):
             'q', None)
 
 
-class VariantSourceEntry(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "org.opencb.biodata.models.variant.avro", "type":
-"record", "name": "VariantSourceEntry", "fields": [{"type": ["null",
-"string"], "name": "studyId"}, {"default": [], "type": {"items":
-{"fields": [{"type": "string", "name": "fileId"}, {"type": "string",
-"name": "call"}, {"type": {"values": "string", "type": "map"}, "name":
-"attributes"}], "type": "record", "name": "FileEntry"}, "type":
-"array"}, "name": "files"}, {"default": null, "type": ["null",
-{"items": "string", "type": "array"}], "name": "secondaryAlternates"},
-{"type": {"items": "string", "type": "array"}, "name": "format"},
-{"type": {"items": {"items": "string", "type": "array"}, "type":
-"array"}, "name": "samplesData"}, {"type": {"values": {"fields":
-[{"type": ["null", "string"], "name": "refAllele"}, {"type": ["null",
-"string"], "name": "altAllele"}, {"type": ["null", "int"], "name":
-"refAlleleCount"}, {"type": ["null", "int"], "name":
-"altAlleleCount"}, {"type": {"values": "int", "type": "map"}, "name":
-"genotypesCount"}, {"type": {"values": "float", "type": "map"},
-"name": "genotypesFreq"}, {"type": ["null", "int"], "name":
-"missingAlleles"}, {"type": ["null", "int"], "name":
-"missingGenotypes"}, {"type": ["null", "float"], "name":
-"refAlleleFreq"}, {"type": ["null", "float"], "name":
-"altAlleleFreq"}, {"type": ["null", "float"], "name": "maf"}, {"type":
-["null", "float"], "name": "mgf"}, {"type": ["null", "string"],
-"name": "mafAllele"}, {"type": ["null", "string"], "name":
-"mgfGenotype"}, {"type": ["null", "boolean"], "name":
-"passedFilters"}, {"type": ["null", "int"], "name":
-"mendelianErrors"}, {"type": ["null", "float"], "name":
-"casesPercentDominant"}, {"type": ["null", "float"], "name":
-"controlsPercentDominant"}, {"type": ["null", "float"], "name":
-"casesPercentRecessive"}, {"type": ["null", "float"], "name":
-"controlsPercentRecessive"}, {"type": ["null", "float"], "name":
-"quality"}, {"type": ["null", "int"], "name": "numSamples"}, {"type":
-{"symbols": ["SNP", "SNV", "MNP", "MNV", "INDEL", "SV", "CNV",
-"NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "", "type": "enum",
-"name": "VariantType"}, "name": "variantType"}, {"type": {"fields":
-[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
-"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
-{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
-"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
-"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
-["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
-"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
-["null", "float"], "name": "q"}], "type": "record", "name":
-"VariantHardyWeinbergStats"}, "name": "hw"}], "type": "record",
-"name": "VariantStats"}, "type": "map"}, "name": "stats"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "format",
-        "samplesData",
-        "stats",
-        "studyId",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'files': FileEntry,
-        }
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'files': FileEntry,
-        }
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'files', 'format', 'samplesData', 'secondaryAlternates',
-        'stats', 'studyId'
-    ]
-
-    def __init__(self, **kwargs):
-        self.files = kwargs.get(
-            'files', [])
-        self.format = kwargs.get(
-            'format', None)
-        self.samplesData = kwargs.get(
-            'samplesData', None)
-        self.secondaryAlternates = kwargs.get(
-            'secondaryAlternates', None)
-        self.stats = kwargs.get(
-            'stats', None)
-        self.studyId = kwargs.get(
-            'studyId', None)
-
-
 class VariantStats(ProtocolElement):
     """
     No documentation
@@ -1427,34 +1826,38 @@ class VariantStats(ProtocolElement):
 "string"], "name": "refAllele"}, {"type": ["null", "string"], "name":
 "altAllele"}, {"type": ["null", "int"], "name": "refAlleleCount"},
 {"type": ["null", "int"], "name": "altAlleleCount"}, {"type":
-{"values": "int", "type": "map"}, "name": "genotypesCount"}, {"type":
-{"values": "float", "type": "map"}, "name": "genotypesFreq"}, {"type":
-["null", "int"], "name": "missingAlleles"}, {"type": ["null", "int"],
-"name": "missingGenotypes"}, {"type": ["null", "float"], "name":
-"refAlleleFreq"}, {"type": ["null", "float"], "name":
-"altAlleleFreq"}, {"type": ["null", "float"], "name": "maf"}, {"type":
-["null", "float"], "name": "mgf"}, {"type": ["null", "string"],
-"name": "mafAllele"}, {"type": ["null", "string"], "name":
-"mgfGenotype"}, {"type": ["null", "boolean"], "name":
+{"values": "int", "type": "map", "java-key-class":
+"org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
 "passedFilters"}, {"type": ["null", "int"], "name":
 "mendelianErrors"}, {"type": ["null", "float"], "name":
 "casesPercentDominant"}, {"type": ["null", "float"], "name":
 "controlsPercentDominant"}, {"type": ["null", "float"], "name":
 "casesPercentRecessive"}, {"type": ["null", "float"], "name":
 "controlsPercentRecessive"}, {"type": ["null", "float"], "name":
-"quality"}, {"type": ["null", "int"], "name": "numSamples"}, {"type":
-{"symbols": ["SNP", "SNV", "MNP", "MNV", "INDEL", "SV", "CNV",
-"NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "", "type": "enum",
-"name": "VariantType"}, "name": "variantType"}, {"type": {"fields":
-[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
-"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
-{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
-"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
-"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
-["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
-"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
-["null", "float"], "name": "q"}], "type": "record", "name":
-"VariantHardyWeinbergStats"}, "name": "hw"}]}
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", {"symbols": ["SNV", "SNP", "MNV",
+"MNP", "INDEL", "SV", "INSERTION", "DELETION", "TRANSLOCATION",
+"INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "",
+"type": "enum", "name": "VariantType"}], "name": "variantType"},
+{"default": null, "type": ["null", {"fields": [{"type": ["null",
+"float"], "name": "chi2"}, {"type": ["null", "float"], "name":
+"pValue"}, {"type": ["null", "int"], "name": "n"}, {"type": ["null",
+"int"], "name": "n_AA_11"}, {"type": ["null", "int"], "name":
+"n_Aa_10"}, {"type": ["null", "int"], "name": "n_aa_00"}, {"type":
+["null", "float"], "name": "e_AA_11"}, {"type": ["null", "float"],
+"name": "e_Aa_10"}, {"type": ["null", "float"], "name": "e_aa_00"},
+{"type": ["null", "float"], "name": "p"}, {"type": ["null", "float"],
+"name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1467,7 +1870,6 @@ class VariantStats(ProtocolElement):
         "controlsPercentRecessive",
         "genotypesCount",
         "genotypesFreq",
-        "hw",
         "maf",
         "mafAllele",
         "mendelianErrors",
@@ -1481,7 +1883,6 @@ class VariantStats(ProtocolElement):
         "refAllele",
         "refAlleleCount",
         "refAlleleFreq",
-        "variantType",
     }
 
     @classmethod
@@ -1566,29 +1967,33 @@ class VariantTraitAssociation(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
-"record", "name": "VariantTraitAssociation", "fields": [{"default":
-[], "type": {"items": {"fields": [{"type": "string", "name":
+"record", "name": "VariantTraitAssociation", "fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
 "accession"}, {"type": "string", "name": "clinicalSignificance"},
 {"type": {"items": "string", "type": "array"}, "name": "traits"},
 {"type": {"items": "string", "type": "array"}, "name": "geneNames"},
 {"type": "string", "name": "reviewStatus"}], "type": "record", "name":
-"ClinVar"}, "type": "array"}, "name": "clinvar"}, {"default": [],
-"type": {"items": {"fields": [{"type": "string", "name":
-"snpIdCurrent"}, {"type": {"items": "string", "type": "array"},
-"name": "traits"}, {"type": "double", "name": "riskAlleleFrequency"},
-{"type": "string", "name": "reportedGenes"}], "type": "record",
-"name": "Gwas"}, "type": "array"}, "name": "gwas"}, {"default": [],
-"type": {"items": {"fields": [{"type": "string", "name":
-"mutationId"}, {"type": "string", "name": "primarySite"}, {"type":
-"string", "name": "siteSubtype"}, {"type": "string", "name":
-"primaryHistology"}, {"type": "string", "name": "histologySubtype"},
-{"type": "string", "name": "sampleSource"}, {"type": "string", "name":
-"tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type":
-"string", "name": "mutationSomaticStatus"}], "type": "record", "name":
-"Cosmic"}, "type": "array"}, "name": "cosmic"}]}
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
+{"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
+"name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}]}
 """
     schema = avro.schema.parse(_schemaSource)
-    requiredFields = {}
+    requiredFields = {
+        "clinvar",
+        "cosmic",
+        "gwas",
+    }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
@@ -1615,34 +2020,77 @@ class VariantTraitAssociation(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.clinvar = kwargs.get(
-            'clinvar', [])
+            'clinvar', None)
         self.cosmic = kwargs.get(
-            'cosmic', [])
+            'cosmic', None)
         self.gwas = kwargs.get(
-            'gwas', [])
+            'gwas', None)
 
 
 class VariantType(object):
     """
-    * Type of variation, which depends mostly on its length.       *
-    <ul>       * <li>SNVs involve a single nucleotide, without changes
-    in length</li>       * <li>MNVs involve multiple nucleotides,
-    without changes in length</li>       * <li>Indels are insertions
-    or deletions of less than SV_THRESHOLD (50) nucleotides</li>
-    * <li>Structural variations are large changes of more than
-    SV_THRESHOLD nucleotides</li>       * <li>Copy-number variations
-    alter the number of copies of a region</li>       * </ul>
+    * Type of variation, which depends mostly on its length.      *
+    <ul>      * <li>SNVs involve a single nucleotide, without changes
+    in length</li>      * <li>MNVs involve multiple nucleotides,
+    without changes in length</li>      * <li>Indels are insertions or
+    deletions of less than SV_THRESHOLD (50) nucleotides</li>      *
+    <li>Structural variations are large changes of more than
+    SV_THRESHOLD nucleotides</li>      * <li>Copy-number variations
+    alter the number of copies of a region</li>      * </ul>
     """
-    SNP = "SNP"
     SNV = "SNV"
-    MNP = "MNP"
+    SNP = "SNP"
     MNV = "MNV"
+    MNP = "MNP"
     INDEL = "INDEL"
     SV = "SV"
+    INSERTION = "INSERTION"
+    DELETION = "DELETION"
+    TRANSLOCATION = "TRANSLOCATION"
+    INVERSION = "INVERSION"
     CNV = "CNV"
     NO_VARIATION = "NO_VARIATION"
     SYMBOLIC = "SYMBOLIC"
     MIXED = "MIXED"
+
+
+class VcfHeader(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VcfHeader", "fields": [{"type": "string", "name":
+"fileFormat"}, {"type": {"values": {"items": ["string", {"values":
+"string", "type": "map"}], "type": "array"}, "type": "map"}, "name":
+"meta"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "fileFormat",
+        "meta",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'fileFormat', 'meta'
+    ]
+
+    def __init__(self, **kwargs):
+        self.fileFormat = kwargs.get(
+            'fileFormat', 'None')
+        self.meta = kwargs.get(
+            'meta', None)
 
 
 class Xref(ProtocolElement):

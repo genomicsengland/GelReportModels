@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "VariantClass",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "This is the predicted biological impact of the variant",
-  "symbols" : [ "A", "B", "C" ]
-}

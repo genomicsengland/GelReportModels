@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 
-from protocols import GelProtocols
+import importlib
 
 class option_parser:
     def __init__(self):
@@ -20,16 +20,25 @@ class option_parser:
                                  help='Json file to be validated'
                                  )
         self.parser.add_argument('schema',
-                                 metavar='shcema',
+                                 metavar='schema',
                                  help='Schema name against the json will be validated'
+                                 )
+        self.parser.add_argument('version',
+                                 metavar='version',
+                                 help='version of schema against the json will be validated'
                                  )
 
 
-def validation(json_file, schema):
+def validation(json_file, schema, version):
+    if version == 'latest':
+        protocol = importlib.import_module('protocols.GelProtocols')
+    else:
+        protocol = importlib.import_module('protocols.GelProtocols_' + version.replace('.', '_'))
+
     if os.path.isfile(json_file):
         fd = open(json_file)
         data = json.load(fd)
-        general_method = getattr(GelProtocols, schema, None)
+        general_method = getattr(protocol, schema, None)
         if callable(general_method):
             obj = general_method().fromJsonDict(data)
             if not obj.validate(obj.toJsonDict()):
@@ -44,4 +53,4 @@ def validation(json_file, schema):
 if __name__ == '__main__':
     parser = option_parser()
     args = parser.parser.parse_args()
-    validation(args.json, args.schema)
+    validation(args.json, args.schema, args.version)

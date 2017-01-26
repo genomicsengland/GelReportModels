@@ -1,0 +1,82 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the Commons for GEL models
+*/
+protocol CommonRequest {
+
+/*
+This is used in `File`
+Types:
+* `BAM`: alignment
+* `gVCF`: genomic VCF for variants
+* `VCF_small`: VCF file for SNV and indel
+* `VCF_somatic_small`: VCF file for somatic SNV and indel
+* `VCF_CNV`: VCF file for copy number variants
+* `VCF_somatic_CNV`: VCF file somatic for copy number variants
+* `VCF_SV`: VCF file for structural variants only
+* `VCF_somatic_SV`: VCF file for somatic structural variants only
+* `VCF_SV_CNV`: VCF file for CNV and SVs
+* `SVG`: an SVG for example of a pedigree
+* `ANN`: a Json File for the annotation file from openCBschema/IDLs/variantAnnotation.avdl
+* `BigWig`: a bigwig file with the genome coverage
+* `MD5Sum`: a MD5Sum file
+* `ROH`: a BED file with Regions of homozygosity
+* `OTHER`: other unspecified file type
+**/
+enum FileType {
+    BAM,
+    gVCF,
+    VCF_small,
+    VCF_somatic_small,
+    VCF_CNV,
+    VCF_somatic_CNV,
+    VCF_SV,
+    VCF_somatic_SV,
+    VCF_SV_CNV,
+    SVG,
+    ANN,
+    BigWig,
+    MD5Sum,
+    ROH,
+    OTHER
+    }
+
+/**
+This defines a file
+This Record is defined by the sampleID and a URI
+Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
+**/
+record File {
+    /**
+    Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids
+    */
+    union {null, string, array<string>} SampleId;
+
+    /**
+    URI PATH
+    */
+    string URIFile;
+
+    FileType fileType;
+
+    union {null, File} md5Sum;
+
+}
+
+/**
+Family history for secondary findings.
+Arrays of strings describing discrete family history phenotypes.
+Usually: `EndocrineTumours`, `colorectal`, `BreastOvarian` and `HDOrStroke` but can be others
+*/
+record OtherFamilyHistory {
+    /**
+    Relevant Maternal family history
+    */
+    union {null, array<string>} maternalFamilyHistory;
+    /**
+    Relevant Maternal family history
+    */
+    union {null, array<string>} paternalFamilyHistory;
+}
+
+}
