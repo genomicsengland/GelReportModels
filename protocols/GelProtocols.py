@@ -397,7 +397,7 @@ class AuditLog(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -1714,7 +1714,7 @@ class ClinicalReportRD(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -5992,7 +5992,7 @@ false, "doc": "", "type": "boolean", "name":
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -6248,7 +6248,7 @@ false, "doc": "", "type": "boolean", "name":
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -6446,7 +6446,7 @@ class InterpretedGenomeRD(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -6742,7 +6742,7 @@ class ModifiedVariant(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -7566,7 +7566,7 @@ class ReportEvent(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -7758,7 +7758,8 @@ class ReportedModeOfInheritance(object):
     biallelic mutations in females * `xlinked_monoallelic`: X linked:
     hemizygous mutation in males, monoallelic mutations in females may
     cause disease (may be less severe, later onset than males) *
-    `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown
+    `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown * `NA`: Not
+    applicable
     """
     monoallelic = "monoallelic"
     monoallelic_not_imprinted = "monoallelic_not_imprinted"
@@ -7771,6 +7772,7 @@ class ReportedModeOfInheritance(object):
     xlinked_monoallelic = "xlinked_monoallelic"
     mitochondrial = "mitochondrial"
     unknown = "unknown"
+    NA = "NA"
 
 
 class ReportedSomaticStructuralVariants(ProtocolElement):
@@ -7945,7 +7947,7 @@ class ReportedStructuralVariant(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -8142,7 +8144,7 @@ class ReportedVariant(ProtocolElement):
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":
@@ -8953,7 +8955,7 @@ false, "doc": "", "type": "boolean", "name":
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
-"unknown"], "doc": "", "type": "enum", "name":
+"unknown", "NA"], "doc": "", "type": "enum", "name":
 "ReportedModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc":
 "", "type": {"fields": [{"doc": "", "type": {"symbols":
 ["RegulatoryRegion", "Gene", "Transcript"], "type": "enum", "name":

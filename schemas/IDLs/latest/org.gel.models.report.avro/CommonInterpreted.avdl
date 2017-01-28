@@ -20,6 +20,8 @@ An enumeration for the different mode of inheritances:
 * `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
 * `mitochondrial`: MITOCHONDRIAL
 * `unknown`: Unknown
+* `NA`: Not applicable
+
 */
 enum ReportedModeOfInheritance {
     monoallelic,
@@ -32,7 +34,8 @@ enum ReportedModeOfInheritance {
     xlinked_biallelic,
     xlinked_monoallelic,
     mitochondrial,
-    unknown
+    unknown,
+    NA
 }
 /**
 It is a representation of the zygosity
