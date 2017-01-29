@@ -388,7 +388,7 @@ be added as evidence
     /**
     Main record for a known variant
     */
-    record KnownVariantAvro {
+    record KnownVariant {
         /**
         The original submitter of the variant
         */
