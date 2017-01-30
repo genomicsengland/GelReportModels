@@ -119,6 +119,10 @@ conflicting evidences should be classified as uncertain_significance
         */
         HeritablePhenotype heritablePhenotype;
         /**
+        The transcript to which the curation refers
+        */
+        union {null, org.opencb.biodata.models.variant.avro.Xref} transcript;
+        /**
         The classification of impact.
         */
         CurationClassification classification;
@@ -359,6 +363,10 @@ be added as evidence
         Heritable phenotypes associated to this evidence
         */
         array<HeritablePhenotype> heritablePhenotypes = [];
+        /**
+        The transcript to which the curation refers
+        */
+        union {null, org.opencb.biodata.models.variant.avro.Xref} transcript;
         /**
         Evidence of pathogenicity
         */
