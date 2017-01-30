@@ -139,6 +139,14 @@ conflicting evidences should be classified as uncertain_significance
         query for consistency of evidences. The value be inferred.
         */
         ConsistencyStatus consistencyStatus;
+        /**
+        The penetrance of the phenotype for this genotype. Value in the range [0, 1]
+        */
+        union {null, float} penetrance;
+        /**
+        Variable expressivity of a given phenotype for the same genotype
+        */
+        union {null, boolean} variableExpressivity;
     }
 
     /**
