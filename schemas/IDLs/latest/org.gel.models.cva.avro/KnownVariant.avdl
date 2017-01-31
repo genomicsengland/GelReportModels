@@ -121,7 +121,7 @@ conflicting evidences should be classified as uncertain_significance
         /**
         The transcript to which the curation refers
         */
-        union {null, org.opencb.biodata.models.variant.avro.Xref} transcript;
+        union {null, string} transcript;
         /**
         The classification of impact.
         */
@@ -366,7 +366,7 @@ be added as evidence
         /**
         The transcript to which the curation refers
         */
-        union {null, org.opencb.biodata.models.variant.avro.Xref} transcript;
+        union {null, string} transcript;
         /**
         Evidence of pathogenicity
         */
