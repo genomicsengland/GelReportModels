@@ -19,10 +19,16 @@ To pack the Java source code representing these models in a jar file use:
 % mvn package
 ```
 
-### Data Transfer Objects
+To install it in your system so it is accesible as a maven dependency to other applications run:
+```
+% mvn install
+```
 
-In order to add logic to the generated sources we create a set of wrapper classes that take care of containing the Avro object and assure that the information is valid. These are the classes that will be used by external applications.
-These classes are under `./src/main/java`.
+To create a war file containing the HTML documentation for the models and the models itself run:
+```
+% mvn package -Dp.type=war
+```
+
 
 ### OpenCB dependencies
 
