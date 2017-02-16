@@ -37,7 +37,7 @@ conflicting evidences should be classified as uncertain_significance
 * `driver` : Driver variants for somatic variants
 * `passenger` : Passenger variants for somatic variants
     */
-    enum CurationClassification {
+    enum VariantClassification {
         benign_variant,
         likely_benign_variant,
         pathogenic_variant,
@@ -55,14 +55,14 @@ conflicting evidences should be classified as uncertain_significance
 
     /**
     Variant classification with Sequence Ontology terms. This is an optional classification, that might be inferred
-    from the `CurationClassification`.
+    from the `VariantClassification`.
 
 * `benign_variant` : [SO:0001770](http://www.sequenceontology.org/browser/current_svn/term/SO:0001770)
 * `disease_associated_variant` : [SO:0001771](http://www.sequenceontology.org/browser/current_svn/term/SO:0001771)
 * `disease_causing_variant`: [SO:0001772](http://www.sequenceontology.org/browser/current_svn/term/SO:0001772)
 * `quantitative_variant` : [SO:0001774](http://www.sequenceontology.org/browser/current_svn/term/SO:0001774)
     */
-    enum CurationSOClassification {
+    enum VariantSOClassification {
         benign_variant,
         disease_associated_variant,
         disease_causing_variant,
@@ -86,7 +86,7 @@ conflicting evidences should be classified as uncertain_significance
     evidences with no phenotype associated (e.g.: in silico impact prediction, population frequency).
 
 * `consensus` : All evidences are consistent.
-* `conflict` : There are conflicting evidences. This should correspond to a `CurationClassification` of
+* `conflict` : There are conflicting evidences. This should correspond to a `VariantClassification` of
 `uncertain_significance` for mendelian disorders.
 * `resolved_conflict` : There are conflicting evidences that have been reviewed and resolved by a curator.
     */
@@ -125,15 +125,15 @@ conflicting evidences should be classified as uncertain_significance
         /**
         The classification of impact.
         */
-        CurationClassification classification;
+        VariantClassification classification;
         /**
         The automatic classification of impact based on the evidences.
         */
-        union {null, CurationClassification} automaticClassification;
+        union {null, VariantClassification} automaticClassification;
         /**
         The Sequence Ontology classification of impact. The value might be inferred.
         */
-        union {null, CurationSOClassification} soClassification;
+        union {null, VariantSOClassification} soClassification;
         /**
         The manual curation confidence.
         */
@@ -262,10 +262,11 @@ be added as evidence
     }
 
     /**
-    Evidence of pathogenicity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation
+    Evidence of pathogenicity and benign impact as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation
     of sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and
     the Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
 
+Evidence of pathogenicity:
 * `very_strong`:
     - PVS1 null variant (nonsense, frameshift, canonical ±1 or 2 splice sites, initiation codon, single or multiexon
     deletion) in a gene where LOF is a known mechanism of disease
@@ -297,19 +298,8 @@ be added as evidence
     - PP4 Patient’s phenotype or family history is highly specific for a disease with a single genetic etiology
     - PP5 Reputable source recently reports variant as pathogenic, but the evidence is not available to the laboratory
     to perform an independent evaluation
-    */
-    enum EvidencePathogenicity {
-        very_strong,
-        strong,
-        moderate,
-        supporting
-    }
 
-    /**
-    Evidence of benignity as defined in Richards, S. et al. (2015). Standards and guidelines for the interpretation of
-    sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and the
-    Association for Molecular Pathology. Genetics in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
-
+Evidence of benign impact:
 * `stand_alone`:
     - BA1 Allele frequency is >5% in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation
     Consortium
@@ -333,10 +323,12 @@ be added as evidence
     - BP7 A synonymous (silent) variant for which splicing prediction algorithms predict no impact to the splice
     consensus sequence nor the creation of a new splice site AND the nucleotide is not highly conserved
     */
-    enum EvidenceBenignity {
-        stand_alone,
+    enum EvidenceStrength {
+        very_strong,
         strong,
-        supporting
+        moderate,
+        supporting,
+        stand_alone
     }
 
     /**
@@ -368,13 +360,13 @@ be added as evidence
         */
         union {null, string} transcript;
         /**
-        Evidence of pathogenicity
+        The classification of impact.
         */
-        union {null, EvidencePathogenicity} pathogenicity;
+        VariantClassification classification;
         /**
-        Evidence of benignity
+        Strength of evidence. Should be coherent with the classification of impact if provided.
         */
-        union {null, EvidenceBenignity} benignity;
+        union {null, EvidenceStrength} strength;
         /**
         Identifier in PubMed
         */
