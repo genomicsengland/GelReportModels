@@ -1,0 +1,57 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines ExitQuestionnaires
+*/
+protocol ExitQuestionnaires {
+    enum CaseSolvedFamily {Yes, No, Partially, Unknown}
+    enum PhenotypesSolved {Yes, No, Partially, Unknown}
+    enum SegregationQuestion {Yes, No}
+    enum ReportingQuestion {Yes, No, NA}
+    enum ConfirmationQuestion {Yes, No, NA}
+    enum Actionability {Yes, No, NA}
+    enum ACMGclassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
+    enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, other}
+
+
+
+    record FamilyLevelQuestions{
+        CaseSolvedFamily caseSolvedFamily;
+        SegregationQuestion segregationQuestion;
+        string additionalComments;
+    }
+
+    record VariantLevelQuestions{
+        string variant_details;
+        ReportingQuestion reportingQuestion;
+        ConfirmationQuestion confirmationQuestion;
+        ACMGclassification acmgClassification;
+        string publications;
+
+    }
+
+    record VariantGroupLevelQuestions{
+
+        int variant_group;
+        array<VariantLevelQuestions> variantLevelQuestions;
+        Actionability actionability;
+        ClinicalUtility clinicalUtility;
+        PhenotypesSolved phenotypesSolved;
+        union {null, array<string>}  phenotypesExplained;
+
+    }
+
+
+
+
+
+    record RareDiseaseExitQuestionnaire{
+        string eventDate;
+        string reporter;
+        FamilyLevelQuestions familyLevelQuestions;
+        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+
+
+
+    }
+
+}
