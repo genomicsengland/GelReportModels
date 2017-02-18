@@ -229,10 +229,6 @@ be added as evidence
         ID of record in the source
         */
         union {null, string} id;
-        /**
-        Evidence Ontology (ECO) terms (http://www.ebi.ac.uk/ols/ontologies/eco)
-        */
-        array<string> evidence_terms = [];
     }
 
     /**
