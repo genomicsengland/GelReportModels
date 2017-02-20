@@ -20,7 +20,7 @@ protocol KnownVariants {
     */
     record Property {
         string name;
-        string value;
+        union {null, string} value;
     }
 
     /**
