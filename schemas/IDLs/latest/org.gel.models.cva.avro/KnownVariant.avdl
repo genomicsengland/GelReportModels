@@ -128,6 +128,10 @@ conflicting evidences should be classified as uncertain_significance
         */
         union {null, boolean} reportableAsSecondaryFinding;
         /**
+        Confirmation flag to support two-step curation
+        */
+        union {null, boolean} confirmed;
+        /**
         A list of additional properties in the form name-value.
         */
         array<Property> additionalProperties = [];
