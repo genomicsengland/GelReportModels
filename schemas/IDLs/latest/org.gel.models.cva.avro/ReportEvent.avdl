@@ -1,0 +1,71 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol ReportEvent {
+
+    // CVA references
+    import idl "Comment.avdl";
+    // Report models references
+    import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
+    // Ontologies
+    import idl "../org.gel.models.ontologies/OntologyTerms.avdl";
+
+    /**
+    A wrapper for a diagnostic event
+    */
+    record DiagnosticEventEntry {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        Submitter of the evidence
+        */
+        string submitter;
+        /**
+        The diagnostic event
+        */
+        org.gel.models.report.avro.ReportEvent diagnosticEvent;
+        /**
+        Comments for this diagnostic event
+        */
+        array<Comment> comments = [];
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+    }
+
+    /**
+    A wrapper for a report event
+    */
+    record ReportEventEntry {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        Submitter of the evidence
+        */
+        string submitter;
+        /**
+        Validation flag
+        */
+        boolean validated = false;
+        /**
+        The report event
+        */
+        org.gel.models.report.avro.ReportEvent reportEvent;
+        /**
+        The diagnostic events
+        */
+        array<DiagnosticEventEntry> diagnosticEvents = [];
+        /**
+        Comments for this diagnostic event
+        */
+        array<Comment> comments = [];
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+    }
+}
