@@ -14,6 +14,18 @@ import avro.schema
 version = '3.0.0'
 
 
+class ACMGclassification(object):
+    """
+    No documentation
+    """
+    pathogenic_variant = "pathogenic_variant"
+    likely_pathogenic_variant = "likely_pathogenic_variant"
+    variant_of_unknown_clinical_significance = "variant_of_unknown_clinical_significance"
+    likely_benign_variant = "likely_benign_variant"
+    benign_variant = "benign_variant"
+    not_assessed = "not_assessed"
+
+
 class ActionType(object):
     """
     this is the type of actionability for the reported event
@@ -22,6 +34,15 @@ class ActionType(object):
     Therapeutic = "Therapeutic"
     Prognosis = "Prognosis"
     Diagnosis = "Diagnosis"
+
+
+class Actionability(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+    NA = "NA"
 
 
 class Actions(ProtocolElement):
@@ -1427,6 +1448,16 @@ class CaseShared(ProtocolElement):
             'previousGroups', None)
 
 
+class CaseSolvedFamily(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+    Partially = "Partially"
+    Unknown = "Unknown"
+
+
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
     """
     Chi-square test for goodness of fit of this sample to 1000 Genomes
@@ -1843,6 +1874,18 @@ class ClinicalReportRD(ProtocolElement):
             'user', 'None')
 
 
+class ClinicalUtility(object):
+    """
+    No documentation
+    """
+    none = "none"
+    change_in_medication = "change_in_medication"
+    surgical_option = "surgical_option"
+    additional_surveillance_for_proband_or_relatives = "additional_surveillance_for_proband_or_relatives"
+    clinical_trial_eligibility = "clinical_trial_eligibility"
+    other = "other"
+
+
 class Code(object):
     """
     This code define the change type, it can define a general change
@@ -1882,6 +1925,15 @@ class ComplexGeneticPhenomena(object):
     uniparental_disomy = "uniparental_disomy"
     trisomy = "trisomy"
     other_aneuploidy = "other_aneuploidy"
+
+
+class ConfirmationQuestion(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+    NA = "NA"
 
 
 class ConsentStatus(ProtocolElement):
@@ -2222,6 +2274,51 @@ class ExomeCoverage(ProtocolElement):
     def __init__(self, **kwargs):
         self.coverageSummary = kwargs.get(
             'coverageSummary', None)
+
+
+class FamilyLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"FamilyLevelQuestions", "fields": [{"type": {"symbols": ["Yes", "No",
+"Partially", "Unknown"], "type": "enum", "name": "CaseSolvedFamily"},
+"name": "caseSolvedFamily"}, {"type": {"symbols": ["Yes", "No"],
+"type": "enum", "name": "SegregationQuestion"}, "name":
+"segregationQuestion"}, {"type": "string", "name":
+"additionalComments"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalComments",
+        "caseSolvedFamily",
+        "segregationQuestion",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalComments', 'caseSolvedFamily',
+        'segregationQuestion'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalComments = kwargs.get(
+            'additionalComments', 'None')
+        self.caseSolvedFamily = kwargs.get(
+            'caseSolvedFamily', None)
+        self.segregationQuestion = kwargs.get(
+            'segregationQuestion', None)
 
 
 class FeatureTypes(object):
@@ -7034,6 +7131,16 @@ class Phase(object):
     RECURRENCE = "RECURRENCE"
 
 
+class PhenotypesSolved(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+    Partially = "Partially"
+    Unknown = "Unknown"
+
+
 class PlinkROH(ProtocolElement):
     """
     Plink runs of homozygosity
@@ -7534,6 +7641,87 @@ false, "doc": "", "type": "boolean", "name":
             'versionControl', None)
         self.yearOfBirth = kwargs.get(
             'yearOfBirth', None)
+
+
+class RareDiseaseExitQuestionnaire(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"RareDiseaseExitQuestionnaire", "fields": [{"type": "string", "name":
+"eventDate"}, {"type": "string", "name": "reporter"}, {"type":
+{"fields": [{"type": {"symbols": ["Yes", "No", "Partially",
+"Unknown"], "type": "enum", "name": "CaseSolvedFamily"}, "name":
+"caseSolvedFamily"}, {"type": {"symbols": ["Yes", "No"], "type":
+"enum", "name": "SegregationQuestion"}, "name":
+"segregationQuestion"}, {"type": "string", "name":
+"additionalComments"}], "type": "record", "name":
+"FamilyLevelQuestions"}, "name": "familyLevelQuestions"}, {"type":
+{"items": {"fields": [{"type": "int", "name": "variant_group"},
+{"type": {"items": {"fields": [{"type": "string", "name":
+"variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"], "type":
+"enum", "name": "ReportingQuestion"}, "name": "reportingQuestion"},
+{"type": {"symbols": ["Yes", "No", "NA"], "type": "enum", "name":
+"ConfirmationQuestion"}, "name": "confirmationQuestion"}, {"type":
+{"symbols": ["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGclassification"}, "name": "acmgClassification"}, {"type":
+"string", "name": "publications"}], "type": "record", "name":
+"VariantLevelQuestions"}, "type": "array"}, "name":
+"variantLevelQuestions"}, {"type": {"symbols": ["Yes", "No", "NA"],
+"type": "enum", "name": "Actionability"}, "name": "actionability"},
+{"type": {"symbols": ["none", "change_in_medication",
+"surgical_option", "additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "other"], "type": "enum", "name":
+"ClinicalUtility"}, "name": "clinicalUtility"}, {"type": {"symbols":
+["Yes", "No", "Partially", "Unknown"], "type": "enum", "name":
+"PhenotypesSolved"}, "name": "phenotypesSolved"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name":
+"phenotypesExplained"}], "type": "record", "name":
+"VariantGroupLevelQuestions"}, "type": "array"}, "name":
+"variantGroupLevelQuestions"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "eventDate",
+        "familyLevelQuestions",
+        "reporter",
+        "variantGroupLevelQuestions",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'eventDate', 'familyLevelQuestions', 'reporter',
+        'variantGroupLevelQuestions'
+    ]
+
+    def __init__(self, **kwargs):
+        self.eventDate = kwargs.get(
+            'eventDate', 'None')
+        self.familyLevelQuestions = kwargs.get(
+            'familyLevelQuestions', None)
+        self.reporter = kwargs.get(
+            'reporter', 'None')
+        self.variantGroupLevelQuestions = kwargs.get(
+            'variantGroupLevelQuestions', None)
 
 
 class Reason(object):
@@ -8374,6 +8562,15 @@ class ReportedVariantCancer(ProtocolElement):
             'reportEvents', None)
 
 
+class ReportingQuestion(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+    NA = "NA"
+
+
 class SampleType(object):
     """
     No documentation
@@ -8565,6 +8762,14 @@ class SamtoolsStats(ProtocolElement):
             'samtoolsScope', None)
 
 
+class SegregationQuestion(object):
+    """
+    No documentation
+    """
+    Yes = "Yes"
+    No = "No"
+
+
 class SensitiveInformation(ProtocolElement):
     """
     No documentation
@@ -8674,6 +8879,7 @@ class State(object):
     check caution: sample is ready but should be used with caution
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
@@ -9176,6 +9382,136 @@ class VariantClassification(object):
     PATHOGENIC = "PATHOGENIC"
 
 
+class VariantGroupLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"VariantGroupLevelQuestions", "fields": [{"type": "int", "name":
+"variant_group"}, {"type": {"items": {"fields": [{"type": "string",
+"name": "variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"],
+"type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"type": {"symbols": ["Yes", "No", "NA"],
+"type": "enum", "name": "ConfirmationQuestion"}, "name":
+"confirmationQuestion"}, {"type": {"symbols": ["pathogenic_variant",
+"likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGclassification"}, "name": "acmgClassification"}, {"type":
+"string", "name": "publications"}], "type": "record", "name":
+"VariantLevelQuestions"}, "type": "array"}, "name":
+"variantLevelQuestions"}, {"type": {"symbols": ["Yes", "No", "NA"],
+"type": "enum", "name": "Actionability"}, "name": "actionability"},
+{"type": {"symbols": ["none", "change_in_medication",
+"surgical_option", "additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "other"], "type": "enum", "name":
+"ClinicalUtility"}, "name": "clinicalUtility"}, {"type": {"symbols":
+["Yes", "No", "Partially", "Unknown"], "type": "enum", "name":
+"PhenotypesSolved"}, "name": "phenotypesSolved"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name":
+"phenotypesExplained"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "actionability",
+        "clinicalUtility",
+        "phenotypesExplained",
+        "phenotypesSolved",
+        "variantLevelQuestions",
+        "variant_group",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'variantLevelQuestions': VariantLevelQuestions,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'variantLevelQuestions': VariantLevelQuestions,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'actionability', 'clinicalUtility', 'phenotypesExplained',
+        'phenotypesSolved', 'variantLevelQuestions', 'variant_group'
+    ]
+
+    def __init__(self, **kwargs):
+        self.actionability = kwargs.get(
+            'actionability', None)
+        self.clinicalUtility = kwargs.get(
+            'clinicalUtility', None)
+        self.phenotypesExplained = kwargs.get(
+            'phenotypesExplained', None)
+        self.phenotypesSolved = kwargs.get(
+            'phenotypesSolved', None)
+        self.variantLevelQuestions = kwargs.get(
+            'variantLevelQuestions', None)
+        self.variant_group = kwargs.get(
+            'variant_group', None)
+
+
+class VariantLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"VariantLevelQuestions", "fields": [{"type": "string", "name":
+"variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"], "type":
+"enum", "name": "ReportingQuestion"}, "name": "reportingQuestion"},
+{"type": {"symbols": ["Yes", "No", "NA"], "type": "enum", "name":
+"ConfirmationQuestion"}, "name": "confirmationQuestion"}, {"type":
+{"symbols": ["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGclassification"}, "name": "acmgClassification"}, {"type":
+"string", "name": "publications"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "acmgClassification",
+        "confirmationQuestion",
+        "publications",
+        "reportingQuestion",
+        "variant_details",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'acmgClassification', 'confirmationQuestion', 'publications',
+        'reportingQuestion', 'variant_details'
+    ]
+
+    def __init__(self, **kwargs):
+        self.acmgClassification = kwargs.get(
+            'acmgClassification', None)
+        self.confirmationQuestion = kwargs.get(
+            'confirmationQuestion', None)
+        self.publications = kwargs.get(
+            'publications', 'None')
+        self.reportingQuestion = kwargs.get(
+            'reportingQuestion', None)
+        self.variant_details = kwargs.get(
+            'variant_details', 'None')
+
+
 class VariantsCoverage(ProtocolElement):
     """
     No documentation
@@ -9549,9 +9885,9 @@ class sampleState(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
-"pending", "hold", "fail", "caution"], "doc": "", "type": "enum",
-"name": "State"}], "name": "state"}, {"type": {"items": {"symbols":
-["median_coverage", "in_analysis", "duplicate",
+"warning", "pending", "hold", "fail", "caution"], "doc": "", "type":
+"enum", "name": "State"}], "name": "state"}, {"type": {"items":
+{"symbols": ["median_coverage", "in_analysis", "duplicate",
 "pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination",
 "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11",
 "GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc",
