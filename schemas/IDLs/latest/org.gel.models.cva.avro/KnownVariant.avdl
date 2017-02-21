@@ -337,9 +337,9 @@ Evidence of benign impact:
         */
         EvidenceSource source;
         /**
-        Allele origin
+        List of allele origins
         */
-        org.gel.models.ontologies.AlleleOrigin alleleOrigin;
+        array<org.gel.models.ontologies.AlleleOrigin> alleleOrigin;
         /**
         Heritable phenotypes associated to this evidence
         */
