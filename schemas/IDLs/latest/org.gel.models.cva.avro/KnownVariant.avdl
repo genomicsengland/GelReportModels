@@ -16,48 +16,6 @@ protocol KnownVariants {
     import idl "../org.opencb.biodata.models.sequence/variant.avdl";
 
     /**
-    Mendelian variants classification with ACMG terminology as defined in Richards, S. et al. (2015). Standards and
-    guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College
-    of Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5),
-    405–423. https://doi.org/10.1038/gim.2015.30.
-
-Classification for pharmacogenomic variants, variants associated to
-disease and somatic variants based on the ACMG recommendations and ClinVar classification
-(https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
-
-* `benign_variant` : Benign variants interpreted for Mendelian disorders
-* `likely_benign_variant` : Likely benign variants interpreted for Mendelian disorders with a certainty of at least 90%
-* `pathogenic_variant` : Pathogenic variants interpreted for Mendelian disorders
-* `likely_pathogenic_variant` : Likely pathogenic variants interpreted for Mendelian disorders with a certainty of at
-least 90%
-* `uncertain_significance` : Uncertain significance variants interpreted for Mendelian disorders. Variants with
-conflicting evidences should be classified as uncertain_significance
-* `drug_response` : Drug response variant for pharmacogenomic evidence
-* `established_risk_allele` : Established risk allele for variants associated to disease
-* `likely_risk_allele` : Likely risk allele for variants associated to disease
-* `uncertain_risk_allele` : Uncertain risk allele for variants associated to disease
-* `responsive` : Responsive variants for somatic variants
-* `resistant` : Resistant variants for somatic variants
-* `driver` : Driver variants for somatic variants
-* `passenger` : Passenger variants for somatic variants
-    */
-    enum VariantClassification {
-        benign_variant,
-        likely_benign_variant,
-        pathogenic_variant,
-        likely_pathogenic_variant,
-        uncertain_significance,
-        drug_response,
-        established_risk_allele,
-        likely_risk_allele,
-        uncertain_risk_allele,
-        responsive,  //TODO: associate with SO term
-        resistant,   //TODO: associate with SO term
-        driver,      //TODO: associate with SO term
-        passenger    //TODO: associate with SO term
-    }
-
-    /**
     The entity representing a phenotype and its inheritance pattern.
     */
     record HeritablePhenotype {
@@ -82,15 +40,15 @@ conflicting evidences should be classified as uncertain_significance
         /**
         The transcript to which the curation refers
         */
-        union {null, string} transcript;
+        union {null, org.gel.models.report.avro.GenomicFeature} genomicFeature;
         /**
         The classification of impact.
         */
-        VariantClassification classification;
+        org.gel.models.report.avro.VariantClassification classification;
         /**
         The automatic classification of impact based on the evidences.
         */
-        union {null, VariantClassification} automaticClassification;
+        union {null, org.gel.models.report.avro.VariantClassification} automaticClassification;
         /**
         The Sequence Ontology classification of impact. The value might be inferred.
         */
@@ -110,7 +68,7 @@ conflicting evidences should be classified as uncertain_significance
         /**
         The penetrance of the phenotype for this genotype. Value in the range [0, 1]
         */
-        union {null, float} penetrance;
+        union {null, org.gel.models.report.avro.Penetrance} penetrance;
         /**
         Variable expressivity of a given phenotype for the same genotype
         */
@@ -345,13 +303,13 @@ Evidence of benign impact:
         */
         array<HeritablePhenotype> heritablePhenotypes = [];
         /**
-        The transcript to which the curation refers
+        The transcript to which the evidence refers
         */
-        union {null, string} transcript;
+        union {null, org.gel.models.report.avro.GenomicFeature} genomicFeature;
         /**
         The classification of impact.
         */
-        VariantClassification classification;
+        org.gel.models.report.avro.VariantClassification classification;
         /**
         Strength of evidence. Should be coherent with the classification of impact if provided.
         */

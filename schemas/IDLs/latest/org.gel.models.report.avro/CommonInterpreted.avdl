@@ -134,11 +134,46 @@ record GenomicFeature {
 }
 
 /**
-This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
+Mendelian variants classification with ACMG terminology as defined in Richards, S. et al. (2015). Standards and
+    guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College
+    of Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5),
+    405–423. https://doi.org/10.1038/gim.2015.30.
+
+Classification for pharmacogenomic variants, variants associated to
+disease and somatic variants based on the ACMG recommendations and ClinVar classification
+(https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
+
+* `benign_variant` : Benign variants interpreted for Mendelian disorders
+* `likely_benign_variant` : Likely benign variants interpreted for Mendelian disorders with a certainty of at least 90%
+* `pathogenic_variant` : Pathogenic variants interpreted for Mendelian disorders
+* `likely_pathogenic_variant` : Likely pathogenic variants interpreted for Mendelian disorders with a certainty of at
+least 90%
+* `uncertain_significance` : Uncertain significance variants interpreted for Mendelian disorders. Variants with
+conflicting evidences should be classified as uncertain_significance
+* `drug_response` : Drug response variant for pharmacogenomic evidence
+* `established_risk_allele` : Established risk allele for variants associated to disease
+* `likely_risk_allele` : Likely risk allele for variants associated to disease
+* `uncertain_risk_allele` : Uncertain risk allele for variants associated to disease
+* `responsive` : Responsive variants for somatic variants
+* `resistant` : Resistant variants for somatic variants
+* `driver` : Driver variants for somatic variants
+* `passenger` : Passenger variants for somatic variants
 */
-enum VariantClassification {BENIGN, LIKELY_BENIGN, VUS, LIKELY_PATHOGENIC, PATHOGENIC}
-
-
+enum VariantClassification {
+    BENIGN,
+    LIKELY_BENIGN,
+    VUS,
+    LIKELY_PATHOGENIC,
+    PATHOGENIC,
+    DRUG_RESPONSE,
+    ESTABLISHED_RISK_ALLELE,
+    LIKELY_RISK_ALLELE,
+    UNCERTAIN_RISK_ALLELE,
+    RESPONSIVE,
+    RESISTANT,
+    DRIVER,
+    PASSENGER
+}
 
 /**
 Possible tiers as defined by Genomics England
