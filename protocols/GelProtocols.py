@@ -14,7 +14,7 @@ import avro.schema
 version = '3.0.0'
 
 
-class ACMGclassification(object):
+class ACMGClassification(object):
     """
     No documentation
     """
@@ -40,9 +40,10 @@ class Actionability(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
-    NA = "NA"
+    yes = "yes"
+    no = "no"
+    not_yet = "not_yet"
+    na = "na"
 
 
 class Actions(ProtocolElement):
@@ -1452,10 +1453,10 @@ class CaseSolvedFamily(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
-    Partially = "Partially"
-    Unknown = "Unknown"
+    yes = "yes"
+    no = "no"
+    partially = "partially"
+    unknown = "unknown"
 
 
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
@@ -1883,6 +1884,8 @@ class ClinicalUtility(object):
     surgical_option = "surgical_option"
     additional_surveillance_for_proband_or_relatives = "additional_surveillance_for_proband_or_relatives"
     clinical_trial_eligibility = "clinical_trial_eligibility"
+    informs_reproductive_choice = "informs_reproductive_choice"
+    unknown = "unknown"
     other = "other"
 
 
@@ -1927,13 +1930,22 @@ class ComplexGeneticPhenomena(object):
     other_aneuploidy = "other_aneuploidy"
 
 
-class ConfirmationQuestion(object):
+class ConfirmationDecision(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
-    NA = "NA"
+    yes = "yes"
+    no = "no"
+    na = "na"
+
+
+class ConfirmationOutcome(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    na = "na"
 
 
 class ConsentStatus(ProtocolElement):
@@ -2282,12 +2294,12 @@ class FamilyLevelQuestions(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"FamilyLevelQuestions", "fields": [{"type": {"symbols": ["Yes", "No",
-"Partially", "Unknown"], "type": "enum", "name": "CaseSolvedFamily"},
-"name": "caseSolvedFamily"}, {"type": {"symbols": ["Yes", "No"],
-"type": "enum", "name": "SegregationQuestion"}, "name":
-"segregationQuestion"}, {"type": "string", "name":
-"additionalComments"}]}
+"FamilyLevelQuestions", "fields": [{"doc": "", "type": {"symbols":
+["yes", "no", "partially", "unknown"], "type": "enum", "name":
+"CaseSolvedFamily"}, "name": "caseSolvedFamily"}, {"doc": "", "type":
+{"symbols": ["yes", "no"], "type": "enum", "name":
+"SegregationQuestion"}, "name": "segregationQuestion"}, {"doc": "",
+"type": "string", "name": "additionalComments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -7135,10 +7147,10 @@ class PhenotypesSolved(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
-    Partially = "Partially"
-    Unknown = "Unknown"
+    yes = "yes"
+    no = "no"
+    partially = "partially"
+    unknown = "unknown"
 
 
 class PlinkROH(ProtocolElement):
@@ -7651,34 +7663,39 @@ class RareDiseaseExitQuestionnaire(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "RareDiseaseExitQuestionnaire", "fields": [{"type": "string", "name":
 "eventDate"}, {"type": "string", "name": "reporter"}, {"type":
-{"fields": [{"type": {"symbols": ["Yes", "No", "Partially",
-"Unknown"], "type": "enum", "name": "CaseSolvedFamily"}, "name":
-"caseSolvedFamily"}, {"type": {"symbols": ["Yes", "No"], "type":
-"enum", "name": "SegregationQuestion"}, "name":
-"segregationQuestion"}, {"type": "string", "name":
+{"fields": [{"doc": "", "type": {"symbols": ["yes", "no", "partially",
+"unknown"], "type": "enum", "name": "CaseSolvedFamily"}, "name":
+"caseSolvedFamily"}, {"doc": "", "type": {"symbols": ["yes", "no"],
+"type": "enum", "name": "SegregationQuestion"}, "name":
+"segregationQuestion"}, {"doc": "", "type": "string", "name":
 "additionalComments"}], "type": "record", "name":
 "FamilyLevelQuestions"}, "name": "familyLevelQuestions"}, {"type":
 {"items": {"fields": [{"type": "int", "name": "variant_group"},
-{"type": {"items": {"fields": [{"type": "string", "name":
-"variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"], "type":
-"enum", "name": "ReportingQuestion"}, "name": "reportingQuestion"},
-{"type": {"symbols": ["Yes", "No", "NA"], "type": "enum", "name":
-"ConfirmationQuestion"}, "name": "confirmationQuestion"}, {"type":
-{"symbols": ["pathogenic_variant", "likely_pathogenic_variant",
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"variant_details"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
 "variant_of_unknown_clinical_significance", "likely_benign_variant",
 "benign_variant", "not_assessed"], "type": "enum", "name":
-"ACMGclassification"}, "name": "acmgClassification"}, {"type":
-"string", "name": "publications"}], "type": "record", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}], "type": "record", "name":
 "VariantLevelQuestions"}, "type": "array"}, "name":
-"variantLevelQuestions"}, {"type": {"symbols": ["Yes", "No", "NA"],
-"type": "enum", "name": "Actionability"}, "name": "actionability"},
-{"type": {"symbols": ["none", "change_in_medication",
-"surgical_option", "additional_surveillance_for_proband_or_relatives",
-"clinical_trial_eligibility", "other"], "type": "enum", "name":
-"ClinicalUtility"}, "name": "clinicalUtility"}, {"type": {"symbols":
-["Yes", "No", "Partially", "Unknown"], "type": "enum", "name":
-"PhenotypesSolved"}, "name": "phenotypesSolved"}, {"type": ["null",
-{"items": "string", "type": "array"}], "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "not_yet", "na"], "type": "enum", "name": "Actionability"},
+"name": "actionability"}, {"doc": "", "type": {"items": {"symbols":
+["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "informs_reproductive_choice",
+"unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
+"type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "partially", "unknown"], "type": "enum",
+"name": "PhenotypesSolved"}, "name": "phenotypesSolved"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
 "phenotypesExplained"}], "type": "record", "name":
 "VariantGroupLevelQuestions"}, "type": "array"}, "name":
 "variantGroupLevelQuestions"}]}
@@ -8566,9 +8583,9 @@ class ReportingQuestion(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
-    NA = "NA"
+    yes = "yes"
+    no = "no"
+    na = "na"
 
 
 class SampleType(object):
@@ -8766,8 +8783,8 @@ class SegregationQuestion(object):
     """
     No documentation
     """
-    Yes = "Yes"
-    No = "No"
+    yes = "yes"
+    no = "no"
 
 
 class SensitiveInformation(ProtocolElement):
@@ -9389,27 +9406,31 @@ class VariantGroupLevelQuestions(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "VariantGroupLevelQuestions", "fields": [{"type": "int", "name":
-"variant_group"}, {"type": {"items": {"fields": [{"type": "string",
-"name": "variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"],
-"type": "enum", "name": "ReportingQuestion"}, "name":
-"reportingQuestion"}, {"type": {"symbols": ["Yes", "No", "NA"],
-"type": "enum", "name": "ConfirmationQuestion"}, "name":
-"confirmationQuestion"}, {"type": {"symbols": ["pathogenic_variant",
-"likely_pathogenic_variant",
+"variant_group"}, {"type": {"items": {"fields": [{"doc": "", "type":
+"string", "name": "variant_details"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ConfirmationDecision"},
+"name": "confirmationDecision"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ConfirmationOutcome"},
+"name": "confirmationOutcome"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ReportingQuestion"},
+"name": "reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
 "variant_of_unknown_clinical_significance", "likely_benign_variant",
 "benign_variant", "not_assessed"], "type": "enum", "name":
-"ACMGclassification"}, "name": "acmgClassification"}, {"type":
-"string", "name": "publications"}], "type": "record", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}], "type": "record", "name":
 "VariantLevelQuestions"}, "type": "array"}, "name":
-"variantLevelQuestions"}, {"type": {"symbols": ["Yes", "No", "NA"],
-"type": "enum", "name": "Actionability"}, "name": "actionability"},
-{"type": {"symbols": ["none", "change_in_medication",
-"surgical_option", "additional_surveillance_for_proband_or_relatives",
-"clinical_trial_eligibility", "other"], "type": "enum", "name":
-"ClinicalUtility"}, "name": "clinicalUtility"}, {"type": {"symbols":
-["Yes", "No", "Partially", "Unknown"], "type": "enum", "name":
-"PhenotypesSolved"}, "name": "phenotypesSolved"}, {"type": ["null",
-{"items": "string", "type": "array"}], "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "not_yet", "na"], "type": "enum", "name": "Actionability"},
+"name": "actionability"}, {"doc": "", "type": {"items": {"symbols":
+["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "informs_reproductive_choice",
+"unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
+"type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "partially", "unknown"], "type": "enum",
+"name": "PhenotypesSolved"}, "name": "phenotypesSolved"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
 "phenotypesExplained"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -9463,21 +9484,25 @@ class VariantLevelQuestions(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VariantLevelQuestions", "fields": [{"type": "string", "name":
-"variant_details"}, {"type": {"symbols": ["Yes", "No", "NA"], "type":
-"enum", "name": "ReportingQuestion"}, "name": "reportingQuestion"},
-{"type": {"symbols": ["Yes", "No", "NA"], "type": "enum", "name":
-"ConfirmationQuestion"}, "name": "confirmationQuestion"}, {"type":
-{"symbols": ["pathogenic_variant", "likely_pathogenic_variant",
+"VariantLevelQuestions", "fields": [{"doc": "", "type": "string",
+"name": "variant_details"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
 "variant_of_unknown_clinical_significance", "likely_benign_variant",
 "benign_variant", "not_assessed"], "type": "enum", "name":
-"ACMGclassification"}, "name": "acmgClassification"}, {"type":
-"string", "name": "publications"}]}
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "acmgClassification",
-        "confirmationQuestion",
+        "confirmationDecision",
+        "confirmationOutcome",
         "publications",
         "reportingQuestion",
         "variant_details",
@@ -9495,15 +9520,18 @@ class VariantLevelQuestions(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'acmgClassification', 'confirmationQuestion', 'publications',
-        'reportingQuestion', 'variant_details'
+        'acmgClassification', 'confirmationDecision',
+        'confirmationOutcome', 'publications', 'reportingQuestion',
+        'variant_details'
     ]
 
     def __init__(self, **kwargs):
         self.acmgClassification = kwargs.get(
             'acmgClassification', None)
-        self.confirmationQuestion = kwargs.get(
-            'confirmationQuestion', None)
+        self.confirmationDecision = kwargs.get(
+            'confirmationDecision', None)
+        self.confirmationOutcome = kwargs.get(
+            'confirmationOutcome', None)
         self.publications = kwargs.get(
             'publications', 'None')
         self.reportingQuestion = kwargs.get(
