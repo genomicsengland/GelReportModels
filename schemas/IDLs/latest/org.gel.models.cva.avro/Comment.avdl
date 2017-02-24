@@ -2,6 +2,8 @@
 
 protocol Comments {
 
+    import idl "Author.avdl";
+
     /**
     A generic comment.
     */
@@ -15,8 +17,8 @@ protocol Comments {
         */
         string date;
         /**
-        The author of the comment
+        The author of the curation event
         */
-        string author;
+        Author curator;
     }
 }

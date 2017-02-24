@@ -4,6 +4,7 @@ protocol KnownVariants {
 
     // CVA references
     import idl "Comment.avdl";
+    import idl "Author.avdl";
     import idl "ReportEvent.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
@@ -50,6 +51,10 @@ protocol KnownVariants {
         */
         union {null, org.gel.models.report.avro.VariantClassification} automaticClassification;
         /**
+        The variant functional effect
+        */
+        union {null, VariantFunctionalEffect} functionalEffect;
+        /**
         The Sequence Ontology classification of impact. The value might be inferred.
         */
         union {null, org.gel.models.ontologies.VariantClassification} soClassification;
@@ -77,6 +82,10 @@ protocol KnownVariants {
         Can this variant be reported as a secondary finding?
         */
         union {null, boolean} reportableAsSecondaryFinding;
+        /**
+        Is this variant actionable?
+        */
+        union {null, boolean} actionable;
         /**
         Confirmation flag to support two-step curation
         */
@@ -106,11 +115,7 @@ protocol KnownVariants {
         /**
         The author of the curation event
         */
-        string curator;
-        /**
-        Comments on the curation event
-        */
-        array<Comment> comments = [];
+        Author curator;
     }
 
     /**
@@ -126,6 +131,10 @@ protocol KnownVariants {
         The curation history
         */
         array<CurationHistoryEntry> history = [];
+        /**
+        Comments on the curation event
+        */
+        array<Comment> comments = [];
     }
 
     /**
@@ -183,6 +192,10 @@ be added as evidence
         ID of record in the source
         */
         union {null, string} id;
+        /**
+        The date the evidence was published
+        */
+        union {null, string} date;
     }
 
     /**
@@ -287,9 +300,9 @@ Evidence of benign impact:
         */
         string date;
         /**
-        Submitter of the evidence
+        The submitter of the curation event
         */
-        string submitter;
+        Author submitter;
         /**
         Source of the evidence
         */
@@ -310,6 +323,10 @@ Evidence of benign impact:
         The classification of impact.
         */
         org.gel.models.report.avro.VariantClassification classification;
+        /**
+        The variant functional effect
+        */
+        union {null, VariantFunctionalEffect} functionalEffect;
         /**
         Strength of evidence. Should be coherent with the classification of impact if provided.
         */
@@ -341,9 +358,9 @@ Evidence of benign impact:
     */
     record KnownVariant {
         /**
-        The original submitter of the variant
+        The author of the curation event
         */
-        string submitter;
+        Author submitter;
         /**
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
