@@ -53,7 +53,7 @@ protocol KnownVariants {
         /**
         The variant functional effect
         */
-        union {null, VariantFunctionalEffect} functionalEffect;
+        union {null, org.gel.models.ontologies.VariantFunctionalEffect} functionalEffect;
         /**
         The Sequence Ontology classification of impact. The value might be inferred.
         */
@@ -144,7 +144,7 @@ protocol KnownVariants {
 * `clinical_testing` : Clinical testing (e.g.: any clinical testing external to 100K Genomes Project)
 * `research` : Research study (e.g.: CFTR2)
 * `trial` : Trial results
-* `literatura_manual_curation` : An article from the literature manually curated
+* `literature_manual_curation` : An article from the literature manually curated
 * `literature_automatic_curation` : An article from the literature automatically curated
 * `literature_database_curation` : An article from the literature referenced in a database (e.g.: ClinVar references
 to PubMed)
@@ -326,7 +326,7 @@ Evidence of benign impact:
         /**
         The variant functional effect
         */
-        union {null, VariantFunctionalEffect} functionalEffect;
+        union {null, org.gel.models.ontologies.VariantFunctionalEffect} functionalEffect;
         /**
         Strength of evidence. Should be coherent with the classification of impact if provided.
         */
