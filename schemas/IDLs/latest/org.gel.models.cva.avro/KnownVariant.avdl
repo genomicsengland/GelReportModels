@@ -4,7 +4,6 @@ protocol KnownVariants {
 
     // CVA references
     import idl "Comment.avdl";
-    import idl "Author.avdl";
     import idl "ReportEvent.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
@@ -115,7 +114,7 @@ protocol KnownVariants {
         /**
         The author of the curation event
         */
-        Author curator;
+        string userid;
     }
 
     /**
@@ -302,7 +301,7 @@ Evidence of benign impact:
         /**
         The submitter of the curation event
         */
-        Author submitter;
+        string userid;
         /**
         Source of the evidence
         */
@@ -360,7 +359,7 @@ Evidence of benign impact:
         /**
         The author of the curation event
         */
-        Author submitter;
+        string userid;
         /**
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
