@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "SNValleleFrequencyHistogramCounts",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "counts",
+    "type" : {
+      "type" : "map",
+      "values" : "int"
+    },
+    "doc" : "SNVs counts for each allele frequency bin\n    e.g. {\"(-0.005,0.005]\":0,\"(0.005,0.015]\":0, [...]}"
+  } ]
+}
