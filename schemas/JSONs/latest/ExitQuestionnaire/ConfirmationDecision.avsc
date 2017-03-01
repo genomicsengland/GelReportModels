@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "ConfirmationDecision",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "yes", "no", "na" ]
+}

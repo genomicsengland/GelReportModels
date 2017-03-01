@@ -16,7 +16,7 @@ caution: sample is ready but should be used with caution
 
 
 */
-enum State {ready,pending,hold,fail,caution}
+enum State {ready,warning,pending,hold,fail,caution}
 enum Reason {median_coverage,in_analysis,duplicate,pedigree_mendelian_errors,pedigree_ibd_sharing,contamination,quality,sex_query,perc_bases_ge_15x_mapQ_ge11,GbQ30NoDupsNoClip,arrayconcordance,high_cnv,in_qc,pass_qc,other}
 
 record sampleState {

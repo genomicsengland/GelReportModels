@@ -1,8 +1,11 @@
 {
   "type" : "record",
-  "name" : "WholeGenomeCoverage",
+  "name" : "VariantsCoverage",
   "namespace" : "Gel_BioInf_Models",
   "fields" : [ {
+    "name" : "bedName",
+    "type" : "string"
+  }, {
     "name" : "coverageSummary",
     "type" : {
       "type" : "array",

@@ -1,7 +1,8 @@
 {
   "type" : "record",
-  "name" : "WholeGenomeCoverage",
+  "name" : "ExomeCoverage",
   "namespace" : "Gel_BioInf_Models",
+  "doc" : "Renamed from ExonCoverage",
   "fields" : [ {
     "name" : "coverageSummary",
     "type" : {

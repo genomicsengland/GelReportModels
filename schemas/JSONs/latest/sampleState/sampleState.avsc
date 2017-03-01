@@ -8,7 +8,7 @@
       "type" : "enum",
       "name" : "State",
       "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.\n\nready: sample is ready to be used\npending: sample is in the process of being analysed\nhold: sample is on hold pending investigation\nfail: sample has failed a QC check\ncaution: sample is ready but should be used with caution",
-      "symbols" : [ "ready", "pending", "hold", "fail", "caution" ]
+      "symbols" : [ "ready", "warning", "pending", "hold", "fail", "caution" ]
     } ]
   }, {
     "name" : "reason",

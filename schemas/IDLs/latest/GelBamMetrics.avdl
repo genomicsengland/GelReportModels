@@ -878,17 +878,42 @@ record  InsertSizeGel{
 
 record CoverageSummary {
 
-    string wellId;
-    double n;
-    double mean;
-    double sd;
-    double pct25;
-    double median;
-    double pct75;
-    string scope;
-    double localRMSD;
-    double COSMIC30Xcov;
+    /** Average coverage - renamed from mean */
+    double avg;
 
+    /** median of the coverage - renamed from median */
+    double med;
+
+    /** Number of bases - renamed from "n" */
+    double bases;
+
+    /** Percentile 25 */
+    union {null, double} pct25;
+
+    /** Percentile 75 */
+    union {null, double} pct75;
+
+    /** Fraction of coverage values with a depth of coverage less than 15x */
+    union {null, double} lt15x;
+
+    /** Fraction of coverage values with a depth of coverage greater than or equal to 15x */
+    union {null, double} gte15x;
+
+    /** Fraction of coverage values with a depth of coverage greater than or equal to 30x */
+    union {null, double} gte30x;
+
+    /** Fraction of coverage values with a depth of coverage greater than or equal to 50x */
+    union {null, double} gte50x;
+
+    /** Standard deviation of coverage values */
+    union {null, double} sd;
+
+    /** estimation of root mean square deviation: weighted average RMSD of chunks of 100k bases */
+    union {null, double} localRMSD;
+
+    /** Scope to which these summary stats refer to.
+    *   Examples: "allchrs" (all chromosomes), "X", "chr6", "6", "autosomes" */
+    string scope;
 }
 
 record WholeGenomeCoverage {
@@ -897,10 +922,16 @@ record WholeGenomeCoverage {
 
 }
 
-record ExonCoverage {
+/** Renamed from ExonCoverage */
+record ExomeCoverage {
 
     array <CoverageSummary> coverageSummary;
 
+}
+
+record VariantsCoverage {
+    string bedName;
+    array <CoverageSummary> coverageSummary;
 }
 
 record BamHeaderOther {

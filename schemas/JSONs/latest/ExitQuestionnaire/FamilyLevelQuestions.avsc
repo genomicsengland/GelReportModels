@@ -1,0 +1,26 @@
+{
+  "type" : "record",
+  "name" : "FamilyLevelQuestions",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "caseSolvedFamily",
+    "type" : {
+      "type" : "enum",
+      "name" : "CaseSolvedFamily",
+      "symbols" : [ "yes", "no", "partially", "unknown" ]
+    },
+    "doc" : "Have the results reported here explained the genetic basis of the family’s presenting phenotype(s)?"
+  }, {
+    "name" : "segregationQuestion",
+    "type" : {
+      "type" : "enum",
+      "name" : "SegregationQuestion",
+      "symbols" : [ "yes", "no" ]
+    },
+    "doc" : "Have you done any segregation testing in non-participating family members?"
+  }, {
+    "name" : "additionalComments",
+    "type" : "string",
+    "doc" : "Comments regarding report"
+  } ]
+}

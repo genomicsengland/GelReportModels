@@ -101,6 +101,56 @@
       "name" : "cosmic_30x_cov",
       "type" : "double"
     } ]
+  }, {
+    "type" : "record",
+    "name" : "SupplementaryAnalysisResults",
+    "doc" : "This is the record for results of supplementary analysis",
+    "fields" : [ {
+      "name" : "numberOfSomaticVariants",
+      "type" : "int"
+    }, {
+      "name" : "numberOfSomaticSnvsPerMb",
+      "type" : "double"
+    }, {
+      "name" : "numberOfNonsynSomaticSnvsPerMb",
+      "type" : "double"
+    }, {
+      "name" : "ContextualAnalysisSubstitutionsCounts",
+      "type" : {
+        "type" : "map",
+        "values" : "int"
+      }
+    }, {
+      "name" : "MutationalSignatureContribution",
+      "type" : {
+        "type" : "map",
+        "values" : "double"
+      }
+    }, {
+      "name" : "GenomicRegionsOfHypermutation",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    }, {
+      "name" : "SNValleleFrequencyHistogramCounts",
+      "type" : {
+        "type" : "map",
+        "values" : "int"
+      }
+    }, {
+      "name" : "IndelAlleleFrequencyHistogramCounts",
+      "type" : {
+        "type" : "map",
+        "values" : "int"
+      }
+    }, {
+      "name" : "IndelLengthHistogramCounts",
+      "type" : {
+        "type" : "map",
+        "values" : "int"
+      }
+    } ]
   } ],
   "messages" : { }
 }
