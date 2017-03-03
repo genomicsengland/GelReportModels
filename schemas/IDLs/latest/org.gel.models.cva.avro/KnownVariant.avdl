@@ -364,7 +364,7 @@ Evidence of benign impact:
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
         */
-        org.opencb.biodata.models.variant.avro.VariantAvro variant;
+        array<org.opencb.biodata.models.variant.avro.VariantAvro> variants;
         /**
         The list of curations for different phenotypes for a known variant
         */
