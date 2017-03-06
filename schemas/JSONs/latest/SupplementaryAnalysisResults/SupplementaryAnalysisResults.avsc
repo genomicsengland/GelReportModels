@@ -19,12 +19,12 @@
         "name" : "coefficients",
         "type" : {
           "type" : "map",
-          "values" : "float"
+          "values" : "double"
         },
         "doc" : "Coefficients for each mutational signatures\n    e.g. {\"coefficients\":{\"signature1\":91.2595, [...]}}"
       }, {
         "name" : "rss",
-        "type" : "float",
+        "type" : "double",
         "doc" : "Confidence value\n    e.g. {\"RSS\":0.0063}"
       } ]
     },

@@ -1,17 +1,9 @@
 @namespace("Gel_BioInf_Models")
 /**
 This protocol defines the supplementary results for cancer analysis
-
-ContextualAnalysisSubstitutionsCounts: snv_context.json
-MutationalSignatureContribution: signature_coefficients.json
-SNValleleFrequencyHistogramCounts: snv_fquencies.json
-IndelAlleleFrequencyHistogramCounts: indel_frequencies.json
-IndelLengthHistogramCounts: indel_length.json
-GenomicRegionsOfHypermutation: kataegis_hotspots.json
-
 */
 
-protocol SupplementaryAnalysisResults {
+protocol SupplementaryAnalysisResult {
 
 record MutationalSignatureContribution {
 
@@ -19,13 +11,13 @@ record MutationalSignatureContribution {
     Coefficients for each mutational signatures
     e.g. {"coefficients":{"signature1":91.2595, [...]}}
     */
-    map<float> coefficients;
+    map<double> coefficients;
 
     /**
     Confidence value
     e.g. {"RSS":0.0063}
     */
-    float rss;
+    double rss;
 
 }
 
