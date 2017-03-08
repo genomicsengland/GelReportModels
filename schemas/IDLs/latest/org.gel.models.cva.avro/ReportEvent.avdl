@@ -4,61 +4,58 @@ protocol ReportEvent {
 
     // CVA references
     import idl "Comment.avdl";
+    import idl "ObservedVariant.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
     // Ontologies
     import idl "../org.gel.models.ontologies/OntologyTerms.avdl";
 
     /**
-    A wrapper for a diagnostic event
+    The type of the report event
     */
-    record DiagnosticEventEntry {
-        /**
-        Date in format yyyyMMddhhmm
-        */
-        string date;
-        /**
-        Submitter of the evidence
-        */
-        string submitter;
-        /**
-        The diagnostic event
-        */
-        org.gel.models.report.avro.ReportEvent diagnosticEvent;
-        /**
-        Comments for this diagnostic event
-        */
-        array<Comment> comments = [];
-        /**
-        A list of additional properties in the form name-value.
-        */
-        array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+    enum ReportEventContainerType {
+        diagnostic,
+        cip,
+        tiering,
+        other
     }
 
     /**
     A wrapper for a report event
     */
-    record ReportEventEntry {
+    record ReportEventContainer {
         /**
         Date in format yyyyMMddhhmm
         */
         string date;
         /**
-        Submitter of the evidence
+        The author of the ReportEvent
         */
-        string submitter;
+        string author;
+        /**
+        Source of the ReportEvent
+        */
+        union {null, string} source;
         /**
         Validation flag
         */
         boolean validated = false;
         /**
+        Type of report event container
+        */
+        ReportEventContainerType type;
+        /**
         The report event
         */
         org.gel.models.report.avro.ReportEvent reportEvent;
         /**
-        The diagnostic events
+        The observed variants
         */
-        array<DiagnosticEventEntry> diagnosticEvents = [];
+        array<ObservedVariant> variant = [];
+        /**
+        Associated report events
+        */
+        array<org.gel.models.report.avro.ReportEvent> associatedReportEvents = [];
         /**
         Comments for this diagnostic event
         */

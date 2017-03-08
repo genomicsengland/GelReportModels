@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol KnownVariants {
+protocol EvidenceSet {
 
     // CVA references
     import idl "Comment.avdl";
@@ -353,9 +353,9 @@ Evidence of benign impact:
     }
 
     /**
-    Main record for a known variant
+    Main record for an evidence set
     */
-    record KnownVariant {
+    record EvidenceSet {
         /**
         The author of the curation event
         */
@@ -380,6 +380,6 @@ Evidence of benign impact:
         /**
         Report events
         */
-        array<ReportEventEntry> reportEvents = [];
+        array<ReportEventContainer> reportEvents = [];
     }
 }
