@@ -48,10 +48,10 @@
       "type" : "IlluminaVersion"
     }, {
       "name" : "ARRAY_CONCORDANCE",
-      "type" : "double"
+      "type" : [ "null", "double" ]
     }, {
       "name" : "ARRAY_CONCORDANCE_USAGE",
-      "type" : "double"
+      "type" : [ "null", "double" ]
     }, {
       "name" : "AUTOSOME_CALLABILITY",
       "type" : "double"
