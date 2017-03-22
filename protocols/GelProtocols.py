@@ -821,16 +821,18 @@ false, "doc": "", "type": "boolean", "name":
 "", "type": "string", "name": "reference"}, {"doc": "", "type":
 "string", "name": "alternate"}, {"doc": "", "type": ["null", {"items":
 "string", "type": "array"}], "name": "CosmicIds"}, {"doc": "", "type":
-["null", "string"], "name": "dbSNPid"}, {"doc": "", "type": ["null",
-"string"], "name": "cDNAchange"}, {"doc": "", "type": ["null",
-"string"], "name": "proteinChange"}, {"doc": "", "type": ["null",
-"int"], "name": "depthReference"}, {"doc": "", "type": ["null",
-"int"], "name": "depthAlternate"}, {"doc": "", "type": ["null",
-"double"], "name": "VAF"}, {"doc": "", "type": ["null", "int"],
-"name": "commonAF"}, {"doc": "", "type": ["null", "int"], "name":
-"IHP"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "additionalTextualVariantAnnotations"}, {"doc": "",
-"type": ["null", {"values": "float", "type": "map"}], "name":
+["null", {"items": "string", "type": "array"}], "name": "ClinVarIds"},
+{"doc": "", "type": ["null", "string"], "name": "dbSNPid"}, {"doc":
+"", "type": ["null", "string"], "name": "cDNAchange"}, {"doc": "",
+"type": ["null", "string"], "name": "proteinChange"}, {"doc": "",
+"type": ["null", "int"], "name": "depthReference"}, {"doc": "",
+"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", "double"], "name": "VAF"}, {"doc": "", "type":
+["null", "int"], "name": "commonAF"}, {"doc": "", "type": ["null",
+"int"], "name": "IHP"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
@@ -995,9 +997,10 @@ class CancerInterpretedGenome(ProtocolElement):
 "name": "position"}, {"doc": "", "type": "string", "name":
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "CosmicIds"}, {"doc": "", "type": ["null", "string"], "name":
-"dbSNPid"}, {"doc": "", "type": ["null", "string"], "name":
-"cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
+"name": "CosmicIds"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "ClinVarIds"}, {"doc": "", "type": ["null",
+"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
+"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
 "proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
@@ -1523,19 +1526,20 @@ class ClinicalReportCancer(ProtocolElement):
 "string", "name": "reference"}, {"doc": "", "type": "string", "name":
 "alternate"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "CosmicIds"}, {"doc": "", "type": ["null",
-"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
-"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
-"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
-"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
-"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
-"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}, {"type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
+{"items": "string", "type": "array"}], "name": "ClinVarIds"}, {"doc":
+"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
+"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
+["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
+"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
+"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -6916,6 +6920,44 @@ class ModifiedVariant(ProtocolElement):
             'previousVariant', None)
 
 
+class MutationalSignatureContribution(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"MutationalSignatureContribution", "fields": [{"doc": "", "type":
+{"values": "float", "type": "map"}, "name": "coefficients"}, {"doc":
+"", "type": "float", "name": "rss"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "coefficients",
+        "rss",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'coefficients', 'rss'
+    ]
+
+    def __init__(self, **kwargs):
+        self.coefficients = kwargs.get(
+            'coefficients', None)
+        self.rss = kwargs.get(
+            'rss', None)
+
+
 class OtherFamilyHistory(ProtocolElement):
     """
     Family history for secondary findings. Arrays of strings
@@ -7745,21 +7787,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -8050,19 +8085,20 @@ class ReportedSomaticVariants(ProtocolElement):
 "name": "reference"}, {"doc": "", "type": "string", "name":
 "alternate"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "CosmicIds"}, {"doc": "", "type": ["null",
-"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
-"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
-"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
-"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
-"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
-"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}, {"type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
+{"items": "string", "type": "array"}], "name": "ClinVarIds"}, {"doc":
+"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
+"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
+["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
+"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
+"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -8458,19 +8494,21 @@ class ReportedVariantCancer(ProtocolElement):
 {"doc": "", "type": "string", "name": "reference"}, {"doc": "",
 "type": "string", "name": "alternate"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "CosmicIds"}, {"doc":
-"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
-"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
-["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
-"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
-"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"},
-{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"", "type": ["null", {"items": "string", "type": "array"}], "name":
+"ClinVarIds"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": ["null", "string"], "name":
+"cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
+"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
+"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
+{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -8499,6 +8537,7 @@ class ReportedVariantCancer(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "ClinVarIds",
         "CosmicIds",
         "IHP",
         "VAF",
@@ -8534,7 +8573,7 @@ class ReportedVariantCancer(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'CosmicIds', 'IHP', 'VAF',
+        'ClinVarIds', 'CosmicIds', 'IHP', 'VAF',
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'cDNAchange', 'chromosome', 'comments', 'commonAF', 'dbSNPid',
@@ -8543,6 +8582,8 @@ class ReportedVariantCancer(ProtocolElement):
     ]
 
     def __init__(self, **kwargs):
+        self.ClinVarIds = kwargs.get(
+            'ClinVarIds', None)
         self.CosmicIds = kwargs.get(
             'CosmicIds', None)
         self.IHP = kwargs.get(
@@ -8888,95 +8929,83 @@ class SomaticOrGermline(object):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    No documentation
     """
     ready = "ready"
-    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
     """
-    This is the record for results of supplementary analysis
+    This defines a Supplementary Analysis Result
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"SupplementaryAnalysisResults", "fields": [{"type": "int", "name":
-"numberOfSomaticVariants"}, {"type": "double", "name":
-"numberOfSomaticSnvsPerMb"}, {"type": "double", "name":
-"numberOfNonsynSomaticSnvsPerMb"}, {"type": {"values": "int", "type":
-"map"}, "name": "ContextualAnalysisSubstitutionsCounts"}, {"type":
-{"values": "double", "type": "map"}, "name":
-"MutationalSignatureContribution"}, {"type": {"items": "string",
-"type": "array"}, "name": "GenomicRegionsOfHypermutation"}, {"type":
+"SupplementaryAnalysisResults", "fields": [{"doc": "", "type":
 {"values": "int", "type": "map"}, "name":
-"SNValleleFrequencyHistogramCounts"}, {"type": {"values": "int",
-"type": "map"}, "name": "IndelAlleleFrequencyHistogramCounts"},
-{"type": {"values": "int", "type": "map"}, "name":
-"IndelLengthHistogramCounts"}], "doc": ""}
+"contextualAnalysisSubstitutionsCounts"}, {"doc": "", "type":
+{"fields": [{"doc": "", "type": {"values": "float", "type": "map"},
+"name": "coefficients"}, {"doc": "", "type": "float", "name": "rss"}],
+"type": "record", "name": "MutationalSignatureContribution"}, "name":
+"mutationalSignatureContribution"}, {"doc": "", "type": {"values":
+"int", "type": "map"}, "name": "sNVAlleleFrequencyHistogramCounts"},
+{"doc": "", "type": {"values": "int", "type": "map"}, "name":
+"indelAlleleFrequencyHistogramCounts"}, {"doc": "", "type": {"values":
+"int", "type": "map"}, "name": "indelLengthHistogramCounts"}, {"doc":
+"", "type": {"items": "string", "type": "array"}, "name":
+"genomicRegionsOfHypermutation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ContextualAnalysisSubstitutionsCounts",
-        "GenomicRegionsOfHypermutation",
-        "IndelAlleleFrequencyHistogramCounts",
-        "IndelLengthHistogramCounts",
-        "MutationalSignatureContribution",
-        "SNValleleFrequencyHistogramCounts",
-        "numberOfNonsynSomaticSnvsPerMb",
-        "numberOfSomaticSnvsPerMb",
-        "numberOfSomaticVariants",
+        "contextualAnalysisSubstitutionsCounts",
+        "genomicRegionsOfHypermutation",
+        "indelAlleleFrequencyHistogramCounts",
+        "indelLengthHistogramCounts",
+        "mutationalSignatureContribution",
+        "sNVAlleleFrequencyHistogramCounts",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'mutationalSignatureContribution': MutationalSignatureContribution,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'mutationalSignatureContribution': MutationalSignatureContribution,
+        }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ContextualAnalysisSubstitutionsCounts',
-        'GenomicRegionsOfHypermutation',
-        'IndelAlleleFrequencyHistogramCounts',
-        'IndelLengthHistogramCounts',
-        'MutationalSignatureContribution',
-        'SNValleleFrequencyHistogramCounts',
-        'numberOfNonsynSomaticSnvsPerMb', 'numberOfSomaticSnvsPerMb',
-        'numberOfSomaticVariants'
+        'contextualAnalysisSubstitutionsCounts',
+        'genomicRegionsOfHypermutation',
+        'indelAlleleFrequencyHistogramCounts',
+        'indelLengthHistogramCounts',
+        'mutationalSignatureContribution',
+        'sNVAlleleFrequencyHistogramCounts'
     ]
 
     def __init__(self, **kwargs):
-        self.ContextualAnalysisSubstitutionsCounts = kwargs.get(
-            'ContextualAnalysisSubstitutionsCounts', None)
-        self.GenomicRegionsOfHypermutation = kwargs.get(
-            'GenomicRegionsOfHypermutation', None)
-        self.IndelAlleleFrequencyHistogramCounts = kwargs.get(
-            'IndelAlleleFrequencyHistogramCounts', None)
-        self.IndelLengthHistogramCounts = kwargs.get(
-            'IndelLengthHistogramCounts', None)
-        self.MutationalSignatureContribution = kwargs.get(
-            'MutationalSignatureContribution', None)
-        self.SNValleleFrequencyHistogramCounts = kwargs.get(
-            'SNValleleFrequencyHistogramCounts', None)
-        self.numberOfNonsynSomaticSnvsPerMb = kwargs.get(
-            'numberOfNonsynSomaticSnvsPerMb', None)
-        self.numberOfSomaticSnvsPerMb = kwargs.get(
-            'numberOfSomaticSnvsPerMb', None)
-        self.numberOfSomaticVariants = kwargs.get(
-            'numberOfSomaticVariants', None)
+        self.contextualAnalysisSubstitutionsCounts = kwargs.get(
+            'contextualAnalysisSubstitutionsCounts', None)
+        self.genomicRegionsOfHypermutation = kwargs.get(
+            'genomicRegionsOfHypermutation', None)
+        self.indelAlleleFrequencyHistogramCounts = kwargs.get(
+            'indelAlleleFrequencyHistogramCounts', None)
+        self.indelLengthHistogramCounts = kwargs.get(
+            'indelLengthHistogramCounts', None)
+        self.mutationalSignatureContribution = kwargs.get(
+            'mutationalSignatureContribution', None)
+        self.sNVAlleleFrequencyHistogramCounts = kwargs.get(
+            'sNVAlleleFrequencyHistogramCounts', None)
 
 
 class SupportingEvidences(ProtocolElement):

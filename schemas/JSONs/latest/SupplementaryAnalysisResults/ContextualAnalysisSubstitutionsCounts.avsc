@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "ContextualAnalysisSubstitutionsCounts",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "counts",
+    "type" : {
+      "type" : "map",
+      "values" : "int"
+    },
+    "doc" : "Counts for each substitution trinucleotide context\n    e.g. {\"A[T>A]G\": 117, \"G[T>G]C\": 39, [...]}"
+  } ]
+}

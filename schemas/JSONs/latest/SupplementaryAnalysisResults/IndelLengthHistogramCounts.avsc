@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "IndelLengthHistogramCounts",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "counts",
+    "type" : {
+      "type" : "map",
+      "values" : "int"
+    },
+    "doc" : "Counts for each indel length\n    e.g. {\"(-50,-49]\":2,\"(-49,-48]\":2, [...]}"
+  } ]
+}

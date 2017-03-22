@@ -26,6 +26,13 @@
     } ],
     "doc" : "variant ID in Cosmic"
   }, {
+    "name" : "ClinVarIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "variant ID in ClinVar"
+  }, {
     "name" : "dbSNPid",
     "type" : [ "null", "string" ],
     "doc" : "variant ID in dbSNP"
