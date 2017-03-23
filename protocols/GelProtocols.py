@@ -1335,7 +1335,8 @@ class CancerSummaryMetrics(ProtocolElement):
 "variantstats_total_snvs"}, {"type": "int", "name":
 "variantstats_total_indels"}, {"type": ["null", "int"], "name":
 "variantstats_total_svs"}, {"type": "string", "name":
-"tumor_contamination_cont_est"}, {"type": "double", "name": "mean"},
+"tumor_contamination_cont_est"}, {"type": "string", "name":
+"tumor_contamination_con_pair"}, {"type": "double", "name": "mean"},
 {"type": "double", "name": "mean_normal"}, {"type": "double", "name":
 "local_rmsd_normal"}, {"type": "double", "name": "local_rmsd"},
 {"type": "double", "name": "cosmic_30x_cov"}]}
@@ -1353,6 +1354,7 @@ class CancerSummaryMetrics(ProtocolElement):
         "samtools_pairs_on_different_chromosomes_normal",
         "samtools_reads_mapped",
         "samtools_reads_mapped_normal",
+        "tumor_contamination_con_pair",
         "tumor_contamination_cont_est",
         "variantstats_total_indels",
         "variantstats_total_snvs",
@@ -1377,6 +1379,7 @@ class CancerSummaryMetrics(ProtocolElement):
         'samtools_pairs_on_different_chromosomes',
         'samtools_pairs_on_different_chromosomes_normal',
         'samtools_reads_mapped', 'samtools_reads_mapped_normal',
+        'tumor_contamination_con_pair',
         'tumor_contamination_cont_est', 'variantstats_total_indels',
         'variantstats_total_snvs', 'variantstats_total_svs'
     ]
@@ -1404,6 +1407,8 @@ class CancerSummaryMetrics(ProtocolElement):
             'samtools_reads_mapped', None)
         self.samtools_reads_mapped_normal = kwargs.get(
             'samtools_reads_mapped_normal', None)
+        self.tumor_contamination_con_pair = kwargs.get(
+            'tumor_contamination_con_pair', 'None')
         self.tumor_contamination_cont_est = kwargs.get(
             'tumor_contamination_cont_est', 'None')
         self.variantstats_total_indels = kwargs.get(
@@ -6927,8 +6932,8 @@ class MutationalSignatureContribution(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "MutationalSignatureContribution", "fields": [{"doc": "", "type":
-{"values": "float", "type": "map"}, "name": "coefficients"}, {"doc":
-"", "type": "float", "name": "rss"}]}
+{"values": "double", "type": "map"}, "name": "coefficients"}, {"doc":
+"", "type": "double", "name": "rss"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -7787,14 +7792,21 @@ class Reason(object):
     """
     No documentation
     """
+    median_coverage = "median_coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    consent = "consent"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
+    arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -8929,14 +8941,19 @@ class SomaticOrGermline(object):
 
 class State(object):
     """
-    No documentation
+    This is the master state for this sample, for example
+    caution,quality could be used to say that a sample under this
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed hold: sample
+    is on hold pending investigation fail: sample has failed a QC
+    check caution: sample is ready but should be used with caution
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -8948,16 +8965,17 @@ class SupplementaryAnalysisResults(ProtocolElement):
 "SupplementaryAnalysisResults", "fields": [{"doc": "", "type":
 {"values": "int", "type": "map"}, "name":
 "contextualAnalysisSubstitutionsCounts"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": {"values": "float", "type": "map"},
-"name": "coefficients"}, {"doc": "", "type": "float", "name": "rss"}],
-"type": "record", "name": "MutationalSignatureContribution"}, "name":
-"mutationalSignatureContribution"}, {"doc": "", "type": {"values":
-"int", "type": "map"}, "name": "sNVAlleleFrequencyHistogramCounts"},
+{"fields": [{"doc": "", "type": {"values": "double", "type": "map"},
+"name": "coefficients"}, {"doc": "", "type": "double", "name":
+"rss"}], "type": "record", "name": "MutationalSignatureContribution"},
+"name": "mutationalSignatureContribution"}, {"doc": "", "type":
+{"values": "int", "type": "map"}, "name":
+"sNVAlleleFrequencyHistogramCounts"}, {"doc": "", "type": {"values":
+"int", "type": "map"}, "name": "indelAlleleFrequencyHistogramCounts"},
 {"doc": "", "type": {"values": "int", "type": "map"}, "name":
-"indelAlleleFrequencyHistogramCounts"}, {"doc": "", "type": {"values":
-"int", "type": "map"}, "name": "indelLengthHistogramCounts"}, {"doc":
-"", "type": {"items": "string", "type": "array"}, "name":
-"genomicRegionsOfHypermutation"}], "doc": ""}
+"indelLengthHistogramCounts"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "genomicRegionsOfHypermutation"}], "doc":
+""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {

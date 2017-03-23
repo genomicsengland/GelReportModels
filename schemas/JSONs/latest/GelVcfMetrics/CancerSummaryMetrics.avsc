@@ -33,6 +33,9 @@
     "name" : "tumor_contamination_cont_est",
     "type" : "string"
   }, {
+    "name" : "tumor_contamination_con_pair",
+    "type" : "string"
+  }, {
     "name" : "mean",
     "type" : "double"
   }, {

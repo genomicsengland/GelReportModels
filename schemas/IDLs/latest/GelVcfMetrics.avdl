@@ -39,6 +39,7 @@ record CancerSummaryMetrics{
     int variantstats_total_indels;
     union {null, int} variantstats_total_svs;
     string tumor_contamination_cont_est;
+    string tumor_contamination_con_pair;
     double mean;
     double mean_normal;
     double local_rmsd_normal;
