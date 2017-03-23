@@ -1335,8 +1335,7 @@ class CancerSummaryMetrics(ProtocolElement):
 "variantstats_total_snvs"}, {"type": "int", "name":
 "variantstats_total_indels"}, {"type": ["null", "int"], "name":
 "variantstats_total_svs"}, {"type": "string", "name":
-"tumor_contamination_cont_est"}, {"type": "string", "name":
-"tumor_contamination_con_pair"}, {"type": "double", "name": "mean"},
+"tumor_contamination_cont_est"}, {"type": "double", "name": "mean"},
 {"type": "double", "name": "mean_normal"}, {"type": "double", "name":
 "local_rmsd_normal"}, {"type": "double", "name": "local_rmsd"},
 {"type": "double", "name": "cosmic_30x_cov"}]}
@@ -1354,7 +1353,6 @@ class CancerSummaryMetrics(ProtocolElement):
         "samtools_pairs_on_different_chromosomes_normal",
         "samtools_reads_mapped",
         "samtools_reads_mapped_normal",
-        "tumor_contamination_con_pair",
         "tumor_contamination_cont_est",
         "variantstats_total_indels",
         "variantstats_total_snvs",
@@ -1379,7 +1377,6 @@ class CancerSummaryMetrics(ProtocolElement):
         'samtools_pairs_on_different_chromosomes',
         'samtools_pairs_on_different_chromosomes_normal',
         'samtools_reads_mapped', 'samtools_reads_mapped_normal',
-        'tumor_contamination_con_pair',
         'tumor_contamination_cont_est', 'variantstats_total_indels',
         'variantstats_total_snvs', 'variantstats_total_svs'
     ]
@@ -1407,8 +1404,6 @@ class CancerSummaryMetrics(ProtocolElement):
             'samtools_reads_mapped', None)
         self.samtools_reads_mapped_normal = kwargs.get(
             'samtools_reads_mapped_normal', None)
-        self.tumor_contamination_con_pair = kwargs.get(
-            'tumor_contamination_con_pair', 'None')
         self.tumor_contamination_cont_est = kwargs.get(
             'tumor_contamination_cont_est', 'None')
         self.variantstats_total_indels = kwargs.get(
@@ -5043,9 +5038,9 @@ class IlluminaSummaryV4(ProtocolElement):
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
 "name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
-"double", "name": "ARRAY_CONCORDANCE"}, {"type": "double", "name":
-"ARRAY_CONCORDANCE_USAGE"}, {"type": "double", "name":
-"AUTOSOME_CALLABILITY"}, {"type": "double", "name":
+["null", "double"], "name": "ARRAY_CONCORDANCE"}, {"type": ["null",
+"double"], "name": "ARRAY_CONCORDANCE_USAGE"}, {"type": "double",
+"name": "AUTOSOME_CALLABILITY"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_10X"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_15X"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_1X"}, {"type": "double", "name":
@@ -8958,72 +8953,78 @@ class State(object):
 
 class SupplementaryAnalysisResults(ProtocolElement):
     """
-    This defines a Supplementary Analysis Result
+    This is the record for results of supplementary analysis
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"SupplementaryAnalysisResults", "fields": [{"doc": "", "type":
+"SupplementaryAnalysisResults", "fields": [{"type": "int", "name":
+"numberOfSomaticVariants"}, {"type": "double", "name":
+"numberOfSomaticSnvsPerMb"}, {"type": "double", "name":
+"numberOfNonsynSomaticSnvsPerMb"}, {"type": {"values": "int", "type":
+"map"}, "name": "ContextualAnalysisSubstitutionsCounts"}, {"type":
+{"values": "double", "type": "map"}, "name":
+"MutationalSignatureContribution"}, {"type": {"items": "string",
+"type": "array"}, "name": "GenomicRegionsOfHypermutation"}, {"type":
 {"values": "int", "type": "map"}, "name":
-"contextualAnalysisSubstitutionsCounts"}, {"doc": "", "type":
-{"fields": [{"doc": "", "type": {"values": "double", "type": "map"},
-"name": "coefficients"}, {"doc": "", "type": "double", "name":
-"rss"}], "type": "record", "name": "MutationalSignatureContribution"},
-"name": "mutationalSignatureContribution"}, {"doc": "", "type":
-{"values": "int", "type": "map"}, "name":
-"sNVAlleleFrequencyHistogramCounts"}, {"doc": "", "type": {"values":
-"int", "type": "map"}, "name": "indelAlleleFrequencyHistogramCounts"},
-{"doc": "", "type": {"values": "int", "type": "map"}, "name":
-"indelLengthHistogramCounts"}, {"doc": "", "type": {"items": "string",
-"type": "array"}, "name": "genomicRegionsOfHypermutation"}], "doc":
-""}
+"SNValleleFrequencyHistogramCounts"}, {"type": {"values": "int",
+"type": "map"}, "name": "IndelAlleleFrequencyHistogramCounts"},
+{"type": {"values": "int", "type": "map"}, "name":
+"IndelLengthHistogramCounts"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "contextualAnalysisSubstitutionsCounts",
-        "genomicRegionsOfHypermutation",
-        "indelAlleleFrequencyHistogramCounts",
-        "indelLengthHistogramCounts",
-        "mutationalSignatureContribution",
-        "sNVAlleleFrequencyHistogramCounts",
+        "ContextualAnalysisSubstitutionsCounts",
+        "GenomicRegionsOfHypermutation",
+        "IndelAlleleFrequencyHistogramCounts",
+        "IndelLengthHistogramCounts",
+        "MutationalSignatureContribution",
+        "SNValleleFrequencyHistogramCounts",
+        "numberOfNonsynSomaticSnvsPerMb",
+        "numberOfSomaticSnvsPerMb",
+        "numberOfSomaticVariants",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'mutationalSignatureContribution': MutationalSignatureContribution,
-        }
+        embeddedTypes = {}
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'mutationalSignatureContribution': MutationalSignatureContribution,
-        }
+        embeddedTypes = {}
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'contextualAnalysisSubstitutionsCounts',
-        'genomicRegionsOfHypermutation',
-        'indelAlleleFrequencyHistogramCounts',
-        'indelLengthHistogramCounts',
-        'mutationalSignatureContribution',
-        'sNVAlleleFrequencyHistogramCounts'
+        'ContextualAnalysisSubstitutionsCounts',
+        'GenomicRegionsOfHypermutation',
+        'IndelAlleleFrequencyHistogramCounts',
+        'IndelLengthHistogramCounts',
+        'MutationalSignatureContribution',
+        'SNValleleFrequencyHistogramCounts',
+        'numberOfNonsynSomaticSnvsPerMb', 'numberOfSomaticSnvsPerMb',
+        'numberOfSomaticVariants'
     ]
 
     def __init__(self, **kwargs):
-        self.contextualAnalysisSubstitutionsCounts = kwargs.get(
-            'contextualAnalysisSubstitutionsCounts', None)
-        self.genomicRegionsOfHypermutation = kwargs.get(
-            'genomicRegionsOfHypermutation', None)
-        self.indelAlleleFrequencyHistogramCounts = kwargs.get(
-            'indelAlleleFrequencyHistogramCounts', None)
-        self.indelLengthHistogramCounts = kwargs.get(
-            'indelLengthHistogramCounts', None)
-        self.mutationalSignatureContribution = kwargs.get(
-            'mutationalSignatureContribution', None)
-        self.sNVAlleleFrequencyHistogramCounts = kwargs.get(
-            'sNVAlleleFrequencyHistogramCounts', None)
+        self.ContextualAnalysisSubstitutionsCounts = kwargs.get(
+            'ContextualAnalysisSubstitutionsCounts', None)
+        self.GenomicRegionsOfHypermutation = kwargs.get(
+            'GenomicRegionsOfHypermutation', None)
+        self.IndelAlleleFrequencyHistogramCounts = kwargs.get(
+            'IndelAlleleFrequencyHistogramCounts', None)
+        self.IndelLengthHistogramCounts = kwargs.get(
+            'IndelLengthHistogramCounts', None)
+        self.MutationalSignatureContribution = kwargs.get(
+            'MutationalSignatureContribution', None)
+        self.SNValleleFrequencyHistogramCounts = kwargs.get(
+            'SNValleleFrequencyHistogramCounts', None)
+        self.numberOfNonsynSomaticSnvsPerMb = kwargs.get(
+            'numberOfNonsynSomaticSnvsPerMb', None)
+        self.numberOfSomaticSnvsPerMb = kwargs.get(
+            'numberOfSomaticSnvsPerMb', None)
+        self.numberOfSomaticVariants = kwargs.get(
+            'numberOfSomaticVariants', None)
 
 
 class SupportingEvidences(ProtocolElement):

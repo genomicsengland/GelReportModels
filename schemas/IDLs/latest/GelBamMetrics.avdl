@@ -40,8 +40,8 @@ This is the summary provided by Illumina V4 germline samples in file SAMPLE_ID.s
 */
 record IlluminaSummaryV4 {
     IlluminaVersion illumina_version ;
-    double  ARRAY_CONCORDANCE ;
-    double  ARRAY_CONCORDANCE_USAGE ;
+    union {null, double} ARRAY_CONCORDANCE ;
+    union {null, double} ARRAY_CONCORDANCE_USAGE ;
     double  AUTOSOME_CALLABILITY ;
     double  AUTOSOME_COVERAGE_AT_10X ;
     double  AUTOSOME_COVERAGE_AT_15X ;
