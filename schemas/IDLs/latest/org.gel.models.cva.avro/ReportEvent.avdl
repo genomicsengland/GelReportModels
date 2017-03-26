@@ -55,7 +55,7 @@ protocol ReportEventProtocol {
         /**
         Associated report events
         */
-        array<org.gel.models.report.avro.ReportEvent> associatedReportEvents = [];
+        array<ReportEventContainer> associatedReportEvents = [];
         /**
         Comments for this diagnostic event
         */
