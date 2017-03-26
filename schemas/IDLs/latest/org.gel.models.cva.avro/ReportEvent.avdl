@@ -51,7 +51,7 @@ protocol ReportEvent {
         /**
         The observed variants
         */
-        array<ObservedVariant> variant = [];
+        array<ObservedVariant> variants = [];
         /**
         Associated report events
         */
