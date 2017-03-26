@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol ObservedVariants {
+protocol ObservedVariantProtocol {
 
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";

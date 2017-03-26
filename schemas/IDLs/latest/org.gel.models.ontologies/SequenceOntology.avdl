@@ -1,6 +1,6 @@
 @namespace("org.gel.models.ontologies")
 
-protocol SequenceOntology {
+protocol SequenceOntologyProtocol {
 
 /**
     Variant classification with Sequence Ontology terms. This is an optional classification, that might be inferred

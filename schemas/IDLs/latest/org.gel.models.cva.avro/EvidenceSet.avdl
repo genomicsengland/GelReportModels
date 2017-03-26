@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol EvidencesSet {
+protocol EvidencesSetProtocol {
 
     // CVA references
     import idl "Comment.avdl";

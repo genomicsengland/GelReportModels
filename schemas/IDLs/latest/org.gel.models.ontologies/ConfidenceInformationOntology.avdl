@@ -1,6 +1,6 @@
 @namespace("org.gel.models.ontologies")
 
-protocol ConfidenceInformationOntology {
+protocol ConfidenceInformationOntologyProtocol {
 
 /**
     Confidence based on the Confidence Information Ontology

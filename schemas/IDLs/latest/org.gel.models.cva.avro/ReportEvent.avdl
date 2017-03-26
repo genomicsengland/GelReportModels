@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol ReportEvent {
+protocol ReportEventProtocol {
 
     // CVA references
     import idl "Comment.avdl";

@@ -1,6 +1,6 @@
 @namespace("org.gel.models.ontologies")
 
-protocol OntologyTerms {
+protocol OntologyTermProtocol {
 
     /**
     A property in the form of name-value pair.
