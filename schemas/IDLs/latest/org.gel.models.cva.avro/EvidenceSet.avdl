@@ -4,7 +4,7 @@ protocol EvidencesSetProtocol {
 
     // CVA references
     import idl "Comment.avdl";
-    import idl "ReportEvent.avdl";
+    import idl "ReportEventContainer.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
     import idl "../org.gel.models.report.avro/CommonParticipant.avdl";
