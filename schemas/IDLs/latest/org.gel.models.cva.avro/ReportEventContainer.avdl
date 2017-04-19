@@ -45,6 +45,19 @@ protocol ReportEventContainerProtocol {
         */
         ReportEventContainerType type;
         /**
+        The interpretation request identifier
+        */
+        string interpretationRequestId;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The workspace. This field is used to control authorisation to
+        access each case.
+        */
+        array<string> workspace = [];
+        /**
         The report event
         */
         org.gel.models.report.avro.ReportEvent reportEvent;
