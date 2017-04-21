@@ -3,5 +3,5 @@
   "name" : "LifeStatus",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "Life Status",
-  "symbols" : [ "alive", "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+  "symbols" : [ "ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE" ]
 }

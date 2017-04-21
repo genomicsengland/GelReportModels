@@ -15,7 +15,7 @@
     "name" : "review_outcome",
     "type" : "string"
   }, {
-    "name" : "multiple_genetic_origins",
+    "name" : "multipleGeneticOrigins",
     "type" : "string"
   } ]
 }

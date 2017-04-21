@@ -300,12 +300,12 @@
   }, {
     "type" : "enum",
     "name" : "Sex",
-    "symbols" : [ "M", "F" ]
+    "symbols" : [ "FEMALE", "MALE", "UNKNOWN" ]
   }, {
     "type" : "enum",
     "name" : "PersonKaryotipicSex",
     "doc" : "Karyotipic Sex",
-    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+    "symbols" : [ "UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER" ]
   }, {
     "type" : "enum",
     "name" : "Penetrance",
@@ -441,85 +441,137 @@
     } ]
   }, {
     "type" : "enum",
-    "name" : "SampleType",
-    "symbols" : [ "germline", "tumor" ]
+    "name" : "TumourType",
+    "symbols" : [ "ADULT_GLIOMA", "BLADDER", "BREAST", "CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS", "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA" ]
   }, {
     "type" : "enum",
-    "name" : "PreservationMethod",
-    "symbols" : [ "FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA", "LEUK" ]
+    "name" : "PreparationMethod",
+    "symbols" : [ "EDTA", "ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE" ]
   }, {
     "type" : "enum",
     "name" : "Phase",
-    "symbols" : [ "PRIMARY", "METASTATIC", "RECURRENCE" ]
+    "symbols" : [ "PRIMARY", "METASTATIC_RECURRENCE", "RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES" ]
   }, {
     "type" : "enum",
-    "name" : "GelPhase",
+    "name" : "ProgrammePhase",
     "symbols" : [ "CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT" ]
   }, {
     "type" : "enum",
     "name" : "Method",
     "symbols" : [ "RESECTION", "BIOPSY", "BLOOD" ]
   }, {
+    "type" : "enum",
+    "name" : "SampleSource",
+    "symbols" : [ "TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST", "TISSUE" ]
+  }, {
+    "type" : "enum",
+    "name" : "Product",
+    "symbols" : [ "DNA", "RNA" ]
+  }, {
+    "type" : "enum",
+    "name" : "TumourContent",
+    "symbols" : [ "High", "Medium", "Low" ]
+  }, {
+    "type" : "enum",
+    "name" : "TissueSource",
+    "symbols" : [ "BMA_TUMOUR_SORTED_CELLS", "CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY", "LAPAROSCOPIC_EXCISION", "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY", "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY" ]
+  }, {
     "type" : "record",
-    "name" : "CancerSample",
+    "name" : "GermlineSample",
     "fields" : [ {
       "name" : "sampleId",
       "type" : "string",
       "doc" : "Sample Id (e.g, LP00012645_5GH))"
     }, {
-      "name" : "labId",
-      "type" : [ "null", "string" ],
+      "name" : "labSampleId",
+      "type" : "string",
       "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
     }, {
-      "name" : "gelPhase",
-      "type" : [ "null", "GelPhase" ],
+      "name" : "source",
+      "type" : [ "null", "SampleSource" ],
+      "doc" : "Source"
+    }, {
+      "name" : "method",
+      "type" : [ "null", "string" ],
+      "doc" : "Method"
+    }, {
+      "name" : "product",
+      "type" : [ "null", "Product" ],
+      "doc" : "Product"
+    }, {
+      "name" : "preparationMethod",
+      "type" : [ "null", "PreparationMethod" ],
+      "doc" : "preparationMethod"
+    }, {
+      "name" : "programmePhase",
+      "type" : [ "null", "ProgrammePhase" ],
       "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
     }, {
-      "name" : "sampleType",
-      "type" : "SampleType",
-      "doc" : "Sample Type"
-    }, {
-      "name" : "sampleDiagnosis",
+      "name" : "clinicalSampleDateTime",
       "type" : [ "null", "string" ],
-      "doc" : "Sample Diagnosis (we need this because primary diagnosis or patient might be CLL, but this sample might be a different tumor?)"
+      "doc" : "In the format YYYY-MM-DDTHH:MM:SS+0000"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "TumourSample",
+    "fields" : [ {
+      "name" : "sampleId",
+      "type" : "string",
+      "doc" : "Sample Id (e.g, LP00012645_5GH))"
     }, {
-      "name" : "tumorType",
+      "name" : "labSampleId",
+      "type" : "string",
+      "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+    }, {
+      "name" : "tumourId",
       "type" : [ "null", "string" ],
-      "doc" : "Tumor Type\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, blood, saliva"
+      "doc" : "Id of each one of the tumors for a participant"
     }, {
-      "name" : "tumorSubType",
+      "name" : "programmePhase",
+      "type" : [ "null", "ProgrammePhase" ],
+      "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
+    }, {
+      "name" : "tumourType",
+      "type" : "TumourType",
+      "doc" : "tumour Type"
+    }, {
+      "name" : "tumourSubType",
       "type" : [ "null", "string" ],
       "doc" : "Tumor Subtype"
     }, {
-      "name" : "preservationMethod",
-      "type" : [ "null", "PreservationMethod" ],
-      "doc" : "Preservation method"
+      "name" : "clinicalSampleDateTime",
+      "type" : [ "null", "string" ],
+      "doc" : "In the format YYYY-MM-DDTHH:MM:SS+0000"
     }, {
       "name" : "phase",
       "type" : [ "null", "Phase" ],
       "doc" : "Tumor Phase"
     }, {
-      "name" : "method",
-      "type" : [ "null", "Method" ],
+      "name" : "tumourContent",
+      "type" : [ "null", "TumourContent" ],
+      "doc" : "tumourContent"
+    }, {
+      "name" : "source",
+      "type" : [ "null", "SampleSource" ],
       "doc" : "Method"
     }, {
-      "name" : "tumorPurity",
-      "type" : [ "null", "double" ],
-      "doc" : "Sample tumorPurity"
+      "name" : "preparationMethod",
+      "type" : [ "null", "PreparationMethod" ],
+      "doc" : "preparationMethod"
     }, {
-      "name" : "tumorContent",
-      "type" : [ "null", "string" ],
-      "doc" : "Sample TumorContent will be a string"
+      "name" : "tissueSource",
+      "type" : [ "null", "TissueSource" ],
+      "doc" : "Method"
     }, {
-      "name" : "grade",
-      "type" : [ "null", "string" ],
-      "doc" : "Grade of tumour - a lot of records gave this"
+      "name" : "product",
+      "type" : [ "null", "Product" ],
+      "doc" : "Product"
     }, {
-      "name" : "tnm_stage_version",
+      "name" : "TNMStageVersion",
       "type" : [ "null", "string" ],
       "doc" : "TMN version"
     }, {
-      "name" : "tmn_stage_grouping",
+      "name" : "TNMStageGrouping",
       "type" : [ "null", "string" ],
       "doc" : "TMN stage grouping"
     } ]
@@ -538,24 +590,23 @@
     } ]
   }, {
     "type" : "record",
-    "name" : "CancerDemographics",
+    "name" : "CancerParticipant",
     "doc" : "This defines a Cancer Demographics",
     "fields" : [ {
-      "name" : "gelId",
-      "type" : "string",
-      "doc" : "Individual Id (this is the individual id (gel ID))"
+      "name" : "readyForAnalysis",
+      "type" : "boolean"
+    }, {
+      "name" : "consentStatus",
+      "type" : "ConsentStatus",
+      "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
     }, {
       "name" : "center",
       "type" : "string",
       "doc" : "Center"
     }, {
-      "name" : "centerPatientId",
-      "type" : [ "null", "string" ],
-      "doc" : "Center patient ID"
-    }, {
-      "name" : "labkeyParticipantId",
-      "type" : [ "null", "string" ],
-      "doc" : "Labkey ID - this field together with the study should be a unique id to find the labkey data"
+      "name" : "individualId",
+      "type" : "string",
+      "doc" : "Individual Id"
     }, {
       "name" : "primaryDiagnosis",
       "type" : [ "null", "string" ],
@@ -565,10 +616,6 @@
       "type" : [ "null", "Sex" ],
       "doc" : "Sex"
     }, {
-      "name" : "consentStatus",
-      "type" : "ConsentStatus",
-      "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
-    }, {
       "name" : "additionalInformation",
       "type" : [ "null", {
         "type" : "map",
@@ -576,43 +623,31 @@
       } ],
       "doc" : "We could add a map here to store additional information for example URIs to images, ECGs, etc"
     }, {
-      "name" : "sampleId",
-      "type" : [ "null", {
-        "type" : "array",
-        "items" : "string"
-      } ],
-      "doc" : "Sample Id (e.g, LP00012645_5GH))"
-    }, {
       "name" : "assignedICD10",
       "type" : [ "null", "string" ],
       "doc" : "assigned ICD10 code"
-    } ]
-  }, {
-    "type" : "record",
-    "name" : "CancerParticipant",
-    "doc" : "This defines a Cancer Participant (demographics and sample information)",
-    "fields" : [ {
-      "name" : "versionControl",
-      "type" : "VersionControl",
-      "doc" : "Model version number"
     }, {
-      "name" : "cancerDemographics",
-      "type" : "CancerDemographics",
-      "doc" : "This contains all the demographic information"
-    }, {
-      "name" : "cancerSamples",
+      "name" : "tumourSamples",
       "type" : {
         "type" : "array",
-        "items" : "CancerSample"
-      },
-      "doc" : "List of samples (normal and tumor sample)"
+        "items" : "TumourSample"
+      }
+    }, {
+      "name" : "germlineSamples",
+      "type" : {
+        "type" : "array",
+        "items" : "GermlineSample"
+      }
     }, {
       "name" : "matchedSamples",
       "type" : {
         "type" : "array",
         "items" : "MatchedSamples"
-      },
-      "doc" : "List of Matched Samples (this is, all the normal - tumor pairs should be analyzed)"
+      }
+    }, {
+      "name" : "versionControl",
+      "type" : "VersionControl",
+      "doc" : "Model version number"
     } ]
   }, {
     "type" : "record",

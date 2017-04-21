@@ -3,5 +3,5 @@
   "name" : "Sex",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "Sex",
-  "symbols" : [ "male", "female", "unknown", "undetermined" ]
+  "symbols" : [ "MALE", "FEMALE", "UNKNOWN" ]
 }

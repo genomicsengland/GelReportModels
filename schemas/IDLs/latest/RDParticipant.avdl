@@ -53,6 +53,11 @@ record HpoTerm {
     union {null, boolean} termPresence;
 
     /**
+    hpoBuildNumber
+    */
+    union {null, string} hpoBuildNumber;
+
+    /**
     Modifier associated with the HPO term
     */
     union {null, map<string>} modifiers;
@@ -69,12 +74,29 @@ record HpoTerm {
 /**
 Affection Status
 */
-enum AffectionStatus {unaffected, affected,  unknown}
+enum AffectionStatus {UNAFFECTED, AFFECTED, UNCERTAIN}
+
+/**
+QCState Status
+*/
+enum ParticipantQCState {noState, passedMedicalReviewReadyForInterpretation, passedMedicalReviewNotReadyForInterpretation, queryToGel,	queryToGMC,	failed}
 
 /**
 Life Status
 */
-enum LifeStatus {alive, aborted, deceased, unborn, stillborn, miscarriage}
+enum LifeStatus {ALIVE, ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE}
+
+/**
+FamilyQCState
+*/
+enum FamilyQCState {noState, passedMedicalReviewReadyForInterpretation, passedMedicalReviewNotReadyForInterpretation, queryToGel, queryToGMC, failed}
+
+
+enum SampleSource {BLOOD, SALIVA, FIBROBLAST, TISSUE}
+
+enum Product {DNA, RNA}
+
+enum PreparationMethod {EDTA, ORAGENE, FF}
 
 /**
 adoptedin means adopted into the family
@@ -82,15 +104,41 @@ adoptedout means child belonged to the family and was adopted out
 */
 enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
 
+
+
+record Sample{
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    string sampleId;
+
+    /**
+    Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
+    */
+    string labSampleId;
+
+    /**
+    Source
+    */
+    union {null, SampleSource} source;
+
+    /**
+    Product
+    */
+    union {null, Product} product;
+
+    /**
+    preparationMethod
+    */
+    union {null, PreparationMethod} preparationMethod;
+
+}
+
+
 /**
 This defines a RD Participant (demographics and pedigree information)
 */
-record RDParticipant {
-
-    /**
-    Model version number
-    */
-    VersionControl versionControl;
+record PedigreeMember {
 
     /**
     Numbering used to refer to each member of the pedigree
@@ -103,14 +151,16 @@ record RDParticipant {
     boolean isProband;
 
     /**
-    gel internal identifier, only required when the participant belongs to the program
+    participantId
     */
-    union {null, string} gelId;
+    union {null, string} participantId;
+
 
     /**
-    Family id which internally translate to a sample set
+    participantQCState
     */
-    string gelFamilyId;
+    ParticipantQCState participantQCState;
+
 
     /**
     superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
@@ -181,10 +231,6 @@ record RDParticipant {
     */
     TernaryOption consanguineousParents;
 
-    /**
-    Offspring from a consanguineous population
-    */
-    union {null, string} consanguineousPopulation;
 
     /**
     Affection Status
@@ -216,7 +262,7 @@ record RDParticipant {
     /**
     This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
     */
-    union {null, array<string>} samples;
+    union {null, array<Sample>} samples;
 
 
     /**
@@ -238,7 +284,7 @@ record AnalysisPanel {
     string panelName;
     union {null, string} panelVersion;
     string review_outcome;
-    string multiple_genetic_origins;
+    string multipleGeneticOrigins;
 }
 
 
@@ -260,14 +306,17 @@ record Pedigree {
     /**
     Family id which internally translate to a sample set
     */
-    string gelFamilyId;
+    string familyId;
 
-    array <RDParticipant> participants;
+    array <PedigreeMember> members;
 
     union {null, array<AnalysisPanel>} analysisPanels;
 
     union {null, array<DiseasePenetrance>} diseasePenetrances;
 
+    boolean readyForAnalysis;
+
+    FamilyQCState familyQCState;
 }
 
 }

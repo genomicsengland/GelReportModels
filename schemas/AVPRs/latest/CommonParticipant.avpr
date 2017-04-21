@@ -6,12 +6,12 @@
     "type" : "enum",
     "name" : "Sex",
     "doc" : "Sex",
-    "symbols" : [ "male", "female", "unknown", "undetermined" ]
+    "symbols" : [ "MALE", "FEMALE", "UNKNOWN" ]
   }, {
     "type" : "enum",
     "name" : "PersonKaryotipicSex",
     "doc" : "Karyotipic Sex",
-    "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+    "symbols" : [ "UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER" ]
   }, {
     "type" : "enum",
     "name" : "Penetrance",

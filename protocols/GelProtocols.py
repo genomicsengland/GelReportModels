@@ -167,9 +167,9 @@ class AffectionStatus(object):
     """
     Affection Status
     """
-    unaffected = "unaffected"
-    affected = "affected"
-    unknown = "unknown"
+    UNAFFECTED = "UNAFFECTED"
+    AFFECTED = "AFFECTED"
+    UNCERTAIN = "UNCERTAIN"
 
 
 class AnalysisPanel(ProtocolElement):
@@ -182,11 +182,11 @@ class AnalysisPanel(ProtocolElement):
 "specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
 ["null", "string"], "name": "panelVersion"}, {"type": "string",
 "name": "review_outcome"}, {"type": "string", "name":
-"multiple_genetic_origins"}]}
+"multipleGeneticOrigins"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "multiple_genetic_origins",
+        "multipleGeneticOrigins",
         "panelName",
         "panelVersion",
         "review_outcome",
@@ -205,13 +205,13 @@ class AnalysisPanel(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'multiple_genetic_origins', 'panelName', 'panelVersion',
+        'multipleGeneticOrigins', 'panelName', 'panelVersion',
         'review_outcome', 'specificDisease'
     ]
 
     def __init__(self, **kwargs):
-        self.multiple_genetic_origins = kwargs.get(
-            'multiple_genetic_origins', 'None')
+        self.multipleGeneticOrigins = kwargs.get(
+            'multipleGeneticOrigins', 'None')
         self.panelName = kwargs.get(
             'panelName', 'None')
         self.panelVersion = kwargs.get(
@@ -658,89 +658,6 @@ class CalledGenotype(ProtocolElement):
             'sampleId', 'None')
 
 
-class CancerDemographics(ProtocolElement):
-    """
-    This defines a Cancer Demographics
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerDemographics", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "center"}, {"doc": "",
-"type": ["null", "string"], "name": "centerPatientId"}, {"doc": "",
-"type": ["null", "string"], "name": "labkeyParticipantId"}, {"doc":
-"", "type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc":
-"", "type": ["null", {"symbols": ["M", "F"], "type": "enum", "name":
-"Sex"}], "name": "sex"}, {"doc": "", "type": {"doc": "", "type":
-"record", "name": "ConsentStatus", "fields": [{"default": false,
-"doc": "", "type": "boolean", "name": "programmeConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}]}, "name":
-"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}],
-"doc": ""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "additionalInformation",
-        "assignedICD10",
-        "center",
-        "centerPatientId",
-        "consentStatus",
-        "gelId",
-        "labkeyParticipantId",
-        "primaryDiagnosis",
-        "sampleId",
-        "sex",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'consentStatus': ConsentStatus,
-        }
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'consentStatus': ConsentStatus,
-        }
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'additionalInformation', 'assignedICD10', 'center',
-        'centerPatientId', 'consentStatus', 'gelId',
-        'labkeyParticipantId', 'primaryDiagnosis', 'sampleId', 'sex'
-    ]
-
-    def __init__(self, **kwargs):
-        self.additionalInformation = kwargs.get(
-            'additionalInformation', None)
-        self.assignedICD10 = kwargs.get(
-            'assignedICD10', None)
-        self.center = kwargs.get(
-            'center', 'None')
-        self.centerPatientId = kwargs.get(
-            'centerPatientId', None)
-        self.consentStatus = kwargs.get(
-            'consentStatus', None)
-        self.gelId = kwargs.get(
-            'gelId', 'None')
-        self.labkeyParticipantId = kwargs.get(
-            'labkeyParticipantId', None)
-        self.primaryDiagnosis = kwargs.get(
-            'primaryDiagnosis', None)
-        self.sampleId = kwargs.get(
-            'sampleId', None)
-        self.sex = kwargs.get(
-            'sex', None)
-
-
 class CancerInterpretationRequest(ProtocolElement):
     """
     This record represents basic information for this report
@@ -766,57 +683,81 @@ class CancerInterpretationRequest(ProtocolElement):
 "name": "VCFs"}, {"doc": "", "type": {"items": "File", "type":
 "array"}, "name": "bigWigs"}, {"doc": "", "type": ["null", "File"],
 "name": "annotationFile"}, {"type": {"doc": "", "type": "record",
-"name": "CancerParticipant", "fields": [{"doc": "", "type":
-"VersionControl", "name": "versionControl"}, {"doc": "", "type":
-{"doc": "", "type": "record", "name": "CancerDemographics", "fields":
-[{"doc": "", "type": "string", "name": "gelId"}, {"doc": "", "type":
-"string", "name": "center"}, {"doc": "", "type": ["null", "string"],
-"name": "centerPatientId"}, {"doc": "", "type": ["null", "string"],
-"name": "labkeyParticipantId"}, {"doc": "", "type": ["null",
-"string"], "name": "primaryDiagnosis"}, {"doc": "", "type": ["null",
-{"symbols": ["M", "F"], "type": "enum", "name": "Sex"}], "name":
-"sex"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
-"ConsentStatus", "fields": [{"default": false, "doc": "", "type":
-"boolean", "name": "programmeConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "primaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name":
+"name": "CancerParticipant", "fields": [{"type": "boolean", "name":
+"readyForAnalysis"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "ConsentStatus", "fields": [{"default": false, "doc": "",
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
 "secondaryFindingConsent"}, {"default": false, "doc": "", "type":
 "boolean", "name": "carrierStatusConsent"}]}, "name":
-"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}]},
-"name": "cancerDemographics"}, {"doc": "", "type": {"items":
-{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
-["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
-"type": "enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "",
-"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
-"string"], "name": "sampleDiagnosis"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorType"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorSubType"}, {"doc": "", "type": ["null",
-{"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA",
-"LEUK"], "type": "enum", "name": "PreservationMethod"}], "name":
-"preservationMethod"}, {"doc": "", "type": ["null", {"symbols":
-["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum", "name":
+"consentStatus"}, {"doc": "", "type": "string", "name": "center"},
+{"doc": "", "type": "string", "name": "individualId"}, {"doc": "",
+"type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc": "",
+"type": ["null", {"symbols": ["FEMALE", "MALE", "UNKNOWN"], "type":
+"enum", "name": "Sex"}], "name": "sex"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}, {"doc": "", "type": ["null", "string"],
+"name": "assignedICD10"}, {"type": {"items": {"fields": [{"doc": "",
+"type": "string", "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "labSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK",
+"OXFORD", "CLL", "IIP", "MAIN", "EXPT"], "type": "enum", "name":
+"ProgrammePhase"}], "name": "programmePhase"}, {"doc": "", "type":
+{"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL",
+"ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG",
+"MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
+"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type":
+"enum", "name": "TumourType"}, "name": "tumourType"}, {"doc": "",
+"type": ["null", "string"], "name": "tumourSubType"}, {"doc": "",
+"type": ["null", "string"], "name": "clinicalSampleDateTime"}, {"doc":
+"", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC_RECURRENCE",
+"RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES"], "type": "enum", "name":
 "Phase"}], "name": "phase"}, {"doc": "", "type": ["null", {"symbols":
-["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name": "Method"}],
-"name": "method"}, {"doc": "", "type": ["null", "double"], "name":
-"tumorPurity"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorContent"}, {"doc": "", "type": ["null", "string"], "name":
-"grade"}, {"doc": "", "type": ["null", "string"], "name":
-"tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
-"tmn_stage_grouping"}], "type": "record", "name": "CancerSample"},
-"type": "array"}, "name": "cancerSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples",
-"fields": [{"doc": "", "type": ["null", "string"], "name":
-"germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorSampleId"}]}, "type": "array"}, "name": "matchedSamples"}]},
-"name": "cancerParticipant"}, {"doc": "", "type": "string", "name":
-"analysisURI"}, {"doc": "", "type": "string", "name":
-"analysisVersion"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": {"fields": [{"doc": "", "type": "string", "name":
+["High", "Medium", "Low"], "type": "enum", "name": "TumourContent"}],
+"name": "tumourContent"}, {"doc": "", "type": ["null", {"symbols":
+["TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
+"BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
+"TISSUE"], "type": "enum", "name": "SampleSource"}], "name":
+"source"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE"], "type":
+"enum", "name": "PreparationMethod"}], "name": "preparationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["BMA_TUMOUR_SORTED_CELLS",
+"CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY",
+"LAPAROSCOPIC_EXCISION", "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY",
+"SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type":
+["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
+"Product"}], "name": "product"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageVersion"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageGrouping"}], "type": "record", "name":
+"TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+{"doc": "", "type": ["null", "SampleSource"], "name": "source"},
+{"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
+"type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
+["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
+{"doc": "", "type": ["null", "string"], "name":
+"clinicalSampleDateTime"}], "type": "record", "name":
+"GermlineSample"}, "type": "array"}, "name": "germlineSamples"},
+{"type": {"items": {"doc": "", "type": "record", "name":
+"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorSampleId"}]}, "type": "array"}, "name":
+"matchedSamples"}, {"doc": "", "type": "VersionControl", "name":
+"versionControl"}]}, "name": "cancerParticipant"}, {"doc": "", "type":
+"string", "name": "analysisURI"}, {"doc": "", "type": "string",
+"name": "analysisVersion"}, {"doc": "", "type": {"items": {"fields":
+[{"doc": "", "type": {"fields": [{"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
 "", "type": "string", "name": "reference"}, {"doc": "", "type":
 "string", "name": "alternate"}, {"doc": "", "type": ["null", {"items":
@@ -1120,76 +1061,108 @@ class CancerInterpretedGenome(ProtocolElement):
 
 class CancerParticipant(ProtocolElement):
     """
-    This defines a Cancer Participant (demographics and sample
-    information)
+    This defines a Cancer Demographics
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "3.0.0", "doc": "", "type": "string", "name":
-"GitVersionControl"}], "type": "record", "name": "VersionControl"},
-"name": "versionControl"}, {"doc": "", "type": {"doc": "", "type":
-"record", "name": "CancerDemographics", "fields": [{"doc": "", "type":
-"string", "name": "gelId"}, {"doc": "", "type": "string", "name":
-"center"}, {"doc": "", "type": ["null", "string"], "name":
-"centerPatientId"}, {"doc": "", "type": ["null", "string"], "name":
-"labkeyParticipantId"}, {"doc": "", "type": ["null", "string"],
-"name": "primaryDiagnosis"}, {"doc": "", "type": ["null", {"symbols":
-["M", "F"], "type": "enum", "name": "Sex"}], "name": "sex"}, {"doc":
-"", "type": {"doc": "", "type": "record", "name": "ConsentStatus",
-"fields": [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name":
-"carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalInformation"}, {"doc": "", "type": ["null", {"items":
-"string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type":
-["null", "string"], "name": "assignedICD10"}]}, "name":
-"cancerDemographics"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
-["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
-"type": "enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "",
-"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
-"string"], "name": "sampleDiagnosis"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorType"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorSubType"}, {"doc": "", "type": ["null",
-{"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA",
-"LEUK"], "type": "enum", "name": "PreservationMethod"}], "name":
-"preservationMethod"}, {"doc": "", "type": ["null", {"symbols":
-["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum", "name":
+"CancerParticipant", "fields": [{"type": "boolean", "name":
+"readyForAnalysis"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "ConsentStatus", "fields": [{"default": false, "doc": "",
+"type": "boolean", "name": "programmeConsent"}, {"default": false,
+"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
+{"default": false, "doc": "", "type": "boolean", "name":
+"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
+"boolean", "name": "carrierStatusConsent"}]}, "name":
+"consentStatus"}, {"doc": "", "type": "string", "name": "center"},
+{"doc": "", "type": "string", "name": "individualId"}, {"doc": "",
+"type": ["null", "string"], "name": "primaryDiagnosis"}, {"doc": "",
+"type": ["null", {"symbols": ["FEMALE", "MALE", "UNKNOWN"], "type":
+"enum", "name": "Sex"}], "name": "sex"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name":
+"additionalInformation"}, {"doc": "", "type": ["null", "string"],
+"name": "assignedICD10"}, {"type": {"items": {"fields": [{"doc": "",
+"type": "string", "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "labSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK",
+"OXFORD", "CLL", "IIP", "MAIN", "EXPT"], "type": "enum", "name":
+"ProgrammePhase"}], "name": "programmePhase"}, {"doc": "", "type":
+{"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL",
+"ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG",
+"MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
+"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type":
+"enum", "name": "TumourType"}, "name": "tumourType"}, {"doc": "",
+"type": ["null", "string"], "name": "tumourSubType"}, {"doc": "",
+"type": ["null", "string"], "name": "clinicalSampleDateTime"}, {"doc":
+"", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC_RECURRENCE",
+"RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES"], "type": "enum", "name":
 "Phase"}], "name": "phase"}, {"doc": "", "type": ["null", {"symbols":
-["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name": "Method"}],
-"name": "method"}, {"doc": "", "type": ["null", "double"], "name":
-"tumorPurity"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorContent"}, {"doc": "", "type": ["null", "string"], "name":
-"grade"}, {"doc": "", "type": ["null", "string"], "name":
-"tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
-"tmn_stage_grouping"}], "type": "record", "name": "CancerSample"},
-"type": "array"}, "name": "cancerSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples",
-"fields": [{"doc": "", "type": ["null", "string"], "name":
-"germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorSampleId"}]}, "type": "array"}, "name": "matchedSamples"}],
-"doc": ""}
+["High", "Medium", "Low"], "type": "enum", "name": "TumourContent"}],
+"name": "tumourContent"}, {"doc": "", "type": ["null", {"symbols":
+["TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
+"BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
+"TISSUE"], "type": "enum", "name": "SampleSource"}], "name":
+"source"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE"], "type":
+"enum", "name": "PreparationMethod"}], "name": "preparationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["BMA_TUMOUR_SORTED_CELLS",
+"CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY",
+"LAPAROSCOPIC_EXCISION", "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY",
+"SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type":
+["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
+"Product"}], "name": "product"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageVersion"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageGrouping"}], "type": "record", "name":
+"TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+{"doc": "", "type": ["null", "SampleSource"], "name": "source"},
+{"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
+"type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
+["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
+{"doc": "", "type": ["null", "string"], "name":
+"clinicalSampleDateTime"}], "type": "record", "name":
+"GermlineSample"}, "type": "array"}, "name": "germlineSamples"},
+{"type": {"items": {"doc": "", "type": "record", "name":
+"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorSampleId"}]}, "type": "array"}, "name":
+"matchedSamples"}, {"doc": "", "type": {"fields": [{"default":
+"3.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"type": "record", "name": "VersionControl"}, "name":
+"versionControl"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "cancerDemographics",
-        "cancerSamples",
+        "additionalInformation",
+        "assignedICD10",
+        "center",
+        "consentStatus",
+        "germlineSamples",
+        "individualId",
         "matchedSamples",
+        "primaryDiagnosis",
+        "readyForAnalysis",
+        "sex",
+        "tumourSamples",
         "versionControl",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'cancerDemographics': CancerDemographics,
-            'cancerSamples': CancerSample,
+            'consentStatus': ConsentStatus,
+            'germlineSamples': GermlineSample,
             'matchedSamples': MatchedSamples,
+            'tumourSamples': TumourSample,
             'versionControl': VersionControl,
         }
         return fieldName in embeddedTypes
@@ -1197,126 +1170,47 @@ false, "doc": "", "type": "boolean", "name":
     @classmethod
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
-            'cancerDemographics': CancerDemographics,
-            'cancerSamples': CancerSample,
+            'consentStatus': ConsentStatus,
+            'germlineSamples': GermlineSample,
             'matchedSamples': MatchedSamples,
+            'tumourSamples': TumourSample,
             'versionControl': VersionControl,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cancerDemographics', 'cancerSamples', 'matchedSamples',
-        'versionControl'
+        'additionalInformation', 'assignedICD10', 'center',
+        'consentStatus', 'germlineSamples', 'individualId',
+        'matchedSamples', 'primaryDiagnosis', 'readyForAnalysis',
+        'sex', 'tumourSamples', 'versionControl'
     ]
 
     def __init__(self, **kwargs):
-        self.cancerDemographics = kwargs.get(
-            'cancerDemographics', None)
-        self.cancerSamples = kwargs.get(
-            'cancerSamples', None)
+        self.additionalInformation = kwargs.get(
+            'additionalInformation', None)
+        self.assignedICD10 = kwargs.get(
+            'assignedICD10', None)
+        self.center = kwargs.get(
+            'center', 'None')
+        self.consentStatus = kwargs.get(
+            'consentStatus', None)
+        self.germlineSamples = kwargs.get(
+            'germlineSamples', None)
+        self.individualId = kwargs.get(
+            'individualId', 'None')
         self.matchedSamples = kwargs.get(
             'matchedSamples', None)
+        self.primaryDiagnosis = kwargs.get(
+            'primaryDiagnosis', None)
+        self.readyForAnalysis = kwargs.get(
+            'readyForAnalysis', None)
+        self.sex = kwargs.get(
+            'sex', None)
+        self.tumourSamples = kwargs.get(
+            'tumourSamples', None)
         self.versionControl = kwargs.get(
             'versionControl', None)
-
-
-class CancerSample(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"CancerSample", "fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": ["null", "string"], "name": "labId"},
-{"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
-"IIP", "MAIN", "EXPT"], "type": "enum", "name": "GelPhase"}], "name":
-"gelPhase"}, {"doc": "", "type": {"symbols": ["germline", "tumor"],
-"type": "enum", "name": "SampleType"}, "name": "sampleType"}, {"doc":
-"", "type": ["null", "string"], "name": "sampleDiagnosis"}, {"doc":
-"", "type": ["null", "string"], "name": "tumorType"}, {"doc": "",
-"type": ["null", "string"], "name": "tumorSubType"}, {"doc": "",
-"type": ["null", {"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL",
-"SALIVA", "LEUK"], "type": "enum", "name": "PreservationMethod"}],
-"name": "preservationMethod"}, {"doc": "", "type": ["null",
-{"symbols": ["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum",
-"name": "Phase"}], "name": "phase"}, {"doc": "", "type": ["null",
-{"symbols": ["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name":
-"Method"}], "name": "method"}, {"doc": "", "type": ["null", "double"],
-"name": "tumorPurity"}, {"doc": "", "type": ["null", "string"],
-"name": "tumorContent"}, {"doc": "", "type": ["null", "string"],
-"name": "grade"}, {"doc": "", "type": ["null", "string"], "name":
-"tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
-"tmn_stage_grouping"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "gelPhase",
-        "grade",
-        "labId",
-        "method",
-        "phase",
-        "preservationMethod",
-        "sampleDiagnosis",
-        "sampleId",
-        "sampleType",
-        "tmn_stage_grouping",
-        "tnm_stage_version",
-        "tumorContent",
-        "tumorPurity",
-        "tumorSubType",
-        "tumorType",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'gelPhase', 'grade', 'labId', 'method', 'phase',
-        'preservationMethod', 'sampleDiagnosis', 'sampleId',
-        'sampleType', 'tmn_stage_grouping', 'tnm_stage_version',
-        'tumorContent', 'tumorPurity', 'tumorSubType', 'tumorType'
-    ]
-
-    def __init__(self, **kwargs):
-        self.gelPhase = kwargs.get(
-            'gelPhase', None)
-        self.grade = kwargs.get(
-            'grade', None)
-        self.labId = kwargs.get(
-            'labId', None)
-        self.method = kwargs.get(
-            'method', None)
-        self.phase = kwargs.get(
-            'phase', None)
-        self.preservationMethod = kwargs.get(
-            'preservationMethod', None)
-        self.sampleDiagnosis = kwargs.get(
-            'sampleDiagnosis', None)
-        self.sampleId = kwargs.get(
-            'sampleId', 'None')
-        self.sampleType = kwargs.get(
-            'sampleType', None)
-        self.tmn_stage_grouping = kwargs.get(
-            'tmn_stage_grouping', None)
-        self.tnm_stage_version = kwargs.get(
-            'tnm_stage_version', None)
-        self.tumorContent = kwargs.get(
-            'tumorContent', None)
-        self.tumorPurity = kwargs.get(
-            'tumorPurity', None)
-        self.tumorSubType = kwargs.get(
-            'tumorSubType', None)
-        self.tumorType = kwargs.get(
-            'tumorType', None)
 
 
 class CancerSummaryMetrics(ProtocolElement):
@@ -1598,55 +1492,79 @@ class ClinicalReportCancer(ProtocolElement):
 "type": {"values": {"items": {"values": "string", "type": "map"},
 "type": "array"}, "type": "map"}, "name": "genePanelsCoverage"},
 {"type": {"doc": "", "type": "record", "name": "CancerParticipant",
-"fields": [{"doc": "", "type": {"fields": [{"default": "3.0.0", "doc":
-"", "type": "string", "name": "GitVersionControl"}], "type": "record",
-"name": "VersionControl"}, "name": "versionControl"}, {"doc": "",
-"type": {"doc": "", "type": "record", "name": "CancerDemographics",
-"fields": [{"doc": "", "type": "string", "name": "gelId"}, {"doc": "",
-"type": "string", "name": "center"}, {"doc": "", "type": ["null",
-"string"], "name": "centerPatientId"}, {"doc": "", "type": ["null",
-"string"], "name": "labkeyParticipantId"}, {"doc": "", "type":
-["null", "string"], "name": "primaryDiagnosis"}, {"doc": "", "type":
-["null", {"symbols": ["M", "F"], "type": "enum", "name": "Sex"}],
-"name": "sex"}, {"doc": "", "type": {"doc": "", "type": "record",
-"name": "ConsentStatus", "fields": [{"default": false, "doc": "",
-"type": "boolean", "name": "programmeConsent"}, {"default": false,
-"doc": "", "type": "boolean", "name": "primaryFindingConsent"},
-{"default": false, "doc": "", "type": "boolean", "name":
-"secondaryFindingConsent"}, {"default": false, "doc": "", "type":
-"boolean", "name": "carrierStatusConsent"}]}, "name":
-"consentStatus"}, {"doc": "", "type": ["null", {"values": "string",
+"fields": [{"type": "boolean", "name": "readyForAnalysis"}, {"doc":
+"", "type": {"doc": "", "type": "record", "name": "ConsentStatus",
+"fields": [{"default": false, "doc": "", "type": "boolean", "name":
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
+"name": "primaryFindingConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name":
+"carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
+"type": "string", "name": "center"}, {"doc": "", "type": "string",
+"name": "individualId"}, {"doc": "", "type": ["null", "string"],
+"name": "primaryDiagnosis"}, {"doc": "", "type": ["null", {"symbols":
+["FEMALE", "MALE", "UNKNOWN"], "type": "enum", "name": "Sex"}],
+"name": "sex"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "additionalInformation"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": ["null", "string"], "name": "assignedICD10"}]},
-"name": "cancerDemographics"}, {"doc": "", "type": {"items":
+["null", "string"], "name": "assignedICD10"}, {"type": {"items":
 {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": ["null", "string"], "name": "labId"}, {"doc": "", "type":
-["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
-"type": "enum", "name": "GelPhase"}], "name": "gelPhase"}, {"doc": "",
-"type": {"symbols": ["germline", "tumor"], "type": "enum", "name":
-"SampleType"}, "name": "sampleType"}, {"doc": "", "type": ["null",
-"string"], "name": "sampleDiagnosis"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorType"}, {"doc": "", "type": ["null",
-"string"], "name": "tumorSubType"}, {"doc": "", "type": ["null",
-{"symbols": ["FFPE", "FF", "UNKNOWN", "BLOOD", "GL", "SALIVA",
-"LEUK"], "type": "enum", "name": "PreservationMethod"}], "name":
-"preservationMethod"}, {"doc": "", "type": ["null", {"symbols":
-["PRIMARY", "METASTATIC", "RECURRENCE"], "type": "enum", "name":
+"", "type": "string", "name": "labSampleId"}, {"doc": "", "type":
+["null", "string"], "name": "tumourId"}, {"doc": "", "type": ["null",
+{"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"], "type":
+"enum", "name": "ProgrammePhase"}], "name": "programmePhase"}, {"doc":
+"", "type": {"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL",
+"ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG",
+"MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
+"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type":
+"enum", "name": "TumourType"}, "name": "tumourType"}, {"doc": "",
+"type": ["null", "string"], "name": "tumourSubType"}, {"doc": "",
+"type": ["null", "string"], "name": "clinicalSampleDateTime"}, {"doc":
+"", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC_RECURRENCE",
+"RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES"], "type": "enum", "name":
 "Phase"}], "name": "phase"}, {"doc": "", "type": ["null", {"symbols":
-["RESECTION", "BIOPSY", "BLOOD"], "type": "enum", "name": "Method"}],
-"name": "method"}, {"doc": "", "type": ["null", "double"], "name":
-"tumorPurity"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorContent"}, {"doc": "", "type": ["null", "string"], "name":
-"grade"}, {"doc": "", "type": ["null", "string"], "name":
-"tnm_stage_version"}, {"doc": "", "type": ["null", "string"], "name":
-"tmn_stage_grouping"}], "type": "record", "name": "CancerSample"},
-"type": "array"}, "name": "cancerSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples",
-"fields": [{"doc": "", "type": ["null", "string"], "name":
-"germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumorSampleId"}]}, "type": "array"}, "name": "matchedSamples"}]},
-"name": "cancerParticipant"}]}
+["High", "Medium", "Low"], "type": "enum", "name": "TumourContent"}],
+"name": "tumourContent"}, {"doc": "", "type": ["null", {"symbols":
+["TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
+"BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
+"TISSUE"], "type": "enum", "name": "SampleSource"}], "name":
+"source"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE"], "type":
+"enum", "name": "PreparationMethod"}], "name": "preparationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["BMA_TUMOUR_SORTED_CELLS",
+"CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY",
+"LAPAROSCOPIC_EXCISION", "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY",
+"SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type":
+["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
+"Product"}], "name": "product"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageVersion"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageGrouping"}], "type": "record", "name":
+"TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+{"doc": "", "type": ["null", "SampleSource"], "name": "source"},
+{"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
+"type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
+["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
+{"doc": "", "type": ["null", "string"], "name":
+"clinicalSampleDateTime"}], "type": "record", "name":
+"GermlineSample"}, "type": "array"}, "name": "germlineSamples"},
+{"type": {"items": {"doc": "", "type": "record", "name":
+"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
+"name": "tumorSampleId"}]}, "type": "array"}, "name":
+"matchedSamples"}, {"doc": "", "type": {"fields": [{"default":
+"3.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
+"type": "record", "name": "VersionControl"}, "name":
+"versionControl"}]}, "name": "cancerParticipant"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -2342,6 +2260,18 @@ class FamilyLevelQuestions(ProtocolElement):
             'segregationQuestion', None)
 
 
+class FamilyQCState(object):
+    """
+    FamilyQCState
+    """
+    noState = "noState"
+    passedMedicalReviewReadyForInterpretation = "passedMedicalReviewReadyForInterpretation"
+    passedMedicalReviewNotReadyForInterpretation = "passedMedicalReviewNotReadyForInterpretation"
+    queryToGel = "queryToGel"
+    queryToGMC = "queryToGMC"
+    failed = "failed"
+
+
 class FeatureTypes(object):
     """
     No documentation
@@ -2532,18 +2462,6 @@ class GelMetrics(ProtocolElement):
             'perc_bases_ge_15x_mapQ_ge11', None)
 
 
-class GelPhase(object):
-    """
-    No documentation
-    """
-    CRUK = "CRUK"
-    OXFORD = "OXFORD"
-    CLL = "CLL"
-    IIP = "IIP"
-    MAIN = "MAIN"
-    EXPT = "EXPT"
-
-
 class GenomicFeature(ProtocolElement):
     """
     No documentation
@@ -2646,6 +2564,77 @@ class GenomicFeatureCancer(ProtocolElement):
             'roleInCancer', None)
 
 
+class GermlineSample(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+{"doc": "", "type": ["null", {"symbols": ["TUMOUR",
+"BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
+"BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
+"TISSUE"], "type": "enum", "name": "SampleSource"}], "name":
+"source"}, {"doc": "", "type": ["null", "string"], "name": "method"},
+{"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type":
+"enum", "name": "Product"}], "name": "product"}, {"doc": "", "type":
+["null", {"symbols": ["EDTA", "ORAGENE", "FF", "FFPE",
+"CD128_SORTED_CELLS", "ASPIRATE"], "type": "enum", "name":
+"PreparationMethod"}], "name": "preparationMethod"}, {"doc": "",
+"type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN",
+"EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name":
+"programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
+"clinicalSampleDateTime"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "clinicalSampleDateTime",
+        "labSampleId",
+        "method",
+        "preparationMethod",
+        "product",
+        "programmePhase",
+        "sampleId",
+        "source",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'clinicalSampleDateTime', 'labSampleId', 'method',
+        'preparationMethod', 'product', 'programmePhase', 'sampleId',
+        'source'
+    ]
+
+    def __init__(self, **kwargs):
+        self.clinicalSampleDateTime = kwargs.get(
+            'clinicalSampleDateTime', None)
+        self.labSampleId = kwargs.get(
+            'labSampleId', 'None')
+        self.method = kwargs.get(
+            'method', None)
+        self.preparationMethod = kwargs.get(
+            'preparationMethod', None)
+        self.product = kwargs.get(
+            'product', None)
+        self.programmePhase = kwargs.get(
+            'programmePhase', None)
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
+        self.source = kwargs.get(
+            'source', None)
+
+
 class HpoTerm(ProtocolElement):
     """
     This defines an HPO term and its modifiers (possibly multiple) If
@@ -2655,6 +2644,7 @@ class HpoTerm(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "HpoTerm", "fields": [{"doc": "", "type": "string", "name": "term"},
 {"doc": "", "type": ["null", "boolean"], "name": "termPresence"},
+{"doc": "", "type": ["null", "string"], "name": "hpoBuildNumber"},
 {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "modifiers"}, {"doc": "", "type": ["null", "string"], "name":
 "ageOfOnset"}], "doc": ""}
@@ -2662,6 +2652,7 @@ class HpoTerm(ProtocolElement):
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "ageOfOnset",
+        "hpoBuildNumber",
         "modifiers",
         "term",
         "termPresence",
@@ -2679,12 +2670,15 @@ class HpoTerm(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ageOfOnset', 'modifiers', 'term', 'termPresence'
+        'ageOfOnset', 'hpoBuildNumber', 'modifiers', 'term',
+        'termPresence'
     ]
 
     def __init__(self, **kwargs):
         self.ageOfOnset = kwargs.get(
             'ageOfOnset', None)
+        self.hpoBuildNumber = kwargs.get(
+            'hpoBuildNumber', None)
         self.modifiers = kwargs.get(
             'modifiers', None)
         self.term = kwargs.get(
@@ -5993,35 +5987,37 @@ class InterpretationData(ProtocolElement):
 "name": "otherFiles"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "Pedigree", "fields": [{"doc": "", "type":
 "VersionControl", "name": "versionControl"}, {"doc": "", "type":
-"string", "name": "gelFamilyId"}, {"type": {"items": {"doc": "",
-"type": "record", "name": "RDParticipant", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "int", "name": "pedigreeId"}, {"doc": "", "type": "boolean",
-"name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
-{"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["male", "female", "unknown",
-"undetermined"], "doc": "", "type": "enum", "name": "Sex"}, "name":
-"sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
-"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
-"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
-"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
-{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
-"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
-"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
-"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
-"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
-"", "type": "enum", "name": "AdoptedStatus"}, "name":
-"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
-"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
-"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
-"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
-"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
+"string", "name": "familyId"}, {"type": {"items": {"doc": "", "type":
+"record", "name": "PedigreeMember", "fields": [{"doc": "", "type":
+"int", "name": "pedigreeId"}, {"doc": "", "type": "boolean", "name":
+"isProband"}, {"doc": "", "type": ["null", "string"], "name":
+"participantId"}, {"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -6031,7 +6027,8 @@ class InterpretationData(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
@@ -6061,51 +6058,64 @@ class InterpretationData(ProtocolElement):
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}, {"type": ["null", {"items":
-{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
-"string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}, {"type": "string", "name": "review_outcome"},
-{"type": "string", "name": "multiple_genetic_origins"}], "type":
-"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
-"string", "name": "specificDisease"}, {"type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
-"DiseasePenetrance"}, "type": "array"}], "name":
-"diseasePenetrances"}]}, "name": "pedigree"}, {"doc": "", "type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
-"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
-"", "type": "string", "name": "reference"}, {"doc": "", "type":
-"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
-"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
-"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "sampleId"}, {"doc": "", "type": {"symbols":
-["reference_homozygous", "heterozygous", "alternate_homozygous",
-"missing", "half_missing_reference", "half_missing_alternate",
-"alternate_hemizigous", "reference_hemizigous", "unk"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "genotype"}, {"doc": "",
-"type": ["null", "int"], "name": "phaseSet"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
-"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
-"string", "name": "phenotype"}, {"doc": "", "type": ["null",
-"string"], "name": "panelName"}, {"doc": "", "type": ["null",
-"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name": "members"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multipleGeneticOrigins"}], "type": "record", "name":
+"AnalysisPanel"}, "type": "array"}], "name": "analysisPanels"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}], "type": "record", "name": "DiseasePenetrance"},
+"type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
+"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null",
+"string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
+"position"}, {"doc": "", "type": "string", "name": "reference"},
+{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference",
+"half_missing_alternate", "alternate_hemizigous",
+"reference_hemizigous", "unk"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "genotype"}, {"doc": "", "type": ["null", "int"],
+"name": "phaseSet"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": "string", "name":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -6249,35 +6259,37 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "type": "map"}], "name": "otherFiles"}, {"doc": "", "type": {"doc":
 "", "type": "record", "name": "Pedigree", "fields": [{"doc": "",
 "type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "string", "name": "gelFamilyId"}, {"type": {"items": {"doc":
-"", "type": "record", "name": "RDParticipant", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
+"type": "string", "name": "familyId"}, {"type": {"items": {"doc": "",
+"type": "record", "name": "PedigreeMember", "fields": [{"doc": "",
 "type": "int", "name": "pedigreeId"}, {"doc": "", "type": "boolean",
 "name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
-{"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["male", "female", "unknown",
-"undetermined"], "doc": "", "type": "enum", "name": "Sex"}, "name":
-"sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
-"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
-"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
-"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
-{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
-"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
-"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
-"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
-"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
-"", "type": "enum", "name": "AdoptedStatus"}, "name":
-"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
-"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
-"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
-"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
-"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
+"participantId"}, {"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -6287,7 +6299,8 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
@@ -6317,51 +6330,64 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}, {"type": ["null", {"items":
-{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
-"string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}, {"type": "string", "name": "review_outcome"},
-{"type": "string", "name": "multiple_genetic_origins"}], "type":
-"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
-"string", "name": "specificDisease"}, {"type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
-"DiseasePenetrance"}, "type": "array"}], "name":
-"diseasePenetrances"}]}, "name": "pedigree"}, {"doc": "", "type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
-"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
-"", "type": "string", "name": "reference"}, {"doc": "", "type":
-"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
-"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
-"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "sampleId"}, {"doc": "", "type": {"symbols":
-["reference_homozygous", "heterozygous", "alternate_homozygous",
-"missing", "half_missing_reference", "half_missing_alternate",
-"alternate_hemizigous", "reference_hemizigous", "unk"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "genotype"}, {"doc": "",
-"type": ["null", "int"], "name": "phaseSet"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
-"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
-"string", "name": "phenotype"}, {"doc": "", "type": ["null",
-"string"], "name": "panelName"}, {"doc": "", "type": ["null",
-"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name": "members"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multipleGeneticOrigins"}], "type": "record", "name":
+"AnalysisPanel"}, "type": "array"}], "name": "analysisPanels"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}], "type": "record", "name": "DiseasePenetrance"},
+"type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
+"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null",
+"string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
+"position"}, {"doc": "", "type": "string", "name": "reference"},
+{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference",
+"half_missing_alternate", "alternate_hemizigous",
+"reference_hemizigous", "unk"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "genotype"}, {"doc": "", "type": ["null", "int"],
+"name": "phaseSet"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": "string", "name":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -6727,12 +6753,12 @@ class LifeStatus(object):
     """
     Life Status
     """
-    alive = "alive"
-    aborted = "aborted"
-    deceased = "deceased"
-    unborn = "unborn"
-    stillborn = "stillborn"
-    miscarriage = "miscarriage"
+    ALIVE = "ALIVE"
+    ABORTED = "ABORTED"
+    DECEASED = "DECEASED"
+    UNBORN = "UNBORN"
+    STILLBORN = "STILLBORN"
+    MISCARRIAGE = "MISCARRIAGE"
 
 
 class Machine(ProtocolElement):
@@ -7006,6 +7032,18 @@ class OtherFamilyHistory(ProtocolElement):
             'paternalFamilyHistory', None)
 
 
+class ParticipantQCState(object):
+    """
+    QCState Status
+    """
+    noState = "noState"
+    passedMedicalReviewReadyForInterpretation = "passedMedicalReviewReadyForInterpretation"
+    passedMedicalReviewNotReadyForInterpretation = "passedMedicalReviewNotReadyForInterpretation"
+    queryToGel = "queryToGel"
+    queryToGMC = "queryToGMC"
+    failed = "failed"
+
+
 class Pedigree(ProtocolElement):
     """
     This is the concept of a family with associated phenotypes as
@@ -7016,36 +7054,38 @@ class Pedigree(ProtocolElement):
 "Pedigree", "fields": [{"doc": "", "type": {"fields": [{"default":
 "3.0.0", "doc": "", "type": "string", "name": "GitVersionControl"}],
 "type": "record", "name": "VersionControl"}, "name":
-"versionControl"}, {"doc": "", "type": "string", "name":
-"gelFamilyId"}, {"type": {"items": {"doc": "", "type": "record",
-"name": "RDParticipant", "fields": [{"doc": "", "type":
-"VersionControl", "name": "versionControl"}, {"doc": "", "type":
-"int", "name": "pedigreeId"}, {"doc": "", "type": "boolean", "name":
-"isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
-{"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["male", "female", "unknown",
-"undetermined"], "doc": "", "type": "enum", "name": "Sex"}, "name":
-"sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
-"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
-"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
-"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
-{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
-"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
-"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
-"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
-"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
-"", "type": "enum", "name": "AdoptedStatus"}, "name":
-"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
-"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
-"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
-"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
-"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
+"versionControl"}, {"doc": "", "type": "string", "name": "familyId"},
+{"type": {"items": {"doc": "", "type": "record", "name":
+"PedigreeMember", "fields": [{"doc": "", "type": "int", "name":
+"pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
+{"doc": "", "type": ["null", "string"], "name": "participantId"},
+{"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -7055,7 +7095,8 @@ class Pedigree(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
@@ -7085,35 +7126,50 @@ class Pedigree(ProtocolElement):
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}, {"type": ["null", {"items":
-{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
-"string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}, {"type": "string", "name": "review_outcome"},
-{"type": "string", "name": "multiple_genetic_origins"}], "type":
-"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
-"string", "name": "specificDisease"}, {"type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
-"DiseasePenetrance"}, "type": "array"}], "name":
-"diseasePenetrances"}], "doc": ""}
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name": "members"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multipleGeneticOrigins"}], "type": "record", "name":
+"AnalysisPanel"}, "type": "array"}], "name": "analysisPanels"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}], "type": "record", "name": "DiseasePenetrance"},
+"type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
+"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"FamilyQCState"}, "name": "familyQCState"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "analysisPanels",
         "diseasePenetrances",
-        "gelFamilyId",
-        "participants",
+        "familyId",
+        "familyQCState",
+        "members",
+        "readyForAnalysis",
         "versionControl",
     }
 
@@ -7122,7 +7178,7 @@ false, "doc": "", "type": "boolean", "name":
         embeddedTypes = {
             'analysisPanels': AnalysisPanel,
             'diseasePenetrances': DiseasePenetrance,
-            'participants': RDParticipant,
+            'members': PedigreeMember,
             'versionControl': VersionControl,
         }
         return fieldName in embeddedTypes
@@ -7132,15 +7188,16 @@ false, "doc": "", "type": "boolean", "name":
         embeddedTypes = {
             'analysisPanels': AnalysisPanel,
             'diseasePenetrances': DiseasePenetrance,
-            'participants': RDParticipant,
+            'members': PedigreeMember,
             'versionControl': VersionControl,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'analysisPanels', 'diseasePenetrances', 'gelFamilyId',
-        'participants', 'versionControl'
+        'analysisPanels', 'diseasePenetrances', 'familyId',
+        'familyQCState', 'members', 'readyForAnalysis',
+        'versionControl'
     ]
 
     def __init__(self, **kwargs):
@@ -7148,12 +7205,231 @@ false, "doc": "", "type": "boolean", "name":
             'analysisPanels', None)
         self.diseasePenetrances = kwargs.get(
             'diseasePenetrances', None)
-        self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
-        self.participants = kwargs.get(
-            'participants', None)
+        self.familyId = kwargs.get(
+            'familyId', 'None')
+        self.familyQCState = kwargs.get(
+            'familyQCState', None)
+        self.members = kwargs.get(
+            'members', None)
+        self.readyForAnalysis = kwargs.get(
+            'readyForAnalysis', None)
         self.versionControl = kwargs.get(
             'versionControl', None)
+
+
+class PedigreeMember(ProtocolElement):
+    """
+    This defines a RD Participant (demographics and pedigree
+    information)
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"PedigreeMember", "fields": [{"doc": "", "type": "int", "name":
+"pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
+{"doc": "", "type": ["null", "string"], "name": "participantId"},
+{"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
+"affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
+"string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
+"string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
+"name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
+"string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
+"hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "Ancestries", "fields": [{"doc": "", "type": ["null",
+{"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H",
+"J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum", "name":
+"EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc": "",
+"type": ["null", "string"], "name": "mothersOtherRelevantAncestry"},
+{"doc": "", "type": ["null", "EthnicCategory"], "name":
+"fathersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
+"name": "fathersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name":
+"ChiSquare1KGenomesPhase3Pop", "fields": [{"doc": "", "type":
+{"symbols": ["AFR", "AMR", "EAS", "EUR", "SAS"], "doc": "", "type":
+"enum", "name": "KGSuperPopCategory"}, "name": "kGSuperPopCategory"},
+{"doc": "", "type": ["null", {"symbols": ["ACB", "ASW", "BEB", "CDX",
+"CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS",
+"ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU",
+"TSI", "YRI"], "doc": "", "type": "enum", "name": "KGPopCategory"}],
+"name": "kGPopCategory"}, {"doc": "", "type": "float", "name":
+"chiSquare"}]}, "type": "array"}], "name":
+"chiSquare1KGenomesPhase3Pop"}]}, "name": "ancestries"}, {"doc": "",
+"type": {"doc": "", "type": "record", "name": "ConsentStatus",
+"fields": [{"default": false, "doc": "", "type": "boolean", "name":
+"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
+"name": "primaryFindingConsent"}, {"default": false, "doc": "",
+"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
+false, "doc": "", "type": "boolean", "name":
+"carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalInformation",
+        "adoptedStatus",
+        "affectionStatus",
+        "ancestries",
+        "consanguineousParents",
+        "consentStatus",
+        "disorderList",
+        "fatherId",
+        "gelSuperFamilyId",
+        "hpoTermList",
+        "inbreedingCoefficient",
+        "isProband",
+        "lifeStatus",
+        "monozygotic",
+        "motherId",
+        "participantId",
+        "participantQCState",
+        "pedigreeId",
+        "personKaryotipicSex",
+        "samples",
+        "sex",
+        "superFatherId",
+        "superMotherId",
+        "twinGroup",
+        "yearOfBirth",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'ancestries': Ancestries,
+            'consentStatus': ConsentStatus,
+            'disorderList': Disorder,
+            'hpoTermList': HpoTerm,
+            'inbreedingCoefficient': InbreedingCoefficient,
+            'samples': Sample,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'ancestries': Ancestries,
+            'consentStatus': ConsentStatus,
+            'disorderList': Disorder,
+            'hpoTermList': HpoTerm,
+            'inbreedingCoefficient': InbreedingCoefficient,
+            'samples': Sample,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalInformation', 'adoptedStatus', 'affectionStatus',
+        'ancestries', 'consanguineousParents', 'consentStatus',
+        'disorderList', 'fatherId', 'gelSuperFamilyId', 'hpoTermList',
+        'inbreedingCoefficient', 'isProband', 'lifeStatus',
+        'monozygotic', 'motherId', 'participantId',
+        'participantQCState', 'pedigreeId', 'personKaryotipicSex',
+        'samples', 'sex', 'superFatherId', 'superMotherId',
+        'twinGroup', 'yearOfBirth'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalInformation = kwargs.get(
+            'additionalInformation', None)
+        self.adoptedStatus = kwargs.get(
+            'adoptedStatus', None)
+        self.affectionStatus = kwargs.get(
+            'affectionStatus', None)
+        self.ancestries = kwargs.get(
+            'ancestries', None)
+        self.consanguineousParents = kwargs.get(
+            'consanguineousParents', None)
+        self.consentStatus = kwargs.get(
+            'consentStatus', None)
+        self.disorderList = kwargs.get(
+            'disorderList', None)
+        self.fatherId = kwargs.get(
+            'fatherId', None)
+        self.gelSuperFamilyId = kwargs.get(
+            'gelSuperFamilyId', None)
+        self.hpoTermList = kwargs.get(
+            'hpoTermList', None)
+        self.inbreedingCoefficient = kwargs.get(
+            'inbreedingCoefficient', None)
+        self.isProband = kwargs.get(
+            'isProband', None)
+        self.lifeStatus = kwargs.get(
+            'lifeStatus', None)
+        self.monozygotic = kwargs.get(
+            'monozygotic', None)
+        self.motherId = kwargs.get(
+            'motherId', None)
+        self.participantId = kwargs.get(
+            'participantId', None)
+        self.participantQCState = kwargs.get(
+            'participantQCState', None)
+        self.pedigreeId = kwargs.get(
+            'pedigreeId', None)
+        self.personKaryotipicSex = kwargs.get(
+            'personKaryotipicSex', None)
+        self.samples = kwargs.get(
+            'samples', None)
+        self.sex = kwargs.get(
+            'sex', None)
+        self.superFatherId = kwargs.get(
+            'superFatherId', None)
+        self.superMotherId = kwargs.get(
+            'superMotherId', None)
+        self.twinGroup = kwargs.get(
+            'twinGroup', None)
+        self.yearOfBirth = kwargs.get(
+            'yearOfBirth', None)
 
 
 class Penetrance(object):
@@ -7168,7 +7444,7 @@ class PersonKaryotipicSex(object):
     """
     Karyotipic Sex
     """
-    unknown = "unknown"
+    UNKNOWN = "UNKNOWN"
     XX = "XX"
     XY = "XY"
     XO = "XO"
@@ -7178,7 +7454,7 @@ class PersonKaryotipicSex(object):
     XXXY = "XXXY"
     XXXX = "XXXX"
     XYY = "XYY"
-    other = "other"
+    OTHER = "OTHER"
 
 
 class Phase(object):
@@ -7186,8 +7462,9 @@ class Phase(object):
     No documentation
     """
     PRIMARY = "PRIMARY"
-    METASTATIC = "METASTATIC"
-    RECURRENCE = "RECURRENCE"
+    METASTATIC_RECURRENCE = "METASTATIC_RECURRENCE"
+    RECURRENCE_OF_PRIMARY_TUMOUR = "RECURRENCE_OF_PRIMARY_TUMOUR"
+    METASTASES = "METASTASES"
 
 
 class PhenotypesSolved(object):
@@ -7306,17 +7583,33 @@ class PlinkSexCheck(ProtocolElement):
             'YCOUNT', None)
 
 
-class PreservationMethod(object):
+class PreparationMethod(object):
     """
     No documentation
     """
-    FFPE = "FFPE"
+    EDTA = "EDTA"
+    ORAGENE = "ORAGENE"
     FF = "FF"
-    UNKNOWN = "UNKNOWN"
-    BLOOD = "BLOOD"
-    GL = "GL"
-    SALIVA = "SALIVA"
-    LEUK = "LEUK"
+
+
+class Product(object):
+    """
+    No documentation
+    """
+    DNA = "DNA"
+    RNA = "RNA"
+
+
+class ProgrammePhase(object):
+    """
+    No documentation
+    """
+    CRUK = "CRUK"
+    OXFORD = "OXFORD"
+    CLL = "CLL"
+    IIP = "IIP"
+    MAIN = "MAIN"
+    EXPT = "EXPT"
 
 
 class RDFamilyChange(ProtocolElement):
@@ -7336,35 +7629,37 @@ class RDFamilyChange(ProtocolElement):
 "type": {"fields": [{"default": "3.0.0", "doc": "", "type": "string",
 "name": "GitVersionControl"}], "type": "record", "name":
 "VersionControl"}, "name": "versionControl"}, {"doc": "", "type":
-"string", "name": "gelFamilyId"}, {"type": {"items": {"doc": "",
-"type": "record", "name": "RDParticipant", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "int", "name": "pedigreeId"}, {"doc": "", "type": "boolean",
-"name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
-{"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["male", "female", "unknown",
-"undetermined"], "doc": "", "type": "enum", "name": "Sex"}, "name":
-"sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
-"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
-"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
-"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
-{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
-"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
-"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
-"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
-"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
-"", "type": "enum", "name": "AdoptedStatus"}, "name":
-"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
-"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
-"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
-"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
-"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
+"string", "name": "familyId"}, {"type": {"items": {"doc": "", "type":
+"record", "name": "PedigreeMember", "fields": [{"doc": "", "type":
+"int", "name": "pedigreeId"}, {"doc": "", "type": "boolean", "name":
+"isProband"}, {"doc": "", "type": ["null", "string"], "name":
+"participantId"}, {"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -7374,7 +7669,8 @@ class RDFamilyChange(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
@@ -7404,28 +7700,41 @@ class RDFamilyChange(ProtocolElement):
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}, {"type": ["null", {"items":
-{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
-"string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}, {"type": "string", "name": "review_outcome"},
-{"type": "string", "name": "multiple_genetic_origins"}], "type":
-"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
-"string", "name": "specificDisease"}, {"type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
-"DiseasePenetrance"}, "type": "array"}], "name":
-"diseasePenetrances"}]}, "name": "Family"}]}
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name": "members"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multipleGeneticOrigins"}], "type": "record", "name":
+"AnalysisPanel"}, "type": "array"}], "name": "analysisPanels"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}], "type": "record", "name": "DiseasePenetrance"},
+"type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
+"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"FamilyQCState"}, "name": "familyQCState"}]}, "name": "Family"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -7488,218 +7797,6 @@ class RDFamilyChangeCode(object):
     PanelAssignmentChanged = "PanelAssignmentChanged"
     SexChanged = "SexChanged"
     SampleChanged = "SampleChanged"
-
-
-class RDParticipant(ProtocolElement):
-    """
-    This defines a RD Participant (demographics and pedigree
-    information)
-    """
-    _schemaSource = """
-{"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"RDParticipant", "fields": [{"doc": "", "type": {"fields":
-[{"default": "3.0.0", "doc": "", "type": "string", "name":
-"GitVersionControl"}], "type": "record", "name": "VersionControl"},
-"name": "versionControl"}, {"doc": "", "type": "int", "name":
-"pedigreeId"}, {"doc": "", "type": "boolean", "name": "isProband"},
-{"doc": "", "type": ["null", "string"], "name": "gelId"}, {"doc": "",
-"type": "string", "name": "gelFamilyId"}, {"doc": "", "type": ["null",
-"string"], "name": "gelSuperFamilyId"}, {"doc": "", "type":
-{"symbols": ["male", "female", "unknown", "undetermined"], "doc": "",
-"type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type":
-["null", {"symbols": ["unknown", "XX", "XY", "XO", "XXY", "XXX",
-"XXYY", "XXXY", "XXXX", "XYY", "other"], "doc": "", "type": "enum",
-"name": "PersonKaryotipicSex"}], "name": "personKaryotipicSex"},
-{"doc": "", "type": ["null", "string"], "name": "yearOfBirth"},
-{"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
-"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type":
-["null", "int"], "name": "superFatherId"}, {"doc": "", "type":
-["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
-["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null",
-{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
-"name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "", "type":
-{"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc": "",
-"type": "enum", "name": "AdoptedStatus"}, "name": "adoptedStatus"},
-{"doc": "", "type": {"symbols": ["alive", "aborted", "deceased",
-"unborn", "stillborn", "miscarriage"], "doc": "", "type": "enum",
-"name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
-"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
-["null", "string"], "name": "consanguineousPopulation"}, {"doc": "",
-"type": {"symbols": ["unaffected", "affected", "unknown"], "doc": "",
-"type": "enum", "name": "AffectionStatus"}, "name":
-"affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
-"string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
-"string"], "name": "diseaseSubGroup"}, {"doc": "", "type": ["null",
-"string"], "name": "specificDisease"}, {"doc": "", "type": ["null",
-"string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
-"disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
-"name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
-"string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
-"hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
-"name": "Ancestries", "fields": [{"doc": "", "type": ["null",
-{"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H",
-"J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum", "name":
-"EthnicCategory"}], "name": "mothersEthnicOrigin"}, {"doc": "",
-"type": ["null", "string"], "name": "mothersOtherRelevantAncestry"},
-{"doc": "", "type": ["null", "EthnicCategory"], "name":
-"fathersEthnicOrigin"}, {"doc": "", "type": ["null", "string"],
-"name": "fathersOtherRelevantAncestry"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name":
-"ChiSquare1KGenomesPhase3Pop", "fields": [{"doc": "", "type":
-{"symbols": ["AFR", "AMR", "EAS", "EUR", "SAS"], "doc": "", "type":
-"enum", "name": "KGSuperPopCategory"}, "name": "kGSuperPopCategory"},
-{"doc": "", "type": ["null", {"symbols": ["ACB", "ASW", "BEB", "CDX",
-"CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS",
-"ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU",
-"TSI", "YRI"], "doc": "", "type": "enum", "name": "KGPopCategory"}],
-"name": "kGPopCategory"}, {"doc": "", "type": "float", "name":
-"chiSquare"}]}, "type": "array"}], "name":
-"chiSquare1KGenomesPhase3Pop"}]}, "name": "ancestries"}, {"doc": "",
-"type": {"doc": "", "type": "record", "name": "ConsentStatus",
-"fields": [{"default": false, "doc": "", "type": "boolean", "name":
-"programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "",
-"type": "boolean", "name": "secondaryFindingConsent"}, {"default":
-false, "doc": "", "type": "boolean", "name":
-"carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}], "doc":
-""}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "additionalInformation",
-        "adoptedStatus",
-        "affectionStatus",
-        "ancestries",
-        "consanguineousParents",
-        "consanguineousPopulation",
-        "consentStatus",
-        "disorderList",
-        "fatherId",
-        "gelFamilyId",
-        "gelId",
-        "gelSuperFamilyId",
-        "hpoTermList",
-        "inbreedingCoefficient",
-        "isProband",
-        "lifeStatus",
-        "monozygotic",
-        "motherId",
-        "pedigreeId",
-        "personKaryotipicSex",
-        "samples",
-        "sex",
-        "superFatherId",
-        "superMotherId",
-        "twinGroup",
-        "versionControl",
-        "yearOfBirth",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'ancestries': Ancestries,
-            'consentStatus': ConsentStatus,
-            'disorderList': Disorder,
-            'hpoTermList': HpoTerm,
-            'inbreedingCoefficient': InbreedingCoefficient,
-            'versionControl': VersionControl,
-        }
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'ancestries': Ancestries,
-            'consentStatus': ConsentStatus,
-            'disorderList': Disorder,
-            'hpoTermList': HpoTerm,
-            'inbreedingCoefficient': InbreedingCoefficient,
-            'versionControl': VersionControl,
-        }
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'additionalInformation', 'adoptedStatus', 'affectionStatus',
-        'ancestries', 'consanguineousParents',
-        'consanguineousPopulation', 'consentStatus', 'disorderList',
-        'fatherId', 'gelFamilyId', 'gelId', 'gelSuperFamilyId',
-        'hpoTermList', 'inbreedingCoefficient', 'isProband',
-        'lifeStatus', 'monozygotic', 'motherId', 'pedigreeId',
-        'personKaryotipicSex', 'samples', 'sex', 'superFatherId',
-        'superMotherId', 'twinGroup', 'versionControl', 'yearOfBirth'
-    ]
-
-    def __init__(self, **kwargs):
-        self.additionalInformation = kwargs.get(
-            'additionalInformation', None)
-        self.adoptedStatus = kwargs.get(
-            'adoptedStatus', None)
-        self.affectionStatus = kwargs.get(
-            'affectionStatus', None)
-        self.ancestries = kwargs.get(
-            'ancestries', None)
-        self.consanguineousParents = kwargs.get(
-            'consanguineousParents', None)
-        self.consanguineousPopulation = kwargs.get(
-            'consanguineousPopulation', None)
-        self.consentStatus = kwargs.get(
-            'consentStatus', None)
-        self.disorderList = kwargs.get(
-            'disorderList', None)
-        self.fatherId = kwargs.get(
-            'fatherId', None)
-        self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
-        self.gelId = kwargs.get(
-            'gelId', None)
-        self.gelSuperFamilyId = kwargs.get(
-            'gelSuperFamilyId', None)
-        self.hpoTermList = kwargs.get(
-            'hpoTermList', None)
-        self.inbreedingCoefficient = kwargs.get(
-            'inbreedingCoefficient', None)
-        self.isProband = kwargs.get(
-            'isProband', None)
-        self.lifeStatus = kwargs.get(
-            'lifeStatus', None)
-        self.monozygotic = kwargs.get(
-            'monozygotic', None)
-        self.motherId = kwargs.get(
-            'motherId', None)
-        self.pedigreeId = kwargs.get(
-            'pedigreeId', None)
-        self.personKaryotipicSex = kwargs.get(
-            'personKaryotipicSex', None)
-        self.samples = kwargs.get(
-            'samples', None)
-        self.sex = kwargs.get(
-            'sex', None)
-        self.superFatherId = kwargs.get(
-            'superFatherId', None)
-        self.superMotherId = kwargs.get(
-            'superMotherId', None)
-        self.twinGroup = kwargs.get(
-            'twinGroup', None)
-        self.versionControl = kwargs.get(
-            'versionControl', None)
-        self.yearOfBirth = kwargs.get(
-            'yearOfBirth', None)
 
 
 class RareDiseaseExitQuestionnaire(ProtocolElement):
@@ -8641,12 +8738,67 @@ class ReportingQuestion(object):
     na = "na"
 
 
-class SampleType(object):
+class Sample(ProtocolElement):
     """
     No documentation
     """
-    germline = "germline"
-    tumor = "tumor"
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name": "Sample",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "labSampleId"}, {"doc": "", "type":
+["null", {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"],
+"type": "enum", "name": "SampleSource"}], "name": "source"}, {"doc":
+"", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum",
+"name": "Product"}], "name": "product"}, {"doc": "", "type": ["null",
+{"symbols": ["EDTA", "ORAGENE", "FF"], "type": "enum", "name":
+"PreparationMethod"}], "name": "preparationMethod"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "labSampleId",
+        "preparationMethod",
+        "product",
+        "sampleId",
+        "source",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'labSampleId', 'preparationMethod', 'product', 'sampleId',
+        'source'
+    ]
+
+    def __init__(self, **kwargs):
+        self.labSampleId = kwargs.get(
+            'labSampleId', 'None')
+        self.preparationMethod = kwargs.get(
+            'preparationMethod', None)
+        self.product = kwargs.get(
+            'product', None)
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
+        self.source = kwargs.get(
+            'source', None)
+
+
+class SampleSource(object):
+    """
+    No documentation
+    """
+    BLOOD = "BLOOD"
+    SALIVA = "SALIVA"
+    FIBROBLAST = "FIBROBLAST"
+    TISSUE = "TISSUE"
 
 
 class SamtoolsScope(object):
@@ -8923,10 +9075,9 @@ class Sex(object):
     """
     Sex
     """
-    male = "male"
-    female = "female"
-    unknown = "unknown"
-    undetermined = "undetermined"
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    UNKNOWN = "UNKNOWN"
 
 
 class SomaticOrGermline(object):
@@ -9117,35 +9268,37 @@ class TieringResult(ProtocolElement):
 "name": "otherFiles"}, {"doc": "", "type": {"doc": "", "type":
 "record", "name": "Pedigree", "fields": [{"doc": "", "type":
 "VersionControl", "name": "versionControl"}, {"doc": "", "type":
-"string", "name": "gelFamilyId"}, {"type": {"items": {"doc": "",
-"type": "record", "name": "RDParticipant", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "int", "name": "pedigreeId"}, {"doc": "", "type": "boolean",
-"name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
-{"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["male", "female", "unknown",
-"undetermined"], "doc": "", "type": "enum", "name": "Sex"}, "name":
-"sex"}, {"doc": "", "type": ["null", {"symbols": ["unknown", "XX",
-"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other"],
-"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name":
-"personKaryotipicSex"}, {"doc": "", "type": ["null", "string"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
-"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"},
-{"doc": "", "type": ["null", "int"], "name": "superFatherId"}, {"doc":
-"", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "",
-"type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type":
-["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type":
-"enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc": "",
-"type": {"symbols": ["not_adopted", "adoptedin", "adoptedout"], "doc":
-"", "type": "enum", "name": "AdoptedStatus"}, "name":
-"adoptedStatus"}, {"doc": "", "type": {"symbols": ["alive", "aborted",
-"deceased", "unborn", "stillborn", "miscarriage"], "doc": "", "type":
-"enum", "name": "LifeStatus"}, "name": "lifeStatus"}, {"doc": "",
-"type": "TernaryOption", "name": "consanguineousParents"}, {"doc": "",
-"type": ["null", "string"], "name": "consanguineousPopulation"},
-{"doc": "", "type": {"symbols": ["unaffected", "affected", "unknown"],
-"doc": "", "type": "enum", "name": "AffectionStatus"}, "name":
+"string", "name": "familyId"}, {"type": {"items": {"doc": "", "type":
+"record", "name": "PedigreeMember", "fields": [{"doc": "", "type":
+"int", "name": "pedigreeId"}, {"doc": "", "type": "boolean", "name":
+"isProband"}, {"doc": "", "type": ["null", "string"], "name":
+"participantId"}, {"doc": "", "type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"ParticipantQCState"}, "name": "participantQCState"}, {"doc": "",
+"type": ["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "",
+"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type":
+"enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
+"XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
+"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
+"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
+["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
+"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
+"name": "monozygotic"}, {"doc": "", "type": {"symbols":
+["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+"name": "AdoptedStatus"}, "name": "adoptedStatus"}, {"doc": "",
+"type": {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN",
+"STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum", "name":
+"LifeStatus"}, "name": "lifeStatus"}, {"doc": "", "type":
+"TernaryOption", "name": "consanguineousParents"}, {"doc": "", "type":
+{"symbols": ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "",
+"type": "enum", "name": "AffectionStatus"}, "name":
 "affectionStatus"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "Disorder", "fields": [{"doc": "", "type": ["null",
 "string"], "name": "diseaseGroup"}, {"doc": "", "type": ["null",
@@ -9155,7 +9308,8 @@ class TieringResult(ProtocolElement):
 "disorderList"}, {"doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "HpoTerm", "fields": [{"doc": "", "type": "string",
 "name": "term"}, {"doc": "", "type": ["null", "boolean"], "name":
-"termPresence"}, {"doc": "", "type": ["null", {"values": "string",
+"termPresence"}, {"doc": "", "type": ["null", "string"], "name":
+"hpoBuildNumber"}, {"doc": "", "type": ["null", {"values": "string",
 "type": "map"}], "name": "modifiers"}, {"doc": "", "type": ["null",
 "string"], "name": "ageOfOnset"}]}, "type": "array"}, "name":
 "hpoTermList"}, {"doc": "", "type": {"doc": "", "type": "record",
@@ -9185,51 +9339,64 @@ class TieringResult(ProtocolElement):
 "type": "boolean", "name": "secondaryFindingConsent"}, {"default":
 false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}, "name": "consentStatus"}, {"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name":
-"samples"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "InbreedingCoefficient", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"program"}, {"doc": "", "type": "string", "name": "version"}, {"doc":
-"", "type": "string", "name": "estimationMethod"}, {"doc": "", "type":
-"double", "name": "coefficient"}, {"doc": "", "type": ["null",
-"double"], "name": "standardError"}]}], "name":
-"inbreedingCoefficient"}, {"doc": "", "type": ["null", {"values":
-"string", "type": "map"}], "name": "additionalInformation"}]}, "type":
-"array"}, "name": "participants"}, {"type": ["null", {"items":
-{"fields": [{"type": "string", "name": "specificDisease"}, {"type":
-"string", "name": "panelName"}, {"type": ["null", "string"], "name":
-"panelVersion"}, {"type": "string", "name": "review_outcome"},
-{"type": "string", "name": "multiple_genetic_origins"}], "type":
-"record", "name": "AnalysisPanel"}, "type": "array"}], "name":
-"analysisPanels"}, {"type": ["null", {"items": {"fields": [{"type":
-"string", "name": "specificDisease"}, {"type": {"symbols":
-["complete", "incomplete"], "doc": "", "type": "enum", "name":
-"Penetrance"}, "name": "penetrance"}], "type": "record", "name":
-"DiseasePenetrance"}, "type": "array"}], "name":
-"diseasePenetrances"}]}, "name": "pedigree"}, {"doc": "", "type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": ["null", "string"], "name":
-"dbSNPid"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
-"", "type": "string", "name": "reference"}, {"doc": "", "type":
-"string", "name": "alternate"}, {"doc": "", "type": {"items": {"doc":
-"", "type": "record", "name": "CalledGenotype", "fields": [{"doc": "",
-"type": "string", "name": "gelId"}, {"doc": "", "type": "string",
-"name": "sampleId"}, {"doc": "", "type": {"symbols":
-["reference_homozygous", "heterozygous", "alternate_homozygous",
-"missing", "half_missing_reference", "half_missing_alternate",
-"alternate_hemizigous", "reference_hemizigous", "unk"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "genotype"}, {"doc": "",
-"type": ["null", "int"], "name": "phaseSet"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
-"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
-"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
-"string", "name": "phenotype"}, {"doc": "", "type": ["null",
-"string"], "name": "panelName"}, {"doc": "", "type": ["null",
-"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "sampleId"}, {"doc": "", "type": "string", "name":
+"labSampleId"}, {"doc": "", "type": ["null", {"symbols": ["BLOOD",
+"SALIVA", "FIBROBLAST", "TISSUE"], "type": "enum", "name":
+"SampleSource"}], "name": "source"}, {"doc": "", "type": ["null",
+{"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}],
+"name": "product"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF"], "type": "enum", "name": "PreparationMethod"}],
+"name": "preparationMethod"}], "type": "record", "name": "Sample"},
+"type": "array"}], "name": "samples"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "InbreedingCoefficient",
+"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": "string", "name": "program"}, {"doc": "", "type":
+"string", "name": "version"}, {"doc": "", "type": "string", "name":
+"estimationMethod"}, {"doc": "", "type": "double", "name":
+"coefficient"}, {"doc": "", "type": ["null", "double"], "name":
+"standardError"}]}], "name": "inbreedingCoefficient"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalInformation"}]}, "type": "array"}, "name": "members"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "string", "name": "panelName"}, {"type":
+["null", "string"], "name": "panelVersion"}, {"type": "string",
+"name": "review_outcome"}, {"type": "string", "name":
+"multipleGeneticOrigins"}], "type": "record", "name":
+"AnalysisPanel"}, "type": "array"}], "name": "analysisPanels"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"specificDisease"}, {"type": {"symbols": ["complete", "incomplete"],
+"doc": "", "type": "enum", "name": "Penetrance"}, "name":
+"penetrance"}], "type": "record", "name": "DiseasePenetrance"},
+"type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
+"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel",
+"queryToGMC", "failed"], "doc": "", "type": "enum", "name":
+"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+{"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null",
+"string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
+"position"}, {"doc": "", "type": "string", "name": "reference"},
+{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name":
+"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
+"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
+"", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference",
+"half_missing_alternate", "alternate_hemizigous",
+"reference_hemizigous", "unk"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "genotype"}, {"doc": "", "type": ["null", "int"],
+"name": "phaseSet"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
+"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
+"", "type": {"items": {"fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": "string", "name":
+"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
+"panelName"}, {"doc": "", "type": ["null", "string"], "name":
+"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -9374,6 +9541,25 @@ false, "doc": "", "type": "boolean", "name":
             'workspace', None)
 
 
+class TissueSource(object):
+    """
+    No documentation
+    """
+    BMA_TUMOUR_SORTED_CELLS = "BMA_TUMOUR_SORTED_CELLS"
+    CT_GUIDED_BIOPSY = "CT_GUIDED_BIOPSY"
+    ENDOSCOPIC_BIOPSY = "ENDOSCOPIC_BIOPSY"
+    ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY = "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY"
+    ENDOSCOPIC_ULTRASOUND_GUIDED_FNA = "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA"
+    LAPAROSCOPIC_BIOPSY = "LAPAROSCOPIC_BIOPSY"
+    LAPAROSCOPIC_EXCISION = "LAPAROSCOPIC_EXCISION"
+    MRI_GUIDED_BIOPSY = "MRI_GUIDED_BIOPSY"
+    NON_GUIDED_BIOPSY = "NON_GUIDED_BIOPSY"
+    SURGICAL_RESECTION = "SURGICAL_RESECTION"
+    STEREOTACTICALLY_GUIDED_BIOPSY = "STEREOTACTICALLY_GUIDED_BIOPSY"
+    USS_GUIDED_BIOPSY = "USS_GUIDED_BIOPSY"
+    NON_STANDARD_BIOPSY = "NON_STANDARD_BIOPSY"
+
+
 class TumorChecks(ProtocolElement):
     """
     Tumor contamination check results  We ask whether somatic calls
@@ -9432,6 +9618,163 @@ class TumorChecks(ProtocolElement):
             'perc_variants_gt_filter', None)
         self.well_id = kwargs.get(
             'well_id', 'None')
+
+
+class TumourContent(object):
+    """
+    No documentation
+    """
+    High = "High"
+    Medium = "Medium"
+    Low = "Low"
+
+
+class TumourSample(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "Gel_BioInf_Models", "type": "record", "name":
+"TumourSample", "fields": [{"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+{"doc": "", "type": ["null", "string"], "name": "tumourId"}, {"doc":
+"", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP",
+"MAIN", "EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name":
+"programmePhase"}, {"doc": "", "type": {"symbols": ["ADULT_GLIOMA",
+"BLADDER", "BREAST", "CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD",
+"COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC",
+"HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA",
+"NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE",
+"RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS",
+"UPPER_GASTROINTESTINAL",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type":
+"enum", "name": "TumourType"}, "name": "tumourType"}, {"doc": "",
+"type": ["null", "string"], "name": "tumourSubType"}, {"doc": "",
+"type": ["null", "string"], "name": "clinicalSampleDateTime"}, {"doc":
+"", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC_RECURRENCE",
+"RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES"], "type": "enum", "name":
+"Phase"}], "name": "phase"}, {"doc": "", "type": ["null", {"symbols":
+["High", "Medium", "Low"], "type": "enum", "name": "TumourContent"}],
+"name": "tumourContent"}, {"doc": "", "type": ["null", {"symbols":
+["TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
+"BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
+"TISSUE"], "type": "enum", "name": "SampleSource"}], "name":
+"source"}, {"doc": "", "type": ["null", {"symbols": ["EDTA",
+"ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE"], "type":
+"enum", "name": "PreparationMethod"}], "name": "preparationMethod"},
+{"doc": "", "type": ["null", {"symbols": ["BMA_TUMOUR_SORTED_CELLS",
+"CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
+"ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY",
+"LAPAROSCOPIC_EXCISION", "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY",
+"SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type":
+["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
+"Product"}], "name": "product"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageVersion"}, {"doc": "", "type": ["null",
+"string"], "name": "TNMStageGrouping"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "TNMStageGrouping",
+        "TNMStageVersion",
+        "clinicalSampleDateTime",
+        "labSampleId",
+        "phase",
+        "preparationMethod",
+        "product",
+        "programmePhase",
+        "sampleId",
+        "source",
+        "tissueSource",
+        "tumourContent",
+        "tumourId",
+        "tumourSubType",
+        "tumourType",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'TNMStageGrouping', 'TNMStageVersion',
+        'clinicalSampleDateTime', 'labSampleId', 'phase',
+        'preparationMethod', 'product', 'programmePhase', 'sampleId',
+        'source', 'tissueSource', 'tumourContent', 'tumourId',
+        'tumourSubType', 'tumourType'
+    ]
+
+    def __init__(self, **kwargs):
+        self.TNMStageGrouping = kwargs.get(
+            'TNMStageGrouping', None)
+        self.TNMStageVersion = kwargs.get(
+            'TNMStageVersion', None)
+        self.clinicalSampleDateTime = kwargs.get(
+            'clinicalSampleDateTime', None)
+        self.labSampleId = kwargs.get(
+            'labSampleId', 'None')
+        self.phase = kwargs.get(
+            'phase', None)
+        self.preparationMethod = kwargs.get(
+            'preparationMethod', None)
+        self.product = kwargs.get(
+            'product', None)
+        self.programmePhase = kwargs.get(
+            'programmePhase', None)
+        self.sampleId = kwargs.get(
+            'sampleId', 'None')
+        self.source = kwargs.get(
+            'source', None)
+        self.tissueSource = kwargs.get(
+            'tissueSource', None)
+        self.tumourContent = kwargs.get(
+            'tumourContent', None)
+        self.tumourId = kwargs.get(
+            'tumourId', None)
+        self.tumourSubType = kwargs.get(
+            'tumourSubType', None)
+        self.tumourType = kwargs.get(
+            'tumourType', None)
+
+
+class TumourType(object):
+    """
+    No documentation
+    """
+    ADULT_GLIOMA = "ADULT_GLIOMA"
+    BLADDER = "BLADDER"
+    BREAST = "BREAST"
+    CARCINOMA_OF_UNKNOWN_PRIMARY = "CARCINOMA_OF_UNKNOWN_PRIMARY"
+    CHILDHOOD = "CHILDHOOD"
+    COLORECTAL = "COLORECTAL"
+    ENDOMETRIAL_CARCINOMA = "ENDOMETRIAL_CARCINOMA"
+    HAEMONC = "HAEMONC"
+    HEPATOPANCREATOBILIARY = "HEPATOPANCREATOBILIARY"
+    LUNG = "LUNG"
+    MALIGNANT_MELANOMA = "MALIGNANT_MELANOMA"
+    NASOPHARYNGEAL = "NASOPHARYNGEAL"
+    ORAL_OROPHARYNGEAL = "ORAL_OROPHARYNGEAL"
+    OVARIAN = "OVARIAN"
+    PROSTATE = "PROSTATE"
+    RENAL = "RENAL"
+    SARCOMA = "SARCOMA"
+    SINONASAL = "SINONASAL"
+    TESTICULAR_GERM_CELL_TUMOURS = "TESTICULAR_GERM_CELL_TUMOURS"
+    UPPER_GASTROINTESTINAL = "UPPER_GASTROINTESTINAL"
+    NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE = "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE"
+    CLASSICAL_HODGKINS = "CLASSICAL_HODGKINS"
+    NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS = "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS"
+    T_CELL_LYMPHOMA = "T_CELL_LYMPHOMA"
 
 
 class VariantClassification(object):

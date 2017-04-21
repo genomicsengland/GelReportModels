@@ -2,5 +2,5 @@
   "type" : "enum",
   "name" : "Phase",
   "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "PRIMARY", "METASTATIC", "RECURRENCE" ]
+  "symbols" : [ "PRIMARY", "METASTATIC_RECURRENCE", "RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES" ]
 }

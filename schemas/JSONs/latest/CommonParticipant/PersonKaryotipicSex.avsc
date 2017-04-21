@@ -3,5 +3,5 @@
   "name" : "PersonKaryotipicSex",
   "namespace" : "Gel_BioInf_Models",
   "doc" : "Karyotipic Sex",
-  "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+  "symbols" : [ "UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER" ]
 }

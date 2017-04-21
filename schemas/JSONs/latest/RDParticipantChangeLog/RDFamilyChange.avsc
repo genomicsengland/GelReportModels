@@ -35,22 +35,18 @@
         },
         "doc" : "Model version number"
       }, {
-        "name" : "gelFamilyId",
+        "name" : "familyId",
         "type" : "string",
         "doc" : "Family id which internally translate to a sample set"
       }, {
-        "name" : "participants",
+        "name" : "members",
         "type" : {
           "type" : "array",
           "items" : {
             "type" : "record",
-            "name" : "RDParticipant",
+            "name" : "PedigreeMember",
             "doc" : "This defines a RD Participant (demographics and pedigree information)",
             "fields" : [ {
-              "name" : "versionControl",
-              "type" : "VersionControl",
-              "doc" : "Model version number"
-            }, {
               "name" : "pedigreeId",
               "type" : "int",
               "doc" : "Numbering used to refer to each member of the pedigree"
@@ -59,13 +55,18 @@
               "type" : "boolean",
               "doc" : "If this field is true, the member should be consider the proband of this family"
             }, {
-              "name" : "gelId",
+              "name" : "participantId",
               "type" : [ "null", "string" ],
-              "doc" : "gel internal identifier, only required when the participant belongs to the program"
+              "doc" : "participantId"
             }, {
-              "name" : "gelFamilyId",
-              "type" : "string",
-              "doc" : "Family id which internally translate to a sample set"
+              "name" : "participantQCState",
+              "type" : {
+                "type" : "enum",
+                "name" : "ParticipantQCState",
+                "doc" : "QCState Status",
+                "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
+              },
+              "doc" : "participantQCState"
             }, {
               "name" : "gelSuperFamilyId",
               "type" : [ "null", "string" ],
@@ -76,7 +77,7 @@
                 "type" : "enum",
                 "name" : "Sex",
                 "doc" : "Sex",
-                "symbols" : [ "male", "female", "unknown", "undetermined" ]
+                "symbols" : [ "MALE", "FEMALE", "UNKNOWN" ]
               },
               "doc" : "Sex of the Participant"
             }, {
@@ -85,7 +86,7 @@
                 "type" : "enum",
                 "name" : "PersonKaryotipicSex",
                 "doc" : "Karyotipic Sex",
-                "symbols" : [ "unknown", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "other" ]
+                "symbols" : [ "UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER" ]
               } ],
               "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
             }, {
@@ -136,7 +137,7 @@
                 "type" : "enum",
                 "name" : "LifeStatus",
                 "doc" : "Life Status",
-                "symbols" : [ "alive", "aborted", "deceased", "unborn", "stillborn", "miscarriage" ]
+                "symbols" : [ "ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE" ]
               },
               "doc" : "Life Status"
             }, {
@@ -144,16 +145,12 @@
               "type" : "TernaryOption",
               "doc" : "The parents of this participant has a consanguineous relationship"
             }, {
-              "name" : "consanguineousPopulation",
-              "type" : [ "null", "string" ],
-              "doc" : "Offspring from a consanguineous population"
-            }, {
               "name" : "affectionStatus",
               "type" : {
                 "type" : "enum",
                 "name" : "AffectionStatus",
                 "doc" : "Affection Status",
-                "symbols" : [ "unaffected", "affected", "unknown" ]
+                "symbols" : [ "UNAFFECTED", "AFFECTED", "UNCERTAIN" ]
               },
               "doc" : "Affection Status"
             }, {
@@ -200,6 +197,10 @@
                     "name" : "termPresence",
                     "type" : [ "null", "boolean" ],
                     "doc" : "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
+                  }, {
+                    "name" : "hpoBuildNumber",
+                    "type" : [ "null", "string" ],
+                    "doc" : "hpoBuildNumber"
                   }, {
                     "name" : "modifiers",
                     "type" : [ "null", {
@@ -312,7 +313,43 @@
               "name" : "samples",
               "type" : [ "null", {
                 "type" : "array",
-                "items" : "string"
+                "items" : {
+                  "type" : "record",
+                  "name" : "Sample",
+                  "fields" : [ {
+                    "name" : "sampleId",
+                    "type" : "string",
+                    "doc" : "Sample Id (e.g, LP00012645_5GH))"
+                  }, {
+                    "name" : "labSampleId",
+                    "type" : "string",
+                    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+                  }, {
+                    "name" : "source",
+                    "type" : [ "null", {
+                      "type" : "enum",
+                      "name" : "SampleSource",
+                      "symbols" : [ "BLOOD", "SALIVA", "FIBROBLAST", "TISSUE" ]
+                    } ],
+                    "doc" : "Source"
+                  }, {
+                    "name" : "product",
+                    "type" : [ "null", {
+                      "type" : "enum",
+                      "name" : "Product",
+                      "symbols" : [ "DNA", "RNA" ]
+                    } ],
+                    "doc" : "Product"
+                  }, {
+                    "name" : "preparationMethod",
+                    "type" : [ "null", {
+                      "type" : "enum",
+                      "name" : "PreparationMethod",
+                      "symbols" : [ "EDTA", "ORAGENE", "FF" ]
+                    } ],
+                    "doc" : "preparationMethod"
+                  } ]
+                }
               } ],
               "doc" : "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
             }, {
@@ -378,7 +415,7 @@
               "name" : "review_outcome",
               "type" : "string"
             }, {
-              "name" : "multiple_genetic_origins",
+              "name" : "multipleGeneticOrigins",
               "type" : "string"
             } ]
           }
@@ -404,6 +441,17 @@
             } ]
           }
         } ]
+      }, {
+        "name" : "readyForAnalysis",
+        "type" : "boolean"
+      }, {
+        "name" : "familyQCState",
+        "type" : {
+          "type" : "enum",
+          "name" : "FamilyQCState",
+          "doc" : "FamilyQCState",
+          "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
+        }
       } ]
     },
     "doc" : "This is the family data tha need to be ingested"
