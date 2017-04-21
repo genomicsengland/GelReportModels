@@ -7,12 +7,12 @@ protocol CommonParticipant {
 /**
 Sex
 */
-enum Sex {male, female, unknown, undetermined}
+enum Sex {MALE, FEMALE, UNKNOWN}
 
 /**
 Karyotipic Sex
 */
-enum PersonKaryotipicSex {unknown, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, other}
+enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
 /**
