@@ -91,7 +91,7 @@ record TumourSample {
     /**
     Id of each one of the tumors for a participant
     */
-    union {null, string} tumourId;
+    string tumourId;
 
     /**
     gelPhase (eg cruk, brc, cll, iip, main)
@@ -101,7 +101,7 @@ record TumourSample {
     /**
     tumour Type
     */
-    TumourType tumourType;
+    union {null, TumourType} tumourType;
 
     /**
     Tumor Subtype
@@ -111,7 +111,7 @@ record TumourSample {
     /**
     In the format YYYY-MM-DDTHH:MM:SS+0000
     */
-    union {null,string} clinicalSampleDateTime;
+    union {null, string} clinicalSampleDateTime;
 
     /**
     Tumor Phase
@@ -169,7 +169,7 @@ record MatchedSamples{
     /**
     Sample Id (e.g, LP00012643_7JS)) for the tumor
     */
-    union {null, string} tumorSampleId;
+    union {null, string} tumourSampleId;
 
 }
 
@@ -186,12 +186,15 @@ record CancerParticipant{
     A participant that has been consented to the programme should also have sequence data associated with them; however
     this needs to be programmatically checked
     */
-    ConsentStatus consentStatus;
+    union {null, ConsentStatus} consentStatus;
 
     /**
     Center
     */
-    string center;
+    union {string, null} center;
+
+
+    union {string, null} LDPCode;
 
     /**
     Individual Id
@@ -208,7 +211,7 @@ record CancerParticipant{
     /**
     Sex
     */
-    union {null, Sex} sex;
+    Sex sex;
 
     /**
     We could add a map here to store additional information for example URIs to images, ECGs, etc
@@ -223,12 +226,12 @@ record CancerParticipant{
 
     array<TumourSample> tumourSamples;
     array<GermlineSample> germlineSamples;
-    array<MatchedSamples> matchedSamples;
+    union {null, array<MatchedSamples>} matchedSamples;
 
     /**
     Model version number
     */
-    VersionControl versionControl;
+    union {null, VersionControl} versionControl;
 
 
 }
