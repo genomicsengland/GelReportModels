@@ -1,0 +1,28 @@
+{
+  "type" : "record",
+  "name" : "PlinkSexCheck",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Plink sex check",
+  "fields" : [ {
+    "name" : "FID",
+    "type" : "string"
+  }, {
+    "name" : "IID",
+    "type" : "string"
+  }, {
+    "name" : "F",
+    "type" : "double"
+  }, {
+    "name" : "YCOUNT",
+    "type" : "double"
+  }, {
+    "name" : "STATUS",
+    "type" : "string"
+  }, {
+    "name" : "SNPSEX",
+    "type" : "double"
+  }, {
+    "name" : "PEDSEX",
+    "type" : "double"
+  } ]
+}

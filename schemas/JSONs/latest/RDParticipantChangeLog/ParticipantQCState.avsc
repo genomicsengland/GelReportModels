@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "ParticipantQCState",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "QCState Status",
+  "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
+}

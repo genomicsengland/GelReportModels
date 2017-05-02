@@ -18,7 +18,7 @@
             "name" : "GitVersionControl",
             "type" : "string",
             "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-            "default" : "3.0.0"
+            "default" : "4.0.0"
           } ]
         },
         "doc" : "Model version number"
@@ -109,8 +109,11 @@
           "doc" : "This is the concept of a family with associated phenotypes as present in the record RDParticipant",
           "fields" : [ {
             "name" : "versionControl",
-            "type" : "VersionControl",
+            "type" : [ "null", "VersionControl" ],
             "doc" : "Model version number"
+          }, {
+            "name" : "LDPCode",
+            "type" : [ "null", "string" ]
           }, {
             "name" : "familyId",
             "type" : "string",
@@ -125,11 +128,11 @@
                 "doc" : "This defines a RD Participant (demographics and pedigree information)",
                 "fields" : [ {
                   "name" : "pedigreeId",
-                  "type" : "int",
+                  "type" : [ "null", "int" ],
                   "doc" : "Numbering used to refer to each member of the pedigree"
                 }, {
                   "name" : "isProband",
-                  "type" : "boolean",
+                  "type" : [ "null", "boolean" ],
                   "doc" : "If this field is true, the member should be consider the proband of this family"
                 }, {
                   "name" : "participantId",
@@ -137,12 +140,12 @@
                   "doc" : "participantId"
                 }, {
                   "name" : "participantQCState",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "enum",
                     "name" : "ParticipantQCState",
                     "doc" : "QCState Status",
                     "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
-                  },
+                  } ],
                   "doc" : "participantQCState"
                 }, {
                   "name" : "gelSuperFamilyId",
@@ -201,38 +204,38 @@
                   "doc" : "A property of the twinning group but should be entered for all members"
                 }, {
                   "name" : "adoptedStatus",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "enum",
                     "name" : "AdoptedStatus",
                     "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
                     "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
-                  },
+                  } ],
                   "doc" : "Adopted Status"
                 }, {
                   "name" : "lifeStatus",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "enum",
                     "name" : "LifeStatus",
                     "doc" : "Life Status",
                     "symbols" : [ "ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE" ]
-                  },
+                  } ],
                   "doc" : "Life Status"
                 }, {
                   "name" : "consanguineousParents",
-                  "type" : "TernaryOption",
+                  "type" : [ "null", "TernaryOption" ],
                   "doc" : "The parents of this participant has a consanguineous relationship"
                 }, {
                   "name" : "affectionStatus",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "enum",
                     "name" : "AffectionStatus",
                     "doc" : "Affection Status",
                     "symbols" : [ "UNAFFECTED", "AFFECTED", "UNCERTAIN" ]
-                  },
+                  } ],
                   "doc" : "Affection Status"
                 }, {
                   "name" : "disorderList",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "array",
                     "items" : {
                       "type" : "record",
@@ -256,11 +259,11 @@
                         "doc" : "Age of onset in months"
                       } ]
                     }
-                  },
+                  } ],
                   "doc" : "Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty"
                 }, {
                   "name" : "hpoTermList",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "array",
                     "items" : {
                       "type" : "record",
@@ -291,11 +294,11 @@
                         "doc" : "Age of onset in months"
                       } ]
                     }
-                  },
+                  } ],
                   "doc" : "Clinical Data (HPO terms)"
                 }, {
                   "name" : "ancestries",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "record",
                     "name" : "Ancestries",
                     "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
@@ -348,18 +351,18 @@
                             "doc" : "1K Population"
                           }, {
                             "name" : "chiSquare",
-                            "type" : "float",
+                            "type" : "double",
                             "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
                           } ]
                         }
                       } ],
                       "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
                     } ]
-                  },
+                  } ],
                   "doc" : "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
                 }, {
                   "name" : "consentStatus",
-                  "type" : {
+                  "type" : [ "null", {
                     "type" : "record",
                     "name" : "ConsentStatus",
                     "doc" : "Consent Status",
@@ -384,7 +387,7 @@
                       "doc" : "Consent for carrier status check?",
                       "default" : false
                     } ]
-                  },
+                  } ],
                   "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
                 }, {
                   "name" : "samples",

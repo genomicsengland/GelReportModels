@@ -371,7 +371,7 @@
         "type" : "boolean"
       }, {
         "name" : "consentStatus",
-        "type" : {
+        "type" : [ "null", {
           "type" : "record",
           "name" : "ConsentStatus",
           "doc" : "Consent Status",
@@ -396,12 +396,15 @@
             "doc" : "Consent for carrier status check?",
             "default" : false
           } ]
-        },
+        } ],
         "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
       }, {
         "name" : "center",
-        "type" : "string",
+        "type" : [ "null", "string" ],
         "doc" : "Center"
+      }, {
+        "name" : "LDPCode",
+        "type" : [ "null", "string" ]
       }, {
         "name" : "individualId",
         "type" : "string",
@@ -412,11 +415,11 @@
         "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
       }, {
         "name" : "sex",
-        "type" : [ "null", {
+        "type" : {
           "type" : "enum",
           "name" : "Sex",
           "symbols" : [ "FEMALE", "MALE", "UNKNOWN" ]
-        } ],
+        },
         "doc" : "Sex"
       }, {
         "name" : "additionalInformation",
@@ -446,7 +449,7 @@
               "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
             }, {
               "name" : "tumourId",
-              "type" : [ "null", "string" ],
+              "type" : "string",
               "doc" : "Id of each one of the tumors for a participant"
             }, {
               "name" : "programmePhase",
@@ -458,11 +461,11 @@
               "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
             }, {
               "name" : "tumourType",
-              "type" : {
+              "type" : [ "null", {
                 "type" : "enum",
                 "name" : "TumourType",
                 "symbols" : [ "ADULT_GLIOMA", "BLADDER", "BREAST", "CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS", "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA" ]
-              },
+              } ],
               "doc" : "tumour Type"
             }, {
               "name" : "tumourSubType",
@@ -575,7 +578,7 @@
         }
       }, {
         "name" : "matchedSamples",
-        "type" : {
+        "type" : [ "null", {
           "type" : "array",
           "items" : {
             "type" : "record",
@@ -586,24 +589,24 @@
               "type" : [ "null", "string" ],
               "doc" : "Sample Id (e.g, LP00012645_5GH)) for the germline"
             }, {
-              "name" : "tumorSampleId",
+              "name" : "tumourSampleId",
               "type" : [ "null", "string" ],
               "doc" : "Sample Id (e.g, LP00012643_7JS)) for the tumor"
             } ]
           }
-        }
+        } ]
       }, {
         "name" : "versionControl",
-        "type" : {
+        "type" : [ "null", {
           "type" : "record",
           "name" : "VersionControl",
           "fields" : [ {
             "name" : "GitVersionControl",
             "type" : "string",
             "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-            "default" : "3.0.0"
+            "default" : "4.0.0"
           } ]
-        },
+        } ],
         "doc" : "Model version number"
       } ]
     }

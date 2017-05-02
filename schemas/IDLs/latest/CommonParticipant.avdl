@@ -72,7 +72,7 @@ record ChiSquare1KGenomesPhase3Pop {
     /**
     Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
     */
-    float chiSquare;
+    double chiSquare;
 }
 
 /**

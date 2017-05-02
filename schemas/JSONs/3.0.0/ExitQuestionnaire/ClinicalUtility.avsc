@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "ClinicalUtility",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "none", "change_in_medication", "surgical_option", "additional_surveillance_for_proband_or_relatives", "clinical_trial_eligibility", "informs_reproductive_choice", "unknown", "other" ]
+}

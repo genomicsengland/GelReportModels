@@ -1,0 +1,17 @@
+{
+  "type" : "record",
+  "name" : "MutationalSignatureContribution",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "coefficients",
+    "type" : {
+      "type" : "map",
+      "values" : "double"
+    },
+    "doc" : "Coefficients for each mutational signatures\n    e.g. {\"coefficients\":{\"signature1\":91.2595, [...]}}"
+  }, {
+    "name" : "rss",
+    "type" : "double",
+    "doc" : "Confidence value\n    e.g. {\"RSS\":0.0063}"
+  } ]
+}

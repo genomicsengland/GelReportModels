@@ -1,0 +1,28 @@
+{
+  "type" : "record",
+  "name" : "File",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This defines a file\nThis Record is defined by the sampleID and a URI\nCurrently SampleID can be a single String or an array of strings if multiple samples are associated with the same file\n*",
+  "fields" : [ {
+    "name" : "SampleId",
+    "type" : [ "null", "string", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
+  }, {
+    "name" : "URIFile",
+    "type" : "string",
+    "doc" : "URI PATH"
+  }, {
+    "name" : "fileType",
+    "type" : {
+      "type" : "enum",
+      "name" : "FileType",
+      "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
+    }
+  }, {
+    "name" : "md5Sum",
+    "type" : [ "null", "File" ]
+  } ]
+}

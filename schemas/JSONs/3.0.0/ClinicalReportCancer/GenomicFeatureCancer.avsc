@@ -1,0 +1,34 @@
+{
+  "type" : "record",
+  "name" : "GenomicFeatureCancer",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "featureType",
+    "type" : {
+      "type" : "enum",
+      "name" : "FeatureTypes",
+      "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+    },
+    "doc" : "Feature Type"
+  }, {
+    "name" : "ensemblId",
+    "type" : "string",
+    "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
+  }, {
+    "name" : "refSeqTranscriptId",
+    "type" : "string",
+    "doc" : "Refseq transcript"
+  }, {
+    "name" : "refSeqProteinId",
+    "type" : "string",
+    "doc" : "Refseq protein"
+  }, {
+    "name" : "geneName",
+    "type" : "string",
+    "doc" : "Gene used in tier"
+  }, {
+    "name" : "roleInCancer",
+    "type" : [ "null", "string" ],
+    "doc" : "Role in cancer: oncogege, TSG or both"
+  } ]
+}

@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "SomaticOrGermline",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "this defines whether the variant reported is considered to be a somatic or germline finding.",
+  "symbols" : [ "unknown", "somatic", "germline" ]
+}

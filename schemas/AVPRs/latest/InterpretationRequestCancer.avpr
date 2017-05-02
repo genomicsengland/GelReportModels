@@ -50,7 +50,7 @@
       "doc" : "1K Population"
     }, {
       "name" : "chiSquare",
-      "type" : "float",
+      "type" : "double",
       "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
     } ]
   }, {
@@ -142,7 +142,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "3.0.0"
+      "default" : "4.0.0"
     } ]
   }, {
     "type" : "enum",
@@ -229,7 +229,7 @@
       "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
     }, {
       "name" : "tumourId",
-      "type" : [ "null", "string" ],
+      "type" : "string",
       "doc" : "Id of each one of the tumors for a participant"
     }, {
       "name" : "programmePhase",
@@ -237,7 +237,7 @@
       "doc" : "gelPhase (eg cruk, brc, cll, iip, main)"
     }, {
       "name" : "tumourType",
-      "type" : "TumourType",
+      "type" : [ "null", "TumourType" ],
       "doc" : "tumour Type"
     }, {
       "name" : "tumourSubType",
@@ -289,7 +289,7 @@
       "type" : [ "null", "string" ],
       "doc" : "Sample Id (e.g, LP00012645_5GH)) for the germline"
     }, {
-      "name" : "tumorSampleId",
+      "name" : "tumourSampleId",
       "type" : [ "null", "string" ],
       "doc" : "Sample Id (e.g, LP00012643_7JS)) for the tumor"
     } ]
@@ -302,12 +302,15 @@
       "type" : "boolean"
     }, {
       "name" : "consentStatus",
-      "type" : "ConsentStatus",
+      "type" : [ "null", "ConsentStatus" ],
       "doc" : "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
     }, {
       "name" : "center",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "Center"
+    }, {
+      "name" : "LDPCode",
+      "type" : [ "null", "string" ]
     }, {
       "name" : "individualId",
       "type" : "string",
@@ -318,7 +321,7 @@
       "doc" : "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
     }, {
       "name" : "sex",
-      "type" : [ "null", "Sex" ],
+      "type" : "Sex",
       "doc" : "Sex"
     }, {
       "name" : "additionalInformation",
@@ -345,13 +348,13 @@
       }
     }, {
       "name" : "matchedSamples",
-      "type" : {
+      "type" : [ "null", {
         "type" : "array",
         "items" : "MatchedSamples"
-      }
+      } ]
     }, {
       "name" : "versionControl",
-      "type" : "VersionControl",
+      "type" : [ "null", "VersionControl" ],
       "doc" : "Model version number"
     } ]
   }, {

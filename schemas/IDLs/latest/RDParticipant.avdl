@@ -303,7 +303,7 @@ record Pedigree {
     */
     union {null, VersionControl} versionControl;
 
-    union {string, null} LDPCode;
+    union {null, string} LDPCode;
 
     /**
     Family id which internally translate to a sample set

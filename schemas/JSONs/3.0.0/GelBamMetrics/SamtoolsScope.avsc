@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "SamtoolsScope",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "all", "filtered" ]
+}

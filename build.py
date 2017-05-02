@@ -59,7 +59,9 @@ VERSION = json.load(open(os.path.join(json_folder, "VersionControl", "VersionCon
 
 print ("version: " + VERSION)
 
-
+print "python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
+                                   + outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
+                                   + schemas + " " + VERSION)
 os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
                                    + outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
                                    + schemas + " " + VERSION))

@@ -1,0 +1,42 @@
+{
+  "protocol" : "SampleState",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This protocol defines the states a sample can inherit",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "State",
+    "doc" : "This is the master state for this sample, for example caution,quality could be used to say that a sample under this\nindividual has quality issues.\n\nready: sample is ready to be used\npending: sample is in the process of being analysed\nhold: sample is on hold pending investigation\nfail: sample has failed a QC check\ncaution: sample is ready but should be used with caution",
+    "symbols" : [ "ready", "warning", "pending", "hold", "fail", "caution" ]
+  }, {
+    "type" : "enum",
+    "name" : "Reason",
+    "symbols" : [ "median_coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination", "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other" ]
+  }, {
+    "type" : "record",
+    "name" : "sampleState",
+    "fields" : [ {
+      "name" : "state",
+      "type" : [ "null", "State" ]
+    }, {
+      "name" : "reason",
+      "type" : {
+        "type" : "array",
+        "items" : "Reason"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "sampleTests",
+    "fields" : [ {
+      "name" : "verifybamid",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "arrayconcordance",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "contamination",
+      "type" : [ "null", "boolean" ]
+    } ]
+  } ],
+  "messages" : { }
+}

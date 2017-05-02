@@ -1,0 +1,62 @@
+{
+  "type" : "record",
+  "name" : "Ancestries",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Ancestries, defined as Ethnic category(ies) and Chi-square test",
+  "fields" : [ {
+    "name" : "mothersEthnicOrigin",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "EthnicCategory",
+      "doc" : "This is the list of ethnics in ONS16\n\n* `D`:  Mixed: White and Black Caribbean\n* `E`:  Mixed: White and Black African\n* `F`:  Mixed: White and Asian\n* `G`:  Mixed: Any other mixed background\n* `A`:  White: British\n* `B`:  White: Irish\n* `C`:  White: Any other White background\n* `L`:  Asian or Asian British: Any other Asian background\n* `M`:  Black or Black British: Caribbean\n* `N`:  Black or Black British: African\n* `H`:  Asian or Asian British: Indian\n* `J`:  Asian or Asian British: Pakistani\n* `K`:  Asian or Asian British: Bangladeshi\n* `P`:  Black or Black British: Any other Black background\n* `S`:  Other Ethnic Groups: Any other ethnic group\n* `R`:  Other Ethnic Groups: Chinese\n* `Z`:  Not stated",
+      "symbols" : [ "D", "E", "F", "G", "A", "B", "C", "L", "M", "N", "H", "J", "K", "P", "S", "R", "Z" ]
+    } ],
+    "doc" : "Mother's Ethnic Origin"
+  }, {
+    "name" : "mothersOtherRelevantAncestry",
+    "type" : [ "null", "string" ],
+    "doc" : "Mother's Ethnic Origin Description"
+  }, {
+    "name" : "fathersEthnicOrigin",
+    "type" : [ "null", "EthnicCategory" ],
+    "doc" : "Father's Ethnic Origin"
+  }, {
+    "name" : "fathersOtherRelevantAncestry",
+    "type" : [ "null", "string" ],
+    "doc" : "Father's Ethnic Origin Description"
+  }, {
+    "name" : "chiSquare1KGenomesPhase3Pop",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ChiSquare1KGenomesPhase3Pop",
+        "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations",
+        "fields" : [ {
+          "name" : "kGSuperPopCategory",
+          "type" : {
+            "type" : "enum",
+            "name" : "KGSuperPopCategory",
+            "doc" : "1K Super Population",
+            "symbols" : [ "AFR", "AMR", "EAS", "EUR", "SAS" ]
+          },
+          "doc" : "1K Super Population"
+        }, {
+          "name" : "kGPopCategory",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "KGPopCategory",
+            "doc" : "1K Population",
+            "symbols" : [ "ACB", "ASW", "BEB", "CDX", "CEU", "CHB", "CHS", "CLM", "ESN", "FIN", "GBR", "GIH", "GWD", "IBS", "ITU", "JPT", "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI" ]
+          } ],
+          "doc" : "1K Population"
+        }, {
+          "name" : "chiSquare",
+          "type" : "float",
+          "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
+        } ]
+      }
+    } ],
+    "doc" : "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
+  } ]
+}

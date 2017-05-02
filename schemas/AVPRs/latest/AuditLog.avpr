@@ -51,7 +51,7 @@
       "doc" : "1K Population"
     }, {
       "name" : "chiSquare",
-      "type" : "float",
+      "type" : "double",
       "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
     } ]
   }, {
@@ -421,7 +421,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "3.0.0"
+      "default" : "4.0.0"
     } ]
   }, {
     "type" : "enum",

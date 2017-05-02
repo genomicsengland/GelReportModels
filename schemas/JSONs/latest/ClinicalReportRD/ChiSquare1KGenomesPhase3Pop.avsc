@@ -23,7 +23,7 @@
     "doc" : "1K Population"
   }, {
     "name" : "chiSquare",
-    "type" : "float",
+    "type" : "double",
     "doc" : "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
   } ]
 }

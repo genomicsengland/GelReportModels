@@ -8,7 +8,7 @@
     "type" : [ "null", "string" ],
     "doc" : "Sample Id (e.g, LP00012645_5GH)) for the germline"
   }, {
-    "name" : "tumorSampleId",
+    "name" : "tumourSampleId",
     "type" : [ "null", "string" ],
     "doc" : "Sample Id (e.g, LP00012643_7JS)) for the tumor"
   } ]

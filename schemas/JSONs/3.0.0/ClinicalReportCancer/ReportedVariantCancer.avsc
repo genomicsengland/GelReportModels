@@ -1,0 +1,214 @@
+{
+  "type" : "record",
+  "name" : "ReportedVariantCancer",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "chromosome",
+    "type" : "string",
+    "doc" : "chromosome, named as: 1-22,X,Y,MT(other contigs name)"
+  }, {
+    "name" : "position",
+    "type" : "int",
+    "doc" : "position: Position 1-based"
+  }, {
+    "name" : "reference",
+    "type" : "string",
+    "doc" : "reference: Reference Allele sequence, the same provided in vcf"
+  }, {
+    "name" : "alternate",
+    "type" : "string",
+    "doc" : "alternate: Alternate Allele sequence, the same provided in vcf"
+  }, {
+    "name" : "CosmicIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "variant ID in Cosmic"
+  }, {
+    "name" : "ClinVarIds",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "variant ID in ClinVar"
+  }, {
+    "name" : "dbSNPid",
+    "type" : [ "null", "string" ],
+    "doc" : "variant ID in dbSNP"
+  }, {
+    "name" : "cDNAchange",
+    "type" : [ "null", "string" ],
+    "doc" : "cDNA change, HGVS nomenclature (e.g.)"
+  }, {
+    "name" : "proteinChange",
+    "type" : [ "null", "string" ],
+    "doc" : "protein change, HGVS nomenclature (e.g.)"
+  }, {
+    "name" : "depthReference",
+    "type" : [ "null", "int" ],
+    "doc" : "Depth for Reference Allele"
+  }, {
+    "name" : "depthAlternate",
+    "type" : [ "null", "int" ],
+    "doc" : "Depth for Alternate Allele"
+  }, {
+    "name" : "VAF",
+    "type" : [ "null", "double" ],
+    "doc" : "Variant Allele Frequency"
+  }, {
+    "name" : "commonAF",
+    "type" : [ "null", "int" ],
+    "doc" : "AF in germline DBs"
+  }, {
+    "name" : "IHP",
+    "type" : [ "null", "int" ],
+    "doc" : "Largest reference interrupted homopolymer length intersecting with the indel"
+  }, {
+    "name" : "additionalTextualVariantAnnotations",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "string"
+    } ],
+    "doc" : "For example HGMD ID)"
+  }, {
+    "name" : "additionalNumericVariantAnnotations",
+    "type" : [ "null", {
+      "type" : "map",
+      "values" : "float"
+    } ],
+    "doc" : "For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)"
+  }, {
+    "name" : "comments",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "string"
+    } ],
+    "doc" : "Comments"
+  }, {
+    "name" : "reportEvents",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "ReportEventCancer",
+        "fields" : [ {
+          "name" : "reportEventId",
+          "type" : "string",
+          "doc" : "Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL\n    to validate the report"
+        }, {
+          "name" : "genomicFeatureCancer",
+          "type" : {
+            "type" : "record",
+            "name" : "GenomicFeatureCancer",
+            "fields" : [ {
+              "name" : "featureType",
+              "type" : {
+                "type" : "enum",
+                "name" : "FeatureTypes",
+                "symbols" : [ "RegulatoryRegion", "Gene", "Transcript" ]
+              },
+              "doc" : "Feature Type"
+            }, {
+              "name" : "ensemblId",
+              "type" : "string",
+              "doc" : "Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)"
+            }, {
+              "name" : "refSeqTranscriptId",
+              "type" : "string",
+              "doc" : "Refseq transcript"
+            }, {
+              "name" : "refSeqProteinId",
+              "type" : "string",
+              "doc" : "Refseq protein"
+            }, {
+              "name" : "geneName",
+              "type" : "string",
+              "doc" : "Gene used in tier"
+            }, {
+              "name" : "roleInCancer",
+              "type" : [ "null", "string" ],
+              "doc" : "Role in cancer: oncogege, TSG or both"
+            } ]
+          },
+          "doc" : "This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript\n    If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents"
+        }, {
+          "name" : "soTerms",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "doc" : "SO Term used in tier"
+        }, {
+          "name" : "soNames",
+          "type" : {
+            "type" : "array",
+            "items" : "string"
+          },
+          "doc" : "SO name used in tier"
+        }, {
+          "name" : "actions",
+          "type" : {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "Actions",
+              "fields" : [ {
+                "name" : "actionType",
+                "type" : "string"
+              }, {
+                "name" : "evidence",
+                "type" : [ "null", {
+                  "type" : "array",
+                  "items" : "string"
+                } ],
+                "doc" : "array of PMIDs"
+              }, {
+                "name" : "drug",
+                "type" : [ "null", "string" ],
+                "doc" : "drug"
+              }, {
+                "name" : "status",
+                "type" : [ "null", "string" ],
+                "doc" : "status i.e. clinical, pre-clinical"
+              }, {
+                "name" : "variantActionable",
+                "type" : "boolean",
+                "doc" : "Is variant level actionable"
+              }, {
+                "name" : "comments",
+                "type" : [ "null", {
+                  "type" : "array",
+                  "items" : "string"
+                } ],
+                "doc" : "comments"
+              }, {
+                "name" : "url",
+                "type" : [ "null", "string" ],
+                "doc" : "link to original source"
+              }, {
+                "name" : "evidenceType",
+                "type" : [ "null", "string" ],
+                "doc" : "type of evidence"
+              }, {
+                "name" : "source",
+                "type" : "string",
+                "doc" : "source of the information"
+              } ]
+            }
+          },
+          "doc" : ""
+        }, {
+          "name" : "tier",
+          "type" : [ "null", {
+            "type" : "enum",
+            "name" : "Tier",
+            "doc" : "Possible tiers as defined by Genomics England",
+            "symbols" : [ "NONE", "TIER1", "TIER2", "TIER3" ]
+          } ],
+          "doc" : "Gel Tier"
+        } ]
+      }
+    }
+  } ]
+}

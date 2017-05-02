@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "VariantClassification",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "This is the classification of the variant according to standard practice guidelines (e.g. ACMG)",
+  "symbols" : [ "BENIGN", "LIKELY_BENIGN", "VUS", "LIKELY_PATHOGENIC", "PATHOGENIC" ]
+}
