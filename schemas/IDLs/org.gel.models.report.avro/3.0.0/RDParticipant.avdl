@@ -143,12 +143,12 @@ record PedigreeMember {
     /**
     Numbering used to refer to each member of the pedigree
     */
-    int pedigreeId;
+    union {null, int} pedigreeId;
 
     /**
     If this field is true, the member should be consider the proband of this family
     */
-    boolean isProband;
+    union {null, boolean} isProband;
 
     /**
     participantId
@@ -159,7 +159,7 @@ record PedigreeMember {
     /**
     participantQCState
     */
-    ParticipantQCState participantQCState;
+    union {null, ParticipantQCState} participantQCState;
 
 
     /**
@@ -219,45 +219,45 @@ record PedigreeMember {
     /**
     Adopted Status
     */
-    AdoptedStatus adoptedStatus;
+    union {null, AdoptedStatus} adoptedStatus;
 
     /**
     Life Status
     */
-    LifeStatus lifeStatus;
+    union {null, LifeStatus} lifeStatus;
 
     /**
     The parents of this participant has a consanguineous relationship
     */
-    TernaryOption consanguineousParents;
+    union {null, TernaryOption} consanguineousParents;
 
 
     /**
     Affection Status
     */
-    AffectionStatus affectionStatus;
+    union {null, AffectionStatus} affectionStatus;
 
     /**
     Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty
     */
-    array<Disorder> disorderList;
+    union {null, array<Disorder>} disorderList;
 
     /**
     Clinical Data (HPO terms)
     */
-    array<HpoTerm> hpoTermList;
+    union {null, array<HpoTerm>} hpoTermList;
 
     /**
     Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
     */
-    Ancestries ancestries;
+    union {null, Ancestries} ancestries;
 
     /**
     What has this participant consented to?
     A participant that has been consented to the programme should also have sequence data associated with them; however
     this needs to be programmatically checked
     */
-    ConsentStatus consentStatus;
+    union {null, ConsentStatus} consentStatus;
 
     /**
     This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
@@ -301,7 +301,9 @@ record Pedigree {
     /**
     Model version number
     */
-    VersionControl versionControl;
+    union {null, VersionControl} versionControl;
+
+    union {string, null} LDPCode;
 
     /**
     Family id which internally translate to a sample set
