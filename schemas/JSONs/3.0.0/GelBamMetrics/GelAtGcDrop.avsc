@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "GelAtGcDrop",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "GEL AT/GC dropout calculation",
+  "fields" : [ {
+    "name" : "at_drop",
+    "type" : "double"
+  }, {
+    "name" : "gc_drop",
+    "type" : "double"
+  } ]
+}

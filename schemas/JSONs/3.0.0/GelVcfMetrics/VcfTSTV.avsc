@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "VcfTSTV",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "TS_1",
+    "type" : "double"
+  }, {
+    "name" : "TV",
+    "type" : "double"
+  }, {
+    "name" : "TS",
+    "type" : "double"
+  }, {
+    "name" : "TS_TV",
+    "type" : "double"
+  }, {
+    "name" : "TV_1",
+    "type" : "double"
+  }, {
+    "name" : "TS_TV_1",
+    "type" : "double"
+  } ]
+}

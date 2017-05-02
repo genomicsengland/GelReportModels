@@ -1,0 +1,58 @@
+{
+  "type" : "record",
+  "name" : "VerifyBamId",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "Verify Bam ID\n\nThis is only run on germline samples\n\n* `SEQ_ID`:\n* `CHIP_ID`:\n* `SNPS`:\n* `READS`:\n* `AVG_DP`:\n* `FREEMIX`:\n* `FREELK1`:\n* `FREELK0`:\n* `FREE_RH`:\n* `FREE_RA`:\n* `CHIPMIX`:\n* `CHIPLK1`:\n* `CHIPLK0`:\n* `CHIP_RA`:\n* `DPREF`:\n* `RDPHET`:\n* `RDPALT`:",
+  "fields" : [ {
+    "name" : "SEQ_ID",
+    "type" : "string"
+  }, {
+    "name" : "CHIP_ID",
+    "type" : "string"
+  }, {
+    "name" : "SNPS",
+    "type" : "double"
+  }, {
+    "name" : "READS",
+    "type" : "double"
+  }, {
+    "name" : "AVG_DP",
+    "type" : "double"
+  }, {
+    "name" : "FREEMIX",
+    "type" : "double"
+  }, {
+    "name" : "FREELK1",
+    "type" : "double"
+  }, {
+    "name" : "FREELK0",
+    "type" : "double"
+  }, {
+    "name" : "FREE_RH",
+    "type" : "string"
+  }, {
+    "name" : "FREE_RA",
+    "type" : "string"
+  }, {
+    "name" : "CHIPMIX",
+    "type" : "string"
+  }, {
+    "name" : "CHIPLK1",
+    "type" : "string"
+  }, {
+    "name" : "CHIPLK0",
+    "type" : "string"
+  }, {
+    "name" : "CHIP_RA",
+    "type" : "string"
+  }, {
+    "name" : "DPREF",
+    "type" : "string"
+  }, {
+    "name" : "RDPHET",
+    "type" : "string"
+  }, {
+    "name" : "RDPALT",
+    "type" : "string"
+  } ]
+}

@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "ComplexGeneticPhenomena",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "mosaicism", "monosomy", "disomy", "uniparental_disomy", "trisomy", "other_aneuploidy" ]
+}

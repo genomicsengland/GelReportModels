@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "SupportingEvidences",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "previousSupportingEvidences",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    }
+  }, {
+    "name" : "modifiedSupportingEvidences",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    }
+  } ]
+}

@@ -191,10 +191,10 @@ record CancerParticipant{
     /**
     Center
     */
-    union {string, null} center;
+    union {null, string} center;
 
 
-    union {string, null} LDPCode;
+    union {null, string} LDPCode;
 
     /**
     Individual Id

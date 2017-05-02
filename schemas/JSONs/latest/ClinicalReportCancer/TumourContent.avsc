@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "TumourContent",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "High", "Medium", "Low" ]
+}

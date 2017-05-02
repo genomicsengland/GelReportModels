@@ -1,0 +1,30 @@
+{
+  "type" : "record",
+  "name" : "VcfMetrics",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "NUMBER_OF_SAMPLES",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_INDELS",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_MNPS",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_MULTIALLELIC_SNP_SITES",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_SNPS",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_RECORDS",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_OTHERS",
+    "type" : "double"
+  }, {
+    "name" : "NUMBER_OF_MULTIALLELIC_SITES",
+    "type" : "double"
+  } ]
+}

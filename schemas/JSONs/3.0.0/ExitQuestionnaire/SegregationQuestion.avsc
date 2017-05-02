@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "SegregationQuestion",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "yes", "no" ]
+}

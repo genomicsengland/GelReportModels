@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "SampleSource",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "TUMOUR", "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST", "TISSUE" ]
+}

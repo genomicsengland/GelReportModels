@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Product",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "DNA", "RNA" ]
+}

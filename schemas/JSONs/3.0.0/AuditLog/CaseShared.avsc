@@ -1,0 +1,18 @@
+{
+  "type" : "record",
+  "name" : "CaseShared",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "previousGroups",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    }
+  }, {
+    "name" : "modifiedGroups",
+    "type" : {
+      "type" : "array",
+      "items" : "string"
+    }
+  } ]
+}

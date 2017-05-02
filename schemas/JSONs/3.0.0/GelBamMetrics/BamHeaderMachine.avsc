@@ -1,0 +1,28 @@
+{
+  "type" : "record",
+  "name" : "BamHeaderMachine",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "machines",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "Machine",
+        "fields" : [ {
+          "name" : "DATE",
+          "type" : "double"
+        }, {
+          "name" : "MACHINE",
+          "type" : "string"
+        }, {
+          "name" : "FLOWCELL",
+          "type" : "string"
+        }, {
+          "name" : "RUN",
+          "type" : "string"
+        } ]
+      }
+    }
+  } ]
+}

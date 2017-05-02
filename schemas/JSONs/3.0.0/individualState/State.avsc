@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "State",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "ready", "pending", "hold", "fail", "caution", "blocked" ]
+}

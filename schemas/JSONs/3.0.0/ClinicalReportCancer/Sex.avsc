@@ -1,0 +1,6 @@
+{
+  "type" : "enum",
+  "name" : "Sex",
+  "namespace" : "Gel_BioInf_Models",
+  "symbols" : [ "M", "F" ]
+}

@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "FamilyQCState",
+  "namespace" : "Gel_BioInf_Models",
+  "doc" : "FamilyQCState",
+  "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
+}

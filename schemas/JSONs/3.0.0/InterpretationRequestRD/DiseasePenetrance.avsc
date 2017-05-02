@@ -1,0 +1,17 @@
+{
+  "type" : "record",
+  "name" : "DiseasePenetrance",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "specificDisease",
+    "type" : "string"
+  }, {
+    "name" : "penetrance",
+    "type" : {
+      "type" : "enum",
+      "name" : "Penetrance",
+      "doc" : "Penetrance assumed in the analysis",
+      "symbols" : [ "complete", "incomplete" ]
+    }
+  } ]
+}

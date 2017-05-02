@@ -1,0 +1,12 @@
+{
+  "type" : "record",
+  "name" : "BamHeaderOther",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "PIPELINE_ID",
+    "type" : "string"
+  }, {
+    "name" : "PIPELINE_VERSION",
+    "type" : "string"
+  } ]
+}

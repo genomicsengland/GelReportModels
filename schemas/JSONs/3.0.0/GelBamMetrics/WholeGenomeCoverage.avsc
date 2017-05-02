@@ -1,0 +1,64 @@
+{
+  "type" : "record",
+  "name" : "WholeGenomeCoverage",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "coverageSummary",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "CoverageSummary",
+        "fields" : [ {
+          "name" : "avg",
+          "type" : "double",
+          "doc" : "Average coverage - renamed from mean"
+        }, {
+          "name" : "med",
+          "type" : "double",
+          "doc" : "median of the coverage - renamed from median"
+        }, {
+          "name" : "bases",
+          "type" : "double",
+          "doc" : "Number of bases - renamed from \"n\""
+        }, {
+          "name" : "pct25",
+          "type" : [ "null", "double" ],
+          "doc" : "Percentile 25"
+        }, {
+          "name" : "pct75",
+          "type" : [ "null", "double" ],
+          "doc" : "Percentile 75"
+        }, {
+          "name" : "lt15x",
+          "type" : [ "null", "double" ],
+          "doc" : "Fraction of coverage values with a depth of coverage less than 15x"
+        }, {
+          "name" : "gte15x",
+          "type" : [ "null", "double" ],
+          "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 15x"
+        }, {
+          "name" : "gte30x",
+          "type" : [ "null", "double" ],
+          "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 30x"
+        }, {
+          "name" : "gte50x",
+          "type" : [ "null", "double" ],
+          "doc" : "Fraction of coverage values with a depth of coverage greater than or equal to 50x"
+        }, {
+          "name" : "sd",
+          "type" : [ "null", "double" ],
+          "doc" : "Standard deviation of coverage values"
+        }, {
+          "name" : "localRMSD",
+          "type" : [ "null", "double" ],
+          "doc" : "estimation of root mean square deviation: weighted average RMSD of chunks of 100k bases"
+        }, {
+          "name" : "scope",
+          "type" : "string",
+          "doc" : "Scope to which these summary stats refer to.\n    *   Examples: \"allchrs\" (all chromosomes), \"X\", \"chr6\", \"6\", \"autosomes\""
+        } ]
+      }
+    }
+  } ]
+}

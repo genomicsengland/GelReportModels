@@ -1,0 +1,38 @@
+{
+  "type" : "record",
+  "name" : "Sample",
+  "namespace" : "Gel_BioInf_Models",
+  "fields" : [ {
+    "name" : "sampleId",
+    "type" : "string",
+    "doc" : "Sample Id (e.g, LP00012645_5GH))"
+  }, {
+    "name" : "labSampleId",
+    "type" : "string",
+    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+  }, {
+    "name" : "source",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "SampleSource",
+      "symbols" : [ "BLOOD", "SALIVA", "FIBROBLAST", "TISSUE" ]
+    } ],
+    "doc" : "Source"
+  }, {
+    "name" : "product",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "Product",
+      "symbols" : [ "DNA", "RNA" ]
+    } ],
+    "doc" : "Product"
+  }, {
+    "name" : "preparationMethod",
+    "type" : [ "null", {
+      "type" : "enum",
+      "name" : "PreparationMethod",
+      "symbols" : [ "EDTA", "ORAGENE", "FF" ]
+    } ],
+    "doc" : "preparationMethod"
+  } ]
+}
