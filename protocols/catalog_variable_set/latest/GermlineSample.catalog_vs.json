@@ -1,0 +1,87 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "sampleId", 
+  "description": "Sample Id (e.g, LP00012645_5GH))"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "labSampleId", 
+  "description": "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+ }, 
+ {
+  "name": "source", 
+  "required": false, 
+  "allowedValues": [
+   "TUMOUR", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+   "BLOOD", 
+   "SALIVA", 
+   "FIBROBLAST", 
+   "TISSUE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Source"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "method", 
+  "description": "Method"
+ }, 
+ {
+  "name": "product", 
+  "required": false, 
+  "allowedValues": [
+   "DNA", 
+   "RNA"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Product"
+ }, 
+ {
+  "name": "preparationMethod", 
+  "required": false, 
+  "allowedValues": [
+   "EDTA", 
+   "ORAGENE", 
+   "FF", 
+   "FFPE", 
+   "CD128_SORTED_CELLS", 
+   "ASPIRATE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "preparationMethod"
+ }, 
+ {
+  "name": "programmePhase", 
+  "required": false, 
+  "allowedValues": [
+   "CRUK", 
+   "OXFORD", 
+   "CLL", 
+   "IIP", 
+   "MAIN", 
+   "EXPT"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "gelPhase (eg cruk, brc, cll, iip, main)"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "clinicalSampleDateTime", 
+  "description": "In the format YYYY-MM-DDTHH:MM:SS+0000"
+ }
+]
