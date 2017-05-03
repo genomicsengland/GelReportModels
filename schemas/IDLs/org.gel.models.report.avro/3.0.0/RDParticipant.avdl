@@ -175,7 +175,7 @@ record PedigreeMember {
     /**
     Karyotypic sex of the participant as previously established or by looking at the GEL genome
     */
-    union {null, PersonKaryotipicSex} personKaryotipicSex;
+    union {null, PersonKaryotipicSex} personKaryotypicSex;
 
     /**
     Year of Birth
