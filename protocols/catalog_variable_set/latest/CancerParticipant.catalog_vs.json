@@ -123,7 +123,7 @@
    {
     "multiValue": false, 
     "required": true, 
-    "type": "TEXT", 
+    "type": "NUMERIC", 
     "name": "tumourId", 
     "description": "Id of each one of the tumors for a participant"
    }, 
@@ -311,9 +311,9 @@
    {
     "multiValue": false, 
     "required": true, 
-    "type": "TEXT", 
+    "type": "NUMERIC", 
     "name": "labSampleId", 
-    "description": "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+    "description": "Lab sample Id"
    }, 
    {
     "name": "source", 
@@ -420,7 +420,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.0", 
+    "defaultValue": "4.0.1", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 

@@ -113,9 +113,9 @@ record Sample{
     string sampleId;
 
     /**
-    Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
+    Lab Sample Id
     */
-    string labSampleId;
+    int labSampleId;
 
     /**
     Source
@@ -180,7 +180,7 @@ record PedigreeMember {
     /**
     Year of Birth
     */
-    union {null, string} yearOfBirth;
+    union {null, int} yearOfBirth;
 
 
     /**

@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '4.0.0'
+version = '4.0.1'
 
 
 class ACMGClassification(object):
@@ -665,7 +665,7 @@ class CancerInterpretationRequest(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
-{"fields": [{"default": "4.0.0", "doc": "", "type": "string", "name":
+{"fields": [{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
@@ -701,7 +701,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
 "sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
-{"doc": "", "type": "string", "name": "tumourId"}, {"doc": "", "type":
+{"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER",
@@ -740,7 +740,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "string"], "name": "TNMStageGrouping"}], "type": "record", "name":
 "TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": ["null", "SampleSource"], "name": "source"},
 {"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
 "type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
@@ -925,7 +925,7 @@ class CancerInterpretedGenome(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "string", "name":
@@ -1083,7 +1083,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
 "sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
-{"doc": "", "type": "string", "name": "tumourId"}, {"doc": "", "type":
+{"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER",
@@ -1122,7 +1122,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "string"], "name": "TNMStageGrouping"}], "type": "record", "name":
 "TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": ["null", "SampleSource"], "name": "source"},
 {"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
 "type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
@@ -1136,7 +1136,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
 "name": "tumourSampleId"}]}, "type": "array"}], "name":
 "matchedSamples"}, {"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}], "doc": ""}
 """
@@ -1513,7 +1513,7 @@ false, "doc": "", "type": "boolean", "name":
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
 "sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
-{"doc": "", "type": "string", "name": "tumourId"}, {"doc": "", "type":
+{"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER",
@@ -1552,7 +1552,7 @@ false, "doc": "", "type": "boolean", "name":
 "string"], "name": "TNMStageGrouping"}], "type": "record", "name":
 "TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": ["null", "SampleSource"], "name": "source"},
 {"doc": "", "type": ["null", "string"], "name": "method"}, {"doc": "",
 "type": ["null", "Product"], "name": "product"}, {"doc": "", "type":
@@ -1566,7 +1566,7 @@ false, "doc": "", "type": "boolean", "name":
 "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
 "name": "tumourSampleId"}]}, "type": "array"}], "name":
 "matchedSamples"}, {"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}]}, "name": "cancerParticipant"}]}
 """
@@ -2575,7 +2575,7 @@ class GermlineSample(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "GermlineSample", "fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": ["null", {"symbols": ["TUMOUR",
 "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS",
 "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", "BLOOD", "SALIVA", "FIBROBLAST",
@@ -2624,7 +2624,7 @@ class GermlineSample(ProtocolElement):
         self.clinicalSampleDateTime = kwargs.get(
             'clinicalSampleDateTime', None)
         self.labSampleId = kwargs.get(
-            'labSampleId', 'None')
+            'labSampleId', None)
         self.method = kwargs.get(
             'method', None)
         self.preparationMethod = kwargs.get(
@@ -5968,7 +5968,7 @@ class InterpretationData(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationData", "fields": [{"type": {"doc": "", "type":
 "record", "name": "TieringResult", "fields": [{"doc": "", "type":
-{"fields": [{"default": "4.0.0", "doc": "", "type": "string", "name":
+{"fields": [{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"default": "GRCh37.p13", "doc": "",
 "type": "string", "name": "genomeAssemblyVersion"}, {"default": "4.0",
@@ -6007,11 +6007,11 @@ class InterpretationData(ProtocolElement):
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -6065,7 +6065,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -6238,7 +6238,7 @@ class InterpretationRequestRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
@@ -6280,11 +6280,11 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -6338,7 +6338,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -6562,7 +6562,7 @@ class InterpretedGenomeRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -7058,7 +7058,7 @@ class Pedigree(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}, {"type": ["null", "string"], "name":
 "LDPCode"}, {"doc": "", "type": "string", "name": "familyId"},
@@ -7077,11 +7077,11 @@ class Pedigree(ProtocolElement):
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -7135,7 +7135,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -7248,11 +7248,11 @@ class PedigreeMember(ProtocolElement):
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -7306,7 +7306,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -7636,7 +7636,7 @@ class RDFamilyChange(ProtocolElement):
 "SampleChanged"], "doc": "", "type": "enum", "name":
 "RDFamilyChangeCode"}, "name": "code"}, {"doc": "", "type": {"doc":
 "", "type": "record", "name": "Pedigree", "fields": [{"doc": "",
-"type": ["null", {"fields": [{"default": "4.0.0", "doc": "", "type":
+"type": ["null", {"fields": [{"default": "4.0.1", "doc": "", "type":
 "string", "name": "GitVersionControl"}], "type": "record", "name":
 "VersionControl"}], "name": "versionControl"}, {"type": ["null",
 "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
@@ -7655,11 +7655,11 @@ class RDFamilyChange(ProtocolElement):
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -7713,7 +7713,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -8756,7 +8756,7 @@ class Sample(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name": "Sample",
 "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": "string", "name": "labSampleId"}, {"doc": "", "type":
+"", "type": "int", "name": "labSampleId"}, {"doc": "", "type":
 ["null", {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"],
 "type": "enum", "name": "SampleSource"}], "name": "source"}, {"doc":
 "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum",
@@ -8791,7 +8791,7 @@ class Sample(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.labSampleId = kwargs.get(
-            'labSampleId', 'None')
+            'labSampleId', None)
         self.preparationMethod = kwargs.get(
             'preparationMethod', None)
         self.product = kwargs.get(
@@ -9010,7 +9010,7 @@ class SensitiveInformation(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"type": "string", "name": "gelID"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
@@ -9256,7 +9256,7 @@ class TieringResult(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "TieringResult", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.0", "doc": "", "type": "string", "name":
+[{"default": "4.0.1", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"default": "GRCh37.p13", "doc": "",
 "type": "string", "name": "genomeAssemblyVersion"}, {"default": "4.0",
@@ -9295,11 +9295,11 @@ class TieringResult(ProtocolElement):
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
-"type": ["null", "string"], "name": "yearOfBirth"}, {"doc": "",
-"type": ["null", "int"], "name": "fatherId"}, {"doc": "", "type":
-["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
-"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"],
-"name": "superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
+"type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
+["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
+"int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
+"name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name":
+"superMotherId"}, {"doc": "", "type": ["null", "int"], "name":
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
@@ -9353,7 +9353,7 @@ false, "doc": "", "type": "boolean", "name":
 "boolean", "name": "carrierStatusConsent"}]}], "name":
 "consentStatus"}, {"doc": "", "type": ["null", {"items": {"fields":
 [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": "string", "name": "labSampleId"}, {"doc": "", "type": ["null",
+"type": "int", "name": "labSampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["BLOOD", "SALIVA", "FIBROBLAST", "TISSUE"], "type":
 "enum", "name": "SampleSource"}], "name": "source"}, {"doc": "",
 "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
@@ -9649,7 +9649,7 @@ class TumourSample(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "TumourSample", "fields": [{"doc": "", "type": "string", "name":
 "sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
-{"doc": "", "type": "string", "name": "tumourId"}, {"doc": "", "type":
+{"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER",
@@ -9751,7 +9751,7 @@ class TumourSample(ProtocolElement):
         self.tumourContent = kwargs.get(
             'tumourContent', None)
         self.tumourId = kwargs.get(
-            'tumourId', 'None')
+            'tumourId', None)
         self.tumourSubType = kwargs.get(
             'tumourSubType', None)
         self.tumourType = kwargs.get(
@@ -10211,7 +10211,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VersionControl", "fields": [{"default": "4.0.0", "doc": "", "type":
+"VersionControl", "fields": [{"default": "4.0.1", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -10234,7 +10234,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '4.0.0')
+            'GitVersionControl', '4.0.1')
 
 
 class WholeGenomeCoverage(ProtocolElement):

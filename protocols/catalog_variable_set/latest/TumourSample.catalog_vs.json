@@ -16,7 +16,7 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "TEXT", 
+  "type": "NUMERIC", 
   "name": "tumourId", 
   "description": "Id of each one of the tumors for a participant"
  }, 

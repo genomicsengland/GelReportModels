@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "4.0.0"
+        "default" : "4.0.1"
       } ]
     },
     "doc" : "Model version number"
@@ -165,7 +165,7 @@
               "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
             }, {
               "name" : "yearOfBirth",
-              "type" : [ "null", "string" ],
+              "type" : [ "null", "int" ],
               "doc" : "Year of Birth"
             }, {
               "name" : "fatherId",
@@ -396,8 +396,8 @@
                     "doc" : "Sample Id (e.g, LP00012645_5GH))"
                   }, {
                     "name" : "labSampleId",
-                    "type" : "string",
-                    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+                    "type" : "int",
+                    "doc" : "Lab Sample Id"
                   }, {
                     "name" : "source",
                     "type" : [ "null", {
