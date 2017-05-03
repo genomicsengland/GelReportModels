@@ -318,7 +318,7 @@ record Pedigree {
 
     boolean readyForAnalysis;
 
-    FamilyQCState familyQCState;
+    union {null, FamilyQCState} familyQCState;
 }
 
 }
