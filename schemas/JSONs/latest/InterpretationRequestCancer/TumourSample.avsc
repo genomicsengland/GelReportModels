@@ -12,7 +12,7 @@
     "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
   }, {
     "name" : "tumourId",
-    "type" : "string",
+    "type" : "int",
     "doc" : "Id of each one of the tumors for a participant"
   }, {
     "name" : "programmePhase",

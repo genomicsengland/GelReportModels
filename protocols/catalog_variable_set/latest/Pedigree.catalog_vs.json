@@ -6,7 +6,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.0", 
+    "defaultValue": "4.0.1", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 
@@ -113,7 +113,7 @@
    {
     "multiValue": false, 
     "required": false, 
-    "type": "TEXT", 
+    "type": "NUMERIC", 
     "name": "yearOfBirth", 
     "description": "Year of Birth"
    }, 
@@ -492,9 +492,9 @@
      {
       "multiValue": false, 
       "required": true, 
-      "type": "TEXT", 
+      "type": "NUMERIC", 
       "name": "labSampleId", 
-      "description": "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+      "description": "Lab Sample Id"
      }, 
      {
       "name": "source", 

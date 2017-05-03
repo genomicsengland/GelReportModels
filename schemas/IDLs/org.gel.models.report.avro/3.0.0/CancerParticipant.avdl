@@ -40,9 +40,9 @@ record GermlineSample {
     string sampleId;
 
     /**
-    Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)
+    Lab sample Id
     */
-    string labSampleId;
+    int labSampleId;
 
     /**
     Source
@@ -91,7 +91,7 @@ record TumourSample {
     /**
     Id of each one of the tumors for a participant
     */
-    string tumourId;
+    int tumourId;
 
     /**
     gelPhase (eg cruk, brc, cll, iip, main)

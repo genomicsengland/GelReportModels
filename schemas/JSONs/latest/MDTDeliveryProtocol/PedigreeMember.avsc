@@ -48,7 +48,7 @@
     "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
   }, {
     "name" : "yearOfBirth",
-    "type" : [ "null", "string" ],
+    "type" : [ "null", "int" ],
     "doc" : "Year of Birth"
   }, {
     "name" : "fatherId",
@@ -279,8 +279,8 @@
           "doc" : "Sample Id (e.g, LP00012645_5GH))"
         }, {
           "name" : "labSampleId",
-          "type" : "string",
-          "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+          "type" : "int",
+          "doc" : "Lab Sample Id"
         }, {
           "name" : "source",
           "type" : [ "null", {
