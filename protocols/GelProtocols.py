@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '4.0.1'
+version = '4.0.2'
 
 
 class ACMGClassification(object):
@@ -158,7 +158,7 @@ class AdoptedStatus(object):
     adoptedin means adopted into the family adoptedout means child
     belonged to the family and was adopted out
     """
-    not_adopted = "not_adopted"
+    notadopted = "notadopted"
     adoptedin = "adoptedin"
     adoptedout = "adoptedout"
 
@@ -665,7 +665,7 @@ class CancerInterpretationRequest(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretationRequest", "fields": [{"doc": "", "type":
-{"fields": [{"default": "4.0.1", "doc": "", "type": "string", "name":
+{"fields": [{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
@@ -700,7 +700,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "string", "type": "map"}], "name": "additionalInformation"}, {"doc":
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
@@ -925,7 +925,7 @@ class CancerInterpretedGenome(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "CancerInterpretedGenome", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "string", "name":
@@ -1082,7 +1082,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "string", "type": "map"}], "name": "additionalInformation"}, {"doc":
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
@@ -1136,7 +1136,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
 "name": "tumourSampleId"}]}, "type": "array"}], "name":
 "matchedSamples"}, {"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}], "doc": ""}
 """
@@ -1512,7 +1512,7 @@ false, "doc": "", "type": "boolean", "name":
 "string", "type": "map"}], "name": "additionalInformation"}, {"doc":
 "", "type": ["null", "string"], "name": "assignedICD10"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
@@ -1566,7 +1566,7 @@ false, "doc": "", "type": "boolean", "name":
 "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"],
 "name": "tumourSampleId"}]}, "type": "array"}], "name":
 "matchedSamples"}, {"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}]}, "name": "cancerParticipant"}]}
 """
@@ -5968,7 +5968,7 @@ class InterpretationData(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationData", "fields": [{"type": {"doc": "", "type":
 "record", "name": "TieringResult", "fields": [{"doc": "", "type":
-{"fields": [{"default": "4.0.1", "doc": "", "type": "string", "name":
+{"fields": [{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"default": "GRCh37.p13", "doc": "",
 "type": "string", "name": "genomeAssemblyVersion"}, {"default": "4.0",
@@ -6006,7 +6006,7 @@ class InterpretationData(ProtocolElement):
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -6015,7 +6015,7 @@ class InterpretationData(ProtocolElement):
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -6093,11 +6093,11 @@ false, "doc": "", "type": "boolean", "name":
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}], "type": "record", "name": "DiseasePenetrance"},
 "type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
-"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"name": "readyForAnalysis"}, {"type": ["null", {"symbols": ["noState",
 "passedMedicalReviewReadyForInterpretation",
 "passedMedicalReviewNotReadyForInterpretation", "queryToGel",
 "queryToGMC", "failed"], "doc": "", "type": "enum", "name":
-"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+"FamilyQCState"}], "name": "familyQCState"}]}, "name": "pedigree"},
 {"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": ["null",
 "string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
@@ -6238,7 +6238,7 @@ class InterpretationRequestRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
@@ -6279,7 +6279,7 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -6288,7 +6288,7 @@ false, "doc": "", "type": "boolean", "name": "interpretGenome"},
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -6366,11 +6366,11 @@ false, "doc": "", "type": "boolean", "name":
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}], "type": "record", "name": "DiseasePenetrance"},
 "type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
-"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"name": "readyForAnalysis"}, {"type": ["null", {"symbols": ["noState",
 "passedMedicalReviewReadyForInterpretation",
 "passedMedicalReviewNotReadyForInterpretation", "queryToGel",
 "queryToGMC", "failed"], "doc": "", "type": "enum", "name":
-"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+"FamilyQCState"}], "name": "familyQCState"}]}, "name": "pedigree"},
 {"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": ["null",
 "string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
@@ -6562,7 +6562,7 @@ class InterpretedGenomeRD(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "InterpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -7058,7 +7058,7 @@ class Pedigree(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "Pedigree", "fields": [{"doc": "", "type": ["null", {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}],
 "name": "versionControl"}, {"type": ["null", "string"], "name":
 "LDPCode"}, {"doc": "", "type": "string", "name": "familyId"},
@@ -7076,7 +7076,7 @@ class Pedigree(ProtocolElement):
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -7085,7 +7085,7 @@ class Pedigree(ProtocolElement):
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -7163,11 +7163,11 @@ false, "doc": "", "type": "boolean", "name":
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}], "type": "record", "name": "DiseasePenetrance"},
 "type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
-"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"name": "readyForAnalysis"}, {"type": ["null", {"symbols": ["noState",
 "passedMedicalReviewReadyForInterpretation",
 "passedMedicalReviewNotReadyForInterpretation", "queryToGel",
 "queryToGMC", "failed"], "doc": "", "type": "enum", "name":
-"FamilyQCState"}, "name": "familyQCState"}], "doc": ""}
+"FamilyQCState"}], "name": "familyQCState"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -7247,7 +7247,7 @@ class PedigreeMember(ProtocolElement):
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -7256,7 +7256,7 @@ class PedigreeMember(ProtocolElement):
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -7344,7 +7344,7 @@ false, "doc": "", "type": "boolean", "name":
         "participantId",
         "participantQCState",
         "pedigreeId",
-        "personKaryotipicSex",
+        "personKaryotypicSex",
         "samples",
         "sex",
         "superFatherId",
@@ -7384,7 +7384,7 @@ false, "doc": "", "type": "boolean", "name":
         'disorderList', 'fatherId', 'gelSuperFamilyId', 'hpoTermList',
         'inbreedingCoefficient', 'isProband', 'lifeStatus',
         'monozygotic', 'motherId', 'participantId',
-        'participantQCState', 'pedigreeId', 'personKaryotipicSex',
+        'participantQCState', 'pedigreeId', 'personKaryotypicSex',
         'samples', 'sex', 'superFatherId', 'superMotherId',
         'twinGroup', 'yearOfBirth'
     ]
@@ -7426,8 +7426,8 @@ false, "doc": "", "type": "boolean", "name":
             'participantQCState', None)
         self.pedigreeId = kwargs.get(
             'pedigreeId', None)
-        self.personKaryotipicSex = kwargs.get(
-            'personKaryotipicSex', None)
+        self.personKaryotypicSex = kwargs.get(
+            'personKaryotypicSex', None)
         self.samples = kwargs.get(
             'samples', None)
         self.sex = kwargs.get(
@@ -7636,7 +7636,7 @@ class RDFamilyChange(ProtocolElement):
 "SampleChanged"], "doc": "", "type": "enum", "name":
 "RDFamilyChangeCode"}, "name": "code"}, {"doc": "", "type": {"doc":
 "", "type": "record", "name": "Pedigree", "fields": [{"doc": "",
-"type": ["null", {"fields": [{"default": "4.0.1", "doc": "", "type":
+"type": ["null", {"fields": [{"default": "4.0.2", "doc": "", "type":
 "string", "name": "GitVersionControl"}], "type": "record", "name":
 "VersionControl"}], "name": "versionControl"}, {"type": ["null",
 "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
@@ -7654,7 +7654,7 @@ class RDFamilyChange(ProtocolElement):
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -7663,7 +7663,7 @@ class RDFamilyChange(ProtocolElement):
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -7741,11 +7741,11 @@ false, "doc": "", "type": "boolean", "name":
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}], "type": "record", "name": "DiseasePenetrance"},
 "type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
-"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"name": "readyForAnalysis"}, {"type": ["null", {"symbols": ["noState",
 "passedMedicalReviewReadyForInterpretation",
 "passedMedicalReviewNotReadyForInterpretation", "queryToGel",
 "queryToGMC", "failed"], "doc": "", "type": "enum", "name":
-"FamilyQCState"}, "name": "familyQCState"}]}, "name": "Family"}]}
+"FamilyQCState"}], "name": "familyQCState"}]}, "name": "Family"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -9010,7 +9010,7 @@ class SensitiveInformation(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "SensitiveInformation", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"type": "string", "name": "gelID"},
 {"type": ["null", {"items": "string", "type": "array"}], "name":
@@ -9256,7 +9256,7 @@ class TieringResult(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "TieringResult", "fields": [{"doc": "", "type": {"fields":
-[{"default": "4.0.1", "doc": "", "type": "string", "name":
+[{"default": "4.0.2", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"default": "GRCh37.p13", "doc": "",
 "type": "string", "name": "genomeAssemblyVersion"}, {"default": "4.0",
@@ -9294,7 +9294,7 @@ class TieringResult(ProtocolElement):
 "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY",
 "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotipicSex"}, {"doc": "",
+"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "",
 "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type":
 ["null", "int"], "name": "fatherId"}, {"doc": "", "type": ["null",
 "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"],
@@ -9303,7 +9303,7 @@ class TieringResult(ProtocolElement):
 "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
 "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}],
 "name": "monozygotic"}, {"doc": "", "type": ["null", {"symbols":
-["not_adopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
+["notadopted", "adoptedin", "adoptedout"], "doc": "", "type": "enum",
 "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "",
 "type": ["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED",
 "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "", "type": "enum",
@@ -9381,11 +9381,11 @@ false, "doc": "", "type": "boolean", "name":
 "doc": "", "type": "enum", "name": "Penetrance"}, "name":
 "penetrance"}], "type": "record", "name": "DiseasePenetrance"},
 "type": "array"}], "name": "diseasePenetrances"}, {"type": "boolean",
-"name": "readyForAnalysis"}, {"type": {"symbols": ["noState",
+"name": "readyForAnalysis"}, {"type": ["null", {"symbols": ["noState",
 "passedMedicalReviewReadyForInterpretation",
 "passedMedicalReviewNotReadyForInterpretation", "queryToGel",
 "queryToGMC", "failed"], "doc": "", "type": "enum", "name":
-"FamilyQCState"}, "name": "familyQCState"}]}, "name": "pedigree"},
+"FamilyQCState"}], "name": "familyQCState"}]}, "name": "pedigree"},
 {"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": ["null",
 "string"], "name": "dbSNPid"}, {"doc": "", "type": "int", "name":
@@ -9648,7 +9648,7 @@ class TumourSample(ProtocolElement):
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "TumourSample", "fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "labSampleId"},
+"sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"},
 {"doc": "", "type": "int", "name": "tumourId"}, {"doc": "", "type":
 ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP", "MAIN", "EXPT"],
 "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
@@ -9733,7 +9733,7 @@ class TumourSample(ProtocolElement):
         self.clinicalSampleDateTime = kwargs.get(
             'clinicalSampleDateTime', None)
         self.labSampleId = kwargs.get(
-            'labSampleId', 'None')
+            'labSampleId', None)
         self.phase = kwargs.get(
             'phase', None)
         self.preparationMethod = kwargs.get(
@@ -10211,7 +10211,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
-"VersionControl", "fields": [{"default": "4.0.1", "doc": "", "type":
+"VersionControl", "fields": [{"default": "4.0.2", "doc": "", "type":
 "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -10234,7 +10234,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '4.0.1')
+            'GitVersionControl', '4.0.2')
 
 
 class WholeGenomeCoverage(ProtocolElement):

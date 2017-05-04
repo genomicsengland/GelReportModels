@@ -9,7 +9,7 @@
       "name" : "GitVersionControl",
       "type" : "string",
       "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-      "default" : "4.0.1"
+      "default" : "4.0.2"
     } ]
   }, {
     "type" : "enum",
@@ -275,7 +275,7 @@
     "type" : "enum",
     "name" : "AdoptedStatus",
     "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
-    "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+    "symbols" : [ "notadopted", "adoptedin", "adoptedout" ]
   }, {
     "type" : "record",
     "name" : "Sample",
@@ -329,7 +329,7 @@
       "type" : "Sex",
       "doc" : "Sex of the Participant"
     }, {
-      "name" : "personKaryotipicSex",
+      "name" : "personKaryotypicSex",
       "type" : [ "null", "PersonKaryotipicSex" ],
       "doc" : "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
     }, {
@@ -484,7 +484,7 @@
       "type" : "boolean"
     }, {
       "name" : "familyQCState",
-      "type" : "FamilyQCState"
+      "type" : [ "null", "FamilyQCState" ]
     } ]
   }, {
     "type" : "enum",
