@@ -6,7 +6,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.1", 
+    "defaultValue": "4.0.2", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 
@@ -91,7 +91,7 @@
     "description": "Sex of the Participant"
    }, 
    {
-    "name": "personKaryotipicSex", 
+    "name": "personKaryotypicSex", 
     "required": false, 
     "allowedValues": [
      "UNKNOWN", 
@@ -168,7 +168,7 @@
     "name": "adoptedStatus", 
     "required": false, 
     "allowedValues": [
-     "not_adopted", 
+     "notadopted", 
      "adoptedin", 
      "adoptedout"
     ], 
@@ -678,7 +678,7 @@
  }, 
  {
   "name": "familyQCState", 
-  "required": true, 
+  "required": false, 
   "allowedValues": [
    "noState", 
    "passedMedicalReviewReadyForInterpretation", 

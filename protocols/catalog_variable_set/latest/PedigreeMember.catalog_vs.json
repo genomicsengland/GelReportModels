@@ -55,7 +55,7 @@
   "description": "Sex of the Participant"
  }, 
  {
-  "name": "personKaryotipicSex", 
+  "name": "personKaryotypicSex", 
   "required": false, 
   "allowedValues": [
    "UNKNOWN", 
@@ -132,7 +132,7 @@
   "name": "adoptedStatus", 
   "required": false, 
   "allowedValues": [
-   "not_adopted", 
+   "notadopted", 
    "adoptedin", 
    "adoptedout"
   ], 

@@ -12,7 +12,7 @@
         "name" : "GitVersionControl",
         "type" : "string",
         "doc" : "This is the version for the entire set of data models as referred to the Git release tag",
-        "default" : "4.0.1"
+        "default" : "4.0.2"
       } ]
     } ],
     "doc" : "Model version number"
@@ -66,7 +66,7 @@
           },
           "doc" : "Sex of the Participant"
         }, {
-          "name" : "personKaryotipicSex",
+          "name" : "personKaryotypicSex",
           "type" : [ "null", {
             "type" : "enum",
             "name" : "PersonKaryotipicSex",
@@ -113,7 +113,7 @@
             "type" : "enum",
             "name" : "AdoptedStatus",
             "doc" : "adoptedin means adopted into the family\nadoptedout means child belonged to the family and was adopted out",
-            "symbols" : [ "not_adopted", "adoptedin", "adoptedout" ]
+            "symbols" : [ "notadopted", "adoptedin", "adoptedout" ]
           } ],
           "doc" : "Adopted Status"
         }, {
@@ -431,11 +431,11 @@
     "type" : "boolean"
   }, {
     "name" : "familyQCState",
-    "type" : {
+    "type" : [ "null", {
       "type" : "enum",
       "name" : "FamilyQCState",
       "doc" : "FamilyQCState",
       "symbols" : [ "noState", "passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed" ]
-    }
+    } ]
   } ]
 }
