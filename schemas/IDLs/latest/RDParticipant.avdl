@@ -102,7 +102,7 @@ enum PreparationMethod {EDTA, ORAGENE, FF}
 adoptedin means adopted into the family
 adoptedout means child belonged to the family and was adopted out
 */
-enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
+enum AdoptedStatus {notadopted, adoptedin, adoptedout}
 
 
 
@@ -175,7 +175,7 @@ record PedigreeMember {
     /**
     Karyotypic sex of the participant as previously established or by looking at the GEL genome
     */
-    union {null, PersonKaryotipicSex} personKaryotipicSex;
+    union {null, PersonKaryotipicSex} personKaryotypicSex;
 
     /**
     Year of Birth
@@ -318,7 +318,7 @@ record Pedigree {
 
     boolean readyForAnalysis;
 
-    FamilyQCState familyQCState;
+    union {null, FamilyQCState} familyQCState;
 }
 
 }
