@@ -11,7 +11,7 @@ from protocols.protocol import SearchResponse
 
 import avro.schema
 
-version = '4.0.1'
+version = '4.0.2'
 
 
 class Call(ProtocolElement):

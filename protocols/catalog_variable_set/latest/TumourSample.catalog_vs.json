@@ -9,9 +9,9 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "TEXT", 
+  "type": "NUMERIC", 
   "name": "labSampleId", 
-  "description": "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+  "description": "Lab sample Id"
  }, 
  {
   "multiValue": false, 

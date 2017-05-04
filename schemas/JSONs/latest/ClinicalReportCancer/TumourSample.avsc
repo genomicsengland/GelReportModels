@@ -8,8 +8,8 @@
     "doc" : "Sample Id (e.g, LP00012645_5GH))"
   }, {
     "name" : "labSampleId",
-    "type" : "string",
-    "doc" : "Lab Id (this is from the bio-repository e.g D14.25586 or another format based on which center)"
+    "type" : "int",
+    "doc" : "Lab sample Id"
   }, {
     "name" : "tumourId",
     "type" : "int",
