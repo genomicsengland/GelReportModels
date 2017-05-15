@@ -23,7 +23,7 @@ record ClinicalReportCancer {
     string interpretationRequestVersion;
 
     /**
-    Date of this report
+    Date of this report YYYY-MM-DD
     */
     string reportingDate;
 
@@ -35,12 +35,12 @@ record ClinicalReportCancer {
     /**
     Candidate Variants - as defined in CommonInterpreted
     */
-    array<ReportedSomaticVariants> candidateVariants;
+    union {null, array<ReportedSomaticVariants>} candidateVariants;
 
     /**
     Candidate Structural Variants - as defined in CommonInterpreted
     */
-    array<ReportedSomaticStructuralVariants> candidateStructuralVariants;
+    union {null, array<ReportedSomaticStructuralVariants>} candidateStructuralVariants;
 
     /**
     Summary of the interpretation, this should reflects the positive conclusions of this interpretation
