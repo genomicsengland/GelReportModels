@@ -272,7 +272,7 @@
       "doc" : "This value groups variants that together could explain the phenotype according to the\n    mode of inheritance used. All the variants sharing the same value will be considered in the same group.\n    This value is an integer unique in the whole analysis."
     }, {
       "name" : "eventJustification",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "This is the description of why this variant would be reported, for example that it affects the protein in this way\n    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs\n    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included."
     }, {
       "name" : "tier",
@@ -449,12 +449,12 @@
       "doc" : "This is the version of the interpretation Request Id, second number in XXX-123-2"
     }, {
       "name" : "interpretationRequestAnalysisVersion",
-      "type" : "string",
+      "type" : [ "null", "string" ],
       "doc" : "This is the version of the analytical approach that was carried out on the same interpretationRequest.\n    For example provider produces two types of analysis on the data and end user produces different summaries depending\n    on the analysis version"
     }, {
       "name" : "reportingDate",
       "type" : "string",
-      "doc" : "Date of this report"
+      "doc" : "Date of this report YYYY-MM-DD"
     }, {
       "name" : "user",
       "type" : "string",

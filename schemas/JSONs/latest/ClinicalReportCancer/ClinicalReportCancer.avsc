@@ -13,14 +13,14 @@
   }, {
     "name" : "reportingDate",
     "type" : "string",
-    "doc" : "Date of this report"
+    "doc" : "Date of this report YYYY-MM-DD"
   }, {
     "name" : "user",
     "type" : "string",
     "doc" : "Author of this report"
   }, {
     "name" : "candidateVariants",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : {
         "type" : "record",
@@ -166,17 +166,17 @@
                       "type" : "array",
                       "items" : "string"
                     },
-                    "doc" : "SO Term used in tier"
+                    "doc" : "Sequence Ontology Term used in tier"
                   }, {
                     "name" : "soNames",
                     "type" : {
                       "type" : "array",
                       "items" : "string"
                     },
-                    "doc" : "SO name used in tier"
+                    "doc" : "Sequence Ontology name used in tier"
                   }, {
                     "name" : "actions",
-                    "type" : {
+                    "type" : [ "null", {
                       "type" : "array",
                       "items" : {
                         "type" : "record",
@@ -224,8 +224,12 @@
                           "doc" : "source of the information"
                         } ]
                       }
-                    },
+                    } ],
                     "doc" : ""
+                  }, {
+                    "name" : "eventJustification",
+                    "type" : [ "null", "string" ],
+                    "doc" : "This is the description of why this variant would be reported, for example that it affects the protein in this way\n    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs\n    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included."
                   }, {
                     "name" : "tier",
                     "type" : [ "null", {
@@ -252,11 +256,11 @@
           "doc" : "Describe whether this is a somatic or Germline variant"
         } ]
       }
-    },
+    } ],
     "doc" : "Candidate Variants - as defined in CommonInterpreted"
   }, {
     "name" : "candidateStructuralVariants",
-    "type" : {
+    "type" : [ "null", {
       "type" : "array",
       "items" : {
         "type" : "record",
@@ -320,7 +324,7 @@
           "doc" : "Describe whether this is a somatic or Germline variant"
         } ]
       }
-    },
+    } ],
     "doc" : "Candidate Structural Variants - as defined in CommonInterpreted"
   }, {
     "name" : "genomicInterpretation",

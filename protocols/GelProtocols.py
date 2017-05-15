@@ -437,15 +437,15 @@ class AuditLog(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "name": "previousVariant"},
@@ -669,7 +669,8 @@ class CancerInterpretationRequest(ProtocolElement):
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
 "reportRequestId"}, {"doc": "", "type": "int", "name":
-"reportVersion"}, {"default": false, "doc": "", "type": "boolean",
+"reportVersion"}, {"doc": "", "type": "string", "name":
+"internalStudyId"}, {"default": false, "doc": "", "type": "boolean",
 "name": "interpretGenome"}, {"doc": "", "type": {"items": {"doc": "",
 "type": "record", "name": "File", "fields": [{"doc": "", "type":
 ["null", "string", {"items": "string", "type": "array"}], "name":
@@ -788,22 +789,24 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}], "type": "record", "name": "ReportedVariantCancer"},
-"name": "reportedVariantCancer"}, {"doc": "", "type": {"symbols":
-["unknown", "somatic", "germline"], "doc": "", "type": "enum", "name":
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"}],
+"type": "record", "name": "ReportedVariantCancer"}, "name":
+"reportedVariantCancer"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
 "SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
 "name": "ReportedSomaticVariants"}, "type": "array"}, "name":
 "TieredVariants"}, {"doc": "", "type": {"items": {"fields": [{"doc":
@@ -839,6 +842,7 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
         "annotationFile",
         "bigWigs",
         "cancerParticipant",
+        "internalStudyId",
         "reportRequestId",
         "reportVersion",
         "structuralTieredVariants",
@@ -879,8 +883,9 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
         'BAMs', 'TieredVariants', 'TieringVersion', 'VCFs',
         'additionalInfo', 'analysisURI', 'analysisVersion',
         'annotationFile', 'bigWigs', 'cancerParticipant',
-        'interpretGenome', 'reportRequestId', 'reportVersion',
-        'structuralTieredVariants', 'versionControl', 'workspace'
+        'internalStudyId', 'interpretGenome', 'reportRequestId',
+        'reportVersion', 'structuralTieredVariants', 'versionControl',
+        'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -904,6 +909,8 @@ false, "doc": "", "type": "boolean", "name": "primaryFindingConsent"},
             'bigWigs', None)
         self.cancerParticipant = kwargs.get(
             'cancerParticipant', None)
+        self.internalStudyId = kwargs.get(
+            'internalStudyId', 'None')
         self.interpretGenome = kwargs.get(
             'interpretGenome', False)
         self.reportRequestId = kwargs.get(
@@ -964,22 +971,24 @@ class CancerInterpretedGenome(ProtocolElement):
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}], "type": "record", "name": "ReportedVariantCancer"},
-"name": "reportedVariantCancer"}, {"doc": "", "type": {"symbols":
-["unknown", "somatic", "germline"], "doc": "", "type": "enum", "name":
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"}],
+"type": "record", "name": "ReportedVariantCancer"}, "name":
+"reportedVariantCancer"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
 "SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
 "name": "ReportedSomaticVariants"}, "type": "array"}, "name":
 "reportedVariants"}, {"type": {"items": {"fields": [{"doc": "",
@@ -1422,26 +1431,27 @@ class ClinicalReportCancer(ProtocolElement):
 "name": "interpretationRequestID"}, {"doc": "", "type": "string",
 "name": "interpretationRequestVersion"}, {"doc": "", "type": "string",
 "name": "reportingDate"}, {"doc": "", "type": "string", "name":
-"user"}, {"doc": "", "type": {"items": {"fields": [{"doc": "", "type":
-{"fields": [{"doc": "", "type": "string", "name": "chromosome"},
-{"doc": "", "type": "int", "name": "position"}, {"doc": "", "type":
-"string", "name": "reference"}, {"doc": "", "type": "string", "name":
-"alternate"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "CosmicIds"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "ClinVarIds"}, {"doc":
-"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
-"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
-["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
-"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
-"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"},
-{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"user"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc":
+"", "type": {"fields": [{"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "CosmicIds"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "ClinVarIds"},
+{"doc": "", "type": ["null", "string"], "name": "dbSNPid"}, {"doc":
+"", "type": ["null", "string"], "name": "cDNAchange"}, {"doc": "",
+"type": ["null", "string"], "name": "proteinChange"}, {"doc": "",
+"type": ["null", "int"], "name": "depthReference"}, {"doc": "",
+"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", "double"], "name": "VAF"}, {"doc": "", "type":
+["null", "int"], "name": "commonAF"}, {"doc": "", "type": ["null",
+"int"], "name": "IHP"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -1453,39 +1463,41 @@ class ClinicalReportCancer(ProtocolElement):
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}], "type": "record", "name": "ReportedVariantCancer"},
-"name": "reportedVariantCancer"}, {"doc": "", "type": {"symbols":
-["unknown", "somatic", "germline"], "doc": "", "type": "enum", "name":
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"}],
+"type": "record", "name": "ReportedVariantCancer"}, "name":
+"reportedVariantCancer"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
 "SomaticOrGermline"}, "name": "somaticOrGermline"}], "type": "record",
-"name": "ReportedSomaticVariants"}, "type": "array"}, "name":
-"candidateVariants"}, {"doc": "", "type": {"items": {"fields":
-[{"doc": "", "type": {"fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": "int", "name": "start"}, {"doc":
-"", "type": "int", "name": "end"}, {"doc": "", "type": "string",
-"name": "type"}, {"doc": "", "type": "string", "name": "reference"},
-{"doc": "", "type": "string", "name": "alternate"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}], "type":
-"record", "name": "ReportedStructuralVariantCancer"}, "name":
+"name": "ReportedSomaticVariants"}, "type": "array"}], "name":
+"candidateVariants"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": {"fields": [{"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
+"start"}, {"doc": "", "type": "int", "name": "end"}, {"doc": "",
+"type": "string", "name": "type"}, {"doc": "", "type": "string",
+"name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"}],
+"type": "record", "name": "ReportedStructuralVariantCancer"}, "name":
 "reportedStructuralVariantCancer"}, {"doc": "", "type":
 "SomaticOrGermline", "name": "somaticOrGermline"}], "type": "record",
-"name": "ReportedSomaticStructuralVariants"}, "type": "array"},
+"name": "ReportedSomaticStructuralVariants"}, "type": "array"}],
 "name": "candidateStructuralVariants"}, {"doc": "", "type": "string",
 "name": "genomicInterpretation"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "references"}, {"doc":
@@ -1648,32 +1660,33 @@ class ClinicalReportRD(ProtocolElement):
 {"namespace": "Gel_BioInf_Models", "type": "record", "name":
 "ClinicalReportRD", "fields": [{"doc": "", "type": "string", "name":
 "interpretationRequestID"}, {"doc": "", "type": "string", "name":
-"interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
-"interpretationRequestAnalysisVersion"}, {"doc": "", "type": "string",
-"name": "reportingDate"}, {"doc": "", "type": "string", "name":
-"user"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc":
-"", "type": "string", "name": "chromosome"}, {"doc": "", "type":
-["null", "string"], "name": "dbSNPid"}, {"doc": "", "type": "int",
-"name": "position"}, {"doc": "", "type": "string", "name":
-"reference"}, {"doc": "", "type": "string", "name": "alternate"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"CalledGenotype", "fields": [{"doc": "", "type": "string", "name":
-"gelId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": {"symbols": ["reference_homozygous", "heterozygous",
-"alternate_homozygous", "missing", "half_missing_reference",
-"half_missing_alternate", "alternate_hemizigous",
-"reference_hemizigous", "unk"], "doc": "", "type": "enum", "name":
-"Zygosity"}, "name": "genotype"}, {"doc": "", "type": ["null", "int"],
-"name": "phaseSet"}, {"doc": "", "type": ["null", "int"], "name":
-"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
-"depthAlternate"}, {"doc": "", "type": ["null", "int"], "name":
-"copyNumber"}]}, "type": "array"}, "name": "calledGenotypes"}, {"doc":
-"", "type": {"items": {"fields": [{"doc": "", "type": "string",
-"name": "reportEventId"}, {"doc": "", "type": "string", "name":
-"phenotype"}, {"doc": "", "type": ["null", "string"], "name":
-"panelName"}, {"doc": "", "type": ["null", "string"], "name":
-"panelVersion"}, {"doc": "", "type": {"symbols": ["monoallelic",
-"monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"interpretationRequestVersion"}, {"doc": "", "type": ["null",
+"string"], "name": "interpretationRequestAnalysisVersion"}, {"doc":
+"", "type": "string", "name": "reportingDate"}, {"doc": "", "type":
+"string", "name": "user"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "chromosome"},
+{"doc": "", "type": ["null", "string"], "name": "dbSNPid"}, {"doc":
+"", "type": "int", "name": "position"}, {"doc": "", "type": "string",
+"name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "CalledGenotype", "fields": [{"doc": "", "type":
+"string", "name": "gelId"}, {"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous",
+"heterozygous", "alternate_homozygous", "missing",
+"half_missing_reference", "half_missing_alternate",
+"alternate_hemizigous", "reference_hemizigous", "unk"], "doc": "",
+"type": "enum", "name": "Zygosity"}, "name": "genotype"}, {"doc": "",
+"type": ["null", "int"], "name": "phaseSet"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "int"], "name": "copyNumber"}]}, "type": "array"}, "name":
+"calledGenotypes"}, {"doc": "", "type": {"items": {"fields": [{"doc":
+"", "type": "string", "name": "reportEventId"}, {"doc": "", "type":
+"string", "name": "phenotype"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
@@ -1695,15 +1708,15 @@ class ClinicalReportRD(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}], "name":
@@ -1789,7 +1802,7 @@ class ClinicalReportRD(ProtocolElement):
         self.genomicInterpretation = kwargs.get(
             'genomicInterpretation', 'None')
         self.interpretationRequestAnalysisVersion = kwargs.get(
-            'interpretationRequestAnalysisVersion', 'None')
+            'interpretationRequestAnalysisVersion', None)
         self.interpretationRequestID = kwargs.get(
             'interpretationRequestID', 'None')
         self.interpretationRequestVersion = kwargs.get(
@@ -6141,15 +6154,15 @@ false, "doc": "", "type": "boolean", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -6414,15 +6427,15 @@ false, "doc": "", "type": "boolean", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -6613,15 +6626,15 @@ class InterpretedGenomeRD(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
@@ -6909,15 +6922,15 @@ class ModifiedVariant(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "name": "previousVariant"},
@@ -7950,9 +7963,10 @@ class ReportEvent(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}]}
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -7997,7 +8011,7 @@ class ReportEvent(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.eventJustification = kwargs.get(
-            'eventJustification', 'None')
+            'eventJustification', None)
         self.fullyExplainsPhenotype = kwargs.get(
             'fullyExplainsPhenotype', None)
         self.genomicFeature = kwargs.get(
@@ -8044,22 +8058,25 @@ class ReportEventCancer(ProtocolElement):
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}]}
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "actions",
+        "eventJustification",
         "genomicFeatureCancer",
         "reportEventId",
         "soNames",
@@ -8085,13 +8102,15 @@ class ReportEventCancer(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'actions', 'genomicFeatureCancer', 'reportEventId', 'soNames',
-        'soTerms', 'tier'
+        'actions', 'eventJustification', 'genomicFeatureCancer',
+        'reportEventId', 'soNames', 'soTerms', 'tier'
     ]
 
     def __init__(self, **kwargs):
         self.actions = kwargs.get(
             'actions', None)
+        self.eventJustification = kwargs.get(
+            'eventJustification', None)
         self.genomicFeatureCancer = kwargs.get(
             'genomicFeatureCancer', None)
         self.reportEventId = kwargs.get(
@@ -8230,22 +8249,24 @@ class ReportedSomaticVariants(ProtocolElement):
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}], "type": "record", "name": "ReportedVariantCancer"},
-"name": "reportedVariantCancer"}, {"doc": "", "type": {"symbols":
-["unknown", "somatic", "germline"], "doc": "", "type": "enum", "name":
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"}],
+"type": "record", "name": "ReportedVariantCancer"}, "name":
+"reportedVariantCancer"}, {"doc": "", "type": {"symbols": ["unknown",
+"somatic", "germline"], "doc": "", "type": "enum", "name":
 "SomaticOrGermline"}, "name": "somaticOrGermline"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -8330,15 +8351,15 @@ class ReportedStructuralVariant(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}
 """
@@ -8527,15 +8548,15 @@ class ReportedVariant(ProtocolElement):
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}
 """
@@ -8640,20 +8661,21 @@ class ReportedVariantCancer(ProtocolElement):
 "genomicFeatureCancer"}, {"doc": "", "type": {"items": "string",
 "type": "array"}, "name": "soTerms"}, {"doc": "", "type": {"items":
 "string", "type": "array"}, "name": "soNames"}, {"doc": "", "type":
-{"items": {"fields": [{"type": "string", "name": "actionType"},
-{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "evidence"}, {"doc": "", "type": ["null", "string"], "name":
-"drug"}, {"doc": "", "type": ["null", "string"], "name": "status"},
-{"doc": "", "type": "boolean", "name": "variantActionable"}, {"doc":
-"", "type": ["null", {"items": "string", "type": "array"}], "name":
-"comments"}, {"doc": "", "type": ["null", "string"], "name": "url"},
-{"doc": "", "type": ["null", "string"], "name": "evidenceType"},
-{"doc": "", "type": "string", "name": "source"}], "type": "record",
-"name": "Actions"}, "type": "array"}, "name": "actions"}, {"doc": "",
-"type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEventCancer"}, "type": "array"}, "name":
-"reportEvents"}]}
+["null", {"items": {"fields": [{"type": "string", "name":
+"actionType"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "evidence"}, {"doc": "", "type": ["null",
+"string"], "name": "drug"}, {"doc": "", "type": ["null", "string"],
+"name": "status"}, {"doc": "", "type": "boolean", "name":
+"variantActionable"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "comments"}, {"doc": "", "type": ["null",
+"string"], "name": "url"}, {"doc": "", "type": ["null", "string"],
+"name": "evidenceType"}, {"doc": "", "type": "string", "name":
+"source"}], "type": "record", "name": "Actions"}, "type": "array"}],
+"name": "actions"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"symbols":
+["NONE", "TIER1", "TIER2", "TIER3"], "doc": "", "type": "enum",
+"name": "Tier"}], "name": "tier"}], "type": "record", "name":
+"ReportEventCancer"}, "type": "array"}, "name": "reportEvents"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -9429,15 +9451,15 @@ false, "doc": "", "type": "boolean", "name":
 "VariantClassification"}], "name": "variantClassification"}, {"doc":
 "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
 {"doc": "", "type": ["null", "int"], "name": "groupOfVariants"},
-{"doc": "", "type": "string", "name": "eventJustification"}, {"doc":
-"", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2", "TIER3"],
-"doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}], "type":
-"record", "name": "ReportEvent"}, "type": "array"}, "name":
-"reportEvents"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "evidenceIds"}, {"doc": "", "type": ["null", {"values":
-"float", "type": "map"}], "name":
+{"doc": "", "type": ["null", "string"], "name": "eventJustification"},
+{"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1", "TIER2",
+"TIER3"], "doc": "", "type": "enum", "name": "Tier"}], "name":
+"tier"}], "type": "record", "name": "ReportEvent"}, "type": "array"},
+"name": "reportEvents"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "string", "type": "map"}], "name": "evidenceIds"}, {"doc":
+"", "type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "type":
 "record", "name": "ReportedVariant"}, "type": "array"}, "name":
