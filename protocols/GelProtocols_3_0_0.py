@@ -2303,6 +2303,51 @@ class ExomeCoverage(ProtocolElement):
             'coverageSummary', None)
 
 
+class FamilyLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"FamilyLevelQuestions", "fields": [{"doc": "", "type": {"symbols":
+["yes", "no", "partially", "unknown"], "type": "enum", "name":
+"CaseSolvedFamily"}, "name": "caseSolvedFamily"}, {"doc": "", "type":
+{"symbols": ["yes", "no"], "type": "enum", "name":
+"SegregationQuestion"}, "name": "segregationQuestion"}, {"doc": "",
+"type": "string", "name": "additionalComments"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalComments",
+        "caseSolvedFamily",
+        "segregationQuestion",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalComments', 'caseSolvedFamily',
+        'segregationQuestion'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalComments = kwargs.get(
+            'additionalComments', 'None')
+        self.caseSolvedFamily = kwargs.get(
+            'caseSolvedFamily', None)
+        self.segregationQuestion = kwargs.get(
+            'segregationQuestion', None)
+
+
 class FeatureTypes(object):
     """
     No documentation
@@ -7674,6 +7719,92 @@ false, "doc": "", "type": "boolean", "name":
             'versionControl', None)
         self.yearOfBirth = kwargs.get(
             'yearOfBirth', None)
+
+
+class RareDiseaseExitQuestionnaire(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"RareDiseaseExitQuestionnaire", "fields": [{"type": "string", "name":
+"eventDate"}, {"type": "string", "name": "reporter"}, {"type":
+{"fields": [{"doc": "", "type": {"symbols": ["yes", "no", "partially",
+"unknown"], "type": "enum", "name": "CaseSolvedFamily"}, "name":
+"caseSolvedFamily"}, {"doc": "", "type": {"symbols": ["yes", "no"],
+"type": "enum", "name": "SegregationQuestion"}, "name":
+"segregationQuestion"}, {"doc": "", "type": "string", "name":
+"additionalComments"}], "type": "record", "name":
+"FamilyLevelQuestions"}, "name": "familyLevelQuestions"}, {"type":
+{"items": {"fields": [{"type": "int", "name": "variant_group"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"variant_details"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}], "type": "record", "name":
+"VariantLevelQuestions"}, "type": "array"}, "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "not_yet", "na"], "type": "enum", "name": "Actionability"},
+"name": "actionability"}, {"doc": "", "type": {"items": {"symbols":
+["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "informs_reproductive_choice",
+"unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
+"type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "partially", "unknown"], "type": "enum",
+"name": "PhenotypesSolved"}, "name": "phenotypesSolved"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
+"phenotypesExplained"}], "type": "record", "name":
+"VariantGroupLevelQuestions"}, "type": "array"}, "name":
+"variantGroupLevelQuestions"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "eventDate",
+        "familyLevelQuestions",
+        "reporter",
+        "variantGroupLevelQuestions",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'eventDate', 'familyLevelQuestions', 'reporter',
+        'variantGroupLevelQuestions'
+    ]
+
+    def __init__(self, **kwargs):
+        self.eventDate = kwargs.get(
+            'eventDate', 'None')
+        self.familyLevelQuestions = kwargs.get(
+            'familyLevelQuestions', None)
+        self.reporter = kwargs.get(
+            'reporter', 'None')
+        self.variantGroupLevelQuestions = kwargs.get(
+            'variantGroupLevelQuestions', None)
 
 
 class Reason(object):
