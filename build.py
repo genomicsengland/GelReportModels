@@ -97,3 +97,5 @@ os.system("avrodoc " + os.path.join(avrp_folder, "ReportEventContainer.avpr") + 
 os.system("avrodoc " + os.path.join(avrp_folder, "ObservedVariant.avpr") + " > " + os.path.join(html_folder, "ObservedVariant.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "ConfidenceInformationOntology.avpr") + " > " + os.path.join(html_folder, "ConfidenceInformationOntology.html"))
 os.system("avrodoc " + os.path.join(avrp_folder, "OntologyTerms.avpr") + " > " + os.path.join(html_folder, "OntologyTerms.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "SupplementaryAnalysisResults.avpr") + " > " + os.path.join(html_folder, "SupplementaryAnalysisResults.html"))
+os.system("avrodoc " + os.path.join(avrp_folder, "ExitQuestionnaire.avpr") + " > " + os.path.join(html_folder, "ExitQuestionnaire.html"))

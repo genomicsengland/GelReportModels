@@ -14,6 +14,18 @@ import avro.schema
 version = '3.0.0'
 
 
+class ACMGClassification(object):
+    """
+    No documentation
+    """
+    pathogenic_variant = "pathogenic_variant"
+    likely_pathogenic_variant = "likely_pathogenic_variant"
+    variant_of_unknown_clinical_significance = "variant_of_unknown_clinical_significance"
+    likely_benign_variant = "likely_benign_variant"
+    benign_variant = "benign_variant"
+    not_assessed = "not_assessed"
+
+
 class ActionType(object):
     """
     this is the type of actionability for the reported event
@@ -22,6 +34,16 @@ class ActionType(object):
     Therapeutic = "Therapeutic"
     Prognosis = "Prognosis"
     Diagnosis = "Diagnosis"
+
+
+class Actionability(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    not_yet = "not_yet"
+    na = "na"
 
 
 class Actions(ProtocolElement):
@@ -802,16 +824,18 @@ false, "doc": "", "type": "boolean", "name":
 "", "type": "string", "name": "reference"}, {"doc": "", "type":
 "string", "name": "alternate"}, {"doc": "", "type": ["null", {"items":
 "string", "type": "array"}], "name": "CosmicIds"}, {"doc": "", "type":
-["null", "string"], "name": "dbSNPid"}, {"doc": "", "type": ["null",
-"string"], "name": "cDNAchange"}, {"doc": "", "type": ["null",
-"string"], "name": "proteinChange"}, {"doc": "", "type": ["null",
-"int"], "name": "depthReference"}, {"doc": "", "type": ["null",
-"int"], "name": "depthAlternate"}, {"doc": "", "type": ["null",
-"double"], "name": "VAF"}, {"doc": "", "type": ["null", "int"],
-"name": "commonAF"}, {"doc": "", "type": ["null", "int"], "name":
-"IHP"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "additionalTextualVariantAnnotations"}, {"doc": "",
-"type": ["null", {"values": "float", "type": "map"}], "name":
+["null", {"items": "string", "type": "array"}], "name": "ClinVarIds"},
+{"doc": "", "type": ["null", "string"], "name": "dbSNPid"}, {"doc":
+"", "type": ["null", "string"], "name": "cDNAchange"}, {"doc": "",
+"type": ["null", "string"], "name": "proteinChange"}, {"doc": "",
+"type": ["null", "int"], "name": "depthReference"}, {"doc": "",
+"type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", "double"], "name": "VAF"}, {"doc": "", "type":
+["null", "int"], "name": "commonAF"}, {"doc": "", "type": ["null",
+"int"], "name": "IHP"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}, {"type":
 {"items": {"fields": [{"doc": "", "type": "string", "name":
@@ -976,9 +1000,10 @@ class CancerInterpretedGenome(ProtocolElement):
 "name": "position"}, {"doc": "", "type": "string", "name":
 "reference"}, {"doc": "", "type": "string", "name": "alternate"},
 {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "CosmicIds"}, {"doc": "", "type": ["null", "string"], "name":
-"dbSNPid"}, {"doc": "", "type": ["null", "string"], "name":
-"cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
+"name": "CosmicIds"}, {"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "ClinVarIds"}, {"doc": "", "type": ["null",
+"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
+"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
 "proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
 "depthReference"}, {"doc": "", "type": ["null", "int"], "name":
 "depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
@@ -1313,7 +1338,8 @@ class CancerSummaryMetrics(ProtocolElement):
 "variantstats_total_snvs"}, {"type": "int", "name":
 "variantstats_total_indels"}, {"type": ["null", "int"], "name":
 "variantstats_total_svs"}, {"type": "string", "name":
-"tumor_contamination_cont_est"}, {"type": "double", "name": "mean"},
+"tumor_contamination_cont_est"}, {"type": "string", "name":
+"tumor_contamination_con_pair"}, {"type": "double", "name": "mean"},
 {"type": "double", "name": "mean_normal"}, {"type": "double", "name":
 "local_rmsd_normal"}, {"type": "double", "name": "local_rmsd"},
 {"type": "double", "name": "cosmic_30x_cov"}]}
@@ -1331,6 +1357,7 @@ class CancerSummaryMetrics(ProtocolElement):
         "samtools_pairs_on_different_chromosomes_normal",
         "samtools_reads_mapped",
         "samtools_reads_mapped_normal",
+        "tumor_contamination_con_pair",
         "tumor_contamination_cont_est",
         "variantstats_total_indels",
         "variantstats_total_snvs",
@@ -1355,6 +1382,7 @@ class CancerSummaryMetrics(ProtocolElement):
         'samtools_pairs_on_different_chromosomes',
         'samtools_pairs_on_different_chromosomes_normal',
         'samtools_reads_mapped', 'samtools_reads_mapped_normal',
+        'tumor_contamination_con_pair',
         'tumor_contamination_cont_est', 'variantstats_total_indels',
         'variantstats_total_snvs', 'variantstats_total_svs'
     ]
@@ -1382,6 +1410,8 @@ class CancerSummaryMetrics(ProtocolElement):
             'samtools_reads_mapped', None)
         self.samtools_reads_mapped_normal = kwargs.get(
             'samtools_reads_mapped_normal', None)
+        self.tumor_contamination_con_pair = kwargs.get(
+            'tumor_contamination_con_pair', 'None')
         self.tumor_contamination_cont_est = kwargs.get(
             'tumor_contamination_cont_est', 'None')
         self.variantstats_total_indels = kwargs.get(
@@ -1428,6 +1458,16 @@ class CaseShared(ProtocolElement):
             'modifiedGroups', None)
         self.previousGroups = kwargs.get(
             'previousGroups', None)
+
+
+class CaseSolvedFamily(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    partially = "partially"
+    unknown = "unknown"
 
 
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
@@ -1494,19 +1534,20 @@ class ClinicalReportCancer(ProtocolElement):
 "string", "name": "reference"}, {"doc": "", "type": "string", "name":
 "alternate"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "CosmicIds"}, {"doc": "", "type": ["null",
-"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
-"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
-"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
-"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
-"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
-"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}, {"type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
+{"items": "string", "type": "array"}], "name": "ClinVarIds"}, {"doc":
+"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
+"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
+["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
+"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
+"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -1849,6 +1890,20 @@ class ClinicalReportRD(ProtocolElement):
             'user', 'None')
 
 
+class ClinicalUtility(object):
+    """
+    No documentation
+    """
+    none = "none"
+    change_in_medication = "change_in_medication"
+    surgical_option = "surgical_option"
+    additional_surveillance_for_proband_or_relatives = "additional_surveillance_for_proband_or_relatives"
+    clinical_trial_eligibility = "clinical_trial_eligibility"
+    informs_reproductive_choice = "informs_reproductive_choice"
+    unknown = "unknown"
+    other = "other"
+
+
 class Code(object):
     """
     This code define the change type, it can define a general change
@@ -1888,6 +1943,24 @@ class ComplexGeneticPhenomena(object):
     uniparental_disomy = "uniparental_disomy"
     trisomy = "trisomy"
     other_aneuploidy = "other_aneuploidy"
+
+
+class ConfirmationDecision(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    na = "na"
+
+
+class ConfirmationOutcome(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    na = "na"
 
 
 class ConsentStatus(ProtocolElement):
@@ -2228,6 +2301,51 @@ class ExomeCoverage(ProtocolElement):
     def __init__(self, **kwargs):
         self.coverageSummary = kwargs.get(
             'coverageSummary', None)
+
+
+class FamilyLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"FamilyLevelQuestions", "fields": [{"doc": "", "type": {"symbols":
+["yes", "no", "partially", "unknown"], "type": "enum", "name":
+"CaseSolvedFamily"}, "name": "caseSolvedFamily"}, {"doc": "", "type":
+{"symbols": ["yes", "no"], "type": "enum", "name":
+"SegregationQuestion"}, "name": "segregationQuestion"}, {"doc": "",
+"type": "string", "name": "additionalComments"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "additionalComments",
+        "caseSolvedFamily",
+        "segregationQuestion",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalComments', 'caseSolvedFamily',
+        'segregationQuestion'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalComments = kwargs.get(
+            'additionalComments', 'None')
+        self.caseSolvedFamily = kwargs.get(
+            'caseSolvedFamily', None)
+        self.segregationQuestion = kwargs.get(
+            'segregationQuestion', None)
 
 
 class FeatureTypes(object):
@@ -4932,9 +5050,9 @@ class IlluminaSummaryV4(ProtocolElement):
 ["IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryV4",
 "IlluminaSummaryCancerV2", "IlluminaSummaryCancerV4"], "type": "enum",
 "name": "IlluminaVersion"}, "name": "illumina_version"}, {"type":
-"double", "name": "ARRAY_CONCORDANCE"}, {"type": "double", "name":
-"ARRAY_CONCORDANCE_USAGE"}, {"type": "double", "name":
-"AUTOSOME_CALLABILITY"}, {"type": "double", "name":
+["null", "double"], "name": "ARRAY_CONCORDANCE"}, {"type": ["null",
+"double"], "name": "ARRAY_CONCORDANCE_USAGE"}, {"type": "double",
+"name": "AUTOSOME_CALLABILITY"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_10X"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_15X"}, {"type": "double", "name":
 "AUTOSOME_COVERAGE_AT_1X"}, {"type": "double", "name":
@@ -6826,6 +6944,44 @@ class ModifiedVariant(ProtocolElement):
             'previousVariant', None)
 
 
+class MutationalSignatureContribution(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"MutationalSignatureContribution", "fields": [{"doc": "", "type":
+{"values": "double", "type": "map"}, "name": "coefficients"}, {"doc":
+"", "type": "double", "name": "rss"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "coefficients",
+        "rss",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'coefficients', 'rss'
+    ]
+
+    def __init__(self, **kwargs):
+        self.coefficients = kwargs.get(
+            'coefficients', None)
+        self.rss = kwargs.get(
+            'rss', None)
+
+
 class OtherFamilyHistory(ProtocolElement):
     """
     Family history for secondary findings. Arrays of strings
@@ -7051,6 +7207,16 @@ class Phase(object):
     PRIMARY = "PRIMARY"
     METASTATIC = "METASTATIC"
     RECURRENCE = "RECURRENCE"
+
+
+class PhenotypesSolved(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    partially = "partially"
+    unknown = "unknown"
 
 
 class PlinkROH(ProtocolElement):
@@ -7555,6 +7721,92 @@ false, "doc": "", "type": "boolean", "name":
             'yearOfBirth', None)
 
 
+class RareDiseaseExitQuestionnaire(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"RareDiseaseExitQuestionnaire", "fields": [{"type": "string", "name":
+"eventDate"}, {"type": "string", "name": "reporter"}, {"type":
+{"fields": [{"doc": "", "type": {"symbols": ["yes", "no", "partially",
+"unknown"], "type": "enum", "name": "CaseSolvedFamily"}, "name":
+"caseSolvedFamily"}, {"doc": "", "type": {"symbols": ["yes", "no"],
+"type": "enum", "name": "SegregationQuestion"}, "name":
+"segregationQuestion"}, {"doc": "", "type": "string", "name":
+"additionalComments"}], "type": "record", "name":
+"FamilyLevelQuestions"}, "name": "familyLevelQuestions"}, {"type":
+{"items": {"fields": [{"type": "int", "name": "variant_group"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"variant_details"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}], "type": "record", "name":
+"VariantLevelQuestions"}, "type": "array"}, "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "not_yet", "na"], "type": "enum", "name": "Actionability"},
+"name": "actionability"}, {"doc": "", "type": {"items": {"symbols":
+["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "informs_reproductive_choice",
+"unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
+"type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "partially", "unknown"], "type": "enum",
+"name": "PhenotypesSolved"}, "name": "phenotypesSolved"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
+"phenotypesExplained"}], "type": "record", "name":
+"VariantGroupLevelQuestions"}, "type": "array"}, "name":
+"variantGroupLevelQuestions"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "eventDate",
+        "familyLevelQuestions",
+        "reporter",
+        "variantGroupLevelQuestions",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'familyLevelQuestions': FamilyLevelQuestions,
+            'variantGroupLevelQuestions': VariantGroupLevelQuestions,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'eventDate', 'familyLevelQuestions', 'reporter',
+        'variantGroupLevelQuestions'
+    ]
+
+    def __init__(self, **kwargs):
+        self.eventDate = kwargs.get(
+            'eventDate', 'None')
+        self.familyLevelQuestions = kwargs.get(
+            'familyLevelQuestions', None)
+        self.reporter = kwargs.get(
+            'reporter', 'None')
+        self.variantGroupLevelQuestions = kwargs.get(
+            'variantGroupLevelQuestions', None)
+
+
 class Reason(object):
     """
     No documentation
@@ -7862,19 +8114,20 @@ class ReportedSomaticVariants(ProtocolElement):
 "name": "reference"}, {"doc": "", "type": "string", "name":
 "alternate"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "CosmicIds"}, {"doc": "", "type": ["null",
-"string"], "name": "dbSNPid"}, {"doc": "", "type": ["null", "string"],
-"name": "cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
-"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
-"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
-"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
-"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
-{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
-{"values": "float", "type": "map"}], "name":
-"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}, {"type":
-{"items": {"fields": [{"doc": "", "type": "string", "name":
+{"items": "string", "type": "array"}], "name": "ClinVarIds"}, {"doc":
+"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
+"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
+["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
+["null", "int"], "name": "depthReference"}, {"doc": "", "type":
+["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
+["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
+"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
+"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
+"type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
+"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "comments"},
+{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -8276,19 +8529,21 @@ class ReportedVariantCancer(ProtocolElement):
 {"doc": "", "type": "string", "name": "reference"}, {"doc": "",
 "type": "string", "name": "alternate"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "CosmicIds"}, {"doc":
-"", "type": ["null", "string"], "name": "dbSNPid"}, {"doc": "",
-"type": ["null", "string"], "name": "cDNAchange"}, {"doc": "", "type":
-["null", "string"], "name": "proteinChange"}, {"doc": "", "type":
-["null", "int"], "name": "depthReference"}, {"doc": "", "type":
-["null", "int"], "name": "depthAlternate"}, {"doc": "", "type":
-["null", "double"], "name": "VAF"}, {"doc": "", "type": ["null",
-"int"], "name": "commonAF"}, {"doc": "", "type": ["null", "int"],
-"name": "IHP"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "additionalTextualVariantAnnotations"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}],
-"name": "additionalNumericVariantAnnotations"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "comments"},
-{"type": {"items": {"fields": [{"doc": "", "type": "string", "name":
+"", "type": ["null", {"items": "string", "type": "array"}], "name":
+"ClinVarIds"}, {"doc": "", "type": ["null", "string"], "name":
+"dbSNPid"}, {"doc": "", "type": ["null", "string"], "name":
+"cDNAchange"}, {"doc": "", "type": ["null", "string"], "name":
+"proteinChange"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name":
+"depthAlternate"}, {"doc": "", "type": ["null", "double"], "name":
+"VAF"}, {"doc": "", "type": ["null", "int"], "name": "commonAF"},
+{"doc": "", "type": ["null", "int"], "name": "IHP"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null",
+{"values": "float", "type": "map"}], "name":
+"additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "comments"}, {"type":
+{"items": {"fields": [{"doc": "", "type": "string", "name":
 "reportEventId"}, {"doc": "", "type": {"fields": [{"doc": "", "type":
 {"symbols": ["RegulatoryRegion", "Gene", "Transcript"], "type":
 "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "",
@@ -8317,6 +8572,7 @@ class ReportedVariantCancer(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "ClinVarIds",
         "CosmicIds",
         "IHP",
         "VAF",
@@ -8352,7 +8608,7 @@ class ReportedVariantCancer(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'CosmicIds', 'IHP', 'VAF',
+        'ClinVarIds', 'CosmicIds', 'IHP', 'VAF',
         'additionalNumericVariantAnnotations',
         'additionalTextualVariantAnnotations', 'alternate',
         'cDNAchange', 'chromosome', 'comments', 'commonAF', 'dbSNPid',
@@ -8361,6 +8617,8 @@ class ReportedVariantCancer(ProtocolElement):
     ]
 
     def __init__(self, **kwargs):
+        self.ClinVarIds = kwargs.get(
+            'ClinVarIds', None)
         self.CosmicIds = kwargs.get(
             'CosmicIds', None)
         self.IHP = kwargs.get(
@@ -8395,6 +8653,15 @@ class ReportedVariantCancer(ProtocolElement):
             'reference', 'None')
         self.reportEvents = kwargs.get(
             'reportEvents', None)
+
+
+class ReportingQuestion(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+    na = "na"
 
 
 class SampleType(object):
@@ -8588,6 +8855,14 @@ class SamtoolsStats(ProtocolElement):
             'samtoolsScope', None)
 
 
+class SegregationQuestion(object):
+    """
+    No documentation
+    """
+    yes = "yes"
+    no = "no"
+
+
 class SensitiveInformation(ProtocolElement):
     """
     No documentation
@@ -8701,78 +8976,72 @@ class State(object):
 
 class SupplementaryAnalysisResults(ProtocolElement):
     """
-    This is the record for results of supplementary analysis
+    This defines a Supplementary Analysis Result
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
-"SupplementaryAnalysisResults", "fields": [{"type": "int", "name":
-"numberOfSomaticVariants"}, {"type": "double", "name":
-"numberOfSomaticSnvsPerMb"}, {"type": "double", "name":
-"numberOfNonsynSomaticSnvsPerMb"}, {"type": {"values": "int", "type":
-"map"}, "name": "ContextualAnalysisSubstitutionsCounts"}, {"type":
-{"values": "double", "type": "map"}, "name":
-"MutationalSignatureContribution"}, {"type": {"items": "string",
-"type": "array"}, "name": "GenomicRegionsOfHypermutation"}, {"type":
+"SupplementaryAnalysisResults", "fields": [{"doc": "", "type":
 {"values": "int", "type": "map"}, "name":
-"SNValleleFrequencyHistogramCounts"}, {"type": {"values": "int",
-"type": "map"}, "name": "IndelAlleleFrequencyHistogramCounts"},
-{"type": {"values": "int", "type": "map"}, "name":
-"IndelLengthHistogramCounts"}], "doc": ""}
+"contextualAnalysisSubstitutionsCounts"}, {"doc": "", "type":
+{"fields": [{"doc": "", "type": {"values": "double", "type": "map"},
+"name": "coefficients"}, {"doc": "", "type": "double", "name":
+"rss"}], "type": "record", "name": "MutationalSignatureContribution"},
+"name": "mutationalSignatureContribution"}, {"doc": "", "type":
+{"values": "int", "type": "map"}, "name":
+"sNVAlleleFrequencyHistogramCounts"}, {"doc": "", "type": {"values":
+"int", "type": "map"}, "name": "indelAlleleFrequencyHistogramCounts"},
+{"doc": "", "type": {"values": "int", "type": "map"}, "name":
+"indelLengthHistogramCounts"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "genomicRegionsOfHypermutation"}], "doc":
+""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "ContextualAnalysisSubstitutionsCounts",
-        "GenomicRegionsOfHypermutation",
-        "IndelAlleleFrequencyHistogramCounts",
-        "IndelLengthHistogramCounts",
-        "MutationalSignatureContribution",
-        "SNValleleFrequencyHistogramCounts",
-        "numberOfNonsynSomaticSnvsPerMb",
-        "numberOfSomaticSnvsPerMb",
-        "numberOfSomaticVariants",
+        "contextualAnalysisSubstitutionsCounts",
+        "genomicRegionsOfHypermutation",
+        "indelAlleleFrequencyHistogramCounts",
+        "indelLengthHistogramCounts",
+        "mutationalSignatureContribution",
+        "sNVAlleleFrequencyHistogramCounts",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'mutationalSignatureContribution': MutationalSignatureContribution,
+        }
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
+        embeddedTypes = {
+            'mutationalSignatureContribution': MutationalSignatureContribution,
+        }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'ContextualAnalysisSubstitutionsCounts',
-        'GenomicRegionsOfHypermutation',
-        'IndelAlleleFrequencyHistogramCounts',
-        'IndelLengthHistogramCounts',
-        'MutationalSignatureContribution',
-        'SNValleleFrequencyHistogramCounts',
-        'numberOfNonsynSomaticSnvsPerMb', 'numberOfSomaticSnvsPerMb',
-        'numberOfSomaticVariants'
+        'contextualAnalysisSubstitutionsCounts',
+        'genomicRegionsOfHypermutation',
+        'indelAlleleFrequencyHistogramCounts',
+        'indelLengthHistogramCounts',
+        'mutationalSignatureContribution',
+        'sNVAlleleFrequencyHistogramCounts'
     ]
 
     def __init__(self, **kwargs):
-        self.ContextualAnalysisSubstitutionsCounts = kwargs.get(
-            'ContextualAnalysisSubstitutionsCounts', None)
-        self.GenomicRegionsOfHypermutation = kwargs.get(
-            'GenomicRegionsOfHypermutation', None)
-        self.IndelAlleleFrequencyHistogramCounts = kwargs.get(
-            'IndelAlleleFrequencyHistogramCounts', None)
-        self.IndelLengthHistogramCounts = kwargs.get(
-            'IndelLengthHistogramCounts', None)
-        self.MutationalSignatureContribution = kwargs.get(
-            'MutationalSignatureContribution', None)
-        self.SNValleleFrequencyHistogramCounts = kwargs.get(
-            'SNValleleFrequencyHistogramCounts', None)
-        self.numberOfNonsynSomaticSnvsPerMb = kwargs.get(
-            'numberOfNonsynSomaticSnvsPerMb', None)
-        self.numberOfSomaticSnvsPerMb = kwargs.get(
-            'numberOfSomaticSnvsPerMb', None)
-        self.numberOfSomaticVariants = kwargs.get(
-            'numberOfSomaticVariants', None)
+        self.contextualAnalysisSubstitutionsCounts = kwargs.get(
+            'contextualAnalysisSubstitutionsCounts', None)
+        self.genomicRegionsOfHypermutation = kwargs.get(
+            'genomicRegionsOfHypermutation', None)
+        self.indelAlleleFrequencyHistogramCounts = kwargs.get(
+            'indelAlleleFrequencyHistogramCounts', None)
+        self.indelLengthHistogramCounts = kwargs.get(
+            'indelLengthHistogramCounts', None)
+        self.mutationalSignatureContribution = kwargs.get(
+            'mutationalSignatureContribution', None)
+        self.sNVAlleleFrequencyHistogramCounts = kwargs.get(
+            'sNVAlleleFrequencyHistogramCounts', None)
 
 
 class SupportingEvidences(ProtocolElement):
