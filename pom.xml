@@ -16,7 +16,7 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>models</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>${p.type}</packaging>
 
     <properties>
@@ -206,7 +206,7 @@
                         <configuration>
                             <target>
                                 <move todir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence" flatten="true">
-                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence/avro">
+                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence">
                                         <include name="**/*.avdl"/>
                                     </fileset>
                                 </move>
