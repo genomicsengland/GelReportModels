@@ -50,11 +50,6 @@ record GermlineSample {
     union {null, SampleSource} source;
 
     /**
-    Method
-    */
-    union {null, string} method;
-
-    /**
     Product
     */
     union {null, Product} product;
@@ -206,7 +201,13 @@ record CancerParticipant{
     This should be an enumeration when it is well defined
     blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
     */
-    union {null, string} primaryDiagnosis;
+    union {null, string} primaryDiagnosisDisease;
+
+    /**
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+    */
+    union {null, string} primaryDiagnosisSubDisease;
 
     /**
     Sex
