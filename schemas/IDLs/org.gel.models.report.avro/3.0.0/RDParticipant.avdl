@@ -47,10 +47,10 @@ record HpoTerm {
     string term;
 
     /**
-    This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
-    false=term is not present
+    This is whether the term is present in the participant (default is unknown) yes=term is present in participant,
+    no=term is not present
     */
-    union {null, boolean} termPresence;
+    union {null, TernaryOption} termPresence;
 
     /**
     hpoBuildNumber
