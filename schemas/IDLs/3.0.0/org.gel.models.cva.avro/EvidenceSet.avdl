@@ -5,9 +5,6 @@ protocol EvidencesSetProtocol {
     // CVA references
     import idl "Comment.avdl";
     import idl "ReportEventContainer.avdl";
-    // Report models references
-    import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
-    import idl "../org.gel.models.report.avro/CommonParticipant.avdl";
     // Ontologies
     import idl "../org.gel.models.ontologies/ConfidenceInformationOntology.avdl";
     import idl "../org.gel.models.ontologies/SequenceOntology.avdl";
@@ -16,17 +13,140 @@ protocol EvidencesSetProtocol {
     import idl "../org.opencb.biodata.models.sequence/variant.avdl";
 
     /**
+    This is the list of ethnics in ONS16
+
+    * `D`:  Mixed: White and Black Caribbean
+    * `E`:  Mixed: White and Black African
+    * `F`:  Mixed: White and Asian
+    * `G`:  Mixed: Any other mixed background
+    * `A`:  White: British
+    * `B`:  White: Irish
+    * `C`:  White: Any other White background
+    * `L`:  Asian or Asian British: Any other Asian background
+    * `M`:  Black or Black British: Caribbean
+    * `N`:  Black or Black British: African
+    * `H`:  Asian or Asian British: Indian
+    * `J`:  Asian or Asian British: Pakistani
+    * `K`:  Asian or Asian British: Bangladeshi
+    * `P`:  Black or Black British: Any other Black background
+    * `S`:  Other Ethnic Groups: Any other ethnic group
+    * `R`:  Other Ethnic Groups: Chinese
+    * `Z`:  Not stated
+    */
+    enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
+
+    /**
+    An enumeration for the different mode of inheritances:
+
+    * `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
+    * `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
+    * `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
+    * `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
+    * `biallelic`: BIALLELIC, autosomal or pseudoautosomal
+    * `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal
+    * `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
+    * `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females
+    * `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
+    * `mitochondrial`: MITOCHONDRIAL
+    * `unknown`: Unknown
+    * `NA`: Not applicable
+    */
+    enum ModeOfInheritance {
+        monoallelic,
+        monoallelic_not_imprinted,
+        monoallelic_maternally_imprinted,
+        monoallelic_paternally_imprinted,
+        biallelic,
+        monoallelic_and_biallelic,
+        monoallelic_and_more_severe_biallelic,
+        xlinked_biallelic,
+        xlinked_monoallelic,
+        mitochondrial,
+        unknown,
+        NA
+    }
+
+    /**
+    Mendelian variants classification with ACMG terminology as defined in Richards, S. et al. (2015). Standards and
+        guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College
+        of Medical Genetics and Genomics and the Association for Molecular Pathology. Genetics in Medicine, 17(5),
+        405–423. https://doi.org/10.1038/gim.2015.30.
+
+    Classification for pharmacogenomic variants, variants associated to
+    disease and somatic variants based on the ACMG recommendations and ClinVar classification
+    (https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).
+
+    * `benign_variant` : Benign variants interpreted for Mendelian disorders
+    * `likely_benign_variant` : Likely benign variants interpreted for Mendelian disorders with a certainty of at least 90%
+    * `pathogenic_variant` : Pathogenic variants interpreted for Mendelian disorders
+    * `likely_pathogenic_variant` : Likely pathogenic variants interpreted for Mendelian disorders with a certainty of at
+    least 90%
+    * `uncertain_significance` : Uncertain significance variants interpreted for Mendelian disorders. Variants with
+    conflicting evidences should be classified as uncertain_significance
+    * `drug_response` : Drug response variant for pharmacogenomic evidence
+    * `established_risk_allele` : Established risk allele for variants associated to disease
+    * `likely_risk_allele` : Likely risk allele for variants associated to disease
+    * `uncertain_risk_allele` : Uncertain risk allele for variants associated to disease
+    * `responsive` : Responsive variants for somatic variants
+    * `resistant` : Resistant variants for somatic variants
+    * `driver` : Driver variants for somatic variants
+    * `passenger` : Passenger variants for somatic variants
+    */
+    enum VariantClassification {
+        BENIGN,
+        LIKELY_BENIGN,
+        VUS,
+        LIKELY_PATHOGENIC,
+        PATHOGENIC,
+        DRUG_RESPONSE,
+        ESTABLISHED_RISK_ALLELE,
+        LIKELY_RISK_ALLELE,
+        UNCERTAIN_RISK_ALLELE,
+        RESPONSIVE,
+        RESISTANT,
+        DRIVER,
+        PASSENGER
+    }
+
+    /**
+    The feature types
+    */
+    enum FeatureTypes {RegulatoryRegion, Gene, Transcript, Protein}
+
+    /**
+    The genomic feature
+    */
+    record GenomicFeature {
+        /**
+        Feature Type
+        */
+        FeatureTypes featureType;
+        /**
+        Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
+        */
+        string ensemblId;
+        /**
+        This field is optional, BUT it should be filled if possible
+        */
+        union {null, string} HGNC;
+        /**
+        Others IDs
+        */
+        union {null, map<string>} other_ids;
+    }
+
+    /**
     The entity representing a phenotype and its inheritance pattern.
     */
-    record HeritablePhenotype {
+    record HeritableTrait {
         /**
-        The phenotype (e.g.: HPO term, MIM term, DO term etc.)
+        The trait (e.g.: HPO term, MIM term, DO term etc.)
         */
-        string phenotype;
+        string trait;
         /**
         The mode of inheritance
         */
-        org.gel.models.report.avro.ReportedModeOfInheritance inheritanceMode;
+        ModeOfInheritance inheritanceMode;
     }
 
     /**
@@ -36,19 +156,19 @@ protocol EvidencesSetProtocol {
         /**
         The heritable phenotype to which the curation refers.
         */
-        HeritablePhenotype heritablePhenotype;
+        HeritableTrait heritableTrait;
         /**
         The transcript to which the curation refers
         */
-        union {null, org.gel.models.report.avro.GenomicFeature} genomicFeature;
+        union {null, GenomicFeature} genomicFeature;
         /**
         The classification of impact.
         */
-        org.gel.models.report.avro.VariantClassification classification;
+        VariantClassification classification;
         /**
         The automatic classification of impact based on the evidences.
         */
-        union {null, org.gel.models.report.avro.VariantClassification} automaticClassification;
+        union {null, VariantClassification} automaticClassification;
         /**
         The variant functional effect
         */
@@ -93,6 +213,10 @@ protocol EvidencesSetProtocol {
         A list of additional properties in the form name-value.
         */
         array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+        /**
+        Bibliography
+        */
+        array<string> bibliography = [];
     }
 
     /**
@@ -184,15 +308,7 @@ be added as evidence
         */
         union {null, string} version;
         /**
-        URL of source if any
-        */
-        union {null, string} url;
-        /**
-        ID of record in the source
-        */
-        union {null, string} id;
-        /**
-        The date the evidence was published
+        The source date.
         */
         union {null, string} date;
     }
@@ -259,7 +375,7 @@ Evidence of benign impact:
     - BP7 A synonymous (silent) variant for which splicing prediction algorithms predict no impact to the splice
     consensus sequence nor the creation of a new splice site AND the nucleotide is not highly conserved
     */
-    enum EvidenceStrength {
+    enum EvidenceImpact {
         very_strong,
         strong,
         moderate,
@@ -291,6 +407,50 @@ Evidence of benign impact:
     */
 
     /**
+    The somatic information.
+    */
+    record SomaticInformation {
+        /**
+        The primary site
+        */
+        union {null, string} primarySite;
+        /**
+        The primary site subtype
+        */
+        union {null, string} siteSubtype;
+        /**
+        The primary histology
+        */
+        union {null, string} primaryHistology;
+        /**
+        The histology subtype
+        */
+        union {null, string} histologySubtype;
+        /**
+        The tumour origin
+        */
+        union {null, string} tumourOrigin;
+    }
+
+    /**
+    The submission information
+    */
+    record Submission {
+        /**
+        The submitter
+        */
+        union {null, string} submitter;
+        /**
+        The submission date
+        */
+        union {null, string} date;
+        /**
+        The submission id
+        */
+        union {null, string} id;
+    }
+
+    /**
     An entry for an evidence
     */
     record EvidenceEntry {
@@ -299,45 +459,73 @@ Evidence of benign impact:
         */
         string date;
         /**
-        The submitter of the curation event
+        The reporter of the evidence event
         */
-        string userid;
+        union {null, string} reporter;
         /**
         Source of the evidence
         */
         EvidenceSource source;
         /**
+        The somatic information
+        */
+        union {null, SomaticInformation} somaticInformation;
+        /**
+        The list of submissions
+        */
+        array<Submission> submissions = [];
+        /**
+        URL of source if any
+        */
+        union {null, string} url;
+        /**
+        ID of record in the source
+        */
+        union {null, string} id;
+        /**
         List of allele origins
         */
         array<org.gel.models.ontologies.AlleleOrigin> alleleOrigin;
         /**
-        Heritable phenotypes associated to this evidence
+        Heritable traits associated to this evidence
         */
-        array<HeritablePhenotype> heritablePhenotypes = [];
+        array<HeritableTrait> heritableTraits = [];
         /**
         The transcript to which the evidence refers
         */
-        union {null, org.gel.models.report.avro.GenomicFeature} genomicFeature;
+        array<GenomicFeature> genomicFeatures = [];
         /**
         The classification of impact.
         */
-        org.gel.models.report.avro.VariantClassification classification;
+        union{null, VariantClassification} classification;
         /**
         The variant functional effect
         */
         union {null, org.gel.models.ontologies.VariantFunctionalEffect} functionalEffect;
         /**
-        Strength of evidence. Should be coherent with the classification of impact if provided.
+        Impact of evidence. Should be coherent with the classification of impact if provided.
         */
-        union {null, EvidenceStrength} strength;
+        union {null, EvidenceImpact} impact;
         /**
         The curation confidence.
         */
         union {null, org.gel.models.ontologies.Confidence} confidence;
         /**
+        The consistency status. This is applicable to complex evidences (e.g.: ClinVar)
+        */
+        union {null, org.gel.models.ontologies.ConsistencyStatus} consistencyStatus;
+        /**
         Ethnicity
         */
-        org.gel.models.report.avro.EthnicCategory ethnicity;
+        EthnicCategory ethnicity;
+        /**
+        The penetrance of the phenotype for this genotype. Value in the range [0, 1]
+        */
+        union {null, org.gel.models.report.avro.Penetrance} penetrance;
+        /**
+        Variable expressivity of a given phenotype for the same genotype
+        */
+        union {null, boolean} variableExpressivity;
         /**
         Evidence description
         */
@@ -350,6 +538,10 @@ Evidence of benign impact:
         A list of additional properties in the form name-value.
         */
         array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+        /**
+        Bibliography
+        */
+        array<string> bibliography = [];
     }
 
     /**
