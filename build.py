@@ -74,13 +74,11 @@ schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.report.avro"
 ga4gh_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.ga4gh.models")
 openCB_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.opencb.biodata.models.sequence")
 cva_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.cva.avro")
-ontologies_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.ontologies")
 
 outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=module_version))
 ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols_{version}.py".format(version=module_version))
 openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols_{version}.py".format(version=module_version))
 cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols_{version}.py".format(version=module_version))
-ontologies_outfile = os.path.join(BASE_DIR, "protocols", "OntologiesProtocols_{version}.py".format(version=module_version))
 
 version = json.load(open(os.path.join(json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
 logging.info("Version: " + version)
@@ -90,8 +88,6 @@ generate_python_sources(schemas, outfile, version)
 generate_python_sources(ga4gh_schemas, ga4gh_outfile, version)
 # OpenCB models Python source generation
 generate_python_sources(openCB_schemas, openCB_outfile, version)
-# Ontologies models Python source generation
-generate_python_sources(ontologies_schemas, ontologies_outfile, version)
 # CVA models Python source generation
 generate_python_sources(cva_schemas, cva_outfile, version)
 
@@ -116,10 +112,7 @@ generate_documentation("RDParticipantChangeLog")
 generate_documentation("MDTDeliveryProtocol")
 generate_documentation("EvidenceSet")
 generate_documentation("Comment")
-generate_documentation("SequenceOntology")
 generate_documentation("ReportEventContainer")
 generate_documentation("ObservedVariant")
-generate_documentation("ConfidenceInformationOntology")
-generate_documentation("OntologyTerms")
 generate_documentation("SupplementaryAnalysisResults")
 generate_documentation("ExitQuestionnaire")

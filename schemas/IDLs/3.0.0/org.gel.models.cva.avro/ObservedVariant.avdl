@@ -2,11 +2,11 @@
 
 protocol ObservedVariantProtocol {
 
+    // CVA references
+    import idl "Evidence.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
     import idl "../org.gel.models.report.avro/CommonParticipant.avdl";
-    // Ontologies
-    import idl "../org.gel.models.ontologies/OntologyTerms.avdl";
     // OpenCB references
     import idl "../org.opencb.biodata.models.sequence/variant.avdl";
 
@@ -33,6 +33,6 @@ protocol ObservedVariantProtocol {
         /**
         A list of additional properties in the form name-value.
         */
-        array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+        array<OntologyTerm> additionalProperties = [];
     }
 }
