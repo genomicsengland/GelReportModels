@@ -5,9 +5,9 @@ protocol ReportEventContainerProtocol {
     // CVA references
     import idl "Comment.avdl";
     import idl "ObservedVariant.avdl";
-    import idl "Evidence.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
+    import idl "../org.opencb.biodata.models/evidence.avdl";
 
     /**
     The type of the report event
@@ -75,6 +75,6 @@ protocol ReportEventContainerProtocol {
         /**
         A list of additional properties in the form name-value.
         */
-        array<OntologyTerm> additionalProperties = [];
+        array<org.opencb.biodata.models.evidence.OntologyTerm> additionalProperties = [];
     }
 }

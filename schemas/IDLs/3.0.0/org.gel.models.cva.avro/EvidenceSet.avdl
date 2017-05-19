@@ -5,9 +5,9 @@ protocol EvidencesSetProtocol {
     // CVA references
     import idl "Comment.avdl";
     import idl "ReportEventContainer.avdl";
-    import idl "Evidence.avdl";
     // OpenCB references
-    import idl "../org.opencb.biodata.models.sequence/variant.avdl";
+    import idl "../org.opencb.biodata.models/variant.avdl";
+    import idl "../org.opencb.biodata.models/evidence.avdl";
 
 
     /**
@@ -17,31 +17,31 @@ protocol EvidencesSetProtocol {
         /**
         The heritable phenotype to which the curation refers.
         */
-        HeritableTrait heritableTrait;
+        org.opencb.biodata.models.evidence.HeritableTrait heritableTrait;
         /**
         The transcript to which the curation refers
         */
-        union {null, GenomicFeature} genomicFeature;
+        union {null, org.opencb.biodata.models.evidence.GenomicFeature} genomicFeature;
         /**
         The variant's classification.
         */
-        union{null, VariantClassification} variantClassification;
+        union{null, org.opencb.biodata.models.evidence.VariantClassification} variantClassification;
         /**
         The curation confidence.
         */
-        union {null, Confidence} confidence;
+        union {null, org.opencb.biodata.models.evidence.Confidence} confidence;
         /**
         The automatic consistency status. The value is automatically inferred from evidences.
         */
-        ConsistencyStatus automaticConsistencyStatus;
+        org.opencb.biodata.models.evidence.ConsistencyStatus automaticConsistencyStatus;
         /**
         The manual consistency status. The value is optionally provided by a curator.
         */
-        union {null, ConsistencyStatus} manualConsistencyStatus;
+        union {null, org.opencb.biodata.models.evidence.ConsistencyStatus} manualConsistencyStatus;
         /**
         The penetrance of the phenotype for this genotype. Value in the range [0, 1]
         */
-        union {null, Penetrance} penetrance;
+        union {null, org.opencb.biodata.models.evidence.Penetrance} penetrance;
         /**
         Variable expressivity of a given phenotype for the same genotype
         */
@@ -61,7 +61,7 @@ protocol EvidencesSetProtocol {
         /**
         A list of additional properties in the form name-value.
         */
-        array<OntologyTerm> additionalProperties = [];
+        array<org.opencb.biodata.models.evidence.OntologyTerm> additionalProperties = [];
         /**
         Bibliography
         */
@@ -152,7 +152,7 @@ protocol EvidencesSetProtocol {
         /**
         The list of evidences for this variant
         */
-        array<EvidenceEntry> evidences = [];
+        array<org.opencb.biodata.models.evidence.EvidenceEntry> evidences = [];
         /**
         Comments for this variant
         */

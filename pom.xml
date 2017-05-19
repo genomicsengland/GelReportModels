@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.opencb.biodata</groupId>
             <artifactId>biodata-models</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -146,13 +146,13 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence</directory>
+                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models</directory>
                                     <includes>
                                         <include>avro/*</include>
                                     </includes>
                                 </fileset>
                                 <fileset>
-                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence</directory>
+                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models</directory>
                                     <includes>
                                         <include>avro</include>
                                     </includes>
@@ -190,7 +190,7 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <outputDirectory>schemas/IDLs/3.0.0/org.opencb.biodata.models.sequence</outputDirectory>
+                            <outputDirectory>schemas/IDLs/3.0.0/org.opencb.biodata.models</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -205,8 +205,8 @@
                         <goals><goal>run</goal></goals>
                         <configuration>
                             <target>
-                                <move todir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence" flatten="true">
-                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence">
+                                <move todir="schemas/IDLs/${models.version}/org.opencb.biodata.models" flatten="true">
+                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models">
                                         <include name="**/*.avdl"/>
                                     </fileset>
                                 </move>
@@ -223,7 +223,7 @@
                         <phase>initialize</phase>
                         <configuration>
                             <tasks>
-                                <delete dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence/avro"/>
+                                <delete dir="schemas/IDLs/${models.version}/org.opencb.biodata.models/avro"/>
                             </tasks>
                         </configuration>
                         <goals>

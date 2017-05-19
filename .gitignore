@@ -2,7 +2,7 @@
 **/*.pyc
 build
 target
-schemas/IDLs/latest/org.opencb.biodata.models.sequence
+schemas/IDLs/*/org.opencb.biodata.models
 schemas/AVPRs/*
 schemas/JSONs/*
 *.egg-info
