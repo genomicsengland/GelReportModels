@@ -190,23 +190,27 @@ least 90%
 conflicting evidences should be classified as uncertain_significance
     */
     enum ClinicalSignificance {
-        BENIGN,
-        LIKELY_BENIGN,
+        benign,
+        likely_benign,
         VUS,
-        LIKELY_PATHOGENIC,
-        PATHOGENIC
+        likely_pathogenic,
+        pathogenic
     }
 
     /**
-    Pharmacogenomics variant classification
-* `drug_response` : Drug response variant for pharmacogenomic evidence
+    Pharmacogenomics drug response variant classification
 * `responsive` : Responsive variants
 * `resistant` : Resistant variants
     */
-    enum PharmacogenomicsClassification {
-        DRUG_RESPONSE,
-        RESPONSIVE,
-        RESISTANT
+    enum DrugResponseClassification {
+        responsive,
+        resistant,
+        toxicity,
+        indication,
+        contraindication,
+        dosing,
+        increased_monitoring,
+        efficacy
     }
 
     /**
@@ -216,10 +220,10 @@ conflicting evidences should be classified as uncertain_significance
 * `uncertain_risk_allele` : Uncertain risk allele for variants associated to disease
     */
     enum TraitAssociation {
-        ESTABLISHED_RISK_ALLELE,
-        LIKELY_RISK_ALLELE,
-        UNCERTAIN_RISK_ALLELE,
-        PROTECTIVE
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        protective
     }
 
     /**
@@ -229,9 +233,9 @@ conflicting evidences should be classified as uncertain_significance
 * `modifier` : Modifier variants
     */
     enum TumorigenesisClassification {
-        DRIVER,
-        PASSENGER,
-        MODIFIER
+        driver,
+        passenger,
+        modifier
     }
 
     /**
@@ -453,7 +457,7 @@ Evidence of benign impact:
         /**
         The variant's pharmacogenomics classification.
         */
-        union{null, PharmacogenomicsClassification} pharmacogenomicsClassification;
+        union{null, DrugResponseClassification} drugResponseClassification;
         /**
         The variant's trait association.
         */
