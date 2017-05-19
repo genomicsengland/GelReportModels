@@ -283,7 +283,7 @@ record AnalysisPanel {
     string specificDisease;
     string panelName;
     union {null, string} panelVersion;
-    string review_outcome;
+    string reviewOutcome;
     string multipleGeneticOrigins;
 }
 
