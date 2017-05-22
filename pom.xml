@@ -21,6 +21,7 @@
 
     <properties>
         <models.version>3.0.0</models.version>
+        <opencb.biodata.version>1.1.0-SNAPSHOT</opencb.biodata.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <protobuf.version>3.1.0</protobuf.version>
@@ -34,7 +35,7 @@
         <dependency>
             <groupId>org.opencb.biodata</groupId>
             <artifactId>biodata-models</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>${opencb.biodata.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -83,7 +84,7 @@
                         <configuration>
                             <fieldVisibility>private</fieldVisibility>
                             <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/3.0.0/</sourceDirectory>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${models.version}/</sourceDirectory>
                             <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
                         </configuration>
                     </execution>
@@ -190,7 +191,7 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <outputDirectory>schemas/IDLs/3.0.0/org.opencb.biodata.models</outputDirectory>
+                            <outputDirectory>schemas/IDLs/${models.version}/org.opencb.biodata.models</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
