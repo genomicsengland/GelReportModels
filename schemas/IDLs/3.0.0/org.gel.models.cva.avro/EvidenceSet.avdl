@@ -17,31 +17,31 @@ protocol EvidencesSetProtocol {
         /**
         The heritable phenotype to which the curation refers.
         */
-        org.opencb.biodata.models.evidence.HeritableTrait heritableTrait;
+        org.opencb.biodata.models.variant.avro.HeritableTrait heritableTrait;
         /**
         The transcript to which the curation refers
         */
-        union {null, org.opencb.biodata.models.evidence.GenomicFeature} genomicFeature;
+        union {null, org.opencb.biodata.models.variant.avro.GenomicFeature} genomicFeature;
         /**
         The variant's classification.
         */
-        union{null, org.opencb.biodata.models.evidence.VariantClassification} variantClassification;
+        union{null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
         /**
         The curation confidence.
         */
-        union {null, org.opencb.biodata.models.evidence.Confidence} confidence;
+        union {null, org.opencb.biodata.models.variant.avro.Confidence} confidence;
         /**
         The automatic consistency status. The value is automatically inferred from evidences.
         */
-        org.opencb.biodata.models.evidence.ConsistencyStatus automaticConsistencyStatus;
+        org.opencb.biodata.models.variant.avro.ConsistencyStatus automaticConsistencyStatus;
         /**
         The manual consistency status. The value is optionally provided by a curator.
         */
-        union {null, org.opencb.biodata.models.evidence.ConsistencyStatus} manualConsistencyStatus;
+        union {null, org.opencb.biodata.models.variant.avro.ConsistencyStatus} manualConsistencyStatus;
         /**
         The penetrance of the phenotype for this genotype. Value in the range [0, 1]
         */
-        union {null, org.opencb.biodata.models.evidence.Penetrance} penetrance;
+        union {null, org.opencb.biodata.models.variant.avro.Penetrance} penetrance;
         /**
         Variable expressivity of a given phenotype for the same genotype
         */
@@ -61,7 +61,7 @@ protocol EvidencesSetProtocol {
         /**
         A list of additional properties in the form name-value.
         */
-        array<org.opencb.biodata.models.evidence.OntologyTerm> additionalProperties = [];
+        array<org.opencb.biodata.models.variant.avro.OntologyTerm> additionalProperties = [];
         /**
         Bibliography
         */
@@ -152,7 +152,7 @@ protocol EvidencesSetProtocol {
         /**
         The list of evidences for this variant
         */
-        array<org.opencb.biodata.models.evidence.EvidenceEntry> evidences = [];
+        array<org.opencb.biodata.models.variant.avro.EvidenceEntry> evidences = [];
         /**
         Comments for this variant
         */
