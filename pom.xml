@@ -21,10 +21,9 @@
 
     <properties>
         <models.version>3.0.0</models.version>
+        <opencb.biodata.version>1.1.0-SNAPSHOT</opencb.biodata.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
-        <protobuf.version>3.1.0</protobuf.version>
-        <grpc.version>1.0.1</grpc.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <p.type>jar</p.type>
@@ -34,7 +33,7 @@
         <dependency>
             <groupId>org.opencb.biodata</groupId>
             <artifactId>biodata-models</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${opencb.biodata.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -44,23 +43,7 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro-tools</artifactId>
-            <version>1.7.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <version>${avro.version}</version>
         </dependency>
     </dependencies>
 
@@ -83,7 +66,7 @@
                         <configuration>
                             <fieldVisibility>private</fieldVisibility>
                             <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/3.0.0/</sourceDirectory>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${models.version}/</sourceDirectory>
                             <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
                         </configuration>
                     </execution>
@@ -94,7 +77,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <executions>
                     <execution><!-- Run our version calculation script -->
-                        <id>Generate Python sources and documentation</id>
+                        <id>Generate, AVPRs, JSON schemas, Python sources and documentation</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
@@ -111,29 +94,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.0</version>
-                <configuration>
-                    <!--
-                      The version of protoc must match protobuf-java. If you don't depend on
-                      protobuf-java directly, you will be transitively depending on the
-                      protobuf-java version that grpc depends on.
-                    -->
-                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>2.5</version>
                 <executions>
@@ -146,13 +106,13 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence</directory>
+                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models</directory>
                                     <includes>
                                         <include>avro/*</include>
                                     </includes>
                                 </fileset>
                                 <fileset>
-                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence</directory>
+                                    <directory>schemas/IDLs/${models.version}/org.opencb.biodata.models</directory>
                                     <includes>
                                         <include>avro</include>
                                     </includes>
@@ -190,7 +150,7 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <outputDirectory>schemas/IDLs/3.0.0/org.opencb.biodata.models.sequence</outputDirectory>
+                            <outputDirectory>schemas/IDLs/${models.version}/org.opencb.biodata.models</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -205,8 +165,8 @@
                         <goals><goal>run</goal></goals>
                         <configuration>
                             <target>
-                                <move todir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence" flatten="true">
-                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence">
+                                <move todir="schemas/IDLs/${models.version}/org.opencb.biodata.models" flatten="true">
+                                    <fileset dir="schemas/IDLs/${models.version}/org.opencb.biodata.models">
                                         <include name="**/*.avdl"/>
                                     </fileset>
                                 </move>
@@ -223,7 +183,7 @@
                         <phase>initialize</phase>
                         <configuration>
                             <tasks>
-                                <delete dir="schemas/IDLs/${models.version}/org.opencb.biodata.models.sequence/avro"/>
+                                <delete dir="schemas/IDLs/${models.version}/org.opencb.biodata.models/avro"/>
                             </tasks>
                         </configuration>
                         <goals>
@@ -262,45 +222,5 @@
                 </configuration>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                    only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.avro
-                                        </groupId>
-                                        <artifactId>
-                                            avro-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.7.7,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>protocol</goal>
-                                            <goal>schema</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
     </build>
-
 </project>

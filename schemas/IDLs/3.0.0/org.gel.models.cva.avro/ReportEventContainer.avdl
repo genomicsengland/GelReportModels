@@ -7,8 +7,7 @@ protocol ReportEventContainerProtocol {
     import idl "ObservedVariant.avdl";
     // Report models references
     import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
-    // Ontologies
-    import idl "../org.gel.models.ontologies/OntologyTerms.avdl";
+    import idl "../org.opencb.biodata.models/evidence.avdl";
 
     /**
     The type of the report event
@@ -76,6 +75,6 @@ protocol ReportEventContainerProtocol {
         /**
         A list of additional properties in the form name-value.
         */
-        array<org.gel.models.ontologies.OBOOntologyTerm> additionalProperties = [];
+        array<org.opencb.biodata.models.variant.avro.OntologyTerm> additionalProperties = [];
     }
 }

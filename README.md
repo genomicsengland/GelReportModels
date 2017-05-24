@@ -11,6 +11,13 @@ From the Avro models you can generate:
 * HTML documentation
 
 Maven is employed to manage the source code generation and dependency management.
+Nevertheless, to configure the development environment some of the OpenCB dependencies must compiled and installed locally.
+* `biodata` contains the Avro models in OpenCB. Clone the appropriate branch and install it locally
+```$shell
+git clone git@github.com:opencb/biodata.git
+git checkout feature-improveclinical
+mvn clean install -DskipTests
+```
 
 To generate sources and documentation run: 
 ```
