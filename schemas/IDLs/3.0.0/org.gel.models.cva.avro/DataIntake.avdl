@@ -18,9 +18,9 @@ Record for tiered variant injection as part of the data intake for CVA
 */
   record TieredVariantInject {
   /**
-  Data Model Version
+  Report Model Version
   */
-    string modelVersion;
+    string reportModelVersion;
   /**
   Basic information about the InterpretationRequest
   */
@@ -35,9 +35,9 @@ Record for reported variant injection as part of the data intake for CVA
 */
   record ReportedVariantInject {
   /**
-   Data Model Version
-   */
-    string modelVersion;
+  Report Model Version
+  */
+    string reportModelVersion;
   /**
   Clinical Interpretation Partner e.g. omicia
   */
@@ -81,9 +81,9 @@ Record for candidate variant injection as part of the data intake for CVA
 */
   record CandidateVariantInject {
   /**
-   Data Model Version
-   */
-    string modelVersion;
+  Report Model Version
+  */
+    string reportModelVersion;
   /**
    Clinical Interpretation Partner e.g. omicia
    */
