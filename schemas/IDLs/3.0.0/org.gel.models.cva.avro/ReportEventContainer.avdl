@@ -44,9 +44,17 @@ protocol ReportEventContainerProtocol {
         */
         ReportEventContainerType type;
         /**
-        The interpretation request identifier
+        The interpretation request identifier e.g. "378"
         */
         string interpretationRequestId;
+        /**
+        Clinical interpretation partner code e.g. OPA
+        */
+        string cipCode;
+        /**
+        Interpretation request version e.g. "2"
+        */
+        string interpretationRequestVersion;
         /**
         The family identifier
         */
