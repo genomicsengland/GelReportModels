@@ -1,0 +1,124 @@
+@namespace("org.gel.models.cva.avro")
+
+/**
+DataIntakeProtocol defines three records for injecting variant data
+   - TieredVariantInject
+   - ReportedVariantInject
+   - CandidateVariantInject
+*/
+protocol DataIntakeProtocol {
+  import idl "../org.gel.models.report.avro/InterpretationRequestRD.avdl";
+  import idl "../org.gel.models.report.avro/InterpretedGenomesRD.avdl";
+  import idl "../org.gel.models.report.avro/ClinicalReportRD.avdl";
+
+
+
+/**
+Record for tiered variant injection as part of the data intake for CVA
+*/
+  record TieredVariantInject {
+  /**
+  Report Model Version
+  */
+    string reportModelVersion;
+  /**
+  Basic information about the InterpretationRequest
+  */
+    org.gel.models.report.avro.InterpretationRequestRD interpretationRequest;
+  }
+
+
+
+
+/**
+Record for reported variant injection as part of the data intake for CVA
+*/
+  record ReportedVariantInject {
+  /**
+  Report Model Version
+  */
+    string reportModelVersion;
+  /**
+  Clinical Interpretation Partner e.g. omicia
+  */
+    string cip;
+  /**
+   Clinical Interpretation Partner code e.g. OPA
+   */
+    string cipCode;
+  /**
+  Interpretation request Id e.g. "378"
+  */
+    string interpretationRequestId;
+  /**
+  Version of the interpretation request e.g. "2"
+  */
+    string interpretationRequestVersion;
+  /**
+   Family identifier
+   */
+    string gelFamilyId;
+  /**
+  The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+  */
+    array<string> workspace;
+  /**
+  Version of Clinical Interpretation Partner e.g. 2
+  */
+    int cipVersion;
+  /**
+  Rare disease Interpreted Genome
+  */
+    org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
+
+  }
+
+
+
+
+/**
+Record for candidate variant injection as part of the data intake for CVA
+*/
+  record CandidateVariantInject {
+  /**
+  Report Model Version
+  */
+    string reportModelVersion;
+  /**
+   Clinical Interpretation Partner e.g. omicia
+   */
+    string cip;
+  /**
+   Clinical Interpretation Partner code e.g. OPA
+   */
+    string cipCode;
+  /**
+   Interpretation request Id e.g. "378"
+   */
+    string interpretationRequestId;
+  /**
+   Version of the interpretation request e.g. "2"
+   */
+    string interpretationRequestVersion;
+  /**
+     Family identifier
+   */
+    string gelFamilyId;
+  /**
+  The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+  */
+    array<string> workspace;
+  /**
+   Version of Clinical Interpretation Partner e.g. 2
+   */
+    int cipVersion;
+  /**
+   Version of the clinical report
+  */
+    int clinicalReportVersion;
+  /**
+  Information that Genomics England needs to generate a clinical report
+  */
+    org.gel.models.report.avro.ClinicalReportRD clinicalReport;
+  }
+}
