@@ -257,6 +257,12 @@
                                         <include>**/*</include>
                                     </includes>
                                 </fileset>
+                                <fileset>
+                                    <directory>target</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
                             </filesets>
                         </configuration>
                     </execution>
