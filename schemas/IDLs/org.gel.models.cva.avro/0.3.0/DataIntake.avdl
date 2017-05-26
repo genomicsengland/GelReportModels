@@ -7,9 +7,9 @@ DataIntakeProtocol defines three records for injecting variant data
    - CandidateVariantInject
 */
 protocol DataIntakeProtocol {
-  import idl "../org.gel.models.report.avro/InterpretationRequestRD.avdl";
-  import idl "../org.gel.models.report.avro/InterpretedGenomesRD.avdl";
-  import idl "../org.gel.models.report.avro/ClinicalReportRD.avdl";
+  import idl "../../org.gel.models.report.avro/3.0.0/InterpretationRequestRD.avdl";
+  import idl "../../org.gel.models.report.avro/3.0.0/InterpretedGenomesRD.avdl";
+  import idl "../../org.gel.models.report.avro/3.0.0/ClinicalReportRD.avdl";
 
 
 

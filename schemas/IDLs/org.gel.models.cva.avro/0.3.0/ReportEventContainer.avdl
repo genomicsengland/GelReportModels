@@ -6,8 +6,8 @@ protocol ReportEventContainerProtocol {
     import idl "Comment.avdl";
     import idl "ObservedVariant.avdl";
     // Report models references
-    import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
-    import idl "../org.opencb.biodata.models/evidence.avdl";
+    import idl "../../org.gel.models.report.avro/3.0.0/CommonInterpreted.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
     /**
     The type of the report event

@@ -6,8 +6,8 @@ protocol EvidencesSetProtocol {
     import idl "Comment.avdl";
     import idl "ReportEventContainer.avdl";
     // OpenCB references
-    import idl "../org.opencb.biodata.models/variant.avdl";
-    import idl "../org.opencb.biodata.models/evidence.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
 
     /**

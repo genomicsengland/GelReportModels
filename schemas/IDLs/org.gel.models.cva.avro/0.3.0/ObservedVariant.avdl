@@ -3,11 +3,11 @@
 protocol ObservedVariantProtocol {
 
     // Report models references
-    import idl "../org.gel.models.report.avro/CommonInterpreted.avdl";
-    import idl "../org.gel.models.report.avro/CommonParticipant.avdl";
+    import idl "../../org.gel.models.report.avro/3.0.0/CommonInterpreted.avdl";
+    import idl "../../org.gel.models.report.avro/3.0.0/CommonParticipant.avdl";
     // OpenCB references
-    import idl "../org.opencb.biodata.models/variant.avdl";
-    import idl "../org.opencb.biodata.models/evidence.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
     /**
     The entity representing an observed variant
