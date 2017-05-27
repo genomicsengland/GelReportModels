@@ -365,7 +365,7 @@ class SchemaProcessor(object):
         self.avroPath = "src/main/resources/avro"
 
     def cleanup(self):
-        if self.verbosity > 1:
+        if self.verbosity > 0:
             utils.log("Cleaning up tmp dir {}".format(self.tmpDir))
         shutil.rmtree(self.tmpDir)
 
@@ -384,9 +384,9 @@ class SchemaProcessor(object):
         args = ["java", "-jar", self.avroJar, "idl2schemata", avdlFile]
         if self.verbosity > 0:
             utils.log("converting {}".format(avdlFile))
-        if self.verbosity > 1:
+        if self.verbosity > 0:
             utils.log("running: {}".format(" ".join(args)))
-        if self.verbosity > 1:
+        if self.verbosity > 0:
             utils.runCommandSplits(args)
         else:
             utils.runCommandSplits(args, silent=True)
