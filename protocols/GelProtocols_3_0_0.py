@@ -7811,14 +7811,21 @@ class Reason(object):
     """
     No documentation
     """
+    median_coverage = "median_coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    consent = "consent"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
+    arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
 
 
 class ReportEvent(ProtocolElement):
@@ -8964,14 +8971,19 @@ class SomaticOrGermline(object):
 
 class State(object):
     """
-    No documentation
+    This is the master state for this sample, for example
+    caution,quality could be used to say that a sample under this
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed hold: sample
+    is on hold pending investigation fail: sample has failed a QC
+    check caution: sample is ready but should be used with caution
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -9457,3 +9469,638 @@ class TumorChecks(ProtocolElement):
 
 class VariantClassification(object):
     """
+    Mendelian variants classification with ACMG terminology as defined
+    in Richards, S. et al. (2015). Standards and     guidelines for
+    the interpretation of sequence variants: a joint consensus
+    recommendation of the American College     of Medical Genetics and
+    Genomics and the Association for Molecular Pathology. Genetics in
+    Medicine, 17(5),     405–423. https://doi.org/10.1038/gim.2015.30.
+    Classification for pharmacogenomic variants, variants associated
+    to disease and somatic variants based on the ACMG recommendations
+    and ClinVar classification
+    (https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).  *
+    `benign_variant` : Benign variants interpreted for Mendelian
+    disorders * `likely_benign_variant` : Likely benign variants
+    interpreted for Mendelian disorders with a certainty of at least
+    90% * `pathogenic_variant` : Pathogenic variants interpreted for
+    Mendelian disorders * `likely_pathogenic_variant` : Likely
+    pathogenic variants interpreted for Mendelian disorders with a
+    certainty of at least 90% * `uncertain_significance` : Uncertain
+    significance variants interpreted for Mendelian disorders.
+    Variants with conflicting evidences should be classified as
+    uncertain_significance * `drug_response` : Drug response variant
+    for pharmacogenomic evidence * `established_risk_allele` :
+    Established risk allele for variants associated to disease *
+    `likely_risk_allele` : Likely risk allele for variants associated
+    to disease * `uncertain_risk_allele` : Uncertain risk allele for
+    variants associated to disease * `responsive` : Responsive
+    variants for somatic variants * `resistant` : Resistant variants
+    for somatic variants * `driver` : Driver variants for somatic
+    variants * `passenger` : Passenger variants for somatic variants
+    """
+    BENIGN = "BENIGN"
+    LIKELY_BENIGN = "LIKELY_BENIGN"
+    VUS = "VUS"
+    LIKELY_PATHOGENIC = "LIKELY_PATHOGENIC"
+    PATHOGENIC = "PATHOGENIC"
+    DRUG_RESPONSE = "DRUG_RESPONSE"
+    ESTABLISHED_RISK_ALLELE = "ESTABLISHED_RISK_ALLELE"
+    LIKELY_RISK_ALLELE = "LIKELY_RISK_ALLELE"
+    UNCERTAIN_RISK_ALLELE = "UNCERTAIN_RISK_ALLELE"
+    RESPONSIVE = "RESPONSIVE"
+    RESISTANT = "RESISTANT"
+    DRIVER = "DRIVER"
+    PASSENGER = "PASSENGER"
+
+
+class VariantGroupLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VariantGroupLevelQuestions", "fields": [{"type": "int", "name":
+"variant_group"}, {"type": {"items": {"fields": [{"doc": "", "type":
+"string", "name": "variant_details"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ConfirmationDecision"},
+"name": "confirmationDecision"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ConfirmationOutcome"},
+"name": "confirmationOutcome"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ReportingQuestion"},
+"name": "reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}], "type": "record", "name":
+"VariantLevelQuestions"}, "type": "array"}, "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "not_yet", "na"], "type": "enum", "name": "Actionability"},
+"name": "actionability"}, {"doc": "", "type": {"items": {"symbols":
+["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives",
+"clinical_trial_eligibility", "informs_reproductive_choice",
+"unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
+"type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "partially", "unknown"], "type": "enum",
+"name": "PhenotypesSolved"}, "name": "phenotypesSolved"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name":
+"phenotypesExplained"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "actionability",
+        "clinicalUtility",
+        "phenotypesExplained",
+        "phenotypesSolved",
+        "variantLevelQuestions",
+        "variant_group",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'variantLevelQuestions': VariantLevelQuestions,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'variantLevelQuestions': VariantLevelQuestions,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'actionability', 'clinicalUtility', 'phenotypesExplained',
+        'phenotypesSolved', 'variantLevelQuestions', 'variant_group'
+    ]
+
+    def __init__(self, **kwargs):
+        self.actionability = kwargs.get(
+            'actionability', None)
+        self.clinicalUtility = kwargs.get(
+            'clinicalUtility', None)
+        self.phenotypesExplained = kwargs.get(
+            'phenotypesExplained', None)
+        self.phenotypesSolved = kwargs.get(
+            'phenotypesSolved', None)
+        self.variantLevelQuestions = kwargs.get(
+            'variantLevelQuestions', None)
+        self.variant_group = kwargs.get(
+            'variant_group', None)
+
+
+class VariantLevelQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VariantLevelQuestions", "fields": [{"doc": "", "type": "string",
+"name": "variant_details"}, {"doc": "", "type": {"symbols": ["yes",
+"no", "na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ReportingQuestion"}, "name":
+"reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant",
+"benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "",
+"type": "string", "name": "publications"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "acmgClassification",
+        "confirmationDecision",
+        "confirmationOutcome",
+        "publications",
+        "reportingQuestion",
+        "variant_details",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'acmgClassification', 'confirmationDecision',
+        'confirmationOutcome', 'publications', 'reportingQuestion',
+        'variant_details'
+    ]
+
+    def __init__(self, **kwargs):
+        self.acmgClassification = kwargs.get(
+            'acmgClassification', None)
+        self.confirmationDecision = kwargs.get(
+            'confirmationDecision', None)
+        self.confirmationOutcome = kwargs.get(
+            'confirmationOutcome', None)
+        self.publications = kwargs.get(
+            'publications', 'None')
+        self.reportingQuestion = kwargs.get(
+            'reportingQuestion', None)
+        self.variant_details = kwargs.get(
+            'variant_details', 'None')
+
+
+class VariantsCoverage(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VariantsCoverage", "fields": [{"type": "string", "name": "bedName"},
+{"type": {"items": {"fields": [{"doc": "", "type": "double", "name":
+"avg"}, {"doc": "", "type": "double", "name": "med"}, {"doc": "",
+"type": "double", "name": "bases"}, {"doc": "", "type": ["null",
+"double"], "name": "pct25"}, {"doc": "", "type": ["null", "double"],
+"name": "pct75"}, {"doc": "", "type": ["null", "double"], "name":
+"lt15x"}, {"doc": "", "type": ["null", "double"], "name": "gte15x"},
+{"doc": "", "type": ["null", "double"], "name": "gte30x"}, {"doc": "",
+"type": ["null", "double"], "name": "gte50x"}, {"doc": "", "type":
+["null", "double"], "name": "sd"}, {"doc": "", "type": ["null",
+"double"], "name": "localRMSD"}, {"doc": "", "type": "string", "name":
+"scope"}], "type": "record", "name": "CoverageSummary"}, "type":
+"array"}, "name": "coverageSummary"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "bedName",
+        "coverageSummary",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'bedName', 'coverageSummary'
+    ]
+
+    def __init__(self, **kwargs):
+        self.bedName = kwargs.get(
+            'bedName', 'None')
+        self.coverageSummary = kwargs.get(
+            'coverageSummary', None)
+
+
+class VcfMetrics(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VcfMetrics", "fields": [{"type": "double", "name":
+"NUMBER_OF_SAMPLES"}, {"type": "double", "name": "NUMBER_OF_INDELS"},
+{"type": "double", "name": "NUMBER_OF_MNPS"}, {"type": "double",
+"name": "NUMBER_OF_MULTIALLELIC_SNP_SITES"}, {"type": "double",
+"name": "NUMBER_OF_SNPS"}, {"type": "double", "name":
+"NUMBER_OF_RECORDS"}, {"type": "double", "name": "NUMBER_OF_OTHERS"},
+{"type": "double", "name": "NUMBER_OF_MULTIALLELIC_SITES"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "NUMBER_OF_INDELS",
+        "NUMBER_OF_MNPS",
+        "NUMBER_OF_MULTIALLELIC_SITES",
+        "NUMBER_OF_MULTIALLELIC_SNP_SITES",
+        "NUMBER_OF_OTHERS",
+        "NUMBER_OF_RECORDS",
+        "NUMBER_OF_SAMPLES",
+        "NUMBER_OF_SNPS",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'NUMBER_OF_INDELS', 'NUMBER_OF_MNPS',
+        'NUMBER_OF_MULTIALLELIC_SITES',
+        'NUMBER_OF_MULTIALLELIC_SNP_SITES', 'NUMBER_OF_OTHERS',
+        'NUMBER_OF_RECORDS', 'NUMBER_OF_SAMPLES', 'NUMBER_OF_SNPS'
+    ]
+
+    def __init__(self, **kwargs):
+        self.NUMBER_OF_INDELS = kwargs.get(
+            'NUMBER_OF_INDELS', None)
+        self.NUMBER_OF_MNPS = kwargs.get(
+            'NUMBER_OF_MNPS', None)
+        self.NUMBER_OF_MULTIALLELIC_SITES = kwargs.get(
+            'NUMBER_OF_MULTIALLELIC_SITES', None)
+        self.NUMBER_OF_MULTIALLELIC_SNP_SITES = kwargs.get(
+            'NUMBER_OF_MULTIALLELIC_SNP_SITES', None)
+        self.NUMBER_OF_OTHERS = kwargs.get(
+            'NUMBER_OF_OTHERS', None)
+        self.NUMBER_OF_RECORDS = kwargs.get(
+            'NUMBER_OF_RECORDS', None)
+        self.NUMBER_OF_SAMPLES = kwargs.get(
+            'NUMBER_OF_SAMPLES', None)
+        self.NUMBER_OF_SNPS = kwargs.get(
+            'NUMBER_OF_SNPS', None)
+
+
+class VcfTSTV(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VcfTSTV", "fields": [{"type": "double", "name": "TS_1"}, {"type":
+"double", "name": "TV"}, {"type": "double", "name": "TS"}, {"type":
+"double", "name": "TS_TV"}, {"type": "double", "name": "TV_1"},
+{"type": "double", "name": "TS_TV_1"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "TS",
+        "TS_1",
+        "TS_TV",
+        "TS_TV_1",
+        "TV",
+        "TV_1",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'TS', 'TS_1', 'TS_TV', 'TS_TV_1', 'TV', 'TV_1'
+    ]
+
+    def __init__(self, **kwargs):
+        self.TS = kwargs.get(
+            'TS', None)
+        self.TS_1 = kwargs.get(
+            'TS_1', None)
+        self.TS_TV = kwargs.get(
+            'TS_TV', None)
+        self.TS_TV_1 = kwargs.get(
+            'TS_TV_1', None)
+        self.TV = kwargs.get(
+            'TV', None)
+        self.TV_1 = kwargs.get(
+            'TV_1', None)
+
+
+class VerifyBamId(ProtocolElement):
+    """
+    Verify Bam ID  This is only run on germline samples  * `SEQ_ID`: *
+    `CHIP_ID`: * `SNPS`: * `READS`: * `AVG_DP`: * `FREEMIX`: *
+    `FREELK1`: * `FREELK0`: * `FREE_RH`: * `FREE_RA`: * `CHIPMIX`: *
+    `CHIPLK1`: * `CHIPLK0`: * `CHIP_RA`: * `DPREF`: * `RDPHET`: *
+    `RDPALT`:
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VerifyBamId", "fields": [{"type": "string", "name": "SEQ_ID"},
+{"type": "string", "name": "CHIP_ID"}, {"type": "double", "name":
+"SNPS"}, {"type": "double", "name": "READS"}, {"type": "double",
+"name": "AVG_DP"}, {"type": "double", "name": "FREEMIX"}, {"type":
+"double", "name": "FREELK1"}, {"type": "double", "name": "FREELK0"},
+{"type": "string", "name": "FREE_RH"}, {"type": "string", "name":
+"FREE_RA"}, {"type": "string", "name": "CHIPMIX"}, {"type": "string",
+"name": "CHIPLK1"}, {"type": "string", "name": "CHIPLK0"}, {"type":
+"string", "name": "CHIP_RA"}, {"type": "string", "name": "DPREF"},
+{"type": "string", "name": "RDPHET"}, {"type": "string", "name":
+"RDPALT"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "AVG_DP",
+        "CHIPLK0",
+        "CHIPLK1",
+        "CHIPMIX",
+        "CHIP_ID",
+        "CHIP_RA",
+        "DPREF",
+        "FREELK0",
+        "FREELK1",
+        "FREEMIX",
+        "FREE_RA",
+        "FREE_RH",
+        "RDPALT",
+        "RDPHET",
+        "READS",
+        "SEQ_ID",
+        "SNPS",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'AVG_DP', 'CHIPLK0', 'CHIPLK1', 'CHIPMIX', 'CHIP_ID',
+        'CHIP_RA', 'DPREF', 'FREELK0', 'FREELK1', 'FREEMIX',
+        'FREE_RA', 'FREE_RH', 'RDPALT', 'RDPHET', 'READS', 'SEQ_ID',
+        'SNPS'
+    ]
+
+    def __init__(self, **kwargs):
+        self.AVG_DP = kwargs.get(
+            'AVG_DP', None)
+        self.CHIPLK0 = kwargs.get(
+            'CHIPLK0', 'None')
+        self.CHIPLK1 = kwargs.get(
+            'CHIPLK1', 'None')
+        self.CHIPMIX = kwargs.get(
+            'CHIPMIX', 'None')
+        self.CHIP_ID = kwargs.get(
+            'CHIP_ID', 'None')
+        self.CHIP_RA = kwargs.get(
+            'CHIP_RA', 'None')
+        self.DPREF = kwargs.get(
+            'DPREF', 'None')
+        self.FREELK0 = kwargs.get(
+            'FREELK0', None)
+        self.FREELK1 = kwargs.get(
+            'FREELK1', None)
+        self.FREEMIX = kwargs.get(
+            'FREEMIX', None)
+        self.FREE_RA = kwargs.get(
+            'FREE_RA', 'None')
+        self.FREE_RH = kwargs.get(
+            'FREE_RH', 'None')
+        self.RDPALT = kwargs.get(
+            'RDPALT', 'None')
+        self.RDPHET = kwargs.get(
+            'RDPHET', 'None')
+        self.READS = kwargs.get(
+            'READS', None)
+        self.SEQ_ID = kwargs.get(
+            'SEQ_ID', 'None')
+        self.SNPS = kwargs.get(
+            'SNPS', None)
+
+
+class VersionControl(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VersionControl", "fields": [{"default": "3.0.0", "doc": "", "type":
+"string", "name": "GitVersionControl"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {}
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'GitVersionControl'
+    ]
+
+    def __init__(self, **kwargs):
+        self.GitVersionControl = kwargs.get(
+            'GitVersionControl', '3.0.0')
+
+
+class WholeGenomeCoverage(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"WholeGenomeCoverage", "fields": [{"type": {"items": {"fields":
+[{"doc": "", "type": "double", "name": "avg"}, {"doc": "", "type":
+"double", "name": "med"}, {"doc": "", "type": "double", "name":
+"bases"}, {"doc": "", "type": ["null", "double"], "name": "pct25"},
+{"doc": "", "type": ["null", "double"], "name": "pct75"}, {"doc": "",
+"type": ["null", "double"], "name": "lt15x"}, {"doc": "", "type":
+["null", "double"], "name": "gte15x"}, {"doc": "", "type": ["null",
+"double"], "name": "gte30x"}, {"doc": "", "type": ["null", "double"],
+"name": "gte50x"}, {"doc": "", "type": ["null", "double"], "name":
+"sd"}, {"doc": "", "type": ["null", "double"], "name": "localRMSD"},
+{"doc": "", "type": "string", "name": "scope"}], "type": "record",
+"name": "CoverageSummary"}, "type": "array"}, "name":
+"coverageSummary"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "coverageSummary",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coverageSummary': CoverageSummary,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'coverageSummary'
+    ]
+
+    def __init__(self, **kwargs):
+        self.coverageSummary = kwargs.get(
+            'coverageSummary', None)
+
+
+class Zygosity(object):
+    """
+    It is a representation of the zygosity  * `reference_homozygous`:
+    0/0, 0|0 * `heterozygous`: 0/1, 1/0, 1|0, 0|1 *
+    `alternate_homozygous`: 1/1, 1|1 * `missing`: ./., .|. *
+    `half_missing_reference`: ./0, 0/., 0|., .|0 *
+    `half_missing_alternate`: ./1, 1/., 1|., .|1 *
+    `alternate_hemizigous`: 1 * `reference_hemizigous`: 0 * `unk`:
+    Anything unexpected
+    """
+    reference_homozygous = "reference_homozygous"
+    heterozygous = "heterozygous"
+    alternate_homozygous = "alternate_homozygous"
+    missing = "missing"
+    half_missing_reference = "half_missing_reference"
+    half_missing_alternate = "half_missing_alternate"
+    alternate_hemizigous = "alternate_hemizigous"
+    reference_hemizigous = "reference_hemizigous"
+    unk = "unk"
+
+
+class sampleState(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"sampleState", "fields": [{"type": ["null", {"symbols": ["ready",
+"warning", "pending", "hold", "fail", "caution"], "doc": "", "type":
+"enum", "name": "State"}], "name": "state"}, {"type": {"items":
+{"symbols": ["median_coverage", "in_analysis", "duplicate",
+"pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination",
+"quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11",
+"GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc",
+"pass_qc", "other"], "type": "enum", "name": "Reason"}, "type":
+"array"}, "name": "reason"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "reason",
+        "state",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'reason', 'state'
+    ]
+
+    def __init__(self, **kwargs):
+        self.reason = kwargs.get(
+            'reason', None)
+        self.state = kwargs.get(
+            'state', None)
+
+
+class sampleTests(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"sampleTests", "fields": [{"type": ["null", "boolean"], "name":
+"verifybamid"}, {"type": ["null", "boolean"], "name":
+"arrayconcordance"}, {"type": ["null", "boolean"], "name":
+"contamination"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "arrayconcordance",
+        "contamination",
+        "verifybamid",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'arrayconcordance', 'contamination', 'verifybamid'
+    ]
+
+    def __init__(self, **kwargs):
+        self.arrayconcordance = kwargs.get(
+            'arrayconcordance', None)
+        self.contamination = kwargs.get(
+            'contamination', None)
+        self.verifybamid = kwargs.get(
+            'verifybamid', None)

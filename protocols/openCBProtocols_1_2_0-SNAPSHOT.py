@@ -198,3 +198,3281 @@ class ClinVar(ProtocolElement):
 
 class ClinicalSignificance(object):
     """
+    Mendelian variants classification with ACMG terminology as defined
+    in Richards, S. et al. (2015). Standards and         guidelines
+    for the interpretation of sequence variants: a joint consensus
+    recommendation of the American College         of Medical Genetics
+    and Genomics and the Association for Molecular Pathology. Genetics
+    in Medicine, 17(5),         405–423.
+    https://doi.org/10.1038/gim.2015.30.      Classification for
+    pharmacogenomic variants, variants associated to     disease and
+    somatic variants based on the ACMG recommendations and ClinVar
+    classification
+    (https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/).  *
+    `benign_variant` : Benign variants interpreted for Mendelian
+    disorders * `likely_benign_variant` : Likely benign variants
+    interpreted for Mendelian disorders with a certainty of at least
+    90% * `pathogenic_variant` : Pathogenic variants interpreted for
+    Mendelian disorders * `likely_pathogenic_variant` : Likely
+    pathogenic variants interpreted for Mendelian disorders with a
+    certainty of at least 90% * `uncertain_significance` : Uncertain
+    significance variants interpreted for Mendelian disorders.
+    Variants with conflicting evidences should be classified as
+    uncertain_significance
+    """
+    benign = "benign"
+    likely_benign = "likely_benign"
+    VUS = "VUS"
+    likely_pathogenic = "likely_pathogenic"
+    pathogenic = "pathogenic"
+
+
+class Confidence(object):
+    """
+    Confidence based on the Confidence Information Ontology  *
+    `CIO_0000029`: high confidence level
+    http://purl.obolibrary.org/obo/CIO_0000029 * `CIO_0000031`: low
+    confidence level http://purl.obolibrary.org/obo/CIO_0000031 *
+    `CIO_0000030`: medium confidence level
+    http://purl.obolibrary.org/obo/CIO_0000030 * `CIO_0000039`:
+    rejected http://purl.obolibrary.org/obo/CIO_0000039
+    """
+    CIO_0000031 = "CIO_0000031"
+    CIO_0000030 = "CIO_0000030"
+    CIO_0000029 = "CIO_0000029"
+    CIO_0000039 = "CIO_0000039"
+
+
+class ConsequenceType(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "ConsequenceType", "fields": [{"type": ["null",
+"string"], "name": "geneName"}, {"type": ["null", "string"], "name":
+"ensemblGeneId"}, {"type": ["null", "string"], "name":
+"ensemblTranscriptId"}, {"type": ["null", "string"], "name":
+"strand"}, {"type": ["null", "string"], "name": "biotype"}, {"type":
+["null", "int"], "name": "exonNumber"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "transcriptAnnotationFlags"},
+{"type": ["null", "int"], "name": "cdnaPosition"}, {"type": ["null",
+"int"], "name": "cdsPosition"}, {"type": ["null", "string"], "name":
+"codon"}, {"type": ["null", {"fields": [{"default": null, "type":
+["null", "string"], "name": "uniprotAccession"}, {"default": null,
+"type": ["null", "string"], "name": "uniprotName"}, {"type": "int",
+"name": "position"}, {"type": ["null", "string"], "name":
+"reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", "string"], "name": "uniprotVariantId"}, {"type":
+["null", "string"], "name": "functionalDescription"}, {"type":
+["null", {"items": {"fields": [{"type": "double", "name": "score"},
+{"type": "string", "name": "source"}, {"type": ["null", "string"],
+"name": "description"}], "type": "record", "name": "Score"}, "type":
+"array"}], "name": "substitutionScores"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "keywords"}, {"type": ["null",
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"},
+{"type": ["null", "string"], "name": "type"}, {"type": ["null",
+"string"], "name": "description"}], "type": "record", "name":
+"ProteinFeature"}, "type": "array"}], "name": "features"}], "type":
+"record", "name": "ProteinVariantAnnotation"}], "name":
+"proteinVariantAnnotation"}, {"type": {"items": {"fields": [{"type":
+"string", "name": "accession"}, {"type": "string", "name": "name"}],
+"type": "record", "name": "SequenceOntologyTerm"}, "type": "array"},
+"name": "sequenceOntologyTerms"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "biotype",
+        "cdnaPosition",
+        "cdsPosition",
+        "codon",
+        "ensemblGeneId",
+        "ensemblTranscriptId",
+        "exonNumber",
+        "geneName",
+        "proteinVariantAnnotation",
+        "sequenceOntologyTerms",
+        "strand",
+        "transcriptAnnotationFlags",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'proteinVariantAnnotation': ProteinVariantAnnotation,
+            'sequenceOntologyTerms': SequenceOntologyTerm,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'proteinVariantAnnotation': ProteinVariantAnnotation,
+            'sequenceOntologyTerms': SequenceOntologyTerm,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'biotype', 'cdnaPosition', 'cdsPosition', 'codon',
+        'ensemblGeneId', 'ensemblTranscriptId', 'exonNumber',
+        'geneName', 'proteinVariantAnnotation',
+        'sequenceOntologyTerms', 'strand', 'transcriptAnnotationFlags'
+    ]
+
+    def __init__(self, **kwargs):
+        self.biotype = kwargs.get(
+            'biotype', None)
+        self.cdnaPosition = kwargs.get(
+            'cdnaPosition', None)
+        self.cdsPosition = kwargs.get(
+            'cdsPosition', None)
+        self.codon = kwargs.get(
+            'codon', None)
+        self.ensemblGeneId = kwargs.get(
+            'ensemblGeneId', None)
+        self.ensemblTranscriptId = kwargs.get(
+            'ensemblTranscriptId', None)
+        self.exonNumber = kwargs.get(
+            'exonNumber', None)
+        self.geneName = kwargs.get(
+            'geneName', None)
+        self.proteinVariantAnnotation = kwargs.get(
+            'proteinVariantAnnotation', None)
+        self.sequenceOntologyTerms = kwargs.get(
+            'sequenceOntologyTerms', None)
+        self.strand = kwargs.get(
+            'strand', None)
+        self.transcriptAnnotationFlags = kwargs.get(
+            'transcriptAnnotationFlags', None)
+
+
+class ConsistencyStatus(object):
+    """
+    The consistency of evidences for a given phenotype. This
+    aggregates all evidences for a given phenotype and all
+    evidences with no phenotype associated (e.g.: in silico impact
+    prediction, population frequency).     This is based on the
+    Confidence Information Ontology terms.  * `CIO_0000033`:
+    congruent, all evidences are consistent.
+    http://purl.obolibrary.org/obo/CIO_0000033 * `CIO_0000034`:
+    conflict, there are conflicting evidences. This should correspond
+    to a `VariantClassification` of `uncertain_significance` for
+    mendelian disorders. http://purl.obolibrary.org/obo/CIO_0000034 *
+    `CIO_0000035`: strongly conflicting.
+    http://purl.obolibrary.org/obo/CIO_0000035 * `CIO_0000036`: weakly
+    conflicting. http://purl.obolibrary.org/obo/CIO_0000036
+    """
+    CIO_0000033 = "CIO_0000033"
+    CIO_0000034 = "CIO_0000034"
+    CIO_0000035 = "CIO_0000035"
+    CIO_0000036 = "CIO_0000036"
+
+
+class Cosmic(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Cosmic", "fields": [{"type": "string", "name":
+"mutationId"}, {"type": "string", "name": "primarySite"}, {"type":
+"string", "name": "siteSubtype"}, {"type": "string", "name":
+"primaryHistology"}, {"type": "string", "name": "histologySubtype"},
+{"type": "string", "name": "sampleSource"}, {"type": "string", "name":
+"tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type":
+"string", "name": "mutationSomaticStatus"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "geneName",
+        "histologySubtype",
+        "mutationId",
+        "mutationSomaticStatus",
+        "primaryHistology",
+        "primarySite",
+        "sampleSource",
+        "siteSubtype",
+        "tumourOrigin",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'geneName', 'histologySubtype', 'mutationId',
+        'mutationSomaticStatus', 'primaryHistology', 'primarySite',
+        'sampleSource', 'siteSubtype', 'tumourOrigin'
+    ]
+
+    def __init__(self, **kwargs):
+        self.geneName = kwargs.get(
+            'geneName', 'None')
+        self.histologySubtype = kwargs.get(
+            'histologySubtype', 'None')
+        self.mutationId = kwargs.get(
+            'mutationId', 'None')
+        self.mutationSomaticStatus = kwargs.get(
+            'mutationSomaticStatus', 'None')
+        self.primaryHistology = kwargs.get(
+            'primaryHistology', 'None')
+        self.primarySite = kwargs.get(
+            'primarySite', 'None')
+        self.sampleSource = kwargs.get(
+            'sampleSource', 'None')
+        self.siteSubtype = kwargs.get(
+            'siteSubtype', 'None')
+        self.tumourOrigin = kwargs.get(
+            'tumourOrigin', 'None')
+
+
+class Cytoband(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Cytoband", "fields": [{"type": ["null", "string"],
+"name": "stain"}, {"type": ["null", "string"], "name": "name"},
+{"type": ["null", "int"], "name": "start"}, {"type": ["null", "int"],
+"name": "end"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "end",
+        "name",
+        "stain",
+        "start",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'end', 'name', 'stain', 'start'
+    ]
+
+    def __init__(self, **kwargs):
+        self.end = kwargs.get(
+            'end', None)
+        self.name = kwargs.get(
+            'name', None)
+        self.stain = kwargs.get(
+            'stain', None)
+        self.start = kwargs.get(
+            'start', None)
+
+
+class DrugResponseClassification(object):
+    """
+    Pharmacogenomics drug response variant classification *
+    `responsive` : A variant that confers response to a treatment *
+    `resistant` : A variant that confers resistance to a treatment *
+    `toxicity` : A variant that is associated with drug-induced
+    toxicity * `indication` : A variant that is required in order for
+    a particular drug to be prescribed * `contraindication` : A
+    variant that if present, a particular drug should not be
+    prescribed * `dosing` : A variant that results in an alteration in
+    dosing of a particular drug in order to achieve INR, reduce
+    toxicity or increase efficacy * `increased_monitoring` : increase
+    vigilance or increased dosage monitoring may be required for a
+    patient with this variant to look for signs of adverse drug
+    reactions * `efficacy` : a variant that affects the efficacy of
+    the treatment
+    """
+    responsive = "responsive"
+    resistant = "resistant"
+    toxicity = "toxicity"
+    indication = "indication"
+    contraindication = "contraindication"
+    dosing = "dosing"
+    increased_monitoring = "increased_monitoring"
+    efficacy = "efficacy"
+
+
+class EthnicCategory(object):
+    """
+    This is the list of ethnics in ONS16  * `D`:  Mixed: White and
+    Black Caribbean * `E`:  Mixed: White and Black African * `F`:
+    Mixed: White and Asian * `G`:  Mixed: Any other mixed background *
+    `A`:  White: British * `B`:  White: Irish * `C`:  White: Any other
+    White background * `L`:  Asian or Asian British: Any other Asian
+    background * `M`:  Black or Black British: Caribbean * `N`:  Black
+    or Black British: African * `H`:  Asian or Asian British: Indian *
+    `J`:  Asian or Asian British: Pakistani * `K`:  Asian or Asian
+    British: Bangladeshi * `P`:  Black or Black British: Any other
+    Black background * `S`:  Other Ethnic Groups: Any other ethnic
+    group * `R`:  Other Ethnic Groups: Chinese * `Z`:  Not stated
+    """
+    D = "D"
+    E = "E"
+    F = "F"
+    G = "G"
+    A = "A"
+    B = "B"
+    C = "C"
+    L = "L"
+    M = "M"
+    N = "N"
+    H = "H"
+    J = "J"
+    K = "K"
+    P = "P"
+    S = "S"
+    R = "R"
+    Z = "Z"
+
+
+class EvidenceEntry(ProtocolElement):
+    """
+    An entry for an evidence
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "EvidenceEntry", "fields": [{"doc": "", "type":
+{"doc": "", "type": "record", "name": "EvidenceSource", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "name"}, {"doc": "",
+"type": ["null", "string"], "name": "version"}, {"doc": "", "type":
+["null", "string"], "name": "date"}]}, "name": "source"}, {"default":
+[], "doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"EvidenceSubmission", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "submitter"}, {"doc": "", "type": ["null",
+"string"], "name": "date"}, {"doc": "", "type": ["null", "string"],
+"name": "id"}]}, "type": "array"}, "name": "submissions"}, {"doc": "",
+"type": ["null", {"doc": "", "type": "record", "name":
+"SomaticInformation", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "primarySite"}, {"doc": "", "type": ["null",
+"string"], "name": "siteSubtype"}, {"doc": "", "type": ["null",
+"string"], "name": "primaryHistology"}, {"doc": "", "type": ["null",
+"string"], "name": "histologySubtype"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourOrigin"}]}], "name": "somaticInformation"},
+{"doc": "", "type": ["null", "string"], "name": "url"}, {"doc": "",
+"type": ["null", "string"], "name": "id"}, {"doc": "", "type":
+{"items": {"symbols": ["SO_0001781", "SO_0001778", "SO_0001775",
+"SO_0001776", "SO_0001779", "SO_0001780", "SO_0001777"], "doc": "",
+"type": "enum", "name": "AlleleOrigin"}, "type": "array"}, "name":
+"alleleOrigin"}, {"default": [], "doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "HeritableTrait", "fields": [{"doc": "",
+"type": "string", "name": "trait"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown", "NA"], "doc": "", "type": "enum", "name":
+"ModeOfInheritance"}, "name": "inheritanceMode"}]}, "type": "array"},
+"name": "heritableTraits"}, {"default": [], "doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "GenomicFeature",
+"fields": [{"doc": "", "type": {"symbols": ["RegulatoryRegion",
+"Gene", "Transcript", "Protein"], "doc": "", "type": "enum", "name":
+"FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": "string",
+"name": "ensemblId"}, {"doc": "", "type": ["null", {"values":
+"string", "type": "map"}], "name": "xrefs"}]}, "type": "array"},
+"name": "genomicFeatures"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "VariantClassification", "fields": [{"doc":
+"", "type": ["null", {"symbols": ["benign", "likely_benign", "VUS",
+"likely_pathogenic", "pathogenic"], "doc": "", "type": "enum", "name":
+"ClinicalSignificance"}], "name": "clinicalSignificance"}, {"doc": "",
+"type": ["null", {"symbols": ["responsive", "resistant", "toxicity",
+"indication", "contraindication", "dosing", "increased_monitoring",
+"efficacy"], "doc": "", "type": "enum", "name":
+"DrugResponseClassification"}], "name": "drugResponseClassification"},
+{"doc": "", "type": ["null", {"symbols": ["established_risk_allele",
+"likely_risk_allele", "uncertain_risk_allele", "protective"], "doc":
+"", "type": "enum", "name": "TraitAssociation"}], "name":
+"traitAssociation"}, {"doc": "", "type": ["null", {"symbols":
+["driver", "passenger", "modifier"], "doc": "", "type": "enum",
+"name": "TumorigenesisClassification"}], "name":
+"tumorigenesisClassification"}, {"doc": "", "type": ["null",
+{"symbols": ["SO_0002052", "SO_0002053", "SO_0001773", "SO_0002054",
+"SO_0001786", "SO_0002055"], "doc": "", "type": "enum", "name":
+"VariantFunctionalEffect"}], "name": "functionalEffect"}]}], "name":
+"variantClassification"}, {"doc": "", "type": ["null", {"symbols":
+["very_strong", "strong", "moderate", "supporting", "stand_alone"],
+"doc": "", "type": "enum", "name": "EvidenceImpact"}], "name":
+"impact"}, {"doc": "", "type": ["null", {"symbols": ["CIO_0000031",
+"CIO_0000030", "CIO_0000029", "CIO_0000039"], "doc": "", "type":
+"enum", "name": "Confidence"}], "name": "confidence"}, {"doc": "",
+"type": ["null", {"symbols": ["CIO_0000033", "CIO_0000034",
+"CIO_0000035", "CIO_0000036"], "doc": "", "type": "enum", "name":
+"ConsistencyStatus"}], "name": "consistencyStatus"}, {"doc": "",
+"type": {"symbols": ["D", "E", "F", "G", "A", "B", "C", "L", "M", "N",
+"H", "J", "K", "P", "S", "R", "Z"], "doc": "", "type": "enum", "name":
+"EthnicCategory"}, "name": "ethnicity"}, {"doc": "", "type": ["null",
+{"symbols": ["complete", "incomplete"], "doc": "", "type": "enum",
+"name": "Penetrance"}], "name": "penetrance"}, {"doc": "", "type":
+["null", "boolean"], "name": "variableExpressivity"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"default": [],
+"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"OntologyTerm", "fields": [{"doc": "", "type": "string", "name":
+"id"}, {"doc": "", "type": ["null", "string"], "name": "name"},
+{"doc": "", "type": ["null", "string"], "name": "value"}]}, "type":
+"array"}, "name": "additionalProperties"}, {"default": [], "doc": "",
+"type": {"items": "string", "type": "array"}, "name":
+"bibliography"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alleleOrigin",
+        "confidence",
+        "consistencyStatus",
+        "description",
+        "ethnicity",
+        "id",
+        "impact",
+        "penetrance",
+        "somaticInformation",
+        "source",
+        "url",
+        "variableExpressivity",
+        "variantClassification",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'additionalProperties': OntologyTerm,
+            'genomicFeatures': GenomicFeature,
+            'heritableTraits': HeritableTrait,
+            'somaticInformation': SomaticInformation,
+            'source': EvidenceSource,
+            'submissions': EvidenceSubmission,
+            'variantClassification': VariantClassification,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'additionalProperties': OntologyTerm,
+            'genomicFeatures': GenomicFeature,
+            'heritableTraits': HeritableTrait,
+            'somaticInformation': SomaticInformation,
+            'source': EvidenceSource,
+            'submissions': EvidenceSubmission,
+            'variantClassification': VariantClassification,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalProperties', 'alleleOrigin', 'bibliography',
+        'confidence', 'consistencyStatus', 'description', 'ethnicity',
+        'genomicFeatures', 'heritableTraits', 'id', 'impact',
+        'penetrance', 'somaticInformation', 'source', 'submissions',
+        'url', 'variableExpressivity', 'variantClassification'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalProperties = kwargs.get(
+            'additionalProperties', [])
+        self.alleleOrigin = kwargs.get(
+            'alleleOrigin', None)
+        self.bibliography = kwargs.get(
+            'bibliography', [])
+        self.confidence = kwargs.get(
+            'confidence', None)
+        self.consistencyStatus = kwargs.get(
+            'consistencyStatus', None)
+        self.description = kwargs.get(
+            'description', None)
+        self.ethnicity = kwargs.get(
+            'ethnicity', None)
+        self.genomicFeatures = kwargs.get(
+            'genomicFeatures', [])
+        self.heritableTraits = kwargs.get(
+            'heritableTraits', [])
+        self.id = kwargs.get(
+            'id', None)
+        self.impact = kwargs.get(
+            'impact', None)
+        self.penetrance = kwargs.get(
+            'penetrance', None)
+        self.somaticInformation = kwargs.get(
+            'somaticInformation', None)
+        self.source = kwargs.get(
+            'source', None)
+        self.submissions = kwargs.get(
+            'submissions', [])
+        self.url = kwargs.get(
+            'url', None)
+        self.variableExpressivity = kwargs.get(
+            'variableExpressivity', None)
+        self.variantClassification = kwargs.get(
+            'variantClassification', None)
+
+
+class EvidenceImpact(object):
+    """
+    Evidence of pathogenicity and benign impact as defined in
+    Richards, S. et al. (2015). Standards and guidelines for the
+    interpretation     of sequence variants: a joint consensus
+    recommendation of the American College of Medical Genetics and
+    Genomics and     the Association for Molecular Pathology. Genetics
+    in Medicine, 17(5), 405–423. https://doi.org/10.1038/gim.2015.30
+    Evidence of pathogenicity: * `very_strong`:     - PVS1 null
+    variant (nonsense, frameshift, canonical ±1 or 2 splice sites,
+    initiation codon, single or multiexon     deletion) in a gene
+    where LOF is a known mechanism of disease * `strong`:     - PS1
+    Same amino acid change as a previously established pathogenic
+    variant regardless of nucleotide change     - PS2 De novo (both
+    maternity and paternity confirmed) in a patient with the disease
+    and no family history     - PS3 Well-established in vitro or in
+    vivo functional studies supportive of a damaging effect on the
+    gene or gene     product     - PS4 The prevalence of the variant
+    in affected individuals is significantly increased compared with
+    the prevalence     in controls * `moderate`:     - PM1 Located in
+    a mutational hot spot and/or critical and well-established
+    functional domain (e.g., active site of     an enzyme) without
+    benign variation     - PM2 Absent from controls (or at extremely
+    low frequency if recessive) in Exome Sequencing Project, 1000
+    Genomes     Project, or Exome Aggregation Consortium     - PM3 For
+    recessive disorders, detected in trans with a pathogenic variant
+    - PM4 Protein length changes as a result of in-frame
+    deletions/insertions in a nonrepeat region or stop-loss
+    variants     - PM5 Novel missense change at an amino acid residue
+    where a different missense change determined to be pathogenic
+    has been seen before     - PM6 Assumed de novo, but without
+    confirmation of paternity and maternity * `supporting`:     - PP1
+    Cosegregation with disease in multiple affected family members in
+    a gene definitively known to cause the     disease     - PP2
+    Missense variant in a gene that has a low rate of benign missense
+    variation and in which missense variants are     a common
+    mechanism of disease     - PP3 Multiple lines of computational
+    evidence support a deleterious effect on the gene or gene product
+    (conservation, evolutionary, splicing impact, etc.)     - PP4
+    Patient’s phenotype or family history is highly specific for a
+    disease with a single genetic etiology     - PP5 Reputable source
+    recently reports variant as pathogenic, but the evidence is not
+    available to the laboratory     to perform an independent
+    evaluation  Evidence of benign impact: * `stand_alone`:     - BA1
+    Allele frequency is >5% in Exome Sequencing Project, 1000 Genomes
+    Project, or Exome Aggregation     Consortium * `strong`:     - BS1
+    Allele frequency is greater than expected for disorder     - BS2
+    Observed in a healthy adult individual for a recessive
+    (homozygous), dominant (heterozygous), or X-linked
+    (hemizygous) disorder, with full penetrance expected at an early
+    age     - BS3 Well-established in vitro or in vivo functional
+    studies show no damaging effect on protein function or
+    splicing     - BS4 Lack of segregation in affected members of a
+    family * `supporting`:     - BP1 Missense variant in a gene for
+    which primarily truncating variants are known to cause disease
+    - BP2 Observed in trans with a pathogenic variant for a fully
+    penetrant dominant gene/disorder or observed in cis     with a
+    pathogenic variant in any inheritance pattern     - BP3 In-frame
+    deletions/insertions in a repetitive region without a known
+    function     - BP4 Multiple lines of computational evidence
+    suggest no impact on gene or gene product (conservation,
+    evolutionary, splicing impact, etc.)     - BP5 Variant found in a
+    case with an alternate molecular basis for disease     - BP6
+    Reputable source recently reports variant as benign, but the
+    evidence is not available to the laboratory to     perform an
+    independent evaluation     - BP7 A synonymous (silent) variant for
+    which splicing prediction algorithms predict no impact to the
+    splice     consensus sequence nor the creation of a new splice
+    site AND the nucleotide is not highly conserved
+    """
+    very_strong = "very_strong"
+    strong = "strong"
+    moderate = "moderate"
+    supporting = "supporting"
+    stand_alone = "stand_alone"
+
+
+class EvidenceSource(ProtocolElement):
+    """
+    The source of an evidence.
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "EvidenceSource", "fields": [{"doc": "", "type":
+["null", "string"], "name": "name"}, {"doc": "", "type": ["null",
+"string"], "name": "version"}, {"doc": "", "type": ["null", "string"],
+"name": "date"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "date",
+        "name",
+        "version",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'date', 'name', 'version'
+    ]
+
+    def __init__(self, **kwargs):
+        self.date = kwargs.get(
+            'date', None)
+        self.name = kwargs.get(
+            'name', None)
+        self.version = kwargs.get(
+            'version', None)
+
+
+class EvidenceSubmission(ProtocolElement):
+    """
+    The submission information
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "EvidenceSubmission", "fields": [{"doc": "", "type":
+["null", "string"], "name": "submitter"}, {"doc": "", "type": ["null",
+"string"], "name": "date"}, {"doc": "", "type": ["null", "string"],
+"name": "id"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "date",
+        "id",
+        "submitter",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'date', 'id', 'submitter'
+    ]
+
+    def __init__(self, **kwargs):
+        self.date = kwargs.get(
+            'date', None)
+        self.id = kwargs.get(
+            'id', None)
+        self.submitter = kwargs.get(
+            'submitter', None)
+
+
+class Expression(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Expression", "fields": [{"type": ["null",
+"string"], "name": "geneName"}, {"type": ["null", "string"], "name":
+"transcriptId"}, {"type": ["null", "string"], "name":
+"experimentalFactor"}, {"type": ["null", "string"], "name":
+"factorValue"}, {"type": ["null", "string"], "name": "experimentId"},
+{"type": ["null", "string"], "name": "technologyPlatform"}, {"type":
+["null", {"symbols": ["UP", "DOWN"], "type": "enum", "name":
+"ExpressionCall"}], "name": "expression"}, {"type": ["null", "float"],
+"name": "pvalue"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "experimentId",
+        "experimentalFactor",
+        "expression",
+        "factorValue",
+        "geneName",
+        "pvalue",
+        "technologyPlatform",
+        "transcriptId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'experimentId', 'experimentalFactor', 'expression',
+        'factorValue', 'geneName', 'pvalue', 'technologyPlatform',
+        'transcriptId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.experimentId = kwargs.get(
+            'experimentId', None)
+        self.experimentalFactor = kwargs.get(
+            'experimentalFactor', None)
+        self.expression = kwargs.get(
+            'expression', None)
+        self.factorValue = kwargs.get(
+            'factorValue', None)
+        self.geneName = kwargs.get(
+            'geneName', None)
+        self.pvalue = kwargs.get(
+            'pvalue', None)
+        self.technologyPlatform = kwargs.get(
+            'technologyPlatform', None)
+        self.transcriptId = kwargs.get(
+            'transcriptId', None)
+
+
+class ExpressionCall(object):
+    """
+    No documentation
+    """
+    UP = "UP"
+    DOWN = "DOWN"
+
+
+class FeatureTypes(object):
+    """
+    The feature types
+    """
+    RegulatoryRegion = "RegulatoryRegion"
+    Gene = "Gene"
+    Transcript = "Transcript"
+    Protein = "Protein"
+
+
+class FileEntry(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "FileEntry", "fields": [{"doc": "", "type": ["null",
+"string"], "name": "fileId"}, {"doc": "", "type": ["null", "string"],
+"name": "call"}, {"doc": "", "type": {"values": "string", "type":
+"map"}, "name": "attributes"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "attributes",
+        "call",
+        "fileId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'attributes', 'call', 'fileId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.attributes = kwargs.get(
+            'attributes', None)
+        self.call = kwargs.get(
+            'call', None)
+        self.fileId = kwargs.get(
+            'fileId', None)
+
+
+class GeneDrugInteraction(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "GeneDrugInteraction", "fields": [{"type": ["null",
+"string"], "name": "geneName"}, {"type": ["null", "string"], "name":
+"drugName"}, {"type": ["null", "string"], "name": "source"}, {"type":
+["null", "string"], "name": "studyType"}, {"type": ["null", "string"],
+"name": "type"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "drugName",
+        "geneName",
+        "source",
+        "studyType",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'drugName', 'geneName', 'source', 'studyType', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.drugName = kwargs.get(
+            'drugName', None)
+        self.geneName = kwargs.get(
+            'geneName', None)
+        self.source = kwargs.get(
+            'source', None)
+        self.studyType = kwargs.get(
+            'studyType', None)
+        self.type = kwargs.get(
+            'type', None)
+
+
+class GeneTraitAssociation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "GeneTraitAssociation", "fields": [{"type":
+"string", "name": "id"}, {"type": "string", "name": "name"}, {"type":
+["null", "string"], "name": "hpo"}, {"type": ["null", "float"],
+"name": "score"}, {"type": ["null", "int"], "name":
+"numberOfPubmeds"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "associationTypes"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "sources"}, {"type": "string",
+"name": "source"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "associationTypes",
+        "hpo",
+        "id",
+        "name",
+        "numberOfPubmeds",
+        "score",
+        "source",
+        "sources",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'associationTypes', 'hpo', 'id', 'name', 'numberOfPubmeds',
+        'score', 'source', 'sources'
+    ]
+
+    def __init__(self, **kwargs):
+        self.associationTypes = kwargs.get(
+            'associationTypes', None)
+        self.hpo = kwargs.get(
+            'hpo', None)
+        self.id = kwargs.get(
+            'id', 'None')
+        self.name = kwargs.get(
+            'name', 'None')
+        self.numberOfPubmeds = kwargs.get(
+            'numberOfPubmeds', None)
+        self.score = kwargs.get(
+            'score', None)
+        self.source = kwargs.get(
+            'source', 'None')
+        self.sources = kwargs.get(
+            'sources', None)
+
+
+class GenomicFeature(ProtocolElement):
+    """
+    The genomic feature
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "GenomicFeature", "fields": [{"doc": "", "type":
+{"symbols": ["RegulatoryRegion", "Gene", "Transcript", "Protein"],
+"doc": "", "type": "enum", "name": "FeatureTypes"}, "name":
+"featureType"}, {"doc": "", "type": "string", "name": "ensemblId"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"name": "xrefs"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ensemblId",
+        "featureType",
+        "xrefs",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ensemblId', 'featureType', 'xrefs'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ensemblId = kwargs.get(
+            'ensemblId', 'None')
+        self.featureType = kwargs.get(
+            'featureType', None)
+        self.xrefs = kwargs.get(
+            'xrefs', None)
+
+
+class Genotype(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Genotype", "fields": [{"type": "string", "name":
+"reference"}, {"type": "string", "name": "alternate"}, {"default": [],
+"type": {"items": "int", "type": "array"}, "name": "allelesIdx"},
+{"type": "boolean", "name": "phased"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alternate",
+        "phased",
+        "reference",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'allelesIdx', 'alternate', 'phased', 'reference'
+    ]
+
+    def __init__(self, **kwargs):
+        self.allelesIdx = kwargs.get(
+            'allelesIdx', [])
+        self.alternate = kwargs.get(
+            'alternate', 'None')
+        self.phased = kwargs.get(
+            'phased', None)
+        self.reference = kwargs.get(
+            'reference', 'None')
+
+
+class Germline(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Germline", "fields": [{"type": "string", "name":
+"source"}, {"type": "string", "name": "accession"}, {"type": ["null",
+"string"], "name": "clinicalSignificance"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "phenotype"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "disease"},
+{"type": ["null", "string"], "name": "reviewStatus"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "geneNames"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"submitter"}, {"type": ["null", "string"], "name": "date"}], "type":
+"record", "name": "Submission"}, "type": "array"}], "name":
+"submissions"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "proteinNames"}, {"type": ["null", "string"],
+"name": "penetrance"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "inheritanceModel"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "bibliography"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "drugs"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "accession",
+        "bibliography",
+        "clinicalSignificance",
+        "disease",
+        "drugs",
+        "geneNames",
+        "inheritanceModel",
+        "penetrance",
+        "phenotype",
+        "proteinNames",
+        "reviewStatus",
+        "source",
+        "submissions",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'submissions': Submission,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'submissions': Submission,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'accession', 'bibliography', 'clinicalSignificance',
+        'disease', 'drugs', 'geneNames', 'inheritanceModel',
+        'penetrance', 'phenotype', 'proteinNames', 'reviewStatus',
+        'source', 'submissions'
+    ]
+
+    def __init__(self, **kwargs):
+        self.accession = kwargs.get(
+            'accession', 'None')
+        self.bibliography = kwargs.get(
+            'bibliography', None)
+        self.clinicalSignificance = kwargs.get(
+            'clinicalSignificance', None)
+        self.disease = kwargs.get(
+            'disease', None)
+        self.drugs = kwargs.get(
+            'drugs', None)
+        self.geneNames = kwargs.get(
+            'geneNames', None)
+        self.inheritanceModel = kwargs.get(
+            'inheritanceModel', None)
+        self.penetrance = kwargs.get(
+            'penetrance', None)
+        self.phenotype = kwargs.get(
+            'phenotype', None)
+        self.proteinNames = kwargs.get(
+            'proteinNames', None)
+        self.reviewStatus = kwargs.get(
+            'reviewStatus', None)
+        self.source = kwargs.get(
+            'source', 'None')
+        self.submissions = kwargs.get(
+            'submissions', None)
+
+
+class Gwas(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Gwas", "fields": [{"type": "string", "name":
+"snpIdCurrent"}, {"type": {"items": "string", "type": "array"},
+"name": "traits"}, {"type": "double", "name": "riskAlleleFrequency"},
+{"type": "string", "name": "reportedGenes"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "reportedGenes",
+        "riskAlleleFrequency",
+        "snpIdCurrent",
+        "traits",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'reportedGenes', 'riskAlleleFrequency', 'snpIdCurrent',
+        'traits'
+    ]
+
+    def __init__(self, **kwargs):
+        self.reportedGenes = kwargs.get(
+            'reportedGenes', 'None')
+        self.riskAlleleFrequency = kwargs.get(
+            'riskAlleleFrequency', None)
+        self.snpIdCurrent = kwargs.get(
+            'snpIdCurrent', 'None')
+        self.traits = kwargs.get(
+            'traits', None)
+
+
+class HeritableTrait(ProtocolElement):
+    """
+    The entity representing a phenotype and its inheritance pattern.
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "HeritableTrait", "fields": [{"doc": "", "type":
+"string", "name": "trait"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial",
+"unknown", "NA"], "doc": "", "type": "enum", "name":
+"ModeOfInheritance"}, "name": "inheritanceMode"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "inheritanceMode",
+        "trait",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'inheritanceMode', 'trait'
+    ]
+
+    def __init__(self, **kwargs):
+        self.inheritanceMode = kwargs.get(
+            'inheritanceMode', None)
+        self.trait = kwargs.get(
+            'trait', 'None')
+
+
+class ModeOfInheritance(object):
+    """
+    An enumeration for the different mode of inheritances:  *
+    `monoallelic_not_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, not imprinted *
+    `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, maternally imprinted (paternal allele expressed)
+    * `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or
+    pseudoautosomal, paternally imprinted (maternal allele expressed)
+    * `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal,
+    imprinted status unknown * `biallelic`: BIALLELIC, autosomal or
+    pseudoautosomal * `monoallelic_and_biallelic`: BOTH monoallelic
+    and biallelic, autosomal or pseudoautosomal *
+    `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and
+    biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations
+    cause a more SEVERE disease form), autosomal or pseudoautosomal *
+    `xlinked_biallelic`: X-LINKED: hemizygous mutation in males,
+    biallelic mutations in females * `xlinked_monoallelic`: X linked:
+    hemizygous mutation in males, monoallelic mutations in females may
+    cause disease (may be less severe, later onset than males) *
+    `mitochondrial`: MITOCHONDRIAL * `unknown`: Unknown * `NA`: Not
+    applicable
+    """
+    monoallelic = "monoallelic"
+    monoallelic_not_imprinted = "monoallelic_not_imprinted"
+    monoallelic_maternally_imprinted = "monoallelic_maternally_imprinted"
+    monoallelic_paternally_imprinted = "monoallelic_paternally_imprinted"
+    biallelic = "biallelic"
+    monoallelic_and_biallelic = "monoallelic_and_biallelic"
+    monoallelic_and_more_severe_biallelic = "monoallelic_and_more_severe_biallelic"
+    xlinked_biallelic = "xlinked_biallelic"
+    xlinked_monoallelic = "xlinked_monoallelic"
+    mitochondrial = "mitochondrial"
+    unknown = "unknown"
+    NA = "NA"
+
+
+class OntologyTerm(ProtocolElement):
+    """
+    A property in the form of name-value pair.     Names are
+    restricted to ontology ids, they should be checked against
+    existing ontologies in resources like     Ontology Lookup Service.
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "OntologyTerm", "fields": [{"doc": "", "type":
+"string", "name": "id"}, {"doc": "", "type": ["null", "string"],
+"name": "name"}, {"doc": "", "type": ["null", "string"], "name":
+"value"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "id",
+        "name",
+        "value",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'id', 'name', 'value'
+    ]
+
+    def __init__(self, **kwargs):
+        self.id = kwargs.get(
+            'id', 'None')
+        self.name = kwargs.get(
+            'name', None)
+        self.value = kwargs.get(
+            'value', None)
+
+
+class Penetrance(object):
+    """
+    Penetrance assumed in the analysis
+    """
+    complete = "complete"
+    incomplete = "incomplete"
+
+
+class PopulationFrequency(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "PopulationFrequency", "fields": [{"type": "string",
+"name": "study"}, {"type": "string", "name": "population"}, {"type":
+"string", "name": "refAllele"}, {"type": "string", "name":
+"altAllele"}, {"type": "float", "name": "refAlleleFreq"}, {"type":
+"float", "name": "altAlleleFreq"}, {"type": ["null", "float"], "name":
+"refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
+"hetGenotypeFreq"}, {"type": ["null", "float"], "name":
+"altHomGenotypeFreq"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "altAllele",
+        "altAlleleFreq",
+        "altHomGenotypeFreq",
+        "hetGenotypeFreq",
+        "population",
+        "refAllele",
+        "refAlleleFreq",
+        "refHomGenotypeFreq",
+        "study",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'altAllele', 'altAlleleFreq', 'altHomGenotypeFreq',
+        'hetGenotypeFreq', 'population', 'refAllele', 'refAlleleFreq',
+        'refHomGenotypeFreq', 'study'
+    ]
+
+    def __init__(self, **kwargs):
+        self.altAllele = kwargs.get(
+            'altAllele', 'None')
+        self.altAlleleFreq = kwargs.get(
+            'altAlleleFreq', None)
+        self.altHomGenotypeFreq = kwargs.get(
+            'altHomGenotypeFreq', None)
+        self.hetGenotypeFreq = kwargs.get(
+            'hetGenotypeFreq', None)
+        self.population = kwargs.get(
+            'population', 'None')
+        self.refAllele = kwargs.get(
+            'refAllele', 'None')
+        self.refAlleleFreq = kwargs.get(
+            'refAlleleFreq', None)
+        self.refHomGenotypeFreq = kwargs.get(
+            'refHomGenotypeFreq', None)
+        self.study = kwargs.get(
+            'study', 'None')
+
+
+class ProteinFeature(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "ProteinFeature", "fields": [{"type": ["null",
+"string"], "name": "id"}, {"type": "int", "name": "start"}, {"type":
+"int", "name": "end"}, {"type": ["null", "string"], "name": "type"},
+{"type": ["null", "string"], "name": "description"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "description",
+        "end",
+        "id",
+        "start",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'description', 'end', 'id', 'start', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.description = kwargs.get(
+            'description', None)
+        self.end = kwargs.get(
+            'end', None)
+        self.id = kwargs.get(
+            'id', None)
+        self.start = kwargs.get(
+            'start', None)
+        self.type = kwargs.get(
+            'type', None)
+
+
+class ProteinVariantAnnotation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "ProteinVariantAnnotation", "fields": [{"default":
+null, "type": ["null", "string"], "name": "uniprotAccession"},
+{"default": null, "type": ["null", "string"], "name": "uniprotName"},
+{"type": "int", "name": "position"}, {"type": ["null", "string"],
+"name": "reference"}, {"type": ["null", "string"], "name":
+"alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}], "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alternate",
+        "features",
+        "functionalDescription",
+        "keywords",
+        "position",
+        "reference",
+        "substitutionScores",
+        "uniprotVariantId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'features': ProteinFeature,
+            'substitutionScores': Score,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'features': ProteinFeature,
+            'substitutionScores': Score,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'alternate', 'features', 'functionalDescription', 'keywords',
+        'position', 'reference', 'substitutionScores',
+        'uniprotAccession', 'uniprotName', 'uniprotVariantId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.alternate = kwargs.get(
+            'alternate', None)
+        self.features = kwargs.get(
+            'features', None)
+        self.functionalDescription = kwargs.get(
+            'functionalDescription', None)
+        self.keywords = kwargs.get(
+            'keywords', None)
+        self.position = kwargs.get(
+            'position', None)
+        self.reference = kwargs.get(
+            'reference', None)
+        self.substitutionScores = kwargs.get(
+            'substitutionScores', None)
+        self.uniprotAccession = kwargs.get(
+            'uniprotAccession', None)
+        self.uniprotName = kwargs.get(
+            'uniprotName', None)
+        self.uniprotVariantId = kwargs.get(
+            'uniprotVariantId', None)
+
+
+class Read(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.sequence", "type": "record",
+"name": "Read", "fields": [{"doc": "", "type": "string", "name":
+"id"}, {"doc": "", "type": "string", "name": "sequence"}, {"doc": "",
+"type": "string", "name": "quality"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "id",
+        "quality",
+        "sequence",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'id', 'quality', 'sequence'
+    ]
+
+    def __init__(self, **kwargs):
+        self.id = kwargs.get(
+            'id', 'None')
+        self.quality = kwargs.get(
+            'quality', 'None')
+        self.sequence = kwargs.get(
+            'sequence', 'None')
+
+
+class Repeat(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Repeat", "fields": [{"type": ["null", "string"],
+"name": "id"}, {"type": ["null", "string"], "name": "chromosome"},
+{"type": ["null", "int"], "name": "start"}, {"type": ["null", "int"],
+"name": "end"}, {"type": ["null", "int"], "name": "period"}, {"type":
+["null", "float"], "name": "copyNumber"}, {"type": ["null", "float"],
+"name": "percentageMatch"}, {"type": ["null", "float"], "name":
+"score"}, {"type": ["null", "string"], "name": "sequence"}, {"type":
+["null", "string"], "name": "source"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "chromosome",
+        "copyNumber",
+        "end",
+        "id",
+        "percentageMatch",
+        "period",
+        "score",
+        "sequence",
+        "source",
+        "start",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'chromosome', 'copyNumber', 'end', 'id', 'percentageMatch',
+        'period', 'score', 'sequence', 'source', 'start'
+    ]
+
+    def __init__(self, **kwargs):
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.copyNumber = kwargs.get(
+            'copyNumber', None)
+        self.end = kwargs.get(
+            'end', None)
+        self.id = kwargs.get(
+            'id', None)
+        self.percentageMatch = kwargs.get(
+            'percentageMatch', None)
+        self.period = kwargs.get(
+            'period', None)
+        self.score = kwargs.get(
+            'score', None)
+        self.sequence = kwargs.get(
+            'sequence', None)
+        self.source = kwargs.get(
+            'source', None)
+        self.start = kwargs.get(
+            'start', None)
+
+
+class Score(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Score", "fields": [{"type": "double", "name":
+"score"}, {"type": "string", "name": "source"}, {"type": ["null",
+"string"], "name": "description"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "description",
+        "score",
+        "source",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'description', 'score', 'source'
+    ]
+
+    def __init__(self, **kwargs):
+        self.description = kwargs.get(
+            'description', None)
+        self.score = kwargs.get(
+            'score', None)
+        self.source = kwargs.get(
+            'source', 'None')
+
+
+class SequenceOntologyTerm(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "SequenceOntologyTerm", "fields": [{"type":
+"string", "name": "accession"}, {"type": "string", "name": "name"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "accession",
+        "name",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'accession', 'name'
+    ]
+
+    def __init__(self, **kwargs):
+        self.accession = kwargs.get(
+            'accession', 'None')
+        self.name = kwargs.get(
+            'name', 'None')
+
+
+class Somatic(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Somatic", "fields": [{"type": "string", "name":
+"source"}, {"type": "string", "name": "accession"}, {"type": ["null",
+"string"], "name": "primarySite"}, {"type": ["null", "string"],
+"name": "siteSubtype"}, {"type": ["null", "string"], "name":
+"primaryHistology"}, {"type": ["null", "string"], "name":
+"histologySubtype"}, {"type": ["null", "string"], "name":
+"sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
+{"type": ["null", "string"], "name": "mutationSomaticStatus"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"geneNames"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "submitter"}, {"type": ["null", "string"], "name":
+"date"}], "type": "record", "name": "Submission"}, "type": "array"}],
+"name": "submissions"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "proteinNames"}, {"type": ["null", "string"],
+"name": "reviewStatus"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "bibliography"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "drugs"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "accession",
+        "bibliography",
+        "drugs",
+        "geneNames",
+        "histologySubtype",
+        "mutationSomaticStatus",
+        "primaryHistology",
+        "primarySite",
+        "proteinNames",
+        "reviewStatus",
+        "sampleSource",
+        "siteSubtype",
+        "source",
+        "submissions",
+        "tumourOrigin",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'submissions': Submission,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'submissions': Submission,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'accession', 'bibliography', 'drugs', 'geneNames',
+        'histologySubtype', 'mutationSomaticStatus',
+        'primaryHistology', 'primarySite', 'proteinNames',
+        'reviewStatus', 'sampleSource', 'siteSubtype', 'source',
+        'submissions', 'tumourOrigin'
+    ]
+
+    def __init__(self, **kwargs):
+        self.accession = kwargs.get(
+            'accession', 'None')
+        self.bibliography = kwargs.get(
+            'bibliography', None)
+        self.drugs = kwargs.get(
+            'drugs', None)
+        self.geneNames = kwargs.get(
+            'geneNames', None)
+        self.histologySubtype = kwargs.get(
+            'histologySubtype', None)
+        self.mutationSomaticStatus = kwargs.get(
+            'mutationSomaticStatus', None)
+        self.primaryHistology = kwargs.get(
+            'primaryHistology', None)
+        self.primarySite = kwargs.get(
+            'primarySite', None)
+        self.proteinNames = kwargs.get(
+            'proteinNames', None)
+        self.reviewStatus = kwargs.get(
+            'reviewStatus', None)
+        self.sampleSource = kwargs.get(
+            'sampleSource', None)
+        self.siteSubtype = kwargs.get(
+            'siteSubtype', None)
+        self.source = kwargs.get(
+            'source', 'None')
+        self.submissions = kwargs.get(
+            'submissions', None)
+        self.tumourOrigin = kwargs.get(
+            'tumourOrigin', None)
+
+
+class SomaticInformation(ProtocolElement):
+    """
+    The somatic information.
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "SomaticInformation", "fields": [{"doc": "", "type":
+["null", "string"], "name": "primarySite"}, {"doc": "", "type":
+["null", "string"], "name": "siteSubtype"}, {"doc": "", "type":
+["null", "string"], "name": "primaryHistology"}, {"doc": "", "type":
+["null", "string"], "name": "histologySubtype"}, {"doc": "", "type":
+["null", "string"], "name": "tumourOrigin"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "histologySubtype",
+        "primaryHistology",
+        "primarySite",
+        "siteSubtype",
+        "tumourOrigin",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'histologySubtype', 'primaryHistology', 'primarySite',
+        'siteSubtype', 'tumourOrigin'
+    ]
+
+    def __init__(self, **kwargs):
+        self.histologySubtype = kwargs.get(
+            'histologySubtype', None)
+        self.primaryHistology = kwargs.get(
+            'primaryHistology', None)
+        self.primarySite = kwargs.get(
+            'primarySite', None)
+        self.siteSubtype = kwargs.get(
+            'siteSubtype', None)
+        self.tumourOrigin = kwargs.get(
+            'tumourOrigin', None)
+
+
+class StructuralVariantType(object):
+    """
+    * Type of structural variation      * <ul>      *
+    <li>COPY_NUMBER_GAIN for CNVs</li>      * <li>COPY_NUMBER_LOSS for
+    CNVs</li>      * <li>TANDEM_DUPLICATION for DUP</li>      * </ul>
+    """
+    COPY_NUMBER_GAIN = "COPY_NUMBER_GAIN"
+    COPY_NUMBER_LOSS = "COPY_NUMBER_LOSS"
+    TANDEM_DUPLICATION = "TANDEM_DUPLICATION"
+
+
+class StructuralVariation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "StructuralVariation", "fields": [{"default": 0,
+"type": "int", "name": "ciStartLeft"}, {"default": 0, "type": "int",
+"name": "ciStartRight"}, {"default": 0, "type": "int", "name":
+"ciEndLeft"}, {"default": 0, "type": "int", "name": "ciEndRight"},
+{"doc": "", "type": ["null", "int"], "name": "copyNumber"}, {"doc":
+"", "type": ["null", {"symbols": ["COPY_NUMBER_GAIN",
+"COPY_NUMBER_LOSS", "TANDEM_DUPLICATION"], "doc": "", "type": "enum",
+"name": "StructuralVariantType"}], "name": "type"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "copyNumber",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ciEndLeft', 'ciEndRight', 'ciStartLeft', 'ciStartRight',
+        'copyNumber', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ciEndLeft = kwargs.get(
+            'ciEndLeft', 0)
+        self.ciEndRight = kwargs.get(
+            'ciEndRight', 0)
+        self.ciStartLeft = kwargs.get(
+            'ciStartLeft', 0)
+        self.ciStartRight = kwargs.get(
+            'ciStartRight', 0)
+        self.copyNumber = kwargs.get(
+            'copyNumber', None)
+        self.type = kwargs.get(
+            'type', None)
+
+
+class StudyEntry(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "StudyEntry", "fields": [{"doc": "", "type":
+["null", "string"], "name": "studyId"}, {"default": [], "doc": "",
+"type": {"items": {"fields": [{"doc": "", "type": ["null", "string"],
+"name": "fileId"}, {"doc": "", "type": ["null", "string"], "name":
+"call"}, {"doc": "", "type": {"values": "string", "type": "map"},
+"name": "attributes"}], "type": "record", "name": "FileEntry"},
+"type": "array"}, "name": "files"}, {"default": null, "doc": "",
+"type": ["null", {"items": {"fields": [{"type": ["null", "string"],
+"name": "chromosome"}, {"doc": "", "type": ["null", "int"], "name":
+"start"}, {"doc": "", "type": ["null", "int"], "name": "end"}, {"doc":
+"", "type": ["null", "string"], "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"type": {"symbols": ["SNV",
+"SNP", "MNV", "MNP", "INDEL", "SV", "INSERTION", "DELETION",
+"TRANSLOCATION", "INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC",
+"MIXED"], "doc": "", "type": "enum", "name": "VariantType"}, "name":
+"type"}], "type": "record", "name": "AlternateCoordinate"}, "type":
+"array"}], "name": "secondaryAlternates"}, {"doc": "", "type":
+{"items": "string", "type": "array"}, "name": "format"}, {"doc": "",
+"type": {"items": {"items": "string", "type": "array"}, "type":
+"array"}, "name": "samplesData"}, {"doc": "", "type": {"values":
+{"fields": [{"type": ["null", "string"], "name": "refAllele"},
+{"type": ["null", "string"], "name": "altAllele"}, {"type": ["null",
+"int"], "name": "refAlleleCount"}, {"type": ["null", "int"], "name":
+"altAlleleCount"}, {"type": {"values": "int", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
+"passedFilters"}, {"type": ["null", "int"], "name":
+"mendelianErrors"}, {"type": ["null", "float"], "name":
+"casesPercentDominant"}, {"type": ["null", "float"], "name":
+"controlsPercentDominant"}, {"type": ["null", "float"], "name":
+"casesPercentRecessive"}, {"type": ["null", "float"], "name":
+"controlsPercentRecessive"}, {"type": ["null", "float"], "name":
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", "VariantType"], "name":
+"variantType"}, {"default": null, "type": ["null", {"fields":
+[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
+"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
+{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
+"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
+"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
+["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
+"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
+["null", "float"], "name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}], "type": "record",
+"name": "VariantStats"}, "type": "map"}, "name": "stats"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "format",
+        "samplesData",
+        "stats",
+        "studyId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'files': FileEntry,
+            'secondaryAlternates': AlternateCoordinate,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'files': FileEntry,
+            'secondaryAlternates': AlternateCoordinate,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'files', 'format', 'samplesData', 'secondaryAlternates',
+        'stats', 'studyId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.files = kwargs.get(
+            'files', [])
+        self.format = kwargs.get(
+            'format', None)
+        self.samplesData = kwargs.get(
+            'samplesData', None)
+        self.secondaryAlternates = kwargs.get(
+            'secondaryAlternates', None)
+        self.stats = kwargs.get(
+            'stats', None)
+        self.studyId = kwargs.get(
+            'studyId', None)
+
+
+class Submission(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Submission", "fields": [{"type": "string", "name":
+"submitter"}, {"type": ["null", "string"], "name": "date"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "date",
+        "submitter",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'date', 'submitter'
+    ]
+
+    def __init__(self, **kwargs):
+        self.date = kwargs.get(
+            'date', None)
+        self.submitter = kwargs.get(
+            'submitter', 'None')
+
+
+class TraitAssociation(object):
+    """
+    Association of variants to a given trait. *
+    `established_risk_allele` : Established risk allele for variants
+    associated to disease * `likely_risk_allele` : Likely risk allele
+    for variants associated to disease * `uncertain_risk_allele` :
+    Uncertain risk allele for variants associated to disease *
+    `protective` : Protective allele
+    """
+    established_risk_allele = "established_risk_allele"
+    likely_risk_allele = "likely_risk_allele"
+    uncertain_risk_allele = "uncertain_risk_allele"
+    protective = "protective"
+
+
+class TumorigenesisClassification(object):
+    """
+    Variant classification according to its relation to cancer
+    aetiology. * `driver` : Driver variants * `passenger` : Passenger
+    variants * `modifier` : Modifier variants
+    """
+    driver = "driver"
+    passenger = "passenger"
+    modifier = "modifier"
+
+
+class VariantAnnotation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantAnnotation", "fields": [{"type": ["null",
+"string"], "name": "chromosome"}, {"type": ["null", "int"], "name":
+"start"}, {"type": ["null", "string"], "name": "reference"}, {"type":
+["null", "string"], "name": "alternate"}, {"type": ["null", "string"],
+"name": "ancestralAllele"}, {"type": ["null", "string"], "name":
+"id"}, {"type": ["null", {"items": {"fields": [{"type": ["null",
+"string"], "name": "id"}, {"type": ["null", "string"], "name":
+"source"}], "type": "record", "name": "Xref"}, "type": "array"}],
+"name": "xrefs"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "hgvs"}, {"type": ["null", "string"], "name":
+"displayConsequenceType"}, {"default": [], "type": {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
+"string"], "name": "ensemblTranscriptId"}, {"type": ["null",
+"string"], "name": "strand"}, {"type": ["null", "string"], "name":
+"biotype"}, {"type": ["null", "int"], "name": "exonNumber"}, {"type":
+["null", {"items": "string", "type": "array"}], "name":
+"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
+"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
+{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
+{"fields": [{"default": null, "type": ["null", "string"], "name":
+"uniprotAccession"}, {"default": null, "type": ["null", "string"],
+"name": "uniprotName"}, {"type": "int", "name": "position"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"],
+"name": "alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}], "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}], "type": "record", "name":
+"ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
+{"type": {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "name"}], "type": "record",
+"name": "SequenceOntologyTerm"}, "type": "array"}, "name":
+"sequenceOntologyTerms"}], "type": "record", "name":
+"ConsequenceType"}, "type": "array"}, "name": "consequenceTypes"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"study"}, {"type": "string", "name": "population"}, {"type": "string",
+"name": "refAllele"}, {"type": "string", "name": "altAllele"},
+{"type": "float", "name": "refAlleleFreq"}, {"type": "float", "name":
+"altAlleleFreq"}, {"type": ["null", "float"], "name":
+"refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
+"hetGenotypeFreq"}, {"type": ["null", "float"], "name":
+"altHomGenotypeFreq"}], "type": "record", "name":
+"PopulationFrequency"}, "type": "array"}], "name":
+"populationFrequencies"}, {"type": ["null", "string"], "name":
+"minorAllele"}, {"type": ["null", "float"], "name":
+"minorAlleleFreq"}, {"type": ["null", {"items": "Score", "type":
+"array"}], "name": "conservation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "transcriptId"}, {"type": ["null",
+"string"], "name": "experimentalFactor"}, {"type": ["null", "string"],
+"name": "factorValue"}, {"type": ["null", "string"], "name":
+"experimentId"}, {"type": ["null", "string"], "name":
+"technologyPlatform"}, {"type": ["null", {"symbols": ["UP", "DOWN"],
+"type": "enum", "name": "ExpressionCall"}], "name": "expression"},
+{"type": ["null", "float"], "name": "pvalue"}], "type": "record",
+"name": "Expression"}, "type": "array"}], "name": "geneExpression"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"id"}, {"type": "string", "name": "name"}, {"type": ["null",
+"string"], "name": "hpo"}, {"type": ["null", "float"], "name":
+"score"}, {"type": ["null", "int"], "name": "numberOfPubmeds"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"associationTypes"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "sources"}, {"type": "string", "name": "source"}],
+"type": "record", "name": "GeneTraitAssociation"}, "type": "array"}],
+"name": "geneTraitAssociation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "drugName"}, {"type": ["null", "string"],
+"name": "source"}, {"type": ["null", "string"], "name": "studyType"},
+{"type": ["null", "string"], "name": "type"}], "type": "record",
+"name": "GeneDrugInteraction"}, "type": "array"}], "name":
+"geneDrugInteraction"}, {"type": ["null", {"fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": {"items": "string", "type": "array"}, "name": "geneNames"},
+{"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
+{"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
+"name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "source"}, {"type": "string", "name": "accession"}, {"type":
+["null", "string"], "name": "clinicalSignificance"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "phenotype"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "disease"},
+{"type": ["null", "string"], "name": "reviewStatus"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "geneNames"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"submitter"}, {"type": ["null", "string"], "name": "date"}], "type":
+"record", "name": "Submission"}, "type": "array"}], "name":
+"submissions"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "proteinNames"}, {"type": ["null", "string"],
+"name": "penetrance"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "inheritanceModel"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "bibliography"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "drugs"}],
+"type": "record", "name": "Germline"}, "type": "array"}], "name":
+"germline"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "source"}, {"type": "string", "name": "accession"},
+{"type": ["null", "string"], "name": "primarySite"}, {"type": ["null",
+"string"], "name": "siteSubtype"}, {"type": ["null", "string"],
+"name": "primaryHistology"}, {"type": ["null", "string"], "name":
+"histologySubtype"}, {"type": ["null", "string"], "name":
+"sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
+{"type": ["null", "string"], "name": "mutationSomaticStatus"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"geneNames"}, {"type": ["null", {"items": "Submission", "type":
+"array"}], "name": "submissions"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "proteinNames"}, {"type":
+["null", "string"], "name": "reviewStatus"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "bibliography"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"drugs"}], "type": "record", "name": "Somatic"}, "type": "array"}],
+"name": "somatic"}], "type": "record", "name":
+"VariantTraitAssociation"}], "name": "variantTraitAssociation"},
+{"type": ["null", {"items": "Score", "type": "array"}], "name":
+"functionalScore"}, {"type": ["null", {"items": {"fields": [{"type":
+["null", "string"], "name": "stain"}, {"type": ["null", "string"],
+"name": "name"}, {"type": ["null", "int"], "name": "start"}, {"type":
+["null", "int"], "name": "end"}], "type": "record", "name":
+"Cytoband"}, "type": "array"}], "name": "cytoband"}, {"type": ["null",
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": ["null", "string"], "name": "chromosome"}, {"type": ["null",
+"int"], "name": "start"}, {"type": ["null", "int"], "name": "end"},
+{"type": ["null", "int"], "name": "period"}, {"type": ["null",
+"float"], "name": "copyNumber"}, {"type": ["null", "float"], "name":
+"percentageMatch"}, {"type": ["null", "float"], "name": "score"},
+{"type": ["null", "string"], "name": "sequence"}, {"type": ["null",
+"string"], "name": "source"}], "type": "record", "name": "Repeat"},
+"type": "array"}], "name": "repeat"}, {"default": null, "type":
+["null", {"values": {"fields": [{"type": {"values": "string", "type":
+"map"}, "name": "attribute"}], "type": "record", "name":
+"AdditionalAttribute"}, "type": "map"}], "name":
+"additionalAttributes"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alternate",
+        "ancestralAllele",
+        "chromosome",
+        "conservation",
+        "cytoband",
+        "displayConsequenceType",
+        "functionalScore",
+        "geneDrugInteraction",
+        "geneExpression",
+        "geneTraitAssociation",
+        "hgvs",
+        "id",
+        "minorAllele",
+        "minorAlleleFreq",
+        "populationFrequencies",
+        "reference",
+        "repeat",
+        "start",
+        "variantTraitAssociation",
+        "xrefs",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'consequenceTypes': ConsequenceType,
+            'conservation': Score,
+            'cytoband': Cytoband,
+            'functionalScore': Score,
+            'geneDrugInteraction': GeneDrugInteraction,
+            'geneExpression': Expression,
+            'geneTraitAssociation': GeneTraitAssociation,
+            'populationFrequencies': PopulationFrequency,
+            'repeat': Repeat,
+            'variantTraitAssociation': VariantTraitAssociation,
+            'xrefs': Xref,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'consequenceTypes': ConsequenceType,
+            'conservation': Score,
+            'cytoband': Cytoband,
+            'functionalScore': Score,
+            'geneDrugInteraction': GeneDrugInteraction,
+            'geneExpression': Expression,
+            'geneTraitAssociation': GeneTraitAssociation,
+            'populationFrequencies': PopulationFrequency,
+            'repeat': Repeat,
+            'variantTraitAssociation': VariantTraitAssociation,
+            'xrefs': Xref,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'additionalAttributes', 'alternate', 'ancestralAllele',
+        'chromosome', 'consequenceTypes', 'conservation', 'cytoband',
+        'displayConsequenceType', 'functionalScore',
+        'geneDrugInteraction', 'geneExpression',
+        'geneTraitAssociation', 'hgvs', 'id', 'minorAllele',
+        'minorAlleleFreq', 'populationFrequencies', 'reference',
+        'repeat', 'start', 'variantTraitAssociation', 'xrefs'
+    ]
+
+    def __init__(self, **kwargs):
+        self.additionalAttributes = kwargs.get(
+            'additionalAttributes', None)
+        self.alternate = kwargs.get(
+            'alternate', None)
+        self.ancestralAllele = kwargs.get(
+            'ancestralAllele', None)
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.consequenceTypes = kwargs.get(
+            'consequenceTypes', [])
+        self.conservation = kwargs.get(
+            'conservation', None)
+        self.cytoband = kwargs.get(
+            'cytoband', None)
+        self.displayConsequenceType = kwargs.get(
+            'displayConsequenceType', None)
+        self.functionalScore = kwargs.get(
+            'functionalScore', None)
+        self.geneDrugInteraction = kwargs.get(
+            'geneDrugInteraction', None)
+        self.geneExpression = kwargs.get(
+            'geneExpression', None)
+        self.geneTraitAssociation = kwargs.get(
+            'geneTraitAssociation', None)
+        self.hgvs = kwargs.get(
+            'hgvs', None)
+        self.id = kwargs.get(
+            'id', None)
+        self.minorAllele = kwargs.get(
+            'minorAllele', None)
+        self.minorAlleleFreq = kwargs.get(
+            'minorAlleleFreq', None)
+        self.populationFrequencies = kwargs.get(
+            'populationFrequencies', None)
+        self.reference = kwargs.get(
+            'reference', None)
+        self.repeat = kwargs.get(
+            'repeat', None)
+        self.start = kwargs.get(
+            'start', None)
+        self.variantTraitAssociation = kwargs.get(
+            'variantTraitAssociation', None)
+        self.xrefs = kwargs.get(
+            'xrefs', None)
+
+
+class VariantAvro(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantAvro", "fields": [{"doc": "", "type":
+["null", "string"], "name": "id"}, {"default": [], "doc": "", "type":
+{"items": "string", "type": "array"}, "name": "names"}, {"doc": "",
+"type": "string", "name": "chromosome"}, {"doc": "", "type": "int",
+"name": "start"}, {"doc": "", "type": "int", "name": "end"}, {"doc":
+"", "type": "string", "name": "reference"}, {"doc": "", "type":
+"string", "name": "alternate"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "strand"}, {"default": null, "doc": "",
+"type": ["null", {"fields": [{"default": 0, "type": "int", "name":
+"ciStartLeft"}, {"default": 0, "type": "int", "name": "ciStartRight"},
+{"default": 0, "type": "int", "name": "ciEndLeft"}, {"default": 0,
+"type": "int", "name": "ciEndRight"}, {"doc": "", "type": ["null",
+"int"], "name": "copyNumber"}, {"doc": "", "type": ["null",
+{"symbols": ["COPY_NUMBER_GAIN", "COPY_NUMBER_LOSS",
+"TANDEM_DUPLICATION"], "doc": "", "type": "enum", "name":
+"StructuralVariantType"}], "name": "type"}], "type": "record", "name":
+"StructuralVariation"}], "name": "sv"}, {"doc": "", "type": "int",
+"name": "length"}, {"doc": "", "type": {"symbols": ["SNV", "SNP",
+"MNV", "MNP", "INDEL", "SV", "INSERTION", "DELETION", "TRANSLOCATION",
+"INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "",
+"type": "enum", "name": "VariantType"}, "name": "type"}, {"default":
+null, "doc": "", "type": ["null", {"values": {"items": "string",
+"type": "array"}, "type": "map"}], "name": "hgvs"}, {"doc": "",
+"type": {"items": {"fields": [{"doc": "", "type": ["null", "string"],
+"name": "studyId"}, {"default": [], "doc": "", "type": {"items":
+{"fields": [{"doc": "", "type": ["null", "string"], "name": "fileId"},
+{"doc": "", "type": ["null", "string"], "name": "call"}, {"doc": "",
+"type": {"values": "string", "type": "map"}, "name": "attributes"}],
+"type": "record", "name": "FileEntry"}, "type": "array"}, "name":
+"files"}, {"default": null, "doc": "", "type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "chromosome"},
+{"doc": "", "type": ["null", "int"], "name": "start"}, {"doc": "",
+"type": ["null", "int"], "name": "end"}, {"doc": "", "type": ["null",
+"string"], "name": "reference"}, {"doc": "", "type": "string", "name":
+"alternate"}, {"type": "VariantType", "name": "type"}], "type":
+"record", "name": "AlternateCoordinate"}, "type": "array"}], "name":
+"secondaryAlternates"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "format"}, {"doc": "", "type": {"items":
+{"items": "string", "type": "array"}, "type": "array"}, "name":
+"samplesData"}, {"doc": "", "type": {"values": {"fields": [{"type":
+["null", "string"], "name": "refAllele"}, {"type": ["null", "string"],
+"name": "altAllele"}, {"type": ["null", "int"], "name":
+"refAlleleCount"}, {"type": ["null", "int"], "name":
+"altAlleleCount"}, {"type": {"values": "int", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
+"passedFilters"}, {"type": ["null", "int"], "name":
+"mendelianErrors"}, {"type": ["null", "float"], "name":
+"casesPercentDominant"}, {"type": ["null", "float"], "name":
+"controlsPercentDominant"}, {"type": ["null", "float"], "name":
+"casesPercentRecessive"}, {"type": ["null", "float"], "name":
+"controlsPercentRecessive"}, {"type": ["null", "float"], "name":
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", "VariantType"], "name":
+"variantType"}, {"default": null, "type": ["null", {"fields":
+[{"type": ["null", "float"], "name": "chi2"}, {"type": ["null",
+"float"], "name": "pValue"}, {"type": ["null", "int"], "name": "n"},
+{"type": ["null", "int"], "name": "n_AA_11"}, {"type": ["null",
+"int"], "name": "n_Aa_10"}, {"type": ["null", "int"], "name":
+"n_aa_00"}, {"type": ["null", "float"], "name": "e_AA_11"}, {"type":
+["null", "float"], "name": "e_Aa_10"}, {"type": ["null", "float"],
+"name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type":
+["null", "float"], "name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}], "type": "record",
+"name": "VariantStats"}, "type": "map"}, "name": "stats"}], "type":
+"record", "name": "StudyEntry"}, "type": "array"}, "name": "studies"},
+{"default": null, "doc": "", "type": ["null", {"fields": [{"type":
+["null", "string"], "name": "chromosome"}, {"type": ["null", "int"],
+"name": "start"}, {"type": ["null", "string"], "name": "reference"},
+{"type": ["null", "string"], "name": "alternate"}, {"type": ["null",
+"string"], "name": "ancestralAllele"}, {"type": ["null", "string"],
+"name": "id"}, {"type": ["null", {"items": {"fields": [{"type":
+["null", "string"], "name": "id"}, {"type": ["null", "string"],
+"name": "source"}], "type": "record", "name": "Xref"}, "type":
+"array"}], "name": "xrefs"}, {"type": ["null", {"items": "string",
+"type": "array"}], "name": "hgvs"}, {"type": ["null", "string"],
+"name": "displayConsequenceType"}, {"default": [], "type": {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "ensemblGeneId"}, {"type": ["null",
+"string"], "name": "ensemblTranscriptId"}, {"type": ["null",
+"string"], "name": "strand"}, {"type": ["null", "string"], "name":
+"biotype"}, {"type": ["null", "int"], "name": "exonNumber"}, {"type":
+["null", {"items": "string", "type": "array"}], "name":
+"transcriptAnnotationFlags"}, {"type": ["null", "int"], "name":
+"cdnaPosition"}, {"type": ["null", "int"], "name": "cdsPosition"},
+{"type": ["null", "string"], "name": "codon"}, {"type": ["null",
+{"fields": [{"default": null, "type": ["null", "string"], "name":
+"uniprotAccession"}, {"default": null, "type": ["null", "string"],
+"name": "uniprotName"}, {"type": "int", "name": "position"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"],
+"name": "alternate"}, {"type": ["null", "string"], "name":
+"uniprotVariantId"}, {"type": ["null", "string"], "name":
+"functionalDescription"}, {"type": ["null", {"items": {"fields":
+[{"type": "double", "name": "score"}, {"type": "string", "name":
+"source"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "Score"}, "type": "array"}], "name":
+"substitutionScores"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "keywords"}, {"type": ["null", {"items": {"fields":
+[{"type": ["null", "string"], "name": "id"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", "string"],
+"name": "type"}, {"type": ["null", "string"], "name": "description"}],
+"type": "record", "name": "ProteinFeature"}, "type": "array"}],
+"name": "features"}], "type": "record", "name":
+"ProteinVariantAnnotation"}], "name": "proteinVariantAnnotation"},
+{"type": {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "name"}], "type": "record",
+"name": "SequenceOntologyTerm"}, "type": "array"}, "name":
+"sequenceOntologyTerms"}], "type": "record", "name":
+"ConsequenceType"}, "type": "array"}, "name": "consequenceTypes"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"study"}, {"type": "string", "name": "population"}, {"type": "string",
+"name": "refAllele"}, {"type": "string", "name": "altAllele"},
+{"type": "float", "name": "refAlleleFreq"}, {"type": "float", "name":
+"altAlleleFreq"}, {"type": ["null", "float"], "name":
+"refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
+"hetGenotypeFreq"}, {"type": ["null", "float"], "name":
+"altHomGenotypeFreq"}], "type": "record", "name":
+"PopulationFrequency"}, "type": "array"}], "name":
+"populationFrequencies"}, {"type": ["null", "string"], "name":
+"minorAllele"}, {"type": ["null", "float"], "name":
+"minorAlleleFreq"}, {"type": ["null", {"items": "Score", "type":
+"array"}], "name": "conservation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "transcriptId"}, {"type": ["null",
+"string"], "name": "experimentalFactor"}, {"type": ["null", "string"],
+"name": "factorValue"}, {"type": ["null", "string"], "name":
+"experimentId"}, {"type": ["null", "string"], "name":
+"technologyPlatform"}, {"type": ["null", {"symbols": ["UP", "DOWN"],
+"type": "enum", "name": "ExpressionCall"}], "name": "expression"},
+{"type": ["null", "float"], "name": "pvalue"}], "type": "record",
+"name": "Expression"}, "type": "array"}], "name": "geneExpression"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"id"}, {"type": "string", "name": "name"}, {"type": ["null",
+"string"], "name": "hpo"}, {"type": ["null", "float"], "name":
+"score"}, {"type": ["null", "int"], "name": "numberOfPubmeds"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"associationTypes"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "sources"}, {"type": "string", "name": "source"}],
+"type": "record", "name": "GeneTraitAssociation"}, "type": "array"}],
+"name": "geneTraitAssociation"}, {"type": ["null", {"items":
+{"fields": [{"type": ["null", "string"], "name": "geneName"}, {"type":
+["null", "string"], "name": "drugName"}, {"type": ["null", "string"],
+"name": "source"}, {"type": ["null", "string"], "name": "studyType"},
+{"type": ["null", "string"], "name": "type"}], "type": "record",
+"name": "GeneDrugInteraction"}, "type": "array"}], "name":
+"geneDrugInteraction"}, {"type": ["null", {"fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": {"items": "string", "type": "array"}, "name": "geneNames"},
+{"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
+{"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
+"name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "source"}, {"type": "string", "name": "accession"}, {"type":
+["null", "string"], "name": "clinicalSignificance"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "phenotype"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "disease"},
+{"type": ["null", "string"], "name": "reviewStatus"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "geneNames"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"submitter"}, {"type": ["null", "string"], "name": "date"}], "type":
+"record", "name": "Submission"}, "type": "array"}], "name":
+"submissions"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "proteinNames"}, {"type": ["null", "string"],
+"name": "penetrance"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "inheritanceModel"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "bibliography"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "drugs"}],
+"type": "record", "name": "Germline"}, "type": "array"}], "name":
+"germline"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "source"}, {"type": "string", "name": "accession"},
+{"type": ["null", "string"], "name": "primarySite"}, {"type": ["null",
+"string"], "name": "siteSubtype"}, {"type": ["null", "string"],
+"name": "primaryHistology"}, {"type": ["null", "string"], "name":
+"histologySubtype"}, {"type": ["null", "string"], "name":
+"sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
+{"type": ["null", "string"], "name": "mutationSomaticStatus"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"geneNames"}, {"type": ["null", {"items": "Submission", "type":
+"array"}], "name": "submissions"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "proteinNames"}, {"type":
+["null", "string"], "name": "reviewStatus"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "bibliography"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"drugs"}], "type": "record", "name": "Somatic"}, "type": "array"}],
+"name": "somatic"}], "type": "record", "name":
+"VariantTraitAssociation"}], "name": "variantTraitAssociation"},
+{"type": ["null", {"items": "Score", "type": "array"}], "name":
+"functionalScore"}, {"type": ["null", {"items": {"fields": [{"type":
+["null", "string"], "name": "stain"}, {"type": ["null", "string"],
+"name": "name"}, {"type": ["null", "int"], "name": "start"}, {"type":
+["null", "int"], "name": "end"}], "type": "record", "name":
+"Cytoband"}, "type": "array"}], "name": "cytoband"}, {"type": ["null",
+{"items": {"fields": [{"type": ["null", "string"], "name": "id"},
+{"type": ["null", "string"], "name": "chromosome"}, {"type": ["null",
+"int"], "name": "start"}, {"type": ["null", "int"], "name": "end"},
+{"type": ["null", "int"], "name": "period"}, {"type": ["null",
+"float"], "name": "copyNumber"}, {"type": ["null", "float"], "name":
+"percentageMatch"}, {"type": ["null", "float"], "name": "score"},
+{"type": ["null", "string"], "name": "sequence"}, {"type": ["null",
+"string"], "name": "source"}], "type": "record", "name": "Repeat"},
+"type": "array"}], "name": "repeat"}, {"default": null, "type":
+["null", {"values": {"fields": [{"type": {"values": "string", "type":
+"map"}, "name": "attribute"}], "type": "record", "name":
+"AdditionalAttribute"}, "type": "map"}], "name":
+"additionalAttributes"}], "type": "record", "name":
+"VariantAnnotation"}], "name": "annotation"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "alternate",
+        "chromosome",
+        "end",
+        "id",
+        "length",
+        "reference",
+        "start",
+        "studies",
+        "type",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'annotation': VariantAnnotation,
+            'studies': StudyEntry,
+            'sv': StructuralVariation,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'annotation': VariantAnnotation,
+            'studies': StudyEntry,
+            'sv': StructuralVariation,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'alternate', 'annotation', 'chromosome', 'end', 'hgvs', 'id',
+        'length', 'names', 'reference', 'start', 'strand', 'studies',
+        'sv', 'type'
+    ]
+
+    def __init__(self, **kwargs):
+        self.alternate = kwargs.get(
+            'alternate', 'None')
+        self.annotation = kwargs.get(
+            'annotation', None)
+        self.chromosome = kwargs.get(
+            'chromosome', 'None')
+        self.end = kwargs.get(
+            'end', None)
+        self.hgvs = kwargs.get(
+            'hgvs', None)
+        self.id = kwargs.get(
+            'id', None)
+        self.length = kwargs.get(
+            'length', None)
+        self.names = kwargs.get(
+            'names', [])
+        self.reference = kwargs.get(
+            'reference', 'None')
+        self.start = kwargs.get(
+            'start', None)
+        self.strand = kwargs.get(
+            'strand', None)
+        self.studies = kwargs.get(
+            'studies', None)
+        self.sv = kwargs.get(
+            'sv', None)
+        self.type = kwargs.get(
+            'type', None)
+
+
+class VariantClassification(ProtocolElement):
+    """
+    The variant classification according to different properties.
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantClassification", "fields": [{"doc": "",
+"type": ["null", {"symbols": ["benign", "likely_benign", "VUS",
+"likely_pathogenic", "pathogenic"], "doc": "", "type": "enum", "name":
+"ClinicalSignificance"}], "name": "clinicalSignificance"}, {"doc": "",
+"type": ["null", {"symbols": ["responsive", "resistant", "toxicity",
+"indication", "contraindication", "dosing", "increased_monitoring",
+"efficacy"], "doc": "", "type": "enum", "name":
+"DrugResponseClassification"}], "name": "drugResponseClassification"},
+{"doc": "", "type": ["null", {"symbols": ["established_risk_allele",
+"likely_risk_allele", "uncertain_risk_allele", "protective"], "doc":
+"", "type": "enum", "name": "TraitAssociation"}], "name":
+"traitAssociation"}, {"doc": "", "type": ["null", {"symbols":
+["driver", "passenger", "modifier"], "doc": "", "type": "enum",
+"name": "TumorigenesisClassification"}], "name":
+"tumorigenesisClassification"}, {"doc": "", "type": ["null",
+{"symbols": ["SO_0002052", "SO_0002053", "SO_0001773", "SO_0002054",
+"SO_0001786", "SO_0002055"], "doc": "", "type": "enum", "name":
+"VariantFunctionalEffect"}], "name": "functionalEffect"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "clinicalSignificance",
+        "drugResponseClassification",
+        "functionalEffect",
+        "traitAssociation",
+        "tumorigenesisClassification",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'clinicalSignificance', 'drugResponseClassification',
+        'functionalEffect', 'traitAssociation',
+        'tumorigenesisClassification'
+    ]
+
+    def __init__(self, **kwargs):
+        self.clinicalSignificance = kwargs.get(
+            'clinicalSignificance', None)
+        self.drugResponseClassification = kwargs.get(
+            'drugResponseClassification', None)
+        self.functionalEffect = kwargs.get(
+            'functionalEffect', None)
+        self.traitAssociation = kwargs.get(
+            'traitAssociation', None)
+        self.tumorigenesisClassification = kwargs.get(
+            'tumorigenesisClassification', None)
+
+
+class VariantFileMetadata(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantFileMetadata", "fields": [{"type": "string",
+"name": "fileId"}, {"type": "string", "name": "studyId"}, {"default":
+null, "type": ["null", "string"], "name": "fileName"}, {"default":
+null, "type": ["null", "string"], "name": "studyName"}, {"default":
+[], "type": {"items": "string", "type": "array"}, "name": "samples"},
+{"type": {"symbols": ["NONE", "BASIC", "EVS", "EXAC"], "type": "enum",
+"name": "Aggregation"}, "name": "aggregation"}, {"type": ["null",
+{"fields": [{"type": "int", "name": "numRecords"}, {"type": "int",
+"name": "samplesCount"}, {"type": "int", "name": "passCount"},
+{"type": "int", "name": "transitionsCount"}, {"type": "int", "name":
+"transversionsCount"}, {"type": "double", "name": "meanQuality"},
+{"type": {"values": "int", "type": "map"}, "name":
+"variantTypeCounts"}, {"type": {"values": "int", "type": "map"},
+"name": "chromosomeCounts"}, {"type": {"values": "int", "type":
+"map"}, "name": "consequenceTypesCount"}], "type": "record", "name":
+"VariantGlobalStats"}], "name": "stats"}, {"type": {"values":
+["string", {"fields": [{"type": "string", "name": "fileFormat"},
+{"type": {"values": {"items": ["string", {"values": "string", "type":
+"map"}], "type": "array"}, "type": "map"}, "name": "meta"}], "type":
+"record", "name": "VcfHeader"}], "type": "map"}, "name": "metadata"},
+{"type": ["null", "VcfHeader"], "name": "header"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "aggregation",
+        "fileId",
+        "header",
+        "metadata",
+        "stats",
+        "studyId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'header': VcfHeader,
+            'stats': VariantGlobalStats,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'header': VcfHeader,
+            'stats': VariantGlobalStats,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'aggregation', 'fileId', 'fileName', 'header', 'metadata',
+        'samples', 'stats', 'studyId', 'studyName'
+    ]
+
+    def __init__(self, **kwargs):
+        self.aggregation = kwargs.get(
+            'aggregation', None)
+        self.fileId = kwargs.get(
+            'fileId', 'None')
+        self.fileName = kwargs.get(
+            'fileName', None)
+        self.header = kwargs.get(
+            'header', None)
+        self.metadata = kwargs.get(
+            'metadata', None)
+        self.samples = kwargs.get(
+            'samples', [])
+        self.stats = kwargs.get(
+            'stats', None)
+        self.studyId = kwargs.get(
+            'studyId', 'None')
+        self.studyName = kwargs.get(
+            'studyName', None)
+
+
+class VariantFunctionalEffect(object):
+    """
+    Variant effect with Sequence Ontology terms.  * `SO_0002052`:
+    dominant_negative_variant
+    (http://purl.obolibrary.org/obo/SO_0002052) * `SO_0002053`:
+    gain_of_function_variant
+    (http://purl.obolibrary.org/obo/SO_0002053) * `SO_0001773`:
+    lethal_variant (http://purl.obolibrary.org/obo/SO_0001773) *
+    `SO_0002054`: loss_of_function_variant
+    (http://purl.obolibrary.org/obo/SO_0002054) * `SO_0001786`:
+    loss_of_heterozygosity (http://purl.obolibrary.org/obo/SO_0001786)
+    * `SO_0002055`: null_variant
+    (http://purl.obolibrary.org/obo/SO_0002055)
+    """
+    SO_0002052 = "SO_0002052"
+    SO_0002053 = "SO_0002053"
+    SO_0001773 = "SO_0001773"
+    SO_0002054 = "SO_0002054"
+    SO_0001786 = "SO_0001786"
+    SO_0002055 = "SO_0002055"
+
+
+class VariantGlobalStats(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantGlobalStats", "fields": [{"type": "int",
+"name": "numRecords"}, {"type": "int", "name": "samplesCount"},
+{"type": "int", "name": "passCount"}, {"type": "int", "name":
+"transitionsCount"}, {"type": "int", "name": "transversionsCount"},
+{"type": "double", "name": "meanQuality"}, {"type": {"values": "int",
+"type": "map"}, "name": "variantTypeCounts"}, {"type": {"values":
+"int", "type": "map"}, "name": "chromosomeCounts"}, {"type":
+{"values": "int", "type": "map"}, "name": "consequenceTypesCount"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "chromosomeCounts",
+        "consequenceTypesCount",
+        "meanQuality",
+        "numRecords",
+        "passCount",
+        "samplesCount",
+        "transitionsCount",
+        "transversionsCount",
+        "variantTypeCounts",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'chromosomeCounts', 'consequenceTypesCount', 'meanQuality',
+        'numRecords', 'passCount', 'samplesCount', 'transitionsCount',
+        'transversionsCount', 'variantTypeCounts'
+    ]
+
+    def __init__(self, **kwargs):
+        self.chromosomeCounts = kwargs.get(
+            'chromosomeCounts', None)
+        self.consequenceTypesCount = kwargs.get(
+            'consequenceTypesCount', None)
+        self.meanQuality = kwargs.get(
+            'meanQuality', None)
+        self.numRecords = kwargs.get(
+            'numRecords', None)
+        self.passCount = kwargs.get(
+            'passCount', None)
+        self.samplesCount = kwargs.get(
+            'samplesCount', None)
+        self.transitionsCount = kwargs.get(
+            'transitionsCount', None)
+        self.transversionsCount = kwargs.get(
+            'transversionsCount', None)
+        self.variantTypeCounts = kwargs.get(
+            'variantTypeCounts', None)
+
+
+class VariantHardyWeinbergStats(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantHardyWeinbergStats", "fields": [{"type":
+["null", "float"], "name": "chi2"}, {"type": ["null", "float"],
+"name": "pValue"}, {"type": ["null", "int"], "name": "n"}, {"type":
+["null", "int"], "name": "n_AA_11"}, {"type": ["null", "int"], "name":
+"n_Aa_10"}, {"type": ["null", "int"], "name": "n_aa_00"}, {"type":
+["null", "float"], "name": "e_AA_11"}, {"type": ["null", "float"],
+"name": "e_Aa_10"}, {"type": ["null", "float"], "name": "e_aa_00"},
+{"type": ["null", "float"], "name": "p"}, {"type": ["null", "float"],
+"name": "q"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "chi2",
+        "e_AA_11",
+        "e_Aa_10",
+        "e_aa_00",
+        "n",
+        "n_AA_11",
+        "n_Aa_10",
+        "n_aa_00",
+        "p",
+        "pValue",
+        "q",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'chi2', 'e_AA_11', 'e_Aa_10', 'e_aa_00', 'n', 'n_AA_11',
+        'n_Aa_10', 'n_aa_00', 'p', 'pValue', 'q'
+    ]
+
+    def __init__(self, **kwargs):
+        self.chi2 = kwargs.get(
+            'chi2', None)
+        self.e_AA_11 = kwargs.get(
+            'e_AA_11', None)
+        self.e_Aa_10 = kwargs.get(
+            'e_Aa_10', None)
+        self.e_aa_00 = kwargs.get(
+            'e_aa_00', None)
+        self.n = kwargs.get(
+            'n', None)
+        self.n_AA_11 = kwargs.get(
+            'n_AA_11', None)
+        self.n_Aa_10 = kwargs.get(
+            'n_Aa_10', None)
+        self.n_aa_00 = kwargs.get(
+            'n_aa_00', None)
+        self.p = kwargs.get(
+            'p', None)
+        self.pValue = kwargs.get(
+            'pValue', None)
+        self.q = kwargs.get(
+            'q', None)
+
+
+class VariantStats(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantStats", "fields": [{"type": ["null",
+"string"], "name": "refAllele"}, {"type": ["null", "string"], "name":
+"altAllele"}, {"type": ["null", "int"], "name": "refAlleleCount"},
+{"type": ["null", "int"], "name": "altAlleleCount"}, {"type":
+{"values": "int", "type": "map", "java-key-class":
+"org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesCount"}, {"type": {"values": "float", "type": "map", "java-
+key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
+"genotypesFreq"}, {"type": ["null", "int"], "name": "missingAlleles"},
+{"type": ["null", "int"], "name": "missingGenotypes"}, {"type":
+["null", "float"], "name": "refAlleleFreq"}, {"type": ["null",
+"float"], "name": "altAlleleFreq"}, {"type": ["null", "float"],
+"name": "maf"}, {"type": ["null", "float"], "name": "mgf"}, {"type":
+["null", "string"], "name": "mafAllele"}, {"type": ["null", "string"],
+"name": "mgfGenotype"}, {"type": ["null", "boolean"], "name":
+"passedFilters"}, {"type": ["null", "int"], "name":
+"mendelianErrors"}, {"type": ["null", "float"], "name":
+"casesPercentDominant"}, {"type": ["null", "float"], "name":
+"controlsPercentDominant"}, {"type": ["null", "float"], "name":
+"casesPercentRecessive"}, {"type": ["null", "float"], "name":
+"controlsPercentRecessive"}, {"type": ["null", "float"], "name":
+"quality"}, {"type": ["null", "int"], "name": "numSamples"},
+{"default": null, "type": ["null", {"symbols": ["SNV", "SNP", "MNV",
+"MNP", "INDEL", "SV", "INSERTION", "DELETION", "TRANSLOCATION",
+"INVERSION", "CNV", "NO_VARIATION", "SYMBOLIC", "MIXED"], "doc": "",
+"type": "enum", "name": "VariantType"}], "name": "variantType"},
+{"default": null, "type": ["null", {"fields": [{"type": ["null",
+"float"], "name": "chi2"}, {"type": ["null", "float"], "name":
+"pValue"}, {"type": ["null", "int"], "name": "n"}, {"type": ["null",
+"int"], "name": "n_AA_11"}, {"type": ["null", "int"], "name":
+"n_Aa_10"}, {"type": ["null", "int"], "name": "n_aa_00"}, {"type":
+["null", "float"], "name": "e_AA_11"}, {"type": ["null", "float"],
+"name": "e_Aa_10"}, {"type": ["null", "float"], "name": "e_aa_00"},
+{"type": ["null", "float"], "name": "p"}, {"type": ["null", "float"],
+"name": "q"}], "type": "record", "name":
+"VariantHardyWeinbergStats"}], "name": "hw"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "altAllele",
+        "altAlleleCount",
+        "altAlleleFreq",
+        "casesPercentDominant",
+        "casesPercentRecessive",
+        "controlsPercentDominant",
+        "controlsPercentRecessive",
+        "genotypesCount",
+        "genotypesFreq",
+        "maf",
+        "mafAllele",
+        "mendelianErrors",
+        "mgf",
+        "mgfGenotype",
+        "missingAlleles",
+        "missingGenotypes",
+        "numSamples",
+        "passedFilters",
+        "quality",
+        "refAllele",
+        "refAlleleCount",
+        "refAlleleFreq",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'hw': VariantHardyWeinbergStats,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'hw': VariantHardyWeinbergStats,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'altAllele', 'altAlleleCount', 'altAlleleFreq',
+        'casesPercentDominant', 'casesPercentRecessive',
+        'controlsPercentDominant', 'controlsPercentRecessive',
+        'genotypesCount', 'genotypesFreq', 'hw', 'maf', 'mafAllele',
+        'mendelianErrors', 'mgf', 'mgfGenotype', 'missingAlleles',
+        'missingGenotypes', 'numSamples', 'passedFilters', 'quality',
+        'refAllele', 'refAlleleCount', 'refAlleleFreq', 'variantType'
+    ]
+
+    def __init__(self, **kwargs):
+        self.altAllele = kwargs.get(
+            'altAllele', None)
+        self.altAlleleCount = kwargs.get(
+            'altAlleleCount', None)
+        self.altAlleleFreq = kwargs.get(
+            'altAlleleFreq', None)
+        self.casesPercentDominant = kwargs.get(
+            'casesPercentDominant', None)
+        self.casesPercentRecessive = kwargs.get(
+            'casesPercentRecessive', None)
+        self.controlsPercentDominant = kwargs.get(
+            'controlsPercentDominant', None)
+        self.controlsPercentRecessive = kwargs.get(
+            'controlsPercentRecessive', None)
+        self.genotypesCount = kwargs.get(
+            'genotypesCount', None)
+        self.genotypesFreq = kwargs.get(
+            'genotypesFreq', None)
+        self.hw = kwargs.get(
+            'hw', None)
+        self.maf = kwargs.get(
+            'maf', None)
+        self.mafAllele = kwargs.get(
+            'mafAllele', None)
+        self.mendelianErrors = kwargs.get(
+            'mendelianErrors', None)
+        self.mgf = kwargs.get(
+            'mgf', None)
+        self.mgfGenotype = kwargs.get(
+            'mgfGenotype', None)
+        self.missingAlleles = kwargs.get(
+            'missingAlleles', None)
+        self.missingGenotypes = kwargs.get(
+            'missingGenotypes', None)
+        self.numSamples = kwargs.get(
+            'numSamples', None)
+        self.passedFilters = kwargs.get(
+            'passedFilters', None)
+        self.quality = kwargs.get(
+            'quality', None)
+        self.refAllele = kwargs.get(
+            'refAllele', None)
+        self.refAlleleCount = kwargs.get(
+            'refAlleleCount', None)
+        self.refAlleleFreq = kwargs.get(
+            'refAlleleFreq', None)
+        self.variantType = kwargs.get(
+            'variantType', None)
+
+
+class VariantTraitAssociation(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VariantTraitAssociation", "fields": [{"type":
+["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": {"items": "string", "type": "array"}, "name": "geneNames"},
+{"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null",
+{"items": {"fields": [{"type": "string", "name": "snpIdCurrent"},
+{"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": "double", "name": "riskAlleleFrequency"}, {"type": "string",
+"name": "reportedGenes"}], "type": "record", "name": "Gwas"}, "type":
+"array"}], "name": "gwas"}, {"type": ["null", {"items": {"fields":
+[{"type": "string", "name": "mutationId"}, {"type": "string", "name":
+"primarySite"}, {"type": "string", "name": "siteSubtype"}, {"type":
+"string", "name": "primaryHistology"}, {"type": "string", "name":
+"histologySubtype"}, {"type": "string", "name": "sampleSource"},
+{"type": "string", "name": "tumourOrigin"}, {"type": "string", "name":
+"geneName"}, {"type": "string", "name": "mutationSomaticStatus"}],
+"type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+"cosmic"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "source"}, {"type": "string", "name": "accession"}, {"type":
+["null", "string"], "name": "clinicalSignificance"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "phenotype"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "disease"},
+{"type": ["null", "string"], "name": "reviewStatus"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "geneNames"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"submitter"}, {"type": ["null", "string"], "name": "date"}], "type":
+"record", "name": "Submission"}, "type": "array"}], "name":
+"submissions"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "proteinNames"}, {"type": ["null", "string"],
+"name": "penetrance"}, {"type": ["null", {"items": "string", "type":
+"array"}], "name": "inheritanceModel"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "bibliography"}, {"type":
+["null", {"items": "string", "type": "array"}], "name": "drugs"}],
+"type": "record", "name": "Germline"}, "type": "array"}], "name":
+"germline"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "source"}, {"type": "string", "name": "accession"},
+{"type": ["null", "string"], "name": "primarySite"}, {"type": ["null",
+"string"], "name": "siteSubtype"}, {"type": ["null", "string"],
+"name": "primaryHistology"}, {"type": ["null", "string"], "name":
+"histologySubtype"}, {"type": ["null", "string"], "name":
+"sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
+{"type": ["null", "string"], "name": "mutationSomaticStatus"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"geneNames"}, {"type": ["null", {"items": "Submission", "type":
+"array"}], "name": "submissions"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "proteinNames"}, {"type":
+["null", "string"], "name": "reviewStatus"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "bibliography"},
+{"type": ["null", {"items": "string", "type": "array"}], "name":
+"drugs"}], "type": "record", "name": "Somatic"}, "type": "array"}],
+"name": "somatic"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "clinvar",
+        "cosmic",
+        "germline",
+        "gwas",
+        "somatic",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'clinvar': ClinVar,
+            'cosmic': Cosmic,
+            'germline': Germline,
+            'gwas': Gwas,
+            'somatic': Somatic,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'clinvar': ClinVar,
+            'cosmic': Cosmic,
+            'germline': Germline,
+            'gwas': Gwas,
+            'somatic': Somatic,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'clinvar', 'cosmic', 'germline', 'gwas', 'somatic'
+    ]
+
+    def __init__(self, **kwargs):
+        self.clinvar = kwargs.get(
+            'clinvar', None)
+        self.cosmic = kwargs.get(
+            'cosmic', None)
+        self.germline = kwargs.get(
+            'germline', None)
+        self.gwas = kwargs.get(
+            'gwas', None)
+        self.somatic = kwargs.get(
+            'somatic', None)
+
+
+class VariantType(object):
+    """
+    * Type of variation, which depends mostly on its length.      *
+    <ul>      * <li>SNVs involve a single nucleotide, without changes
+    in length</li>      * <li>MNVs involve multiple nucleotides,
+    without changes in length</li>      * <li>Indels are insertions or
+    deletions of less than SV_THRESHOLD (50) nucleotides</li>      *
+    <li>Structural variations are large changes of more than
+    SV_THRESHOLD nucleotides</li>      * <li>Copy-number variations
+    alter the number of copies of a region</li>      * </ul>
+    """
+    SNV = "SNV"
+    SNP = "SNP"
+    MNV = "MNV"
+    MNP = "MNP"
+    INDEL = "INDEL"
+    SV = "SV"
+    INSERTION = "INSERTION"
+    DELETION = "DELETION"
+    TRANSLOCATION = "TRANSLOCATION"
+    INVERSION = "INVERSION"
+    CNV = "CNV"
+    NO_VARIATION = "NO_VARIATION"
+    SYMBOLIC = "SYMBOLIC"
+    MIXED = "MIXED"
+
+
+class VcfHeader(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "VcfHeader", "fields": [{"type": "string", "name":
+"fileFormat"}, {"type": {"values": {"items": ["string", {"values":
+"string", "type": "map"}], "type": "array"}, "type": "map"}, "name":
+"meta"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "fileFormat",
+        "meta",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'fileFormat', 'meta'
+    ]
+
+    def __init__(self, **kwargs):
+        self.fileFormat = kwargs.get(
+            'fileFormat', 'None')
+        self.meta = kwargs.get(
+            'meta', None)
+
+
+class Xref(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type":
+"record", "name": "Xref", "fields": [{"type": ["null", "string"],
+"name": "id"}, {"type": ["null", "string"], "name": "source"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "id",
+        "source",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'id', 'source'
+    ]
+
+    def __init__(self, **kwargs):
+        self.id = kwargs.get(
+            'id', None)
+        self.source = kwargs.get(
+            'source', None)
