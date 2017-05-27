@@ -387,7 +387,7 @@ class SchemaProcessor(object):
         if self.verbosity > 0:
             utils.log("converting {}".format(avdlFile))
             utils.log("running: {}".format(" ".join(args)))
-            utils.log("working folder {}".format(os.getcwd()))
+            #utils.log("working folder {}".format(os.getcwd()))
         if self.verbosity > 0:
             utils.runCommandSplits(args)
         else:
