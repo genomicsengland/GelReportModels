@@ -221,6 +221,20 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution><!-- Run our version calculation script -->
+                        <id>Generate Sphynx documentation</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>make</executable>
+                            <workingDirectory>${basedir}/docs</workingDirectory>
+                            <arguments>
+                                <argument>html</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <!--
