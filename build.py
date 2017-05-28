@@ -144,6 +144,7 @@ generate_python_sources(cva_idl_folder, cva_outfile, version)
 
 
 # Builds models documentation
+## reporting
 generate_documentation("RDParticipant", report_avrp_folder, report_html_folder)
 generate_documentation("ClinicalReportRD", report_avrp_folder, report_html_folder)
 generate_documentation("ClinicalReportCancer", report_avrp_folder, report_html_folder)
@@ -156,10 +157,16 @@ generate_documentation("GelBamMetrics", report_avrp_folder, report_html_folder)
 generate_documentation("AuditLog", report_avrp_folder, report_html_folder)
 generate_documentation("RDParticipantChangeLog", report_avrp_folder, report_html_folder)
 generate_documentation("MDTDeliveryProtocol", report_avrp_folder, report_html_folder)
+generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
+generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
+## CVA
 generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
 generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
 generate_documentation("ReportEventContainer", cva_avrp_folder, cva_html_folder)
 generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
-generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
-generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
 generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
+## OpenCB
+generate_documentation("evidence", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("read", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("variant", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("variantAnnotation", opencb_avrp_folder, opencb_html_folder)
