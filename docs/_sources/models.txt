@@ -54,6 +54,19 @@ OpenCB
 * |Variant|
 * |VariantAnnotation|
 
+GA4GH
+-----
+
+* |GA4GHCommon|
+* |GA4GHMetadata|
+* |GA4GHMethods|
+* |GA4GHReadMethods|
+* |GA4GHReads|
+* |GA4GHReferenceMethods|
+* |GA4GHReferences|
+* |GA4GHVariantMethods|
+* |GA4GHVariants|
+
 
 .. |Pedigree| raw:: html
 
@@ -118,6 +131,33 @@ OpenCB
 .. |VariantAnnotation| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models/1.2.0-SNAPSHOT/variantAnnotation.html" target="_blank"> Variant Annotation </a>
+.. |GA4GHCommon| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/common.html" target="_blank"> Common </a>
+.. |GA4GHMetadata| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/metadata.html" target="_blank"> Metadata </a>
+.. |GA4GHMethods| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/methods.html" target="_blank"> Methods </a>
+.. |GA4GHReadMethods| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/readmethods.html" target="_blank"> ReadMethods </a>
+.. |GA4GHReads| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/reads.html" target="_blank"> Reads </a>
+.. |GA4GHReferenceMethods| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/referencemethods.html" target="_blank"> ReferenceMethods </a>
+.. |GA4GHReferences| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/references.html" target="_blank"> References </a>
+.. |GA4GHVariantMethods| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/variantmethods.html" target="_blank"> VariantMethods </a>
+.. |GA4GHVariants| raw:: html
+
+    <a href="html_schemas/org.ga4gh.models/3.0.0/variants.html" target="_blank"> Variants </a>
 
 
 
