@@ -262,7 +262,7 @@ class SchemaClass(object):
         indent = " " * (indentLevel * 4)
         toWrite = textwrap.fill(
             string_, initial_indent=indent, subsequent_indent=indent)
-        print(toWrite, file=outputFile)
+        print(toWrite.encode('utf-8'), file=outputFile)
 
     def _writeNewline(self, outputFile, numNewlines=1):
         toWrite = "\n" * (numNewlines - 1)
@@ -354,20 +354,22 @@ class SchemaProcessor(object):
         self.version = args.version
         self.destinationFile = args.outputFile
         self.verbosity = args.verbose
-        self.tmpDir = tempfile.mkdtemp(prefix="ga4gh_")
-        self.sourceTar = os.path.join(self.tmpDir, "schemas.tar.gz")
         self.avroJarPath = args.avro_tools_jar
         # Note! The tarball does not contain the leading v
-        string = "schemas-{0}".format(self.version[1:])
-        self.schemaDir = os.path.join(self.tmpDir, string)
-        self.avroJar = os.path.join(self.schemaDir, "avro-tools.jar")
+        #string = "schemas-{0}".format(self.version[1:])
+        #self.schemaDir = os.path.join(self.tmpDir, string)
         self.sourceDir = args.inputSchemasDirectory
-        self.avroPath = "src/main/resources/avro"
+        self.schemaDir = self.sourceDir
+        self.sourceTar = os.path.join(self.sourceDir, "schemas.tar.gz")
+        self.avroJar = os.path.join(self.schemaDir, "avro-tools.jar")
 
     def cleanup(self):
-        if self.verbosity > 1:
-            utils.log("Cleaning up tmp dir {}".format(self.tmpDir))
-        shutil.rmtree(self.tmpDir)
+        if self.verbosity > 0:
+            utils.log("Cleaning up dir {}".format(self.sourceDir))
+        sources = os.listdir(self.sourceDir)
+        for source in sources:
+            if source.endswith(".avsc"):
+                os.remove(os.path.join(self.sourceDir, source))
 
     def download(self, url, destination):
         """
@@ -384,9 +386,9 @@ class SchemaProcessor(object):
         args = ["java", "-jar", self.avroJar, "idl2schemata", avdlFile]
         if self.verbosity > 0:
             utils.log("converting {}".format(avdlFile))
-        if self.verbosity > 1:
             utils.log("running: {}".format(" ".join(args)))
-        if self.verbosity > 1:
+            #utils.log("working folder {}".format(os.getcwd()))
+        if self.verbosity > 0:
             utils.runCommandSplits(args)
         else:
             utils.runCommandSplits(args, silent=True)
@@ -408,36 +410,21 @@ class SchemaProcessor(object):
             self.version)
         self.download(url, self.sourceTar)
         with tarfile.open(self.sourceTar, "r") as tarball:
-            tarball.extractall(self.tmpDir)
-
-    def getSchemaFromLocal(self):
-        """
-        Copies schemas from a local directory.
-        """
-        destDir = os.path.join(self.schemaDir, self.avroPath)
-        if not os.path.exists(destDir):
-            os.makedirs(destDir)
-        avdlFiles = glob.iglob(os.path.join(self.sourceDir, "*.avdl"))
-        for avdlFile in avdlFiles:
-            if os.path.isfile(avdlFile):
-                shutil.copy2(avdlFile, destDir)
+            tarball.extractall(self.sourceDir)
 
     def run(self):
         if self.sourceDir is None:
             self.getSchemaFromGitHub()
-        else:
-            self.getSchemaFromLocal()
-        directory = os.path.join(self.schemaDir, self.avroPath)
         self.setupAvroJar()
         cwd = os.getcwd()
-        os.chdir(directory)
+        os.chdir(self.schemaDir)
         for avdlFile in glob.glob("*.avdl"):
             self.convertAvro(avdlFile)
         os.chdir(cwd)
         if self.verbosity > 0:
             utils.log("Writing schemas to {}".format(self.destinationFile))
         sg = SchemaGenerator(
-            self.version, directory, self.destinationFile, self.verbosity)
+            self.version, self.schemaDir, self.destinationFile, self.verbosity)
         sg.write()
 
 

@@ -4,22 +4,39 @@
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Models Documentation &mdash; GelReportModels 3.0.0 documentation (CVA v0.2 branch)</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Models Documentation &mdash; GelReportModels 3.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="index" title="Index" href="genindex.html"/>
-    <link rel="search" title="Search" href="search.html"/>
+  
+
+  
+
+  
     <link rel="top" title="GelReportModels 3.0.0 documentation" href="index.html"/>
-    <link rel="next" title="Models Validation" href="validation.html"/>
-    <link rel="prev" title="GelReportModels Documentation" href="index.html"/>
-    <script src="_static/js/modernizr.min.js"></script>
+        <link rel="next" title="Models Validation" href="validation.html"/>
+        <link rel="prev" title="GelReportModels Documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -65,15 +82,16 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Models Documentation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Models Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-models">General Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interpretation-requests-models">Interpretation Requests Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interpreted-genomes-models">Interpreted Genomes Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#clinical-report-models">Clinical Report Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#audits-models">Audits Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#clinical-variants">Clinical Variants</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ontologies">Ontologies integration</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="#other">Other</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clinical-variant-archive-cva">Clinical Variant Archive (CVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#opencb">OpenCB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ga4gh">GA4GH</a></li>
 </ul>
 </li>
 </ul>
@@ -128,56 +146,78 @@
 <div class="section" id="general-models">
 <h2>General Models<a class="headerlink" href="#general-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a href="html_schemas/latest/RDParticipant.html" target="_blank"> Rare Disease Participants and Pedigree </a></li>
-<li><a href="html_schemas/latest/CancerParticipant.html" target="_blank"> Cancer Sample, Cancer Participants and Cancer Demographics </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/RDParticipant.html" target="_blank"> Rare Disease Participants and Pedigree </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/CancerParticipant.html" target="_blank"> Cancer Sample, Cancer Participants and Cancer Demographics </a></li>
 </ul>
 </div>
 <div class="section" id="interpretation-requests-models">
 <h2>Interpretation Requests Models<a class="headerlink" href="#interpretation-requests-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a href="html_schemas/latest/RDInterpretationRequests.html" target="_blank"> Rare Disease Interpretation Request </a></li>
-<li><a href="html_schemas/latest/CancerInterpretationRequests.html" target="_blank"> Cancer Disease Interpretation Request </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/InterpretationRequestRD.html" target="_blank"> Rare Disease Interpretation Request </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/InterpretationRequestCancer.html" target="_blank"> Cancer Disease Interpretation Request </a></li>
 </ul>
 </div>
 <div class="section" id="interpreted-genomes-models">
 <h2>Interpreted Genomes Models<a class="headerlink" href="#interpreted-genomes-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a href="html_schemas/latest/RDInterpretedGenomes.html" target="_blank"> Rare Disease Interpreted Genomes </a></li>
-<li><a href="html_schemas/latest/CancerInterpretedGenomes.html" target="_blank"> Cancer Disease Interpreted Genomes </a></li>
-<li><a href="html_schemas/latest/MDTDeliveryProtocol.html#/schema/Gel_BioInf_Models.InterpretationData" target="_blank"> InterpretationDataRD </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/InterpretedGenomesRD.html" target="_blank"> Rare Disease Interpreted Genomes </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/InterpretedGenomesCancer.html" target="_blank"> Cancer Disease Interpreted Genomes </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/MDTDeliveryProtocol.html#/schema/Gel_BioInf_Models.InterpretationData" target="_blank"> InterpretationDataRD </a></li>
 </ul>
 </div>
 <div class="section" id="clinical-report-models">
 <h2>Clinical Report Models<a class="headerlink" href="#clinical-report-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a href="html_schemas/latest/ClinicalReportRD.html" target="_blank"> Rare Disease Clinical Report </a></li>
-<li><a href="html_schemas/latest/ClinicalReportCancer.html" target="_blank"> Cancer Disease Clinical Report </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/ClinicalReportRD.html" target="_blank"> Rare Disease Clinical Report </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/ClinicalReportCancer.html" target="_blank"> Cancer Disease Clinical Report </a></li>
 </ul>
 </div>
 <div class="section" id="audits-models">
 <h2>Audits Models<a class="headerlink" href="#audits-models" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a href="html_schemas/latest/AuditLog.html" target="_blank"> Case Audit Log </a></li>
-<li><a href="html_schemas/latest/RDParticipantChangeLog.html#/schema/Gel_BioInf_Models.RDFamilyChange" target="_blank"> RDParticipant Change Log </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/AuditLog.html" target="_blank"> Case Audit Log </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/RDParticipantChangeLog.html#/schema/Gel_BioInf_Models.RDFamilyChange" target="_blank"> RDParticipant Change Log </a></li>
 </ul>
 </div>
-      <div class="section" id="clinical-variants">
-          <h2>Clinical Variant Ark<a class="headerlink" href="#clinical-variants" title="Permalink to this headline">¶</a></h2>
-          <ul class="simple">
-              <li><a href="html_schemas/latest/EvidenceSet.html" target="_blank"> Evidence sets </a></li>
-              <li><a href="html_schemas/latest/ReportEventContainer.html" target="_blank"> Report event containers </a></li>
-              <li><a href="html_schemas/latest/ObservedVariant.html" target="_blank"> Observed variants </a></li>
-              <li><a href="html_schemas/latest/Comment.html" target="_blank"> Generic comment </a></li>
-          </ul>
-      </div>
-      <div class="section" id="ontologies">
-          <h2>Ontologies integration<a class="headerlink" href="#ontologies" title="Permalink to this headline">¶</a></h2>
-          <ul class="simple">
-              <li><a href="html_schemas/latest/OntologyTerms.html" target="_blank"> Ontology terms </a></li>
-              <li><a href="html_schemas/latest/SequenceOntology.html" target="_blank"> Sequence Ontology </a></li>
-              <li><a href="html_schemas/latest/ConfidenceInformationOntology.html" target="_blank"> Confidence Information Ontology </a></li>
-          </ul>
-      </div>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/SupplementaryAnalysisResults.html" target="_blank"> SupplementaryAnalysisResults </a></li>
+<li><a href="html_schemas/org.gel.models.report.avro/3.0.0/ExitQuestionnaire.html" target="_blank"> ExitQuestionnaire </a></li>
+</ul>
+</div>
+<div class="section" id="clinical-variant-archive-cva">
+<h2>Clinical Variant Archive (CVA)<a class="headerlink" href="#clinical-variant-archive-cva" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a href="html_schemas/org.gel.models.cva.avro/0.3.0/EvidenceSet.html#/schema/org.gel.models.cva.avro.EvidenceSet" target="_blank"> Evidence Set </a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/0.3.0/ObservedVariant.html#/schema/org.gel.models.cva.avro.ObservedVariant" target="_blank"> Observed Variant </a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/0.3.0/ReportEventContainer.html#/schema/org.gel.models.cva.avro.ReportEventContainer" target="_blank"> Report Event Container </a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/0.3.0/DataIntake.html" target="_blank"> Data Intake </a></li>
+</ul>
+</div>
+<div class="section" id="opencb">
+<h2>OpenCB<a class="headerlink" href="#opencb" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a href="html_schemas/org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.html" target="_blank"> Evidence </a></li>
+<li><a href="html_schemas/org.opencb.biodata.models/1.2.0-SNAPSHOT/read.html" target="_blank"> Read </a></li>
+<li><a href="html_schemas/org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.html" target="_blank"> Variant </a></li>
+<li><a href="html_schemas/org.opencb.biodata.models/1.2.0-SNAPSHOT/variantAnnotation.html" target="_blank"> Variant Annotation </a></li>
+</ul>
+</div>
+<div class="section" id="ga4gh">
+<h2>GA4GH<a class="headerlink" href="#ga4gh" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/common.html" target="_blank"> Common </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/metadata.html" target="_blank"> Metadata </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/methods.html" target="_blank"> Methods </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/readmethods.html" target="_blank"> ReadMethods </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/reads.html" target="_blank"> Reads </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/referencemethods.html" target="_blank"> ReferenceMethods </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/references.html" target="_blank"> References </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/variantmethods.html" target="_blank"> VariantMethods </a></li>
+<li><a href="html_schemas/org.ga4gh.models/3.0.0/variants.html" target="_blank"> Variants </a></li>
+</ul>
+</div>
 </div>
 
 

@@ -1,0 +1,88 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol ReportEventContainerProtocol {
+
+    // CVA references
+    import idl "Comment.avdl";
+    import idl "ObservedVariant.avdl";
+    // Report models references
+    import idl "../../org.gel.models.report.avro/3.0.0/CommonInterpreted.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
+
+    /**
+    The type of the report event
+    */
+    enum ReportEventContainerType {
+        diagnostic,
+        cip,
+        tiering,
+        other
+    }
+
+    /**
+    A wrapper for a report event
+    */
+    record ReportEventContainer {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        The author of the ReportEvent
+        */
+        string author;
+        /**
+        Source of the ReportEvent
+        */
+        union {null, string} source;
+        /**
+        Validation flag
+        */
+        boolean validated = false;
+        /**
+        Type of report event container
+        */
+        ReportEventContainerType type;
+        /**
+        The interpretation request identifier e.g. "378"
+        */
+        string interpretationRequestId;
+        /**
+        Clinical interpretation partner code e.g. OPA
+        */
+        string cipCode;
+        /**
+        Interpretation request version e.g. "2"
+        */
+        string interpretationRequestVersion;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The workspace. This field is used to control authorisation to
+        access each case.
+        */
+        array<string> workspace = [];
+        /**
+        The report event
+        */
+        org.gel.models.report.avro.ReportEvent reportEvent;
+        /**
+        The observed variants
+        */
+        array<ObservedVariant> variants = [];
+        /**
+        Associated report events
+        */
+        array<ReportEventContainer> associatedReportEvents = [];
+        /**
+        Comments for this diagnostic event
+        */
+        array<Comment> comments = [];
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.opencb.biodata.models.variant.avro.OntologyTerm> additionalProperties = [];
+    }
+}
