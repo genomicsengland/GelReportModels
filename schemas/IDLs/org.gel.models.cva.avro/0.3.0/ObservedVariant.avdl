@@ -14,6 +14,10 @@ protocol ObservedVariantProtocol {
     */
     record ObservedVariant {
         /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
         The registration date
         */
         string date;

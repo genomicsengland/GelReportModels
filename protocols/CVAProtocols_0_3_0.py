@@ -398,13 +398,14 @@ class CandidateVariantInject(ProtocolElement):
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "CandidateVariantInject", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"cip"}, {"doc": "", "type": "string", "name": "cipCode"}, {"doc": "",
-"type": "string", "name": "interpretationRequestId"}, {"doc": "",
-"type": "string", "name": "interpretationRequestVersion"}, {"doc": "",
-"type": "string", "name": "gelFamilyId"}, {"doc": "", "type":
-{"items": "string", "type": "array"}, "name": "workspace"}, {"doc":
-"", "type": "int", "name": "cipVersion"}, {"doc": "", "type": "int",
-"name": "clinicalReportVersion"}, {"doc": "", "type": {"namespace":
+"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"doc": "", "type": "string", "name": "cip"}, {"doc": "", "type":
+"string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
+"interpretationRequestId"}, {"doc": "", "type": "string", "name":
+"interpretationRequestVersion"}, {"doc": "", "type": {"items":
+"string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+"int", "name": "cipVersion"}, {"doc": "", "type": "int", "name":
+"clinicalReportVersion"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name":
 "ClinicalReportRD", "fields": [{"doc": "", "type": "string", "name":
 "interpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -506,7 +507,8 @@ class CandidateVariantInject(ProtocolElement):
         "cipVersion",
         "clinicalReport",
         "clinicalReportVersion",
-        "gelFamilyId",
+        "cohortId",
+        "familyId",
         "interpretationRequestId",
         "interpretationRequestVersion",
         "reportModelVersion",
@@ -530,7 +532,7 @@ class CandidateVariantInject(ProtocolElement):
 
     __slots__ = [
         'cip', 'cipCode', 'cipVersion', 'clinicalReport',
-        'clinicalReportVersion', 'gelFamilyId',
+        'clinicalReportVersion', 'cohortId', 'familyId',
         'interpretationRequestId', 'interpretationRequestVersion',
         'reportModelVersion', 'workspace'
     ]
@@ -546,8 +548,10 @@ class CandidateVariantInject(ProtocolElement):
             'clinicalReport', None)
         self.clinicalReportVersion = kwargs.get(
             'clinicalReportVersion', None)
-        self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
+        self.cohortId = kwargs.get(
+            'cohortId', 'None')
+        self.familyId = kwargs.get(
+            'familyId', 'None')
         self.interpretationRequestId = kwargs.get(
             'interpretationRequestId', 'None')
         self.interpretationRequestVersion = kwargs.get(
@@ -2352,23 +2356,25 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
 "type": {"items": "Comment", "type": "array"}, "name": "comments"},
 {"default": [], "doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "ReportEventContainer", "fields": [{"doc": "",
-"type": "string", "name": "date"}, {"doc": "", "type": "string",
-"name": "author"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}, {"default": false, "doc": "", "type": "boolean", "name":
-"validated"}, {"doc": "", "type": {"symbols": ["diagnostic", "cip",
-"tiering", "other"], "doc": "", "type": "enum", "name":
+"type": "string", "name": "reportModelVersion"}, {"doc": "", "type":
+"string", "name": "date"}, {"doc": "", "type": "string", "name":
+"author"}, {"doc": "", "type": ["null", "string"], "name": "source"},
+{"default": false, "doc": "", "type": "boolean", "name": "validated"},
+{"doc": "", "type": {"symbols": ["diagnostic", "cip", "tiering",
+"other"], "doc": "", "type": "enum", "name":
 "ReportEventContainerType"}, "name": "type"}, {"doc": "", "type":
 "string", "name": "interpretationRequestId"}, {"doc": "", "type":
 "string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"default": [], "doc": "", "type": {"items": "string",
-"type": "array"}, "name": "workspace"}, {"doc": "", "type":
-{"namespace": "org.gel.models.report.avro", "type": "record", "name":
-"ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"reportEventId"}, {"doc": "", "type": "string", "name": "phenotype"},
-{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
-"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "",
-"type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"default": [], "doc": "", "type": {"items": "string", "type":
+"array"}, "name": "workspace"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name": "ReportEvent",
+"fields": [{"doc": "", "type": "string", "name": "reportEventId"},
+{"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
+"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type":
+["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
@@ -2399,7 +2405,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
 "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}]},
 "name": "reportEvent"}, {"default": [], "doc": "", "type": {"items":
 {"doc": "", "type": "record", "name": "ObservedVariant", "fields":
-[{"doc": "", "type": "string", "name": "date"}, {"doc": "", "type":
+[{"doc": "", "type": "string", "name": "reportModelVersion"}, {"doc":
+"", "type": "string", "name": "date"}, {"doc": "", "type":
 "org.opencb.biodata.models.variant.avro.VariantAvro", "name":
 "variant"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name":
@@ -3810,7 +3817,8 @@ class ObservedVariant(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "ObservedVariant", "fields": [{"doc": "", "type": "string", "name":
-"date"}, {"doc": "", "type": {"namespace":
+"reportModelVersion"}, {"doc": "", "type": "string", "name": "date"},
+{"doc": "", "type": {"namespace":
 "org.opencb.biodata.models.variant.avro", "type": "record", "name":
 "VariantAvro", "fields": [{"doc": "", "type": ["null", "string"],
 "name": "id"}, {"default": [], "doc": "", "type": {"items": "string",
@@ -4064,6 +4072,7 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
     requiredFields = {
         "date",
         "genotype",
+        "reportModelVersion",
         "variant",
     }
 
@@ -4087,8 +4096,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'additionalProperties', 'date', 'genotype', 'validated',
-        'variant'
+        'additionalProperties', 'date', 'genotype',
+        'reportModelVersion', 'validated', 'variant'
     ]
 
     def __init__(self, **kwargs):
@@ -4098,6 +4107,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
             'date', 'None')
         self.genotype = kwargs.get(
             'genotype', None)
+        self.reportModelVersion = kwargs.get(
+            'reportModelVersion', 'None')
         self.validated = kwargs.get(
             'validated', False)
         self.variant = kwargs.get(
@@ -4962,23 +4973,25 @@ class ReportEventContainer(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "ReportEventContainer", "fields": [{"doc": "", "type": "string",
-"name": "date"}, {"doc": "", "type": "string", "name": "author"},
-{"doc": "", "type": ["null", "string"], "name": "source"}, {"default":
-false, "doc": "", "type": "boolean", "name": "validated"}, {"doc": "",
+"name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
+"date"}, {"doc": "", "type": "string", "name": "author"}, {"doc": "",
+"type": ["null", "string"], "name": "source"}, {"default": false,
+"doc": "", "type": "boolean", "name": "validated"}, {"doc": "",
 "type": {"symbols": ["diagnostic", "cip", "tiering", "other"], "doc":
 "", "type": "enum", "name": "ReportEventContainerType"}, "name":
 "type"}, {"doc": "", "type": "string", "name":
 "interpretationRequestId"}, {"doc": "", "type": "string", "name":
 "cipCode"}, {"doc": "", "type": "string", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"default": [], "doc": "", "type": {"items": "string",
-"type": "array"}, "name": "workspace"}, {"doc": "", "type":
-{"namespace": "org.gel.models.report.avro", "type": "record", "name":
-"ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"reportEventId"}, {"doc": "", "type": "string", "name": "phenotype"},
-{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
-"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "",
-"type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"default": [], "doc": "", "type": {"items": "string", "type":
+"array"}, "name": "workspace"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name": "ReportEvent",
+"fields": [{"doc": "", "type": "string", "name": "reportEventId"},
+{"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
+"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type":
+["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
@@ -5009,7 +5022,8 @@ false, "doc": "", "type": "boolean", "name": "validated"}, {"doc": "",
 "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"}]},
 "name": "reportEvent"}, {"default": [], "doc": "", "type": {"items":
 {"doc": "", "type": "record", "name": "ObservedVariant", "fields":
-[{"doc": "", "type": "string", "name": "date"}, {"doc": "", "type":
+[{"doc": "", "type": "string", "name": "reportModelVersion"}, {"doc":
+"", "type": "string", "name": "date"}, {"doc": "", "type":
 {"namespace": "org.opencb.biodata.models.variant.avro", "type":
 "record", "name": "VariantAvro", "fields": [{"doc": "", "type":
 ["null", "string"], "name": "id"}, {"default": [], "doc": "", "type":
@@ -5272,11 +5286,13 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
     requiredFields = {
         "author",
         "cipCode",
+        "cohortId",
         "date",
         "familyId",
         "interpretationRequestId",
         "interpretationRequestVersion",
         "reportEvent",
+        "reportModelVersion",
         "source",
         "type",
     }
@@ -5306,10 +5322,10 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
 
     __slots__ = [
         'additionalProperties', 'associatedReportEvents', 'author',
-        'cipCode', 'comments', 'date', 'familyId',
+        'cipCode', 'cohortId', 'comments', 'date', 'familyId',
         'interpretationRequestId', 'interpretationRequestVersion',
-        'reportEvent', 'source', 'type', 'validated', 'variants',
-        'workspace'
+        'reportEvent', 'reportModelVersion', 'source', 'type',
+        'validated', 'variants', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -5321,6 +5337,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
             'author', 'None')
         self.cipCode = kwargs.get(
             'cipCode', 'None')
+        self.cohortId = kwargs.get(
+            'cohortId', 'None')
         self.comments = kwargs.get(
             'comments', [])
         self.date = kwargs.get(
@@ -5333,6 +5351,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
             'interpretationRequestVersion', 'None')
         self.reportEvent = kwargs.get(
             'reportEvent', None)
+        self.reportModelVersion = kwargs.get(
+            'reportModelVersion', 'None')
         self.source = kwargs.get(
             'source', None)
         self.type = kwargs.get(
@@ -5662,13 +5682,14 @@ class ReportedVariantInject(ProtocolElement):
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "ReportedVariantInject", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"cip"}, {"doc": "", "type": "string", "name": "cipCode"}, {"doc": "",
-"type": "string", "name": "interpretationRequestId"}, {"doc": "",
-"type": "string", "name": "interpretationRequestVersion"}, {"doc": "",
-"type": "string", "name": "gelFamilyId"}, {"doc": "", "type":
-{"items": "string", "type": "array"}, "name": "workspace"}, {"doc":
-"", "type": "int", "name": "cipVersion"}, {"doc": "", "type":
-{"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"doc": "", "type": "string", "name": "cip"}, {"doc": "", "type":
+"string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
+"interpretationRequestId"}, {"doc": "", "type": "string", "name":
+"interpretationRequestVersion"}, {"doc": "", "type": {"items":
+"string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+"int", "name": "cipVersion"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"},
@@ -5763,7 +5784,8 @@ class ReportedVariantInject(ProtocolElement):
         "cip",
         "cipCode",
         "cipVersion",
-        "gelFamilyId",
+        "cohortId",
+        "familyId",
         "interpretationRequestId",
         "interpretationRequestVersion",
         "interpretedGenome",
@@ -5787,7 +5809,7 @@ class ReportedVariantInject(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cip', 'cipCode', 'cipVersion', 'gelFamilyId',
+        'cip', 'cipCode', 'cipVersion', 'cohortId', 'familyId',
         'interpretationRequestId', 'interpretationRequestVersion',
         'interpretedGenome', 'reportModelVersion', 'workspace'
     ]
@@ -5799,8 +5821,10 @@ class ReportedVariantInject(ProtocolElement):
             'cipCode', 'None')
         self.cipVersion = kwargs.get(
             'cipVersion', None)
-        self.gelFamilyId = kwargs.get(
-            'gelFamilyId', 'None')
+        self.cohortId = kwargs.get(
+            'cohortId', 'None')
+        self.familyId = kwargs.get(
+            'familyId', 'None')
         self.interpretationRequestId = kwargs.get(
             'interpretationRequestId', 'None')
         self.interpretationRequestVersion = kwargs.get(
@@ -6283,40 +6307,42 @@ class TieredVariantInject(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "TieredVariantInject", "fields": [{"doc": "", "type": "string",
-"name": "reportModelVersion"}, {"doc": "", "type": {"namespace":
-"org.gel.models.report.avro", "type": "record", "name":
-"InterpretationRequestRD", "fields": [{"doc": "", "type": {"fields":
-[{"default": "3.0.0", "doc": "", "type": "string", "name":
-"GitVersionControl"}], "type": "record", "name": "VersionControl"},
+"name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
+"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"doc": "", "type": {"namespace": "org.gel.models.report.avro",
+"type": "record", "name": "InterpretationRequestRD", "fields":
+[{"doc": "", "type": {"fields": [{"default": "3.0.0", "doc": "",
+"type": "string", "name": "GitVersionControl"}], "type": "record",
+"name": "VersionControl"}, "name": "versionControl"}, {"doc": "",
+"type": "string", "name": "InterpretationRequestID"}, {"default":
+"GRCh37.p13", "doc": "", "type": "string", "name":
+"genomeAssemblyVersion"}, {"default": "4.0", "doc": "", "type":
+"string", "name": "cellbaseVersion"}, {"doc": "", "type": "int",
+"name": "InterpretationRequestVersion"}, {"default": false, "doc": "",
+"type": "boolean", "name": "interpretGenome"}, {"doc": "", "type":
+{"items": "string", "type": "array"}, "name": "workspace"}, {"doc":
+"", "type": {"items": {"doc": "", "type": "record", "name": "File",
+"fields": [{"doc": "", "type": ["null", "string", {"items": "string",
+"type": "array"}], "name": "SampleId"}, {"doc": "", "type": "string",
+"name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV",
+"VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum",
+"ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name":
+"fileType"}, {"type": ["null", "File"], "name": "md5Sum"}]}, "type":
+"array"}, "name": "BAMs"}, {"doc": "", "type": {"items": "File",
+"type": "array"}, "name": "VCFs"}, {"doc": "", "type": ["null",
+{"items": "File", "type": "array"}], "name": "bigWigs"}, {"doc": "",
+"type": ["null", "File"], "name": "pedigreeDiagram"}, {"doc": "",
+"type": ["null", "File"], "name": "annotationFile"}, {"doc": "",
+"type": ["null", {"values": "File", "type": "map"}], "name":
+"otherFiles"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "Pedigree", "fields": [{"doc": "", "type": "VersionControl",
 "name": "versionControl"}, {"doc": "", "type": "string", "name":
-"InterpretationRequestID"}, {"default": "GRCh37.p13", "doc": "",
-"type": "string", "name": "genomeAssemblyVersion"}, {"default": "4.0",
-"doc": "", "type": "string", "name": "cellbaseVersion"}, {"doc": "",
-"type": "int", "name": "InterpretationRequestVersion"}, {"default":
-false, "doc": "", "type": "boolean", "name": "interpretGenome"},
-{"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"workspace"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "File", "fields": [{"doc": "", "type": ["null",
-"string", {"items": "string", "type": "array"}], "name": "SampleId"},
-{"doc": "", "type": "string", "name": "URIFile"}, {"type": {"symbols":
-["BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV",
-"VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
-"ANN", "BigWig", "MD5Sum", "ROH", "OTHER"], "type": "enum", "name":
-"FileType"}, "name": "fileType"}, {"type": ["null", "File"], "name":
-"md5Sum"}]}, "type": "array"}, "name": "BAMs"}, {"doc": "", "type":
-{"items": "File", "type": "array"}, "name": "VCFs"}, {"doc": "",
-"type": ["null", {"items": "File", "type": "array"}], "name":
-"bigWigs"}, {"doc": "", "type": ["null", "File"], "name":
-"pedigreeDiagram"}, {"doc": "", "type": ["null", "File"], "name":
-"annotationFile"}, {"doc": "", "type": ["null", {"values": "File",
-"type": "map"}], "name": "otherFiles"}, {"doc": "", "type": {"doc":
-"", "type": "record", "name": "Pedigree", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "string", "name": "gelFamilyId"}, {"type": {"items": {"doc":
-"", "type": "record", "name": "RDParticipant", "fields": [{"doc": "",
-"type": "VersionControl", "name": "versionControl"}, {"doc": "",
-"type": "int", "name": "pedigreeId"}, {"doc": "", "type": "boolean",
-"name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
+"gelFamilyId"}, {"type": {"items": {"doc": "", "type": "record",
+"name": "RDParticipant", "fields": [{"doc": "", "type":
+"VersionControl", "name": "versionControl"}, {"doc": "", "type":
+"int", "name": "pedigreeId"}, {"doc": "", "type": "boolean", "name":
+"isProband"}, {"doc": "", "type": ["null", "string"], "name":
 "gelId"}, {"doc": "", "type": "string", "name": "gelFamilyId"},
 {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
 {"doc": "", "type": {"symbols": ["male", "female", "unknown",
@@ -6480,6 +6506,8 @@ false, "doc": "", "type": "boolean", "name":
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "cohortId",
+        "familyId",
         "interpretationRequest",
         "reportModelVersion",
     }
@@ -6500,10 +6528,15 @@ false, "doc": "", "type": "boolean", "name":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'interpretationRequest', 'reportModelVersion'
+        'cohortId', 'familyId', 'interpretationRequest',
+        'reportModelVersion'
     ]
 
     def __init__(self, **kwargs):
+        self.cohortId = kwargs.get(
+            'cohortId', 'None')
+        self.familyId = kwargs.get(
+            'familyId', 'None')
         self.interpretationRequest = kwargs.get(
             'interpretationRequest', None)
         self.reportModelVersion = kwargs.get(
