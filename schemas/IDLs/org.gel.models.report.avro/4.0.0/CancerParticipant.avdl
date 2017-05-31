@@ -1,0 +1,240 @@
+@namespace("Gel_BioInf_Models")
+/**
+This protocol defines the `CancerParticipant`
+*/
+protocol CancerParticipants {
+
+import idl "CommonParticipant.avdl";
+import idl "VersionControl.avdl";
+
+enum TumourType {ADULT_GLIOMA, BLADDER, BREAST,	CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL,
+ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
+OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL,
+NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
+
+enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE}
+
+enum Phase {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
+
+enum ProgrammePhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
+
+enum Method {RESECTION, BIOPSY, BLOOD}
+
+enum SampleSource {TUMOUR, BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS, BONE_MARROW_ASPIRATE_TUMOUR_CELLS,  BLOOD, SALIVA, FIBROBLAST, TISSUE}
+
+enum Product {DNA, RNA}
+
+enum Sex {FEMALE, MALE, UNKNOWN}
+
+enum TumourContent {High, Medium, Low}
+
+enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
+ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
+SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY}
+
+record GermlineSample {
+
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    string sampleId;
+
+    /**
+    Lab sample Id
+    */
+    int labSampleId;
+
+    /**
+    Source
+    */
+    union {null, SampleSource} source;
+
+    /**
+    Product
+    */
+    union {null, Product} product;
+
+    /**
+    preparationMethod
+    */
+    union {null, PreparationMethod} preparationMethod;
+
+    /**
+    gelPhase (eg cruk, brc, cll, iip, main)
+    */
+    union {null, ProgrammePhase} programmePhase;
+
+    /**
+    In the format YYYY-MM-DDTHH:MM:SS+0000
+    */
+    union {null,string} clinicalSampleDateTime;
+
+}
+
+record TumourSample {
+
+    /**
+    Sample Id (e.g, LP00012645_5GH))
+    */
+    string sampleId;
+
+    /**
+    Lab sample Id
+    */
+    int labSampleId;
+
+    /**
+    Id of each one of the tumors for a participant
+    */
+    int tumourId;
+
+    /**
+    gelPhase (eg cruk, brc, cll, iip, main)
+    */
+    union {null, ProgrammePhase} programmePhase;
+
+    /**
+    tumour Type
+    */
+    union {null, TumourType} tumourType;
+
+    /**
+    Tumor Subtype
+    */
+    union {null, string} tumourSubType;
+
+    /**
+    In the format YYYY-MM-DDTHH:MM:SS+0000
+    */
+    union {null, string} clinicalSampleDateTime;
+
+    /**
+    Tumor Phase
+    */
+    union {null, Phase} phase;
+
+    /**
+    tumourContent
+    */
+    union {null, TumourContent} tumourContent;
+
+    /**
+    Method
+    */
+    union {null, SampleSource} source;
+
+    /**
+    preparationMethod
+    */
+    union {null, PreparationMethod} preparationMethod;
+
+
+    /**
+    Method
+    */
+    union {null, TissueSource} tissueSource;
+
+    /**
+    Product
+    */
+    union {null, Product} product;
+
+    /**
+    TMN version
+    */
+    union {null, string} TNMStageVersion;
+
+    /**
+    TMN stage grouping
+    */
+    union {null, string} TNMStageGrouping;
+
+}
+
+/**
+This define a pair of germline and tumor, this pair should/must be analyzed together
+*/
+record MatchedSamples{
+
+    /**
+    Sample Id (e.g, LP00012645_5GH)) for the germline
+    */
+    union {null, string} germlineSampleId;
+
+    /**
+    Sample Id (e.g, LP00012643_7JS)) for the tumor
+    */
+    union {null, string} tumourSampleId;
+
+}
+
+/**
+This defines a Cancer Demographics
+*/
+record CancerParticipant{
+
+
+    boolean readyForAnalysis;
+
+    /**
+    What has this participant consented to?
+    A participant that has been consented to the programme should also have sequence data associated with them; however
+    this needs to be programmatically checked
+    */
+    union {null, ConsentStatus} consentStatus;
+
+    /**
+    Center
+    */
+    union {null, string} center;
+
+
+    union {null, string} LDPCode;
+
+    /**
+    Individual Id
+    */
+    string individualId;
+
+
+    /**
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+    */
+    union {null, string} primaryDiagnosisDisease;
+
+    /**
+    This should be an enumeration when it is well defined
+    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+    */
+    union {null, string} primaryDiagnosisSubDisease;
+
+    /**
+    Sex
+    */
+    Sex sex;
+
+    /**
+    We could add a map here to store additional information for example URIs to images, ECGs, etc
+    */
+    union {null, map<string>} additionalInformation;
+
+    /**
+    assigned ICD10 code
+    */
+    union {null, string} assignedICD10;
+
+
+    array<TumourSample> tumourSamples;
+    array<GermlineSample> germlineSamples;
+    union {null, array<MatchedSamples>} matchedSamples;
+
+    /**
+    Model version number
+    */
+    union {null, VersionControl} versionControl;
+
+
+}
+
+}
