@@ -389,23 +389,20 @@ class CalledGenotype(ProtocolElement):
             'sampleId', 'None')
 
 
-class CandidateVariantInject(ProtocolElement):
+class CandidateVariantInjectRD(ProtocolElement):
     """
     Record for candidate variant injection as part of the data intake
     for CVA
     """
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
-"CandidateVariantInject", "fields": [{"doc": "", "type": "string",
+"CandidateVariantInjectRD", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
-{"doc": "", "type": "string", "name": "cip"}, {"doc": "", "type":
-"string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
-"interpretationRequestId"}, {"doc": "", "type": "string", "name":
-"interpretationRequestVersion"}, {"doc": "", "type": {"items":
-"string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
-"int", "name": "cipVersion"}, {"doc": "", "type": "int", "name":
-"clinicalReportVersion"}, {"doc": "", "type": {"namespace":
+"id"}, {"doc": "", "type": "string", "name": "version"}, {"doc": "",
+"type": "string", "name": "familyId"}, {"doc": "", "type": "string",
+"name": "cohortId"}, {"doc": "", "type": "string", "name": "author"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name":
+"workspace"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name":
 "ClinicalReportRD", "fields": [{"doc": "", "type": "string", "name":
 "interpretationRequestID"}, {"doc": "", "type": "string", "name":
@@ -502,16 +499,13 @@ class CandidateVariantInject(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "cip",
-        "cipCode",
-        "cipVersion",
+        "author",
         "clinicalReport",
-        "clinicalReportVersion",
         "cohortId",
         "familyId",
-        "interpretationRequestId",
-        "interpretationRequestVersion",
+        "id",
         "reportModelVersion",
+        "version",
         "workspace",
     }
 
@@ -531,33 +525,25 @@ class CandidateVariantInject(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cip', 'cipCode', 'cipVersion', 'clinicalReport',
-        'clinicalReportVersion', 'cohortId', 'familyId',
-        'interpretationRequestId', 'interpretationRequestVersion',
-        'reportModelVersion', 'workspace'
+        'author', 'clinicalReport', 'cohortId', 'familyId', 'id',
+        'reportModelVersion', 'version', 'workspace'
     ]
 
     def __init__(self, **kwargs):
-        self.cip = kwargs.get(
-            'cip', 'None')
-        self.cipCode = kwargs.get(
-            'cipCode', 'None')
-        self.cipVersion = kwargs.get(
-            'cipVersion', None)
+        self.author = kwargs.get(
+            'author', 'None')
         self.clinicalReport = kwargs.get(
             'clinicalReport', None)
-        self.clinicalReportVersion = kwargs.get(
-            'clinicalReportVersion', None)
         self.cohortId = kwargs.get(
             'cohortId', 'None')
         self.familyId = kwargs.get(
             'familyId', 'None')
-        self.interpretationRequestId = kwargs.get(
-            'interpretationRequestId', 'None')
-        self.interpretationRequestVersion = kwargs.get(
-            'interpretationRequestVersion', 'None')
+        self.id = kwargs.get(
+            'id', 'None')
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', 'None')
+        self.version = kwargs.get(
+            'version', 'None')
         self.workspace = kwargs.get(
             'workspace', None)
 
@@ -5262,22 +5248,21 @@ class ReportedVariant(ProtocolElement):
             'reportEvents', None)
 
 
-class ReportedVariantInject(ProtocolElement):
+class ReportedVariantInjectRD(ProtocolElement):
     """
     Record for reported variant injection as part of the data intake
     for CVA
     """
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
-"ReportedVariantInject", "fields": [{"doc": "", "type": "string",
+"ReportedVariantInjectRD", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
-{"doc": "", "type": "string", "name": "cip"}, {"doc": "", "type":
-"string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
-"interpretationRequestId"}, {"doc": "", "type": "string", "name":
-"interpretationRequestVersion"}, {"doc": "", "type": {"items":
-"string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
-"int", "name": "cipVersion"}, {"doc": "", "type": {"namespace":
+"id"}, {"doc": "", "type": "string", "name": "version"}, {"doc": "",
+"type": "string", "name": "familyId"}, {"doc": "", "type": "string",
+"name": "cohortId"}, {"doc": "", "type": "string", "name": "author"},
+{"doc": "", "type": ["null", "string"], "name": "authorVersion"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name":
+"workspace"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name":
 "InterpretedGenomeRD", "fields": [{"doc": "", "type": {"fields":
 [{"default": "3.0.0", "doc": "", "type": "string", "name":
@@ -5370,15 +5355,14 @@ class ReportedVariantInject(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "cip",
-        "cipCode",
-        "cipVersion",
+        "author",
+        "authorVersion",
         "cohortId",
         "familyId",
-        "interpretationRequestId",
-        "interpretationRequestVersion",
+        "id",
         "interpretedGenome",
         "reportModelVersion",
+        "version",
         "workspace",
     }
 
@@ -5398,30 +5382,28 @@ class ReportedVariantInject(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cip', 'cipCode', 'cipVersion', 'cohortId', 'familyId',
-        'interpretationRequestId', 'interpretationRequestVersion',
-        'interpretedGenome', 'reportModelVersion', 'workspace'
+        'author', 'authorVersion', 'cohortId', 'familyId', 'id',
+        'interpretedGenome', 'reportModelVersion', 'version',
+        'workspace'
     ]
 
     def __init__(self, **kwargs):
-        self.cip = kwargs.get(
-            'cip', 'None')
-        self.cipCode = kwargs.get(
-            'cipCode', 'None')
-        self.cipVersion = kwargs.get(
-            'cipVersion', None)
+        self.author = kwargs.get(
+            'author', 'None')
+        self.authorVersion = kwargs.get(
+            'authorVersion', None)
         self.cohortId = kwargs.get(
             'cohortId', 'None')
         self.familyId = kwargs.get(
             'familyId', 'None')
-        self.interpretationRequestId = kwargs.get(
-            'interpretationRequestId', 'None')
-        self.interpretationRequestVersion = kwargs.get(
-            'interpretationRequestVersion', 'None')
+        self.id = kwargs.get(
+            'id', 'None')
         self.interpretedGenome = kwargs.get(
             'interpretedGenome', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', 'None')
+        self.version = kwargs.get(
+            'version', 'None')
         self.workspace = kwargs.get(
             'workspace', None)
 
@@ -5901,16 +5883,19 @@ class Tier(object):
     TIER3 = "TIER3"
 
 
-class TieredVariantInject(ProtocolElement):
+class TieredVariantInjectRD(ProtocolElement):
     """
     Record for tiered variant injection as part of the data intake for
     CVA
     """
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
-"TieredVariantInject", "fields": [{"doc": "", "type": "string",
+"TieredVariantInjectRD", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+"id"}, {"doc": "", "type": "string", "name": "version"}, {"doc": "",
+"type": "string", "name": "familyId"}, {"doc": "", "type": "string",
+"name": "cohortId"}, {"doc": "", "type": "string", "name": "author"},
+{"doc": "", "type": ["null", "string"], "name": "authorVersion"},
 {"doc": "", "type": {"namespace": "org.gel.models.report.avro",
 "type": "record", "name": "InterpretationRequestRD", "fields":
 [{"doc": "", "type": {"fields": [{"default": "3.0.0", "doc": "",
@@ -6108,10 +6093,14 @@ false, "doc": "", "type": "boolean", "name":
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "author",
+        "authorVersion",
         "cohortId",
         "familyId",
+        "id",
         "interpretationRequest",
         "reportModelVersion",
+        "version",
     }
 
     @classmethod
@@ -6130,19 +6119,27 @@ false, "doc": "", "type": "boolean", "name":
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'cohortId', 'familyId', 'interpretationRequest',
-        'reportModelVersion'
+        'author', 'authorVersion', 'cohortId', 'familyId', 'id',
+        'interpretationRequest', 'reportModelVersion', 'version'
     ]
 
     def __init__(self, **kwargs):
+        self.author = kwargs.get(
+            'author', 'None')
+        self.authorVersion = kwargs.get(
+            'authorVersion', None)
         self.cohortId = kwargs.get(
             'cohortId', 'None')
         self.familyId = kwargs.get(
             'familyId', 'None')
+        self.id = kwargs.get(
+            'id', 'None')
         self.interpretationRequest = kwargs.get(
             'interpretationRequest', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', 'None')
+        self.version = kwargs.get(
+            'version', 'None')
 
 
 class TraitAssociation(object):

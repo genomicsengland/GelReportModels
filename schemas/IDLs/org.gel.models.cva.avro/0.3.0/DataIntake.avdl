@@ -2,9 +2,9 @@
 
 /**
 DataIntakeProtocol defines three records for injecting variant data
-   - TieredVariantInject
-   - ReportedVariantInject
-   - CandidateVariantInject
+   - TieredVariantInjectRD
+   - ReportedVariantInjectRD
+   - CandidateVariantInjectRD
 */
 protocol DataIntakeProtocol {
     import idl "../../org.gel.models.report.avro/3.0.0/InterpretationRequestRD.avdl";
@@ -14,11 +14,19 @@ protocol DataIntakeProtocol {
     /**
     Record for tiered variant injection as part of the data intake for CVA
     */
-    record TieredVariantInject {
+    record TieredVariantInjectRD {
         /**
         Report avro models version
         */
         string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
         /**
         The family identifier
         */
@@ -27,6 +35,14 @@ protocol DataIntakeProtocol {
         The cohort identifier (the same family can have several cohorts)
         */
         string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
         /**
         Basic information about the InterpretationRequest
         */
@@ -36,11 +52,19 @@ protocol DataIntakeProtocol {
     /**
     Record for reported variant injection as part of the data intake for CVA
     */
-    record ReportedVariantInject {
+    record ReportedVariantInjectRD {
         /**
         Report avro models version
         */
         string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
         /**
         The family identifier
         */
@@ -50,29 +74,17 @@ protocol DataIntakeProtocol {
         */
         string cohortId;
         /**
-        Clinical Interpretation Partner e.g. omicia
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
         */
-        string cip;
+        string author;
         /**
-        Clinical Interpretation Partner code e.g. OPA
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
         */
-        string cipCode;
-        /**
-        Interpretation request Id e.g. "378"
-        */
-        string interpretationRequestId;
-        /**
-        Version of the interpretation request e.g. "2"
-        */
-        string interpretationRequestVersion;
+        union {null, string} authorVersion;
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
         array<string> workspace;
-        /**
-        Version of Clinical Interpretation Partner e.g. 2
-        */
-        int cipVersion;
         /**
         Rare disease Interpreted Genome
         */
@@ -82,11 +94,19 @@ protocol DataIntakeProtocol {
     /**
     Record for candidate variant injection as part of the data intake for CVA
     */
-    record CandidateVariantInject {
+    record CandidateVariantInjectRD {
         /**
         Report avro models version
         */
         string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
         /**
         The family identifier
         */
@@ -96,33 +116,13 @@ protocol DataIntakeProtocol {
         */
         string cohortId;
         /**
-        Clinical Interpretation Partner e.g. omicia
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
         */
-        string cip;
-        /**
-        Clinical Interpretation Partner code e.g. OPA
-        */
-        string cipCode;
-        /**
-        Interpretation request Id e.g. "378"
-        */
-        string interpretationRequestId;
-        /**
-        Version of the interpretation request e.g. "2"
-        */
-        string interpretationRequestVersion;
+        string author;
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
         array<string> workspace;
-        /**
-        Version of Clinical Interpretation Partner e.g. 2
-        */
-        int cipVersion;
-        /**
-        Version of the clinical report
-        */
-        int clinicalReportVersion;
         /**
         Information that Genomics England needs to generate a clinical report
         */
