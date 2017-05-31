@@ -24,7 +24,7 @@
         <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
         <ga4gh.models.package>org.ga4gh.models</ga4gh.models.package>
         <cva.models.package>org.gel.models.cva.avro</cva.models.package>
-        <report.models.version>3.0.0</report.models.version>
+        <report.models.version>4.0.0</report.models.version>
         <opencb.models.version>1.2.0-SNAPSHOT</opencb.models.version>
         <ga4gh.models.version>3.0.0</ga4gh.models.version>
         <cva.models.version>0.3.0</cva.models.version>
