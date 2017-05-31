@@ -1,4 +1,4 @@
-@namespace("org.gel.models.report.avro")
+@namespace("Gel_BioInf_Models")
 /**
 This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants
 define by a GMC in a CIP environment. Notice that most of the information needed is already collected in the

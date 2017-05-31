@@ -1,4 +1,4 @@
-@namespace("org.gel.models.report.avro")
+@namespace("Gel_BioInf_Models")
 
 /**
 Cancer specific

@@ -1,5 +1,9 @@
-import json
-from distutils.core import setup
+import os
+from setuptools import find_packages, setup
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+
+
 reqs = [
     "sphinx_rtd_theme",
     "labkey",
@@ -10,18 +14,17 @@ reqs = [
     "pysam"
 ]
 
-# BASE_DIR = os.path.dirname(__file__)
-# VERSION = json.load(open(os.path.join(BASE_DIR, "schemas", "JSONs", "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
-VERSION = "3.0.9"
+VERSION = "4.0.3"
 setup(
     name='GelReportModels',
     version=VERSION,
-    packages=['protocols'],
+    packages=find_packages(),
+    include_package_data=True,
     scripts=['scripts/ModelValidator'],
     url='',
     license='',
     author='Bioinformatics Team at Genomics England',
     author_email='antonio.rueda-martin@genomicsengland.co.uk',
     description='Bioinformatics team model definitions',
-    install_requires=reqs,
+    install_requires=reqs
 )
