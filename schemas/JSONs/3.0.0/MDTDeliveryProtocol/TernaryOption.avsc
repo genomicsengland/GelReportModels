@@ -1,7 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "TernaryOption",
-  "namespace" : "Gel_BioInf_Models",
-  "doc" : "This the define a yes/no/unknown case",
-  "symbols" : [ "yes", "no", "unknown" ]
-}

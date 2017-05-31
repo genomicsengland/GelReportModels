@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Actionability",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "yes", "no", "not_yet", "na" ]
-}

@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ACMGClassification",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "pathogenic_variant", "likely_pathogenic_variant", "variant_of_unknown_clinical_significance", "likely_benign_variant", "benign_variant", "not_assessed" ]
-}

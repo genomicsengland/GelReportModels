@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ReportingQuestion",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "yes", "no", "na" ]
-}

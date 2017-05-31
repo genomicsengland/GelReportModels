@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "FileType",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "BAM", "gVCF", "VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER" ]
-}

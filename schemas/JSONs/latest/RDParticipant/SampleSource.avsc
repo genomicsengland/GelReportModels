@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SampleSource",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "BLOOD", "SALIVA", "FIBROBLAST", "TISSUE" ]
-}

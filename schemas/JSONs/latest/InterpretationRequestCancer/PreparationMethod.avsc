@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PreparationMethod",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "EDTA", "ORAGENE", "FF", "FFPE", "CD128_SORTED_CELLS", "ASPIRATE" ]
-}

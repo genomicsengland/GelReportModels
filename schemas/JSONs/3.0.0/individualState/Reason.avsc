@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "Reason",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "duplicate", "consent", "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient", "in_qc" ]
-}
