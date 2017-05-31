@@ -129,14 +129,14 @@ create_other_schemas(opencb_idl_folder, opencb_json_folder, opencb_avrp_folder)
 
 
 logging.info("Generating Python source code from schemas...")
-outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GelProtocols_{version}.py".format(version=report_module_version))
-outfile = os.path.join(BASE_DIR, "protocols/models", "GelProtocols.py")
-ga4gh_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
-ga4gh_outfile = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols.py")
-openCB_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols_{version}.py".format(version=opencb_module_version))
-openCB_outfile = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols.py")
-cva_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols_{version}.py".format(version=cva_module_version))
-cva_outfile = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols.py")
+outfile_with_version = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=report_module_version))
+outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
+ga4gh_outfile_with_version = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
+ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")
+openCB_outfile_with_version = os.path.join(BASE_DIR, "protocols", "openCBProtocols_{version}.py".format(version=opencb_module_version))
+openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols.py")
+cva_outfile_with_version = os.path.join(BASE_DIR, "protocols", "CVAProtocols_{version}.py".format(version=cva_module_version))
+cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols.py")
 
 version = json.load(open(os.path.join(report_json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
 logging.info("Version: " + version)
