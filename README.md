@@ -54,9 +54,15 @@ The CVA model is extending the OpenCB variant model. In order to do so we need s
 ## Dependencies
 
 * **npm**: to install run `apt-get install npm`
+* **node**: to install run `apt-get install nodejs nodejs-legacy`
 * **Avrodoc**: to install avrodoc run `npm install avrodoc -g`
-* **Sphinx**: to install run
+* **Other python dependencies** to be installed with pip
 ```
-pip install sphinx
-pip install sphinx_rtd_theme
+yaml
+sphinx
+sphinx_rtd_theme
+ujson==1.33
+avro==1.7.7
+humanize==0.5.1
+PyYAML==3.11
 ```
