@@ -79,7 +79,7 @@ logging.basicConfig(level=logging.INFO)
 BASE_DIR = os.path.dirname(__file__)
 AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
 
-if len(sys.argv) < 9:
+if len(sys.argv) >= 9:
     report_models_package = sys.argv[1]
     report_models_version = sys.argv[2]
     ga4gh_models_package = sys.argv[3]
