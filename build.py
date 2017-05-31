@@ -80,13 +80,13 @@ BASE_DIR = os.path.dirname(__file__)
 AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
 
 if len(sys.argv) < 9:
-    report_package_version = sys.argv[1]
+    report_models_package = sys.argv[1]
     report_models_version = sys.argv[2]
-    ga4gh_package_version = sys.argv[3]
+    ga4gh_models_package = sys.argv[3]
     ga4gh_models_version = sys.argv[4]
-    cva_package_version = sys.argv[5]
+    cva_models_package = sys.argv[5]
     cva_models_version = sys.argv[6]
-    opencb_package_version = sys.argv[7]
+    opencb_models_package = sys.argv[7]
     opencb_models_version = sys.argv[8]
 else:
     logging.error("Please, provide a version for the models")
@@ -104,22 +104,22 @@ ga4gh_module_version = ga4gh_models_version.replace('.', '_')
 cva_module_version = cva_models_version.replace('.', '_')
 opencb_module_version = opencb_models_version.replace('.', '_')
 
-report_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", report_package_version, report_models_version)
-report_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", report_package_version, report_models_version)
-report_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", report_package_version, report_models_version)
-report_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", report_package_version, report_models_version)
-ga4gh_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", ga4gh_package_version, ga4gh_models_version)
-ga4gh_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", ga4gh_package_version, ga4gh_models_version)
-ga4gh_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", ga4gh_package_version, ga4gh_models_version)
-ga4gh_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", ga4gh_package_version, ga4gh_models_version)
-cva_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", cva_package_version, cva_models_version)
-cva_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", cva_package_version, cva_models_version)
-cva_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", cva_package_version, cva_models_version)
-cva_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", cva_package_version, cva_models_version)
-opencb_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", opencb_package_version, opencb_models_version)
-opencb_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", opencb_package_version, opencb_models_version)
-opencb_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", opencb_package_version, opencb_models_version)
-opencb_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", opencb_package_version, opencb_models_version)
+report_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", report_models_package, report_models_version)
+report_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", report_models_package, report_models_version)
+report_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", report_models_package, report_models_version)
+report_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", report_models_package, report_models_version)
+ga4gh_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", ga4gh_models_package, ga4gh_models_version)
+ga4gh_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", ga4gh_models_package, ga4gh_models_version)
+ga4gh_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", ga4gh_models_package, ga4gh_models_version)
+ga4gh_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", ga4gh_models_package, ga4gh_models_version)
+cva_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", cva_models_package, cva_models_version)
+cva_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", cva_models_package, cva_models_version)
+cva_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", cva_models_package, cva_models_version)
+cva_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", cva_models_package, cva_models_version)
+opencb_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", opencb_models_package, opencb_models_version)
+opencb_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", opencb_models_package, opencb_models_version)
+opencb_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", opencb_models_package, opencb_models_version)
+opencb_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", opencb_models_package, opencb_models_version)
 
 folders2create = [report_json_folder, report_avrp_folder, report_html_folder,
                   ga4gh_json_folder, ga4gh_avrp_folder, ga4gh_html_folder,
