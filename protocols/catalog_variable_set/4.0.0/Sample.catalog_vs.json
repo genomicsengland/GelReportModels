@@ -9,7 +9,7 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "NUMERIC", 
+  "type": "INTEGER", 
   "name": "labSampleId", 
   "description": "Lab Sample Id"
  }, 

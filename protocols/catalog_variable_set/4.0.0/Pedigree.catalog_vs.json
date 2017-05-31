@@ -38,7 +38,7 @@
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "pedigreeId", 
     "description": "Numbering used to refer to each member of the pedigree"
    }, 
@@ -113,42 +113,42 @@
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "yearOfBirth", 
     "description": "Year of Birth"
    }, 
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "fatherId", 
     "description": "refers to the pedigreeId of the father\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
    }, 
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "motherId", 
     "description": "refers to the pedigreeId of the mother\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
    }, 
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "superFatherId", 
     "description": "this id is built using the original familyId and the original pedigreeId of the father"
    }, 
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "superMotherId", 
     "description": "this id is built using the original familyId and the original pedigreeId of the mother"
    }, 
    {
     "multiValue": false, 
     "required": false, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "twinGroup", 
     "description": "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
    }, 
@@ -265,11 +265,16 @@
       "description": "Identifier of the HPO term"
      }, 
      {
-      "multiValue": false, 
-      "required": false, 
-      "type": "BOOLEAN", 
       "name": "termPresence", 
-      "description": "This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,\n    false=term is not present"
+      "required": false, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "unknown"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "This is whether the term is present in the participant (default is unknown) yes=term is present in participant,\n    no=term is not present"
      }, 
      {
       "multiValue": false, 
@@ -424,7 +429,7 @@
        {
         "multiValue": false, 
         "required": true, 
-        "type": "NUMERIC", 
+        "type": "DOUBLE", 
         "name": "chiSquare", 
         "description": "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
        }
@@ -492,7 +497,7 @@
      {
       "multiValue": false, 
       "required": true, 
-      "type": "NUMERIC", 
+      "type": "INTEGER", 
       "name": "labSampleId", 
       "description": "Lab Sample Id"
      }, 
@@ -572,14 +577,14 @@
      {
       "multiValue": false, 
       "required": true, 
-      "type": "NUMERIC", 
+      "type": "DOUBLE", 
       "name": "coefficient", 
       "description": "Inbreeding coefficient ideally a real number in [0,1]"
      }, 
      {
       "multiValue": false, 
       "required": false, 
-      "type": "NUMERIC", 
+      "type": "DOUBLE", 
       "name": "standardError", 
       "description": "Standard error of the Inbreeding coefficient"
      }
@@ -628,7 +633,7 @@
     "multiValue": false, 
     "required": true, 
     "type": "TEXT", 
-    "name": "review_outcome", 
+    "name": "reviewOutcome", 
     "description": ""
    }, 
    {

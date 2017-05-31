@@ -72,7 +72,14 @@
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
-  "name": "primaryDiagnosis", 
+  "name": "primaryDiagnosisDisease", 
+  "description": "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "primaryDiagnosisSubDisease", 
   "description": "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
  }, 
  {
@@ -116,14 +123,14 @@
    {
     "multiValue": false, 
     "required": true, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "labSampleId", 
     "description": "Lab sample Id"
    }, 
    {
     "multiValue": false, 
     "required": true, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "tumourId", 
     "description": "Id of each one of the tumors for a participant"
    }, 
@@ -311,7 +318,7 @@
    {
     "multiValue": false, 
     "required": true, 
-    "type": "NUMERIC", 
+    "type": "INTEGER", 
     "name": "labSampleId", 
     "description": "Lab sample Id"
    }, 
@@ -330,13 +337,6 @@
     "multiValue": false, 
     "type": "CATEGORICAL", 
     "description": "Source"
-   }, 
-   {
-    "multiValue": false, 
-    "required": false, 
-    "type": "TEXT", 
-    "name": "method", 
-    "description": "Method"
    }, 
    {
     "name": "product", 

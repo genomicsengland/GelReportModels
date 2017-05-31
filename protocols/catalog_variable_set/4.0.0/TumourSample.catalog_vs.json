@@ -9,14 +9,14 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "NUMERIC", 
+  "type": "INTEGER", 
   "name": "labSampleId", 
   "description": "Lab sample Id"
  }, 
  {
   "multiValue": false, 
   "required": true, 
-  "type": "NUMERIC", 
+  "type": "INTEGER", 
   "name": "tumourId", 
   "description": "Id of each one of the tumors for a participant"
  }, 

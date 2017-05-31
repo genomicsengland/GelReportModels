@@ -9,7 +9,7 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "NUMERIC", 
+  "type": "INTEGER", 
   "name": "labSampleId", 
   "description": "Lab sample Id"
  }, 
@@ -28,13 +28,6 @@
   "multiValue": false, 
   "type": "CATEGORICAL", 
   "description": "Source"
- }, 
- {
-  "multiValue": false, 
-  "required": false, 
-  "type": "TEXT", 
-  "name": "method", 
-  "description": "Method"
  }, 
  {
   "name": "product", 
