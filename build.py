@@ -162,7 +162,7 @@ generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_fold
 ## CVA
 generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
 generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
-generate_documentation("ReportEventContainer", cva_avrp_folder, cva_html_folder)
+generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
 generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
 generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
 ## OpenCB

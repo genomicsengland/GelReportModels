@@ -10,9 +10,14 @@ protocol ReportEventContainerProtocol {
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
     /**
-    The type of the report event
+    The type of the ReportedVariant
+    
+* diagnostic: this is a variant reported by a GMC
+* cip: this is a variant suggested by a CIP
+* tiering: this is a variant highlighted by the tiering process
+* other: any other source
     */
-    enum ReportEventContainerType {
+    enum ReportedVariantType {
         diagnostic,
         cip,
         tiering,
@@ -22,7 +27,7 @@ protocol ReportEventContainerProtocol {
     /**
     A wrapper for a report event
     */
-    record ReportEventContainer {
+    record ReportedVariant {
         /**
         Report avro models version
         */
@@ -56,9 +61,9 @@ protocol ReportEventContainerProtocol {
         */
         union {null, string} authorVersion;
         /**
-        Type of report event container
+        Type of ReportedVariant
         */
-        ReportEventContainerType type;
+        ReportedVariantType type;
         /**
         Validation flag
         */
@@ -79,7 +84,7 @@ protocol ReportEventContainerProtocol {
         /**
         Associated report events
         */
-        array<ReportEventContainer> associatedReportEvents = [];
+        array<ReportedVariant> associatedReportedVariants = [];
         /**
         Comments for this diagnostic event
         */
