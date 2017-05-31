@@ -79,7 +79,7 @@ logging.basicConfig(level=logging.INFO)
 BASE_DIR = os.path.dirname(__file__)
 AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
 
-if len(sys.argv) == 9:
+if len(sys.argv) < 9:
     report_package_version = sys.argv[1]
     report_models_version = sys.argv[2]
     ga4gh_package_version = sys.argv[3]
@@ -91,6 +91,13 @@ if len(sys.argv) == 9:
 else:
     logging.error("Please, provide a version for the models")
     sys.exit(-1)
+
+if len(sys.argv) == 10 and sys.argv[9] == 'skip_doc':
+    skip_doc = True
+else:
+    skip_doc = False
+
+
 
 report_module_version = report_models_version.replace('.', '_')
 ga4gh_module_version = ga4gh_models_version.replace('.', '_')
@@ -153,41 +160,41 @@ shutil.copyfile(openCB_outfile_with_version, openCB_outfile)
 generate_python_sources(cva_idl_folder, cva_outfile_with_version, version)
 shutil.copyfile(cva_outfile_with_version, cva_outfile)
 
-
-# Builds models documentation
-## reporting
-generate_documentation("RDParticipant", report_avrp_folder, report_html_folder)
-generate_documentation("ClinicalReportRD", report_avrp_folder, report_html_folder)
-generate_documentation("ClinicalReportCancer", report_avrp_folder, report_html_folder)
-generate_documentation("InterpretationRequestRD", report_avrp_folder, report_html_folder)
-generate_documentation("InterpretationRequestCancer", report_avrp_folder, report_html_folder)
-generate_documentation("InterpretedGenomesRD", report_avrp_folder, report_html_folder)
-generate_documentation("InterpretedGenomesCancer", report_avrp_folder, report_html_folder)
-generate_documentation("CancerParticipant", report_avrp_folder, report_html_folder)
-generate_documentation("GelBamMetrics", report_avrp_folder, report_html_folder)
-generate_documentation("AuditLog", report_avrp_folder, report_html_folder)
-generate_documentation("RDParticipantChangeLog", report_avrp_folder, report_html_folder)
-generate_documentation("MDTDeliveryProtocol", report_avrp_folder, report_html_folder)
-generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
-generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
-## CVA
-generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
-generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
-generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
-generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
-generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
-## OpenCB
-generate_documentation("evidence", opencb_avrp_folder, opencb_html_folder)
-generate_documentation("read", opencb_avrp_folder, opencb_html_folder)
-generate_documentation("variant", opencb_avrp_folder, opencb_html_folder)
-generate_documentation("variantAnnotation", opencb_avrp_folder, opencb_html_folder)
-## GA4GH
-generate_documentation("common", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("metadata", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("methods", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("readmethods", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("reads", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("referencemethods", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("references", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("variantmethods", ga4gh_avrp_folder, ga4gh_html_folder)
-generate_documentation("variants", ga4gh_avrp_folder, ga4gh_html_folder)
+if not skip_doc:
+    # Builds models documentation
+    ## reporting
+    generate_documentation("RDParticipant", report_avrp_folder, report_html_folder)
+    generate_documentation("ClinicalReportRD", report_avrp_folder, report_html_folder)
+    generate_documentation("ClinicalReportCancer", report_avrp_folder, report_html_folder)
+    generate_documentation("InterpretationRequestRD", report_avrp_folder, report_html_folder)
+    generate_documentation("InterpretationRequestCancer", report_avrp_folder, report_html_folder)
+    generate_documentation("InterpretedGenomesRD", report_avrp_folder, report_html_folder)
+    generate_documentation("InterpretedGenomesCancer", report_avrp_folder, report_html_folder)
+    generate_documentation("CancerParticipant", report_avrp_folder, report_html_folder)
+    generate_documentation("GelBamMetrics", report_avrp_folder, report_html_folder)
+    generate_documentation("AuditLog", report_avrp_folder, report_html_folder)
+    generate_documentation("RDParticipantChangeLog", report_avrp_folder, report_html_folder)
+    generate_documentation("MDTDeliveryProtocol", report_avrp_folder, report_html_folder)
+    generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
+    generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
+    ## CVA
+    generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
+    generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
+    generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
+    generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
+    generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
+    ## OpenCB
+    generate_documentation("evidence", opencb_avrp_folder, opencb_html_folder)
+    generate_documentation("read", opencb_avrp_folder, opencb_html_folder)
+    generate_documentation("variant", opencb_avrp_folder, opencb_html_folder)
+    generate_documentation("variantAnnotation", opencb_avrp_folder, opencb_html_folder)
+    ## GA4GH
+    generate_documentation("common", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("metadata", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("methods", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("readmethods", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("reads", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("referencemethods", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("references", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("variantmethods", ga4gh_avrp_folder, ga4gh_html_folder)
+    generate_documentation("variants", ga4gh_avrp_folder, ga4gh_html_folder)
