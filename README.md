@@ -3,39 +3,54 @@
 
 This project contains several models used by GEL. These models are defined using Avro Interface Design Language (IDL) which is agnostic of any implementation language. The models are then used to generate source code employed to store the information. The source code is either Python or Java so far, but this can be easily extended.
 
-## Java source code
+From the Avro models you can generate:
+* Java source code
+* Python source code
+* JSON schemas
+* AVPR schemas
+* HTML documentation
 
 Maven is employed to manage the source code generation and dependency management.
-
-To generate sources run: 
+Nevertheless, to configure the development environment some of the OpenCB dependencies must compiled and installed locally.
+* `biodata` contains the Avro models in OpenCB. Clone the appropriate branch and install it locally
+```$shell
+git clone git@github.com:opencb/biodata.git
+git checkout feature-improveclinical
+mvn clean install -DskipTests
 ```
-% mvn generate-sources
-```
-This will create a set of classes representing the Avro records in the folder `./target/generated-sources/avro`.
 
+To generate sources and documentation run: 
+```
+% mvn clean generate-sources
+```
+This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols/models`. The models documentation under `./docs/html_schemas/latest`
+
+To run against a legacy version of the models by overriding maven properties run:
+```
+% mvn clean generate-sources -Dreport.models.version=2.1.0
+```
 
 To pack the Java source code representing these models in a jar file use:
 ```
 % mvn package
 ```
 
-### Data Transfer Objects
+To install it in your system so it is accessible as a maven dependency to other applications run:
+```
+% mvn install
+```
 
-In order to add logic to the generated sources we create a set of wrapper classes that take care of containing the Avro object and assure that the information is valid. These are the classes that will be used by external applications.
-These classes are under `./src/main/java`.
+To create a war file containing the HTML documentation for the models and the models itself run:
+```
+% mvn package -Dp.type=war
+```
+This war can be deployed as a documentation service.
 
-### OpenCB dependencies
+
+## OpenCB dependencies
 
 The CVA model is extending the OpenCB variant model. In order to do so we need some Avro definitions from OpenCB biodata-models. Maven is extracting the required files from the biodata-models.jar file and use them to generate the required sources.
 
-## Model documentation
+## Dependencies
 
-The model documentation is at `./src/main/html/model-documentation.html`. This documentation has been generated with `avrodoc` (https://github.com/ept/avrodoc). To regenerate it run:
-```
-# creates *.avsc files from *.avdl
-% mvn generate-sources
-# generates html from the schemas
-% avrodoc target/generated-sources/avsc/* > ./src/main/html/model-documentation.html
-```
-
-**NOTE**: to install avrodoc run `npm install avrodoc -g`
+**Avrodoc**: to install avrodoc run `npm install avrodoc -g`

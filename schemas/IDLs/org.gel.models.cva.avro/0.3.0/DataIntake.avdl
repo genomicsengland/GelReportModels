@@ -1,0 +1,131 @@
+@namespace("org.gel.models.cva.avro")
+
+/**
+DataIntakeProtocol defines three records for injecting variant data
+   - TieredVariantInjectRD
+   - ReportedVariantInjectRD
+   - CandidateVariantInjectRD
+*/
+protocol DataIntakeProtocol {
+    import idl "../../org.gel.models.report.avro/3.0.0/InterpretationRequestRD.avdl";
+    import idl "../../org.gel.models.report.avro/3.0.0/InterpretedGenomesRD.avdl";
+    import idl "../../org.gel.models.report.avro/3.0.0/ClinicalReportRD.avdl";
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record TieredVariantInjectRD {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        Basic information about the InterpretationRequest
+        */
+        org.gel.models.report.avro.InterpretationRequestRD interpretationRequest;
+    }
+
+    /**
+    Record for reported variant injection as part of the data intake for CVA
+    */
+    record ReportedVariantInjectRD {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+        /**
+        Rare disease Interpreted Genome
+        */
+        org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
+    }
+
+    /**
+    Record for candidate variant injection as part of the data intake for CVA
+    */
+    record CandidateVariantInjectRD {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+        /**
+        Information that Genomics England needs to generate a clinical report
+        */
+        org.gel.models.report.avro.ClinicalReportRD clinicalReport;
+    }
+}

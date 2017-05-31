@@ -1,0 +1,97 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol ReportEventContainerProtocol {
+
+    // CVA references
+    import idl "Comment.avdl";
+    import idl "ObservedVariant.avdl";
+    // Report models references
+    import idl "../../org.gel.models.report.avro/3.0.0/CommonInterpreted.avdl";
+    import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
+
+    /**
+    The type of the ReportedVariant
+    
+* diagnostic: this is a variant reported by a GMC
+* cip: this is a variant suggested by a CIP
+* tiering: this is a variant highlighted by the tiering process
+* other: any other source
+    */
+    enum ReportedVariantType {
+        diagnostic,
+        cip,
+        tiering,
+        other
+    }
+
+    /**
+    A wrapper for a report event
+    */
+    record ReportedVariant {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        Type of ReportedVariant
+        */
+        ReportedVariantType type;
+        /**
+        Validation flag
+        */
+        boolean validated = false;
+        /**
+        The workspace. This field is used to control authorisation to
+        access each case.
+        */
+        array<string> workspace = [];
+        /**
+        The report event
+        */
+        org.gel.models.report.avro.ReportEvent reportEvent;
+        /**
+        The observed variants
+        */
+        array<ObservedVariant> variants = [];
+        /**
+        Associated report events
+        */
+        array<ReportedVariant> associatedReportedVariants = [];
+        /**
+        Comments for this diagnostic event
+        */
+        array<Comment> comments = [];
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.opencb.biodata.models.variant.avro.OntologyTerm> additionalProperties = [];
+    }
+}

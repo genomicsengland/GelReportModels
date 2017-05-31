@@ -1,0 +1,91 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines ExitQuestionnaires
+*/
+protocol ExitQuestionnaires {
+    enum CaseSolvedFamily {yes, no, partially, unknown}
+    enum PhenotypesSolved {yes, no, partially, unknown}
+    enum SegregationQuestion {yes, no}
+    enum ReportingQuestion {yes, no, na}
+    enum ConfirmationDecision {yes, no, na}
+    enum ConfirmationOutcome {yes, no, na}
+    enum Actionability {yes, no, not_yet, na}
+    enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
+    enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
+
+
+
+    record FamilyLevelQuestions{
+            /**
+            Have the results reported here explained the genetic basis of the family's presenting phenotype(s)?
+            */
+            CaseSolvedFamily caseSolvedFamily;
+            /**
+            Have you done any segregation testing in non-participating family members?
+            */
+            SegregationQuestion segregationQuestion;
+            /**
+            Comments regarding report
+            */
+            string additionalComments;
+        }
+
+        record VariantLevelQuestions{
+            /**
+            Chr: Pos Ref > Alt
+            */
+            string variant_details;
+            /**
+            Did you carry out technical confirmation of this variant via an alternative test?
+            */
+            ConfirmationDecision confirmationDecision;
+            /**
+            Did the test confirm that the variant is present?
+            */
+            ConfirmationOutcome confirmationOutcome;
+            /**
+            Did you include the variant in your report to the clinician?
+            */
+            ReportingQuestion reportingQuestion;
+            /**
+            What ACMG pathogenicity score (1-5) did you assign to this variant?
+            */
+            ACMGClassification acmgClassification;
+            /**
+            Please provide PMIDs for papers which you have used to inform your assessment for this variant, separated by a ; for multiple papers
+            */
+            string publications;
+        }
+
+        record VariantGroupLevelQuestions{
+
+            int variant_group;
+            array<VariantLevelQuestions> variantLevelQuestions;
+            /**
+            Is evidence for this variant/variant pair sufficient to use it for clinical purposes such as prenatal diagnosis or predictive testing?
+            */
+            Actionability actionability;
+            /**
+            Has the clinical team identified any changes to clinical care which could potentially arise as a result of this variant/variant pair?
+            */
+            array<ClinicalUtility> clinicalUtility;
+            /**
+            Did you report the variant(s) as being partially or completely causative of the family's presenting phenotype(s)?
+            */
+            PhenotypesSolved phenotypesSolved;
+            /**
+            If you indicated that the variant(s) only partially explained the family's presenting phenotypes, please indicate which HPO terms you are confident that they DO explain
+            */
+            union {null, array<string>}  phenotypesExplained;
+        }
+
+
+
+        record RareDiseaseExitQuestionnaire{
+            string eventDate;
+            string reporter;
+            FamilyLevelQuestions familyLevelQuestions;
+            array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+        }
+
+}

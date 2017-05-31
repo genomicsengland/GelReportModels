@@ -1,94 +1,193 @@
 import json
 import os
-
 import sys
 import fnmatch
+import logging
+import shutil
 
 __author__ = 'antonior'
 
+def create_folder(folder):
+    """
+
+    :param folder:
+    :return:
+    """
+    if not os.path.exists(folder):
+        os.system('mkdir -p ' + folder)
+
+def create_other_schemas(idls_folder, json_folder, avrp_folder):
+    """
+
+    :param idls_folder:
+    :param json_folder:
+    :param avrp_folder:
+    :return:
+    """
+    idls = [os.path.join(dirpath, f)
+            for dirpath, dirnames, files in os.walk(idls_folder)
+            for f in fnmatch.filter(files, '*.avdl')]
+
+    logging.info("Transforming AVDL schema to other representations...")
+    for idl in idls:
+        logging.info("Transforming: " + idl)
+        base = os.path.basename(idl).replace(".avdl", "")
+        idl2schemata_command = "java -jar " + AVRO_TOOLS_JAR + " idl2schemata " + idl + " " + \
+                               os.path.join(json_folder, base)
+        logging.info("Running: [%s]" % idl2schemata_command)
+        os.system(idl2schemata_command)
+        idl_command = "java -jar " + AVRO_TOOLS_JAR + " idl " + idl + " " + os.path.join(avrp_folder, base + ".avpr")
+        logging.info("Running: [%s]" % idl_command)
+        os.system(idl_command)
+
+def generate_python_sources(schema, source, version):
+    """
+    Generating Python source code from an AVRO schema
+    :param schema: the avro schema
+    :param source: the source to be generated
+    :param version: the version
+    :return:
+    """
+    logging.info("Version: " + version)
+    # GeL models Python source generation
+    source_generation_command = "python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH",
+                                                         "process_schemas.py --outputFile "
+                                                         + source + " --avro-tools-jar " + AVRO_TOOLS_JAR +
+                                                         " --inputSchemasDirectory "
+                                                         + schema + " " + version + " --verbose    ")
+    logging.info(source_generation_command)
+    os.system(source_generation_command)
+    # copies the source code to the same location without version suffix to act as the latest
+
+
+def generate_documentation(class_name, avrp_folder, html_folder):
+    """
+
+    :param class_name:
+    :param avrp_folder:
+    :param html_folder:
+    :return:
+    """
+    avrodoc_command = "avrodoc " + os.path.join(avrp_folder, "%s.avpr" % class_name) + " > " \
+                      + os.path.join(html_folder, "%s.html" % class_name)
+    logging.info("Running: [%s]" % avrodoc_command)
+    os.system(avrodoc_command)
+
+
+logging.basicConfig(level=logging.INFO)
+
 BASE_DIR = os.path.dirname(__file__)
+AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
 
-if len(sys.argv) > 1:
-    v = sys.argv[1]
+if len(sys.argv) == 9:
+    report_package_version = sys.argv[1]
+    report_models_version = sys.argv[2]
+    ga4gh_package_version = sys.argv[3]
+    ga4gh_models_version = sys.argv[4]
+    cva_package_version = sys.argv[5]
+    cva_models_version = sys.argv[6]
+    opencb_package_version = sys.argv[7]
+    opencb_models_version = sys.argv[8]
 else:
-    v = 'latest'
+    logging.error("Please, provide a version for the models")
+    sys.exit(-1)
 
-module_version = v.replace('.', '_')
+report_module_version = report_models_version.replace('.', '_')
+ga4gh_module_version = ga4gh_models_version.replace('.', '_')
+cva_module_version = cva_models_version.replace('.', '_')
+opencb_module_version = opencb_models_version.replace('.', '_')
 
-schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.report.avro")
-ga4gh_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.ga4gh.models")
-openCB_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.opencb.biodata.models.sequence")
-cva_schemas = os.path.join(BASE_DIR, "schemas/IDLs", v, "org.gel.models.cva.avro")
-if v == 'latest':
-    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
-else:
-    outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=module_version))
+report_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", report_package_version, report_models_version)
+report_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", report_package_version, report_models_version)
+report_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", report_package_version, report_models_version)
+report_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", report_package_version, report_models_version)
+ga4gh_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", ga4gh_package_version, ga4gh_models_version)
+ga4gh_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", ga4gh_package_version, ga4gh_models_version)
+ga4gh_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", ga4gh_package_version, ga4gh_models_version)
+ga4gh_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", ga4gh_package_version, ga4gh_models_version)
+cva_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", cva_package_version, cva_models_version)
+cva_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", cva_package_version, cva_models_version)
+cva_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", cva_package_version, cva_models_version)
+cva_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", cva_package_version, cva_models_version)
+opencb_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", opencb_package_version, opencb_models_version)
+opencb_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", opencb_package_version, opencb_models_version)
+opencb_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", opencb_package_version, opencb_models_version)
+opencb_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", opencb_package_version, opencb_models_version)
 
-
-ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")
-openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols.py")
-cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols.py")
-avro_tools_jar = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
-json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", v)
-avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", v)
-html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", v)
-
-if not os.path.exists(json_folder):
-    os.system('mkdir -p ' + json_folder)
-
-if not os.path.exists(avrp_folder):
-    os.system('mkdir -p ' + avrp_folder)
-
-if not os.path.exists(html_folder):
-    os.system('mkdir -p ' + html_folder)
-
-
-idl_base_path = os.path.join(BASE_DIR, "schemas", "IDLs", v)
-idls = [os.path.join(dirpath, f)
-        for dirpath, dirnames, files in os.walk(idl_base_path)
-        for f in fnmatch.filter(files, '*.avdl')]
-
-for idl in idls:
-    print "transforming: " + idl
-    base = os.path.basename(idl).replace(".avdl", "")
-    os.system("java -jar " + avro_tools_jar + " idl2schemata " + idl + " " + os.path.join(json_folder, base))
-    os.system("java -jar " + avro_tools_jar + " idl " + idl + " " + os.path.join(avrp_folder, base + ".avpr"))
+folders2create = [report_json_folder, report_avrp_folder, report_html_folder,
+                  ga4gh_json_folder, ga4gh_avrp_folder, ga4gh_html_folder,
+                  cva_json_folder, cva_avrp_folder, cva_html_folder,
+                  opencb_json_folder, opencb_avrp_folder, opencb_html_folder]
+for folder in folders2create:
+    create_folder(folder)
 
 
-VERSION = json.load(open(os.path.join(json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
-
-print ("version: " + VERSION)
-
-
-os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
-                                   + outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
-                                   + schemas + " " + VERSION))
+create_other_schemas(report_idl_folder, report_json_folder, report_avrp_folder)
+create_other_schemas(ga4gh_idl_folder, ga4gh_json_folder, ga4gh_avrp_folder)
+create_other_schemas(cva_idl_folder, cva_json_folder, cva_avrp_folder)
+create_other_schemas(opencb_idl_folder, opencb_json_folder, opencb_avrp_folder)
 
 
-os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
-                                   + ga4gh_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
-                                   + ga4gh_schemas + " " + VERSION))
+logging.info("Generating Python source code from schemas...")
+outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GelProtocols_{version}.py".format(version=report_module_version))
+outfile = os.path.join(BASE_DIR, "protocols/models", "GelProtocols.py")
+ga4gh_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
+ga4gh_outfile = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols.py")
+openCB_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols_{version}.py".format(version=opencb_module_version))
+openCB_outfile = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols.py")
+cva_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols_{version}.py".format(version=cva_module_version))
+cva_outfile = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols.py")
 
-os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
-                                   + openCB_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
-                                   + openCB_schemas + " " + VERSION))
+version = json.load(open(os.path.join(report_json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
+logging.info("Version: " + version)
+# GeL models Python source generation
+generate_python_sources(report_idl_folder, outfile_with_version, version)
+shutil.copyfile(outfile_with_version, outfile)
+# GA4GH models Python source generation
+generate_python_sources(ga4gh_idl_folder, ga4gh_outfile_with_version, version)
+shutil.copyfile(ga4gh_outfile_with_version, ga4gh_outfile)
+# OpenCB models Python source generation
+generate_python_sources(opencb_idl_folder, openCB_outfile_with_version, version)
+shutil.copyfile(openCB_outfile_with_version, openCB_outfile)
+# CVA models Python source generation
+generate_python_sources(cva_idl_folder, cva_outfile_with_version, version)
+shutil.copyfile(cva_outfile_with_version, cva_outfile)
 
-os.system("python " + os.path.join(BASE_DIR, "resources", "CodeGenerationFromGA4GH", "process_schemas.py --outputFile "
-                                   + cva_outfile + " --avro-tools-jar " + avro_tools_jar + " --inputSchemasDirectory "
-                                   + cva_schemas + " " + VERSION))
 
-
-os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipant.avpr") + " > " + os.path.join(html_folder, "RDParticipant.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "ClinicalReportRD.avpr") + " > " + os.path.join(html_folder, "ClinicalReportRD.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "ClinicalReportCancer.avpr") + " > " + os.path.join(html_folder, "ClinicalReportCancer.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "InterpretationRequestRD.avpr") + " > " + os.path.join(html_folder, "RDInterpretationRequests.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "InterpretationRequestCancer.avpr") + " > " + os.path.join(html_folder, "CancerInterpretationRequests.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "InterpretedGenomesRD.avpr") + " > " + os.path.join(html_folder, "RDInterpretedGenomes.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "InterpretedGenomesCancer.avpr") + " > " + os.path.join(html_folder, "CancerInterpretedGenomes.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "CancerParticipant.avpr") + " > " + os.path.join(html_folder, "CancerParticipant.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "GelBamMetrics.avpr") + " > " + os.path.join(html_folder, "GelBamMetrics.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "AuditLog.avpr") + " > " + os.path.join(html_folder, "AuditLog.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "RDParticipantChangeLog.avpr") + " > " + os.path.join(html_folder, "RDParticipantChangeLog.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "MDTDeliveryProtocol.avpr") + " > " + os.path.join(html_folder, "MDTDeliveryProtocol.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "KnownVariant.avpr") + " > " + os.path.join(html_folder, "KnownVariant.html"))
-os.system("avrodoc " + os.path.join(avrp_folder, "Comment.avpr") + " > " + os.path.join(html_folder, "Comment.html"))
+# Builds models documentation
+## reporting
+generate_documentation("RDParticipant", report_avrp_folder, report_html_folder)
+generate_documentation("ClinicalReportRD", report_avrp_folder, report_html_folder)
+generate_documentation("ClinicalReportCancer", report_avrp_folder, report_html_folder)
+generate_documentation("InterpretationRequestRD", report_avrp_folder, report_html_folder)
+generate_documentation("InterpretationRequestCancer", report_avrp_folder, report_html_folder)
+generate_documentation("InterpretedGenomesRD", report_avrp_folder, report_html_folder)
+generate_documentation("InterpretedGenomesCancer", report_avrp_folder, report_html_folder)
+generate_documentation("CancerParticipant", report_avrp_folder, report_html_folder)
+generate_documentation("GelBamMetrics", report_avrp_folder, report_html_folder)
+generate_documentation("AuditLog", report_avrp_folder, report_html_folder)
+generate_documentation("RDParticipantChangeLog", report_avrp_folder, report_html_folder)
+generate_documentation("MDTDeliveryProtocol", report_avrp_folder, report_html_folder)
+generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
+generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
+## CVA
+generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
+generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
+generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
+generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
+generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
+## OpenCB
+generate_documentation("evidence", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("read", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("variant", opencb_avrp_folder, opencb_html_folder)
+generate_documentation("variantAnnotation", opencb_avrp_folder, opencb_html_folder)
+## GA4GH
+generate_documentation("common", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("metadata", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("methods", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("readmethods", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("reads", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("referencemethods", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("references", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("variantmethods", ga4gh_avrp_folder, ga4gh_html_folder)
+generate_documentation("variants", ga4gh_avrp_folder, ga4gh_html_folder)

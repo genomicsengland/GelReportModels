@@ -11,28 +11,35 @@
 <project
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.gel.models</groupId>
     <artifactId>models</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>3.0.0</version>
+    <packaging>${p.type}</packaging>
 
     <properties>
-        <models.version>1.0.0-SNAPSHOT</models.version>
+        <report.models.package>org.gel.models.report.avro</report.models.package>
+        <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
+        <ga4gh.models.package>org.ga4gh.models</ga4gh.models.package>
+        <cva.models.package>org.gel.models.cva.avro</cva.models.package>
+        <report.models.version>3.0.0</report.models.version>
+        <opencb.models.version>1.2.0-SNAPSHOT</opencb.models.version>
+        <ga4gh.models.version>3.0.0</ga4gh.models.version>
+        <cva.models.version>0.3.0</cva.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
-        <protobuf.version>3.1.0</protobuf.version>
-        <grpc.version>1.0.1</grpc.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <p.type>jar</p.type>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.opencb.biodata</groupId>
             <artifactId>biodata-models</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>${opencb.models.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -42,135 +49,16 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro-tools</artifactId>
-            <version>1.7.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <version>${avro.version}</version>
         </dependency>
     </dependencies>
 
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro-maven-plugin</artifactId>
-                <version>1.7.7</version>
-                <executions>
-                    <execution>
-                        <id>Generate Java sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/latest/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>exec-maven-plugin</artifactId>
-                <groupId>org.codehaus.mojo</groupId>
-                <executions>
-                    <execution><!-- Run our version calculation script -->
-                        <id>Generate Python sources and documentation</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>python</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>build.py</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.0</version>
-                <configuration>
-                    <!--
-                      The version of protoc must match protobuf-java. If you don't depend on
-                      protobuf-java directly, you will be transitively depending on the
-                      protobuf-java version that grpc depends on.
-                    -->
-                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
-                <executions>
-                    <execution>
-                        <id>clean-generated-java</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</directory>
-                                    <includes>
-                                        <include>avro/*</include>
-                                    </includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</directory>
-                                    <includes>
-                                        <include>avro</include>
-                                    </includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>schemas/AVPRs</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>schemas/JSONs</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--
+            Extracts Avro models from OpenCB biodata jar and copies them in the appropriate folder
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -187,11 +75,14 @@
                             <!-- Limit group ids like this to avoid pulling down source for third party projects -->
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
-                            <outputDirectory>schemas/IDLs/latest/org.opencb.biodata.models.sequence</outputDirectory>
+                            <outputDirectory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!--
+            Copies the OpenCB biodata models in another folder, removing avro subfolder
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -202,8 +93,8 @@
                         <goals><goal>run</goal></goals>
                         <configuration>
                             <target>
-                                <move todir="schemas/IDLs/latest/org.opencb.biodata.models.sequence" flatten="true">
-                                    <fileset dir="schemas/IDLs/latest/org.opencb.biodata.models.sequence/avro">
+                                <move todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}" flatten="true">
+                                    <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
                                         <include name="**/*.avdl"/>
                                     </fileset>
                                 </move>
@@ -212,6 +103,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -220,7 +112,7 @@
                         <phase>initialize</phase>
                         <configuration>
                             <tasks>
-                                <delete dir="schemas/IDLs/latest/org.opencb.biodata.models.sequence/avro"/>
+                                <delete dir="schemas/IDLs/${opencb.package.version}/${opencb.models.version}/avro"/>
                             </tasks>
                         </configuration>
                         <goals>
@@ -229,46 +121,211 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
+            <!--
+            Generate java source code for all Avro models
+            -->
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>1.7.7</version>
+                <executions>
+                    <execution>
+                        <id>Generate Java sources for ${report.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${report.models.package}/${report.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Java sources for ${ga4gh.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${ga4gh.models.package}/${ga4gh.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Java sources for ${cva.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${cva.models.package}/${cva.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Java sources for ${opencb.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+            Generates Python source code and the documentation
+            -->
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution><!-- Run our version calculation script -->
+                        <id>Generate, AVPRs, JSON schemas, Python sources and documentation</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>python</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>build.py</argument>
+                                <argument>${report.models.package}</argument>
+                                <argument>${report.models.version}</argument>
+                                <argument>${ga4gh.models.package}</argument>
+                                <argument>${ga4gh.models.version}</argument>
+                                <argument>${cva.models.package}</argument>
+                                <argument>${cva.models.version}</argument>
+                                <argument>${opencb.models.package}</argument>
+                                <argument>${opencb.models.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution><!-- Run our version calculation script -->
+                        <id>Generate Sphynx documentation</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>make</executable>
+                            <workingDirectory>${basedir}/docs</workingDirectory>
+                            <arguments>
+                                <argument>html</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+            Deletes dynamic content: OpenCB Avro models, JSON models, AVPR models
+            TODO: delete documentation once we move away from serving it through GitHub.io
+             -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>clean-generated-java</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>schemas/AVPRs</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>schemas/JSONs</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>target</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>models-report${report.models.version}-cva${cva.models.version}</warName>
+                    <webXml>web.xml</webXml>
+                    <!--
+                      Exclude JCL and LOG4J since all logging should go through SLF4J.
+                      Note that we're excluding log4j-<version>.jar but keeping
+                      log4j-over-slf4j-<version>.jar
+                    -->
+                    <!--<packagingExcludes>-->
+                    <!--WEB-INF/lib/commons-logging-*.jar,-->
+                    <!--%regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar]-->
+                    <!--</packagingExcludes>-->
+                    <webResources>
+                        <resource>
+                            <directory>docs/</directory>
+                            <filtering>true</filtering>
+                            <targetPath></targetPath>
+                        </resource>
+                        <resource>
+                            <directory>schemas/IDLs/${report.models.package}/${report.models.version}/</directory>
+                            <filtering>true</filtering>
+                            <targetPath></targetPath>
+                        </resource>
+                        <resource>
+                            <directory>schemas/IDLs/${ga4gh.models.package}/${ga4gh.models.version}/</directory>
+                            <filtering>true</filtering>
+                            <targetPath></targetPath>
+                        </resource>
+                        <resource>
+                            <directory>schemas/IDLs/${cva.models.package}/${cva.models.version}/</directory>
+                            <filtering>true</filtering>
+                            <targetPath></targetPath>
+                        </resource>
+                        <resource>
+                            <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                            <filtering>true</filtering>
+                            <targetPath></targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                    only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.avro
-                                        </groupId>
-                                        <artifactId>
-                                            avro-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.7.7,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>protocol</goal>
-                                            <goal>schema</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
     </build>
-
 </project>
