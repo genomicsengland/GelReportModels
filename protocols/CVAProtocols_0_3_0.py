@@ -2357,18 +2357,17 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
 {"default": [], "doc": "", "type": {"items": {"doc": "", "type":
 "record", "name": "ReportEventContainer", "fields": [{"doc": "",
 "type": "string", "name": "reportModelVersion"}, {"doc": "", "type":
+"string", "name": "id"}, {"doc": "", "type": "string", "name":
+"version"}, {"doc": "", "type": "string", "name": "familyId"}, {"doc":
+"", "type": "string", "name": "cohortId"}, {"doc": "", "type":
 "string", "name": "date"}, {"doc": "", "type": "string", "name":
-"author"}, {"doc": "", "type": ["null", "string"], "name": "source"},
-{"default": false, "doc": "", "type": "boolean", "name": "validated"},
-{"doc": "", "type": {"symbols": ["diagnostic", "cip", "tiering",
-"other"], "doc": "", "type": "enum", "name":
-"ReportEventContainerType"}, "name": "type"}, {"doc": "", "type":
-"string", "name": "interpretationRequestId"}, {"doc": "", "type":
-"string", "name": "cipCode"}, {"doc": "", "type": "string", "name":
-"interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
-{"default": [], "doc": "", "type": {"items": "string", "type":
-"array"}, "name": "workspace"}, {"doc": "", "type": {"namespace":
+"author"}, {"doc": "", "type": ["null", "string"], "name":
+"authorVersion"}, {"doc": "", "type": {"symbols": ["diagnostic",
+"cip", "tiering", "other"], "doc": "", "type": "enum", "name":
+"ReportEventContainerType"}, "name": "type"}, {"default": false,
+"doc": "", "type": "boolean", "name": "validated"}, {"default": [],
+"doc": "", "type": {"items": "string", "type": "array"}, "name":
+"workspace"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name": "ReportEvent",
 "fields": [{"doc": "", "type": "string", "name": "reportEventId"},
 {"doc": "", "type": "string", "name": "phenotype"}, {"doc": "",
@@ -4974,16 +4973,14 @@ class ReportEventContainer(ProtocolElement):
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name":
 "ReportEventContainer", "fields": [{"doc": "", "type": "string",
 "name": "reportModelVersion"}, {"doc": "", "type": "string", "name":
-"date"}, {"doc": "", "type": "string", "name": "author"}, {"doc": "",
-"type": ["null", "string"], "name": "source"}, {"default": false,
-"doc": "", "type": "boolean", "name": "validated"}, {"doc": "",
-"type": {"symbols": ["diagnostic", "cip", "tiering", "other"], "doc":
-"", "type": "enum", "name": "ReportEventContainerType"}, "name":
-"type"}, {"doc": "", "type": "string", "name":
-"interpretationRequestId"}, {"doc": "", "type": "string", "name":
-"cipCode"}, {"doc": "", "type": "string", "name":
-"interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
-"familyId"}, {"doc": "", "type": "string", "name": "cohortId"},
+"id"}, {"doc": "", "type": "string", "name": "version"}, {"doc": "",
+"type": "string", "name": "familyId"}, {"doc": "", "type": "string",
+"name": "cohortId"}, {"doc": "", "type": "string", "name": "date"},
+{"doc": "", "type": "string", "name": "author"}, {"doc": "", "type":
+["null", "string"], "name": "authorVersion"}, {"doc": "", "type":
+{"symbols": ["diagnostic", "cip", "tiering", "other"], "doc": "",
+"type": "enum", "name": "ReportEventContainerType"}, "name": "type"},
+{"default": false, "doc": "", "type": "boolean", "name": "validated"},
 {"default": [], "doc": "", "type": {"items": "string", "type":
 "array"}, "name": "workspace"}, {"doc": "", "type": {"namespace":
 "org.gel.models.report.avro", "type": "record", "name": "ReportEvent",
@@ -5285,16 +5282,15 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "author",
-        "cipCode",
+        "authorVersion",
         "cohortId",
         "date",
         "familyId",
-        "interpretationRequestId",
-        "interpretationRequestVersion",
+        "id",
         "reportEvent",
         "reportModelVersion",
-        "source",
         "type",
+        "version",
     }
 
     @classmethod
@@ -5322,10 +5318,9 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
 
     __slots__ = [
         'additionalProperties', 'associatedReportEvents', 'author',
-        'cipCode', 'cohortId', 'comments', 'date', 'familyId',
-        'interpretationRequestId', 'interpretationRequestVersion',
-        'reportEvent', 'reportModelVersion', 'source', 'type',
-        'validated', 'variants', 'workspace'
+        'authorVersion', 'cohortId', 'comments', 'date', 'familyId',
+        'id', 'reportEvent', 'reportModelVersion', 'type',
+        'validated', 'variants', 'version', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -5335,8 +5330,8 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
             'associatedReportEvents', [])
         self.author = kwargs.get(
             'author', 'None')
-        self.cipCode = kwargs.get(
-            'cipCode', 'None')
+        self.authorVersion = kwargs.get(
+            'authorVersion', None)
         self.cohortId = kwargs.get(
             'cohortId', 'None')
         self.comments = kwargs.get(
@@ -5345,22 +5340,20 @@ key-class": "org.opencb.biodata.models.feature.Genotype"}, "name":
             'date', 'None')
         self.familyId = kwargs.get(
             'familyId', 'None')
-        self.interpretationRequestId = kwargs.get(
-            'interpretationRequestId', 'None')
-        self.interpretationRequestVersion = kwargs.get(
-            'interpretationRequestVersion', 'None')
+        self.id = kwargs.get(
+            'id', 'None')
         self.reportEvent = kwargs.get(
             'reportEvent', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', 'None')
-        self.source = kwargs.get(
-            'source', None)
         self.type = kwargs.get(
             'type', None)
         self.validated = kwargs.get(
             'validated', False)
         self.variants = kwargs.get(
             'variants', [])
+        self.version = kwargs.get(
+            'version', 'None')
         self.workspace = kwargs.get(
             'workspace', [])
 

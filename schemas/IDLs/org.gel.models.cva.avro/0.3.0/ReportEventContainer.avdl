@@ -28,37 +28,13 @@ protocol ReportEventContainerProtocol {
         */
         string reportModelVersion;
         /**
-        Date in format yyyyMMddhhmm
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
-        string date;
+        string id;
         /**
-        The author of the ReportEvent
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
-        string author;
-        /**
-        Source of the ReportEvent
-        */
-        union {null, string} source;
-        /**
-        Validation flag
-        */
-        boolean validated = false;
-        /**
-        Type of report event container
-        */
-        ReportEventContainerType type;
-        /**
-        The interpretation request identifier e.g. "378"
-        */
-        string interpretationRequestId;
-        /**
-        Clinical interpretation partner code e.g. OPA
-        */
-        string cipCode;
-        /**
-        Interpretation request version e.g. "2"
-        */
-        string interpretationRequestVersion;
+        string version;
         /**
         The family identifier
         */
@@ -67,6 +43,26 @@ protocol ReportEventContainerProtocol {
         The cohort identifier (the same family can have several cohorts)
         */
         string cohortId;
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        Type of report event container
+        */
+        ReportEventContainerType type;
+        /**
+        Validation flag
+        */
+        boolean validated = false;
         /**
         The workspace. This field is used to control authorisation to
         access each case.
