@@ -19,7 +19,7 @@ git checkout feature-improveclinical
 mvn clean install -DskipTests
 ```
 
-To generate sources and documentation run: 
+To generate sources and documentation run:
 ```
 % mvn clean generate-sources
 ```
@@ -53,4 +53,6 @@ The CVA model is extending the OpenCB variant model. In order to do so we need s
 
 ## Dependencies
 
+**npm**: `apt-get install npm`
 **Avrodoc**: to install avrodoc run `npm install avrodoc -g`
+**Sphinx**: to install run `pip install sphinx`
