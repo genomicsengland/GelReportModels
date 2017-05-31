@@ -4,7 +4,7 @@ protocol EvidencesSetProtocol {
 
     // CVA references
     import idl "Comment.avdl";
-    import idl "ReportEventContainer.avdl";
+    import idl "ReportedVariant.avdl";
     // OpenCB references
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.avdl";
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
@@ -158,8 +158,8 @@ protocol EvidencesSetProtocol {
         */
         array<Comment> comments = [];
         /**
-        Report events
+        Reported variants
         */
-        array<ReportEventContainer> reportEvents = [];
+        array<ReportedVariant> reportedVariants = [];
     }
 }

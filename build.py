@@ -3,6 +3,7 @@ import os
 import sys
 import fnmatch
 import logging
+import shutil
 
 __author__ = 'antonior'
 
@@ -56,6 +57,8 @@ def generate_python_sources(schema, source, version):
                                                          + schema + " " + version + " --verbose    ")
     logging.info(source_generation_command)
     os.system(source_generation_command)
+    # copies the source code to the same location without version suffix to act as the latest
+
 
 def generate_documentation(class_name, avrp_folder, html_folder):
     """
@@ -126,21 +129,29 @@ create_other_schemas(opencb_idl_folder, opencb_json_folder, opencb_avrp_folder)
 
 
 logging.info("Generating Python source code from schemas...")
-outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=report_module_version))
-ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
-openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols_{version}.py".format(version=opencb_module_version))
-cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols_{version}.py".format(version=cva_module_version))
+outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GelProtocols_{version}.py".format(version=report_module_version))
+outfile = os.path.join(BASE_DIR, "protocols/models", "GelProtocols.py")
+ga4gh_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
+ga4gh_outfile = os.path.join(BASE_DIR, "protocols/models", "GA4GHProtocols.py")
+openCB_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols_{version}.py".format(version=opencb_module_version))
+openCB_outfile = os.path.join(BASE_DIR, "protocols/models", "openCBProtocols.py")
+cva_outfile_with_version = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols_{version}.py".format(version=cva_module_version))
+cva_outfile = os.path.join(BASE_DIR, "protocols/models", "CVAProtocols.py")
 
 version = json.load(open(os.path.join(report_json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
 logging.info("Version: " + version)
 # GeL models Python source generation
-generate_python_sources(report_idl_folder, outfile, version)
+generate_python_sources(report_idl_folder, outfile_with_version, version)
+shutil.copyfile(outfile_with_version, outfile)
 # GA4GH models Python source generation
-generate_python_sources(ga4gh_idl_folder, ga4gh_outfile, version)
+generate_python_sources(ga4gh_idl_folder, ga4gh_outfile_with_version, version)
+shutil.copyfile(ga4gh_outfile_with_version, ga4gh_outfile)
 # OpenCB models Python source generation
-generate_python_sources(opencb_idl_folder, openCB_outfile, version)
+generate_python_sources(opencb_idl_folder, openCB_outfile_with_version, version)
+shutil.copyfile(openCB_outfile_with_version, openCB_outfile)
 # CVA models Python source generation
-generate_python_sources(cva_idl_folder, cva_outfile, version)
+generate_python_sources(cva_idl_folder, cva_outfile_with_version, version)
+shutil.copyfile(cva_outfile_with_version, cva_outfile)
 
 
 # Builds models documentation
@@ -162,7 +173,7 @@ generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_fold
 ## CVA
 generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
 generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
-generate_documentation("ReportEventContainer", cva_avrp_folder, cva_html_folder)
+generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
 generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
 generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
 ## OpenCB

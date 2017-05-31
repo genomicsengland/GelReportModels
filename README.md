@@ -23,8 +23,12 @@ To generate sources and documentation run:
 ```
 % mvn clean generate-sources
 ```
-This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols`. The models documentation under `./docs/html_schemas/latest`
+This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols/models`. The models documentation under `./docs/html_schemas/latest`
 
+To run against a legacy version of the models by overriding maven properties run:
+```
+% mvn clean generate-sources -Dreport.models.version=2.1.0
+```
 
 To pack the Java source code representing these models in a jar file use:
 ```

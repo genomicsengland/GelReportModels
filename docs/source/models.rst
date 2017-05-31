@@ -43,7 +43,7 @@ Clinical Variant Archive (CVA)
 
 * |EvidenceSet|
 * |ObservedVariant|
-* |ReportEventContainer|
+* |ReportedVariant|
 * |DataIntake|
 
 OpenCB
@@ -113,9 +113,9 @@ GA4GH
 .. |ObservedVariant| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/0.3.0/ObservedVariant.html#/schema/org.gel.models.cva.avro.ObservedVariant" target="_blank"> Observed Variant </a>
-.. |ReportEventContainer| raw:: html
+.. |ReportedVariant| raw:: html
 
-    <a href="html_schemas/org.gel.models.cva.avro/0.3.0/ReportEventContainer.html#/schema/org.gel.models.cva.avro.ReportEventContainer" target="_blank"> Report Event Container </a>
+    <a href="html_schemas/org.gel.models.cva.avro/0.3.0/ReportedVariant.html#/schema/org.gel.models.cva.avro.ReportedVariant" target="_blank"> Reported Variant </a>
 .. |DataIntake| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/0.3.0/DataIntake.html" target="_blank"> Data Intake </a>

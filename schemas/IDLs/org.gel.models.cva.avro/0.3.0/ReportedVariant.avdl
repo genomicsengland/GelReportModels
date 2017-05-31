@@ -10,9 +10,14 @@ protocol ReportEventContainerProtocol {
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
     /**
-    The type of the report event
+    The type of the ReportedVariant
+    
+* diagnostic: this is a variant reported by a GMC
+* cip: this is a variant suggested by a CIP
+* tiering: this is a variant highlighted by the tiering process
+* other: any other source
     */
-    enum ReportEventContainerType {
+    enum ReportedVariantType {
         diagnostic,
         cip,
         tiering,
@@ -22,43 +27,47 @@ protocol ReportEventContainerProtocol {
     /**
     A wrapper for a report event
     */
-    record ReportEventContainer {
+    record ReportedVariant {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string version;
+        /**
+        The family identifier
+        */
+        string familyId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
         /**
         Date in format yyyyMMddhhmm
         */
         string date;
         /**
-        The author of the ReportEvent
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
         */
         string author;
         /**
-        Source of the ReportEvent
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
         */
-        union {null, string} source;
+        union {null, string} authorVersion;
+        /**
+        Type of ReportedVariant
+        */
+        ReportedVariantType type;
         /**
         Validation flag
         */
         boolean validated = false;
-        /**
-        Type of report event container
-        */
-        ReportEventContainerType type;
-        /**
-        The interpretation request identifier e.g. "378"
-        */
-        string interpretationRequestId;
-        /**
-        Clinical interpretation partner code e.g. OPA
-        */
-        string cipCode;
-        /**
-        Interpretation request version e.g. "2"
-        */
-        string interpretationRequestVersion;
-        /**
-        The family identifier
-        */
-        string familyId;
         /**
         The workspace. This field is used to control authorisation to
         access each case.
@@ -75,7 +84,7 @@ protocol ReportEventContainerProtocol {
         /**
         Associated report events
         */
-        array<ReportEventContainer> associatedReportEvents = [];
+        array<ReportedVariant> associatedReportedVariants = [];
         /**
         Comments for this diagnostic event
         */
