@@ -277,6 +277,19 @@
                                         <include>**/*</include>
                                     </includes>
                                 </fileset>
+                                <fileset>
+                                    <directory>protocols</directory>
+                                    <excludes>
+                                        <exclude>__init__.py</exclude>
+                                        <exclude>protocols.py</exclude>
+                                    </excludes>
+                                    <includes>
+                                        <include>GelProtocols.py</include>
+                                        <include>CVAProtocols.py</include>
+                                        <include>GA4GHProtocols.py</include>
+                                        <include>openCBProtocols.py</include>
+                                    </includes>
+                                </fileset>
                             </filesets>
                         </configuration>
                     </execution>
