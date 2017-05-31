@@ -420,7 +420,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.2", 
+    "defaultValue": "4.0.0", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 
