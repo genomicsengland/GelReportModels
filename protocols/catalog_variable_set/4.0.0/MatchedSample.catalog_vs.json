@@ -1,0 +1,16 @@
+[
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "germlineSampleId", 
+  "description": "Sample Id (e.g, LP00012645_5GH)) for the germline"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "tumourSampleId", 
+  "description": "Sample Id (e.g, LP00012643_7JS)) for the tumor"
+ }
+]
