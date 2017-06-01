@@ -26,7 +26,7 @@ protocol DataIntakeProtocol {
         /**
         The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
-        string version;
+        int version;
         /**
         The family identifier
         */
@@ -64,7 +64,7 @@ protocol DataIntakeProtocol {
         /**
         The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
-        string version;
+        int version;
         /**
         The family identifier
         */
@@ -106,7 +106,7 @@ protocol DataIntakeProtocol {
         /**
         The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
-        string version;
+        int version;
         /**
         The family identifier
         */
