@@ -17,7 +17,7 @@ MODEL_SHORT_NAME = {
     'org.ga4gh.models': 'ga4gh',
     'org.gel.models.cva.avro': 'cva',
     'org.gel.models.metrics.avro': 'metrics',
-    'org.gel.models.participant.avro': 'participants',
+    'org.gel.models.participant.avro': 'participant',
     'org.gel.models.report.avro': 'reports',
     'org.opencb.biodata.models': 'opencb'
 }
