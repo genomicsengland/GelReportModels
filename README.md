@@ -19,7 +19,7 @@ git checkout feature-improveclinical
 mvn clean install -DskipTests
 ```
 
-To generate sources and documentation run: 
+To generate sources and documentation run:
 ```
 % mvn clean generate-sources
 ```
@@ -53,4 +53,8 @@ The CVA model is extending the OpenCB variant model. In order to do so we need s
 
 ## Dependencies
 
-**Avrodoc**: to install avrodoc run `npm install avrodoc -g`
+* **npm**: to install run `apt-get install npm`
+* **node**: to install run `apt-get install nodejs nodejs-legacy`
+* **Avrodoc**: to install avrodoc run `npm install avrodoc -g`
+* **pip**: to install pip run `apt-get install pip`
+* Other python dependencies documented in `requirements.txt` should be installed automatically.

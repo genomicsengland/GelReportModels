@@ -16,7 +16,7 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>models</artifactId>
-    <version>3.0.0</version>
+    <version>${report.models.version}</version>
     <packaging>${p.type}</packaging>
 
     <properties>
@@ -99,6 +99,28 @@
                                     </fileset>
                                 </move>
                             </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution><!-- Installs requirements.txt -->
+                        <id>Installs Python requirements</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>pip</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>-r</argument>
+                                <argument>requirements.txt</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
