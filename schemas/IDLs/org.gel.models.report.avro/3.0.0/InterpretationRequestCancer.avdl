@@ -41,11 +41,6 @@ record CancerInterpretationRequest {
     int reportVersion;
 
     /**
-    Internal Study id
-    */
-    string internalStudyId;
-
-    /**
     Simply load data to system or also provide interpretation?
     */
     boolean interpretGenome=false;

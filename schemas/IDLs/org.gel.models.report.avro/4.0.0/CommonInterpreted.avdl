@@ -1,10 +1,10 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 /**
 This protocol defines the Commons for GEL models
 */
 protocol CommonInterpreted {
 
-import idl "CommonParticipant.avdl";
+import idl "../../org.gel.models.participant.avro/1.0.0/CommonParticipant.avdl";
 
 /**
 An enumeration for the different mode of inheritances:
@@ -179,7 +179,7 @@ record ReportEvent {
     /**
     This is the penetrance assumed for scoring or classifying this variant
     */
-    Penetrance penetrance;
+    org.gel.models.participant.avro.Penetrance penetrance;
 
     /**
     This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using

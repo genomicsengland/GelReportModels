@@ -127,25 +127,18 @@ record ReportEventCancer {
 
 
     /**
-    Sequence Ontology Term used in tier
+    SO Term used in tier
     */
     array<string> soTerms;
 
     /**
-    Sequence Ontology name used in tier
+    SO name used in tier
     */
     array<string> soNames;
 
     /**
     */
-    union {null, array<Actions>} actions;
-
-    /**
-    This is the description of why this variant would be reported, for example that it affects the protein in this way
-    and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
-    using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
-    */
-    union {null, string} eventJustification;
+    array<Actions> actions;
 
     /**
     Gel Tier
@@ -182,10 +175,6 @@ record ReportedVariantCancer {
     */
     union {null, array<string>} CosmicIds;
 
-    /**
-    variant ID in ClinVar
-    */
-    union {null, array<string>} ClinVarIds;
 
     /**
     variant ID in dbSNP

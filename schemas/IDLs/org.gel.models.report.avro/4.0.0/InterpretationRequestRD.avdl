@@ -1,4 +1,4 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 
 /**
 This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
@@ -13,10 +13,11 @@ Caution!! This has been removed
 import idl "variants.avdl";
 */
 
-import idl "RDParticipant.avdl";
 import idl "CommonRequest.avdl";
 import idl "VersionControl.avdl";
 import idl "CommonInterpreted.avdl";
+import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
+
 
 
 
@@ -105,7 +106,7 @@ record InterpretationRequestRD {
     /**
     Pedigree of the family to analyze
     */
-    Pedigree pedigree;
+    org.gel.models.participant.avro.Pedigree pedigree;
 
     /**
     Tiered Variants

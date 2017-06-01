@@ -1,10 +1,9 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.participant.avro")
 /**
 This protocol defines the Participants and Pedigree
 */
 protocol Pedigrees {
 
-import idl "CommonRequest.avdl";
 import idl "CommonParticipant.avdl";
 import idl "VersionControl.avdl";
 

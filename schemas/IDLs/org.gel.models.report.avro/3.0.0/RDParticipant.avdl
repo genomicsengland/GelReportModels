@@ -47,15 +47,10 @@ record HpoTerm {
     string term;
 
     /**
-    This is whether the term is present in the participant (default is unknown) yes=term is present in participant,
-    no=term is not present
+    This is whether the term is present in the participant (default is null=unknown) true=term is present in participant,
+    false=term is not present
     */
-    union {null, TernaryOption} termPresence;
-
-    /**
-    hpoBuildNumber
-    */
-    union {null, string} hpoBuildNumber;
+    union {null, boolean} termPresence;
 
     /**
     Modifier associated with the HPO term
@@ -74,93 +69,48 @@ record HpoTerm {
 /**
 Affection Status
 */
-enum AffectionStatus {UNAFFECTED, AFFECTED, UNCERTAIN}
-
-/**
-QCState Status
-*/
-enum ParticipantQCState {noState, passedMedicalReviewReadyForInterpretation, passedMedicalReviewNotReadyForInterpretation, queryToGel,	queryToGMC,	failed}
+enum AffectionStatus {unaffected, affected,  unknown}
 
 /**
 Life Status
 */
-enum LifeStatus {ALIVE, ABORTED, DECEASED, UNBORN, STILLBORN, MISCARRIAGE}
-
-/**
-FamilyQCState
-*/
-enum FamilyQCState {noState, passedMedicalReviewReadyForInterpretation, passedMedicalReviewNotReadyForInterpretation, queryToGel, queryToGMC, failed}
-
-
-enum SampleSource {BLOOD, SALIVA, FIBROBLAST, TISSUE}
-
-enum Product {DNA, RNA}
-
-enum PreparationMethod {EDTA, ORAGENE, FF}
+enum LifeStatus {alive, aborted, deceased, unborn, stillborn, miscarriage}
 
 /**
 adoptedin means adopted into the family
 adoptedout means child belonged to the family and was adopted out
 */
-enum AdoptedStatus {notadopted, adoptedin, adoptedout}
-
-
-
-record Sample{
-    /**
-    Sample Id (e.g, LP00012645_5GH))
-    */
-    string sampleId;
-
-    /**
-    Lab Sample Id
-    */
-    int labSampleId;
-
-    /**
-    Source
-    */
-    union {null, SampleSource} source;
-
-    /**
-    Product
-    */
-    union {null, Product} product;
-
-    /**
-    preparationMethod
-    */
-    union {null, PreparationMethod} preparationMethod;
-
-}
-
+enum AdoptedStatus {not_adopted, adoptedin, adoptedout}
 
 /**
 This defines a RD Participant (demographics and pedigree information)
 */
-record PedigreeMember {
+record RDParticipant {
+
+    /**
+    Model version number
+    */
+    VersionControl versionControl;
 
     /**
     Numbering used to refer to each member of the pedigree
     */
-    union {null, int} pedigreeId;
+    int pedigreeId;
 
     /**
     If this field is true, the member should be consider the proband of this family
     */
-    union {null, boolean} isProband;
+    boolean isProband;
 
     /**
-    participantId
+    gel internal identifier, only required when the participant belongs to the program
     */
-    union {null, string} participantId;
-
+    union {null, string} gelId;
 
     /**
-    participantQCState
+    Family id which internally translate to a sample set
     */
-    union {null, ParticipantQCState} participantQCState;
-
+    string gelFamilyId;
 
     /**
     superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
@@ -175,12 +125,12 @@ record PedigreeMember {
     /**
     Karyotypic sex of the participant as previously established or by looking at the GEL genome
     */
-    union {null, PersonKaryotipicSex} personKaryotypicSex;
+    union {null, PersonKaryotipicSex} personKaryotipicSex;
 
     /**
     Year of Birth
     */
-    union {null, int} yearOfBirth;
+    union {null, string} yearOfBirth;
 
 
     /**
@@ -219,50 +169,54 @@ record PedigreeMember {
     /**
     Adopted Status
     */
-    union {null, AdoptedStatus} adoptedStatus;
+    AdoptedStatus adoptedStatus;
 
     /**
     Life Status
     */
-    union {null, LifeStatus} lifeStatus;
+    LifeStatus lifeStatus;
 
     /**
     The parents of this participant has a consanguineous relationship
     */
-    union {null, TernaryOption} consanguineousParents;
+    TernaryOption consanguineousParents;
 
+    /**
+    Offspring from a consanguineous population
+    */
+    union {null, string} consanguineousPopulation;
 
     /**
     Affection Status
     */
-    union {null, AffectionStatus} affectionStatus;
+    AffectionStatus affectionStatus;
 
     /**
     Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty
     */
-    union {null, array<Disorder>} disorderList;
+    array<Disorder> disorderList;
 
     /**
     Clinical Data (HPO terms)
     */
-    union {null, array<HpoTerm>} hpoTermList;
+    array<HpoTerm> hpoTermList;
 
     /**
     Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
     */
-    union {null, Ancestries} ancestries;
+    Ancestries ancestries;
 
     /**
     What has this participant consented to?
     A participant that has been consented to the programme should also have sequence data associated with them; however
     this needs to be programmatically checked
     */
-    union {null, ConsentStatus} consentStatus;
+    ConsentStatus consentStatus;
 
     /**
     This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
     */
-    union {null, array<Sample>} samples;
+    union {null, array<string>} samples;
 
 
     /**
@@ -283,8 +237,8 @@ record AnalysisPanel {
     string specificDisease;
     string panelName;
     union {null, string} panelVersion;
-    string reviewOutcome;
-    string multipleGeneticOrigins;
+    string review_outcome;
+    string multiple_genetic_origins;
 }
 
 
@@ -301,24 +255,19 @@ record Pedigree {
     /**
     Model version number
     */
-    union {null, VersionControl} versionControl;
-
-    union {null, string} LDPCode;
+    VersionControl versionControl;
 
     /**
     Family id which internally translate to a sample set
     */
-    string familyId;
+    string gelFamilyId;
 
-    array <PedigreeMember> members;
+    array <RDParticipant> participants;
 
     union {null, array<AnalysisPanel>} analysisPanels;
 
     union {null, array<DiseasePenetrance>} diseasePenetrances;
 
-    boolean readyForAnalysis;
-
-    union {null, FamilyQCState} familyQCState;
 }
 
 }
