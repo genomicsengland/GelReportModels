@@ -1,7 +1,5 @@
-pysam
-yaml
-sphinx_rtd_theme
-labkey
+Sphinx==1.6.2
+sphinx_rtd_theme==0.2.4
 ujson==1.33
 avro==1.7.7
 humanize==0.5.1

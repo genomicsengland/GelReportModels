@@ -1,0 +1,433 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "BOOLEAN", 
+  "name": "readyForAnalysis", 
+  "description": ""
+ }, 
+ {
+  "name": "consentStatus", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "programmeConsent", 
+    "defaultValue": false, 
+    "required": true, 
+    "multiValue": false, 
+    "type": "BOOLEAN", 
+    "description": "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known"
+   }, 
+   {
+    "name": "primaryFindingConsent", 
+    "defaultValue": false, 
+    "required": true, 
+    "multiValue": false, 
+    "type": "BOOLEAN", 
+    "description": "Consent for feedback of primary findings?"
+   }, 
+   {
+    "name": "secondaryFindingConsent", 
+    "defaultValue": false, 
+    "required": true, 
+    "multiValue": false, 
+    "type": "BOOLEAN", 
+    "description": "Consent for secondary finding lookup"
+   }, 
+   {
+    "name": "carrierStatusConsent", 
+    "defaultValue": false, 
+    "required": true, 
+    "multiValue": false, 
+    "type": "BOOLEAN", 
+    "description": "Consent for carrier status check?"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "center", 
+  "description": "Center"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "LDPCode", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "individualId", 
+  "description": "Individual Id"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "primaryDiagnosisDisease", 
+  "description": "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "primaryDiagnosisSubDisease", 
+  "description": "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
+ }, 
+ {
+  "name": "sex", 
+  "required": true, 
+  "allowedValues": [
+   "FEMALE", 
+   "MALE", 
+   "UNKNOWN"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Sex"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "OBJECT", 
+  "name": "additionalInformation", 
+  "description": "We could add a map here to store additional information for example URIs to images, ECGs, etc"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "assignedICD10", 
+  "description": "assigned ICD10 code"
+ }, 
+ {
+  "name": "tumourSamples", 
+  "required": true, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "sampleId", 
+    "description": "Sample Id (e.g, LP00012645_5GH))"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "INTEGER", 
+    "name": "labSampleId", 
+    "description": "Lab sample Id"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "INTEGER", 
+    "name": "tumourId", 
+    "description": "Id of each one of the tumors for a participant"
+   }, 
+   {
+    "name": "programmePhase", 
+    "required": false, 
+    "allowedValues": [
+     "CRUK", 
+     "OXFORD", 
+     "CLL", 
+     "IIP", 
+     "MAIN", 
+     "EXPT"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "gelPhase (eg cruk, brc, cll, iip, main)"
+   }, 
+   {
+    "name": "tumourType", 
+    "required": false, 
+    "allowedValues": [
+     "ADULT_GLIOMA", 
+     "BLADDER", 
+     "BREAST", 
+     "CARCINOMA_OF_UNKNOWN_PRIMARY", 
+     "CHILDHOOD", 
+     "COLORECTAL", 
+     "ENDOMETRIAL_CARCINOMA", 
+     "HAEMONC", 
+     "HEPATOPANCREATOBILIARY", 
+     "LUNG", 
+     "MALIGNANT_MELANOMA", 
+     "NASOPHARYNGEAL", 
+     "ORAL_OROPHARYNGEAL", 
+     "OVARIAN", 
+     "PROSTATE", 
+     "RENAL", 
+     "SARCOMA", 
+     "SINONASAL", 
+     "TESTICULAR_GERM_CELL_TUMOURS", 
+     "UPPER_GASTROINTESTINAL", 
+     "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", 
+     "CLASSICAL_HODGKINS", 
+     "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", 
+     "T_CELL_LYMPHOMA"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "tumour Type"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "tumourSubType", 
+    "description": "Tumor Subtype"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "clinicalSampleDateTime", 
+    "description": "In the format YYYY-MM-DDTHH:MM:SS+0000"
+   }, 
+   {
+    "name": "phase", 
+    "required": false, 
+    "allowedValues": [
+     "PRIMARY", 
+     "METASTATIC_RECURRENCE", 
+     "RECURRENCE_OF_PRIMARY_TUMOUR", 
+     "METASTASES"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Tumor Phase"
+   }, 
+   {
+    "name": "tumourContent", 
+    "required": false, 
+    "allowedValues": [
+     "High", 
+     "Medium", 
+     "Low"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "tumourContent"
+   }, 
+   {
+    "name": "source", 
+    "required": false, 
+    "allowedValues": [
+     "TUMOUR", 
+     "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+     "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+     "BLOOD", 
+     "SALIVA", 
+     "FIBROBLAST", 
+     "TISSUE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Method"
+   }, 
+   {
+    "name": "preparationMethod", 
+    "required": false, 
+    "allowedValues": [
+     "EDTA", 
+     "ORAGENE", 
+     "FF", 
+     "FFPE", 
+     "CD128_SORTED_CELLS", 
+     "ASPIRATE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "preparationMethod"
+   }, 
+   {
+    "name": "tissueSource", 
+    "required": false, 
+    "allowedValues": [
+     "BMA_TUMOUR_SORTED_CELLS", 
+     "CT_GUIDED_BIOPSY", 
+     "ENDOSCOPIC_BIOPSY", 
+     "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY", 
+     "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", 
+     "LAPAROSCOPIC_BIOPSY", 
+     "LAPAROSCOPIC_EXCISION", 
+     "MRI_GUIDED_BIOPSY", 
+     "NON_GUIDED_BIOPSY", 
+     "SURGICAL_RESECTION", 
+     "STEREOTACTICALLY_GUIDED_BIOPSY", 
+     "USS_GUIDED_BIOPSY", 
+     "NON_STANDARD_BIOPSY"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Method"
+   }, 
+   {
+    "name": "product", 
+    "required": false, 
+    "allowedValues": [
+     "DNA", 
+     "RNA"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Product"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "TNMStageVersion", 
+    "description": "TMN version"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "TNMStageGrouping", 
+    "description": "TMN stage grouping"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": ""
+ }, 
+ {
+  "name": "germlineSamples", 
+  "required": true, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "sampleId", 
+    "description": "Sample Id (e.g, LP00012645_5GH))"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "INTEGER", 
+    "name": "labSampleId", 
+    "description": "Lab sample Id"
+   }, 
+   {
+    "name": "source", 
+    "required": false, 
+    "allowedValues": [
+     "TUMOUR", 
+     "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+     "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+     "BLOOD", 
+     "SALIVA", 
+     "FIBROBLAST", 
+     "TISSUE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Source"
+   }, 
+   {
+    "name": "product", 
+    "required": false, 
+    "allowedValues": [
+     "DNA", 
+     "RNA"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Product"
+   }, 
+   {
+    "name": "preparationMethod", 
+    "required": false, 
+    "allowedValues": [
+     "EDTA", 
+     "ORAGENE", 
+     "FF", 
+     "FFPE", 
+     "CD128_SORTED_CELLS", 
+     "ASPIRATE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "preparationMethod"
+   }, 
+   {
+    "name": "programmePhase", 
+    "required": false, 
+    "allowedValues": [
+     "CRUK", 
+     "OXFORD", 
+     "CLL", 
+     "IIP", 
+     "MAIN", 
+     "EXPT"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "gelPhase (eg cruk, brc, cll, iip, main)"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "clinicalSampleDateTime", 
+    "description": "In the format YYYY-MM-DDTHH:MM:SS+0000"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": ""
+ }, 
+ {
+  "name": "matchedSamples", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "germlineSampleId", 
+    "description": "Sample Id (e.g, LP00012645_5GH)) for the germline"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "tumourSampleId", 
+    "description": "Sample Id (e.g, LP00012643_7JS)) for the tumor"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": ""
+ }, 
+ {
+  "name": "versionControl", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "GitVersionControl", 
+    "defaultValue": "4.0.0", 
+    "required": true, 
+    "multiValue": false, 
+    "type": "TEXT", 
+    "description": "This is the version for the entire set of data models as referred to the Git release tag"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Model version number"
+ }
+]

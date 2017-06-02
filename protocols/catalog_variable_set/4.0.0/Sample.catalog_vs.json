@@ -1,0 +1,52 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "sampleId", 
+  "description": "Sample Id (e.g, LP00012645_5GH))"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "INTEGER", 
+  "name": "labSampleId", 
+  "description": "Lab Sample Id"
+ }, 
+ {
+  "name": "source", 
+  "required": false, 
+  "allowedValues": [
+   "BLOOD", 
+   "SALIVA", 
+   "FIBROBLAST", 
+   "TISSUE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Source"
+ }, 
+ {
+  "name": "product", 
+  "required": false, 
+  "allowedValues": [
+   "DNA", 
+   "RNA"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Product"
+ }, 
+ {
+  "name": "preparationMethod", 
+  "required": false, 
+  "allowedValues": [
+   "EDTA", 
+   "ORAGENE", 
+   "FF"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "preparationMethod"
+ }
+]

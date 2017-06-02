@@ -1,0 +1,69 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the supplementary results for cancer analysis
+*/
+
+protocol SupplementaryAnalysisResult {
+
+record MutationalSignatureContribution {
+
+    /**
+    Coefficients for each mutational signatures
+    e.g. {"coefficients":{"signature1":91.2595, [...]}}
+    */
+    map<double> coefficients;
+
+    /**
+    Confidence value
+    e.g. {"RSS":0.0063}
+    */
+    double rss;
+
+}
+
+
+/**
+This defines a Supplementary Analysis Result
+*/
+record SupplementaryAnalysisResults {
+
+    /**
+    Counts for each substitution trinucleotide context
+    e.g. {"A[T>A]G": 117, "G[T>G]C": 39, [...]}
+    */
+    map<int> contextualAnalysisSubstitutionsCounts;
+
+    /**
+    Coefficients for mutational signatures
+    e.g. {"coefficients":{"signature1":91.2595, [...]}, "RSS":0.0063}
+    */
+    MutationalSignatureContribution mutationalSignatureContribution;
+
+    /**
+    SNVs counts for each allele frequency bin
+    e.g. {"(-0.005,0.005]":0,"(0.005,0.015]":0, [...]}
+    */
+    map<int> sNVAlleleFrequencyHistogramCounts;
+
+    /**
+    Indel counts for each allele frequency bin
+    e.g. {"(-0.005,0.005]":0,"(0.005,0.015]":0, [...]}
+    */
+    map<int> indelAlleleFrequencyHistogramCounts;
+
+    /**
+    Counts for each indel length
+    e.g. {"(-50,-49]":2,"(-49,-48]":2, [...]}
+    */
+    map<int> indelLengthHistogramCounts;
+
+    /**
+    Kataegis genomic regions
+    e.g. ["chrY:56829002,56833739", "chrX:1813120,1813466", [...]]
+    */
+    array<string> genomicRegionsOfHypermutation;
+
+}
+
+}
+

@@ -1,0 +1,66 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the minimum information that Genomics England needs to generate a AuditLog for a case.
+*/
+protocol AuditLogProtocol {
+
+import idl "CommonInterpreted.avdl";
+import idl "VersionControl.avdl";
+
+/**
+This code define the change type, it can define a general change in the case as CLOSED or can define
+a change in one or more variants:
+
+* `C0`: **Case Closed successfully**: Clinical Report was generated with **one or more Candidate Variants**.
+* `C1`: **Case Closed unsuccessfully**: Clinical Report couldn't be generated because **no Candidate Variants were found**.
+* `C2`: **Case Blocked**: Errors were found in this cases and was sent to quarantine for further investigation
+* `C3`: **Case Shared**: This cases was shared with other group of users.
+* `C4`: **Supporting evidence change**: One or More supporting evidence were modified to the cases __(See ClinicalReport)__.
+* `C5`: **Variant added**: One or more variant were selected as Candidate Variants.
+* `C6`: **Variant removed**: One or more variant were removed as Candidate Variants.
+* `C7`: **Variant modified**: One or more Candidate Variants were modified __(Any change or comment over this variants should be capture)__.
+*/
+enum Code {C0, C1, C2, C3, C4, C5, C6, C7}
+
+record ModifiedVariant{
+    ReportedVariant previousVariant;
+    ReportedVariant modifiedVariant;
+}
+
+record CaseShared{
+    array<string> previousGroups;
+    array<string> modifiedGroups;
+}
+
+record SupportingEvidences{
+    array<string> previousSupportingEvidences;
+    array<string> modifiedSupportingEvidences;
+}
+
+record AuditLog {
+
+    /**
+    This is the interpretation Request Id, first number in XXX-123-1
+    */
+    string interpretationRequestID;
+
+    /**
+    This is the version of the interpretation Request Id, second number in XXX-123-2
+    */
+    string interpretationRequestVersion;
+
+    Code code;
+
+    union {null, CaseShared} caseShared;
+
+    union {null, SupportingEvidences} supportingEvidences;
+
+    union {null, array<ModifiedVariant>} modifiedVariants;
+
+    union {null, array<ReportedVariant>} addedVariants;
+
+    union {null, array<ReportedVariant>} removedVariants;
+
+
+}
+}

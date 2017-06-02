@@ -1,6 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "IlluminaVersion",
-  "namespace" : "Gel_BioInf_Models",
-  "symbols" : [ "IlluminaSummaryV1", "IlluminaSummaryV2", "IlluminaSummaryCancerV2" ]
-}
