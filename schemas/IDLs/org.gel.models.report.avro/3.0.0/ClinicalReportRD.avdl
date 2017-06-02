@@ -32,11 +32,11 @@ record ClinicalReportRD {
     For example provider produces two types of analysis on the data and end user produces different summaries depending
     on the analysis version
     */
-    union {null, string} interpretationRequestAnalysisVersion;
+    string interpretationRequestAnalysisVersion;
 
 
     /**
-    Date of this report YYYY-MM-DD
+    Date of this report
     */
     string reportingDate;
 

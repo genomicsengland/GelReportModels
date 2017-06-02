@@ -1,4 +1,4 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 
 /** This protocol defines the integration mechanism to store analysis results in
     the MDT (Multi-disciplinary Tool). */
@@ -6,7 +6,7 @@ protocol MDTDelivery {
 
 import idl "VersionControl.avdl";
 import idl "CommonRequest.avdl";
-import idl "RDParticipant.avdl";
+import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
 import idl "CommonInterpreted.avdl";
 import idl "InterpretationRequestRD.avdl";
 import idl "InterpretedGenomesRD.avdl";
@@ -31,7 +31,7 @@ record DeliveryTask {
      requests for the same tiering results. */
 record TieringResult {
     /** Model version number */
-    Gel_BioInf_Models.VersionControl versionControl;
+    VersionControl versionControl;
 
     /** This is the version of the assembly used to align the reads */
     string genomeAssemblyVersion="GRCh37.p13";
@@ -63,7 +63,7 @@ record TieringResult {
     union {null, map<File>} otherFiles;
 
     /** Pedigree */
-    Pedigree pedigree;
+    org.gel.models.participant.avro.Pedigree pedigree;
 
     /** Tiered Variants */
     array<ReportedVariant> TieredVariants;

@@ -1,4 +1,4 @@
-@namespace("Gel_BioInf_Models")
+@namespace("org.gel.models.report.avro")
 /**
 This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants
 define by a GMC in a CIP environment. Notice that most of the information needed is already collected in the
@@ -7,7 +7,7 @@ Interpretation Request or interpreted genome.
 protocol ClinicalReportsCancer {
 
 import idl "CommonInterpretedCancer.avdl";
-import idl "CancerParticipant.avdl";
+import idl "../../org.gel.models.participant.avro/1.0.0/CancerParticipant.avdl";
 import idl "VersionControl.avdl";
 
 record ClinicalReportCancer {
@@ -67,7 +67,7 @@ record ClinicalReportCancer {
     */
     map<array<map<string>>> genePanelsCoverage;
 
-    CancerParticipant cancerParticipant;
+    org.gel.models.participant.avro.CancerParticipant cancerParticipant;
 
 
 }

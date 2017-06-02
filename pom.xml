@@ -24,10 +24,14 @@
         <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
         <ga4gh.models.package>org.ga4gh.models</ga4gh.models.package>
         <cva.models.package>org.gel.models.cva.avro</cva.models.package>
-        <report.models.version>4.0.0</report.models.version>
+        <metrics.models.package>org.gel.models.metrics.avro</metrics.models.package>
+        <participant.models.package>org.gel.models.participant.avro</participant.models.package>
+        <report.models.version>3.0.0</report.models.version>
         <opencb.models.version>1.2.0-SNAPSHOT</opencb.models.version>
         <ga4gh.models.version>3.0.0</ga4gh.models.version>
         <cva.models.version>0.3.0</cva.models.version>
+        <metrics.models.version>1.0.0</metrics.models.version>
+        <participant.models.version>1.0.0</participant.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -198,6 +202,36 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>Generate Java sources for ${metrics.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${metrics.models.package}/${metrics.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Java sources for ${participant.models.package}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${participant.models.package}/${participant.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>Generate Java sources for ${opencb.models.package}</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -232,14 +266,12 @@
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
                                 <argument>build.py</argument>
-                                <argument>${report.models.package}</argument>
-                                <argument>${report.models.version}</argument>
-                                <argument>${ga4gh.models.package}</argument>
-                                <argument>${ga4gh.models.version}</argument>
-                                <argument>${cva.models.package}</argument>
-                                <argument>${cva.models.version}</argument>
-                                <argument>${opencb.models.package}</argument>
-                                <argument>${opencb.models.version}</argument>
+                                <argument>${report.models.package}::${report.models.version}</argument>
+                                <argument>${ga4gh.models.package}::${ga4gh.models.version}</argument>
+                                <argument>${cva.models.package}::${cva.models.version}</argument>
+                                <argument>${opencb.models.package}::${opencb.models.version}</argument>
+                                <argument>${metrics.models.package}::${metrics.models.version}</argument>
+                                <argument>${participant.models.package}::${participant.models.version}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -306,10 +338,12 @@
                                         <exclude>protocols.py</exclude>
                                     </excludes>
                                     <includes>
-                                        <include>GelProtocols.py</include>
-                                        <include>CVAProtocols.py</include>
-                                        <include>GA4GHProtocols.py</include>
-                                        <include>openCBProtocols.py</include>
+                                        <include>reports.py</include>
+                                        <include>ga4gh.py</include>
+                                        <include>metrics.py</include>
+                                        <include>participant.py</include>
+                                        <include>cva.py</include>
+                                        <include>opencb.py</include>
                                     </includes>
                                 </fileset>
                             </filesets>

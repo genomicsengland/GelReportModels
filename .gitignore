@@ -7,8 +7,6 @@ schemas/IDLs/org.opencb.biodata.models/*
 schemas/AVPRs/*
 schemas/JSONs/*
 *.egg-info
-protocols/CVA*.py
-protocols/open*.py
-protocols/GA4GH**.py
-protocols/GA4GH*.py
-protocols/GelPr*.py
+protocols/*.py
+!protocols/__init__.py
+!protocols/protocol.py

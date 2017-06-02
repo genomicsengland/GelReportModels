@@ -7,12 +7,12 @@ protocol CommonParticipant {
 /**
 Sex
 */
-enum Sex {MALE, FEMALE, UNKNOWN}
+enum Sex {male, female, unknown, undetermined}
 
 /**
 Karyotipic Sex
 */
-enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+enum PersonKaryotipicSex {unknown, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, other}
 
 
 /**
@@ -72,7 +72,7 @@ record ChiSquare1KGenomesPhase3Pop {
     /**
     Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
     */
-    double chiSquare;
+    float chiSquare;
 }
 
 /**

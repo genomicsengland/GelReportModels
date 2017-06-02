@@ -5,7 +5,67 @@ import fnmatch
 import logging
 import shutil
 
+import argparse
+
 __author__ = 'antonior'
+
+logging.basicConfig(level=logging.INFO)
+
+BASE_DIR = os.path.dirname(__file__)
+AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
+MODEL_SHORT_NAME = {
+    'org.ga4gh.models': 'ga4gh',
+    'org.gel.models.cva.avro': 'cva',
+    'org.gel.models.metrics.avro': 'metrics',
+    'org.gel.models.participant.avro': 'participant',
+    'org.gel.models.report.avro': 'reports',
+    'org.opencb.biodata.models': 'opencb'
+}
+#TODO: handle this at the version level
+MODEL_DOCUMENTATION = {
+    'org.gel.models.report.avro': [
+        # "RDParticipant",
+        "ClinicalReportRD",
+        "ClinicalReportCancer",
+        "InterpretationRequestRD",
+        "InterpretationRequestCancer",
+        "InterpretedGenomesRD",
+        "InterpretedGenomesCancer",
+        # "CancerParticipant",
+        # "GelBamMetrics",
+        "AuditLog",
+        # "RDParticipantChangeLog",
+        "MDTDeliveryProtocol",
+        # "SupplementaryAnalysisResults",
+        "ExitQuestionnaire"
+    ],
+    'org.gel.models.cva.avro':[
+        "EvidenceSet",
+        "Comment",
+        "ReportedVariant",
+        "ObservedVariant",
+        "DataIntake"
+    ],
+    'org.opencb.biodata.models':[
+        "evidence",
+        "read",
+        "variant",
+        "variantAnnotation",
+
+    ],
+    'org.ga4gh.models':[
+        "common",
+        "metadata",
+        "methods",
+        "readmethods",
+        "reads",
+        "referencemethods",
+        "references",
+        "variantmethods",
+        "variants",
+    ]
+}
+
 
 def create_folder(folder):
     """
@@ -73,128 +133,67 @@ def generate_documentation(class_name, avrp_folder, html_folder):
     logging.info("Running: [%s]" % avrodoc_command)
     os.system(avrodoc_command)
 
-
-logging.basicConfig(level=logging.INFO)
-
-BASE_DIR = os.path.dirname(__file__)
-AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "resources", "bin", "avro-tools-1.7.7.jar")
-
-if len(sys.argv) >= 9:
-    report_models_package = sys.argv[1]
-    report_models_version = sys.argv[2]
-    ga4gh_models_package = sys.argv[3]
-    ga4gh_models_version = sys.argv[4]
-    cva_models_package = sys.argv[5]
-    cva_models_version = sys.argv[6]
-    opencb_models_package = sys.argv[7]
-    opencb_models_version = sys.argv[8]
-else:
-    logging.error("Please, provide a version for the models")
-    sys.exit(-1)
-
-if len(sys.argv) == 10 and sys.argv[9] == 'skip_doc':
-    skip_doc = True
-else:
-    skip_doc = False
+def build_directories(models_package, models_version):
+    return dict(
+        idl_folder=os.path.join(BASE_DIR, "schemas", "IDLs", models_package, models_version),
+        json_folder=os.path.join(BASE_DIR, "schemas", "JSONs", models_package, models_version),
+        avrp_folder= os.path.join(BASE_DIR, "schemas", "AVPRs", models_package, models_version),
+        html_folder= os.path.join(BASE_DIR, "schemas", "html_schemas", models_package, models_version)
+    )
 
 
-
-report_module_version = report_models_version.replace('.', '_')
-ga4gh_module_version = ga4gh_models_version.replace('.', '_')
-cva_module_version = cva_models_version.replace('.', '_')
-opencb_module_version = opencb_models_version.replace('.', '_')
-
-report_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", report_models_package, report_models_version)
-report_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", report_models_package, report_models_version)
-report_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", report_models_package, report_models_version)
-report_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", report_models_package, report_models_version)
-ga4gh_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", ga4gh_models_package, ga4gh_models_version)
-ga4gh_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", ga4gh_models_package, ga4gh_models_version)
-ga4gh_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", ga4gh_models_package, ga4gh_models_version)
-ga4gh_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", ga4gh_models_package, ga4gh_models_version)
-cva_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", cva_models_package, cva_models_version)
-cva_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", cva_models_package, cva_models_version)
-cva_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", cva_models_package, cva_models_version)
-cva_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", cva_models_package, cva_models_version)
-opencb_idl_folder = os.path.join(BASE_DIR, "schemas", "IDLs", opencb_models_package, opencb_models_version)
-opencb_json_folder = os.path.join(BASE_DIR, "schemas", "JSONs", opencb_models_package, opencb_models_version)
-opencb_avrp_folder = os.path.join(BASE_DIR, "schemas", "AVPRs", opencb_models_package, opencb_models_version)
-opencb_html_folder = os.path.join(BASE_DIR, "docs", "html_schemas", opencb_models_package, opencb_models_version)
-
-folders2create = [report_json_folder, report_avrp_folder, report_html_folder,
-                  ga4gh_json_folder, ga4gh_avrp_folder, ga4gh_html_folder,
-                  cva_json_folder, cva_avrp_folder, cva_html_folder,
-                  opencb_json_folder, opencb_avrp_folder, opencb_html_folder]
-for folder in folders2create:
-    create_folder(folder)
+def generated_python_classes(package_name, models_version, idl_folder):
+    module_version = models_version.replace('.', '_')
+    logging.info("Generating Python source code for " + package_name)
+    outfile_with_version = os.path.join(BASE_DIR, "protocols",
+                                        "{shortname}_{version}.py".format(shortname=MODEL_SHORT_NAME[package_name], version=module_version))
+    outfile = os.path.join(BASE_DIR, "protocols", "{shortname}.py".format(shortname=MODEL_SHORT_NAME[package_name]))
+    generate_python_sources(idl_folder, outfile_with_version, models_version)
+    shutil.copyfile(outfile_with_version, outfile)
 
 
-create_other_schemas(report_idl_folder, report_json_folder, report_avrp_folder)
-create_other_schemas(ga4gh_idl_folder, ga4gh_json_folder, ga4gh_avrp_folder)
-create_other_schemas(cva_idl_folder, cva_json_folder, cva_avrp_folder)
-create_other_schemas(opencb_idl_folder, opencb_json_folder, opencb_avrp_folder)
+def generate_all_doc(package_name, avrp_folder, html_folder):
+    if package_name in MODEL_DOCUMENTATION:
+        for model in MODEL_DOCUMENTATION[package_name]:
+            generate_documentation(model, avrp_folder, html_folder)
+
+def build(models, skip_doc):
+    for model in models:
+        model_package = model[0]
+        model_version = model[1]
+        folders = build_directories(model_package, model_version)
+        for folder in folders:
+            create_folder(folders[folder])
+        create_other_schemas(idls_folder=folders['idl_folder'], json_folder=folders['json_folder'],
+                             avrp_folder=folders['avrp_folder']
+                             )
+        generated_python_classes(package_name=model_package, models_version=model_version, idl_folder=folders['idl_folder'])
+        if not skip_doc:
+            generate_all_doc(package_name=model_package, avrp_folder=folders['avrp_folder'], html_folder=folders['html_folder'])
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Generate AVPR, JSON, HTML, PYTHON Classes and JAVA Classes from the idls models')
+    parser.add_argument('models', metavar='models and version', nargs='+', help='List of models packages and versions to generated, in the following format package::version')
+    parser.add_argument('--skip_doc', default=False, action='store_true', help='Documentation will be skipped')
+    args = parser.parse_args()
+
+    list_of_models = []
+    for model in args.models:
+        print model
+        model, version = model.split('::')
+        if not model or not version:
+            logging.error('Please provide the version and the name of the package in the following format: package::version')
+            sys.exit(-1)
+        if model not in MODEL_SHORT_NAME:
+
+            logging.error(str(model) + 'is not a valid package name')
+            sys.exit(-1)
+
+        list_of_models.append((model, version))
+
+    build(models=list_of_models, skip_doc=args.skip_doc)
 
 
-logging.info("Generating Python source code from schemas...")
-outfile_with_version = os.path.join(BASE_DIR, "protocols", "GelProtocols_{version}.py".format(version=report_module_version))
-outfile = os.path.join(BASE_DIR, "protocols", "GelProtocols.py")
-ga4gh_outfile_with_version = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols_{version}.py".format(version=ga4gh_module_version))
-ga4gh_outfile = os.path.join(BASE_DIR, "protocols", "GA4GHProtocols.py")
-openCB_outfile_with_version = os.path.join(BASE_DIR, "protocols", "openCBProtocols_{version}.py".format(version=opencb_module_version))
-openCB_outfile = os.path.join(BASE_DIR, "protocols", "openCBProtocols.py")
-cva_outfile_with_version = os.path.join(BASE_DIR, "protocols", "CVAProtocols_{version}.py".format(version=cva_module_version))
-cva_outfile = os.path.join(BASE_DIR, "protocols", "CVAProtocols.py")
-
-version = json.load(open(os.path.join(report_json_folder, "VersionControl", "VersionControl.avsc")))["fields"][0]["default"]
-logging.info("Version: " + version)
-# GeL models Python source generation
-generate_python_sources(report_idl_folder, outfile_with_version, version)
-shutil.copyfile(outfile_with_version, outfile)
-# GA4GH models Python source generation
-generate_python_sources(ga4gh_idl_folder, ga4gh_outfile_with_version, version)
-shutil.copyfile(ga4gh_outfile_with_version, ga4gh_outfile)
-# OpenCB models Python source generation
-generate_python_sources(opencb_idl_folder, openCB_outfile_with_version, version)
-shutil.copyfile(openCB_outfile_with_version, openCB_outfile)
-# CVA models Python source generation
-generate_python_sources(cva_idl_folder, cva_outfile_with_version, version)
-shutil.copyfile(cva_outfile_with_version, cva_outfile)
-
-if not skip_doc:
-    # Builds models documentation
-    ## reporting
-    generate_documentation("RDParticipant", report_avrp_folder, report_html_folder)
-    generate_documentation("ClinicalReportRD", report_avrp_folder, report_html_folder)
-    generate_documentation("ClinicalReportCancer", report_avrp_folder, report_html_folder)
-    generate_documentation("InterpretationRequestRD", report_avrp_folder, report_html_folder)
-    generate_documentation("InterpretationRequestCancer", report_avrp_folder, report_html_folder)
-    generate_documentation("InterpretedGenomesRD", report_avrp_folder, report_html_folder)
-    generate_documentation("InterpretedGenomesCancer", report_avrp_folder, report_html_folder)
-    generate_documentation("CancerParticipant", report_avrp_folder, report_html_folder)
-    generate_documentation("GelBamMetrics", report_avrp_folder, report_html_folder)
-    generate_documentation("AuditLog", report_avrp_folder, report_html_folder)
-    generate_documentation("RDParticipantChangeLog", report_avrp_folder, report_html_folder)
-    generate_documentation("MDTDeliveryProtocol", report_avrp_folder, report_html_folder)
-    generate_documentation("SupplementaryAnalysisResults", report_avrp_folder, report_html_folder)
-    generate_documentation("ExitQuestionnaire", report_avrp_folder, report_html_folder)
-    ## CVA
-    generate_documentation("EvidenceSet", cva_avrp_folder, cva_html_folder)
-    generate_documentation("Comment", cva_avrp_folder, cva_html_folder)
-    generate_documentation("ReportedVariant", cva_avrp_folder, cva_html_folder)
-    generate_documentation("ObservedVariant", cva_avrp_folder, cva_html_folder)
-    generate_documentation("DataIntake", cva_avrp_folder, cva_html_folder)
-    ## OpenCB
-    generate_documentation("evidence", opencb_avrp_folder, opencb_html_folder)
-    generate_documentation("read", opencb_avrp_folder, opencb_html_folder)
-    generate_documentation("variant", opencb_avrp_folder, opencb_html_folder)
-    generate_documentation("variantAnnotation", opencb_avrp_folder, opencb_html_folder)
-    ## GA4GH
-    generate_documentation("common", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("metadata", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("methods", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("readmethods", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("reads", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("referencemethods", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("references", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("variantmethods", ga4gh_avrp_folder, ga4gh_html_folder)
-    generate_documentation("variants", ga4gh_avrp_folder, ga4gh_html_folder)
+if __name__ == '__main__':
+    main()
