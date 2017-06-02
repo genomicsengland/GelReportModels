@@ -215,5 +215,5 @@ def getProtocolClasses(superclass=ProtocolElement):
 
 # We can now import the definitions of the protocol elements from the
 # generated file.
-from GelProtocols import *  # NOQA
+#from participant import *  # NOQA
 
