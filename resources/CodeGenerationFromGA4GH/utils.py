@@ -16,7 +16,11 @@ import time
 import humanize
 import requests
 import yaml
-import pysam
+try:
+    import pysam
+except:
+    pass
+
 
 
 def log(message):
