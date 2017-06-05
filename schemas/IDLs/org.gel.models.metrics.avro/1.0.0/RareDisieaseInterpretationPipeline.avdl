@@ -83,12 +83,12 @@ record RareDiseaseInterpretationStatus {
     union {null, string} lastStepDate;
     map<string> pipelineParameters;
     string tieringConfigurationFile;
-    map<string> softwareVersions;
-    map<string> dataBaseVersions;
-    array<string> listOfSamples;
+    union {null, map<string>} softwareVersions;
+    union {null, map<string>} dataBaseVersions;
+    union {null, array<string>} listOfSamples;
     boolean readyToDispatch;
-    array<Step> steps;
-    array<File> listOfFilesToDispatch;
+    union {null, array<Step>} steps;
+    union {null, array<File>} listOfFilesToDispatch;
 
 }
 
