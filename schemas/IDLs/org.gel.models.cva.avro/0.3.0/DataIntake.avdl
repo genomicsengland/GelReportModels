@@ -58,6 +58,10 @@ protocol DataIntakeProtocol {
         */
         union {null, string} authorVersion;
         /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+        /**
         Basic information about the InterpretationRequest
         */
         org.gel.models.report.avro.InterpretationRequestRD interpretationRequest;
@@ -151,6 +155,10 @@ protocol DataIntakeProtocol {
         The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
         */
         string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
