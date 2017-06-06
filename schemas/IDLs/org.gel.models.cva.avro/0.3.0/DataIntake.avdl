@@ -2,11 +2,13 @@
 
 /**
 DataIntakeProtocol defines three records for injecting variant data
+
    - TieredVariantInjectRD
    - ReportedVariantInjectRD
    - CandidateVariantInjectRD
 
 Every ReportedVariant is uniquely identified by:
+
    - report event id
    - report model version
    - id

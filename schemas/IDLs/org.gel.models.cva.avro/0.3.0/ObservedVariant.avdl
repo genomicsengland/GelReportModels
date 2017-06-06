@@ -14,6 +14,7 @@ A variant observed in a specific sample.
 The information about the observation is contained within a CalledGenotype, it is linked to one abstract Variant.
 
 Every ObservedVariant is uniquely identified by:
+
 * report model version
 * sample id
 * id

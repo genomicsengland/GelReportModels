@@ -143,6 +143,7 @@ mode of inheritance and genomic feature. An evidence not associated to any pheno
 for any phenotype. Evidence consistency is evaluated based on existing curations.
 
 Every EvidenceSet is uniquely identified by:
+
 * variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate) after
    natural text sorting
 
