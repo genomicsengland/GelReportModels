@@ -5,6 +5,17 @@ DataIntakeProtocol defines three records for injecting variant data
    - TieredVariantInjectRD
    - ReportedVariantInjectRD
    - CandidateVariantInjectRD
+
+Every ReportedVariant is uniquely identified by:
+   - report event id
+   - report model version
+   - id
+   - version
+   - family id
+   - cohort id
+   - variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate)
+
+Any duplication of a ReportedVariant will be rejected.
 */
 protocol DataIntakeProtocol {
     import idl "../../org.gel.models.report.avro/3.0.0/InterpretationRequestRD.avdl";
@@ -20,11 +31,12 @@ protocol DataIntakeProtocol {
         */
         string reportModelVersion;
         /**
-        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The identifier for the entity containing this reported variant.
         */
         string id;
         /**
-        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
         */
         int version;
         /**
@@ -58,19 +70,20 @@ protocol DataIntakeProtocol {
         */
         string reportModelVersion;
         /**
-        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The identifier for the entity containing this reported variant.
         */
         string id;
         /**
-        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
         */
         int version;
         /**
-        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        The identifier for the parent entity
         */
         string parent_id;
         /**
-        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        The version for the parent entity
         */
         int parent_version;
         /**
@@ -108,19 +121,20 @@ protocol DataIntakeProtocol {
         */
         string reportModelVersion;
         /**
-        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The identifier for the entity containing this reported variant.
         */
         string id;
         /**
-        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
         */
         int version;
         /**
-        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        The identifier for the parent entity
         */
         string parent_id;
         /**
-        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        The version for the parent entity
         */
         int parent_version;
         /**
