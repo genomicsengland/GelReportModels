@@ -66,6 +66,14 @@ protocol DataIntakeProtocol {
         */
         int version;
         /**
+        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        string parent_id;
+        /**
+        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        int parent_version;
+        /**
         The family identifier
         */
         string familyId;
@@ -107,6 +115,14 @@ protocol DataIntakeProtocol {
         The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
         */
         int version;
+        /**
+        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        string parent_id;
+        /**
+        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        int parent_version;
         /**
         The family identifier
         */

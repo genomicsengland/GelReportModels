@@ -41,6 +41,14 @@ protocol ReportEventContainerProtocol {
         */
         int version;
         /**
+        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        union {null, string} parent_id;
+        /**
+        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        */
+        union {null, int} parent_version;
+        /**
         The family identifier
         */
         string familyId;
@@ -81,10 +89,6 @@ protocol ReportEventContainerProtocol {
         The observed variants
         */
         array<ObservedVariant> variants = [];
-        /**
-        Associated report events
-        */
-        array<ReportedVariant> associatedReportedVariants = [];
         /**
         Comments for this diagnostic event
         */
