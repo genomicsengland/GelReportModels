@@ -1,8 +1,8 @@
-@namespace("org.gel.models.report.avro")
+@namespace("org.gel.models.metrics.avro")
 /**
 This protocol defines the gel metrics we calculate and store for bams
 */
-protocol RDIntperetationPipeline {
+protocol RDInterpretationPipeline {
 
 /*
 This is used in `File`
