@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol ReportEventContainerProtocol {
+protocol ReportedVariantProtocol {
 
     // CVA references
     import idl "Comment.avdl";
@@ -25,7 +25,20 @@ protocol ReportEventContainerProtocol {
     }
 
     /**
-    A wrapper for a report event
+A variant or variants (i.e.: composite heterozygous) reported by any manual or automated means.
+The information about the report is contained within a ReportEvent, it is linked to one or more
+ObservedVariant.
+
+Every ReportedVariant is uniquely identified by:
+* report event id
+* report model version
+* id
+* version
+* family id
+* cohort id
+* variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate)
+
+Duplication of the prior fields is not be supported.
     */
     record ReportedVariant {
         /**
