@@ -133,7 +133,21 @@ protocol EvidencesSetProtocol {
     */
 
     /**
-    Main record for an evidence set
+An evidences set contains all the evidences and curations for a variant or group of variants. It also links to all
+reports for the variant/s.
+The curations are stored in an array of CurationEntry that keep a history of changes to curation status. A curation
+must be associated to a phenotype and optionally to a mode of inheritance (MOI) and a genomic feature, only one curation
+per combination of phenotype, MOI and genomic feature is stored.
+The evidences are stored in an array of EvidenceEntry. An evidence may be optionally associated to a phenotype,
+mode of inheritance and genomic feature. An evidence not associated to any phenotype is considered to be an evidence
+for any phenotype. Evidence consistency is evaluated based on existing curations.
+
+Every EvidenceSet is uniquely identified by:
+
+* variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate) after
+   natural text sorting
+
+Duplication of the prior fields is not be supported.
     */
     record EvidenceSet {
         /**
