@@ -36,7 +36,7 @@ record CancerInterpretedGenome {
     /**
     URI where the company can upload files for this analysis
     */
-    string reportURI;
+    string reportUri;
 
     /**
     This map should contains the version of the different DBs used in the process

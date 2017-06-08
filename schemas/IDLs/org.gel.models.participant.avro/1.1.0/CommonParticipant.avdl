@@ -1,4 +1,4 @@
-@namespace("org.gel.models.report.avro")
+@namespace("org.gel.models.participant.avro")
 /**
 This protocol defines the Common things between participant models
 */
@@ -7,12 +7,12 @@ protocol CommonParticipant {
 /**
 Sex
 */
-enum Sex {male, female, unknown, undetermined}
+enum Sex {MALE, FEMALE, UNKNOWN}
 
 /**
 Karyotipic Sex
 */
-enum PersonKaryotipicSex {unknown, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, other}
+enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
 /**
@@ -72,7 +72,7 @@ record ChiSquare1KGenomesPhase3Pop {
     /**
     Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
     */
-    float chiSquare;
+    double chiSquare;
 }
 
 /**
@@ -112,22 +112,22 @@ record ConsentStatus {
     Is this individual consented to the programme?
     It could simple be a family member that is not consented but for whom affection status is known
     */
-    boolean programmeConsent = false;
+    boolean programmeConsent=false;
 
     /**
     Consent for feedback of primary findings?
     */
-    boolean primaryFindingConsent = false;
+    boolean primaryFindingConsent=false;
 
     /**
     Consent for secondary finding lookup
     */
-    boolean secondaryFindingConsent = false;
+    boolean secondaryFindingConsent=false;
 
     /**
     Consent for carrier status check?
     */
-    boolean carrierStatusConsent = false;
+    boolean carrierStatusConsent=false;
 }
 
 /**

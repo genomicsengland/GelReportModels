@@ -178,7 +178,7 @@ record CancerDemographics{
     /**
     assigned ICD10 code
     */
-    union {null, string} assignedICD10;
+    union {null, string} assignedIcd10;
 
 
 }
