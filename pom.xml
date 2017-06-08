@@ -29,7 +29,7 @@
         <report.models.version>3.1.0</report.models.version>
         <opencb.models.version>1.2.0-SNAPSHOT</opencb.models.version>
         <ga4gh.models.version>3.0.0</ga4gh.models.version>
-        <cva.models.version>0.3.0</cva.models.version>
+        <cva.models.version>0.3.1</cva.models.version>
         <metrics.models.version>1.0.0</metrics.models.version>
         <participant.models.version>1.0.0</participant.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -57,11 +57,11 @@ Duplication of the prior fields is not be supported.
         /**
         The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
         */
-        union {null, string} parent_id;
+        union {null, string} parentId;
         /**
         The version for the parent entity, either InterpretationRequest or InterpretedGenome
         */
-        union {null, int} parent_version;
+        union {null, int} parentVersion;
         /**
         The family identifier
         */
@@ -102,7 +102,7 @@ Duplication of the prior fields is not be supported.
         /**
         The observed variants
         */
-        array<ObservedVariant> variants = [];
+        array<ObservedVariant> observedVariants = [];
         /**
         Comments for this diagnostic event
         */

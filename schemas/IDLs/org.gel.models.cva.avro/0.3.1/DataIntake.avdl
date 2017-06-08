@@ -87,11 +87,11 @@ protocol DataIntakeProtocol {
         /**
         The identifier for the parent entity
         */
-        string parent_id;
+        string parentId;
         /**
         The version for the parent entity
         */
-        int parent_version;
+        int parentVersion;
         /**
         The family identifier
         */
@@ -138,11 +138,11 @@ protocol DataIntakeProtocol {
         /**
         The identifier for the parent entity
         */
-        string parent_id;
+        string parentId;
         /**
         The version for the parent entity
         */
-        int parent_version;
+        int parentVersion;
         /**
         The family identifier
         */

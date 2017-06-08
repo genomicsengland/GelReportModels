@@ -87,7 +87,7 @@ protocol EvidencesSetProtocol {
         /**
         The author of the curation event
         */
-        string userid;
+        string userId;
     }
 
     /**
@@ -153,7 +153,7 @@ Duplication of the prior fields is not be supported.
         /**
         The author of the curation event
         */
-        string userid;
+        string userId;
         /**
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
