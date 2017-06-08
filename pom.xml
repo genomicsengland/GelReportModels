@@ -157,7 +157,7 @@
                 <version>1.7.7</version>
                 <executions>
                     <execution>
-                        <id>Generate Java sources for ${report.models.package}</id>
+                        <id>Generate Java sources for ${report.models.package}::${report.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -172,7 +172,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Java sources for ${ga4gh.models.package}</id>
+                        <id>Generate Java sources for ${ga4gh.models.package}::${ga4gh.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -187,7 +187,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Java sources for ${cva.models.package}</id>
+                        <id>Generate Java sources for ${cva.models.package}::${cva.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -202,7 +202,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Java sources for ${metrics.models.package}</id>
+                        <id>Generate Java sources for ${metrics.models.package}::${metrics.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -217,7 +217,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Java sources for ${participant.models.package}</id>
+                        <id>Generate Java sources for ${participant.models.package}::${participant.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
@@ -232,7 +232,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Generate Java sources for ${opencb.models.package}</id>
+                        <id>Generate Java sources for ${opencb.models.package}::${opencb.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
