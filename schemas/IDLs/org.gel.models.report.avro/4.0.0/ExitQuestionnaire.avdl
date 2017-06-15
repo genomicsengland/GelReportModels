@@ -3,6 +3,7 @@
 This protocol defines ExitQuestionnaires
 */
 protocol ExitQuestionnaires {
+
     enum CaseSolvedFamily {yes, no, partially, unknown}
     enum PhenotypesSolved {yes, no, partially, unknown}
     enum SegregationQuestion {yes, no}
@@ -10,6 +11,7 @@ protocol ExitQuestionnaires {
     enum ConfirmationDecision {yes, no, na}
     enum ConfirmationOutcome {yes, no, na}
     enum Actionability {yes, no, not_yet, na}
+    // TODO: refactor with VariantClassification in CommonInterpreted.avdl
     enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
 
@@ -34,7 +36,7 @@ protocol ExitQuestionnaires {
         /**
         Chr: Pos Ref > Alt
         */
-        string variant_details;
+        string variantDetails;
         /**
         Did you carry out technical confirmation of this variant via an alternative test?
         */
@@ -60,7 +62,7 @@ protocol ExitQuestionnaires {
 
     record VariantGroupLevelQuestions{
 
-        int variant_group;
+        int variantGroup;
         array<VariantLevelQuestions> variantLevelQuestions;
         /**
         Is evidence for this variant/variant pair sufficient to use it for clinical purposes such as prenatal diagnosis or predictive testing?

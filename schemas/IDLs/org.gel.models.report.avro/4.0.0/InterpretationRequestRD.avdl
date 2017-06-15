@@ -8,149 +8,140 @@ All annotations are against Ensembl gene models
 */
 protocol InterpretationRequestsRD {
 
-/**
-Caution!! This has been removed
-import idl "variants.avdl";
-*/
-
-import idl "CommonRequest.avdl";
-import idl "VersionControl.avdl";
-import idl "CommonInterpreted.avdl";
-import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
-
-
-
-
-//TODO: Convert this in a record to stored chr, parent....
-enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
-
-
-
-
-
-/**
-This record represents basic information for this report
-*/
-record InterpretationRequestRD {
     /**
-    Model version number
+    Caution!! This has been removed
+    import idl "variants.avdl";
     */
-    VersionControl versionControl;
+    import idl "CommonRequest.avdl";
+    import idl "VersionControl.avdl";
+    import idl "CommonInterpreted.avdl";
+    import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
+
+
+    //TODO: Convert this in a record to stored chr, parent....
+    enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
     /**
-    Unique id for this report
+    This record represents basic information for this report
     */
-    string InterpretationRequestID;
+    record InterpretationRequestRD {
+        /**
+        Model version number
+        */
+        VersionControl versionControl;
 
-    /**
-    Internal Study id
-    */
-    string internalStudyId;
+        /**
+        Unique id for this report
+        */
+        string interpretationRequestId;
 
-    /**
-    This is the version of the assembly used to align the reads
-    */
-    string genomeAssemblyVersion="GRCh37.p13";
+        /**
+        Internal Study id
+        */
+        string internalStudyId;
 
-    /**
-    Cellbase version
-    */
-    string cellbaseVersion="4.0";
+        /**
+        This is the version of the assembly used to align the reads
+        */
+        string genomeAssemblyVersion = "GRCh37.p13";
 
-    /**
-    Version of this request
-    */
-    int InterpretationRequestVersion;
+        /**
+        Cellbase version
+        */
+        string cellbaseVersion="4.0";
 
-    /**
-    Load data to system or also provide interpretation?
-    */
-    boolean interpretGenome=false;
+        /**
+        Version of this request
+        */
+        int interpretationRequestVersion;
 
-    /**
-    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
-    */
-    array<string> workspace;
+        /**
+        Load data to system or also provide interpretation?
+        */
+        boolean interpretGenome = false;
 
-    /**
-    BAMs Files
-    */
-    array<File> BAMs;
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
 
-    /**
-    VCFs Files where SVs and CNVs are represented
-    */
-    array<File> VCFs;
+        /**
+        BAMs Files
+        */
+        array<File> bams;
 
-    /**
-    BigWig Files
-    */
-    union {null, array<File>} bigWigs;
+        /**
+        VCFs Files where SVs and CNVs are represented
+        */
+        array<File> vcfs;
 
-    /**
-    Pedigree Diagram Files as an SGV
-    */
-    union {null, File} pedigreeDiagram;
+        /**
+        BigWig Files
+        */
+        union {null, array<File>} bigWigs;
 
-    /**
-    Variant Annotation using cellbase
-    */
-    union {null, File} annotationFile;
+        /**
+        Pedigree Diagram Files as an SGV
+        */
+        union {null, File} pedigreeDiagram;
 
-    /**
-    Other files that may be vendor specific
-    map of key: type of file, value: record of type File
-    */
-    union {null, map<File>} otherFiles;
+        /**
+        Variant Annotation using cellbase
+        */
+        union {null, File} annotationFile;
 
-    /**
-    Pedigree of the family to analyze
-    */
-    org.gel.models.participant.avro.Pedigree pedigree;
+        /**
+        Other files that may be vendor specific
+        map of key: type of file, value: record of type File
+        */
+        union {null, map<File>} otherFiles;
 
-    /**
-    Tiered Variants
-    */
-    array<ReportedVariant> TieredVariants;
+        /**
+        Pedigree of the family to analyze
+        */
+        org.gel.models.participant.avro.Pedigree pedigree;
 
-    /**
-    Tiering Version
-    */
-    string TieringVersion;
+        /**
+        Tiered Variants
+        */
+        array<ReportedVariant> tieredVariants;
 
-    /**
-    Complex Genetic Phenomena
-    */
-    union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+        /**
+        Tiering Version
+        */
+        string tieringVersion;
 
-    /**
-    It is paternal or maternal with reference to the participant.
-    */
-    union {null, OtherFamilyHistory} otherFamilyHistory;
+        /**
+        Complex Genetic Phenomena
+        */
+        union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
 
-    /**
-    name of the directory or endpoint where the analysed genome will be returned.
-    */
-    string analysisReturnURI;
+        /**
+        It is paternal or maternal with reference to the participant.
+        */
+        union {null, OtherFamilyHistory} otherFamilyHistory;
 
-    /**
-    In the event that the provider has multiple versions of their system and an analysis will need to be provided against
-    a particular version, then that version goes here. If it is null the provider is free to analyse it against its more
-    recent stable version.
-    */
-    union {null, string} analysisVersion;
+        /**
+        name of the directory or endpoint where the analysed genome will be returned.
+        */
+        string analysisReturnUri;
 
-    /**
-    This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
-    That is: a map of tables of genes and metrics
-    */
-    union {null, map<map<map<float>>>} genePanelsCoverage;
+        /**
+        In the event that the provider has multiple versions of their system and an analysis will need to be provided against
+        a particular version, then that version goes here. If it is null the provider is free to analyse it against its more
+        recent stable version.
+        */
+        union {null, string} analysisVersion;
 
-    /**
-    Additional information
-    */
-    union {null, map<string>} additionalInfo;
-}
+        /**
+        This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+        That is: a map of tables of genes and metrics
+        */
+        union {null, map<map<map<float>>>} genePanelsCoverage;
 
-
+        /**
+        Additional information
+        */
+        union {null, map<string>} additionalInfo;
+    }
 }
