@@ -37,7 +37,7 @@ def validation(json_file, schema, version, package):
     if version == 'latest':
         protocol = importlib.import_module('protocols.'+ package)
     else:
-        protocol = importlib.import_module('protocols.' + 'package' + version.replace('.', '_'))
+        protocol = importlib.import_module('protocols.' + package + version.replace('.', '_'))
 
     if os.path.isfile(json_file):
         fd = open(json_file)
