@@ -3,8 +3,8 @@
 protocol ObservedVariantProtocol {
 
     // Report models references
-    import idl "../../org.gel.models.report.avro/3.0.0/CommonInterpreted.avdl";
-    import idl "../../org.gel.models.report.avro/3.0.0/CommonParticipant.avdl";
+    import idl "../../org.gel.models.report.avro/3.1.0/CommonInterpreted.avdl";
+    import idl "../../org.gel.models.report.avro/3.1.0/CommonParticipant.avdl";
     // OpenCB references
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.avdl";
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
