@@ -11,6 +11,8 @@ protocol MDTDelivery {
     import idl "InterpretationRequestRD.avdl";
     import idl "InterpretedGenomesRD.avdl";
 
+    enum AnalysisType {rare_disease, cancer}
+
     /**
     Defines a delivery task. A delivery task identifies an instance of the whole delivery
     interaction cycle, whether successful or not. This allows traceability and identification
@@ -28,7 +30,7 @@ protocol MDTDelivery {
         string basePath;
 
         string protocolVersion;
-        string rareOrCancer;
+        AnalysisType analysisType;
     }
 
     /**

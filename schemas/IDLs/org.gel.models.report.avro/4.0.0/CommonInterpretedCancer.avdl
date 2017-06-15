@@ -8,12 +8,28 @@ protocol CommonInterpretedCancer {
     /**
     this is the type of actionability for the reported event
     */
-    enum ActionType{Therapy, Therapeutic, Prognosis, Diagnosis}
+    enum ActionType{therapy, therapeutic, prognosis, diagnosis}
 
     /**
-    this defines whether the variant reported is considered to be a somatic or germline finding.
+        Variant origin.
+
+* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
+* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
+* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
+* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
+* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
+* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
+* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
     */
-    enum SomaticOrGermline {unknown, somatic, germline}
+    enum AlleleOrigin {
+        de_novo_variant,
+        germline_variant,
+        maternal_variant,
+        paternal_variant,
+        pedigree_specific_variant,
+        population_specific_variant,
+        somatic_variant
+    }
 
     record Actions {
 
@@ -71,6 +87,8 @@ protocol CommonInterpretedCancer {
 
     enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
 
+    enum RoleInCancer {oncogene, TSG, both}
+
     record GenomicFeatureCancer {
 
         /**
@@ -101,7 +119,7 @@ protocol CommonInterpretedCancer {
         /**
         Role in cancer: oncogene, TSG or both
         */
-        union {null, string} roleInCancer;
+        union {null, RoleInCancer} roleInCancer;
 
     }
 
@@ -110,6 +128,20 @@ protocol CommonInterpretedCancer {
     Possible tiers as defined by Genomics England
     */
     enum Tier {NONE, TIER1, TIER2, TIER3}
+
+    /**
+    A Sequence Ontology term identifier by its id and name (e.g.: id = SO:0001816 ; name = non synonymous)
+    */
+    record SoTerm {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        string name;
+    }
 
     record ReportEventCancer {
 
@@ -125,18 +157,13 @@ protocol CommonInterpretedCancer {
         */
         GenomicFeatureCancer genomicFeatureCancer;
 
-
         /**
-        Sequence Ontology Term used in tier
+        Sequence Ontology terms used in tier
         */
-        array<string> soTerms;
+        array<SoTerm> soTerms;
 
         /**
-        Sequence Ontology name used in tier
-        */
-        array<string> soNames;
-
-        /**
+        Types of actionability
         */
         union {null, array<Actions>} actions;
 
@@ -230,7 +257,7 @@ protocol CommonInterpretedCancer {
         /**
         For example HGMD ID)
         */
-        union {null,map<string>} additionalTextualVariantAnnotations;
+        union {null, map<string>} additionalTextualVariantAnnotations;
 
         /**
         For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -245,6 +272,32 @@ protocol CommonInterpretedCancer {
 
         array<ReportEventCancer> reportEvents;
 
+    }
+
+    /**
+The first level type must be one
+of the following:
+
+* `DEL` Deletion relative to the reference
+* `INS` Insertion of novel sequence relative to the reference
+* `DUP` Region of elevated copy number relative to the reference
+* `INV` Inversion of reference sequence
+* `CNV` Copy number variable region (may be both deletion and duplication) The CNV category should not be used when a
+more specific category can be applied.  Reserved subtypes include:
+* `DUP:TANDEM` Tandem duplication
+* `DEL:ME` Deletion of mobile element relative to the reference
+* `INS:ME` Insertion of a mobile element relative to the reference
+    */
+    enum StructuralVariantFirstLevelType {
+        DEL, INS, DUP, INV, CNV, DUP_TANDEM, DEL_ME, INS_ME
+    }
+
+    /**
+    Structural variant type as defined by the VCF specification 4.2 for field ID.
+    */
+    record StructuralVariantType {
+        StructuralVariantFirstLevelType firstLevelType;
+        union {null, string} subtype;
     }
 
 
@@ -266,10 +319,9 @@ protocol CommonInterpretedCancer {
         int end;
 
         /**
-        The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
-        (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
+        The structural variant type
         */
-        string type;
+        StructuralVariantType type;
 
         /**
         reference: Reference Allele sequence, the same provided in vcf
@@ -284,7 +336,7 @@ protocol CommonInterpretedCancer {
         /**
         For example HGMD ID)
         */
-        union {null,map<string>} additionalTextualVariantAnnotations;
+        union {null, map<string>} additionalTextualVariantAnnotations;
 
         /**
         For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -295,7 +347,6 @@ protocol CommonInterpretedCancer {
         Comments
         */
         union {null, array<string>} comments;
-
     }
 
 
@@ -308,8 +359,7 @@ protocol CommonInterpretedCancer {
         /**
         Describe whether this is a somatic or Germline variant
         */
-        SomaticOrGermline somaticOrGermline;
-
+        array<AlleleOrigin> alleleOrigins;
     }
 
 
@@ -323,8 +373,7 @@ protocol CommonInterpretedCancer {
         /**
         Describe whether this is a somatic or Germline variant
         */
-        SomaticOrGermline somaticOrGermline;
-
+        array<AlleleOrigin> alleleOrigins;
     }
 
 }

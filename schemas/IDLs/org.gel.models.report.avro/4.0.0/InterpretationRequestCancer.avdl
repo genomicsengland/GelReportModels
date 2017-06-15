@@ -22,7 +22,6 @@ protocol CancerInterpretationRequests {
 
     /**
     This record represents basic information for this report
-
     */
     record CancerInterpretationRequest {
         /**
@@ -55,7 +54,6 @@ protocol CancerInterpretationRequests {
         */
         array<File> bams;
 
-
         /**
         VCFs Files where SVs and CNVs are represented
         */
@@ -83,7 +81,6 @@ protocol CancerInterpretationRequests {
         */
         string analysisVersion;
 
-
         /**
         Tiered Variants
         */
@@ -108,7 +105,6 @@ protocol CancerInterpretationRequests {
         Additional information
         */
         union {null, map<string>} additionalInfo;
-
 
     }
 

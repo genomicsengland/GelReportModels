@@ -7,6 +7,7 @@ protocol CommonRequest {
     /*
 This is used in `File`
 Types:
+
 * `BAM`: alignment
 * `gVCF`: genomic VCF for variants
 * `VCF_small`: VCF file for SNV and indel
@@ -50,7 +51,7 @@ Types:
         /**
         Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids
         */
-        union {null, string, array<string>} sampleId;
+        union {null, array<string>} sampleId;
 
         /**
         URI PATH
