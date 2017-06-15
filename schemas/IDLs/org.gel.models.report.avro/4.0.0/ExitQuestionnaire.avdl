@@ -34,7 +34,7 @@ protocol ExitQuestionnaires {
         /**
         Chr: Pos Ref > Alt
         */
-        string variant_details;
+        string variantDetails;
         /**
         Did you carry out technical confirmation of this variant via an alternative test?
         */
@@ -60,7 +60,7 @@ protocol ExitQuestionnaires {
 
     record VariantGroupLevelQuestions{
 
-        int variant_group;
+        int variantGroup;
         array<VariantLevelQuestions> variantLevelQuestions;
         /**
         Is evidence for this variant/variant pair sufficient to use it for clinical purposes such as prenatal diagnosis or predictive testing?

@@ -10,107 +10,107 @@ All annotations are against Ensembl gene models
 protocol CancerInterpretationRequests {
 
 
-/**
-Caution!! This has been removed
-import idl "variants.avdl";
-*/
-
-import idl "../../org.gel.models.participant.avro/1.0.0/CancerParticipant.avdl";
-import idl "CommonRequest.avdl";
-import idl "CommonInterpretedCancer.avdl";
-import idl "VersionControl.avdl";
-
-/**
-This record represents basic information for this report
-
-*/
-record CancerInterpretationRequest {
     /**
-    Model version number
+    Caution!! This has been removed
+    import idl "variants.avdl";
     */
-    VersionControl versionControl;
+
+    import idl "../../org.gel.models.participant.avro/1.0.0/CancerParticipant.avdl";
+    import idl "CommonRequest.avdl";
+    import idl "CommonInterpretedCancer.avdl";
+    import idl "VersionControl.avdl";
 
     /**
-    Unique id for this report
+    This record represents basic information for this report
+
     */
-    string reportRequestId;
+    record CancerInterpretationRequest {
+        /**
+        Model version number
+        */
+        VersionControl versionControl;
 
-    /**
-    Version of this report
-    */
-    int reportVersion;
+        /**
+        Unique id for this report
+        */
+        string reportRequestId;
 
-    /**
-    Internal Study id
-    */
-    string internalStudyId;
+        /**
+        Version of this report
+        */
+        int reportVersion;
 
-    /**
-    Simply load data to system or also provide interpretation?
-    */
-    boolean interpretGenome=false;
+        /**
+        Internal Study id
+        */
+        string internalStudyId;
 
-    /**
-    BAMs Files
-    */
-    array<File> BAMs;
+        /**
+        Simply load data to system or also provide interpretation?
+        */
+        boolean interpretGenome = false;
 
-
-    /**
-    VCFs Files where SVs and CNVs are represented
-    */
-    array<File> VCFs;
-
-    /**
-    BigWig Files
-    */
-    array<File> bigWigs;
-
-    /**
-    This will be the output file from Cellbase + version used
-    */
-    union{null, File} annotationFile;
-
-    org.gel.models.participant.avro.CancerParticipant cancerParticipant;
-
-    /**
-    Location (URI) where the data can be found
-    */
-    string analysisURI;
-
-    /**
-    GEL's analysis version for this request. It can increase if a change is made to the underlying data for example
-    */
-    string analysisVersion;
+        /**
+        BAMs Files
+        */
+        array<File> bams;
 
 
-    /**
-    Tiered Variants
-    */
-    array<ReportedSomaticVariants> TieredVariants;
+        /**
+        VCFs Files where SVs and CNVs are represented
+        */
+        array<File> vcfs;
 
-    /**
-    Structural Tiered Variants
-    */
-    array<ReportedSomaticStructuralVariants> structuralTieredVariants;
+        /**
+        BigWig Files
+        */
+        array<File> bigWigs;
 
-    /**
-    Tiering Version
-    */
-    string TieringVersion;
+        /**
+        This will be the output file from Cellbase + version used
+        */
+        union{null, File} annotationFile;
 
-    /**
-    The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
-    */
-    array<string> workspace;
+        org.gel.models.participant.avro.CancerParticipant cancerParticipant;
 
-    /**
-    Additional information
-    */
-    union {null, map<string>} additionalInfo;
+        /**
+        Location (URI) where the data can be found
+        */
+        string analysisUri;
+
+        /**
+        GEL's analysis version for this request. It can increase if a change is made to the underlying data for example
+        */
+        string analysisVersion;
 
 
-}
+        /**
+        Tiered Variants
+        */
+        array<ReportedSomaticVariants> tieredVariants;
+
+        /**
+        Structural Tiered Variants
+        */
+        array<ReportedSomaticStructuralVariants> structuralTieredVariants;
+
+        /**
+        Tiering Version
+        */
+        string tieringVersion;
+
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+
+        /**
+        Additional information
+        */
+        union {null, map<string>} additionalInfo;
+
+
+    }
 
 
 }

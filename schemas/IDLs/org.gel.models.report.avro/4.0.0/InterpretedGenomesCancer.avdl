@@ -5,57 +5,57 @@ Define the Report used by GEL to get the clinical interpretation companies resul
 */
 protocol CancerInterpretedGenomes {
 
-//TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
+    //TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
 
-import idl "CommonInterpretedCancer.avdl";
-import idl "VersionControl.avdl";
+    import idl "CommonInterpretedCancer.avdl";
+    import idl "VersionControl.avdl";
 
 
-record CancerInterpretedGenome {
-    /**
-    Model version number
-    */
-    VersionControl versionControl;
+    record CancerInterpretedGenome {
+        /**
+        Model version number
+        */
+        VersionControl versionControl;
 
-    /**
-    This is the ID of the clinical interpretation request
-    */
-    string reportRequestId;
+        /**
+        This is the ID of the clinical interpretation request
+        */
+        string reportRequestId;
 
-    /** This object define the type of report being returned for the participant)
-    ReportType reportType;
-    */
+        /** This object define the type of report being returned for the participant)
+        ReportType reportType;
+        */
 
-    /**
-    This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
-    used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
-    It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
-    */
-    string analysisId;
+        /**
+        This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
+        used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
+        It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+        */
+        string analysisId;
 
-    /**
-    URI where the company can upload files for this analysis
-    */
-    string reportURI;
+        /**
+        URI where the company can upload files for this analysis
+        */
+        string reportUri;
 
-    /**
-    This map should contains the version of the different DBs used in the process
-    */
-    map <string> referenceDatabasesVersions;
+        /**
+        This map should contains the version of the different DBs used in the process
+        */
+        map <string> referenceDatabasesVersions;
 
-    /**
-    This map should contains the version of the different software in the process
-    */
-    map <string> softwareVersions;
+        /**
+        This map should contains the version of the different software in the process
+        */
+        map <string> softwareVersions;
 
-    array<ReportedSomaticVariants> reportedVariants;
+        array<ReportedSomaticVariants> reportedVariants;
 
-    array<ReportedSomaticStructuralVariants> reportedStructuralVariants;
+        array<ReportedSomaticStructuralVariants> reportedStructuralVariants;
 
-    /**
-    Comments about the report
-    */
-    union {null, array<string>} comments;
+        /**
+        Comments about the report
+        */
+        union {null, array<string>} comments;
 
-}
+    }
 }
