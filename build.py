@@ -138,7 +138,7 @@ def build_directories(models_package, models_version):
         idl_folder=os.path.join(BASE_DIR, "schemas", "IDLs", models_package, models_version),
         json_folder=os.path.join(BASE_DIR, "schemas", "JSONs", models_package, models_version),
         avrp_folder= os.path.join(BASE_DIR, "schemas", "AVPRs", models_package, models_version),
-        html_folder= os.path.join(BASE_DIR, "schemas", "html_schemas", models_package, models_version)
+        html_folder= os.path.join(BASE_DIR, "docs", "html_schemas", models_package, models_version)
     )
 
 
