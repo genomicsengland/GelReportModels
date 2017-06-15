@@ -20,7 +20,7 @@ setup(
     version=VERSION,
     packages=find_packages(),
     include_package_data=True,
-    scripts=['scripts/ModelValidator'],
+    scripts=['bin/ModelValidator'],
     url='',
     license='',
     author='Bioinformatics Team at Genomics England',
