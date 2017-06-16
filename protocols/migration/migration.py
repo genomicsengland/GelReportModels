@@ -1,4 +1,112 @@
-from protocols import reports_2_1_0, reports_3_0_0 as reports_3_0_0
+from protocols import reports_2_1_0, reports_3_0_0 as reports_3_0_0, reports_3_1_0 as reports_3_1_0
+
+
+class Migration3_0_0To3_1_0(object):
+    new_model = reports_3_1_0
+    old_model = reports_3_0_0
+
+    def migrate_interpretation_request_rd(self, interpretation_request):
+        """
+
+        :type interpretation_request: reports_3_0_0.InterpretationRequestRD
+        :rtype: reports_3_1_0.InterpretationRequestRD
+        """
+
+        new_interpretation_request = self.new_model.InterpretationRequestRD
+
+        # TODO: implement changes
+        new_interpretation_request.versionControl = self.migrate_version_control(interpretation_request.versionControl)
+        new_interpretation_request.interpretationRequestId = interpretation_request.InterpretationRequestID
+        new_interpretation_request.interpretationRequestVersion = interpretation_request.InterpretationRequestVersion
+        new_interpretation_request.bams = [self.migrate_file(bam) for bam in interpretation_request.BAMs]
+        new_interpretation_request.vcfs = [self.migrate_file(vcf) for vcf in interpretation_request.VCFs]
+        new_interpretation_request.bigWigs = [self.migrate_file(vcf) for vcf in interpretation_request.bigWigs]
+        new_interpretation_request.pedigreeDiagram = [self.migrate_file(vcf) for vcf in interpretation_request.pedigreeDiagram]
+        new_interpretation_request.annotationFile = [self.migrate_file(vcf) for vcf in interpretation_request.annotationFile]
+        #new_ir.analysisPanels = ir.analysisPanels
+        #new_ir.diseasePenetrances = None
+        #new_ir.versionControl = reports_3_0_0.VersionControl()
+        #new_ir.gelFamilyId = ir.gelFamilyId
+        #new_ir.participants = []
+        #for member in ir.participants:
+        #    new_ir.participants.append(self.migrate_rd_participant(member))
+
+        if new_interpretation_request.validate(new_interpretation_request.toJsonDict()):
+            return new_interpretation_request
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_interpreted_genome_rd(self, interpreted_genome):
+        """
+
+        :type interpreted_genome_rd: reports_3_0_0.InterpretedGenomeRD
+        :rtype: reports_3_1_0.InterpretedGenomeRD
+        """
+
+        new_interpreted_genome = self.new_model.InterpretedGenomeRD
+
+        # TODO: implement changes
+        new_interpreted_genome.versionControl = self.migrate_version_control(interpreted_genome.versionControl)
+
+
+
+        if new_interpreted_genome.validate(new_interpreted_genome.toJsonDict()):
+            return new_interpreted_genome
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_clinical_report_rd(self, clinical_report):
+        """
+
+        :type interpreted_genome_rd: reports_3_0_0.ClinicalReportRD
+        :rtype: reports_3_1_0.ClinicalReportRD
+        """
+
+        new_clinical_report = self.new_model.ClinicalReportRD
+
+        # TODO: implement changes
+        #new_ir.analysisPanels = ir.analysisPanels
+        #new_ir.diseasePenetrances = None
+        #new_ir.versionControl = reports_3_0_0.VersionControl()
+        #new_ir.gelFamilyId = ir.gelFamilyId
+        #new_ir.participants = []
+        #for member in ir.participants:
+        #    new_ir.participants.append(self.migrate_rd_participant(member))
+
+        if new_clinical_report.validate(new_clinical_report.toJsonDict()):
+            return new_clinical_report
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_version_control(self, version_control):
+        """
+
+        :type version_control: reports_3_0_0.VersionControl
+        :rtype: reports_3_1_0.VersionControl
+        """
+        new_version_control = self.new_model.VersionControl
+        # implement changes
+        new_version_control.gitVersionControl = version_control.GitVersionControl
+        if new_version_control.validate(new_version_control.toJsonDict()):
+            return new_version_control
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_file(self, file):
+        """
+
+        :type file: reports_3_0_0.File
+        :rtype: reports_3_1_0.File
+        """
+        new_file = self.new_model.File
+        # implement changes
+        new_file.sampleId = file.SampleId
+        new_file.uriFile = file.URIFile
+        if new_file.validate(new_file.toJsonDict()):
+            return new_file
+        else:
+            raise Exception('This model can not be converted')
+
 
 
 class Migration2_1To3(object):
