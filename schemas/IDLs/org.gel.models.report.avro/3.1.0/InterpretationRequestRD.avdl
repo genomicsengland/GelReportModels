@@ -125,7 +125,7 @@ record InterpretationRequestRD {
     /**
     name of the directory or endpoint where the analysed genome will be returned.
     */
-    string analysisReturnURI;
+    string analysisReturnUri;
 
     /**
     In the event that the provider has multiple versions of their system and an analysis will need to be provided against
