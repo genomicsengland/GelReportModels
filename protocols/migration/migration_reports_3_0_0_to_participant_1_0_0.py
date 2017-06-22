@@ -15,7 +15,7 @@ class MigrateReports3ToParticipant1(object):
 
         new_cancer_participant.versionControl.GitVersionControl = '1.0.0'
         new_cancer_participant.additionalInformation = old_cancer_participant.cancerDemographics.additionalInformation
-        new_cancer_participant.assignedIcd10 = old_cancer_participant.cancerDemographics.assignedICD10
+        new_cancer_participant.assignedICD10 = old_cancer_participant.cancerDemographics.assignedICD10
         new_cancer_participant.center = old_cancer_participant.cancerDemographics.center
         new_cancer_participant.LDPCode = old_cancer_participant.cancerDemographics.center
         new_cancer_participant.consentStatus = old_cancer_participant.cancerDemographics.consentStatus
