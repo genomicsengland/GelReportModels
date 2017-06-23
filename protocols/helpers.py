@@ -19,7 +19,7 @@ def handle_avro_errors(avro_output):
             }
         },
         'nested_list': [
-            {'problem': False, 'not_a_proble': True},
+            {'problem': False, 'not_a_problem': True},
             {'no_problems': True},
             {'problems': False}
         ],
