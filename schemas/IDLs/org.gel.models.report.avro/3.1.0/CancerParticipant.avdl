@@ -98,7 +98,7 @@ record CancerSample {
     /**
     TNM stage grouping
     */
-    union {null, string} tnmStageGrouping;
+    union {null, string} tmnStageGrouping;
 
 
 
