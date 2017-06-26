@@ -47,6 +47,7 @@ class TestMigrateReports3ToParticipant1(TestCase):
         migrated_participant = MigrateReports3ToParticipant1().migrate_cancer_participant(old_participant)
 
         # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
+        self.assertTrue(isinstance(migrated_participant, CancerParticipant_new))
         self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
 
         self.assertEqual(
