@@ -59,6 +59,6 @@ Duplication of the prior fields is not be supported.
         /**
         A list of additional properties in the form name-value.
         */
-        array<org.opencb.biodata.models.variant.avro.OntologyTerm> additionalProperties = [];
+        array<org.opencb.biodata.models.variant.avro.Property> additionalProperties = [];
     }
 }
