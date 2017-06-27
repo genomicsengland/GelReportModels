@@ -6,7 +6,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.0", 
+    "defaultValue": "1.0.1", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 
@@ -244,9 +244,9 @@
      {
       "multiValue": false, 
       "required": false, 
-      "type": "TEXT", 
+      "type": "DOUBLE", 
       "name": "ageOfOnset", 
-      "description": "Age of onset in months"
+      "description": "Age of onset in years"
      }
     ], 
     "type": "OBJECT", 
@@ -284,17 +284,81 @@
       "description": "hpoBuildNumber"
      }, 
      {
-      "multiValue": false, 
-      "required": false, 
-      "type": "OBJECT", 
       "name": "modifiers", 
+      "required": false, 
+      "multiValue": false, 
+      "variableSet": [
+       {
+        "name": "laterality", 
+        "required": false, 
+        "allowedValues": [
+         "RIGHT", 
+         "UNILATERAL", 
+         "BILATERAL", 
+         "LEFT"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "progression", 
+        "required": false, 
+        "allowedValues": [
+         "PROGRESSIVE", 
+         "NONPROGRESSIVE"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "severity", 
+        "required": false, 
+        "allowedValues": [
+         "BORDERLINE", 
+         "MILD", 
+         "MODERATE", 
+         "SEVERE", 
+         "PROFOUND"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "spatialPattern", 
+        "required": false, 
+        "allowedValues": [
+         "DISTAL", 
+         "GENERALIZED", 
+         "LOCALIZED", 
+         "PROXIMAL"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }
+      ], 
+      "type": "OBJECT", 
       "description": "Modifier associated with the HPO term"
      }, 
      {
-      "multiValue": false, 
-      "required": false, 
-      "type": "TEXT", 
       "name": "ageOfOnset", 
+      "required": false, 
+      "allowedValues": [
+       "EMBRYONAL_ONSET", 
+       "FETAL_ONSET", 
+       "NEONATAL_ONSET", 
+       "INFANTILE_ONSET", 
+       "CHILDHOOD_ONSET", 
+       "JUVENILE_ONSET", 
+       "YOUNG_ADULT_ONSET", 
+       "LATE_ONSET", 
+       "MIDDLE_AGE_ONSET"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
       "description": "Age of onset in months"
      }
     ], 
