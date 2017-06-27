@@ -1,7 +1,7 @@
 from copy import deepcopy
 from unittest import TestCase
 
-from tests.test_protocols.generate_mock_objects import MockTestObject
+from tests.generate_mock_objects import MockTestObject
 from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_old
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
 from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
