@@ -58,3 +58,89 @@ The CVA model is extending the OpenCB variant model. In order to do so we need s
 * **Avrodoc**: to install avrodoc run `npm install avrodoc -g`
 * **pip**: to install pip run `apt-get install pip`
 * Other python dependencies documented in `requirements.txt` should be installed automatically.
+
+## Building Resources From a Container
+From your starting directory, eg. ~/gel/:
+
+Clone this repo
+```
+git@github.com:genomicsengland/GelReportModels.git
+```
+
+Clone the `java-commons-lib`
+```
+git clone git@github.com:opencb/java-common-libs.git
+```
+
+Clone the `biodata` `feature-improveclinical` branch
+```
+git clone -b feature-improveclinical git@github.com:opencb/biodata.git
+```
+
+Put this into a Dockerfile:
+```
+FROM ubuntu:16.04
+RUN apt-get update && \
+    apt-get install -y build-essential python openjdk-8-jdk maven \
+    python-dev python-pip python-virtualenv postgresql \
+    postgresql-contrib libpq-dev \
+    libsasl2-dev libldap2-dev libssl-dev \
+    npm nodejs nodejs-legacy && \
+    npm install avrodoc -g
+ENV PYTHONUNBUFFERED 1
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+RUN mkdir /gel
+RUN mkdir /gel/GelReportModels
+RUN mkdir /gel/java-common-libs
+RUN mkdir /gel/biodata
+WORKDIR /gel
+ADD GelReportModels /gel/GelReportModels/
+ADD java-common-libs /gel/java-common-libs/
+ADD biodata /gel/biodata/
+RUN cd GelReportModels && \ 
+    pip install --upgrade pip && \ 
+    pip install -r requirements.txt && \
+    cd ../java-common-libs && \
+    mvn clean install -DskipTests && \
+    cd ../biodata && \
+    mvn clean install -DskipTests && \
+    pip install --upgrade pysam && \
+    mvn clean generate-sources && \
+    cd ../GelReportModels && \
+    mvn clean generate-sources
+```
+
+and run the following:
+
+```
+sudo docker build -t gel . && sudo docker run -it gel
+```
+Once the build is successful, check the resources are there:
+```
+root@e444d27c16b9:/gel# ls GelReportModels/protocols/
+GelProtocols.pyc      cva_0_3_0.py      migration                 protocol.py
+__init__.py           ga4gh.py          opencb.py                 protocol.pyc
+__init__.pyc          ga4gh_3_0_0.py    opencb_1_2_0-SNAPSHOT.py  reports.py
+catalog_variable_set  metrics.py        participant.py            reports_2_1_0.py
+cva.py                metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.py
+root@e444d27c16b9:/gel# 
+```
+
+then in a separate tab/window, from the GelReportModels directory:
+```
+$ sudo docker ps -alq
+containerID
+```
+and use this container ID to copy the python files from GelReportModels/protocols:
+```
+$ sudo docker cp containerID:/GelReportModels/protocols .
+```
+then check you have them present:
+```
+$ ls ./protocols/
+catalog_variable_set  GelProtocols.pyc  migration                 protocol.py
+cva_0_3_0.py          __init__.py       opencb_1_2_0-SNAPSHOT.py  protocol.pyc
+cva.py                __init__.pyc      opencb.py                 reports_2_1_0.py
+ga4gh_3_0_0.py        metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.py
+ga4gh.py              metrics.py        participant.py            reports.py
+```
