@@ -105,6 +105,8 @@ RUN cd GelReportModels && \
     cd ../biodata && \
     mvn clean install -DskipTests && \
     pip install --upgrade pysam && \
+    mvn clean generate-sources && \
+    cd ../GelReportModels && \
     mvn clean generate-sources
 ```
 
