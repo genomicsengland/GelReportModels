@@ -140,12 +140,12 @@ record TumourSample {
     union {null, Product} product;
 
     /**
-    TMN version
+    TNM version
     */
     union {null, string} TNMStageVersion;
 
     /**
-    TMN stage grouping
+    TNM stage grouping
     */
     union {null, string} TNMStageGrouping;
 
