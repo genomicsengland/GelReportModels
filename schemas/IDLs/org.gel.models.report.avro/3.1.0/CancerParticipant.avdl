@@ -91,14 +91,14 @@ record CancerSample {
     union {null, string} grade;
 
     /**
-    TMN version
+    Tumour, node and metastasis (TNM) stage version
     */
     union {null, string} tnmStageVersion;
 
     /**
-    TMN stage grouping
+    Tumour, node and metastasis (TNM) stage grouping
     */
-    union {null, string} tmnStageGrouping;
+    union {null, string} tnmStageGrouping;
 
 
 
