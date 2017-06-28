@@ -5,7 +5,7 @@ This protocol defines the minimum information that Genomics England needs to gen
 protocol AuditLogProtocol {
 
     import idl "CommonInterpreted.avdl";
-    import idl "VersionControl.avdl";
+    import idl "ReportVersionControl.avdl";
 
     /**
 This code define the change type, it can define a general change in the case as CLOSED or can define

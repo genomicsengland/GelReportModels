@@ -4,7 +4,7 @@
     the MDT (Multi-disciplinary Tool). */
 protocol MDTDelivery {
 
-    import idl "VersionControl.avdl";
+    import idl "ReportVersionControl.avdl";
     import idl "CommonRequest.avdl";
     import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
     import idl "CommonInterpreted.avdl";
@@ -41,7 +41,7 @@ protocol MDTDelivery {
     */
     record TieringResult {
         /** Model version number */
-        VersionControl versionControl;
+        ReportVersionControl versionControl;
 
         /** This is the version of the assembly used to align the reads */
         string genomeAssemblyVersion = "GRCh37.p13";
