@@ -1,0 +1,1 @@
+coverage run --source=. -m unittest discover -s tests/ && coverage report --omit="*test*" --omit="*__init__*"
