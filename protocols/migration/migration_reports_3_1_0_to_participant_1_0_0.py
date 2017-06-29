@@ -45,7 +45,7 @@ class MigrateReports3ToParticipant1(object):
 
         new_tumour_sample = self.new_model.TumourSample.fromJsonDict(old_cancer_sample.toJsonDict())
 
-        new_tumour_sample.TNMStageGrouping = old_cancer_sample.tmnStageGrouping
+        new_tumour_sample.TNMStageGrouping = old_cancer_sample.tnmStageGrouping
         new_tumour_sample.TNMStageVersion = old_cancer_sample.tnmStageVersion
         new_tumour_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
         new_tumour_sample.programmePhase = old_cancer_sample.gelPhase
