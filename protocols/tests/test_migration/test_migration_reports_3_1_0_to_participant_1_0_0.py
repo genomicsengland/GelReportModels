@@ -1,10 +1,10 @@
 from copy import deepcopy
 from unittest import TestCase
 
-from tests.generate_mock_objects import MockTestObject
-from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_old
+from protocols.migration.migration_reports_3_1_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
-from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
+from protocols.reports_3_1_0 import CancerParticipant as CancerParticipant_old
+from protocols.tests import MockTestObject
 
 
 class TestMigrateReports3ToParticipant1(TestCase):
@@ -37,17 +37,16 @@ class TestMigrateReports3ToParticipant1(TestCase):
         tumourSample = new_participant.tumourSamples
         new_participant.tumourSamples = [tumourSample]
 
-        # Check old_participant is a valid reports_3_0_0 CancerParticipant object
+        # Check old_participant is a valid reports_3_1_0 CancerParticipant object
         self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
 
         # Check new_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(new_participant.validate(jsonDict=new_participant.toJsonDict()))
 
-        # Perform the migration of old_participant from reports_3_0_0 to participant_1_0_0
+        # Perform the migration of old_participant from reports_3_1_0 to participant_1_0_0
         migrated_participant = MigrateReports3ToParticipant1().migrate_cancer_participant(old_participant)
 
         # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
-        self.assertTrue(isinstance(migrated_participant, CancerParticipant_new))
         self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
 
         self.assertEqual(
@@ -56,5 +55,5 @@ class TestMigrateReports3ToParticipant1(TestCase):
         )
         self.assertEqual(
             migrated_participant.assignedICD10,
-            old_participant.cancerDemographics.assignedICD10
+            old_participant.cancerDemographics.assignedIcd10
         )
