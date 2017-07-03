@@ -126,6 +126,22 @@ cva.py                metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.
 root@e444d27c16b9:/gel# 
 ```
 
+If the files you require are not present then you may need to build them with the following command:
+```
+python build.py <package_name>
+```
+
+where `<package_name>` can be one (or many, space separated) names from this (non-exhaustive) list:
+```
+org.gel.models.participant.avro::1.0.0 
+org.gel.models.metrics.avro::1.0.0 
+org.ga4gh.models::3.0.0 
+org.gel.models.report.avro::2.1.0 
+org.gel.models.report.avro::3.0.0
+```
+
+where the package names correspond with the schemas available in the [/schemas/IDLS](https://github.com/genomicsengland/GelReportModels/tree/develop/schemas/IDLs)  directory
+
 then in a separate tab/window, from the GelReportModels directory:
 ```
 $ sudo docker ps -alq
