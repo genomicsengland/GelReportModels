@@ -266,6 +266,7 @@
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
                                 <argument>build.py</argument>
+                                <argument>--models</argument>
                                 <argument>${report.models.package}::${report.models.version}</argument>
                                 <argument>${ga4gh.models.package}::${ga4gh.models.version}</argument>
                                 <argument>${cva.models.package}::${cva.models.version}</argument>
