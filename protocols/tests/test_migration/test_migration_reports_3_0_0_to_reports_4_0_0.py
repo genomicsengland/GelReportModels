@@ -1,13 +1,13 @@
 from unittest import TestCase
 
-from protocols.reports_4_0_0 import AlleleOrigin
-from protocols.reports_3_0_0 import FeatureTypes as FeatureTypes_old
-from protocols.reports_4_0_0 import FeatureTypes as FeatureTypes_new
-from protocols.reports_3_0_0 import SomaticOrGermline
-from tests.generate_mock_objects import MockTestObject
-from protocols.reports_4_0_0 import ReportedSomaticVariants as ReportedSomaticVariants_new
-from protocols.reports_3_0_0 import ReportedSomaticVariants as ReportedSomaticVariants_old
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
+from protocols.reports_3_0_0 import FeatureTypes as FeatureTypes_old
+from protocols.reports_3_0_0 import ReportedSomaticVariants as ReportedSomaticVariants_old
+from protocols.reports_3_0_0 import SomaticOrGermline
+from protocols.reports_4_0_0 import AlleleOrigin
+from protocols.reports_4_0_0 import FeatureTypes as FeatureTypes_new
+from protocols.reports_4_0_0 import ReportedSomaticVariants as ReportedSomaticVariants_new
+from protocols.tests import MockTestObject
 
 
 class TestMigrateReports3To4(TestCase):
