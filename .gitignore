@@ -12,3 +12,4 @@ protocols/*.py
 !protocols/protocol.py
 .coverage
 .env
+!protocols/helpers.py
