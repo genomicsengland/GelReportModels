@@ -1,14 +1,13 @@
 from unittest import TestCase
 
-from protocols.reports_4_0_0 import FileType
 from protocols.reports_4_0_0 import CancerInterpretationRequest
-
-from tests.generate_mock_objects import get_valid_empty_file
-from tests.generate_mock_objects import get_valid_report_version_control
-from tests.generate_mock_objects import get_valid_empty_cancer_participant
-from tests.generate_mock_objects import get_valid_empty_reported_somatic_variant
-from tests.generate_mock_objects import get_valid_reported_somatic_structural_variant
-from util.create_cancer_interpretation_request import create_cancer_interpretation_request
+from protocols.reports_4_0_0 import FileType
+from protocols.tests import get_valid_empty_cancer_participant
+from protocols.tests import get_valid_empty_file
+from protocols.tests import get_valid_empty_reported_somatic_variant
+from protocols.tests import get_valid_report_version_control
+from protocols.tests import get_valid_reported_somatic_structural_variant
+from protocols.util import create_cancer_interpretation_request
 
 
 class TestCreateCancerInterpretationRequest(TestCase):
