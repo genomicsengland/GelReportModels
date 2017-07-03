@@ -128,7 +128,7 @@ root@e444d27c16b9:/gel#
 
 If the files you require are not present then you may need to build them with the following command:
 ```
-python build.py <package_name>
+python build.py --models <package_name>
 ```
 
 where `<package_name>` can be one (or many, space separated) names from this (non-exhaustive) list:
