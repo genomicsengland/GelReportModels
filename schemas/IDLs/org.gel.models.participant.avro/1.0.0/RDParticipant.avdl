@@ -91,7 +91,7 @@ FamilyQCState
 enum FamilyQCState {noState, passedMedicalReviewReadyForInterpretation, passedMedicalReviewNotReadyForInterpretation, queryToGel, queryToGMC, failed}
 
 
-enum SampleSource {BLOOD, SALIVA, FIBROBLAST, TISSUE}
+enum RDSampleSource {BLOOD, SALIVA, FIBROBLAST, TISSUE}
 
 enum Product {DNA, RNA}
 
@@ -119,7 +119,7 @@ record Sample{
     /**
     Source
     */
-    union {null, SampleSource} source;
+    union {null, RDSampleSource} source;
 
     /**
     Product

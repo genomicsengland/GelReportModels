@@ -10,4 +10,6 @@ schemas/JSONs/*
 protocols/*.py
 !protocols/__init__.py
 !protocols/protocol.py
+.coverage
+.env
 !protocols/helpers.py
