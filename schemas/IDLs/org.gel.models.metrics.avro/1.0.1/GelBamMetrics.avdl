@@ -642,7 +642,7 @@ record IlluminaSummaryCancerV4_CancerStats {
 /** Stats calculated from values stored in IlluminaSummaryCancerV4 */
 record IlluminaSummaryCancerV4_Calculations {
     /** Total number of structural variants that PASS filters */
-    long SOMATIC_SV;
+    long SOMATIC_SVS;
 }
 
 
@@ -1007,7 +1007,7 @@ record SamtoolsStatsCalculations {
     SamtoolsScope samtoolsScope;
 
     /** Percentage of chimeric reads */
-    double SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES_PER;
+    double SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES_PERCENT;
 
     /** Percentage of mapped reads */
     double SAMTOOLS_READS_MAPPED_PERCENT;
