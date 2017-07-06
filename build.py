@@ -177,6 +177,7 @@ def main():
     parser.add_argument('--models', metavar='models and version',
                         nargs='+',
                         default=['org.gel.models.participant.avro::1.0.0', 'org.gel.models.participant.avro::1.0.1',
+                                 'org.gel.models.participant.avro::1.0.2',
                                  'org.gel.models.metrics.avro::1.0.0', 'org.gel.models.metrics.avro::1.0.1',
                                  'org.ga4gh.models::3.0.0', 'org.gel.models.report.avro::2.1.0',
                                  'org.gel.models.report.avro::3.0.0', 'org.gel.models.report.avro::3.1.0'],
