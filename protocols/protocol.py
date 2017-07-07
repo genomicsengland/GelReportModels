@@ -31,10 +31,10 @@ class ValidationResult(object):
     def __init__(self, result=None, messages=None):
         self.result = result or True
         self.messages = messages or []
-        self.msg = "Class: {class_name} expects field: {field_name} "
-        self.msg += "with schema type: {schema_type} but received value: {value}"
-        self.schema_type_msg = "Schema: {expected_schema} has type: {schema_type} "
-        self.schema_type_msg += "but received datum: {datum}"
+        self.msg = "Class: [{class_name}] expects field: [{field_name}] "
+        self.msg += "with schema type: [{schema_type}] but received value: [{value}]"
+        self.schema_type_msg = "Schema: [{expected_schema}] has type: [{schema_type}] "
+        self.schema_type_msg += "but received datum: [{datum}]"
 
     def update_class(self, class_name, field_name, schema_type, value):
         self.messages.append(self.msg.format(
@@ -147,12 +147,12 @@ class ProtocolElement(object):
         return self.validate(self.toJsonDict())
 
     @classmethod
-    def validate(cls, jsonDict, debug=False):
+    def validate(cls, jsonDict, verbose=False):
         """
         Validates the specified JSON dictionary to determine if it is an
         instance of this element's schema.
         """
-        if debug:
+        if verbose:
             validation_result = ValidationResult()
             return cls.validate_debug(jsonDict=jsonDict, validation_result=validation_result)
         return avro.io.validate(expected_schema=cls.schema, datum=jsonDict)
@@ -211,7 +211,7 @@ class ProtocolElement(object):
         elif schema_type == 'enum':
             if datum not in expected_schema.symbols:
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
-                custom_message = "datum: {datum} not contained within symbols: {enum}".format(
+                custom_message = "datum: [{datum}] not contained within symbols: [{enum}]".format(
                     datum=datum, enum=expected_schema.symbols,
                 )
                 validation_result.update_custom(custom_message=custom_message)
