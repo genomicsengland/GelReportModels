@@ -639,6 +639,13 @@ record IlluminaSummaryCancerV4_CancerStats {
   double    PERCENT_OVERLAPPING_BASES ;
 }
 
+/** Stats calculated from values stored in IlluminaSummaryCancerV4 */
+record IlluminaSummaryCancerV4_Calculations {
+    /** Total number of structural variants that PASS filters */
+    long SOMATIC_SVS;
+}
+
+
 /**
 This is the summary provided by illumina for Somatic calls in V2 (current) of their pipeline
 Fields of interest include `PURITY_TUMOR_PURITY` and `PURITY_TUMOR_PLOIDY`
@@ -916,6 +923,16 @@ record CoverageSummary {
     string scope;
 }
 
+/** Stats calculated from values stored in CoverageSummary */
+record CoverageSummaryCalculations {
+    /** Percentage of Cosmic variants with coverage below 30x */
+    double lt30x_percent;
+
+    /** Scope to which these summary stats refer to.
+    *   Examples: "allchrs" (all chromosomes), "X", "chr6", "6", "autosomes" */
+    string scope;
+}
+
 record WholeGenomeCoverage {
 
     array <CoverageSummary> coverageSummary;
@@ -932,6 +949,11 @@ record ExomeCoverage {
 record VariantsCoverage {
     string bedName;
     array <CoverageSummary> coverageSummary;
+}
+
+record VariantsCoverageCalculations {
+    string bedName;
+    array <CoverageSummaryCalculations> coverageSummaryCalculations;
 }
 
 record BamHeaderOther {
@@ -976,6 +998,19 @@ record SamtoolsStats {
     double SAMTOOLS_SEQUENCES;
     double SAMTOOLS_TOTAL_LENGTH;
 
+}
+
+/** Stats calculated from values stored in SamtoolsStats */
+record SamtoolsStatsCalculations {
+
+    /** Scope */
+    SamtoolsScope samtoolsScope;
+
+    /** Percentage of chimeric reads */
+    double SAMTOOLS_PAIRS_ON_DIFFERENT_CHROMOSOMES_PERCENT;
+
+    /** Percentage of mapped reads */
+    double SAMTOOLS_READS_MAPPED_PERCENT;
 }
 
 record Machine {
