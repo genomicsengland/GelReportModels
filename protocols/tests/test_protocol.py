@@ -1,12 +1,12 @@
 from unittest import TestCase
 
-from protocols.tests import get_valid_reported_somatic_structural_variant
+from protocols.tests import get_valid_reported_somatic_structural_variant_3_0_0
 
 
 class TestValidate(TestCase):
 
     def test_validate_debug(self):
-        variant = get_valid_reported_somatic_structural_variant()
+        variant = get_valid_reported_somatic_structural_variant_3_0_0()
         variant.reportedStructuralVariantCancer.end = None
 
         # Check variant is not a valid ReportedSomaticStructuralVariants object
