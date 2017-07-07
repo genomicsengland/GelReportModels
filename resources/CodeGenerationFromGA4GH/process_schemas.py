@@ -127,7 +127,9 @@ class SchemaClass(object):
                         if isinstance(dic, dict):
                             stack.append(dic)
         jsonData = json.dumps(schema)
-        output = "\n".join(textwrap.wrap(jsonData)) + "\n"
+        # TODO(Greg): Find a long-term solution for making sure the end of the line
+        # TODO(Greg): in a schema string is not a - character (dash)
+        output = "\n".join(textwrap.wrap(text=jsonData, width=100)) + "\n"
         return output
 
     def writeRequiredFields(self, outputFile):
