@@ -180,7 +180,8 @@ def main():
                                  'org.gel.models.participant.avro::1.0.2',
                                  'org.gel.models.metrics.avro::1.0.0', 'org.gel.models.metrics.avro::1.0.1',
                                  'org.ga4gh.models::3.0.0', 'org.gel.models.report.avro::2.1.0',
-                                 'org.gel.models.report.avro::3.0.0', 'org.gel.models.report.avro::3.1.0'],
+                                 'org.gel.models.report.avro::3.0.0', 'org.gel.models.report.avro::3.1.0',
+                                 'org.opencb.biodata.models::1.2.0-SNAPSHOT'],
                         help='List of models packages and versions to generated, in the following format package::version')
     parser.add_argument('--skip_doc', default=False, action='store_true', help='Documentation will be skipped')
     args = parser.parse_args()
