@@ -6,7 +6,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "1.0.1", 
+    "defaultValue": "1.0.2", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 

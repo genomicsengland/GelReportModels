@@ -1,46 +1,40 @@
-from copy import deepcopy
 from unittest import TestCase
 
 from protocols.migration.migration_reports_3_1_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
-from protocols.reports_3_1_0 import CancerParticipant as CancerParticipant_old
-from protocols.tests import MockTestObject
+from protocols.reports_3_1_0 import CancerParticipant as CancerParticipant_old, MatchedSamples as MatchedSamples
+from protocols.util.dependency_manager import VERSION_310, VERSION_400
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
 class TestMigrateReports3ToParticipant1(TestCase):
 
     def test_migrate_cancer_participant(self):
 
-        old_participant = MockTestObject(object_type=CancerParticipant_old).get_valid_empty_object()
-        old_participant.cancerDemographics.sex = 'M'
-        old_participant.cancerSamples[0].sampleType = 'tumor'
-        old_participant.cancerSamples[0].labId = '1'
-        additional_sample = deepcopy(old_participant.cancerSamples[0])
-        old_participant.cancerSamples.append(additional_sample)
-        old_participant.cancerSamples[1].sampleType = 'germline'
-        old_participant.cancerSamples[1].labId = '2'
+        old_participant = GenericFactoryAvro.get_factory_avro(
+            CancerParticipant_old, VERSION_310
+        )()
+        for cancer_sample in old_participant.cancerSamples:
+            cancer_sample.tumorType = 'lung'
+            cancer_sample.tumorSubType = 'mock_subtype'
+            cancer_sample.tumorContent = 'High'
+            cancer_sample.labId = "1"
+        matched_samples = GenericFactoryAvro.get_factory_avro(
+            MatchedSamples, VERSION_310
+        ).create_batch(5)
+        old_participant.matchedSamples = matched_samples
 
-        new_participant = MockTestObject(object_type=CancerParticipant_new).get_valid_empty_object()
-        new_participant.sex = 'M'
-        new_participant.germlineSamples.labSampleId = 1
-        new_participant.tumourSamples.tumourId = 1
-        new_participant.tumourSamples.labSampleId = 1
-        new_participant.readyForAnalysis = True
-        new_participant.sex = 'UNKNOWN'
-
-        matchedSample = new_participant.matchedSamples
-        new_participant.matchedSamples = [matchedSample]
-
-        germlineSample = new_participant.germlineSamples
-        new_participant.germlineSamples = [germlineSample]
-
-        tumourSample = new_participant.tumourSamples
-        new_participant.tumourSamples = [tumourSample]
 
         # Check old_participant is a valid reports_3_1_0 CancerParticipant object
-        self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
+        self.assertTrue(isinstance(old_participant, CancerParticipant_old))
+        self.assertTrue(old_participant.validate(old_participant.toJsonDict()))
+
+        new_participant = GenericFactoryAvro.get_factory_avro(
+            CancerParticipant_new, VERSION_400
+        )()
 
         # Check new_participant is a valid participant_1_0_0 CancerParticipant object
+        self.assertTrue(isinstance(new_participant, CancerParticipant_new))
         self.assertTrue(new_participant.validate(jsonDict=new_participant.toJsonDict()))
 
         # Perform the migration of old_participant from reports_3_1_0 to participant_1_0_0

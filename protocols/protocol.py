@@ -96,6 +96,8 @@ class ProtocolElement(object):
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
+                elif isinstance(val, dict):
+                    out[field.name] = {key: el.toJsonDict() for key, el in val.items()}
                 elif val is None:
                     out[field.name] = None
                 else:
@@ -243,9 +245,18 @@ class ProtocolElement(object):
             if not any([avro.io.validate(s, datum) for s in expected_schema.schemas]):
                 for expected_schema in expected_schema.schemas:
                     if not avro.io.validate(expected_schema=expected_schema, datum=datum):
-                        validation_result.update_simple(
-                            expected_schema=expected_schema.values, schema_type=expected_schema.values.type, datum=datum
-                        )
+                        if hasattr(expected_schema, 'values'):
+                            validation_result.update_simple(
+                                expected_schema=expected_schema.values,
+                                schema_type=expected_schema.values.type,
+                                datum=datum
+                            )
+                        else:
+                            validation_result.update_simple(
+                                expected_schema=expected_schema,
+                                schema_type=expected_schema,
+                                datum=datum
+                            )
         elif schema_type in ['record', 'error', 'request']:
             if isinstance(datum, dict):
                 for f in expected_schema.fields:

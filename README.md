@@ -11,31 +11,39 @@ From the Avro models you can generate:
 * HTML documentation
 
 Maven is employed to manage the source code generation and dependency management.
-Nevertheless, to configure the development environment some of the OpenCB dependencies must compiled and installed locally.
-* `biodata` contains the Avro models in OpenCB. Clone the appropriate branch and install it locally
-```$shell
-git clone git@github.com:opencb/biodata.git
-git checkout feature-improveclinical
-mvn clean install -DskipTests
-```
 
 To generate sources and documentation run:
 ```
 % mvn clean generate-sources
 ```
-This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols/models`. The models documentation under `./docs/html_schemas/latest`
+
+This will create the following:
+* Python source code representing the Avro records in the folder `./protocols/models`
+* Java source code representing the Avro records in the folder `./target/generated-sources/avro`
+* The models HTML documentation under `./docs/html_schemas`
+
+### Building legacy versions of the models
 
 To run against a legacy version of the models by overriding maven properties run:
 ```
-% mvn clean generate-sources -Dreport.models.version=2.1.0
+% mvn clean generate-sources -Dmodels.version=3.0.0
 ```
+
+To generate the source code for all legacy versions just run:
+```
+% python build2.py
+```
+
+See `builds.json` for the information on all legacy versions and the specific package versions and dependencies in each of those.
+
+### Packaging and deployment
 
 To pack the Java source code representing these models in a jar file use:
 ```
 % mvn package
 ```
 
-To install it in your system so it is accessible as a maven dependency to other applications run:
+To install it in your system so it is accessible as a maven dependency to other Java applications run:
 ```
 % mvn install
 ```
@@ -50,6 +58,7 @@ This war can be deployed as a documentation service.
 ## OpenCB dependencies
 
 The CVA model is extending the OpenCB variant model. In order to do so we need some Avro definitions from OpenCB biodata-models. Maven is extracting the required files from the biodata-models.jar file and use them to generate the required sources.
+Current version relies on biodata [v1.2.1](https://github.com/opencb/biodata/tree/v1.2.1)
 
 ## Dependencies
 
@@ -67,53 +76,10 @@ Clone this repo
 git@github.com:genomicsengland/GelReportModels.git
 ```
 
-Clone the `java-commons-lib`
-```
-git clone git@github.com:opencb/java-common-libs.git
-```
-
-Clone the `biodata` `feature-improveclinical` branch
-```
-git clone -b feature-improveclinical git@github.com:opencb/biodata.git
-```
-
-Put this into a Dockerfile:
-```
-FROM ubuntu:16.04
-RUN apt-get update && \
-    apt-get install -y build-essential python openjdk-8-jdk maven \
-    python-dev python-pip python-virtualenv postgresql \
-    postgresql-contrib libpq-dev \
-    libsasl2-dev libldap2-dev libssl-dev \
-    npm nodejs nodejs-legacy && \
-    npm install avrodoc -g
-ENV PYTHONUNBUFFERED 1
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-RUN mkdir /gel
-RUN mkdir /gel/GelReportModels
-RUN mkdir /gel/java-common-libs
-RUN mkdir /gel/biodata
-WORKDIR /gel
-ADD GelReportModels /gel/GelReportModels/
-ADD java-common-libs /gel/java-common-libs/
-ADD biodata /gel/biodata/
-RUN cd GelReportModels && \ 
-    pip install --upgrade pip && \ 
-    pip install -r requirements.txt && \
-    cd ../java-common-libs && \
-    mvn clean install -DskipTests && \
-    cd ../biodata && \
-    mvn clean install -DskipTests && \
-    pip install --upgrade pysam && \
-    mvn clean generate-sources && \
-    cd ../GelReportModels && \
-    mvn clean generate-sources
-```
-
-and run the following:
+Then run the following (you may need `sudo` depending on your system configuration):
 
 ```
-sudo docker build -t gel . && sudo docker run -it gel
+./build_models
 ```
 Once the build is successful, check the resources are there:
 ```
@@ -126,21 +92,20 @@ cva.py                metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.
 root@e444d27c16b9:/gel# 
 ```
 
-If the files you require are not present then you may need to build them with the following command:
+Also check that Java resources are there:
 ```
-python build.py --models <package_name>
+root@4dabae77118d:/gel# ls -l GelReportModels/target/
+total 53620
+drwxr-xr-x  2 root root     4096 Aug 18 08:35 antrun
+drwxr-xr-x  3 root root     4096 Aug 18 08:45 classes
+drwxr-xr-x  2 root root     4096 Aug 18 08:35 dependency-maven-plugin-markers
+drwxr-xr-x 17 root root     4096 Aug 18 08:55 gel-models-4.3.0-SNAPSHOT
+-rw-r--r--  1 root root  1819234 Aug 18 08:45 gel-models-4.3.0-SNAPSHOT.jar
+-rw-r--r--  1 root root 53054906 Aug 18 08:55 gel-models-docs-4.3.0-SNAPSHOT.war
+drwxr-xr-x  4 root root     4096 Aug 18 08:45 generated-sources
+drwxr-xr-x  2 root root     4096 Aug 18 08:45 maven-archiver
+drwxr-xr-x  3 root root     4096 Aug 18 08:45 maven-status
 ```
-
-where `<package_name>` can be one (or many, space separated) names from this (non-exhaustive) list:
-```
-org.gel.models.participant.avro::1.0.0 
-org.gel.models.metrics.avro::1.0.0 
-org.ga4gh.models::3.0.0 
-org.gel.models.report.avro::2.1.0 
-org.gel.models.report.avro::3.0.0
-```
-
-where the package names correspond with the schemas available in the [/schemas/IDLS](https://github.com/genomicsengland/GelReportModels/tree/develop/schemas/IDLs)  directory
 
 then in a separate tab/window, from the GelReportModels directory:
 ```
@@ -159,4 +124,22 @@ cva_0_3_0.py          __init__.py       opencb_1_2_0-SNAPSHOT.py  protocol.pyc
 cva.py                __init__.pyc      opencb.py                 reports_2_1_0.py
 ga4gh_3_0_0.py        metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.py
 ga4gh.py              metrics.py        participant.py            reports.py
+```
+
+## Additional tools
+
+The conversion between the different Avro schema formats, source code and documentation are available through the following utility:
+```
+$ cd resources/GelModelsTools/
+$ python gel_models_tools.py --help
+usage: gel_models_tools.py <command> [<args>]
+
+GEL models toolbox
+
+positional arguments:
+  command     Subcommand to run
+              (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html)
+
+optional arguments:
+  -h, --help  show this help message and exit
 ```

@@ -12,3 +12,5 @@ protocols/*.py
 .coverage
 .env
 !protocols/helpers.py
+docs/**/*-SNAPSHOT
+dist

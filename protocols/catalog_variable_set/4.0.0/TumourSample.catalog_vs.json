@@ -16,6 +16,13 @@
  {
   "multiValue": false, 
   "required": true, 
+  "type": "TEXT", 
+  "name": "LDPCode", 
+  "description": "LDP Code (Local Delivery Partner)"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
   "type": "INTEGER", 
   "name": "tumourId", 
   "description": "Id of each one of the tumors for a participant"

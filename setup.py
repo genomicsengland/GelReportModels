@@ -5,16 +5,16 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 
 reqs = [
-    "sphinx_rtd_theme",
-    "labkey",
+    "Sphinx==1.6.2",
+    "sphinx_rtd_theme==0.2.4",
     "ujson==1.33",
     "avro==1.7.7",
+    "factory-boy==2.9.2",
     "humanize==0.5.1",
-    "PyYAML==3.11",
-    "pysam"
+    "PyYAML==3.12",
 ]
 
-VERSION = "4.0.9"
+VERSION = "4.3.1"
 setup(
     name='GelReportModels',
     version=VERSION,

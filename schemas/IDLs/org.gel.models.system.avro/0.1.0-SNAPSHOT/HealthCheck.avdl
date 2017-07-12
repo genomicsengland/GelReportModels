@@ -1,0 +1,59 @@
+@namespace("org.gel.models.system.avro")
+
+protocol HealthCheckProtocol {
+
+    /**
+    Represents the contract of service status
+    */
+    enum Status {
+        OK,
+        DOWN
+    }
+
+    /**
+    Represents the contract of DataStore. Type of the datastore can be mongodb, postgres, etc
+    */
+    record DataStore {
+        string type;
+        string description;
+        array<string> url;
+        Status status;
+        map<string> additionalProperties;
+    }
+
+    enum APIType {
+        REST,
+        MONGODB,
+        OTHER
+    }
+
+    /**
+    Represents the contract of API dependency (either REST or OTHER)
+    */
+    record API {
+        APIType type;
+        string description;
+        array<string> url;
+        Status status;
+        map<string> additionalProperties;
+    }
+
+    /**
+    Represents contract of all dependencies for a service
+    */
+    record Dependencies {
+        array<DataStore> datastores;
+        array<API> apis;
+    }
+
+    /*
+     Represents the contract for health status of the requested service, including statuses of it's dependencies
+     */
+    record ServiceHealth {
+        string serviceName;
+        string requestUrl;
+        string datetime;
+        Status status;
+        Dependencies dependencies;
+    }
+}

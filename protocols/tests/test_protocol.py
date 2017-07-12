@@ -1,12 +1,16 @@
 from unittest import TestCase
 
-from protocols.tests import get_valid_reported_somatic_structural_variant_3_0_0
+from protocols import reports_3_0_0
+
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.util.dependency_manager import VERSION_300
 
 
 class TestValidate(TestCase):
 
     def test_validate_debug(self):
-        variant = get_valid_reported_somatic_structural_variant_3_0_0()
+        object_type = reports_3_0_0.ReportedSomaticStructuralVariants
+        variant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_300)()
         variant.reportedStructuralVariantCancer.end = None
 
         # Check variant is not a valid ReportedSomaticStructuralVariants object

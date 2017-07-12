@@ -91,6 +91,9 @@ class SchemaClass(object):
                 if isinstance(field.type, avro.schema.ArraySchema):
                     if isinstance(field.type.items, avro.schema.RecordSchema):
                         ret.append((field.name, field.type.items.name))
+                elif isinstance(field.type, avro.schema.MapSchema):
+                    if isinstance(field.type.values, avro.schema.RecordSchema):
+                        ret.append((field.name, field.type.values.name))
                 elif isinstance(field.type, avro.schema.RecordSchema):
                     ret.append((field.name, field.type.name))
                 elif isinstance(field.type, avro.schema.UnionSchema):
@@ -101,6 +104,9 @@ class SchemaClass(object):
                         if isinstance(t1, avro.schema.ArraySchema):
                             if isinstance(t1.items, avro.schema.RecordSchema):
                                 ret.append((field.name, t1.items.name))
+                        elif isinstance(t1, avro.schema.MapSchema):
+                            if isinstance(t1.values, avro.schema.RecordSchema):
+                                ret.append((field.name, t1.values.name))
                         elif isinstance(t1, avro.schema.RecordSchema):
                             ret.append((field.name, t1.name))
                     else:
@@ -233,7 +239,7 @@ class SchemaClass(object):
         if doc is None:
             doc = "No documentation"
         self._writeWithIndent('"""', outputFile)
-        self._writeWrappedWithIndent(doc, outputFile)
+        self._writeWrappedWithIndent(re.sub(r'[^\x00-\x7F]+', ' ', doc), outputFile)
         self._writeWithIndent('"""', outputFile)
         if isinstance(self.schema, avro.schema.RecordSchema):
             string = '_schemaSource = """\n{0}"""'.format(
