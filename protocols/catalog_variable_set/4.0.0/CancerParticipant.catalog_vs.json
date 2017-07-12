@@ -56,27 +56,20 @@
  }, 
  {
   "multiValue": false, 
-  "required": false, 
-  "type": "TEXT", 
-  "name": "LDPCode", 
-  "description": ""
- }, 
- {
-  "multiValue": false, 
   "required": true, 
   "type": "TEXT", 
   "name": "individualId", 
   "description": "Individual Id"
  }, 
  {
-  "multiValue": false, 
+  "multiValue": true, 
   "required": false, 
   "type": "TEXT", 
   "name": "primaryDiagnosisDisease", 
   "description": "This should be an enumeration when it is well defined\n    blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will."
  }, 
  {
-  "multiValue": false, 
+  "multiValue": true, 
   "required": false, 
   "type": "TEXT", 
   "name": "primaryDiagnosisSubDisease", 
@@ -102,7 +95,7 @@
   "description": "We could add a map here to store additional information for example URIs to images, ECGs, etc"
  }, 
  {
-  "multiValue": false, 
+  "multiValue": true, 
   "required": false, 
   "type": "TEXT", 
   "name": "assignedICD10", 
@@ -126,6 +119,13 @@
     "type": "INTEGER", 
     "name": "labSampleId", 
     "description": "Lab sample Id"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "LDPCode", 
+    "description": "LDP Code (Local Delivery Partner)"
    }, 
    {
     "multiValue": false, 
@@ -323,6 +323,13 @@
     "description": "Lab sample Id"
    }, 
    {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "LDPCode", 
+    "description": "LDP Code (Local Delivery Partner)"
+   }, 
+   {
     "name": "source", 
     "required": false, 
     "allowedValues": [
@@ -392,7 +399,7 @@
  }, 
  {
   "name": "matchedSamples", 
-  "required": false, 
+  "required": true, 
   "multiValue": true, 
   "variableSet": [
    {
@@ -420,7 +427,7 @@
   "variableSet": [
    {
     "name": "GitVersionControl", 
-    "defaultValue": "4.0.0", 
+    "defaultValue": "1.0.2", 
     "required": true, 
     "multiValue": false, 
     "type": "TEXT", 
