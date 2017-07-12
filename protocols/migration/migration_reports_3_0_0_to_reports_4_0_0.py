@@ -66,6 +66,9 @@ class MigrateReports3To4(object):
             reportEventId=old_report_event_cancer.reportEventId,
         )
 
+        if new_report_event_cancer.genomicFeatureCancer.roleInCancer not in ['oncogene', 'TSG', 'both']:
+            new_report_event_cancer.genomicFeatureCancer.roleInCancer = None
+
         for name, term in zip(old_report_event_cancer.soNames, old_report_event_cancer.soTerms):
             new_report_event_cancer.soTerms.append(self.new_model.SoTerm(id=term, name=name))
 
