@@ -308,12 +308,14 @@
                         </goals>
                         <configuration>
                             <filesets>
+                                <!-- while extraction from jar does not work properly we need this commented
                                 <fileset>
                                     <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
                                 </fileset>
+                                -->
                                 <fileset>
                                     <directory>schemas/AVPRs</directory>
                                     <includes>
