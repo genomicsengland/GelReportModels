@@ -39,14 +39,14 @@ MODEL_DOCUMENTATION = {
         "Comment",
         "ReportedVariant",
         "ObservedVariant",
-        "DataIntake"
+        "DataIntakeRD",
+        "DataIntakeCancer"
     ],
     'org.opencb.biodata.models':[
         "evidence",
         "read",
         "variant",
-        "variantAnnotation",
-
+        "variantAnnotation"
     ],
     'org.ga4gh.models':[
         "common",
@@ -57,7 +57,7 @@ MODEL_DOCUMENTATION = {
         "referencemethods",
         "references",
         "variantmethods",
-        "variants",
+        "variants"
     ],
     'org.gel.models.participant.avro':[
         "RDParticipant",
