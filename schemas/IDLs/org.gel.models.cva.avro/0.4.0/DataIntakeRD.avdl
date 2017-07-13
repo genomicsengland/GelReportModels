@@ -1,7 +1,7 @@
 @namespace("org.gel.models.cva.avro")
 
 /**
-DataIntakeProtocol defines three records for injecting variant data
+DataIntakeRDProtocol defines three records for injecting variant data
 
    - TieredVariantInjectRD
    - ReportedVariantInjectRD
@@ -19,10 +19,10 @@ Every ReportedVariant is uniquely identified by:
 
 Any duplication of a ReportedVariant will be rejected.
 */
-protocol DataIntakeProtocol {
-    import idl "../../org.gel.models.report.avro/3.1.0/InterpretationRequestRD.avdl";
-    import idl "../../org.gel.models.report.avro/3.1.0/InterpretedGenomesRD.avdl";
-    import idl "../../org.gel.models.report.avro/3.1.0/ClinicalReportRD.avdl";
+protocol DataIntakeRDProtocol {
+    import idl "../../org.gel.models.report.avro/4.0.0/InterpretationRequestRD.avdl";
+    import idl "../../org.gel.models.report.avro/4.0.0/InterpretedGenomesRD.avdl";
+    import idl "../../org.gel.models.report.avro/4.0.0/ClinicalReportRD.avdl";
 
     /**
     Record for tiered variant injection as part of the data intake for CVA
