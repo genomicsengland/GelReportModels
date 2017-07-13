@@ -24,19 +24,14 @@ MODEL_SHORT_NAME = {
 #TODO: handle this at the version level
 MODEL_DOCUMENTATION = {
     'org.gel.models.report.avro': [
-        # "RDParticipant",
         "ClinicalReportRD",
         "ClinicalReportCancer",
         "InterpretationRequestRD",
         "InterpretationRequestCancer",
         "InterpretedGenomesRD",
         "InterpretedGenomesCancer",
-        # "CancerParticipant",
-        # "GelBamMetrics",
         "AuditLog",
-        # "RDParticipantChangeLog",
         "MDTDeliveryProtocol",
-        # "SupplementaryAnalysisResults",
         "ExitQuestionnaire"
     ],
     'org.gel.models.cva.avro':[
@@ -63,6 +58,22 @@ MODEL_DOCUMENTATION = {
         "references",
         "variantmethods",
         "variants",
+    ],
+    'org.gel.models.participant.avro':[
+        "RDParticipant",
+        "CancerParticipant",
+        "RDParticipantChangeLog",
+        "CommonParticipant",
+        "ParticipantSensitiveInformation",
+        "VersionControl"
+    ],
+    'org.gel.models.metrics.avro':[
+        "GelBamMetrics",
+        "GelVcfMetrics",
+        "individualState",
+        "RareDiseaseInterpretationPipeline",
+        "sampleState",
+        "SupplementaryAnalysisResults"
     ]
 }
 

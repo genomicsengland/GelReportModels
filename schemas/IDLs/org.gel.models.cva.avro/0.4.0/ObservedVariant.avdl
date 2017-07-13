@@ -4,7 +4,7 @@ protocol ObservedVariantProtocol {
 
     // Report models references
     import idl "../../org.gel.models.report.avro/4.0.0/CommonInterpreted.avdl";
-    import idl "../../org.gel.models.report.avro/4.0.0/CommonParticipant.avdl";
+    import idl "../../org.gel.models.participant.avro/1.0.2/CommonParticipant.avdl";
     // OpenCB references
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/variant.avdl";
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
@@ -48,10 +48,29 @@ Duplication of the prior fields is not be supported.
         The abstract variant
         */
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
+
+        // Data for RD program //
         /**
         The observation information
         */
-        org.gel.models.report.avro.CalledGenotype genotype;
+        union {null, org.gel.models.report.avro.CalledGenotype} genotype;
+        //  //
+
+        // Data for cancer program //
+        /**
+        Depth for Reference Allele
+        */
+        union {null, int} depthReference;
+        /**
+        Depth for Alternate Allele
+        */
+        union {null, int} depthAlternate;
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
+        //  //
+
         /**
         Validation flag
         */

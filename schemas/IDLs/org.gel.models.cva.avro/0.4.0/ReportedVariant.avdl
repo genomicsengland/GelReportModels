@@ -7,6 +7,7 @@ protocol ReportedVariantProtocol {
     import idl "ObservedVariant.avdl";
     // Report models references
     import idl "../../org.gel.models.report.avro/4.0.0/CommonInterpreted.avdl";
+    import idl "../../org.gel.models.report.avro/4.0.0/CommonInterpretedCancer.avdl";
     import idl "../../org.opencb.biodata.models/1.2.0-SNAPSHOT/evidence.avdl";
 
     /**
@@ -22,6 +23,14 @@ protocol ReportedVariantProtocol {
         cip,
         tiering,
         other
+    }
+
+    /**
+    The 100K Genomes program to which the variant belongs, either rare disease or cancer.
+    */
+    enum GelProgram {
+        rd,
+        cancer
     }
 
     /**
@@ -63,9 +72,9 @@ Duplication of the prior fields is not be supported.
         */
         union {null, int} parentVersion;
         /**
-        The family identifier
+        The group identifier, either a family identifier for RD or a participant id for cancer
         */
-        string familyId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -87,6 +96,10 @@ Duplication of the prior fields is not be supported.
         */
         ReportedVariantType type;
         /**
+        The 100K Genomes program to which the reported variant belongs.
+        */
+        GelProgram program;
+        /**
         Validation flag
         */
         boolean validated = false;
@@ -96,9 +109,13 @@ Duplication of the prior fields is not be supported.
         */
         array<string> workspace = [];
         /**
-        The report event
+        The report event for the rare disease program
         */
-        org.gel.models.report.avro.ReportEvent reportEvent;
+        union {null, org.gel.models.report.avro.ReportEvent} reportEvent;
+        /**
+        The report event for the cancer program
+        */
+        union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
         /**
         The observed variants
         */
