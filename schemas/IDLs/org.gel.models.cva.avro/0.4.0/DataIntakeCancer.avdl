@@ -42,9 +42,9 @@ protocol DataIntakeCancerProtocol {
         */
         int version;
         /**
-        The family identifier
+        The participant identifier
         */
-        string familyId;
+        string participantId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -93,9 +93,9 @@ protocol DataIntakeCancerProtocol {
         */
         int parentVersion;
         /**
-        The family identifier
+        The participant identifier
         */
-        string familyId;
+        string participantId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -144,9 +144,9 @@ protocol DataIntakeCancerProtocol {
         */
         int parentVersion;
         /**
-        The family identifier
+        The participant identifier
         */
-        string familyId;
+        string participantId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
