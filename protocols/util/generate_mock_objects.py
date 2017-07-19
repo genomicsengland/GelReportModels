@@ -1,12 +1,13 @@
 from copy import deepcopy
 
+from protocols import reports_2_1_0
 from protocols import reports_3_0_0
 from protocols import reports_3_1_0
 from protocols import reports_4_0_0
 from protocols import participant_1_0_0
 
 
-class MockTestObject(object):
+class MockModelObject(object):
 
     def __init__(self, object_type):
         self.object_type = object_type
@@ -18,16 +19,21 @@ class MockTestObject(object):
         reports_3_0_0.Actions,
         reports_4_0_0.Actions,
         reports_3_0_0.Disorder,
+        reports_2_1_0.ReportEvent,
         reports_3_0_0.ReportEvent,
         reports_3_1_0.ReportEvent,
+        reports_4_0_0.ReportEvent,
         reports_3_0_0.CancerSample,
         reports_3_1_0.CancerSample,
         reports_3_0_0.AnalysisPanel,
         reports_3_0_0.RDParticipant,
+        reports_2_1_0.CalledGenotype,
         reports_3_0_0.CalledGenotype,
         reports_3_1_0.CalledGenotype,
+        reports_4_0_0.CalledGenotype,
         reports_3_0_0.MatchedSamples,
         reports_3_1_0.MatchedSamples,
+        reports_2_1_0.ReportedVariant,
         reports_3_0_0.ReportedVariant,
         reports_3_1_0.ReportedVariant,
         reports_3_0_0.DiseasePenetrance,
@@ -35,6 +41,7 @@ class MockTestObject(object):
         reports_4_0_0.ReportEventCancer,
         reports_3_0_0.VariantLevelQuestions,
         reports_3_0_0.ReportedSomaticVariants,
+        reports_2_1_0.ReportedStructuralVariant,
         reports_3_0_0.ReportedStructuralVariant,
         reports_3_1_0.ReportedStructuralVariant,
         reports_3_0_0.VariantGroupLevelQuestions,
@@ -76,7 +83,7 @@ def validate_object(object_to_validate, object_type):
 
 
 def get_valid_cancer_participant_3_0_0():
-    participant = MockTestObject(object_type=reports_3_0_0.CancerParticipant).get_valid_empty_object()
+    participant = MockModelObject(object_type=reports_3_0_0.CancerParticipant).get_valid_empty_object()
     participant.cancerDemographics.sex = 'M'
     participant.cancerSamples[0].sampleType = 'tumor'
     participant.cancerSamples[0].labId = '1'
@@ -88,8 +95,24 @@ def get_valid_cancer_participant_3_0_0():
     return validate_object(object_to_validate=participant, object_type=reports_3_0_0.CancerParticipant)
 
 
-def get_valid_empty_cancer_participant_1_0_0():
-    new_participant = MockTestObject(object_type=participant_1_0_0.CancerParticipant).get_valid_empty_object()
+def get_valid_cancer_participant_3_1_0():
+    object_type = reports_3_1_0.CancerParticipant
+    participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    participant.cancerSamples[0].sampleType = reports_3_1_0.SampleType.tumor
+    participant.cancerSamples[0].labId = '1'
+
+    additional_sample = deepcopy(participant.cancerSamples[0])
+    participant.cancerSamples.append(additional_sample)
+    participant.cancerSamples[1].sampleType = reports_3_1_0.SampleType.germline
+    participant.cancerSamples[1].labId = '2'
+
+    return validate_object(object_to_validate=participant, object_type=object_type)
+
+
+def get_valid_cancer_participant_1_0_0():
+    object_type = participant_1_0_0.CancerParticipant
+    new_participant = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_participant.sex = 'M'
     new_participant.germlineSamples.labSampleId = 1
     new_participant.tumourSamples.tumourId = 1
@@ -106,12 +129,12 @@ def get_valid_empty_cancer_participant_1_0_0():
     tumourSample = new_participant.tumourSamples
     new_participant.tumourSamples = [tumourSample]
 
-    return validate_object(object_to_validate=new_participant, object_type=participant_1_0_0.CancerParticipant)
+    return validate_object(object_to_validate=new_participant, object_type=object_type)
 
 
-def get_valid_empty_file_4_0_0(file_type=None):
+def get_valid_file_4_0_0(file_type=None):
     file_type = reports_4_0_0.FileType.OTHER if file_type is None else file_type
-    new_file = MockTestObject(object_type=reports_4_0_0.File).get_valid_empty_object()
+    new_file = MockModelObject(object_type=reports_4_0_0.File).get_valid_empty_object()
     new_file.fileType = file_type
     new_file.SampleId = ['']
     new_file.md5Sum.fileType = reports_4_0_0.FileType.OTHER
@@ -119,8 +142,8 @@ def get_valid_empty_file_4_0_0(file_type=None):
     return validate_object(object_to_validate=new_file, object_type=reports_4_0_0.File)
 
 
-def get_valid_empty_report_event_cancer_4_0_0():
-    new_report_event = MockTestObject(object_type=reports_4_0_0.ReportEventCancer).get_valid_empty_object()
+def get_valid_report_event_cancer_4_0_0():
+    new_report_event = MockModelObject(object_type=reports_4_0_0.ReportEventCancer).get_valid_empty_object()
     new_report_event.actions[0].variantActionable = False
     new_report_event.genomicFeatureCancer.featureType = reports_4_0_0.FeatureTypes.Gene
     new_report_event.tier = reports_4_0_0.Tier.NONE
@@ -129,10 +152,10 @@ def get_valid_empty_report_event_cancer_4_0_0():
     return validate_object(object_to_validate=new_report_event, object_type=reports_4_0_0.ReportEventCancer)
 
 
-def get_valid_empty_reported_somatic_variant_4_0_0():
-    new_variant = MockTestObject(object_type=reports_4_0_0.ReportedSomaticVariants).get_valid_empty_object()
+def get_valid_reported_somatic_variant_4_0_0():
+    new_variant = MockModelObject(object_type=reports_4_0_0.ReportedSomaticVariants).get_valid_empty_object()
     new_variant.reportedVariantCancer.position = 1
-    new_variant.reportedVariantCancer.reportEvents[0] = get_valid_empty_report_event_cancer_4_0_0()
+    new_variant.reportedVariantCancer.reportEvents[0] = get_valid_report_event_cancer_4_0_0()
     new_variant.reportedVariantCancer.additionalTextualVariantAnnotations = {}
     new_variant.reportedVariantCancer.additionalNumericVariantAnnotations = {}
     new_variant.alleleOrigins = [reports_4_0_0.AlleleOrigin.germline_variant]
@@ -141,7 +164,7 @@ def get_valid_empty_reported_somatic_variant_4_0_0():
 
 
 def get_valid_reported_somatic_structural_variant_4_0_0():
-    new_variant = MockTestObject(object_type=reports_4_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
+    new_variant = MockModelObject(object_type=reports_4_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
     new_variant.alleleOrigins = [reports_4_0_0.AlleleOrigin.germline_variant]
     new_variant.reportedStructuralVariantCancer.additionalNumericVariantAnnotations = {}
     new_variant.reportedStructuralVariantCancer.additionalTextualVariantAnnotations = {}
@@ -153,20 +176,20 @@ def get_valid_reported_somatic_structural_variant_4_0_0():
 
 
 def get_valid_report_version_control_4_0_0():
-    version_control = MockTestObject(object_type=reports_4_0_0.ReportVersionControl).get_valid_empty_object()
+    version_control = MockModelObject(object_type=reports_4_0_0.ReportVersionControl).get_valid_empty_object()
 
     return validate_object(object_to_validate=version_control, object_type=reports_4_0_0.ReportVersionControl)
 
 
 def get_valid_called_genotype_3_0_0():
-    new_cg = MockTestObject(object_type=reports_3_0_0.CalledGenotype).get_valid_empty_object()
+    new_cg = MockModelObject(object_type=reports_3_0_0.CalledGenotype).get_valid_empty_object()
     new_cg.genotype = reports_3_0_0.Zygosity.unk
 
     return validate_object(object_to_validate=new_cg, object_type=reports_3_0_0.CalledGenotype)
 
 
-def get_valid_empty_report_event_3_0_0():
-    new_report_event = MockTestObject(object_type=reports_3_0_0.ReportEvent).get_valid_empty_object()
+def get_valid_report_event_3_0_0():
+    new_report_event = MockModelObject(object_type=reports_3_0_0.ReportEvent).get_valid_empty_object()
     new_report_event.genomicFeature.featureType = 'RegulatoryRegion'
     new_report_event.modeOfInheritance = 'monoallelic'
     new_report_event.penetrance = 'incomplete'
@@ -183,9 +206,9 @@ def get_valid_empty_report_event_3_0_0():
 
 
 def get_valid_reported_structural_variant_3_0_0():
-    new_rsv = MockTestObject(object_type=reports_3_0_0.ReportedStructuralVariant).get_valid_empty_object()
+    new_rsv = MockModelObject(object_type=reports_3_0_0.ReportedStructuralVariant).get_valid_empty_object()
     new_rsv.calledGenotypes[0] = get_valid_called_genotype_3_0_0()
-    new_rsv.reportEvents[0] = get_valid_empty_report_event_3_0_0()
+    new_rsv.reportEvents[0] = get_valid_report_event_3_0_0()
     new_rsv.start, new_rsv.end = 1, 2
     new_rsv.evidenceIds = {}
     new_rsv.comments = ['']
@@ -196,9 +219,9 @@ def get_valid_reported_structural_variant_3_0_0():
 
 
 def get_valid_reported_variant_3_0_0():
-    new_rv = MockTestObject(object_type=reports_3_0_0.ReportedVariant).get_valid_empty_object()
+    new_rv = MockModelObject(object_type=reports_3_0_0.ReportedVariant).get_valid_empty_object()
     new_rv.calledGenotypes[0] = get_valid_called_genotype_3_0_0()
-    new_rv.reportEvents[0] = get_valid_empty_report_event_3_0_0()
+    new_rv.reportEvents[0] = get_valid_report_event_3_0_0()
     new_rv.position = 0
     new_rv.evidenceIds = {}
     new_rv.comments = ['']
@@ -209,22 +232,127 @@ def get_valid_reported_variant_3_0_0():
     return validate_object(object_to_validate=new_rv, object_type=reports_3_0_0.ReportedVariant)
 
 
-def get_valid_empty_interpreted_genome_rd_3_0_0():
-    new_ig_rd = MockTestObject(object_type=reports_3_0_0.InterpretedGenomeRD).get_valid_empty_object()
+def get_valid_interpreted_genome_rd_3_0_0():
+    object_type = reports_3_0_0.InterpretedGenomeRD
+    new_ig_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_ig_rd.softwareVersions = {}
     new_ig_rd.referenceDatabasesVersions = {}
-    new_ig_rd.score = 0.0
-    new_ig_rd.comments = ['']
     new_ig_rd.penetrance = reports_3_0_0.Penetrance.complete
     new_ig_rd.modeOfInheritance = reports_3_0_0.ReportedModeOfInheritance.unknown
     new_ig_rd.reportedVariants[0] = get_valid_reported_variant_3_0_0()
     new_ig_rd.reportedStructuralVariants[0] = get_valid_reported_structural_variant_3_0_0()
 
-    return validate_object(object_to_validate=new_ig_rd, object_type=reports_3_0_0.InterpretedGenomeRD)
+    return validate_object(object_to_validate=new_ig_rd, object_type=object_type)
+
+
+def get_valid_called_genotype_3_1_0():
+    object_type = reports_3_1_0.CalledGenotype
+    new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cg.genotype = reports_3_1_0.Zygosity.unk
+
+    return validate_object(object_to_validate=new_cg, object_type=object_type)
+
+
+def get_valid_report_event_3_1_0():
+    object_type = reports_3_1_0.ReportEvent
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.score = 0.0
+    new_report_event.penetrance = reports_3_1_0.Penetrance.complete
+    new_report_event.modeOfInheritance = reports_3_1_0.ReportedModeOfInheritance.unknown
+    new_report_event.genomicFeature.featureType = reports_3_1_0.FeatureTypes.RegulatoryRegion
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_reported_variant_3_1_0():
+    object_type = reports_3_1_0.ReportedVariant
+    new_rv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rv.calledGenotypes[0] = get_valid_called_genotype_3_1_0()
+    new_rv.reportEvents[0] = get_valid_report_event_3_1_0()
+    new_rv.position = 0
+
+    return validate_object(object_to_validate=new_rv, object_type=object_type)
+
+
+def get_valid_reported_structural_variant_3_1_0():
+    object_type = reports_3_1_0.ReportedStructuralVariant
+    new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rsv.calledGenotypes[0] = get_valid_called_genotype_3_1_0()
+    new_rsv.reportEvents[0] = get_valid_report_event_3_1_0()
+    new_rsv.start, new_rsv.end = 1, 2
+
+    return validate_object(object_to_validate=new_rsv, object_type=object_type)
+
+
+def get_valid_interpreted_genome_rd_3_1_0():
+    object_type = reports_3_1_0.InterpretedGenomeRD
+    new_ig_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ig_rd.softwareVersions = {}
+    new_ig_rd.referenceDatabasesVersions = {}
+
+    new_ig_rd.reportedVariants[0] = get_valid_reported_variant_3_1_0()
+    new_ig_rd.reportedStructuralVariants[0] = get_valid_reported_structural_variant_3_1_0()
+
+    return validate_object(object_to_validate=new_ig_rd, object_type=object_type)
+
+
+def get_valid_called_genotype_4_0_0():
+    object_type = reports_4_0_0.CalledGenotype
+    new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cg.genotype = reports_4_0_0.Zygosity.unk
+
+    return validate_object(object_to_validate=new_cg, object_type=object_type)
+
+
+def get_valid_report_event_4_0_0():
+    object_type = reports_4_0_0.ReportEvent
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.score = 0.0
+    new_report_event.penetrance = reports_4_0_0.Penetrance.complete
+    new_report_event.modeOfInheritance = reports_4_0_0.ReportedModeOfInheritance.unknown
+    new_report_event.genomicFeature.featureType = reports_4_0_0.FeatureTypes.RegulatoryRegion
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_reported_variant_4_0_0():
+    object_type = reports_4_0_0.ReportedVariant
+    new_rv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rv.calledGenotypes[0] = get_valid_called_genotype_4_0_0()
+    new_rv.reportEvents[0] = get_valid_report_event_4_0_0()
+    new_rv.position = 0
+    new_rv.evidenceIds = {}
+    new_rv.comments = ['']
+    new_rv.dbSNPid = ''
+    new_rv.additionalNumericVariantAnnotations = {}
+    new_rv.additionalTextualVariantAnnotations = {}
+
+    return validate_object(object_to_validate=new_rv, object_type=object_type)
+
+
+def get_valid_reported_structural_variant_4_0_0():
+    object_type = reports_4_0_0.ReportedStructuralVariant
+    new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rsv.calledGenotypes[0] = get_valid_called_genotype_4_0_0()
+    new_rsv.reportEvents[0] = get_valid_report_event_4_0_0()
+    new_rsv.start, new_rsv.end = 1, 2
+
+    return validate_object(object_to_validate=new_rsv, object_type=object_type)
+
+
+def get_valid_interpreted_genome_rd_4_0_0():
+    object_type = reports_4_0_0.InterpretedGenomeRD
+    new_ig_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ig_rd.softwareVersions = {}
+    new_ig_rd.referenceDatabasesVersions = {}
+    new_ig_rd.reportedVariants = [get_valid_reported_variant_4_0_0()]
+    new_ig_rd.reportedStructuralVariants = [get_valid_reported_structural_variant_4_0_0()]
+
+    return validate_object(object_to_validate=new_ig_rd, object_type=object_type)
 
 
 def get_valid_interpretation_request_rd_3_0_0():
-    new_ir_rd = MockTestObject(object_type=reports_3_0_0.InterpretationRequestRD).get_valid_empty_object()
+    new_ir_rd = MockModelObject(object_type=reports_3_0_0.InterpretationRequestRD).get_valid_empty_object()
 
     new_ir_rd.workspace = ['']
     new_ir_rd.pedigreeDiagram.fileType = reports_3_0_0.FileType.OTHER
@@ -264,13 +392,13 @@ def get_valid_interpretation_request_rd_3_0_0():
     new_ir_rd.TieredVariants[0].position = 0
 
     # TODO(Greg): Same as the TODO above, but for ReportEvent objects
-    new_ir_rd.TieredVariants[0].reportEvents[0] = get_valid_empty_report_event_3_0_0()
+    new_ir_rd.TieredVariants[0].reportEvents[0] = get_valid_report_event_3_0_0()
 
     return validate_object(object_to_validate=new_ir_rd, object_type=reports_3_0_0.InterpretationRequestRD)
 
 
 def get_valid_rd_exit_questionnaire_3_0_0():
-    new_rd_eq = MockTestObject(object_type=reports_3_0_0.RareDiseaseExitQuestionnaire).get_valid_empty_object()
+    new_rd_eq = MockModelObject(object_type=reports_3_0_0.RareDiseaseExitQuestionnaire).get_valid_empty_object()
 
     classification = reports_3_0_0.ACMGClassification.not_assessed
     new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].acmgClassification = classification
@@ -292,7 +420,7 @@ def get_valid_rd_exit_questionnaire_3_0_0():
 
 
 def get_valid_reported_somatic_structural_variant_3_0_0():
-    new_variant = MockTestObject(object_type=reports_3_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
+    new_variant = MockModelObject(object_type=reports_3_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
 
     new_variant.reportedStructuralVariantCancer.start = 1
     new_variant.reportedStructuralVariantCancer.end = 2
@@ -302,8 +430,8 @@ def get_valid_reported_somatic_structural_variant_3_0_0():
     return validate_object(object_to_validate=new_variant, object_type=reports_3_0_0.ReportedSomaticStructuralVariants)
 
 
-def get_valid_empty_report_event_cancer_3_0_0():
-    new_report_event = MockTestObject(object_type=reports_3_0_0.ReportEventCancer).get_valid_empty_object()
+def get_valid_report_event_cancer_3_0_0():
+    new_report_event = MockModelObject(object_type=reports_3_0_0.ReportEventCancer).get_valid_empty_object()
     new_report_event.actions[0].variantActionable = False
     new_report_event.genomicFeatureCancer.featureType = reports_3_0_0.FeatureTypes.Gene
     new_report_event.tier = reports_3_0_0.Tier.NONE
@@ -314,16 +442,18 @@ def get_valid_empty_report_event_cancer_3_0_0():
 
 
 def get_valid_reported_somatic_variant_3_0_0():
-    new_variant = MockTestObject(object_type=reports_3_0_0.ReportedSomaticVariants).get_valid_empty_object()
+    object_type = reports_3_0_0.ReportedSomaticVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_variant.somaticOrGermline = reports_3_0_0.SomaticOrGermline.unknown
-    new_variant.reportedVariantCancer.reportEvents[0] = get_valid_empty_report_event_cancer_3_0_0()
+    new_variant.reportedVariantCancer.reportEvents[0] = get_valid_report_event_cancer_3_0_0()
     new_variant.reportedVariantCancer.position = 0
+    new_variant.somaticOrGermline = reports_3_0_0.SomaticOrGermline.somatic
 
-    return validate_object(object_to_validate=new_variant, object_type=reports_3_0_0.ReportedSomaticVariants)
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
 
 
 def get_valid_cancer_interpretation_request_3_0_0():
-    new_cir = MockTestObject(object_type=reports_3_0_0.CancerInterpretationRequest).get_valid_empty_object()
+    new_cir = MockModelObject(object_type=reports_3_0_0.CancerInterpretationRequest).get_valid_empty_object()
     new_cir.workspace = ['']
     new_cir.BAMs = [new_cir.BAMs]
     new_cir.BAMs[0].fileType = reports_3_0_0.FileType.BAM
@@ -341,7 +471,7 @@ def get_valid_cancer_interpretation_request_3_0_0():
 
 
 def get_valid_clinical_report_rd_3_0_0():
-    new_cr_rd = MockTestObject(object_type=reports_3_0_0.ClinicalReportRD).get_valid_empty_object()
+    new_cr_rd = MockModelObject(object_type=reports_3_0_0.ClinicalReportRD).get_valid_empty_object()
     new_cr_rd.candidateVariants[0] = get_valid_reported_variant_3_0_0()
     new_cr_rd.candidateStructuralVariants[0] = get_valid_reported_structural_variant_3_0_0()
     new_cr_rd.softwareVersions = {'this': 'that'}
@@ -352,7 +482,7 @@ def get_valid_clinical_report_rd_3_0_0():
 
 
 def get_valid_cancer_interpreted_genome_3_0_0():
-    new_cig = MockTestObject(object_type=reports_3_0_0.CancerInterpretedGenome).get_valid_empty_object()
+    new_cig = MockModelObject(object_type=reports_3_0_0.CancerInterpretedGenome).get_valid_empty_object()
     new_cig.softwareVersions = {'this': 'that'}
     new_cig.referenceDatabasesVersions = {'this': 'that'}
     new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_0_0()
@@ -362,14 +492,14 @@ def get_valid_cancer_interpreted_genome_3_0_0():
 
 
 def get_valid_cancer_sample_3_0_0():
-    new_sample = MockTestObject(object_type=reports_3_0_0.CancerSample).get_valid_empty_object()
+    new_sample = MockModelObject(object_type=reports_3_0_0.CancerSample).get_valid_empty_object()
     new_sample.sampleType = reports_3_0_0.SampleType.germline
 
     return validate_object(object_to_validate=new_sample, object_type=reports_3_0_0.CancerSample)
 
 
 def get_valid_clinical_report_cancer_3_0_0():
-    new_crc = MockTestObject(object_type=reports_3_0_0.ClinicalReportCancer).get_valid_empty_object()
+    new_crc = MockModelObject(object_type=reports_3_0_0.ClinicalReportCancer).get_valid_empty_object()
     new_crc.softwareVersions = {'this': 'that'}
     new_crc.referenceDatabasesVersions = {'this': 'that'}
     new_crc.candidateStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_0_0()
@@ -378,3 +508,61 @@ def get_valid_clinical_report_cancer_3_0_0():
     new_crc.cancerParticipant.cancerSamples[0] = get_valid_cancer_sample_3_0_0()
 
     return validate_object(object_to_validate=new_crc, object_type=reports_3_0_0.ClinicalReportCancer)
+
+
+def get_valid_called_genotype_2_1_0():
+    object_type = reports_2_1_0.CalledGenotype
+    new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cg.genotype = ''
+
+    return validate_object(object_to_validate=new_cg, object_type=object_type)
+
+
+def get_valid_report_event_2_1_0():
+    object_type = reports_2_1_0.ReportEvent
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.modeOfInheritance = reports_2_1_0.ReportedModeOfInheritance.unknown
+    new_report_event.score = 0.0
+    new_report_event.genomicFeature.featureType = reports_2_1_0.FeatureTypes.RegulatoryRegion
+    new_report_event.genomicFeature.ids = {}
+    new_report_event.penetrance = reports_2_1_0.Penetrance.complete
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_reported_variant_2_1_0():
+    object_type = reports_2_1_0.ReportedVariant
+    new_rv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rv.calledGenotypes[0] = get_valid_called_genotype_2_1_0()
+    new_rv.reportEvents[0] = get_valid_report_event_2_1_0()
+    new_rv.position = 0
+    new_rv.evidenceIds = {}
+    new_rv.comments = ['']
+    new_rv.dbSNPid = ''
+    new_rv.additionalNumericVariantAnnotations = {}
+    new_rv.additionalTextualVariantAnnotations = {}
+
+    return validate_object(object_to_validate=new_rv, object_type=object_type)
+
+
+def get_valid_reported_structural_variant_2_1_0():
+    object_type = reports_2_1_0.ReportedStructuralVariant
+    new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rsv.calledGenotypes[0] = get_valid_called_genotype_2_1_0()
+    new_rsv.reportEvents[0] = get_valid_report_event_2_1_0()
+    new_rsv.start, new_rsv.end = 1, 2
+
+    return validate_object(object_to_validate=new_rsv, object_type=object_type)
+
+
+def get_valid_interpreted_genome_rd_2_1_0():
+    object_type = reports_2_1_0.InterpretedGenomeRD
+    new_ig_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ig_rd.softwareVersions = {}
+    new_ig_rd.referenceDatabasesVersions = {}
+    new_ig_rd.penetrance = reports_2_1_0.Penetrance.complete
+    new_ig_rd.modeOfInheritance = reports_2_1_0.ReportedModeOfInheritance.unknown
+    new_ig_rd.reportedVariants[0] = get_valid_reported_variant_2_1_0()
+    new_ig_rd.reportedStructuralVariants[0] = get_valid_reported_structural_variant_2_1_0()
+
+    return validate_object(object_to_validate=new_ig_rd, object_type=object_type)
