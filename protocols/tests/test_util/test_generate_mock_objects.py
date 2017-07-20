@@ -29,6 +29,15 @@ class TestGenerateMockObjects4(TestCase):
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
+    def test_cancer_interpreted_genome(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_interpreted_genome_4_0_0 returns a valid
+        reports_4_0_0.CancerInterpretedGenome object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpreted_genome_4_0_0()
+        self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretedGenome))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
+
 
 class TestGenerateMockObjects31(TestCase):
 
@@ -50,6 +59,15 @@ class TestGenerateMockObjects31(TestCase):
         """
         test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_3_1_0()
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
+
+    def test_cancer_interpreted_genome(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_interpreted_genome_3_1_0 returns a valid
+        reports_3_1_0.CancerInterpretedGenome object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpreted_genome_3_1_0()
+        self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretedGenome))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
     def test_called_genotype(self):
@@ -111,6 +129,15 @@ class TestGenerateMockObjects3(TestCase):
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
+    def test_cancer_interpreted_genome(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_interpreted_genome_3_0_0 returns a valid
+        reports_3_0_0.CancerInterpretedGenome object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpreted_genome_3_0_0()
+        self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretedGenome))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
+
 
 class TestGenerateMockObjects21(TestCase):
 
@@ -132,4 +159,13 @@ class TestGenerateMockObjects21(TestCase):
         """
         test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_2_1_0()
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
+
+    def test_cancer_interpreted_genome(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_interpreted_genome_2_1_0 returns a valid
+        reports_2_1_0.CancerInterpretedGenome object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpreted_genome_2_1_0()
+        self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretedGenome))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))

@@ -20,7 +20,9 @@ class MockModelObject(object):
             reports_3_0_0.HpoTerm,
             reports_3_1_0.HpoTerm,
             reports_4_0_0.HpoTerm,
+            reports_2_1_0.Actions,
             reports_3_0_0.Actions,
+            reports_3_1_0.Actions,
             reports_4_0_0.Actions,
             reports_2_1_0.Disorder,
             reports_3_0_0.Disorder,
@@ -54,9 +56,13 @@ class MockModelObject(object):
             reports_3_1_0.DiseasePenetrance,
             reports_4_0_0.DiseasePenetrance,
             reports_3_0_0.ReportEventCancer,
+            reports_3_1_0.ReportEventCancer,
             reports_4_0_0.ReportEventCancer,
             reports_3_0_0.VariantLevelQuestions,
+            reports_2_1_0.ReportedSomaticVariants,
             reports_3_0_0.ReportedSomaticVariants,
+            reports_3_1_0.ReportedSomaticVariants,
+            reports_4_0_0.ReportedSomaticVariants,
             reports_2_1_0.ReportedStructuralVariant,
             reports_3_0_0.ReportedStructuralVariant,
             reports_3_1_0.ReportedStructuralVariant,
@@ -65,7 +71,10 @@ class MockModelObject(object):
             reports_3_0_0.ChiSquare1KGenomesPhase3Pop,
             reports_3_1_0.ChiSquare1KGenomesPhase3Pop,
             reports_4_0_0.ChiSquare1KGenomesPhase3Pop,
+            reports_2_1_0.ReportedSomaticStructuralVariants,
             reports_3_0_0.ReportedSomaticStructuralVariants,
+            reports_3_1_0.ReportedSomaticStructuralVariants,
+            reports_4_0_0.ReportedSomaticStructuralVariants,
         )
 
     def set_embedded_objects(self, new_gel_object):
@@ -439,14 +448,15 @@ def get_valid_rd_exit_questionnaire_3_0_0():
 
 
 def get_valid_reported_somatic_structural_variant_3_0_0():
-    new_variant = MockModelObject(object_type=reports_3_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
+    object_type = reports_3_0_0.ReportedSomaticStructuralVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
 
     new_variant.reportedStructuralVariantCancer.start = 1
     new_variant.reportedStructuralVariantCancer.end = 2
     new_variant.reportedStructuralVariantCancer.somaticOrGermline = reports_3_0_0.SomaticOrGermline.unknown
     new_variant.somaticOrGermline = reports_3_0_0.SomaticOrGermline.unknown
 
-    return validate_object(object_to_validate=new_variant, object_type=reports_3_0_0.ReportedSomaticStructuralVariants)
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
 
 
 def get_valid_report_event_cancer_3_0_0():
@@ -501,13 +511,60 @@ def get_valid_clinical_report_rd_3_0_0():
 
 
 def get_valid_cancer_interpreted_genome_3_0_0():
-    new_cig = MockModelObject(object_type=reports_3_0_0.CancerInterpretedGenome).get_valid_empty_object()
+    object_type = reports_3_0_0.CancerInterpretedGenome
+    new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_cig.softwareVersions = {'this': 'that'}
     new_cig.referenceDatabasesVersions = {'this': 'that'}
     new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_0_0()
     new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_3_0_0()
 
-    return validate_object(object_to_validate=new_cig, object_type=reports_3_0_0.CancerInterpretedGenome)
+    return validate_object(object_to_validate=new_cig, object_type=object_type)
+
+
+def get_valid_reported_somatic_structural_variant_3_1_0():
+    object_type = reports_3_1_0.ReportedSomaticStructuralVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    new_variant.reportedStructuralVariantCancer.start = 1
+    new_variant.reportedStructuralVariantCancer.end = 2
+    new_variant.reportedStructuralVariantCancer.somaticOrGermline = reports_3_1_0.SomaticOrGermline.unknown
+    new_variant.somaticOrGermline = reports_3_1_0.SomaticOrGermline.unknown
+
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
+
+
+def get_valid_report_event_cancer_3_1_0():
+    object_type = reports_3_1_0.ReportEventCancer
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.actions[0].variantActionable = False
+    new_report_event.genomicFeatureCancer.featureType = reports_3_1_0.FeatureTypes.Gene
+    new_report_event.tier = reports_3_1_0.Tier.NONE
+    new_report_event.soTerms = ['']
+    new_report_event.soNames = ['']
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_reported_somatic_variant_3_1_0():
+    object_type = reports_3_1_0.ReportedSomaticVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_variant.somaticOrGermline = reports_3_1_0.SomaticOrGermline.unknown
+    new_variant.reportedVariantCancer.reportEvents[0] = get_valid_report_event_cancer_3_1_0()
+    new_variant.reportedVariantCancer.position = 0
+    new_variant.somaticOrGermline = reports_3_1_0.SomaticOrGermline.somatic
+
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
+
+
+def get_valid_cancer_interpreted_genome_3_1_0():
+    object_type = reports_3_1_0.CancerInterpretedGenome
+    new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cig.softwareVersions = {'this': 'that'}
+    new_cig.referenceDatabasesVersions = {'this': 'that'}
+    new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_1_0()
+    new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_3_1_0()
+
+    return validate_object(object_to_validate=new_cig, object_type=object_type)
 
 
 def get_valid_cancer_sample_3_0_0():
@@ -828,3 +885,64 @@ def get_valid_interpretation_request_rd_2_1_0():
     new_ir_rd.virtualPanel = None
 
     return validate_object(object_to_validate=new_ir_rd, object_type=object_type)
+
+
+def get_valid_cancer_interpreted_genome_4_0_0():
+    object_type = reports_4_0_0.CancerInterpretedGenome
+    new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cig.softwareVersions = {'this': 'that'}
+    new_cig.referenceDatabasesVersions = {'this': 'that'}
+    new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_4_0_0()
+    new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_4_0_0()
+
+    return validate_object(object_to_validate=new_cig, object_type=object_type)
+
+
+def get_valid_reported_somatic_structural_variant_2_1_0():
+    object_type = reports_2_1_0.ReportedSomaticStructuralVariants
+    rssv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    rssv.somaticOrGermline = reports_2_1_0.SomaticOrGermline.unknown
+    rssv.reportedStructuralVariant = rssv.reportedStructuralVariant[0]
+    rssv.reportedStructuralVariant.start = 1
+    rssv.reportedStructuralVariant.end = 2
+    rssv.reportedStructuralVariant.reportEvents[0] = get_valid_report_event_2_1_0()
+
+    return validate_object(object_to_validate=rssv, object_type=object_type)
+
+
+def get_valid_report_event_cancer_2_1_0():
+    object_type = reports_2_1_0.ReportEventCancer
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.actions[0].variantActionable = False
+    new_report_event.actions[0].actionType = reports_2_1_0.ActionType.Diagnosis
+    new_report_event.genomicFeatureCancer.featureType = reports_2_1_0.FeatureTypes.Gene
+    new_report_event.tier = reports_2_1_0.Tier.NONE
+    new_report_event.soTerms = ['']
+    new_report_event.soNames = ['']
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_reported_somatic_variant_2_1_0():
+    object_type = reports_2_1_0.ReportedSomaticVariants
+    rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    rsv.somaticOrGermline = reports_2_1_0.SomaticOrGermline.unknown
+
+    rsv.reportedVariant = get_valid_reported_variant_2_1_0()
+
+    rsv.reportedVariant.reportEvents[0] = get_valid_report_event_2_1_0()
+    rsv.reportedVariant.position = 0
+    # rsv.somaticOrGermline = reports_2_1_0.SomaticOrGermline.somatic
+
+    return validate_object(object_to_validate=rsv, object_type=object_type)
+
+
+def get_valid_cancer_interpreted_genome_2_1_0():
+    object_type = reports_2_1_0.CancerInterpretedGenome
+    new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cig.softwareVersions = {'this': 'that'}
+    new_cig.referenceDatabasesVersions = {'this': 'that'}
+    new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_2_1_0()
+    new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_2_1_0()
+
+    return validate_object(object_to_validate=new_cig, object_type=object_type)
