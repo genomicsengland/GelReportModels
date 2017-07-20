@@ -12,41 +12,60 @@ class MockModelObject(object):
     def __init__(self, object_type):
         self.object_type = object_type
 
-    @staticmethod
-    def get_types_contained_within_array():
+    @property
+    def types_contained_within_array(self):
         return (
-        reports_3_0_0.HpoTerm,
-        reports_3_0_0.Actions,
-        reports_4_0_0.Actions,
-        reports_3_0_0.Disorder,
-        reports_2_1_0.ReportEvent,
-        reports_3_0_0.ReportEvent,
-        reports_3_1_0.ReportEvent,
-        reports_4_0_0.ReportEvent,
-        reports_3_0_0.CancerSample,
-        reports_3_1_0.CancerSample,
-        reports_3_0_0.AnalysisPanel,
-        reports_3_0_0.RDParticipant,
-        reports_2_1_0.CalledGenotype,
-        reports_3_0_0.CalledGenotype,
-        reports_3_1_0.CalledGenotype,
-        reports_4_0_0.CalledGenotype,
-        reports_3_0_0.MatchedSamples,
-        reports_3_1_0.MatchedSamples,
-        reports_2_1_0.ReportedVariant,
-        reports_3_0_0.ReportedVariant,
-        reports_3_1_0.ReportedVariant,
-        reports_3_0_0.DiseasePenetrance,
-        reports_3_0_0.ReportEventCancer,
-        reports_4_0_0.ReportEventCancer,
-        reports_3_0_0.VariantLevelQuestions,
-        reports_3_0_0.ReportedSomaticVariants,
-        reports_2_1_0.ReportedStructuralVariant,
-        reports_3_0_0.ReportedStructuralVariant,
-        reports_3_1_0.ReportedStructuralVariant,
-        reports_3_0_0.VariantGroupLevelQuestions,
-        reports_3_0_0.ChiSquare1KGenomesPhase3Pop,
-        reports_3_0_0.ReportedSomaticStructuralVariants,
+            reports_4_0_0.Sample,
+            reports_2_1_0.HpoTerm,
+            reports_3_0_0.HpoTerm,
+            reports_3_1_0.HpoTerm,
+            reports_4_0_0.HpoTerm,
+            reports_3_0_0.Actions,
+            reports_4_0_0.Actions,
+            reports_2_1_0.Disorder,
+            reports_3_0_0.Disorder,
+            reports_3_1_0.Disorder,
+            reports_4_0_0.Disorder,
+            reports_2_1_0.ReportEvent,
+            reports_3_0_0.ReportEvent,
+            reports_3_1_0.ReportEvent,
+            reports_4_0_0.ReportEvent,
+            reports_3_0_0.CancerSample,
+            reports_3_1_0.CancerSample,
+            reports_2_1_0.AnalysisPanel,
+            reports_3_0_0.AnalysisPanel,
+            reports_3_1_0.AnalysisPanel,
+            reports_4_0_0.AnalysisPanel,
+            reports_2_1_0.RDParticipant,
+            reports_3_0_0.RDParticipant,
+            reports_3_1_0.RDParticipant,
+            reports_2_1_0.CalledGenotype,
+            reports_3_0_0.CalledGenotype,
+            reports_3_1_0.CalledGenotype,
+            reports_4_0_0.CalledGenotype,
+            reports_3_0_0.MatchedSamples,
+            reports_3_1_0.MatchedSamples,
+            reports_4_0_0.PedigreeMember,
+            reports_2_1_0.ReportedVariant,
+            reports_3_0_0.ReportedVariant,
+            reports_3_1_0.ReportedVariant,
+            reports_4_0_0.ReportedVariant,
+            reports_3_0_0.DiseasePenetrance,
+            reports_3_1_0.DiseasePenetrance,
+            reports_4_0_0.DiseasePenetrance,
+            reports_3_0_0.ReportEventCancer,
+            reports_4_0_0.ReportEventCancer,
+            reports_3_0_0.VariantLevelQuestions,
+            reports_3_0_0.ReportedSomaticVariants,
+            reports_2_1_0.ReportedStructuralVariant,
+            reports_3_0_0.ReportedStructuralVariant,
+            reports_3_1_0.ReportedStructuralVariant,
+            reports_3_0_0.VariantGroupLevelQuestions,
+            reports_2_1_0.ChiSquare1KGenomesPhase3Pop,
+            reports_3_0_0.ChiSquare1KGenomesPhase3Pop,
+            reports_3_1_0.ChiSquare1KGenomesPhase3Pop,
+            reports_4_0_0.ChiSquare1KGenomesPhase3Pop,
+            reports_3_0_0.ReportedSomaticStructuralVariants,
         )
 
     def set_embedded_objects(self, new_gel_object):
@@ -64,7 +83,7 @@ class MockModelObject(object):
                         self.set_embedded_objects(embedded_object)
                     else:
                         setattr(new_gel_object, field_key, embedded_object)
-                if isinstance(embedded_object, self.get_types_contained_within_array()):
+                if isinstance(embedded_object, self.types_contained_within_array):
                     setattr(new_gel_object, field_key, [embedded_object])
                 else:
                     setattr(new_gel_object, field_key, embedded_object)
@@ -566,3 +585,246 @@ def get_valid_interpreted_genome_rd_2_1_0():
     new_ig_rd.reportedStructuralVariants[0] = get_valid_reported_structural_variant_2_1_0()
 
     return validate_object(object_to_validate=new_ig_rd, object_type=object_type)
+
+
+def get_valid_disease_penetrance_4_0_0():
+    object_type = reports_4_0_0.DiseasePenetrance
+    dp = MockModelObject(object_type=object_type).get_valid_empty_object()
+    dp.penetrance = reports_4_0_0.Penetrance.incomplete
+
+    return validate_object(object_to_validate=dp, object_type=object_type)
+
+
+def get_valid_disease_penetrance_3_1_0():
+    object_type = reports_3_1_0.DiseasePenetrance
+    dp = MockModelObject(object_type=object_type).get_valid_empty_object()
+    dp.penetrance = reports_3_1_0.Penetrance.incomplete
+
+    return validate_object(object_to_validate=dp, object_type=object_type)
+
+
+def get_valid_sample_4_0_0():
+    object_type = reports_4_0_0.Sample
+    sample = MockModelObject(object_type=object_type).get_valid_empty_object()
+    sample.labSampleId = 1
+
+    return validate_object(object_to_validate=sample, object_type=object_type)
+
+
+def get_valid_inbreeding_coefficient_4_0_0():
+    object_type = reports_4_0_0.InbreedingCoefficient
+    ic = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ic.coefficient = 0.0
+
+    return validate_object(object_to_validate=ic, object_type=object_type)
+
+
+def get_valid_inbreeding_coefficient_3_1_0():
+    object_type = reports_3_1_0.InbreedingCoefficient
+    ic = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ic.coefficient = 0.0
+
+    return validate_object(object_to_validate=ic, object_type=object_type)
+
+
+def get_valid_inbreeding_coefficient_2_1_0():
+    object_type = reports_2_1_0.InbreedingCoefficient
+    ic = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ic.coefficient = 0.0
+
+    return validate_object(object_to_validate=ic, object_type=object_type)
+
+
+def get_valid_chi_square_1k_genomes_phase_3_pop_4_0_0():
+    object_type = reports_4_0_0.ChiSquare1KGenomesPhase3Pop
+    cs = MockModelObject(object_type=object_type).get_valid_empty_object()
+    cs.chiSquare = 0.0
+    cs.kGSuperPopCategory = reports_4_0_0.KGSuperPopCategory.AFR
+
+    return validate_object(object_to_validate=cs, object_type=object_type)
+
+
+def get_valid_chi_square_1k_genomes_phase_3_pop_3_1_0():
+    object_type = reports_3_1_0.ChiSquare1KGenomesPhase3Pop
+    cs = MockModelObject(object_type=object_type).get_valid_empty_object()
+    cs.chiSquare = 0.0
+    cs.kgSuperPopCategory = reports_3_1_0.KGSuperPopCategory.AFR
+
+    return validate_object(object_to_validate=cs, object_type=object_type)
+
+
+def get_valid_chi_square_1k_genomes_phase_3_pop_2_1_0():
+    object_type = reports_2_1_0.ChiSquare1KGenomesPhase3Pop
+    cs = MockModelObject(object_type=object_type).get_valid_empty_object()
+    cs.chiSquare = 0.0
+    cs.kGSuperPopCategory = reports_2_1_0.KGSuperPopCategory.AFR
+
+    return validate_object(object_to_validate=cs, object_type=object_type)
+
+
+def get_valid_ancestries_4_0_0():
+    object_type = reports_4_0_0.Ancestries
+    ancestries = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ancestries.chiSquare1KGenomesPhase3Pop[0] = get_valid_chi_square_1k_genomes_phase_3_pop_4_0_0()
+
+    return validate_object(object_to_validate=ancestries, object_type=object_type)
+
+
+def get_valid_ancestries_3_1_0():
+    object_type = reports_3_1_0.Ancestries
+    ancestries = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ancestries.chiSquare1KGenomesPhase3Pop[0] = get_valid_chi_square_1k_genomes_phase_3_pop_3_1_0()
+
+    return validate_object(object_to_validate=ancestries, object_type=object_type)
+
+
+def get_valid_ancestries_2_1_0():
+    object_type = reports_2_1_0.Ancestries
+    ancestries = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ancestries.chiSquare1KGenomesPhase3Pop[0] = get_valid_chi_square_1k_genomes_phase_3_pop_2_1_0()
+
+    return validate_object(object_to_validate=ancestries, object_type=object_type)
+
+
+
+def get_valid_pedigree_members_4_0_0():
+    object_type = reports_4_0_0.PedigreeMember
+    member = MockModelObject(object_type=object_type).get_valid_empty_object()
+    member.sex = reports_4_0_0.Sex.UNKNOWN
+    member.samples[0] = get_valid_sample_4_0_0()
+    member.inbreedingCoefficient = get_valid_inbreeding_coefficient_4_0_0()
+    member.ancestries = get_valid_ancestries_4_0_0()
+
+    return validate_object(object_to_validate=member, object_type=object_type)
+
+
+def get_valid_pedigree_participant_rd_3_1_0():
+    object_type = reports_3_1_0.RDParticipant
+    participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    participant.pedigreeId = 1
+    participant.isProband = False
+    participant.sex = reports_3_1_0.Sex.undetermined
+    participant.ancestries = get_valid_ancestries_3_1_0()
+    participant.lifeStatus = reports_3_1_0.LifeStatus.alive
+    participant.adoptedStatus = reports_3_1_0.AdoptedStatus.not_adopted
+    participant.affectionStatus = reports_3_1_0.AffectionStatus.unknown
+    participant.consanguineousParents = reports_3_1_0.TernaryOption.unknown
+    participant.inbreedingCoefficient = get_valid_inbreeding_coefficient_3_1_0()
+
+    return validate_object(object_to_validate=participant, object_type=object_type)
+
+
+def get_valid_pedigree_participant_rd_2_1_0():
+    object_type = reports_2_1_0.RDParticipant
+    participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    participant.pedigreeId = 1
+    participant.isProband = False
+    participant.sex = "male"
+    participant.ancestries = get_valid_ancestries_2_1_0()
+    participant.lifeStatus = reports_2_1_0.LifeStatus.alive
+    participant.adoptedStatus = reports_2_1_0.AdoptedStatus.not_adopted
+    participant.affectionStatus = reports_2_1_0.AffectionStatus.unknown
+    participant.consanguineousParents = reports_2_1_0.TernaryOption.unknown
+    participant.inbreedingCoefficient = get_valid_inbreeding_coefficient_2_1_0()
+
+    return validate_object(object_to_validate=participant, object_type=object_type)
+
+
+def get_valid_pedigree_4_0_0():
+    object_type = reports_4_0_0.Pedigree
+    pedigree = MockModelObject(object_type=object_type).get_valid_empty_object()
+    pedigree.diseasePenetrances[0] = get_valid_disease_penetrance_4_0_0()
+    pedigree.readyForAnalysis = True
+    pedigree.members[0] = get_valid_pedigree_members_4_0_0()
+
+    return validate_object(object_to_validate=pedigree, object_type=object_type)
+
+
+def get_valid_pedigree_3_1_0():
+    object_type = reports_3_1_0.Pedigree
+    pedigree = MockModelObject(object_type=object_type).get_valid_empty_object()
+    pedigree.diseasePenetrances[0] = get_valid_disease_penetrance_3_1_0()
+    pedigree.readyForAnalysis = True
+    pedigree.participants[0] = get_valid_pedigree_participant_rd_3_1_0()
+
+    return validate_object(object_to_validate=pedigree, object_type=object_type)
+
+
+def get_valid_pedigree_2_1_0():
+    object_type = reports_2_1_0.Pedigree
+    pedigree = MockModelObject(object_type=object_type).get_valid_empty_object()
+    pedigree.participants[0] = get_valid_pedigree_participant_rd_2_1_0()
+
+    return validate_object(object_to_validate=pedigree, object_type=object_type)
+
+
+def get_valid_interpretation_request_rd_4_0_0():
+    object_type = reports_4_0_0.InterpretationRequestRD
+    new_ir_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ir_rd.workspace = ['']
+    new_ir_rd.annotationFile.fileType = reports_4_0_0.FileType.ANN
+    new_ir_rd.bams = [new_ir_rd.bams]
+    new_ir_rd.bams[0].fileType = reports_4_0_0.FileType.BAM
+    new_ir_rd.bigWigs = [new_ir_rd.bigWigs]
+    new_ir_rd.bigWigs[0].fileType = reports_4_0_0.FileType.BigWig
+    new_ir_rd.vcfs = [new_ir_rd.vcfs]
+    new_ir_rd.vcfs[0].fileType = reports_4_0_0.FileType.VCF_CNV
+    new_ir_rd.interpretationRequestVersion = 1
+    new_ir_rd.pedigreeDiagram.fileType = reports_4_0_0.FileType.OTHER
+    new_ir_rd.tieredVariants[0] = get_valid_reported_variant_4_0_0()
+    new_ir_rd.pedigree = get_valid_pedigree_4_0_0()
+
+    return validate_object(object_to_validate=new_ir_rd, object_type=object_type)
+
+
+def get_valid_interpretation_request_rd_3_1_0():
+    object_type = reports_3_1_0.InterpretationRequestRD
+    new_ir_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ir_rd.workspace = ['']
+    new_ir_rd.vcfs = [new_ir_rd.vcfs]
+    new_ir_rd.vcfs[0].fileType = reports_3_1_0.FileType.VCF_CNV
+    new_ir_rd.bams = [new_ir_rd.bams]
+    new_ir_rd.bams[0].fileType = reports_3_1_0.FileType.BAM
+    new_ir_rd.bigWigs = [new_ir_rd.bigWigs]
+    new_ir_rd.bigWigs[0].fileType = reports_3_1_0.FileType.BigWig
+    new_ir_rd.interpretationRequestVersion = 1
+    new_ir_rd.tieredVariants[0] = get_valid_reported_variant_3_1_0()
+    new_ir_rd.annotationFile.fileType = reports_3_1_0.FileType.ANN
+    new_ir_rd.pedigreeDiagram.fileType = reports_3_1_0.FileType.OTHER
+    new_ir_rd.pedigree = get_valid_pedigree_3_1_0()
+
+    return validate_object(object_to_validate=new_ir_rd, object_type=object_type)
+
+
+def get_valid_virtual_panel_2_1_0():
+    object_type = reports_2_1_0.VirtualPanel
+    vp = MockModelObject(object_type=object_type).get_valid_empty_object()
+    vp.geneIds = [""]
+    vp.relevantRegions.fileType = reports_2_1_0.FileType.ANN
+    vp.clinicalRelevantVariants.fileType = reports_2_1_0.FileType.ANN
+
+    return validate_object(object_to_validate=vp, object_type=object_type)
+
+
+def get_valid_interpretation_request_rd_2_1_0():
+    object_type = reports_2_1_0.InterpretationRequestRD
+    new_ir_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_ir_rd.workspace = ['']
+    new_ir_rd.VCFs = [new_ir_rd.VCFs]
+    new_ir_rd.VCFs[0].fileType = reports_2_1_0.FileType.VCF_CNV
+    new_ir_rd.BAMs = [new_ir_rd.BAMs]
+    new_ir_rd.BAMs[0].fileType = reports_2_1_0.FileType.BAM
+    new_ir_rd.bigWigs = [new_ir_rd.bigWigs]
+    new_ir_rd.bigWigs[0].fileType = reports_2_1_0.FileType.BigWig
+    new_ir_rd.InterpretationRequestVersion = 1
+    new_ir_rd.annotationFile.fileType = reports_2_1_0.FileType.ANN
+    new_ir_rd.modeOfInheritance = reports_2_1_0.ModeOfInheritance.unknown
+    new_ir_rd.pedigreeDiagram.fileType = reports_2_1_0.FileType.ANN
+    new_ir_rd.pedigree = get_valid_pedigree_2_1_0()
+    new_ir_rd.TieredVariants[0] = get_valid_reported_variant_2_1_0()
+    # new_ir_rd.virtualPanel = get_valid_virtual_panel_2_1_0()
+    new_ir_rd.virtualPanel = None
+
+    return validate_object(object_to_validate=new_ir_rd, object_type=object_type)
