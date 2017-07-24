@@ -32,6 +32,7 @@ class MockModelObject(object):
             reports_3_0_0.ReportEvent,
             reports_3_1_0.ReportEvent,
             reports_4_0_0.ReportEvent,
+            reports_2_1_0.CancerSample,
             reports_3_0_0.CancerSample,
             reports_3_1_0.CancerSample,
             reports_2_1_0.AnalysisPanel,
@@ -45,6 +46,7 @@ class MockModelObject(object):
             reports_3_0_0.CalledGenotype,
             reports_3_1_0.CalledGenotype,
             reports_4_0_0.CalledGenotype,
+            reports_2_1_0.MatchedSamples,
             reports_3_0_0.MatchedSamples,
             reports_3_1_0.MatchedSamples,
             reports_4_0_0.PedigreeMember,
@@ -946,3 +948,59 @@ def get_valid_cancer_interpreted_genome_2_1_0():
     new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_2_1_0()
 
     return validate_object(object_to_validate=new_cig, object_type=object_type)
+
+
+def get_valid_cancer_interpretation_request_4_0_0():
+    object_type = reports_4_0_0.CancerInterpretationRequest
+    new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cir.workspace = ['']
+    new_cir.bams = [new_cir.bams]
+    new_cir.bams[0].fileType = reports_4_0_0.FileType.BAM
+    new_cir.bigWigs = [new_cir.bigWigs]
+    new_cir.bigWigs[0].fileType = reports_4_0_0.FileType.BigWig
+    new_cir.vcfs = [new_cir.vcfs]
+    new_cir.vcfs[0].fileType = reports_4_0_0.FileType.VCF_small
+
+    new_cir.cancerParticipant = get_valid_cancer_participant_1_0_0()
+    new_cir.annotationFile.fileType = reports_4_0_0.FileType.ANN
+    new_cir.structuralTieredVariants[0] = get_valid_reported_somatic_structural_variant_4_0_0()
+    new_cir.tieredVariants[0] = get_valid_reported_somatic_variant_4_0_0()
+    new_cir.reportVersion = 1
+
+    return validate_object(object_to_validate=new_cir, object_type=object_type)
+
+
+def get_valid_cancer_interpretation_request_3_1_0():
+    object_type = reports_3_1_0.CancerInterpretationRequest
+    new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cir.workspace = ['']
+    new_cir.bams = [new_cir.bams]
+    new_cir.bams[0].fileType = reports_3_1_0.FileType.BAM
+    new_cir.bigWigs = [new_cir.bigWigs]
+    new_cir.bigWigs[0].fileType = reports_3_1_0.FileType.BigWig
+    new_cir.vcfs = [new_cir.vcfs]
+    new_cir.vcfs[0].fileType = reports_3_1_0.FileType.VCF_small
+    new_cir.cancerParticipant.cancerSamples[0].sampleType = reports_3_1_0.SampleType.tumor
+    new_cir.annotationFile.fileType = reports_3_1_0.FileType.ANN
+    new_cir.structuralTieredVariants[0] = get_valid_reported_somatic_structural_variant_3_1_0()
+    new_cir.tieredVariants[0] = get_valid_reported_somatic_variant_3_1_0()
+    new_cir.reportVersion = 1
+
+    return validate_object(object_to_validate=new_cir, object_type=object_type)
+
+
+def get_valid_cancer_interpretation_request_2_1_0():
+    object_type = reports_2_1_0.CancerInterpretationRequest
+    new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cir.workspace = ['']
+    new_cir.BAMs = [new_cir.BAMs]
+    new_cir.BAMs[0].fileType = reports_2_1_0.FileType.BAM
+    new_cir.bigWigs = [new_cir.bigWigs]
+    new_cir.bigWigs[0].fileType = reports_2_1_0.FileType.BigWig
+    new_cir.VCFs = [new_cir.VCFs]
+    new_cir.VCFs[0].fileType = reports_2_1_0.FileType.VCF_small
+    new_cir.cancerParticipant.cancerSamples[0].sampleType = reports_2_1_0.SampleType.tumor
+    new_cir.annotationFile.fileType = reports_3_1_0.FileType.ANN
+    new_cir.reportVersion = 1
+
+    return validate_object(object_to_validate=new_cir, object_type=object_type)
