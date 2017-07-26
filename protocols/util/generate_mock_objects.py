@@ -112,6 +112,21 @@ def validate_object(object_to_validate, object_type):
         raise Exception("New {object_type} object is not valid".format(object_type=object_type))
 
 
+def get_valid_cancer_participant_2_1_0():
+    object_type = reports_2_1_0.CancerParticipant
+    participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    participant.cancerSamples[0].sampleType = reports_2_1_0.SampleType.tumor
+    participant.cancerSamples[0].labId = '1'
+
+    additional_sample = deepcopy(participant.cancerSamples[0])
+    participant.cancerSamples.append(additional_sample)
+    participant.cancerSamples[1].sampleType = reports_2_1_0.SampleType.germline
+    participant.cancerSamples[1].labId = '2'
+
+    return validate_object(object_to_validate=participant, object_type=object_type)
+
+
 def get_valid_cancer_participant_3_0_0():
     participant = MockModelObject(object_type=reports_3_0_0.CancerParticipant).get_valid_empty_object()
     participant.cancerDemographics.sex = 'M'
@@ -570,22 +585,71 @@ def get_valid_cancer_interpreted_genome_3_1_0():
 
 
 def get_valid_cancer_sample_3_0_0():
-    new_sample = MockModelObject(object_type=reports_3_0_0.CancerSample).get_valid_empty_object()
+    object_type = reports_3_0_0.CancerSample
+    new_sample = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_sample.sampleType = reports_3_0_0.SampleType.germline
 
-    return validate_object(object_to_validate=new_sample, object_type=reports_3_0_0.CancerSample)
+    return validate_object(object_to_validate=new_sample, object_type=object_type)
+
+
+def get_valid_cancer_sample_3_1_0():
+    object_type = reports_3_0_0.CancerSample
+    new_sample = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_sample.sampleType = reports_3_0_0.SampleType.germline
+
+    return validate_object(object_to_validate=new_sample, object_type=object_type)
+
+
+def get_valid_clinical_report_cancer_2_1_0():
+    object_type = reports_2_1_0.ClinicalReportCancer
+    new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_crc.softwareVersions = {'this': 'that'}
+    new_crc.referenceDatabasesVersions = {'this': 'that'}
+    new_crc.candidateStructuralVariants[0] = get_valid_reported_structural_variant_2_1_0()
+    new_crc.candidateVariants[0] = get_valid_reported_variant_2_1_0()
+    new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
+    new_crc.cancerParticipant = get_valid_cancer_participant_2_1_0()
+
+    return validate_object(object_to_validate=new_crc, object_type=object_type)
 
 
 def get_valid_clinical_report_cancer_3_0_0():
-    new_crc = MockModelObject(object_type=reports_3_0_0.ClinicalReportCancer).get_valid_empty_object()
+    object_type = reports_3_0_0.ClinicalReportCancer
+    new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_crc.softwareVersions = {'this': 'that'}
     new_crc.referenceDatabasesVersions = {'this': 'that'}
     new_crc.candidateStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_0_0()
     new_crc.candidateVariants[0] = get_valid_reported_somatic_variant_3_0_0()
     new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
-    new_crc.cancerParticipant.cancerSamples[0] = get_valid_cancer_sample_3_0_0()
+    new_crc.cancerParticipant = get_valid_cancer_participant_3_0_0()
 
-    return validate_object(object_to_validate=new_crc, object_type=reports_3_0_0.ClinicalReportCancer)
+    return validate_object(object_to_validate=new_crc, object_type=object_type)
+
+
+def get_valid_clinical_report_cancer_3_1_0():
+    object_type = reports_3_1_0.ClinicalReportCancer
+    new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_crc.softwareVersions = {'this': 'that'}
+    new_crc.referenceDatabasesVersions = {'this': 'that'}
+    new_crc.candidateStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_1_0()
+    new_crc.candidateVariants[0] = get_valid_reported_somatic_variant_3_1_0()
+    new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
+    new_crc.cancerParticipant = get_valid_cancer_participant_3_1_0()
+
+    return validate_object(object_to_validate=new_crc, object_type=object_type)
+
+
+def get_valid_clinical_report_cancer_4_0_0():
+    object_type = reports_4_0_0.ClinicalReportCancer
+    new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_crc.softwareVersions = {'this': 'that'}
+    new_crc.referenceDatabasesVersions = {'this': 'that'}
+    new_crc.candidateStructuralVariants[0] = get_valid_reported_somatic_structural_variant_4_0_0()
+    new_crc.candidateVariants[0] = get_valid_reported_somatic_variant_4_0_0()
+    new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
+    new_crc.cancerParticipant = get_valid_cancer_participant_1_0_0()
+
+    return validate_object(object_to_validate=new_crc, object_type=object_type)
 
 
 def get_valid_called_genotype_2_1_0():
