@@ -61,6 +61,8 @@ class MockModelObject(object):
             reports_3_1_0.ReportEventCancer,
             reports_4_0_0.ReportEventCancer,
             reports_3_0_0.VariantLevelQuestions,
+            reports_3_1_0.VariantLevelQuestions,
+            reports_4_0_0.VariantLevelQuestions,
             reports_2_1_0.ReportedSomaticVariants,
             reports_3_0_0.ReportedSomaticVariants,
             reports_3_1_0.ReportedSomaticVariants,
@@ -69,6 +71,8 @@ class MockModelObject(object):
             reports_3_0_0.ReportedStructuralVariant,
             reports_3_1_0.ReportedStructuralVariant,
             reports_3_0_0.VariantGroupLevelQuestions,
+            reports_3_1_0.VariantGroupLevelQuestions,
+            reports_4_0_0.VariantGroupLevelQuestions,
             reports_2_1_0.ChiSquare1KGenomesPhase3Pop,
             reports_3_0_0.ChiSquare1KGenomesPhase3Pop,
             reports_3_1_0.ChiSquare1KGenomesPhase3Pop,
@@ -462,6 +466,52 @@ def get_valid_rd_exit_questionnaire_3_0_0():
     new_rd_eq.familyLevelQuestions.caseSolvedFamily = reports_3_0_0.CaseSolvedFamily.unknown
 
     return validate_object(object_to_validate=new_rd_eq, object_type=reports_3_0_0.RareDiseaseExitQuestionnaire)
+
+
+def get_valid_rd_exit_questionnaire_3_1_0():
+    object_type = reports_3_1_0.RareDiseaseExitQuestionnaire
+    new_rd_eq = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    classification = reports_3_1_0.ACMGClassification.not_assessed
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].acmgClassification = classification
+    question = reports_3_1_0.ReportingQuestion.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].reportingQuestion = question
+    outcome = reports_3_1_0.ConfirmationOutcome.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].confirmationOutcome = outcome
+    decision = reports_3_1_0.ConfirmationDecision.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].confirmationDecision = decision
+    new_rd_eq.variantGroupLevelQuestions[0].phenotypesSolved = reports_3_1_0.PhenotypesSolved.unknown
+    new_rd_eq.variantGroupLevelQuestions[0].clinicalUtility = [reports_3_1_0.ClinicalUtility.unknown]
+    new_rd_eq.variantGroupLevelQuestions[0].actionability = reports_3_1_0.Actionability.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantGroup = 1
+
+    new_rd_eq.familyLevelQuestions.segregationQuestion = reports_3_1_0.SegregationQuestion.no
+    new_rd_eq.familyLevelQuestions.caseSolvedFamily = reports_3_1_0.CaseSolvedFamily.unknown
+
+    return validate_object(object_to_validate=new_rd_eq, object_type=object_type)
+
+
+def get_valid_rd_exit_questionnaire_4_0_0():
+    object_type = reports_4_0_0.RareDiseaseExitQuestionnaire
+    new_rd_eq = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    classification = reports_4_0_0.ACMGClassification.not_assessed
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].acmgClassification = classification
+    question = reports_4_0_0.ReportingQuestion.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].reportingQuestion = question
+    outcome = reports_4_0_0.ConfirmationOutcome.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].confirmationOutcome = outcome
+    decision = reports_4_0_0.ConfirmationDecision.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantLevelQuestions[0].confirmationDecision = decision
+    new_rd_eq.variantGroupLevelQuestions[0].phenotypesSolved = reports_4_0_0.PhenotypesSolved.unknown
+    new_rd_eq.variantGroupLevelQuestions[0].clinicalUtility = [reports_4_0_0.ClinicalUtility.unknown]
+    new_rd_eq.variantGroupLevelQuestions[0].actionability = reports_4_0_0.Actionability.na
+    new_rd_eq.variantGroupLevelQuestions[0].variantGroup = 1
+
+    new_rd_eq.familyLevelQuestions.segregationQuestion = reports_4_0_0.SegregationQuestion.no
+    new_rd_eq.familyLevelQuestions.caseSolvedFamily = reports_4_0_0.CaseSolvedFamily.unknown
+
+    return validate_object(object_to_validate=new_rd_eq, object_type=object_type)
 
 
 def get_valid_reported_somatic_structural_variant_3_0_0():
