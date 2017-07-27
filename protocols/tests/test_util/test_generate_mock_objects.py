@@ -56,6 +56,15 @@ class TestGenerateMockObjects4(TestCase):
         self.assertTrue(isinstance(test_cir, self.model.ClinicalReportCancer))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
 
+    def test_rd_exit_questionnaire(self):
+        """
+        Ensure generate_mock_objects.get_valid_rd_exit_questionnaire_4_0_0 returns a valid
+        reports_4_0_0.RareDiseaseExitQuestionnaire object
+        """
+        test_cir = generate_mock_objects.get_valid_rd_exit_questionnaire_4_0_0()
+        self.assertTrue(isinstance(test_cir, self.model.RareDiseaseExitQuestionnaire))
+        self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
 
 class TestGenerateMockObjects31(TestCase):
 
@@ -104,6 +113,15 @@ class TestGenerateMockObjects31(TestCase):
         """
         test_cir = generate_mock_objects.get_valid_clinical_report_cancer_3_1_0()
         self.assertTrue(isinstance(test_cir, self.model.ClinicalReportCancer))
+        self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
+    def test_rd_exit_questionnaire(self):
+        """
+        Ensure generate_mock_objects.get_valid_rd_exit_questionnaire_3_1_0 returns a valid
+        reports_3_1_0.RareDiseaseExitQuestionnaire object
+        """
+        test_cir = generate_mock_objects.get_valid_rd_exit_questionnaire_3_1_0()
+        self.assertTrue(isinstance(test_cir, self.model.RareDiseaseExitQuestionnaire))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
 
     def test_called_genotype(self):
@@ -190,6 +208,15 @@ class TestGenerateMockObjects3(TestCase):
         """
         test_cir = generate_mock_objects.get_valid_clinical_report_cancer_3_0_0()
         self.assertTrue(isinstance(test_cir, self.model.ClinicalReportCancer))
+        self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
+    def test_rd_exit_questionnaire(self):
+        """
+        Ensure generate_mock_objects.get_valid_rd_exit_questionnaire_3_0_0 returns a valid
+        reports_3_0_0.RareDiseaseExitQuestionnaire object
+        """
+        test_cir = generate_mock_objects.get_valid_rd_exit_questionnaire_3_0_0()
+        self.assertTrue(isinstance(test_cir, self.model.RareDiseaseExitQuestionnaire))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
 
 
