@@ -1,4 +1,3 @@
-# TODO(Greg): Generate functionality for the commented imports
 from .avro_util import handle_avro_errors
 
 from .generate_mock_objects import get_valid_file_4_0_0
@@ -8,9 +7,10 @@ from .generate_mock_objects import get_valid_reported_variant_3_0_0
 from .generate_mock_objects import get_valid_reported_variant_3_1_0
 from .generate_mock_objects import get_valid_reported_variant_4_0_0
 
+from .generate_mock_objects import get_valid_clinical_report_rd_2_1_0
 from .generate_mock_objects import get_valid_clinical_report_rd_3_0_0
-# from .generate_mock_objects import get_valid_clinical_report_rd_3_1_0
-# from .generate_mock_objects import get_valid_clinical_report_rd_4_0_0
+from .generate_mock_objects import get_valid_clinical_report_rd_3_1_0
+from .generate_mock_objects import get_valid_clinical_report_rd_4_0_0
 
 from .generate_mock_objects import get_valid_cancer_participant_3_0_0
 from .generate_mock_objects import get_valid_cancer_participant_3_1_0
