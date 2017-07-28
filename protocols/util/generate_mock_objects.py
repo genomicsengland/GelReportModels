@@ -70,6 +70,7 @@ class MockModelObject(object):
             reports_2_1_0.ReportedStructuralVariant,
             reports_3_0_0.ReportedStructuralVariant,
             reports_3_1_0.ReportedStructuralVariant,
+            reports_4_0_0.ReportedStructuralVariant,
             reports_3_0_0.VariantGroupLevelQuestions,
             reports_3_1_0.VariantGroupLevelQuestions,
             reports_4_0_0.VariantGroupLevelQuestions,
@@ -566,15 +567,51 @@ def get_valid_cancer_interpretation_request_3_0_0():
     return validate_object(object_to_validate=new_cir, object_type=reports_3_0_0.CancerInterpretationRequest)
 
 
+def get_valid_clinical_report_rd_2_1_0():
+    object_type = reports_2_1_0.ClinicalReportRD
+    new_cr_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cr_rd.candidateVariants[0] = get_valid_reported_variant_2_1_0()
+    new_cr_rd.candidateStructuralVariants[0] = get_valid_reported_structural_variant_2_1_0()
+    new_cr_rd.softwareVersions = {'this': 'that'}
+    new_cr_rd.referenceDatabasesVersions = {'this': 'that'}
+
+    return validate_object(object_to_validate=new_cr_rd, object_type=object_type)
+
+
 def get_valid_clinical_report_rd_3_0_0():
-    new_cr_rd = MockModelObject(object_type=reports_3_0_0.ClinicalReportRD).get_valid_empty_object()
+    object_type = reports_3_0_0.ClinicalReportRD
+    new_cr_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_cr_rd.candidateVariants[0] = get_valid_reported_variant_3_0_0()
     new_cr_rd.candidateStructuralVariants[0] = get_valid_reported_structural_variant_3_0_0()
     new_cr_rd.softwareVersions = {'this': 'that'}
     new_cr_rd.referenceDatabasesVersions = {'this': 'that'}
     new_cr_rd.additionalAnalysisPanels = [new_cr_rd.additionalAnalysisPanels]
 
-    return validate_object(object_to_validate=new_cr_rd, object_type=reports_3_0_0.ClinicalReportRD)
+    return validate_object(object_to_validate=new_cr_rd, object_type=object_type)
+
+
+def get_valid_clinical_report_rd_3_1_0():
+    object_type = reports_3_1_0.ClinicalReportRD
+    new_cr_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cr_rd.candidateVariants[0] = get_valid_reported_variant_3_1_0()
+    new_cr_rd.candidateStructuralVariants[0] = get_valid_reported_structural_variant_3_1_0()
+    new_cr_rd.softwareVersions = {'this': 'that'}
+    new_cr_rd.referenceDatabasesVersions = {'this': 'that'}
+    new_cr_rd.additionalAnalysisPanels = [new_cr_rd.additionalAnalysisPanels]
+
+    return validate_object(object_to_validate=new_cr_rd, object_type=object_type)
+
+
+def get_valid_clinical_report_rd_4_0_0():
+    object_type = reports_4_0_0.ClinicalReportRD
+    new_cr_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cr_rd.candidateVariants[0] = get_valid_reported_variant_4_0_0()
+    new_cr_rd.candidateStructuralVariants[0] = get_valid_reported_structural_variant_4_0_0()
+    new_cr_rd.softwareVersions = {'this': 'that'}
+    new_cr_rd.referenceDatabasesVersions = {'this': 'that'}
+    new_cr_rd.additionalAnalysisPanels = [new_cr_rd.additionalAnalysisPanels]
+
+    return validate_object(object_to_validate=new_cr_rd, object_type=object_type)
 
 
 def get_valid_cancer_interpreted_genome_3_0_0():

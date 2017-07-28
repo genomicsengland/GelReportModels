@@ -65,6 +65,16 @@ class TestGenerateMockObjects4(TestCase):
         self.assertTrue(isinstance(test_cir, self.model.RareDiseaseExitQuestionnaire))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
 
+    def test_clinical_report_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_clinical_report_rd_4_0_0 returns a valid
+        reports_4_0_0.ClinicalReportRD object
+        """
+        test_cr_rd = generate_mock_objects.get_valid_clinical_report_rd_4_0_0()
+        self.assertTrue(isinstance(test_cr_rd, self.model.ClinicalReportRD))
+        self.assertTrue(test_cr_rd.validate(test_cr_rd.toJsonDict()))
+
+
 
 class TestGenerateMockObjects31(TestCase):
 
@@ -105,6 +115,15 @@ class TestGenerateMockObjects31(TestCase):
         test_cir = generate_mock_objects.get_valid_cancer_interpretation_request_3_1_0()
         self.assertTrue(isinstance(test_cir, self.model.CancerInterpretationRequest))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
+    def test_clinical_report_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_clinical_report_rd_3_1_0 returns a valid
+        reports_3_1_0.ClinicalReportRD object
+        """
+        test_cr_rd = generate_mock_objects.get_valid_clinical_report_rd_3_1_0()
+        self.assertTrue(isinstance(test_cr_rd, self.model.ClinicalReportRD))
+        self.assertTrue(test_cr_rd.validate(test_cr_rd.toJsonDict()))
 
     def test_clinical_report_cancer(self):
         """
@@ -201,6 +220,15 @@ class TestGenerateMockObjects3(TestCase):
         self.assertTrue(isinstance(test_cir, self.model.CancerInterpretationRequest))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
 
+    def test_clinical_report_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_clinical_report_rd_3_0_0 returns a valid
+        reports_3_0_0.ClinicalReportRD object
+        """
+        test_cr_rd = generate_mock_objects.get_valid_clinical_report_rd_3_0_0()
+        self.assertTrue(isinstance(test_cr_rd, self.model.ClinicalReportRD))
+        self.assertTrue(test_cr_rd.validate(test_cr_rd.toJsonDict()))
+
     def test_clinical_report_cancer(self):
         """
         Ensure generate_mock_objects.get_valid_clinical_report_cancer_3_0_0 returns a valid
@@ -259,6 +287,15 @@ class TestGenerateMockObjects21(TestCase):
         test_cir = generate_mock_objects.get_valid_cancer_interpretation_request_2_1_0()
         self.assertTrue(isinstance(test_cir, self.model.CancerInterpretationRequest))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
+    def test_clinical_report_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_clinical_report_rd_2_1_0 returns a valid
+        reports_2_1_0.ClinicalReportRD object
+        """
+        test_cr_rd = generate_mock_objects.get_valid_clinical_report_rd_2_1_0()
+        self.assertTrue(isinstance(test_cr_rd, self.model.ClinicalReportRD))
+        self.assertTrue(test_cr_rd.validate(test_cr_rd.toJsonDict()))
 
     def test_clinical_report_cancer(self):
         """
