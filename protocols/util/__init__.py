@@ -1,1 +1,38 @@
+# TODO(Greg): Generate functionality for the commented imports
+from .avro_util import handle_avro_errors
+
+from .generate_mock_objects import get_valid_file_4_0_0
+
+
+from .generate_mock_objects import get_valid_clinical_report_rd_3_0_0
+# from .generate_mock_objects import get_valid_clinical_report_rd_3_1_0
+# from .generate_mock_objects import get_valid_clinical_report_rd_4_0_0
+
+from .generate_mock_objects import get_valid_cancer_participant_3_0_0
+from .generate_mock_objects import get_valid_cancer_participant_3_1_0
+from .generate_mock_objects import get_valid_cancer_participant_1_0_0
+
+from .generate_mock_objects import get_valid_interpreted_genome_rd_2_1_0
+from .generate_mock_objects import get_valid_interpreted_genome_rd_3_0_0
+from .generate_mock_objects import get_valid_interpreted_genome_rd_3_1_0
+from .generate_mock_objects import get_valid_interpreted_genome_rd_4_0_0
+
+from .generate_mock_objects import get_valid_rd_exit_questionnaire_3_0_0
+
+from .generate_mock_objects import get_valid_clinical_report_cancer_3_0_0
+
+from .generate_mock_objects import get_valid_report_version_control_4_0_0
+
+from .generate_mock_objects import get_valid_reported_somatic_variant_3_0_0
+from .generate_mock_objects import get_valid_reported_somatic_variant_4_0_0
+
+from .generate_mock_objects import get_valid_cancer_interpreted_genome_3_0_0
+
+from .generate_mock_objects import get_valid_interpretation_request_rd_3_0_0
+
+from .generate_mock_objects import get_valid_cancer_interpretation_request_3_0_0
+
+from .generate_mock_objects import get_valid_reported_somatic_structural_variant_3_0_0
+from .generate_mock_objects import get_valid_reported_somatic_structural_variant_4_0_0
+
 from .create_cancer_interpretation_request import create_cancer_interpretation_request

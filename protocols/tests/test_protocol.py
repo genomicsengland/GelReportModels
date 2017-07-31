@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from protocols.tests import get_valid_reported_somatic_structural_variant_3_0_0
+from protocols.util import get_valid_reported_somatic_structural_variant_3_0_0
 
 
 class TestValidate(TestCase):
