@@ -75,7 +75,6 @@ class TestGenerateMockObjects4(TestCase):
         self.assertTrue(test_cr_rd.validate(test_cr_rd.toJsonDict()))
 
 
-
 class TestGenerateMockObjects31(TestCase):
 
     model = reports_3_1_0
