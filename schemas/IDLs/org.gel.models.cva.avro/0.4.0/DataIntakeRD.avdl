@@ -20,7 +20,10 @@ Every ReportedVariant is uniquely identified by:
 Any duplication of a ReportedVariant will be rejected.
 */
 protocol DataIntakeRDProtocol {
-    
+
+    // CVA references
+    import idl "Variant.avdl";
+    //
     import idl "../../org.gel.models.report.avro/4.0.0/InterpretationRequestRD.avdl";
     import idl "../../org.gel.models.report.avro/4.0.0/InterpretedGenomesRD.avdl";
     import idl "../../org.gel.models.report.avro/4.0.0/ClinicalReportRD.avdl";
@@ -62,6 +65,10 @@ protocol DataIntakeRDProtocol {
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
         array<string> workspace;
+        /**
+        The assembly to which the variant refers
+        */
+        SupportedAssembly assembly;
         /**
         Basic information about the InterpretationRequest
         */
@@ -114,6 +121,10 @@ protocol DataIntakeRDProtocol {
         */
         array<string> workspace;
         /**
+        The assembly to which the variant refers
+        */
+        SupportedAssembly assembly;
+        /**
         Rare disease Interpreted Genome
         */
         org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
@@ -164,6 +175,10 @@ protocol DataIntakeRDProtocol {
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
         array<string> workspace;
+        /**
+        The assembly to which the variant refers
+        */
+        SupportedAssembly assembly;
         /**
         Information that Genomics England needs to generate a clinical report
         */

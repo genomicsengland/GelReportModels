@@ -39,6 +39,7 @@ MODEL_DOCUMENTATION = {
         "Comment",
         "ReportedVariant",
         "ObservedVariant",
+        "Variant",
         "DataIntakeRD",
         "DataIntakeCancer"
     ],

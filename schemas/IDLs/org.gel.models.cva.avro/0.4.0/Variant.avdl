@@ -1,0 +1,23 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol VariantProtocol {
+
+    // OpenCB references
+    import idl "../../org.opencb.biodata.models/1.2.0/variant.avdl";
+
+    /**
+    Supported assemblies
+    */
+    enum SupportedAssembly {
+        GRCh37,
+        GRCh38
+    }
+
+    /**
+    The map of variants in the different assemblies
+    */
+    record Variant {
+        map<SupportedAssembly, org.opencb.biodata.models.variant.avro.VariantAvro> variants = [];
+    }
+
+}
