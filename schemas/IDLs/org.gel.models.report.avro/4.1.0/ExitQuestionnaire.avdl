@@ -1,0 +1,187 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines ExitQuestionnaires
+*/
+protocol ExitQuestionnaires {
+
+    enum CaseSolvedFamily {yes, no, partially, unknown}
+    enum PhenotypesSolved {yes, no, partially, unknown}
+    enum SegregationQuestion {yes, no}
+    enum ReportingQuestion {yes, no, na}
+    enum ConfirmationDecision {yes, no, na}
+    enum ConfirmationOutcome {yes, no, na}
+    enum Actionability {yes, no, not_yet, na}
+    // TODO: refactor with VariantClassification in CommonInterpreted.avdl
+    enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
+    enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
+    /**
+    An enumeration Health Professional:
+        * `oncologist`: Oncologist
+        * `haematologist`: Haematologist
+        * `pathologist`: Pathologist
+        * `clinical_geneticist`: Clinical Geneticist
+        * `clinical_scientist_pathology`: Clinical scientist-pathology
+        * `clinical_scientist_molecular_genetics`: Clinical scientist-molecular genetics
+        * `clinical_scientist_cytogenetics`: Clinical scientist-cytogenetics
+        * `other`:  Other (please specify)
+    */
+    enum CancerHealthProfessional {oncologist, haematologist, pathologist, clinical_geneticist, clinical_scientist_pathology, clinical_scientist_molecular_genetics, clinical_scientist_cytogenetics, other}
+    enum CancerReviewedMDTWGA {yes, no}
+    enum CancerAdditionalContentInformation {yes, no}
+    enum CancerActionableVariants {yes, no}
+    /**
+    An enumeration Variant Actionability:
+        * `predicts_therapeutic_response`: Predicts therapeutic response
+        * `prognostic`: Prognostic
+        * `defines_diagnosis_group`: Defines diagnosis group
+        * `eligibility_for_trial`: Eligibility for trial
+        * `na`: N/A
+        * `other`:  Other (please specify)
+    */
+    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, na, other}
+    /**
+    An enumeration Variant Usability:
+        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
+        * `actioned_result_of_this_WGA`: actioned as a result of receiving this WGA
+        * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
+        * `na`: N/A
+    */
+    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned, na}
+    /**
+    An enumeration Variant tested:
+        * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
+        * `no_orthologous_test_available`: No: no orthologous test available
+        * `test_performed_prior_to_WGA`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
+        * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
+    */
+    enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_WGA , technical_validation_following_WGA}
+
+
+
+    record FamilyLevelQuestions{
+        /**
+        Have the results reported here explained the genetic basis of the family’s presenting phenotype(s)?
+        */
+        CaseSolvedFamily caseSolvedFamily;
+        /**
+        Have you done any segregation testing in non-participating family members?
+        */
+        SegregationQuestion segregationQuestion;
+        /**
+        Comments regarding report
+        */
+        string additionalComments;
+    }
+
+    record VariantLevelQuestions{
+        /**
+        Chr: Pos Ref > Alt
+        */
+        string variantDetails;
+        /**
+        Did you carry out technical confirmation of this variant via an alternative test?
+        */
+        ConfirmationDecision confirmationDecision;
+        /**
+        Did the test confirm that the variant is present?
+        */
+        ConfirmationOutcome confirmationOutcome;
+        /**
+        Did you include the variant in your report to the clinician?
+        */
+        ReportingQuestion reportingQuestion;
+        /**
+        What ACMG pathogenicity score (1-5) did you assign to this variant?
+        */
+        ACMGClassification acmgClassification;
+        /**
+        Please provide PMIDs for papers which you have used to inform your assessment for this variant, separated by a ; for multiple papers
+        */
+        string publications;
+
+    }
+
+    record VariantGroupLevelQuestions{
+
+        int variantGroup;
+        array<VariantLevelQuestions> variantLevelQuestions;
+        /**
+        Is evidence for this variant/variant pair sufficient to use it for clinical purposes such as prenatal diagnosis or predictive testing?
+        */
+        Actionability actionability;
+        /**
+        Has the clinical team identified any changes to clinical care which could potentially arise as a result of this variant/variant pair?
+        */
+        array<ClinicalUtility> clinicalUtility;
+        /**
+        Did you report the variant(s) as being partially or completely causative of the family's presenting phenotype(s)?
+        */
+        PhenotypesSolved phenotypesSolved;
+        /**
+        If you indicated that the variant(s) only partially explained the family’s presenting phenotypes, please indicate which HPO terms you are confident that they DO explain
+        */
+        union {null, array<string>}  phenotypesExplained;
+
+    }
+
+
+    record CancerCaseLevelQuestions{
+
+    /**
+    Which health professionals were involved in reviewing this WGA (please supply all)
+    */
+    array<CancerHealthProfessional> healthProfessional;
+    union {null, string} otherHealthProfessional;
+    /**
+    Was the additional content of the supplementary analysis (i.e that not present in the preliminary analysis)
+    reviewed as a part of your MDT WGA review?
+    */
+    CancerReviewedMDTWGA reviewedInMdtWga;
+    /**
+    Did the additional content of the supplementary analysis (ie that not present in the preliminary analysis) provide
+    any information (even if not currently actionable) regarding the aetiology/diagnosis/prognosis/management of this
+    patient’s cancer?
+    */
+    CancerAdditionalContentInformation additionalContentInformation;
+    /**
+    Are there any variants in this report that would be potentially actionable* for the tumour of this patient?
+    */
+    CancerActionableVariants actionableVariants;
+
+    }
+
+
+    record variantGroupLevelQuestions{
+    /**
+    Type of (potential) actionability:
+    */
+    CancerActionability variantActionability;
+    union {null, string} otherVariantActionability;
+    /**
+    How has/will this potentially actionable variant been/be used?
+    */
+    CancerUsability variantUsability;
+    /**
+    Has this variant been tested by another method (either prior to or following receipt of this WGA)?
+    */
+    CancerTested variantTested;
+    }
+
+
+
+    record RareDiseaseExitQuestionnaire{
+        string eventDate;
+        string reporter;
+        FamilyLevelQuestions familyLevelQuestions;
+        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+    }
+
+
+    record CancerExitQuestionnaire{
+        string eventDate;
+        string reporter;
+        CancerCaseLevelQuestions caseLevelQuestions;
+        array<CancerVariantGroupLevelQuestions> variantGroupLevelQuestions;
+    }
+
+}
