@@ -14,10 +14,18 @@ protocol VariantProtocol {
     }
 
     /**
+    A variant represented in a given assembly
+    */
+    record VariantRepresentation {
+        SupportedAssembly assembly;
+        org.opencb.biodata.models.variant.avro.VariantAvro variant;
+        union {null, boolean} isLiftOver;
+    }
+
+    /**
     The map of variants in the different assemblies
     */
     record Variant {
-        map<SupportedAssembly, org.opencb.biodata.models.variant.avro.VariantAvro> variants = [];
+        array<VariantRepresentation> variants = [];
     }
-
 }
