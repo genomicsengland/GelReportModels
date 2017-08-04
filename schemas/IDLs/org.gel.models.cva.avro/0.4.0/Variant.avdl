@@ -19,7 +19,6 @@ protocol VariantProtocol {
     record VariantRepresentation {
         SupportedAssembly assembly;
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
-        union {null, boolean} isLiftOver;
     }
 
     /**
