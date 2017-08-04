@@ -175,7 +175,7 @@ protocol ExitQuestionnaires {
         string eventDate;
         string reporter;
         FamilyLevelQuestions familyLevelQuestions;
-        array<CancerVariantLevelQuestions> variantGroupLevelQuestions;
+        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
     }
 
 
