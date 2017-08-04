@@ -183,7 +183,7 @@ protocol ExitQuestionnaires {
         string eventDate;
         string reporter;
         CancerCaseLevelQuestions caseLevelQuestions;
-        array<CancerVariantGroupLevelQuestions> variantGroupLevelQuestions;
+        array<CancerVariantLevelQuestions> variantLevelQuestions;
         string additionalComments;
     }
 
