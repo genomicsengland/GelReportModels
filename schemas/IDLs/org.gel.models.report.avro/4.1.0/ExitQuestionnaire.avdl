@@ -35,18 +35,16 @@ protocol ExitQuestionnaires {
         * `prognostic`: Prognostic
         * `defines_diagnosis_group`: Defines diagnosis group
         * `eligibility_for_trial`: Eligibility for trial
-        * `na`: N/A
         * `other`:  Other (please specify)
     */
-    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, na, other}
+    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
     /**
     An enumeration Variant Usability:
         * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
         * `actioned_result_of_this_WGA`: actioned as a result of receiving this WGA
         * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
-        * `na`: N/A
     */
-    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned, na}
+    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned}
     /**
     An enumeration Variant tested:
         * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
@@ -151,7 +149,7 @@ protocol ExitQuestionnaires {
     }
 
 
-    record variantGroupLevelQuestions{
+    record CancerVariantLevelQuestions{
     /**
     Type of (potential) actionability:
     */
@@ -165,6 +163,10 @@ protocol ExitQuestionnaires {
     Has this variant been tested by another method (either prior to or following receipt of this WGA)?
     */
     CancerTested variantTested;
+    /**
+    Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS. If not applicable enter NA;
+    */
+    string validationAssayType;
     }
 
 
@@ -173,7 +175,7 @@ protocol ExitQuestionnaires {
         string eventDate;
         string reporter;
         FamilyLevelQuestions familyLevelQuestions;
-        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+        array<CancerVariantLevelQuestions> variantGroupLevelQuestions;
     }
 
 
@@ -182,6 +184,7 @@ protocol ExitQuestionnaires {
         string reporter;
         CancerCaseLevelQuestions caseLevelQuestions;
         array<CancerVariantGroupLevelQuestions> variantGroupLevelQuestions;
+        string additionalComments;
     }
 
 }
