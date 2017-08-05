@@ -24,6 +24,10 @@ protocol EvidencesSetProtocol {
         */
         union {null, org.opencb.biodata.models.variant.avro.GenomicFeature} genomicFeature;
         /**
+        The assembly to which the curation refers
+        */
+        union {null, SupportedAssembly} assembly;
+        /**
         The variant's classification.
         */
         union{null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
