@@ -1,0 +1,44 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol TransactionProtocol {
+
+
+    /**
+    The transaction status:
+
+* PENDING: a transaction in the queue pending to be processed
+* BLOCKED: a transaction already being processed
+* APPLIED: a transaction has gone through the first phase of the two-phase commit
+* DONE: a transaction has been successfully processed
+* CANCELLING: a transaction is being rolled back
+* CANCELLED: a transaction has been rolled back
+* ERROR: erroneous transaction that cannot be processed, nor retried (this is caused by reported variants already in the database)
+* ROLLBACK_ERROR: a transaction failed to roll back (this may leave the database in an inconsistent state)
+
+    The happy path is PENDING -> BLOCKED -> APPLIED -> DONE
+    */
+    enum TransactionStatus {
+        PENDING,
+        BLOCKED,
+        APPLIED,
+        DONE,
+        CANCELLING,
+        CANCELLED,
+        ERROR,
+        ROLLBACK_ERROR
+    }
+
+    /**
+    A transaction having all necessary data to process it into the database
+    */
+    record Transaction {
+        string id;
+        string lastModified;
+        TransactionStatus status;
+        bytes compressedReportedVariants;
+        string errorMessage;
+        string requestSignature;
+        map<string> options;
+    }
+
+}
