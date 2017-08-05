@@ -82,13 +82,9 @@ protocol EvidencesSetProtocol {
         */
         string date;
         /**
-        The previous curation state
+        The current curation at date
         */
-        union {null, Curation} previousCuration;
-        /**
-        The new curation state
-        */
-        union {null, Curation} newCuration;
+        Curation curation;
         /**
         The author of the curation event
         */
@@ -100,6 +96,10 @@ protocol EvidencesSetProtocol {
     Must be unique by `curation.phenotype` and `curation.inheritanceMode`.
     */
     record CurationEntry {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string date;
         /**
         The current curation state
         */
