@@ -5,6 +5,7 @@ protocol EvidencesSetProtocol {
     // CVA references
     import idl "Comment.avdl";
     import idl "ReportedVariant.avdl";
+    import idl "Variant.avdl";
     // OpenCB references
     import idl "../../org.opencb.biodata.models/1.2.0/variant.avdl";
     import idl "../../org.opencb.biodata.models/1.2.0/evidence.avdl";
@@ -158,7 +159,7 @@ Duplication of the prior fields is not be supported.
         OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
         Sample information like studies and genotypes is removed.
         */
-        array<org.opencb.biodata.models.variant.avro.VariantAvro> variants;
+        array<Variant> variants;
         /**
         The list of curations for different phenotypes for a known variant
         */
@@ -175,5 +176,39 @@ Duplication of the prior fields is not be supported.
         Reported variants
         */
         array<ReportedVariant> reportedVariants = [];
+    }
+
+    /**
+    Variant coordinates
+    */
+    record VariantCoordinates {
+        SupportedAssembly assembly;
+        string chromosome;
+        int position;
+        string reference;
+        string alternate;
+    }
+
+    /**
+    Variants coordinates
+    */
+    record VariantsCoordinates {
+        array<VariantCoordinates> variants = [];
+    }
+
+    /**
+    A curation and the variants coordinates to which it corresponds
+    */
+    record CurationAndVariants {
+        VariantsCoordinates variantsCoordinates;
+        Curation curation;
+    }
+
+    /**
+    An evidence entry and the variants coordinates to which it corresponds
+    */
+    record EvidenceEntryAndVariants {
+        VariantsCoordinates variantsCoordinates;
+        org.opencb.biodata.models.variant.avro.EvidenceEntry evidenceEntry;
     }
 }
