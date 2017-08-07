@@ -14,45 +14,7 @@ protocol ExitQuestionnaires {
     // TODO: refactor with VariantClassification in CommonInterpreted.avdl
     enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
-    /**
-    An enumeration Health Professional:
-        * `oncologist`: Oncologist
-        * `haematologist`: Haematologist
-        * `pathologist`: Pathologist
-        * `clinical_geneticist`: Clinical Geneticist
-        * `clinical_scientist_pathology`: Clinical scientist-pathology
-        * `clinical_scientist_molecular_genetics`: Clinical scientist-molecular genetics
-        * `clinical_scientist_cytogenetics`: Clinical scientist-cytogenetics
-        * `other`:  Other (please specify)
-    */
-    enum CancerHealthProfessional {oncologist, haematologist, pathologist, clinical_geneticist, clinical_scientist_pathology, clinical_scientist_molecular_genetics, clinical_scientist_cytogenetics, other}
-    enum CancerReviewedMDTWGA {yes, no}
-    enum CancerAdditionalContentInformation {yes, no}
-    enum CancerActionableVariants {yes, no}
-    /**
-    An enumeration Variant Actionability:
-        * `predicts_therapeutic_response`: Predicts therapeutic response
-        * `prognostic`: Prognostic
-        * `defines_diagnosis_group`: Defines diagnosis group
-        * `eligibility_for_trial`: Eligibility for trial
-        * `other`:  Other (please specify)
-    */
-    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
-    /**
-    An enumeration Variant Usability:
-        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
-        * `actioned_result_of_this_WGA`: actioned as a result of receiving this WGA
-        * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
-    */
-    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned}
-    /**
-    An enumeration Variant tested:
-        * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
-        * `no_orthologous_test_available`: No: no orthologous test available
-        * `test_performed_prior_to_WGA`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
-        * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
-    */
-    enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_WGA , technical_validation_following_WGA}
+
 
 
 
@@ -122,27 +84,126 @@ protocol ExitQuestionnaires {
 
     }
 
+    record RareDiseaseExitQuestionnaire{
+        string eventDate;
+        string reporter;
+        FamilyLevelQuestions familyLevelQuestions;
+        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+    }
+
+    /**
+    -------------------------------------------------
+    CANCER EXITQUESTIONNAIRE
+    -------------------------------------------------
+    */
+
+    /**
+    An enumeration for Which parts of the WGA were reviewed?:
+        * `domain_1`: Domain 1 only
+        * `domain_1_and_2`: Domains 1 and 2
+        * `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
+    */
+    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary}
+
+    /**
+     * `yes`: yes
+     * `no`: no
+    */
+    enum CancerActionableVariants {yes, no}
+
+    /**
+    An enumeration Variant Actionability:
+        * `predicts_therapeutic_response`: Predicts therapeutic response
+        * `prognostic`: Prognostic
+        * `defines_diagnosis_group`: Defines diagnosis group
+        * `eligibility_for_trial`: Eligibility for trial
+        * `germline_susceptibility`: Germline susceptibility
+        * `other`:  Other (please specify)
+    */
+    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, germline_susceptibility, other}
+
+    /**
+    An enumeration Variant Usability:
+        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
+        * `actioned_result_of_this_WGA`: actioned as a result of receiving this WGA
+        * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
+    */
+    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned}
+
+    /**
+    An enumeration Variant tested:
+        * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
+        * `no_orthologous_test_available`: No: no orthologous test available
+        * `test_performed_prior_to_WGA`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
+        * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
+    */
+    enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_WGA , technical_validation_following_WGA}
 
     record CancerCaseLevelQuestions{
 
     /**
-    Which health professionals were involved in reviewing this WGA (please supply all)
+    Total time taken to review/collate evidence for variants (hours).
+    Include all literature review time, consultation with relevant experts etc.
     */
-    array<CancerHealthProfessional> healthProfessional;
-    union {null, string} otherHealthProfessional;
+    double total_time;
+
     /**
-    Was the additional content of the supplementary analysis (i.e that not present in the preliminary analysis)
-    reviewed as a part of your MDT WGA review?
+    Time taken to discuss case at MDT (hours).
+    */
+    double mdt1_time;
+
+    /**
+    If the case is discussed at a 2nd MDT please enter time here (hours).
+    */
+    union {null, double} mdt2_time;
+
+    /**
+    Total time to design ALL validation assay(s) for case (hours).
+    Only applicable if it is necessary to design a new assay to validate the variant.
+    */
+    union {null, double} validation_assay_time;
+
+    /**
+    Technical Laboratory Validation. Total time for validation test wet work for all variants (hours).
+    */
+    union {null, double} wet_validation_time;
+
+    /**
+    Analytical Laboratory Validation. Total time for analysis of validation results for all variants (hours).
+    */
+    union {null, double} analytical_validation_time;
+
+    /**
+    Primary Reporting. Time taken to complete primary reporting stage (hours).
+    */
+    double primary_reporting_time;
+
+    /**
+    Report Authorisation. Time taken to check and authorise report (hours).
+    */
+    double primary_authorisation_time;
+
+    /**
+    Report Distribution.
+    Please enter, where possible/accessible how long it takes for the result to be conveyed to the patient.
+    E.g. via letter from the clinician (days).
+    */
+    double report_distribution_time;
+
+    /**
+    Total time from result to report.
+    The total time taken from when the analysis of the WGS results started  to a report being received
+    by the patient include any 'waiting' time (days).
+    */
+    double report_distribution_time;
+
+    /**
+    Which parts of the WGA were reviewed?
     */
     CancerReviewedMDTWGA reviewedInMdtWga;
+
     /**
-    Did the additional content of the supplementary analysis (ie that not present in the preliminary analysis) provide
-    any information (even if not currently actionable) regarding the aetiology/diagnosis/prognosis/management of this
-    patient’s cancer?
-    */
-    CancerAdditionalContentInformation additionalContentInformation;
-    /**
-    Are there any variants in this report that would be potentially actionable* for the tumour of this patient?
+    Were potentially actionable variants detected?
     */
     CancerActionableVariants actionableVariants;
 
@@ -151,40 +212,37 @@ protocol ExitQuestionnaires {
 
     record CancerVariantLevelQuestions{
     /**
-    Type of (potential) actionability:
+    Type of potential actionability:
     */
     CancerActionability variantActionability;
     union {null, string} otherVariantActionability;
+
     /**
     How has/will this potentially actionable variant been/be used?
     */
     CancerUsability variantUsability;
+
     /**
     Has this variant been tested by another method (either prior to or following receipt of this WGA)?
     */
     CancerTested variantTested;
+
     /**
     Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS. If not applicable enter NA;
     */
     string validationAssayType;
     }
 
-
-
-    record RareDiseaseExitQuestionnaire{
-        string eventDate;
-        string reporter;
-        FamilyLevelQuestions familyLevelQuestions;
-        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
-    }
-
-
     record CancerExitQuestionnaire{
         string eventDate;
         string reporter;
         CancerCaseLevelQuestions caseLevelQuestions;
         array<CancerVariantLevelQuestions> variantLevelQuestions;
-        string additionalComments;
+
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
     }
 
 }
