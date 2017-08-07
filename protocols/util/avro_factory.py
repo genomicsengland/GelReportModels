@@ -40,6 +40,8 @@ class FactoryAvroMetaClass(FactoryMetaClass):
         attrs = args[2]
         if hasattr(attrs['Meta'], 'model'):
             fuzzy_attributes = mock_schema(attrs['Meta'].model)
+            for parent in args[1]:
+                fuzzy_attributes.update(parent._meta.pre_declarations.declarations)
             fuzzy_attributes.update(attrs)
             attrs = fuzzy_attributes
 
