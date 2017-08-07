@@ -195,12 +195,12 @@ protocol ExitQuestionnaires {
     The total time taken from when the analysis of the WGS results started  to a report being received
     by the patient include any 'waiting' time (days).
     */
-    double report_distribution_time;
+    double total_time;
 
     /**
     Which parts of the WGA were reviewed?
     */
-    CancerReviewedMDTWGA reviewedInMdtWga;
+    ReviewedParts reviewedInMdtWga;
 
     /**
     Were potentially actionable variants detected?
@@ -211,6 +211,10 @@ protocol ExitQuestionnaires {
 
 
     record CancerVariantLevelQuestions{
+    /**
+    Chr: Pos Ref > Alt
+    */
+    string variantDetails;
     /**
     Type of potential actionability:
     */
