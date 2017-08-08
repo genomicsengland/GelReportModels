@@ -145,7 +145,7 @@ protocol ExitQuestionnaires {
     Total time taken to review/collate evidence for variants (hours).
     Include all literature review time, consultation with relevant experts etc.
     */
-    double total_time;
+    double total_review_time;
 
     /**
     Time taken to discuss case at MDT (hours).
