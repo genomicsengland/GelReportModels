@@ -86,7 +86,7 @@ class GelReportModelsError(Exception):
     """
     pass
 
-def run_command(command):
+def run_command(command, fail_if_error=True):
     """
 
     :param command:
@@ -102,7 +102,8 @@ def run_command(command):
     if sp.returncode:
         error_message = 'Command [{0}] returned error code [{1}]'.format(command, str(sp.returncode))
         logging.error(error_message)
-        raise GelReportModelsError(error_message)
+        if fail_if_error:
+            raise GelReportModelsError(error_message)
 
 def create_folder(folder):
     """
@@ -168,7 +169,7 @@ def generate_documentation(class_name, avrp_folder, html_folder):
     avrodoc_command = "avrodoc " + os.path.join(avrp_folder, "%s.avpr" % class_name) + " > " \
                       + os.path.join(html_folder, "%s.html" % class_name)
     logging.info("Running: [%s]" % avrodoc_command)
-    run_command(avrodoc_command)
+    run_command(avrodoc_command, fail_if_error=False)
 
 def build_directories(models_package, models_version):
     return dict(
