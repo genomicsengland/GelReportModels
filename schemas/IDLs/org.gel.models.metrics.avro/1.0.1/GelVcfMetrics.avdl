@@ -47,21 +47,5 @@ record CancerSummaryMetrics{
     double cosmic_30x_cov;
 }
 
-/**
-This is the record for results of supplementary analysis
-*/
-record SupplementaryAnalysisResults {
-
-    int numberOfSomaticVariants ;
-    double numberOfSomaticSnvsPerMb ;
-    double numberOfNonsynSomaticSnvsPerMb ;
-    map<int> ContextualAnalysisSubstitutionsCounts;
-    map<double> MutationalSignatureContribution;
-    array<string> GenomicRegionsOfHypermutation;
-    map<int> SNValleleFrequencyHistogramCounts;
-    map<int> IndelAlleleFrequencyHistogramCounts;
-    map<int> IndelLengthHistogramCounts;
-}
-
 }
 
