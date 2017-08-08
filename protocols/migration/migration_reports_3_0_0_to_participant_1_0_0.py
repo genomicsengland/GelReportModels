@@ -1,5 +1,6 @@
-from protocols import reports_3_0_0
 from protocols import participant_1_0_0
+from protocols import reports_3_0_0
+from protocols.util import handle_avro_errors
 
 
 class MigrateReports3ToParticipant1(object):
@@ -53,13 +54,27 @@ class MigrateReports3ToParticipant1(object):
         new_tumour_sample.preparationMethod = old_cancer_sample.preservationMethod
         new_tumour_sample.source = participant_1_0_0.SampleSource.TUMOUR
 
+        new_tumour_type = None
+        if isinstance(old_cancer_sample.tumorType, str):
+            old_tumour_type = old_cancer_sample.tumorType.upper()
+            new_tumour_type = getattr(participant_1_0_0.TumourType, old_tumour_type, None)
+        new_tumour_sample.tumourType = new_tumour_type
+
+        new_tumour_content = None
+        if isinstance(old_cancer_sample.tumorContent, str):
+            old_tumor_content = old_cancer_sample.tumorContent
+            new_tumour_content = getattr(participant_1_0_0.TumourContent, old_tumor_content, None)
+        new_tumour_sample.tumourContent = new_tumour_content
+
+        new_tumour_sample.tumourSubType = old_cancer_sample.tumorSubType
+
         new_tumour_sample.tumourId = 1
 
         if new_tumour_sample.validate(new_tumour_sample.toJsonDict()):
             return new_tumour_sample
         else:
             # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', new_tumour_sample.validate_parts())
+            raise Exception('This model can not be converted: ', handle_avro_errors(new_tumour_sample.validate_parts()))
 
     def migrate_germline_sample(self, old_cancer_sample):
 
