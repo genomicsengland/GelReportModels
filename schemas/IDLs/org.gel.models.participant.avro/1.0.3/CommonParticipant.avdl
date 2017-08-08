@@ -51,11 +51,11 @@ enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 /**
 1K Population
 */
-enum KGPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
+enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
 /**
 1K Super Population
 */
-enum KGSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
+enum KgSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
 
 /**
 Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
@@ -64,11 +64,11 @@ record ChiSquare1KGenomesPhase3Pop {
     /**
     1K Super Population
     */
-    KGSuperPopCategory kGSuperPopCategory;
+    KgSuperPopCategory kgSuperPopCategory;
     /**
     1K Population
     */
-    union {null, KGPopCategory} kGPopCategory;
+    union {null, KgPopCategory} kgPopCategory;
     /**
     Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
     */
