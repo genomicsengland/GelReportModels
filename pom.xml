@@ -16,7 +16,7 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>models</artifactId>
-    <version>${report.models.version}-cva-dev</version>
+    <version>${report.models.version}</version>
     <packaging>${p.type}</packaging>
 
     <properties>
