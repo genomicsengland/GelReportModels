@@ -1,4 +1,5 @@
 import sys
+
 import factory.fuzzy
 from factory.base import FactoryMetaClass, BaseFactory, BaseMeta
 
