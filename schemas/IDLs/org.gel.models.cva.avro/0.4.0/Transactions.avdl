@@ -40,5 +40,4 @@ protocol TransactionProtocol {
         string requestSignature;
         map<string> options;
     }
-
 }
