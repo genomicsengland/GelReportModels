@@ -1,5 +1,6 @@
 from protocols import reports_3_0_0
 from protocols import reports_4_0_0
+from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
 
 
 class MigrateReports3To4(object):
@@ -77,3 +78,46 @@ class MigrateReports3To4(object):
         else:
             # TODO(Greg): Improve these error messages
             raise Exception('This model can not be converted: ', new_report_event_cancer.validate_parts())
+
+    def migrate_cancer_interpretation_request(self, old_interpretation_request):
+
+        """
+
+        :param old_interpretation_request:
+        :type old_interpretation_request: reports_3_0_0.CancerInterpretationRequest
+        """
+
+        m = MigrateReports3ToParticipant1()
+        new_cancer_interpretation_request = self.new_model.CancerInterpretationRequest(
+            additionalInfo=old_interpretation_request.additionalInfo,
+            analysisUri=old_interpretation_request.analysisURI,
+            analysisVersion=old_interpretation_request.analysisVersion,
+            annotationFile=old_interpretation_request.annotationFile,
+            bams=old_interpretation_request.BAMs,
+            bigWigs=old_interpretation_request.bigWigs,
+            cancerParticipant=m.migrate_cancer_participant(old_interpretation_request.cancerParticipant),
+            internalStudyId="1",
+            interpretGenome=old_interpretation_request.interpretGenome,
+            reportRequestId=old_interpretation_request.reportRequestId,
+            reportVersion=old_interpretation_request.reportVersion,
+            structuralTieredVariants=old_interpretation_request.structuralTieredVariants,
+            tieredVariants=[
+                self.migrate_reported_somatic_variants(v) for v in old_interpretation_request.TieredVariants
+                ],
+            tieringVersion=old_interpretation_request.TieringVersion,
+            vcfs=[self.new_model.File(
+                uriFile=f.URIFile,
+                sampleId=[f.SampleId],
+                fileType=f.fileType
+            ) for f in old_interpretation_request.VCFs],
+            workspace=old_interpretation_request.workspace,
+        )
+        # new_cancer_interpretation_request.bigWigs = []
+
+        new_cancer_interpretation_request.versionControl = self.new_model.ReportVersionControl()
+
+        if new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict()):
+            return new_cancer_interpretation_request
+        else:
+            print new_cancer_interpretation_request.validate_parts()
+            raise Exception('This model can not be converted: ',  new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict(), verbose=True).messages)
