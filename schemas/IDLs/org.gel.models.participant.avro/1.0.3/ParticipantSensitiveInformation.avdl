@@ -3,30 +3,30 @@
 This protocol defines the Participants and Pedigree
 */
 
-
 protocol SensitiveInformation {
-import idl "VersionControl.avdl";
-record SensitiveInformation {
-    /**
-    Model version number
-    */
-    VersionControl versionControl;
 
+    import idl "VersionControl.avdl";
 
-    string gelID;
+    record SensitiveInformation {
 
-    union {null, array<string>} externalIds; //should be hide for external companies
+        /**
+        Model version number
+        */
+        VersionControl versionControl;
 
-    union {null, string} genomicMedicineCenter;
-    union {null, string} fullNameOfResponsibleConsultant;
-    union {null, string} contactNumber;
-    union {null, string} hospitalOfResponsibleConsultant;
+        string gelID;
 
-    union {null, string} centerSampleId;
+        union {null, array<string>} externalIds; //should be hidden for external companies
 
-    union {null, string} originatingCenter;
+        union {null, string} genomicMedicineCenter;
+        union {null, string} fullNameOfResponsibleConsultant;
+        union {null, string} contactNumber;
+        union {null, string} hospitalOfResponsibleConsultant;
 
-    union {null, string} centerPatientId;
+        union {null, string} centerSampleId;
 
-}
+        union {null, string} originatingCenter;
+
+        union {null, string} centerPatientId;
+    }
 }
