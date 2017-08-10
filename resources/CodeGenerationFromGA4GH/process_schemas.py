@@ -233,7 +233,7 @@ class SchemaClass(object):
         if doc is None:
             doc = "No documentation"
         self._writeWithIndent('"""', outputFile)
-        self._writeWrappedWithIndent(doc, outputFile)
+        self._writeWrappedWithIndent(re.sub(r'[^\x00-\x7F]+', ' ', doc), outputFile)
         self._writeWithIndent('"""', outputFile)
         if isinstance(self.schema, avro.schema.RecordSchema):
             string = '_schemaSource = """\n{0}"""'.format(

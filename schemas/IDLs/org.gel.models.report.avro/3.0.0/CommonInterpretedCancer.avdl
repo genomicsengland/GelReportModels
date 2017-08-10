@@ -175,6 +175,7 @@ record ReportedVariantCancer {
     */
     union {null, array<string>} CosmicIds;
 
+    union {null, array<string>} ClinVarIds;
 
     /**
     variant ID in dbSNP

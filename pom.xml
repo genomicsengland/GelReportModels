@@ -15,23 +15,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.gel.models</groupId>
-    <artifactId>models</artifactId>
-    <version>${report.models.version}</version>
+    <artifactId>gel-models</artifactId>
+    <version>${models.version}</version>
     <packaging>${p.type}</packaging>
 
     <properties>
+        <models.version>4.3.1</models.version>
         <report.models.package>org.gel.models.report.avro</report.models.package>
         <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
         <ga4gh.models.package>org.ga4gh.models</ga4gh.models.package>
         <cva.models.package>org.gel.models.cva.avro</cva.models.package>
         <metrics.models.package>org.gel.models.metrics.avro</metrics.models.package>
         <participant.models.package>org.gel.models.participant.avro</participant.models.package>
-        <report.models.version>3.1.0</report.models.version>
-        <opencb.models.version>1.2.0-SNAPSHOT</opencb.models.version>
+        <report.models.version>4.1.0</report.models.version>
+        <opencb.models.version>1.2.0</opencb.models.version>
         <ga4gh.models.version>3.0.0</ga4gh.models.version>
         <cva.models.version>0.3.1</cva.models.version>
         <metrics.models.version>1.0.1</metrics.models.version>
-        <participant.models.version>1.0.1</participant.models.version>
+        <participant.models.version>1.0.3</participant.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -60,6 +61,41 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create folder for biodata schemas</id>
+                        <phase>post-clean</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!--
+                    Copies the OpenCB biodata models in another folder, removing avro subfolder
+                    -->
+                    <execution>
+                        <id>copy biodata avdls to schemas folder</id>
+                        <phase>initialize</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}">
+                                    <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
+                                        <include name="*.avdl"/>
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!--
             Extracts Avro models from OpenCB biodata jar and copies them in the appropriate folder
             -->
@@ -70,7 +106,7 @@
                 <executions>
                     <execution>
                         <id>import-avdl</id>
-                        <phase>initialize</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
@@ -84,70 +120,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-            Copies the OpenCB biodata models in another folder, removing avro subfolder
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy org.webjars dependency to jar</id>
-                        <phase>initialize</phase>
-                        <goals><goal>run</goal></goals>
-                        <configuration>
-                            <target>
-                                <move todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}" flatten="true">
-                                    <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
-                                        <include name="**/*.avdl"/>
-                                    </fileset>
-                                </move>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>exec-maven-plugin</artifactId>
-                <groupId>org.codehaus.mojo</groupId>
-                <executions>
-                    <execution><!-- Installs requirements.txt -->
-                        <id>Installs Python requirements</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pip</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>install</argument>
-                                <argument>-r</argument>
-                                <argument>requirements.txt</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <tasks>
-                                <delete dir="schemas/IDLs/${opencb.package.version}/${opencb.models.version}/avro"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
             <!--
             Generate java source code for all Avro models
             -->
@@ -255,6 +227,22 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
                 <executions>
+                    <execution><!-- Installs requirements.txt -->
+                        <id>Installs Python requirements</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>pip</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>-r</argument>
+                                <argument>requirements.txt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                     <execution><!-- Run our version calculation script -->
                         <id>Generate, AVPRs, JSON schemas, Python sources and documentation</id>
                         <phase>generate-sources</phase>
@@ -266,13 +254,16 @@
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
                                 <argument>build.py</argument>
-                                <argument>--models</argument>
+                                <!--
+                                <argument>- -models</argument>
                                 <argument>${report.models.package}::${report.models.version}</argument>
                                 <argument>${ga4gh.models.package}::${ga4gh.models.version}</argument>
                                 <argument>${cva.models.package}::${cva.models.version}</argument>
                                 <argument>${opencb.models.package}::${opencb.models.version}</argument>
                                 <argument>${metrics.models.package}::${metrics.models.version}</argument>
                                 <argument>${participant.models.package}::${participant.models.version}</argument>
+                                <argument>- -skip_doc</argument>
+                                -->
                             </arguments>
                         </configuration>
                     </execution>
@@ -287,6 +278,23 @@
                             <workingDirectory>${basedir}/docs</workingDirectory>
                             <arguments>
                                 <argument>html</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Run Python unit tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>python</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>-m</argument>
+                                <argument>unittest</argument>
+                                <argument>discover</argument>
+                                <argument>protocols</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -308,12 +316,14 @@
                         </goals>
                         <configuration>
                             <filesets>
+                                <!--
                                 <fileset>
-                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
                                 </fileset>
+                                -->
                                 <fileset>
                                     <directory>schemas/AVPRs</directory>
                                     <includes>
@@ -356,7 +366,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <warName>models-report${report.models.version}-cva${cva.models.version}</warName>
+                    <warName>gel-models-docs-${models.version}</warName>
                     <webXml>web.xml</webXml>
                     <!--
                       Exclude JCL and LOG4J since all logging should go through SLF4J.
@@ -374,22 +384,7 @@
                             <targetPath></targetPath>
                         </resource>
                         <resource>
-                            <directory>schemas/IDLs/${report.models.package}/${report.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${ga4gh.models.package}/${ga4gh.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${cva.models.package}/${cva.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                            <directory>schemas/IDLs/</directory>
                             <filtering>true</filtering>
                             <targetPath></targetPath>
                         </resource>

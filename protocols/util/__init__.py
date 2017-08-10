@@ -2,6 +2,8 @@ from .avro_util import handle_avro_errors
 
 from .generate_mock_objects import get_valid_file_4_0_0
 
+from .generate_mock_objects import get_valid_pedigree_3_0_0
+
 from .generate_mock_objects import get_valid_reported_variant_2_1_0
 from .generate_mock_objects import get_valid_reported_variant_3_0_0
 from .generate_mock_objects import get_valid_reported_variant_3_1_0
@@ -20,7 +22,6 @@ from .generate_mock_objects import get_valid_interpreted_genome_rd_2_1_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_3_0_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_3_1_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_4_0_0
-
 
 from .generate_mock_objects import get_valid_rd_exit_questionnaire_3_0_0
 from .generate_mock_objects import get_valid_rd_exit_questionnaire_3_1_0

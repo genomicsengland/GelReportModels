@@ -7,6 +7,7 @@ from protocols import reports_4_0_0
 from protocols.util import generate_mock_objects
 
 
+
 class TestGenerateMockObjects4(TestCase):
 
     model = reports_4_0_0

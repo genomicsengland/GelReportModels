@@ -813,6 +813,14 @@ def get_valid_disease_penetrance_3_1_0():
     return validate_object(object_to_validate=dp, object_type=object_type)
 
 
+def get_valid_disease_penetrance_3_0_0():
+    object_type = reports_3_0_0.DiseasePenetrance
+    dp = MockModelObject(object_type=object_type).get_valid_empty_object()
+    dp.penetrance = reports_3_0_0.Penetrance.incomplete
+
+    return validate_object(object_to_validate=dp, object_type=object_type)
+
+
 def get_valid_sample_4_0_0():
     object_type = reports_4_0_0.Sample
     sample = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -831,6 +839,13 @@ def get_valid_inbreeding_coefficient_4_0_0():
 
 def get_valid_inbreeding_coefficient_3_1_0():
     object_type = reports_3_1_0.InbreedingCoefficient
+    ic = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ic.coefficient = 0.0
+
+    return validate_object(object_to_validate=ic, object_type=object_type)
+
+def get_valid_inbreeding_coefficient_3_0_0():
+    object_type = reports_3_0_0.InbreedingCoefficient
     ic = MockModelObject(object_type=object_type).get_valid_empty_object()
     ic.coefficient = 0.0
 
@@ -863,6 +878,15 @@ def get_valid_chi_square_1k_genomes_phase_3_pop_3_1_0():
     return validate_object(object_to_validate=cs, object_type=object_type)
 
 
+def get_valid_chi_square_1k_genomes_phase_3_pop_3_0_0():
+    object_type = reports_3_0_0.ChiSquare1KGenomesPhase3Pop
+    cs = MockModelObject(object_type=object_type).get_valid_empty_object()
+    cs.chiSquare = 0.0
+    cs.kGSuperPopCategory = reports_3_0_0.KGSuperPopCategory.AFR
+
+    return validate_object(object_to_validate=cs, object_type=object_type)
+
+
 def get_valid_chi_square_1k_genomes_phase_3_pop_2_1_0():
     object_type = reports_2_1_0.ChiSquare1KGenomesPhase3Pop
     cs = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -888,13 +912,20 @@ def get_valid_ancestries_3_1_0():
     return validate_object(object_to_validate=ancestries, object_type=object_type)
 
 
+def get_valid_ancestries_3_0_0():
+    object_type = reports_3_0_0.Ancestries
+    ancestries = MockModelObject(object_type=object_type).get_valid_empty_object()
+    ancestries.chiSquare1KGenomesPhase3Pop[0] = get_valid_chi_square_1k_genomes_phase_3_pop_3_0_0()
+
+    return validate_object(object_to_validate=ancestries, object_type=object_type)
+
+
 def get_valid_ancestries_2_1_0():
     object_type = reports_2_1_0.Ancestries
     ancestries = MockModelObject(object_type=object_type).get_valid_empty_object()
     ancestries.chiSquare1KGenomesPhase3Pop[0] = get_valid_chi_square_1k_genomes_phase_3_pop_2_1_0()
 
     return validate_object(object_to_validate=ancestries, object_type=object_type)
-
 
 
 def get_valid_pedigree_members_4_0_0():
@@ -921,6 +952,23 @@ def get_valid_pedigree_participant_rd_3_1_0():
     participant.affectionStatus = reports_3_1_0.AffectionStatus.unknown
     participant.consanguineousParents = reports_3_1_0.TernaryOption.unknown
     participant.inbreedingCoefficient = get_valid_inbreeding_coefficient_3_1_0()
+
+    return validate_object(object_to_validate=participant, object_type=object_type)
+
+
+def get_valid_pedigree_participant_rd_3_0_0():
+    object_type = reports_3_0_0.RDParticipant
+    participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    participant.pedigreeId = 1
+    participant.isProband = False
+    participant.sex = reports_3_0_0.Sex.undetermined
+    participant.ancestries = get_valid_ancestries_3_0_0()
+    participant.lifeStatus = reports_3_0_0.LifeStatus.alive
+    participant.adoptedStatus = reports_3_0_0.AdoptedStatus.not_adopted
+    participant.affectionStatus = reports_3_0_0.AffectionStatus.unknown
+    participant.consanguineousParents = reports_3_0_0.TernaryOption.unknown
+    participant.inbreedingCoefficient = get_valid_inbreeding_coefficient_3_0_0()
 
     return validate_object(object_to_validate=participant, object_type=object_type)
 
@@ -958,6 +1006,16 @@ def get_valid_pedigree_3_1_0():
     pedigree.diseasePenetrances[0] = get_valid_disease_penetrance_3_1_0()
     pedigree.readyForAnalysis = True
     pedigree.participants[0] = get_valid_pedigree_participant_rd_3_1_0()
+
+    return validate_object(object_to_validate=pedigree, object_type=object_type)
+
+
+def get_valid_pedigree_3_0_0():
+    object_type = reports_3_0_0.Pedigree
+    pedigree = MockModelObject(object_type=object_type).get_valid_empty_object()
+    pedigree.diseasePenetrances[0] = get_valid_disease_penetrance_3_0_0()
+    pedigree.readyForAnalysis = True
+    pedigree.participants[0] = get_valid_pedigree_participant_rd_3_0_0()
 
     return validate_object(object_to_validate=pedigree, object_type=object_type)
 
