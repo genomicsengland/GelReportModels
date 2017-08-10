@@ -4,6 +4,7 @@ import sys
 import fnmatch
 import logging
 import shutil
+import subprocess
 
 import argparse
 
@@ -24,19 +25,14 @@ MODEL_SHORT_NAME = {
 #TODO: handle this at the version level
 MODEL_DOCUMENTATION = {
     'org.gel.models.report.avro': [
-        # "RDParticipant",
         "ClinicalReportRD",
         "ClinicalReportCancer",
         "InterpretationRequestRD",
         "InterpretationRequestCancer",
         "InterpretedGenomesRD",
         "InterpretedGenomesCancer",
-        # "CancerParticipant",
-        # "GelBamMetrics",
         "AuditLog",
-        # "RDParticipantChangeLog",
         "MDTDeliveryProtocol",
-        # "SupplementaryAnalysisResults",
         "ExitQuestionnaire"
     ],
     'org.gel.models.cva.avro':[
@@ -44,14 +40,16 @@ MODEL_DOCUMENTATION = {
         "Comment",
         "ReportedVariant",
         "ObservedVariant",
-        "DataIntake"
+        "Variant",
+        "DataIntakeRD",
+        "DataIntakeCancer",
+        "Transactions"
     ],
     'org.opencb.biodata.models':[
         "evidence",
         "read",
         "variant",
-        "variantAnnotation",
-
+        "variantAnnotation"
     ],
     'org.ga4gh.models':[
         "common",
@@ -62,10 +60,50 @@ MODEL_DOCUMENTATION = {
         "referencemethods",
         "references",
         "variantmethods",
-        "variants",
+        "variants"
+    ],
+    'org.gel.models.participant.avro':[
+        "RDParticipant",
+        "CancerParticipant",
+        "RDParticipantChangeLog",
+        "CommonParticipant",
+        "ParticipantSensitiveInformation",
+        "VersionControl"
+    ],
+    'org.gel.models.metrics.avro':[
+        "GelBamMetrics",
+        "GelVcfMetrics",
+        "individualState",
+        "RareDiseaseInterpretationPipeline",
+        "sampleState",
+        "SupplementaryAnalysisResults"
     ]
 }
 
+class GelReportModelsError(Exception):
+    """
+    A exception to raise when an error sorting happens
+    """
+    pass
+
+def run_command(command, fail_if_error=True):
+    """
+
+    :param command:
+    :return:
+    """
+    sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = sp.communicate()
+    if stdout is not None:
+        logging.info(stdout)
+    if stderr is not None:
+        logging.error(stderr)
+    # raise an error if sort return code is other than 0
+    if sp.returncode:
+        error_message = 'Command [{0}] returned error code [{1}]'.format(command, str(sp.returncode))
+        logging.error(error_message)
+        if fail_if_error:
+            raise GelReportModelsError(error_message)
 
 def create_folder(folder):
     """
@@ -74,7 +112,7 @@ def create_folder(folder):
     :return:
     """
     if not os.path.exists(folder):
-        os.system('mkdir -p ' + folder)
+        run_command('mkdir -p ' + folder)
 
 def create_other_schemas(idls_folder, json_folder, avrp_folder):
     """
@@ -95,10 +133,10 @@ def create_other_schemas(idls_folder, json_folder, avrp_folder):
         idl2schemata_command = "java -jar " + AVRO_TOOLS_JAR + " idl2schemata " + idl + " " + \
                                os.path.join(json_folder, base)
         logging.info("Running: [%s]" % idl2schemata_command)
-        os.system(idl2schemata_command)
+        run_command(idl2schemata_command)
         idl_command = "java -jar " + AVRO_TOOLS_JAR + " idl " + idl + " " + os.path.join(avrp_folder, base + ".avpr")
         logging.info("Running: [%s]" % idl_command)
-        os.system(idl_command)
+        run_command(idl_command)
 
 def generate_python_sources(schema, source, version):
     """
@@ -116,7 +154,7 @@ def generate_python_sources(schema, source, version):
                                                          " --inputSchemasDirectory "
                                                          + schema + " " + version + " --verbose    ")
     logging.info(source_generation_command)
-    os.system(source_generation_command)
+    run_command(source_generation_command)
     # copies the source code to the same location without version suffix to act as the latest
 
 
@@ -131,7 +169,7 @@ def generate_documentation(class_name, avrp_folder, html_folder):
     avrodoc_command = "avrodoc " + os.path.join(avrp_folder, "%s.avpr" % class_name) + " > " \
                       + os.path.join(html_folder, "%s.html" % class_name)
     logging.info("Running: [%s]" % avrodoc_command)
-    os.system(avrodoc_command)
+    run_command(avrodoc_command, fail_if_error=False)
 
 def build_directories(models_package, models_version):
     return dict(
@@ -180,11 +218,12 @@ def main():
         nargs='+',
         default=[
             'org.gel.models.participant.avro::1.0.0', 'org.gel.models.participant.avro::1.0.1',
-            'org.gel.models.participant.avro::1.0.2',
+            'org.gel.models.participant.avro::1.0.2', 'org.gel.models.participant.avro::1.0.3',
             'org.gel.models.metrics.avro::1.0.0', 'org.gel.models.metrics.avro::1.0.1',
             'org.ga4gh.models::3.0.0',
             'org.gel.models.report.avro::2.1.0', 'org.gel.models.report.avro::3.0.0',
             'org.gel.models.report.avro::3.1.0', 'org.gel.models.report.avro::4.0.0',
+            'org.gel.models.report.avro::4.1.0',
             'org.gel.models.cva.avro::0.3.1', 'org.opencb.biodata.models::1.2.0-SNAPSHOT'
         ],
         help='List of models packages and versions to generated, in the following format package::version'
