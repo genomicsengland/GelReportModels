@@ -64,17 +64,10 @@ Duplication of the prior fields is not to be supported.
 
         // Data for cancer program //
         /**
-        Depth for Reference Allele
+        Variant call
         */
-        union {null, int} depthReference;
-        /**
-        Depth for Alternate Allele
-        */
-        union {null, int} depthAlternate;
-        /**
-        Variant Allele Frequency
-        */
-        union {null, double} vaf;
+        union {null, org.gel.models.report.avro.VariantCall} variantCall;
+
         //  //
 
         /**

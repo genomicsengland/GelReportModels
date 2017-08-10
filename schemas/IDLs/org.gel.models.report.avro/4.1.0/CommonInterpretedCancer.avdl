@@ -284,7 +284,10 @@ protocol CommonInterpretedCancer {
 
         array<ReportEventCancer> reportEvents;
 
-        array<VariantCall> variantCall;
+        /**
+        List of variant calls
+        */
+        union {null, array<VariantCall>} variantCall;
     }
 
     /**
