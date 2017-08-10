@@ -5,7 +5,8 @@ protocol ObservedVariantProtocol {
     // CVA references
     import idl "Variant.avdl";
     // Report models references
-    import idl "../../org.gel.models.report.avro/4.0.0/CommonInterpreted.avdl";
+    import idl "../../org.gel.models.report.avro/4.1.0/CommonInterpreted.avdl";
+    import idl "../../org.gel.models.report.avro/4.1.0/CommonInterpretedCancer.avdl";
     import idl "../../org.gel.models.participant.avro/1.0.2/CommonParticipant.avdl";
     // OpenCB references
     import idl "../../org.opencb.biodata.models/1.2.0/variant.avdl";
