@@ -27,7 +27,7 @@ id and version fields refer to the higher level entity where the variant was rep
 This is needed as for the same sample id a different execution of the secondary analysis (e.g.: variant calling) may
 result in a different CalledGenotype.
 
-Duplication of the prior fields is not be supported.
+Duplication of the prior fields is not to be supported.
     */
     record ObservedVariant {
         /**
