@@ -1,0 +1,380 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the Commons for GEL models
+*/
+protocol CommonInterpretedCancer {
+
+
+    /**
+    this is the type of actionability for the reported event
+    */
+    enum ActionType{therapy, therapeutic, prognosis, diagnosis}
+
+    /**
+        Variant origin.
+
+* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
+* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
+* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
+* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
+* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
+* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
+* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
+    */
+    enum AlleleOrigin {
+        de_novo_variant,
+        germline_variant,
+        maternal_variant,
+        paternal_variant,
+        pedigree_specific_variant,
+        population_specific_variant,
+        somatic_variant
+    }
+
+    record Actions {
+
+        string actionType;
+
+        /**
+        This is the tumor type considered to act on this variant
+        string tumorType;
+        */
+
+
+        /**
+        array of PMIDs
+        */
+        union {null, array<string>} evidence;
+
+        /**
+        drug
+        */
+        union {null, string} drug;
+
+        /**
+        status i.e. clinical, pre-clinical
+        */
+        union {null, string} status;
+
+        /**
+        Is variant level actionable
+        */
+        boolean variantActionable;
+
+        /**
+        comments
+        */
+        union {null, array<string>} comments;
+
+        /**
+        link to original source
+        */
+        union {null, string} url;
+
+        /**
+        type of evidence
+        */
+        union {null, string} evidenceType;
+
+        /**
+        source of the information
+        */
+        string source;
+
+    }
+
+
+
+    enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+
+    enum RoleInCancer {oncogene, TSG, both}
+
+    record GenomicFeatureCancer {
+
+        /**
+        Feature Type
+        */
+        FeatureTypes featureType;
+
+        /**
+        Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
+        */
+        string ensemblId;
+
+         /**
+        Refseq transcript
+        */
+        string refSeqTranscriptId;
+
+         /**
+        Refseq protein
+        */
+        string refSeqProteinId;
+
+        /**
+        Gene used in tier
+        */
+        string geneName;
+
+        /**
+        Role in cancer: oncogene, TSG or both
+        */
+        union {null, RoleInCancer} roleInCancer;
+
+    }
+
+
+    /**
+    Possible tiers as defined by Genomics England
+    */
+    enum Tier {NONE, TIER1, TIER2, TIER3}
+
+    /**
+    A Sequence Ontology term identifier by its id and name (e.g.: id = SO:0001816 ; name = non synonymous)
+    */
+    record SoTerm {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        string name;
+    }
+
+    record ReportEventCancer {
+
+        /**
+        Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
+        to validate the report
+        */
+        string reportEventId;
+
+        /**
+        This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
+        If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
+        */
+        GenomicFeatureCancer genomicFeatureCancer;
+
+        /**
+        Sequence Ontology terms used in tier
+        */
+        array<SoTerm> soTerms;
+
+        /**
+        Types of actionability
+        */
+        union {null, array<Actions>} actions;
+
+        /**
+        This is the description of why this variant would be reported, for example that it affects the protein in this way
+        and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+        using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+        */
+        union {null, string} eventJustification;
+
+        /**
+        Gel Tier
+        */
+        union {null, Tier} tier;
+
+    }
+
+
+    record ReportedVariantCancer {
+
+        /**
+        chromosome, named as: 1-22,X,Y,MT(other contigs name)
+        */
+        string chromosome;
+
+        /**
+        position: Position 1-based
+        */
+        int position;
+
+        /**
+        reference: Reference Allele sequence, the same provided in vcf
+        */
+        string reference;
+
+        /**
+        alternate: Alternate Allele sequence, the same provided in vcf
+        */
+        string alternate;
+
+        /**
+        variant ID in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        variant ID in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        /**
+        variant ID in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, string} cDnaChange;
+
+        /**
+        protein change, HGVS nomenclature (e.g.)
+        */
+        union {null, string} proteinChange;
+
+        /**
+        Depth for Reference Allele
+        */
+        union {null, int} depthReference;
+
+        /**
+        Depth for Alternate Allele
+        */
+        union {null, int} depthAlternate;
+
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
+
+        /**
+        AF in germline DBs
+        */
+        union {null, int} commonAf;
+
+        /**
+        Largest reference interrupted homopolymer length intersecting with the indel
+        */
+        union {null, int} ihp;
+
+        /**
+        For example HGMD ID)
+        */
+        union {null, map<string>} additionalTextualVariantAnnotations;
+
+        /**
+        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+        */
+        union {null, map<float>} additionalNumericVariantAnnotations;
+
+        /**
+        Comments
+        */
+        union {null, array<string>} comments;
+
+
+        array<ReportEventCancer> reportEvents;
+
+    }
+
+    /**
+The first level type must be one
+of the following:
+
+* `DEL` Deletion relative to the reference
+* `INS` Insertion of novel sequence relative to the reference
+* `DUP` Region of elevated copy number relative to the reference
+* `INV` Inversion of reference sequence
+* `CNV` Copy number variable region (may be both deletion and duplication) The CNV category should not be used when a
+more specific category can be applied.  Reserved subtypes include:
+* `DUP:TANDEM` Tandem duplication
+* `DEL:ME` Deletion of mobile element relative to the reference
+* `INS:ME` Insertion of a mobile element relative to the reference
+    */
+    enum StructuralVariantFirstLevelType {
+        DEL, INS, DUP, INV, CNV, DUP_TANDEM, DEL_ME, INS_ME
+    }
+
+    /**
+    Structural variant type as defined by the VCF specification 4.2 for field ID.
+    */
+    record StructuralVariantType {
+        StructuralVariantFirstLevelType firstLevelType;
+        union {null, string} subtype;
+    }
+
+
+    record ReportedStructuralVariantCancer {
+
+        /**
+        chromosome, named as: 1-22,X,Y,MT(other contigs name)
+        */
+        string chromosome;
+
+        /**
+        start: start position 1-based
+        */
+        int start;
+
+        /**
+        end: end position 1-based
+        */
+        int end;
+
+        /**
+        The structural variant type
+        */
+        StructuralVariantType type;
+
+        /**
+        reference: Reference Allele sequence, the same provided in vcf
+        */
+        string reference;
+
+        /**
+        alternate: Alternate Allele sequence, the same provided in vcf
+        */
+        string alternate;
+
+        /**
+        For example HGMD ID)
+        */
+        union {null, map<string>} additionalTextualVariantAnnotations;
+
+        /**
+        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+        */
+        union {null, map<float>} additionalNumericVariantAnnotations;
+
+        /**
+        Comments
+        */
+        union {null, array<string>} comments;
+    }
+
+
+    record ReportedSomaticVariants {
+        /**
+        This is the normal record for one reported variant
+        */
+        ReportedVariantCancer reportedVariantCancer;
+
+        /**
+        Describe whether this is a somatic or Germline variant
+        */
+        array<AlleleOrigin> alleleOrigins;
+    }
+
+
+
+    record ReportedSomaticStructuralVariants {
+        /**
+        This is the normal record for one reported variant
+        */
+        ReportedStructuralVariantCancer reportedStructuralVariantCancer;
+
+        /**
+        Describe whether this is a somatic or Germline variant
+        */
+        array<AlleleOrigin> alleleOrigins;
+    }
+
+}
+

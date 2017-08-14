@@ -2,8 +2,10 @@ from unittest import TestCase
 
 import factory
 
-from models.ga4ghvariant import GA4GHVariant
-from protocols.util.factories import GA4GHVariantFactory, CallFactory
+from protocols.ga4gh_3_0_0 import Variant
+from protocols.reports_4_1_0 import CancerExitQuestionnaire
+from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory, CallFactory
+from protocols.util.factories.reports_4_1_0_factories import CancerExitQuestionnaireFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
@@ -47,7 +49,7 @@ class TestGA4GHVariantFactory(TestCase):
 
         class JumpingGA4GHVariantFactory(GA4GHVariantFactory):
             class Meta:
-                model = GA4GHVariant
+                model = Variant
 
             referenceName = 'X'
             @factory.sequence
@@ -64,5 +66,7 @@ class TestGA4GHVariantFactory(TestCase):
         for i, v in enumerate(JumpingGA4GHVariantFactory.create_batch(5)):
             self.assertEqual(v.start, i*2 + 1000)
 
-
-
+    def test_cancer_exitquestionnaire_factory(self):
+        batch = CancerExitQuestionnaireFactory.create_batch(1000)
+        validation_results = map(lambda x: CancerExitQuestionnaire.validate(x.toJsonDict()), batch)
+        self.assertNotIn(False, validation_results)
