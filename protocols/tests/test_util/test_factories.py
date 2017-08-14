@@ -3,7 +3,7 @@ from unittest import TestCase
 import factory
 
 from models.ga4ghvariant import GA4GHVariant
-from protocols.util.factories import GA4GHVariantFactory, CallFactory
+from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory, CallFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
