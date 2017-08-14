@@ -27,7 +27,7 @@ def basic_types(field, mock_result, name, schema_type):
     LONG_MIN_VALUE = -(1 << 63)
     LONG_MAX_VALUE = (1 << 63) - 1
     if schema_type == 'null':
-        mock_result[name] = 'null'
+        mock_result[name] = None
     elif schema_type == 'boolean':
         mock_result[name] = factory.fuzzy.FuzzyChoice([True, False])
     elif schema_type == 'string':
