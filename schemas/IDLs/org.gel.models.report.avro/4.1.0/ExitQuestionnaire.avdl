@@ -117,27 +117,33 @@ protocol ExitQuestionnaires {
         * `prognostic`: Prognostic
         * `defines_diagnosis_group`: Defines diagnosis group
         * `eligibility_for_trial`: Eligibility for trial
-        * `germline_susceptibility`: Germline susceptibility
         * `other`:  Other (please specify)
     */
-    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, germline_susceptibility, other}
+    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
 
     /**
     An enumeration Variant Usability:
         * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
-        * `actioned_result_of_this_WGA`: actioned as a result of receiving this WGA
+        * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
         * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
     */
-    enum CancerUsability {already_actioned, actioned_result_of_this_WGA, not_yet_actioned}
+    enum CancerUsabilitySomatic {already_actioned, actioned_result_of_this_wga, not_yet_actioned}
+
+    /**
+    An enumeration Variant Usability:
+        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
+        * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
+    */
+    enum CancerUsabilityGermline {already_actioned, actioned_result_of_this_wga}
 
     /**
     An enumeration Variant tested:
         * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
         * `no_orthologous_test_available`: No: no orthologous test available
-        * `test_performed_prior_to_WGA`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
+        * `test_performed_prior_to_wga`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
         * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
     */
-    enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_WGA , technical_validation_following_WGA}
+    enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_wga, technical_validation_following_wga}
 
     record CancerCaseLevelQuestions{
 
@@ -145,7 +151,7 @@ protocol ExitQuestionnaires {
     Total time taken to review/collate evidence for variants (hours).
     Include all literature review time, consultation with relevant experts etc.
     */
-    double total_time;
+    double total_review_time;
 
     /**
     Time taken to discuss case at MDT (hours).
@@ -210,7 +216,30 @@ protocol ExitQuestionnaires {
     }
 
 
-    record CancerVariantLevelQuestions{
+    record CancerGermlineVariantLevelQuestions{
+    /**
+    Chr: Pos Ref > Alt
+    */
+    string variantDetails;
+
+    /**
+    How has/will this potentially actionable variant been/be used?
+    */
+    CancerUsabilityGermline variantUsability;
+
+    /**
+    Has this variant been tested by another method (either prior to or following receipt of this WGA)?
+    */
+    CancerTested variantTested;
+
+    /**
+    Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS, Sanger sequencing. If not applicable enter NA;
+    */
+    string validationAssayType;
+
+    }
+
+    record CancerSomaticVariantLevelQuestions{
     /**
     Chr: Pos Ref > Alt
     */
@@ -224,7 +253,7 @@ protocol ExitQuestionnaires {
     /**
     How has/will this potentially actionable variant been/be used?
     */
-    CancerUsability variantUsability;
+    CancerUsabilitySomatic variantUsability;
 
     /**
     Has this variant been tested by another method (either prior to or following receipt of this WGA)?
@@ -232,7 +261,7 @@ protocol ExitQuestionnaires {
     CancerTested variantTested;
 
     /**
-    Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS. If not applicable enter NA;
+    Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS, Sanger sequencing. If not applicable enter NA;
     */
     string validationAssayType;
     }
@@ -241,12 +270,28 @@ protocol ExitQuestionnaires {
         string eventDate;
         string reporter;
         CancerCaseLevelQuestions caseLevelQuestions;
-        array<CancerVariantLevelQuestions> variantLevelQuestions;
+
+        /**
+        Somatic variants
+        */
+        array<CancerSomaticVariantLevelQuestions> somaticVariantLevelQuestions;
+
+        /**
+        Pathogenic germline cancer susceptability variants
+        */
+        array<CancerGermlineVariantLevelQuestions> germlineVariantLevelQuestions;
 
         /**
         Please enter any additional comments you may have about the case here.
         */
         union {null, string} additionalComments;
+
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, string} otherActionableVariants;
     }
 
 }
