@@ -274,12 +274,12 @@ protocol ExitQuestionnaires {
         /**
         Somatic variants
         */
-        array<CancerSomaticVariantLevelQuestions> somaticVariantLevelQuestions;
+        union {null, array<CancerSomaticVariantLevelQuestions>} somaticVariantLevelQuestions;
 
         /**
         Pathogenic germline cancer susceptability variants
         */
-        array<CancerGermlineVariantLevelQuestions> germlineVariantLevelQuestions;
+        union {null, array<CancerGermlineVariantLevelQuestions>} germlineVariantLevelQuestions;
 
         /**
         Please enter any additional comments you may have about the case here.
