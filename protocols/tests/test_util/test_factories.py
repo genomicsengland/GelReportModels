@@ -5,7 +5,7 @@ import factory
 from protocols.ga4gh_3_0_0 import Variant
 from protocols.reports_4_1_0 import CancerExitQuestionnaire
 from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory, CallFactory
-from protocols.util.factories.reports_4_1_0_factoires import CancerExitQuestionnaireFactory
+from protocols.util.factories.reports_4_1_0_factories import CancerExitQuestionnaireFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
