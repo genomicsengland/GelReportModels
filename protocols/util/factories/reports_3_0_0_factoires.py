@@ -230,20 +230,3 @@ class CancerInterpretationRequestFactory(FactoryAvro):
                 self.TieredVariants.append(f)
 
 
-# fdw = open('/home/antonior/tmp/test.json', 'w')
-# json.dump(ReportedSomaticVariantsFactory().toJsonDict(), fdw, indent=True)
-# fdw.close()
-from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
-for e, v in enumerate(CancerInterpretationRequestFactory.create_batch(40)):
-    fdw = open('/home/antonior/tmp/illumina_mock_data/mock_3_0_0-{}.json'.format(e), 'w')
-    fdw4 = open('/home/antonior/tmp/illumina_mock_data/mock_4_0_0-{}.json'.format(e), 'w')
-    m = MigrateReports3To4()
-    if CancerInterpretationRequest.validate(v.toJsonDict()):
-        new_report = m.migrate_cancer_interpretation_request(v)
-        json.dump(v.toJsonDict(), fdw, indent=True)
-        json.dump(new_report.toJsonDict(), fdw4, indent=True)
-    else:
-        raise Exception(v.validate_parts())
-    fdw.close()
-    fdw4.close()
-
