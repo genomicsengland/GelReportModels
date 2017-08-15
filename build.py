@@ -94,9 +94,9 @@ def run_command(command, fail_if_error=True):
     """
     sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = sp.communicate()
-    if stdout is not None:
+    if stdout is not None and stdout != "":
         logging.info(stdout)
-    if stderr is not None:
+    if stderr is not None and stderr != "":
         logging.error(stderr)
     # raise an error if sort return code is other than 0
     if sp.returncode:
