@@ -168,13 +168,6 @@ protocol CommonInterpretedCancer {
         union {null, array<Actions>} actions;
 
         /**
-        This value groups variants that together could explain the phenotype according to the
-        mode of inheritance used. All the variants sharing the same value will be considered in the same group.
-        This value is an integer unique in the whole analysis.
-        */
-        union {null, int} groupOfVariants;
-
-        /**
         This is the description of why this variant would be reported, for example that it affects the protein in this way
         and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
         using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
@@ -186,28 +179,6 @@ protocol CommonInterpretedCancer {
         */
         union {null, Tier} tier;
 
-    }
-
-    record VariantCall {
-        /**
-        LP Number of the family member:
-        */
-        string sampleId;
-
-        /**
-        Depth for Reference Allele
-        */
-        union {null, int} depthReference;
-
-        /**
-        Depth for Alternate Allele
-        */
-        union {null, int} depthAlternate;
-
-        /**
-        Variant Allele Frequency
-        */
-        union {null, double} vaf;
     }
 
     record ReportedVariantCancer {
@@ -250,12 +221,27 @@ protocol CommonInterpretedCancer {
         /**
         cDNA change, HGVS nomenclature (e.g.)
         */
-        union {null, string} cdnaChange;
+        union {null, string} cDnaChange;
 
         /**
         protein change, HGVS nomenclature (e.g.)
         */
         union {null, string} proteinChange;
+
+        /**
+        Depth for Reference Allele
+        */
+        union {null, int} depthReference;
+
+        /**
+        Depth for Alternate Allele
+        */
+        union {null, int} depthAlternate;
+
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
 
         /**
         AF in germline DBs
@@ -283,11 +269,6 @@ protocol CommonInterpretedCancer {
         union {null, array<string>} comments;
 
         array<ReportEventCancer> reportEvents;
-
-        /**
-        List of variant calls
-        */
-        union {null, array<VariantCall>} variantCall;
     }
 
     /**
