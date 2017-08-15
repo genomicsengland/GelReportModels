@@ -24,9 +24,9 @@ protocol DataIntakeRDProtocol {
     // CVA references
     import idl "Variant.avdl";
     //
-    import idl "../../org.gel.models.report.avro/4.1.0/InterpretationRequestRD.avdl";
-    import idl "../../org.gel.models.report.avro/4.1.0/InterpretedGenomesRD.avdl";
-    import idl "../../org.gel.models.report.avro/4.1.0/ClinicalReportRD.avdl";
+    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/InterpretationRequestRD.avdl";
+    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/InterpretedGenomesRD.avdl";
+    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/ClinicalReportRD.avdl";
 
     /**
     Record for tiered variant injection as part of the data intake for CVA

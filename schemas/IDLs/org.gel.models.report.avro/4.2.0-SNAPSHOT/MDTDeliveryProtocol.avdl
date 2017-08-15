@@ -6,7 +6,7 @@ protocol MDTDelivery {
 
     import idl "ReportVersionControl.avdl";
     import idl "CommonRequest.avdl";
-    import idl "../../org.gel.models.participant.avro/1.0.0/RDParticipant.avdl";
+    import idl "../../org.gel.models.participant.avro/1.0.3-SNAPSHOT/RDParticipant.avdl";
     import idl "CommonInterpreted.avdl";
     import idl "InterpretationRequestRD.avdl";
     import idl "InterpretedGenomesRD.avdl";
