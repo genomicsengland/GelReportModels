@@ -185,6 +185,7 @@ def main():
             'org.ga4gh.models::3.0.0',
             'org.gel.models.report.avro::2.1.0', 'org.gel.models.report.avro::3.0.0',
             'org.gel.models.report.avro::3.1.0', 'org.gel.models.report.avro::4.0.0',
+            'org.gel.models.report.avro::4.1.0',
             'org.gel.models.cva.avro::0.3.1', 'org.opencb.biodata.models::1.2.0-SNAPSHOT'
         ],
         help='List of models packages and versions to generated, in the following format package::version'
