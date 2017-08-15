@@ -169,7 +169,7 @@ def generate_documentation(class_name, avrp_folder, html_folder):
     avrodoc_command = "avrodoc " + os.path.join(avrp_folder, "%s.avpr" % class_name) + " > " \
                       + os.path.join(html_folder, "%s.html" % class_name)
     logging.info("Running: [%s]" % avrodoc_command)
-    run_command(avrodoc_command, fail_if_error=False)
+    run_command(avrodoc_command)
 
 def build_directories(models_package, models_version):
     return dict(
