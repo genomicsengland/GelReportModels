@@ -98,11 +98,11 @@
                         <goals><goal>run</goal></goals>
                         <configuration>
                             <target>
-                                <move todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}" flatten="true">
+                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}" flatten="true">
                                     <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
                                         <include name="**/*.avdl"/>
                                     </fileset>
-                                </move>
+                                </copy>
                             </target>
                         </configuration>
                     </execution>
@@ -130,25 +130,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <tasks>
-                                <delete dir="schemas/IDLs/${opencb.package.version}/${opencb.models.version}/avro"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
             <!--
             Generate java source code for all Avro models
             -->
@@ -309,14 +290,12 @@
                         </goals>
                         <configuration>
                             <filesets>
-                                <!-- while extraction from jar does not work properly we need this commented
                                 <fileset>
-                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
                                 </fileset>
-                                -->
                                 <fileset>
                                     <directory>schemas/AVPRs</directory>
                                     <includes>
