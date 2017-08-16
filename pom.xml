@@ -98,9 +98,9 @@
                         <goals><goal>run</goal></goals>
                         <configuration>
                             <target>
-                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}" flatten="true">
+                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}">
                                     <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
-                                        <include name="**/*.avdl"/>
+                                        <include name="*.avdl"/>
                                     </fileset>
                                 </copy>
                             </target>
