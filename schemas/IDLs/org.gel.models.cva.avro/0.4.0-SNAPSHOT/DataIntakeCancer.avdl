@@ -47,7 +47,7 @@ protocol DataIntakeCancerProtocol {
         /**
         The participant identifier
         */
-        string participantId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -102,7 +102,7 @@ protocol DataIntakeCancerProtocol {
         /**
         The participant identifier
         */
-        string participantId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -157,7 +157,7 @@ protocol DataIntakeCancerProtocol {
         /**
         The participant identifier
         */
-        string participantId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */

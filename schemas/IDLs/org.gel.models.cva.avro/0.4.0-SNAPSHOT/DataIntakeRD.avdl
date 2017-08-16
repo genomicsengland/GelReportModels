@@ -48,7 +48,7 @@ protocol DataIntakeRDProtocol {
         /**
         The family identifier
         */
-        string familyId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -103,7 +103,7 @@ protocol DataIntakeRDProtocol {
         /**
         The family identifier
         */
-        string familyId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
@@ -158,7 +158,7 @@ protocol DataIntakeRDProtocol {
         /**
         The family identifier
         */
-        string familyId;
+        string groupId;
         /**
         The cohort identifier (the same family can have several cohorts)
         */
