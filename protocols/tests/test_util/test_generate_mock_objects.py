@@ -4,7 +4,22 @@ from protocols import reports_2_1_0
 from protocols import reports_3_0_0
 from protocols import reports_3_1_0
 from protocols import reports_4_0_0
+from protocols import reports_4_2_0_SNAPSHOT
 from protocols.util import generate_mock_objects
+
+
+class TestGenerateMockObjects420SNAPSHOT(TestCase):
+
+    model = reports_4_2_0_SNAPSHOT
+
+    def test_interpretation_request_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_interpretation_request_rd_4_2_0_SNAPSHOT returns a valid
+        reports_4_2_0_SNAPSHOT.InterpretationRequestRD object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
 
 class TestGenerateMockObjects4(TestCase):
