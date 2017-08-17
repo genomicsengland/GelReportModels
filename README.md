@@ -67,7 +67,10 @@ Clone this repo
 git@github.com:genomicsengland/GelReportModels.git
 ```
 
-and run the following:
+and get the `settings.xml` from [CVA](https://github.com/genomicsengland/clinical_variant_ark)
+and name it `GelReportModels_artifact_settings.xml`.
+
+Then run the following:
 
 ```
 ./build_models
