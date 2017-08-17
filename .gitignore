@@ -13,3 +13,4 @@ protocols/*.py
 .env
 !protocols/helpers.py
 docs/**/*-SNAPSHOT
+GelReportModels_artifact_settings.xml

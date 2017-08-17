@@ -1,0 +1,1 @@
+sudo docker build -f Dockerfile -t gel . && sudo docker run -it gel

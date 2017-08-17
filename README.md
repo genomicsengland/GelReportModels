@@ -67,53 +67,10 @@ Clone this repo
 git@github.com:genomicsengland/GelReportModels.git
 ```
 
-Clone the `java-commons-lib`
-```
-git clone git@github.com:opencb/java-common-libs.git
-```
-
-Clone the `biodata` `feature-improveclinical` branch
-```
-git clone -b feature-improveclinical git@github.com:opencb/biodata.git
-```
-
-Put this into a Dockerfile:
-```
-FROM ubuntu:16.04
-RUN apt-get update && \
-    apt-get install -y build-essential python openjdk-8-jdk maven \
-    python-dev python-pip python-virtualenv postgresql \
-    postgresql-contrib libpq-dev \
-    libsasl2-dev libldap2-dev libssl-dev \
-    npm nodejs nodejs-legacy && \
-    npm install avrodoc -g
-ENV PYTHONUNBUFFERED 1
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-RUN mkdir /gel
-RUN mkdir /gel/GelReportModels
-RUN mkdir /gel/java-common-libs
-RUN mkdir /gel/biodata
-WORKDIR /gel
-ADD GelReportModels /gel/GelReportModels/
-ADD java-common-libs /gel/java-common-libs/
-ADD biodata /gel/biodata/
-RUN cd GelReportModels && \ 
-    pip install --upgrade pip && \ 
-    pip install -r requirements.txt && \
-    cd ../java-common-libs && \
-    mvn clean install -DskipTests && \
-    cd ../biodata && \
-    mvn clean install -DskipTests && \
-    pip install --upgrade pysam && \
-    mvn clean generate-sources && \
-    cd ../GelReportModels && \
-    mvn clean generate-sources
-```
-
 and run the following:
 
 ```
-sudo docker build -t gel . && sudo docker run -it gel
+./build_models
 ```
 Once the build is successful, check the resources are there:
 ```
