@@ -93,7 +93,6 @@ class MigrateReports3To420SNAPSHOT(object):
             sampleId = None
         else:
             sampleId = [old_file.SampleId]
-
         new_file = self.new_model.File(
                 fileType=old_file.fileType,
                 uriFile=old_file.URIFile,
