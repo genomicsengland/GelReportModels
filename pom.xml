@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.gel.models</groupId>
-    <artifactId>models</artifactId>
+    <artifactId>gel-models</artifactId>
     <version>${models.version}</version>
     <packaging>${p.type}</packaging>
 
@@ -248,13 +248,16 @@
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
                                 <argument>build.py</argument>
-                                <argument>--models</argument>
+                                <!--
+                                <argument>- -models</argument>
                                 <argument>${report.models.package}::${report.models.version}</argument>
                                 <argument>${ga4gh.models.package}::${ga4gh.models.version}</argument>
                                 <argument>${cva.models.package}::${cva.models.version}</argument>
                                 <argument>${opencb.models.package}::${opencb.models.version}</argument>
                                 <argument>${metrics.models.package}::${metrics.models.version}</argument>
                                 <argument>${participant.models.package}::${participant.models.version}</argument>
+                                <argument>- -skip_doc</argument>
+                                -->
                             </arguments>
                         </configuration>
                     </execution>
@@ -338,7 +341,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <warName>models-report${report.models.version}-cva${cva.models.version}</warName>
+                    <warName>gel-models-docs-${models.version}</warName>
                     <webXml>web.xml</webXml>
                     <!--
                       Exclude JCL and LOG4J since all logging should go through SLF4J.
@@ -356,22 +359,7 @@
                             <targetPath></targetPath>
                         </resource>
                         <resource>
-                            <directory>schemas/IDLs/${report.models.package}/${report.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${ga4gh.models.package}/${ga4gh.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${cva.models.package}/${cva.models.version}/</directory>
-                            <filtering>true</filtering>
-                            <targetPath></targetPath>
-                        </resource>
-                        <resource>
-                            <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</directory>
+                            <directory>schemas/IDLs/</directory>
                             <filtering>true</filtering>
                             <targetPath></targetPath>
                         </resource>

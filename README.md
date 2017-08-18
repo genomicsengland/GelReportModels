@@ -23,7 +23,7 @@ To generate sources and documentation run:
 ```
 % mvn clean generate-sources
 ```
-This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols/models`. The models documentation under `./docs/html_schemas/latest`
+This will create a set of Java classes representing the Avro records in the folder `./target/generated-sources/avro`. A set of Python classes under `./protocols/models`. The models documentation under `./docs/html_schemas`
 
 To run against a legacy version of the models by overriding maven properties run:
 ```
@@ -50,6 +50,7 @@ This war can be deployed as a documentation service.
 ## OpenCB dependencies
 
 The CVA model is extending the OpenCB variant model. In order to do so we need some Avro definitions from OpenCB biodata-models. Maven is extracting the required files from the biodata-models.jar file and use them to generate the required sources.
+Current version relies on biodata [v1.2.0](https://github.com/opencb/biodata/tree/v1.2.0)
 
 ## Dependencies
 
@@ -67,10 +68,7 @@ Clone this repo
 git@github.com:genomicsengland/GelReportModels.git
 ```
 
-and get the `settings.xml` from [CVA](https://github.com/genomicsengland/clinical_variant_ark)
-and name it `GelReportModels_artifact_settings.xml`.
-
-Then run the following:
+Then run the following (you may need `sudo` depending on your system configuration):
 
 ```
 ./build_models
@@ -86,18 +84,33 @@ cva.py                metrics_1_0_0.py  participant_1_0_0.py      reports_3_0_0.
 root@e444d27c16b9:/gel# 
 ```
 
+Also check that Java resources are there:
+```
+root@4dabae77118d:/gel# ls -l GelReportModels/target/
+total 53620
+drwxr-xr-x  2 root root     4096 Aug 18 08:35 antrun
+drwxr-xr-x  3 root root     4096 Aug 18 08:45 classes
+drwxr-xr-x  2 root root     4096 Aug 18 08:35 dependency-maven-plugin-markers
+drwxr-xr-x 17 root root     4096 Aug 18 08:55 gel-models-4.3.0-SNAPSHOT
+-rw-r--r--  1 root root  1819234 Aug 18 08:45 gel-models-4.3.0-SNAPSHOT.jar
+-rw-r--r--  1 root root 53054906 Aug 18 08:55 gel-models-docs-4.3.0-SNAPSHOT.war
+drwxr-xr-x  4 root root     4096 Aug 18 08:45 generated-sources
+drwxr-xr-x  2 root root     4096 Aug 18 08:45 maven-archiver
+drwxr-xr-x  3 root root     4096 Aug 18 08:45 maven-status
+```
+
 If the files you require are not present then you may need to build them with the following command:
 ```
-python build.py --models <package_name>
+% mvn clean generate-sources -D{package_name}={package_version}
 ```
 
 where `<package_name>` can be one (or many, space separated) names from this (non-exhaustive) list:
 ```
-org.gel.models.participant.avro::1.0.0 
-org.gel.models.metrics.avro::1.0.0 
-org.ga4gh.models::3.0.0 
-org.gel.models.report.avro::2.1.0 
-org.gel.models.report.avro::3.0.0
+org.gel.models.participant.avro
+org.gel.models.metrics.avro 
+org.ga4gh.models
+org.gel.models.report.avro 
+org.gel.models.report.avro
 ```
 
 where the package names correspond with the schemas available in the [/schemas/IDLS](https://github.com/genomicsengland/GelReportModels/tree/develop/schemas/IDLs)  directory

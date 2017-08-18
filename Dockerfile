@@ -16,13 +16,12 @@ RUN mkdir /gel
 RUN mkdir /gel/GelReportModels
 WORKDIR /gel
 ADD . /gel/GelReportModels
-ADD GelReportModels_artifact_settings.xml /gel
-RUN mkdir -p ~/.m2 && cp GelReportModels_artifact_settings.xml ~/.m2/settings.xml
+ADD m2_settings.xml /gel
+RUN mkdir -p ~/.m2 && cp m2_settings.xml ~/.m2/settings.xml
 RUN cd ./GelReportModels && \
     pip install --upgrade pip && \
     pip install -r requirements.txt && \
     pip install --upgrade pysam && \
-    mvn clean install -DskipTests && \
-    mvn clean generate-sources && \
-    python build.py
+    mvn clean package -DskipTests && \
+    mvn package -Dp.type=war
 
