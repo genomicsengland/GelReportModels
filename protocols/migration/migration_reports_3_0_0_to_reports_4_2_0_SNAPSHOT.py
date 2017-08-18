@@ -89,6 +89,8 @@ class MigrateReports3To420SNAPSHOT(object):
             return None
         if isinstance(old_file.SampleId, list):
             sampleId = old_file.SampleId
+        elif old_file.SampleId is None:
+            sampleId = None
         else:
             sampleId = [old_file.SampleId]
         new_file = self.new_model.File(
