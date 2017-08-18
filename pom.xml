@@ -61,6 +61,24 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>mkdir opencb models</id>
+                        <phase>post-clean</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--
             Extracts Avro models from OpenCB biodata jar and copies them in the appropriate folder
             -->
@@ -71,7 +89,7 @@
                 <executions>
                     <execution>
                         <id>import-avdl</id>
-                        <phase>initialize</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
