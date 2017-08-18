@@ -181,7 +181,6 @@ protocol CommonInterpretedCancer {
 
     }
 
-
     record ReportedVariantCancer {
 
         /**
@@ -269,9 +268,7 @@ protocol CommonInterpretedCancer {
         */
         union {null, array<string>} comments;
 
-
         array<ReportEventCancer> reportEvents;
-
     }
 
     /**

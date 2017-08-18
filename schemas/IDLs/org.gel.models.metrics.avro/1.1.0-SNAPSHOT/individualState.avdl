@@ -1,0 +1,30 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the states an individual can inherit
+*/
+protocol IndividualStates {
+
+
+enum State {ready,pending,hold,fail,caution,blocked}
+
+enum Reason {duplicate,consent,pedigree,contamination,quality,plinksex,inbreedingcoefficient,in_qc}
+
+record IndividualState {
+
+    State state ;
+    union {null, Reason} reason ;
+
+}
+
+/**
+This is the master state for this sample, for example caution,quality could be used to say that a sample under this
+individual has quality issues.  See sample level for full details
+*/
+record IndividualTests {
+
+    boolean plinksex ;
+    boolean inbreedingcoefficient ;
+
+}
+
+}

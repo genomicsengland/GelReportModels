@@ -16,8 +16,6 @@ protocol ExitQuestionnaires {
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
 
 
-
-
     record FamilyLevelQuestions{
         /**
         Have the results reported here explained the genetic basis of the family’s presenting phenotype(s)?
