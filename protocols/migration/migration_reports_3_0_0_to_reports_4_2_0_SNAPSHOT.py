@@ -85,17 +85,23 @@ class MigrateReports3To420SNAPSHOT(object):
         return [self.migrate_tiered_variant(old_tiered_variant=old_tiered_variant) for old_tiered_variant in old_tiered_variants]
 
     def migrate_file(self, old_file):
+        if old_file is None:
+            return None
+        if isinstance(old_file.SampleId, list):
+            sampleId = old_file.SampleId
+        else:
+            sampleId = [old_file.SampleId]
         new_file = self.new_model.File(
                 fileType=old_file.fileType,
                 uriFile=old_file.URIFile,
-                sampleId=old_file.SampleId,
+                sampleId=sampleId,
                 md5Sum=old_file.md5Sum,
             )
         if new_file.validate(new_file.toJsonDict()):
             return new_file
         else:
             raise Exception(
-                'This model can not be converted: ', handle_avro_errors(new_file.validate_parts())
+                'This model can not be converted: ', handle_avro_errors(new_file.validate_parts()), new_file.validate(new_file.toJsonDict(), verbose=True).messages
             )
 
     def migrate_files(self, old_files):

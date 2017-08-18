@@ -35,6 +35,8 @@ class MigrationParticipants100To103SNAPSHOT(object):
             )
 
     def migrate_chiSquare1KGenomesPhase3Pops(self, old_chiSquare1KGenomesPhase3Pops):
+        if old_chiSquare1KGenomesPhase3Pops is None:
+            return None
         return [self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop) for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pops]
 
     def migrate_ancestries(self, old_ancestries):
@@ -82,7 +84,6 @@ class MigrationReportsToParticipants1(object):
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
-            print new_pedigree.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_pedigree_member(self, member, sample_id_to_lab_sample_id=None):
@@ -296,10 +297,3 @@ class MigrationParticipants1ToReports(object):
         else:
             print new_analysis_panel.validate_parts()
             raise Exception('This model can not be converted')
-
-
-
-
-
-
-
