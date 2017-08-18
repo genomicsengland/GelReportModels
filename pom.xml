@@ -66,7 +66,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>mkdir opencb models</id>
+                        <id>create folder for biodata schemas</id>
                         <phase>post-clean</phase>
                         <configuration>
                             <target>
@@ -76,6 +76,23 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
+                    </execution>
+                    <!--
+                    Copies the OpenCB biodata models in another folder, removing avro subfolder
+                    -->
+                    <execution>
+                        <id>copy biodata avdls to schemas folder</id>
+                        <phase>initialize</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}">
+                                    <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
+                                        <include name="*.avdl"/>
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -99,51 +116,6 @@
                             <includeArtifactIds>biodata-models</includeArtifactIds>
                             <includeGroupIds>org.opencb.biodata</includeGroupIds>
                             <outputDirectory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--
-            Copies the OpenCB biodata models in another folder, removing avro subfolder
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy org.webjars dependency to jar</id>
-                        <phase>initialize</phase>
-                        <goals><goal>run</goal></goals>
-                        <configuration>
-                            <target>
-                                <copy todir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}">
-                                    <fileset dir="schemas/IDLs/${opencb.models.package}/${opencb.models.version}/avro">
-                                        <include name="*.avdl"/>
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>exec-maven-plugin</artifactId>
-                <groupId>org.codehaus.mojo</groupId>
-                <executions>
-                    <execution><!-- Installs requirements.txt -->
-                        <id>Installs Python requirements</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pip</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>install</argument>
-                                <argument>-r</argument>
-                                <argument>requirements.txt</argument>
-                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -255,6 +227,22 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
                 <executions>
+                    <execution><!-- Installs requirements.txt -->
+                        <id>Installs Python requirements</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>pip</executable>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>-r</argument>
+                                <argument>requirements.txt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                     <execution><!-- Run our version calculation script -->
                         <id>Generate, AVPRs, JSON schemas, Python sources and documentation</id>
                         <phase>generate-sources</phase>
