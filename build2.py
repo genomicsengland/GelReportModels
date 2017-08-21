@@ -8,6 +8,7 @@ import distutils.dir_util
 sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
 from GelModelsTools import utils
 from GelModelsTools.gel_models_tools import GelModelsTools
+from protocols.util.dependency_manager import DependencyManager
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -163,9 +164,9 @@ def run_build(build, skip_docs=False):
         __idl2json(build_folder, json_build_folder)
 
         # generate python source code
-        class_name = "{}_{}.py".format(
-            package["python_package"],
-            package["version"].replace(".", "_").replace("-", "_")
+        package_name = DependencyManager.get_python_package_name(package)
+        class_name = "{}.py".format(
+            package_name
         )
         __json2python(json_build_folder, os.path.join(PYTHON_FOLDER, class_name), package["version"])
 

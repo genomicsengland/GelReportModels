@@ -1,16 +1,13 @@
-import itertools
-import json
 from random import randint
 import factory.fuzzy
-
+from protocols.util.dependency_manager import VERSION_410
 from protocols.reports_4_1_0 import (
     CancerExitQuestionnaire,
     CancerSomaticVariantLevelQuestions,
     CancerGermlineVariantLevelQuestions,
     CancerCaseLevelQuestions
 )
-
-from avro_factory import FactoryAvro
+from protocols.util.factories.avro_factory import FactoryAvro
 
 
 def aux_ramdom_variant_method():
@@ -28,6 +25,8 @@ class CancerCaseLevelQuestionsFactory(FactoryAvro):
     class Meta:
         model = CancerCaseLevelQuestions
 
+    _version = VERSION_410
+
     total_review_time = factory.fuzzy.FuzzyFloat(1.0, 10.0)
     mdt1_time = factory.fuzzy.FuzzyFloat(1.0, 10.0,)
     mdt2_time = factory.fuzzy.FuzzyChoice([None, factory.fuzzy.FuzzyFloat(1.0, 10.0).fuzz()])
@@ -44,18 +43,26 @@ class CancerCaseLevelQuestionsFactory(FactoryAvro):
 class CancerSomaticVariantLevelQuestionsFactory(FactoryAvro):
     class Meta:
         model = CancerSomaticVariantLevelQuestions
+
+    _version = VERSION_410
+
     variantDetails = factory.LazyAttribute(lambda x: aux_ramdom_variant_method())
 
 
 class CancerGermlineVariantLevelQuestionsFactory(FactoryAvro):
     class Meta:
         model = CancerGermlineVariantLevelQuestions
+
+    _version = VERSION_410
+
     variantDetails = factory.LazyAttribute(lambda x: aux_ramdom_variant_method())
 
 
 class CancerExitQuestionnaireFactory(FactoryAvro):
     class Meta:
         model = CancerExitQuestionnaire
+
+    _version = VERSION_410
 
     caseLevelQuestions = factory.SubFactory(CancerCaseLevelQuestionsFactory)
     somaticVariantLevelQuestions = factory.LazyAttribute(lambda x: [i for i in CancerSomaticVariantLevelQuestionsFactory.create_batch(randint(0, 10))])

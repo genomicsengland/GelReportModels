@@ -48,9 +48,15 @@ protocol CancerInterpretedGenomes {
         */
         map <string> softwareVersions;
 
-        array<ReportedSomaticVariants> reportedVariants;
+        /**
+        The reported small variants for cancer
+        */
+        array<ReportedVariantCancer> reportedVariants;
 
-        array<ReportedSomaticStructuralVariants> reportedStructuralVariants;
+        /**
+        The reported structural variants for cancer
+        */
+        array<ReportedStructuralVariantCancer> reportedStructuralVariants;
 
         /**
         Comments about the report

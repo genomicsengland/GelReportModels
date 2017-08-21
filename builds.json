@@ -56,6 +56,37 @@
       ]
     },
     {
+      "version": "4.1.0",
+      "packages": [
+        {
+          "package": "org.gel.models.participant.avro",
+          "python_package": "participant",
+          "version": "1.0.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.gel.models.report.avro",
+          "python_package": "reports",
+          "version": "4.1.0",
+          "dependencies": [
+            "org.gel.models.participant.avro"
+          ]
+        },
+        {
+          "package": "org.gel.models.metrics.avro",
+          "python_package": "metrics",
+          "version": "1.0.1",
+          "dependencies": []
+        },
+        {
+          "package": "org.ga4gh.models",
+          "python_package": "ga4gh",
+          "version": "3.0.0",
+          "dependencies": []
+        }
+      ]
+    },
+    {
       "version": "4.0.0",
       "packages": [
         {
