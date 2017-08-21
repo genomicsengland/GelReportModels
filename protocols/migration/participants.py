@@ -7,6 +7,66 @@ from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 
 
+class MigrationParticipants100To104SNAPSHOT(BaseMigration):
+    old_model = participant_1_0_0
+    new_model = participant_1_0_4_SNAPSHOT
+
+    def migrate_cancer_participant(self, cancer_participant):
+        migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
+
+        migrated_participant.versionControl = self.new_model.VersionControl()
+
+        migrated_participant.yearOfBirth = 0
+
+        if cancer_participant.primaryDiagnosisDisease is not None:
+            migrated_participant.primaryDiagnosisDisease = [cancer_participant.primaryDiagnosisDisease]
+
+        if cancer_participant.primaryDiagnosisSubDisease is not None:
+            migrated_participant.primaryDiagnosisSubDisease = [cancer_participant.primaryDiagnosisSubDisease]
+
+        if cancer_participant.assignedICD10 is not None:
+            migrated_participant.assignedICD10 = [cancer_participant.assignedICD10]
+
+        migrated_participant.tumourSamples = self.migrate_tumour_samples(
+            tumour_samples=cancer_participant.tumourSamples, LDPCode=cancer_participant.LDPCode
+        )
+        migrated_participant.germlineSamples = self.migrate_germline_samples(
+            germline_samples=cancer_participant.germlineSamples, LDPCode=cancer_participant.LDPCode
+        )
+
+        return self.validate_object(
+            object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
+        )
+
+    def migrate_tumour_sample(self, tumour_sample, LDPCode):
+        migrated_tumour_sample = self.new_model.TumourSample.fromJsonDict(tumour_sample.toJsonDict())
+
+        migrated_tumour_sample.LDPCode = LDPCode
+        migrated_tumour_sample.tumourId = str(tumour_sample.tumourId)
+        migrated_tumour_sample.diseaseType = tumour_sample.tumourType
+        migrated_tumour_sample.diseaseSubType = tumour_sample.tumourSubType
+        migrated_tumour_sample.tumourType = tumour_sample.phase
+
+        return self.validate_object(
+            object_to_validate=migrated_tumour_sample, object_type=self.new_model.TumourSample
+        )
+
+    def migrate_tumour_samples(self, tumour_samples, LDPCode):
+        return [self.migrate_tumour_sample(tumour_sample=tumour_sample, LDPCode=LDPCode) for tumour_sample in tumour_samples]
+
+    def migrate_germline_sample(self, germline_sample, LDPCode):
+        migrated_germline_sample = self.new_model.GermlineSample.fromJsonDict(germline_sample.toJsonDict())
+
+        migrated_germline_sample.LDPCode = LDPCode
+
+        return self.validate_object(
+            object_to_validate=migrated_germline_sample, object_type=self.new_model.GermlineSample
+        )
+
+    def migrate_germline_samples(self, germline_samples, LDPCode):
+        return [self.migrate_germline_sample(germline_sample=germline_sample, LDPCode=LDPCode) for germline_sample in germline_samples]
+
+
 class MigrationParticipants104SNAPSHOTTo100(BaseMigration):
     old_model = participant_1_0_4_SNAPSHOT
     new_model = participant_1_0_0
@@ -252,8 +312,6 @@ class MigrationReportsToParticipants1(BaseMigration):
         else:
             print new_analysis_panel.validate_parts()
             raise Exception('This model can not be converted')
-
-
 
 
 class MigrationParticipants1ToReports(object):

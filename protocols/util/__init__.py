@@ -14,6 +14,7 @@ from .generate_mock_objects import get_valid_clinical_report_rd_2_1_0
 from .generate_mock_objects import get_valid_clinical_report_rd_3_0_0
 from .generate_mock_objects import get_valid_clinical_report_rd_3_1_0
 from .generate_mock_objects import get_valid_clinical_report_rd_4_0_0
+from .generate_mock_objects import get_valid_clinical_report_rd_4_2_0_SNAPSHOT
 
 from .generate_mock_objects import get_valid_cancer_participant_3_0_0
 from .generate_mock_objects import get_valid_cancer_participant_3_1_0
@@ -25,6 +26,7 @@ from .generate_mock_objects import get_valid_interpreted_genome_rd_2_1_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_3_0_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_3_1_0
 from .generate_mock_objects import get_valid_interpreted_genome_rd_4_0_0
+from .generate_mock_objects import get_valid_interpreted_genome_rd_4_2_0_SNAPSHOT
 
 from .generate_mock_objects import get_valid_rd_exit_questionnaire_3_0_0
 from .generate_mock_objects import get_valid_rd_exit_questionnaire_3_1_0
@@ -34,6 +36,7 @@ from .generate_mock_objects import get_valid_clinical_report_cancer_2_1_0
 from .generate_mock_objects import get_valid_clinical_report_cancer_3_0_0
 from .generate_mock_objects import get_valid_clinical_report_cancer_3_1_0
 from .generate_mock_objects import get_valid_clinical_report_cancer_4_0_0
+from .generate_mock_objects import get_valid_clinical_report_cancer_4_2_0_SNAPSHOT
 
 from .generate_mock_objects import get_valid_report_version_control_4_0_0
 
@@ -47,6 +50,7 @@ from .generate_mock_objects import get_valid_cancer_interpreted_genome_2_1_0
 from .generate_mock_objects import get_valid_cancer_interpreted_genome_3_0_0
 from .generate_mock_objects import get_valid_cancer_interpreted_genome_3_1_0
 from .generate_mock_objects import get_valid_cancer_interpreted_genome_4_0_0
+from .generate_mock_objects import get_valid_cancer_interpreted_genome_4_2_0_SNAPSHOT
 
 from .generate_mock_objects import get_valid_interpretation_request_rd_2_1_0
 from .generate_mock_objects import get_valid_interpretation_request_rd_3_0_0

@@ -426,7 +426,6 @@ class TestGenerateMockObjectsCVA040(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectCancer))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
-
 class TestGenerateMockObjectsSystem010SNAPSHOT(TestCase):
 
     model = system_0_1_0_SNAPSHOT
@@ -481,17 +480,18 @@ class TestGenerateMockObjectsParticipant103(TestCase):
         self.assertTrue(isinstance(test_participant, self.model.CancerParticipant))
         self.assertTrue(test_participant.validate(test_participant.toJsonDict()))
 
-        def test_cancer_participant(self):
-            """
-            Ensure generate_mock_objects.get_valid_cancer_participant_1_0_3 returns a valid
-            participant_1_0_3.CancerParticipant object
-            """
-            test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_3()
-            self.assertTrue(isinstance(test_tvi_rd, self.model.CancerParticipant))
-            self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+    def test_cancer_participant(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_participant_1_0_3 returns a valid
+        participant_1_0_3.CancerParticipant object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_3()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.CancerParticipant))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
 
 class TestGenerateMockObjectsParticipant104SNAPSHOT(TestCase):
+
     model = participant_1_0_4_SNAPSHOT
 
     def test_cancer_participant(self):
