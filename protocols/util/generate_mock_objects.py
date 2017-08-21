@@ -922,6 +922,19 @@ def get_valid_clinical_report_cancer_4_0_0():
     return validate_object(object_to_validate=new_crc, object_type=object_type)
 
 
+def get_valid_clinical_report_cancer_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.ClinicalReportCancer
+    new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_crc.softwareVersions = {'this': 'that'}
+    new_crc.referenceDatabasesVersions = {'this': 'that'}
+    new_crc.candidateStructuralVariants[0] = get_valid_reported_somatic_structural_variant_4_2_0_SNAPSHOT()
+    new_crc.candidateVariants[0] = get_valid_reported_somatic_variant_4_2_0_SNAPSHOT()
+    new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
+    new_crc.cancerParticipant = get_valid_cancer_participant_1_0_4_SNAPSHOT()
+
+    return validate_object(object_to_validate=new_crc, object_type=object_type)
+
+
 def get_valid_called_genotype_2_1_0():
     object_type = reports_2_1_0.CalledGenotype
     new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -1657,6 +1670,26 @@ def get_valid_candidate_variant_inject_rd_0_4_0():
         authorVersion='foo',
         workspace=['foo'],
         clinicalReport=get_valid_clinical_report_rd_4_2_0_SNAPSHOT()
+    )
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_candidate_variant_inject_cancer_0_4_0():
+    object_type = cva_0_4_0_SNAPSHOT.CandidateVariantInjectCancer
+    new_tvi_rd = cva_0_4_0_SNAPSHOT.CandidateVariantInjectCancer(
+        assembly=cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37,
+        reportModelVersion='foo',
+        id='foo',
+        parentId='foo',
+        parentVersion=1,
+        version=1,
+        groupId='foo',
+        cohortId='foo',
+        author='foo',
+        authorVersion='foo',
+        workspace=['foo'],
+        clinicalReport=get_valid_clinical_report_cancer_4_2_0_SNAPSHOT()
     )
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
