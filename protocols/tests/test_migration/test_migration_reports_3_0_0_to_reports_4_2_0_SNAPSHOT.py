@@ -1,19 +1,22 @@
 from unittest import TestCase
 
 from protocols.migration import MigrateReports3To420SNAPSHOT
-from protocols.reports_4_2_0_SNAPSHOT import InterpretationRequestRD as InterpretationRequestRD_new
-from protocols.reports_3_0_0 import InterpretationRequestRD as InterpretationRequestRD_old
-from protocols.util import get_valid_interpretation_request_rd_3_0_0
+from protocols import reports_4_2_0_SNAPSHOT
+from protocols import reports_3_0_0
+from protocols import util
 
 
 class TestMigrateReports3To420SNAPSHOT(TestCase):
 
-    def test_migrate_interpretation_request(self):
+    old_model = reports_3_0_0
+    new_model = reports_4_2_0_SNAPSHOT
 
-        old_interpretation_request_rd = get_valid_interpretation_request_rd_3_0_0()
+    def test_migrate_interpretation_request_rd(self):
 
-        # Check old_interpretation_request_rd is a valid reports_3_0_0 ReportedSomaticVariants object
-        self.assertTrue(isinstance(old_interpretation_request_rd, InterpretationRequestRD_old))
+        old_interpretation_request_rd = util.get_valid_interpretation_request_rd_3_0_0()
+
+        # Check old_interpretation_request_rd is a valid reports_3_0_0 InterpretationRequestRD object
+        self.assertTrue(isinstance(old_interpretation_request_rd, self.old_model.InterpretationRequestRD))
         self.assertTrue(old_interpretation_request_rd.validate(jsonDict=old_interpretation_request_rd.toJsonDict()))
 
         migrated_object = MigrateReports3To420SNAPSHOT().migrate_interpretation_request_rd(
@@ -21,5 +24,37 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         )
 
         # Check migrated_object is a valid reports_4_2_0_SNAPSHOT InterpretationRequestRD object
-        self.assertTrue(isinstance(migrated_object, InterpretationRequestRD_new))
+        self.assertTrue(isinstance(migrated_object, self.new_model.InterpretationRequestRD))
+        self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
+
+    def test_migrate_interpreted_genome_rd(self):
+
+        old_interpreted_genome_rd = util.get_valid_interpreted_genome_rd_3_0_0()
+
+        # Check old_interpretation_request_rd is a valid reports_3_0_0 InterpretedGenomeRD object
+        self.assertTrue(isinstance(old_interpreted_genome_rd, self.old_model.InterpretedGenomeRD))
+        self.assertTrue(old_interpreted_genome_rd.validate(jsonDict=old_interpreted_genome_rd.toJsonDict()))
+
+        migrated_object = MigrateReports3To420SNAPSHOT().migrate_interpreted_genome_rd(
+            old_interpreted_genome_rd=old_interpreted_genome_rd
+        )
+
+        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT InterpretedGenomeRD object
+        self.assertTrue(isinstance(migrated_object, self.new_model.InterpretedGenomeRD))
+        self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
+
+    def test_migrate_reported_structural_variant(self):
+
+        old_reported_structural_variant = util.get_valid_reported_structural_variant_3_0_0()
+
+        # Check old_reported_structural_variant is a valid reports_3_0_0 ReportedStructuralVariant object
+        self.assertTrue(isinstance(old_reported_structural_variant, self.old_model.ReportedStructuralVariant))
+        self.assertTrue(old_reported_structural_variant.validate(jsonDict=old_reported_structural_variant.toJsonDict()))
+
+        migrated_object = MigrateReports3To420SNAPSHOT().migrate_reported_structural_variant(
+            old_reported_structural_variant=old_reported_structural_variant
+        )
+
+        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT ReportedStructuralVariant object
+        self.assertTrue(isinstance(migrated_object, self.new_model.ReportedStructuralVariant))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))

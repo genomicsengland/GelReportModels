@@ -6,8 +6,16 @@ from protocols.migration.participants import MigrationParticipants100To103SNAPSH
 
 
 class MigrateReports3To420SNAPSHOT(object):
+
     old_model = reports_3_0_0
     new_model = reports_4_2_0_SNAPSHOT
+
+    @staticmethod
+    def validate_object(object_to_validate, object_type):
+        if object_to_validate.validate(jsonDict=object_to_validate.toJsonDict()):
+            return object_to_validate
+        else:
+            raise Exception("New {object_type} object is not valid".format(object_type=object_type))
 
     def migrate_interpretation_request_rd(self, old_interpretation_request_rd):
         """
@@ -30,7 +38,7 @@ class MigrateReports3To420SNAPSHOT(object):
         new_interpretation_request.interpretationRequestVersion = old_interpretation_request_rd.InterpretationRequestVersion
         new_interpretation_request.interpretationRequestId = old_interpretation_request_rd.InterpretationRequestID
         new_interpretation_request.tieringVersion = old_interpretation_request_rd.TieringVersion
-        new_interpretation_request.tieredVariants = self.migrate_tiered_variants(old_tiered_variants=old_interpretation_request_rd.TieredVariants)
+        new_interpretation_request.tieredVariants = self.migrate_reported_variants(old_reported_variants=old_interpretation_request_rd.TieredVariants)
         new_interpretation_request.bams = self.migrate_files(old_files=old_interpretation_request_rd.BAMs)
         new_interpretation_request.vcfs = self.migrate_files(old_files=old_interpretation_request_rd.VCFs)
         new_interpretation_request.bigWigs = self.migrate_files(old_files=old_interpretation_request_rd.bigWigs)
@@ -39,40 +47,61 @@ class MigrateReports3To420SNAPSHOT(object):
         new_interpretation_request.analysisReturnUri = old_interpretation_request_rd.analysisReturnURI
         new_interpretation_request.internalStudyId = ''
 
-        if new_interpretation_request.validate(new_interpretation_request.toJsonDict()):
-            return new_interpretation_request
-        else:
-            raise Exception(
-                'This model can not be converted: ', handle_avro_errors(new_interpretation_request.validate_parts())
-            )
+        return self.validate_object(
+            object_to_validate=new_interpretation_request, object_type=self.new_model.InterpretationRequestRD
+        )
+
+    def migrate_interpreted_genome_rd(self, old_interpreted_genome_rd):
+        """
+        :type old_interpretation_request_rd: reports_3_0_0.InterpretedGenomeRD
+        :rtype: reports_4_2_0_SNAPSHOT.InterpretedGenomeRD
+        """
+        new_interpreted_genome_rd = self.new_model.InterpretedGenomeRD.fromJsonDict(
+            jsonDict=old_interpreted_genome_rd.toJsonDict()
+        )
+
+        new_interpreted_genome_rd.interpretationRequestId = old_interpreted_genome_rd.InterpretationRequestID
+        new_interpreted_genome_rd.reportUrl = old_interpreted_genome_rd.reportURL
+        new_interpreted_genome_rd.reportUri = old_interpreted_genome_rd.reportURI
+
+        new_interpreted_genome_rd.reportedVariants = self.migrate_reported_variants(
+            old_reported_variants=old_interpreted_genome_rd.reportedVariants
+        )
+
+        new_interpreted_genome_rd.reportedStructuralVariants = self.migrate_reported_structural_variants(
+            old_reported_structural_variants=old_interpreted_genome_rd.reportedStructuralVariants
+        )
+
+        return self.validate_object(
+            object_to_validate=new_interpreted_genome_rd, object_type=self.new_model.InterpretedGenomeRD
+        )
 
     def migrate_report_event(self, old_report_event):
         new_report_event = self.new_model.ReportEvent.fromJsonDict(old_report_event.toJsonDict())
+        old_classification = self.old_model.VariantClassification
+        new_classification = self.new_model.VariantClassification
         variant_classification_map = {
-            self.old_model.VariantClassification.PATHOGENIC: self.new_model.VariantClassification.pathogenic_variant,
-            self.old_model.VariantClassification.LIKELY_PATHOGENIC: self.new_model.VariantClassification.likely_pathogenic_variant,
-            self.old_model.VariantClassification.VUS: self.new_model.VariantClassification.variant_of_unknown_clinical_significance,
-            self.old_model.VariantClassification.LIKELY_BENIGN: self.new_model.VariantClassification.likely_benign_variant,
-            self.old_model.VariantClassification.BENIGN: self.new_model.VariantClassification.benign_variant,
+            old_classification.PATHOGENIC: new_classification.pathogenic_variant,
+            old_classification.LIKELY_PATHOGENIC: new_classification.likely_pathogenic_variant,
+            old_classification.VUS: new_classification.variant_of_unknown_clinical_significance,
+            old_classification.LIKELY_BENIGN: new_classification.likely_benign_variant,
+            old_classification.BENIGN: new_classification.benign_variant,
         }
         new_report_event.variantClassification = variant_classification_map.get(
-            old_report_event.variantClassification, self.new_model.VariantClassification.not_assessed
+            old_report_event.variantClassification, new_classification.not_assessed
         )
 
-        if new_report_event.validate(new_report_event.toJsonDict()):
-            return new_report_event
-        else:
-            raise Exception(
-                'This model can not be converted: ', handle_avro_errors(new_report_event.validate_parts())
-            )
+        return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
     def migrate_report_events(self, old_report_events):
         return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
 
-    def migrate_tiered_variant(self, old_tiered_variant):
-        new_tiered_variant = self.new_model.ReportedVariant.fromJsonDict(old_tiered_variant.toJsonDict())
-        new_tiered_variant.dbSnpId = old_tiered_variant.dbSNPid
-        new_tiered_variant.reportEvents = self.migrate_report_events(old_report_events=old_tiered_variant.reportEvents)
+    def migrate_reported_variant(self, old_reported_variant):
+        new_tiered_variant = self.new_model.ReportedVariant.fromJsonDict(old_reported_variant.toJsonDict())
+        new_tiered_variant.dbSnpId = old_reported_variant.dbSNPid
+        new_tiered_variant.reportEvents = self.migrate_report_events(
+            old_report_events=old_reported_variant.reportEvents
+        )
 
         if new_tiered_variant.validate(new_tiered_variant.toJsonDict()):
             return new_tiered_variant
@@ -81,8 +110,33 @@ class MigrateReports3To420SNAPSHOT(object):
                 'This model can not be converted: ', handle_avro_errors(new_tiered_variant.validate_parts())
             )
 
-    def migrate_tiered_variants(self, old_tiered_variants):
-        return [self.migrate_tiered_variant(old_tiered_variant=old_tiered_variant) for old_tiered_variant in old_tiered_variants]
+    def migrate_reported_variants(self, old_reported_variants):
+        return [
+            self.migrate_reported_variant(
+                old_reported_variant=old_reported_variant
+            ) for old_reported_variant in old_reported_variants
+        ]
+
+    def migrate_reported_structural_variant(self, old_reported_structural_variant):
+        new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(
+            old_reported_structural_variant.toJsonDict()
+        )
+        new_reported_structural_variant.reportEvents = self.migrate_report_events(
+            old_report_events=old_reported_structural_variant.reportEvents
+        )
+
+        return self.validate_object(
+            object_to_validate=new_reported_structural_variant, object_type=self.new_model.ReportedStructuralVariant
+        )
+
+    def migrate_reported_structural_variants(self, old_reported_structural_variants):
+        if old_reported_structural_variants is None:
+            return None
+        return [
+            self.migrate_reported_structural_variant(
+                old_reported_structural_variant=old_reported_structural_variant
+            ) for old_reported_structural_variant in old_reported_structural_variants
+        ]
 
     def migrate_file(self, old_file):
         if old_file is None:
