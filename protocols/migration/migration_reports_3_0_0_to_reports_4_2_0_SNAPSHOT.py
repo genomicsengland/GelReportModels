@@ -1,21 +1,15 @@
 from protocols import reports_3_0_0
 from protocols import reports_4_2_0_SNAPSHOT
 from protocols.util import handle_avro_errors
+from protocols.migration import BaseMigration
 from protocols.migration.participants import MigrationReportsToParticipants1
 from protocols.migration.participants import MigrationParticipants100To103SNAPSHOT
 
 
-class MigrateReports3To420SNAPSHOT(object):
+class MigrateReports3To420SNAPSHOT(BaseMigration):
 
     old_model = reports_3_0_0
     new_model = reports_4_2_0_SNAPSHOT
-
-    @staticmethod
-    def validate_object(object_to_validate, object_type):
-        if object_to_validate.validate(jsonDict=object_to_validate.toJsonDict()):
-            return object_to_validate
-        else:
-            raise Exception("New {object_type} object is not valid".format(object_type=object_type))
 
     def migrate_interpretation_request_rd(self, old_interpretation_request_rd):
         """
