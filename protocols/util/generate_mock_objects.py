@@ -6,6 +6,8 @@ from protocols import reports_3_1_0
 from protocols import reports_4_0_0
 from protocols import reports_4_2_0_SNAPSHOT
 from protocols import participant_1_0_0
+from protocols import cva_0_3_1
+from protocols import cva_0_4_0_SNAPSHOT
 
 
 class MockModelObject(object):
@@ -1345,3 +1347,38 @@ def get_valid_cancer_interpretation_request_2_1_0():
     new_cir.reportVersion = 1
 
     return validate_object(object_to_validate=new_cir, object_type=object_type)
+
+
+def get_valid_tiered_variant_inject_rd_0_3_1():
+    object_type = cva_0_3_1.TieredVariantInjectRD
+    new_tvi_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
+
+    new_tvi_rd.reportModelVersion = ''
+    new_tvi_rd.id = ''
+    new_tvi_rd.version = 1
+    new_tvi_rd.familyId = ''
+    new_tvi_rd.cohortId = ''
+    new_tvi_rd.author = ''
+    new_tvi_rd.authorVersion = ''
+    new_tvi_rd.workspace = ['']
+    new_tvi_rd.interpretationRequest = get_valid_interpretation_request_rd_3_1_0()
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_tiered_variant_inject_rd_0_4_0():
+    object_type = cva_0_4_0_SNAPSHOT.TieredVariantInjectRD
+    new_tvi_rd = cva_0_4_0_SNAPSHOT.TieredVariantInjectRD()
+
+    new_tvi_rd.assembly = cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37
+    new_tvi_rd.reportModelVersion = ''
+    new_tvi_rd.id = ''
+    new_tvi_rd.version = 1
+    new_tvi_rd.groupId = ''
+    new_tvi_rd.cohortId = ''
+    new_tvi_rd.author = ''
+    new_tvi_rd.authorVersion = ''
+    new_tvi_rd.workspace = ['']
+    new_tvi_rd.interpretationRequest = get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
