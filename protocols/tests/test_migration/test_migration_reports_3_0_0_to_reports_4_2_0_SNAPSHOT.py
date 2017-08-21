@@ -175,3 +175,19 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         # Check migrated_object is a valid reports_4_2_0_SNAPSHOT ReportedStructuralVariant object
         self.assertTrue(isinstance(migrated_object, self.new_model.ReportedStructuralVariant))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
+
+    def test_migrate_clinical_report_rd(self):
+
+        old_clinical_report_rd = util.get_valid_clinical_report_rd_3_0_0()
+
+        # Check old_clinical_report_rd is a valid reports_3_0_0 ClinicalReportRD object
+        self.assertTrue(isinstance(old_clinical_report_rd, self.old_model.ClinicalReportRD))
+        self.assertTrue(old_clinical_report_rd.validate(jsonDict=old_clinical_report_rd.toJsonDict()))
+
+        migrated_object = MigrateReports3To420SNAPSHOT().migrate_clinical_report_rd(
+            old_clinical_report_rd=old_clinical_report_rd
+        )
+
+        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT ClinicalReportRD object
+        self.assertTrue(isinstance(migrated_object, self.new_model.ClinicalReportRD))
+        self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
