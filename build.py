@@ -168,7 +168,8 @@ def main():
         nargs='+',
         default=[
             'org.gel.models.participant.avro::1.0.0', 'org.gel.models.participant.avro::1.0.1',
-            'org.gel.models.participant.avro::1.0.2', 'org.gel.models.participant.avro::1.0.3-SNAPSHOT',
+            'org.gel.models.participant.avro::1.0.3',
+            'org.gel.models.participant.avro::1.0.4-SNAPSHOT',
             'org.gel.models.metrics.avro::1.0.0', 'org.gel.models.metrics.avro::1.0.1',
             'org.gel.models.metrics.avro::1.1.0-SNAPSHOT',
             'org.ga4gh.models::3.0.0', 'org.ga4gh.models::3.1.0-SNAPSHOT',

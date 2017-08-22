@@ -32,7 +32,7 @@
         <ga4gh.models.version>3.1.0-SNAPSHOT</ga4gh.models.version>
         <cva.models.version>0.4.0-SNAPSHOT</cva.models.version>
         <metrics.models.version>1.1.0-SNAPSHOT</metrics.models.version>
-        <participant.models.version>1.0.3-SNAPSHOT</participant.models.version>
+        <participant.models.version>1.0.4-SNAPSHOT</participant.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
