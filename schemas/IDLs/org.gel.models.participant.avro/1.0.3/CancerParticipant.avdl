@@ -7,13 +7,13 @@ protocol CancerParticipants {
     import idl "CommonParticipant.avdl";
     import idl "VersionControl.avdl";
 
-    enum TumourType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL,
+    enum diseaseType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL,
     ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
     OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL,
     NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
 
 
-    enum Phase {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
+    enum TumourType {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
 
     enum ProgrammePhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
 
@@ -30,6 +30,8 @@ protocol CancerParticipants {
     enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
     ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
     SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY}
+
+
 
     record GermlineSample {
 
@@ -95,7 +97,7 @@ protocol CancerParticipants {
         /**
         Id of each one of the tumors for a participant
         */
-        int tumourId;
+        string tumourId;
 
         /**
         gelPhase (eg cruk, brc, cll, iip, main)
@@ -103,14 +105,14 @@ protocol CancerParticipants {
         union {null, ProgrammePhase} programmePhase;
 
         /**
-        tumour Type
+        Disease Type
         */
-        union {null, TumourType} tumourType;
+        union {null, diseaseType} diseaseType;
 
         /**
-        Tumor Subtype
+        Disease Subtype
         */
-        union {null, string} tumourSubType;
+        union {null, string} diseaseSubType;
 
         /**
         In the format YYYY-MM-DDTHH:MM:SS+0000
@@ -118,9 +120,9 @@ protocol CancerParticipants {
         union {null, string} clinicalSampleDateTime;
 
         /**
-        Tumor Phase
+        Tumor Type
         */
-        union {null, Phase} phase;
+        union {null, TumourType} tumourType;
 
         /**
         tumourContent
@@ -148,14 +150,18 @@ protocol CancerParticipants {
         union {null, Product} product;
 
         /**
-        TMN version
+        One of these morphology fields will be provided
         */
-        union {null, string} TNMStageVersion;
+        union {null, string} morphologyICD;
+        union {null, string} morphologySnomedCT;
+        union {null, string} morphologySnomedRT;
 
         /**
-        TMN stage grouping
+        One of these topography fields will be provided
         */
-        union {null, string} TNMStageGrouping;
+        union {null, string} topographyICD;
+        union {null, string} topographySnomedCT;
+        union {null, string} topographySnomedRT;
 
     }
 
@@ -180,7 +186,9 @@ protocol CancerParticipants {
     This defines a Cancer Participant
     */
     record CancerParticipant{
+        int yearOfBirth;
 
+        union {null, array<string>}  morphology;
 
         boolean readyForAnalysis;
 
