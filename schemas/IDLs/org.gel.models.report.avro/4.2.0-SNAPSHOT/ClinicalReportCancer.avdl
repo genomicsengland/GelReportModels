@@ -67,6 +67,5 @@ protocol ClinicalReportsCancer {
         */
         map<array<map<string>>> genePanelsCoverage;
 
-        org.gel.models.participant.avro.CancerParticipant cancerParticipant;
     }
 }

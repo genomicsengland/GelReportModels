@@ -113,7 +113,6 @@ protocol Pedigrees {
 
     enum Product {DNA, RNA}
 
-    enum PreparationMethod {EDTA, ORAGENE, FF}
 
     /**
     adoptedin means adopted into the family
