@@ -4,7 +4,7 @@ This protocol defines the Commons for GEL models
 */
 protocol CommonInterpreted {
 
-    import idl "../../org.gel.models.participant.avro/1.0.3-SNAPSHOT/CommonParticipant.avdl";
+    import idl "../../org.gel.models.participant.avro/1.0.4-SNAPSHOT/CommonParticipant.avdl";
 
     /**
 An enumeration for the different mode of inheritances:
