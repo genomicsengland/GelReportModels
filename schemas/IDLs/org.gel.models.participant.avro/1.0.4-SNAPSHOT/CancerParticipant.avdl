@@ -188,7 +188,7 @@ protocol CancerParticipants {
     record CancerParticipant{
         int yearOfBirth;
 
-        union {null, string} morphology;
+        union {null, array<string>}  morphology;
 
         boolean readyForAnalysis;
 
