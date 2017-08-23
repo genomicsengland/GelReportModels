@@ -1,6 +1,68 @@
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_1
+from protocols import participant_1_0_3_SNAPSHOT
+from protocols.util import handle_avro_errors
+
+
+class MigrationParticipants100To103SNAPSHOT(object):
+    old_model = participant_1_0_1
+    new_model = participant_1_0_3_SNAPSHOT
+
+    def migrate_pedigree(self, old_pedigree):
+        new_pedigree = self.new_model.Pedigree.fromJsonDict(old_pedigree.toJsonDict())
+        new_pedigree.versionControl = self.new_model.VersionControl()
+
+        new_pedigree.members = self.migrate_members(old_members=old_pedigree.members)
+
+        if new_pedigree.validate(new_pedigree.toJsonDict()):
+            return new_pedigree
+        else:
+            raise Exception(
+                'This model can not be converted: ', handle_avro_errors(new_pedigree.validate_parts())
+            )
+
+    def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
+        new_chiSquare1KGenomesPhase3Pop = self.new_model.ChiSquare1KGenomesPhase3Pop.fromJsonDict(old_chiSquare1KGenomesPhase3Pop.toJsonDict())
+        new_chiSquare1KGenomesPhase3Pop.kgPopCategory = old_chiSquare1KGenomesPhase3Pop.kGPopCategory
+        new_chiSquare1KGenomesPhase3Pop.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
+
+        if new_chiSquare1KGenomesPhase3Pop.validate(new_chiSquare1KGenomesPhase3Pop.toJsonDict()):
+            return new_chiSquare1KGenomesPhase3Pop
+        else:
+            raise Exception(
+                'This model can not be converted: ', handle_avro_errors(new_chiSquare1KGenomesPhase3Pop.validate_parts())
+            )
+
+    def migrate_chiSquare1KGenomesPhase3Pops(self, old_chiSquare1KGenomesPhase3Pops):
+        if old_chiSquare1KGenomesPhase3Pops is None:
+            return None
+        return [self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop) for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pops]
+
+    def migrate_ancestries(self, old_ancestries):
+        new_ancestries = self.new_model.Ancestries.fromJsonDict(old_ancestries.toJsonDict())
+        new_ancestries.chiSquare1KGenomesPhase3Pop = self.migrate_chiSquare1KGenomesPhase3Pops(old_ancestries.chiSquare1KGenomesPhase3Pop)
+
+        if new_ancestries.validate(new_ancestries.toJsonDict()):
+            return new_ancestries
+        else:
+            raise Exception(
+                'This model can not be converted: ', handle_avro_errors(new_ancestries.validate_parts())
+            )
+
+    def migrate_member(self, old_member):
+        new_member = self.new_model.PedigreeMember.fromJsonDict(old_member.toJsonDict())
+        new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
+
+        if new_member.validate(new_member.toJsonDict()):
+            return new_member
+        else:
+            raise Exception(
+                'This model can not be converted: ', handle_avro_errors(new_member.validate_parts())
+            )
+
+    def migrate_members(self, old_members):
+        return [self.migrate_member(old_member=old_member) for old_member in old_members]
 
 
 class MigrationReportsToParticipants1(object):
@@ -22,7 +84,6 @@ class MigrationReportsToParticipants1(object):
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
-            print new_pedigree.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_pedigree_member(self, member, sample_id_to_lab_sample_id=None):
@@ -236,10 +297,3 @@ class MigrationParticipants1ToReports(object):
         else:
             print new_analysis_panel.validate_parts()
             raise Exception('This model can not be converted')
-
-
-
-
-
-
-
