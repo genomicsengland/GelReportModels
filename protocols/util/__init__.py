@@ -3,7 +3,6 @@ from .avro_util import handle_avro_errors
 from .generate_mock_objects import get_valid_file_4_0_0
 
 from .generate_mock_objects import get_valid_pedigree_3_0_0
-from .generate_mock_objects import get_valid_pedigree_4_2_0_SNAPSHOT
 
 from .generate_mock_objects import get_valid_reported_variant_2_1_0
 from .generate_mock_objects import get_valid_reported_variant_3_0_0

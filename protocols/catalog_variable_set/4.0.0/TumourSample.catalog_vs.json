@@ -23,7 +23,7 @@
  {
   "multiValue": false, 
   "required": true, 
-  "type": "INTEGER", 
+  "type": "TEXT", 
   "name": "tumourId", 
   "description": "Id of each one of the tumors for a participant"
  }, 
@@ -43,7 +43,7 @@
   "description": "gelPhase (eg cruk, brc, cll, iip, main)"
  }, 
  {
-  "name": "tumourType", 
+  "name": "diseaseType", 
   "required": false, 
   "allowedValues": [
    "ADULT_GLIOMA", 
@@ -73,14 +73,14 @@
   ], 
   "multiValue": false, 
   "type": "CATEGORICAL", 
-  "description": "tumour Type"
+  "description": "Disease Type"
  }, 
  {
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
-  "name": "tumourSubType", 
-  "description": "Tumor Subtype"
+  "name": "diseaseSubType", 
+  "description": "Disease Subtype"
  }, 
  {
   "multiValue": false, 
@@ -90,7 +90,7 @@
   "description": "In the format YYYY-MM-DDTHH:MM:SS+0000"
  }, 
  {
-  "name": "phase", 
+  "name": "tumourType", 
   "required": false, 
   "allowedValues": [
    "PRIMARY", 
@@ -100,7 +100,7 @@
   ], 
   "multiValue": false, 
   "type": "CATEGORICAL", 
-  "description": "Tumor Phase"
+  "description": "Tumor Type"
  }, 
  {
   "name": "tumourContent", 
@@ -143,7 +143,7 @@
   ], 
   "multiValue": false, 
   "type": "CATEGORICAL", 
-  "description": "preparationMethod"
+  "description": "The preparation method"
  }, 
  {
   "name": "tissueSource", 
@@ -165,7 +165,7 @@
   ], 
   "multiValue": false, 
   "type": "CATEGORICAL", 
-  "description": "Method"
+  "description": "The tissue source"
  }, 
  {
   "name": "product", 
@@ -182,14 +182,42 @@
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
-  "name": "TNMStageVersion", 
-  "description": "TMN version"
+  "name": "morphologyICD", 
+  "description": "One of these morphology fields will be provided"
  }, 
  {
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
-  "name": "TNMStageGrouping", 
-  "description": "TMN stage grouping"
+  "name": "morphologySnomedCT", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "morphologySnomedRT", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "topographyICD", 
+  "description": "One of these topography fields will be provided"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "topographySnomedCT", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "topographySnomedRT", 
+  "description": ""
  }
 ]

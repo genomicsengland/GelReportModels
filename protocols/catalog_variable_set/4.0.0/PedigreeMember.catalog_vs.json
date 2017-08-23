@@ -11,7 +11,7 @@
   "required": false, 
   "type": "BOOLEAN", 
   "name": "isProband", 
-  "description": "If this field is true, the member should be consider the proband of this family"
+  "description": "If this field is true, the member should be considered the proband of this family"
  }, 
  {
   "multiValue": false, 
@@ -86,14 +86,14 @@
   "required": false, 
   "type": "INTEGER", 
   "name": "fatherId", 
-  "description": "refers to the pedigreeId of the father\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
+  "description": "refers to the pedigreeId of the father\n        Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n        about them in order to unambiguously reconstruct the pedigree."
  }, 
  {
   "multiValue": false, 
   "required": false, 
   "type": "INTEGER", 
   "name": "motherId", 
-  "description": "refers to the pedigreeId of the mother\n    Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n    about them in order to unambiguously reconstruct the pedigree."
+  "description": "refers to the pedigreeId of the mother\n        Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n        about them in order to unambiguously reconstruct the pedigree."
  }, 
  {
   "multiValue": false, 
@@ -238,7 +238,7 @@
     ], 
     "multiValue": false, 
     "type": "CATEGORICAL", 
-    "description": "This is whether the term is present in the participant (default is unknown) yes=term is present in participant,\n    no=term is not present"
+    "description": "This is whether the term is present in the participant (default is unknown) yes=term is present in participant,\n        no=term is not present"
    }, 
    {
     "multiValue": false, 
@@ -406,7 +406,7 @@
     "multiValue": true, 
     "variableSet": [
      {
-      "name": "kGSuperPopCategory", 
+      "name": "kgSuperPopCategory", 
       "required": true, 
       "allowedValues": [
        "AFR", 
@@ -420,7 +420,7 @@
       "description": "1K Super Population"
      }, 
      {
-      "name": "kGPopCategory", 
+      "name": "kgPopCategory", 
       "required": false, 
       "allowedValues": [
        "ACB", 
@@ -480,7 +480,7 @@
     "required": true, 
     "multiValue": false, 
     "type": "BOOLEAN", 
-    "description": "Is this individual consented to the programme?\n    It could simple be a family member that is not consented but for whom affection status is known"
+    "description": "Is this individual consented to the programme?\n        It could simply be a family member that is not consented but for whom affection status is known"
    }, 
    {
     "name": "primaryFindingConsent", 
@@ -508,7 +508,7 @@
    }
   ], 
   "type": "OBJECT", 
-  "description": "What has this participant consented to?\n    A participant that has been consented to the programme should also have sequence data associated with them; however\n    this needs to be programmatically checked"
+  "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked"
  }, 
  {
   "name": "samples", 
@@ -559,7 +559,10 @@
     "allowedValues": [
      "EDTA", 
      "ORAGENE", 
-     "FF"
+     "FF", 
+     "FFPE", 
+     "CD128_SORTED_CELLS", 
+     "ASPIRATE"
     ], 
     "multiValue": false, 
     "type": "CATEGORICAL", 
@@ -625,6 +628,6 @@
   "required": false, 
   "type": "OBJECT", 
   "name": "additionalInformation", 
-  "description": "We could add a map here to store additional information for example URIs to images, ECGs, etc\n    Null by default"
+  "description": "We could add a map here to store additional information for example URIs to images, ECGs, etc\n        Null by default"
  }
 ]
