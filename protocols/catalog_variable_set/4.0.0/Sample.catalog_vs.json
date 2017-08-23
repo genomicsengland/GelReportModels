@@ -43,7 +43,10 @@
   "allowedValues": [
    "EDTA", 
    "ORAGENE", 
-   "FF"
+   "FF", 
+   "FFPE", 
+   "CD128_SORTED_CELLS", 
+   "ASPIRATE"
   ], 
   "multiValue": false, 
   "type": "CATEGORICAL", 
