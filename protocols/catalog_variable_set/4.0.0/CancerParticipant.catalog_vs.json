@@ -1,7 +1,7 @@
 [
  {
   "multiValue": false, 
-  "required": true, 
+  "required": false,
   "type": "INTEGER", 
   "name": "yearOfBirth", 
   "description": ""
