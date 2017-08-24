@@ -1,2 +1,3 @@
 from .migration import Migration2_1To3
 
+from .migration_reports_3_0_0_to_reports_4_2_0_SNAPSHOT import MigrateReports3To420SNAPSHOT
