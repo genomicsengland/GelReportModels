@@ -196,12 +196,14 @@ def generate_rst_index(models):
                     for f in fnmatch.filter(files, '*.html')]
             for html in htmls:
                 # adds an entry to a class
-                element_id = "{package}.{version}.{clazz}"\
-                    .format(package=package, version=version, clazz=html)\
-                    .replace(".", "").replace("-", "")
-                body.append("* |{element_id}|"
-                            .format(element_id=element_id)
-                            )
+                element_id = "{package}.{version}.{clazz}".format(
+                    package=package, version=version, clazz=html
+                ).replace(".", "").replace("-", "")
+                body.append(
+                    "* |{element_id}|".format(
+                        element_id=element_id
+                    )
+                )
                 # adds a link to a class
                 references.append(".. |{element_id}| raw:: html"
                                   .format(element_id=element_id)
