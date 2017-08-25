@@ -7,7 +7,7 @@ Interpretation Request or interpreted genome.
 protocol ClinicalReportsCancer {
 
     import idl "CommonInterpretedCancer.avdl";
-    import idl "../../org.gel.models.participant.avro/1.0.3-SNAPSHOT/CancerParticipant.avdl";
+    import idl "../../org.gel.models.participant.avro/1.0.4-SNAPSHOT/CancerParticipant.avdl";
     import idl "ReportVersionControl.avdl";
 
     record ClinicalReportCancer {
@@ -67,6 +67,5 @@ protocol ClinicalReportsCancer {
         */
         map<array<map<string>>> genePanelsCoverage;
 
-        org.gel.models.participant.avro.CancerParticipant cancerParticipant;
     }
 }

@@ -17,7 +17,7 @@ reqs = [
     "pysam"
 ]
 
-VERSION = "4.3.0-SNAPSHOT"
+VERSION = "4.3.1"
 setup(
     name='GelReportModels',
     version=VERSION,
