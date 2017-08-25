@@ -146,9 +146,14 @@ def generate_all_doc(avpr_folder, html_folder):
             generate_documentation(file.replace('.avpr', ''), avpr_folder, html_folder)
 
 def build(models, skip_doc):
+    models_dict = {}
     for model in models:
         model_package = model[0]
         model_version = model[1]
+        if model_package in models_dict:
+            models_dict[model_package].append(model_version)
+        else:
+            models_dict[model_package] = [model_version]
         folders = build_directories(model_package, model_version)
         for folder in folders:
             create_folder(folders[folder])
@@ -158,6 +163,63 @@ def build(models, skip_doc):
         generated_python_classes(package_name=model_package, models_version=model_version, idl_folder=folders['idl_folder'])
         if not skip_doc:
             generate_all_doc(avpr_folder=folders['avrp_folder'], html_folder=folders['html_folder'])
+    generate_rst_index(models_dict)
+
+def generate_rst_index(models):
+    """
+    Overwrites existing file at docs/source/models.rst
+    :param models:
+    :return:
+    """
+    body = []
+    references = []
+    # adds title
+    title = "GEL Models documentation"
+    body.append(title)
+    body.append("=" * len(title))
+    for package in models:
+        model_package = package
+        # adds a section for a package
+        body.append("")
+        body.append(model_package)
+        body.append("-" * len(model_package))
+        body.append("")
+        model_versions = models[package]
+        for version in model_versions:
+            # adds a subsection for a version
+            body.append("")
+            body.append(version)
+            body.append("^" * len(version))
+            body.append("")
+            docs_folder = os.path.join(BASE_DIR, "docs", "html_schemas", package, version)
+            htmls = [f.replace(".html", "") for _, _, files in os.walk(docs_folder)
+                    for f in fnmatch.filter(files, '*.html')]
+            for html in htmls:
+                # adds an entry to a class
+                element_id = "{package}.{version}.{clazz}".format(
+                    package=package, version=version, clazz=html
+                ).replace(".", "").replace("-", "")
+                body.append(
+                    "* |{element_id}|".format(
+                        element_id=element_id
+                    )
+                )
+                # adds a link to a class
+                references.append(".. |{element_id}| raw:: html"
+                                  .format(element_id=element_id)
+                                  )
+                references.append("")
+                references.append(
+                    "    <a href=\"html_schemas/{package}/{version}/{clazz}.html\" target=\"_blank\">{clazz}</a>"
+                        .format(package=package, version=version, clazz=html)
+                )
+    with open(os.path.join(BASE_DIR, "docs", "source", "models.rst"), 'w+') as f:
+        for line in body:
+            f.write(line + '\n')
+        f.write('\n')
+        for line in references:
+            f.write(line + '\n')
+
 
 def main():
     parser = argparse.ArgumentParser(
