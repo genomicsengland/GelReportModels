@@ -18,31 +18,12 @@ The information about the observation is contained within a CalledGenotype, it i
 
 Every ObservedVariant is uniquely identified by:
 
-* report model version
 * sample id
-* id
-* version
 * variant identifier (being a variant identifier formed by chromosome + position + reference + alternate)
-
-id and version fields refer to the higher level entity where the variant was reported (i.e.: InterpretationRequest).
-This is needed as for the same sample id a different execution of the secondary analysis (e.g.: variant calling) may
-result in a different CalledGenotype.
 
 Duplication of the prior fields is not to be supported.
     */
     record ObservedVariant {
-        /**
-        Report avro models version
-        */
-        string reportModelVersion;
-        /**
-        The identifier for the higher level entity (i.e.: InterpretationRequest)
-        */
-        string id;
-        /**
-        The version for the higher level entity (i.e.: InterpretationRequest)
-        */
-        int version;
         /**
         The registration date
         */
