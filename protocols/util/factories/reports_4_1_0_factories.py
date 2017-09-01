@@ -7,7 +7,10 @@ from protocols.reports_4_1_0 import (
     CancerExitQuestionnaire,
     CancerSomaticVariantLevelQuestions,
     CancerGermlineVariantLevelQuestions,
-    CancerCaseLevelQuestions
+    CancerCaseLevelQuestions,
+    AdditionalVariantsQuestions,
+    CancerActionability,
+    CancerActionabilitySomatic
 )
 
 from avro_factory import FactoryAvro
@@ -45,12 +48,21 @@ class CancerSomaticVariantLevelQuestionsFactory(FactoryAvro):
     class Meta:
         model = CancerSomaticVariantLevelQuestions
     variantDetails = factory.LazyAttribute(lambda x: aux_ramdom_variant_method())
+    variantActionability = factory.fuzzy.FuzzyChoice([[i] for i in vars(CancerActionabilitySomatic)
+                                                      if not i.startswith('__')])
 
 
 class CancerGermlineVariantLevelQuestionsFactory(FactoryAvro):
     class Meta:
         model = CancerGermlineVariantLevelQuestions
     variantDetails = factory.LazyAttribute(lambda x: aux_ramdom_variant_method())
+    variantActionability = factory.fuzzy.FuzzyChoice([[i] for i in vars(CancerActionability) if not i.startswith('__')])
+
+class AdditionalVariantsQuestionsFactory(FactoryAvro):
+    class Meta:
+        model = AdditionalVariantsQuestions
+    variantDetails = factory.LazyAttribute(lambda x: aux_ramdom_variant_method())
+    variantActionability = factory.fuzzy.FuzzyChoice([[i] for i in vars(CancerActionability) if not i.startswith('__')])
 
 
 class CancerExitQuestionnaireFactory(FactoryAvro):
@@ -60,3 +72,4 @@ class CancerExitQuestionnaireFactory(FactoryAvro):
     caseLevelQuestions = factory.SubFactory(CancerCaseLevelQuestionsFactory)
     somaticVariantLevelQuestions = factory.LazyAttribute(lambda x: [i for i in CancerSomaticVariantLevelQuestionsFactory.create_batch(randint(0, 10))])
     germlineVariantLevelQuestions = factory.LazyAttribute(lambda x: [i for i in CancerGermlineVariantLevelQuestionsFactory.create_batch(randint(0, 10))])
+    otherActionableVariants = factory.LazyAttribute(lambda x: [i for i in AdditionalVariantsQuestionsFactory.create_batch(randint(0, 10))])
