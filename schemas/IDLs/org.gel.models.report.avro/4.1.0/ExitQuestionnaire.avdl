@@ -264,33 +264,6 @@ protocol ExitQuestionnaires {
 
         }
 
-        record CancerSomaticVariantLevelQuestions{
-        /**
-        Chr: Pos Ref > Alt
-        */
-        string variantDetails;
-        /**
-        Type of potential actionability:
-        */
-        array<CancerActionabilitySomatic> variantActionability;
-
-        union {null, string} otherVariantActionability;
-
-        /**
-        How has/will this potentially actionable variant been/be used?
-        */
-        CancerUsabilitySomatic variantUsability;
-
-        /**
-        Has this variant been tested by another method (either prior to or following receipt of this WGA)?
-        */
-        CancerTested variantTested;
-
-        /**
-        Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS, Sanger sequencing. If not applicable enter NA;
-        */
-        string validationAssayType;
-    }
 
     record AdditionalVariantsQuestions{
         /**
