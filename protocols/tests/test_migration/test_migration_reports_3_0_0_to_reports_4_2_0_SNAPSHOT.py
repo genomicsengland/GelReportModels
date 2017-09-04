@@ -15,6 +15,9 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
 
         old_interpretation_request_rd = util.get_valid_interpretation_request_rd_3_0_0()
 
+        test_ir_id = 'CHF-2003'
+        old_interpretation_request_rd.InterpretationRequestID = test_ir_id
+
         # Check old_interpretation_request_rd is a valid reports_3_0_0 InterpretationRequestRD object
         self.assertTrue(isinstance(old_interpretation_request_rd, self.old_model.InterpretationRequestRD))
         self.assertTrue(old_interpretation_request_rd.validate(jsonDict=old_interpretation_request_rd.toJsonDict()))
@@ -30,6 +33,9 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         # Check version control field is now a ReportVersionControl object and has the correct details
         self.assertTrue(isinstance(migrated_object.versionControl, self.new_model.ReportVersionControl))
         self.assertDictEqual(migrated_object.versionControl.toJsonDict(), {u'gitVersionControl': '4.2.0'})
+
+        # Check old InterpretationRequestID is migrated to new interpretationRequestId field
+        self.assertEqual(migrated_object.interpretationRequestId, test_ir_id)
 
     def test_migrate_interpreted_genome_rd(self):
 
