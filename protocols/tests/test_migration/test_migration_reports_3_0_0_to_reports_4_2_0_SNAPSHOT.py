@@ -27,6 +27,10 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         self.assertTrue(isinstance(migrated_object, self.new_model.InterpretationRequestRD))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
+        # Check version control field is now a ReportVersionControl object and has the correct details
+        self.assertTrue(isinstance(migrated_object.versionControl, self.new_model.ReportVersionControl))
+        self.assertDictEqual(migrated_object.versionControl.toJsonDict(), {u'gitVersionControl': '4.2.0'})
+
     def test_migrate_interpreted_genome_rd(self):
 
         old_interpreted_genome_rd = util.get_valid_interpreted_genome_rd_3_0_0()

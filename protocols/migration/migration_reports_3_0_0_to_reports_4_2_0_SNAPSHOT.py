@@ -47,6 +47,8 @@ class MigrateReports3To420SNAPSHOT(object):
         new_interpretation_request.analysisReturnUri = old_interpretation_request_rd.analysisReturnURI
         new_interpretation_request.internalStudyId = ''
 
+        new_interpretation_request.vesionControl = self.new_model.ReportVersionControl()
+
         return self.validate_object(
             object_to_validate=new_interpretation_request, object_type=self.new_model.InterpretationRequestRD
         )
