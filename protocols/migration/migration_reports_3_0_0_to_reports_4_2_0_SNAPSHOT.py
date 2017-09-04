@@ -42,6 +42,7 @@ class MigrateReports3To420SNAPSHOT(object):
         new_interpretation_request.bams = self.migrate_files(old_files=old_interpretation_request_rd.BAMs)
         new_interpretation_request.vcfs = self.migrate_files(old_files=old_interpretation_request_rd.VCFs)
         new_interpretation_request.bigWigs = self.migrate_files(old_files=old_interpretation_request_rd.bigWigs)
+        new_interpretation_request.otherFiles = self.migrate_files(old_files=old_interpretation_request_rd.otherFiles)
         new_interpretation_request.pedigreeDiagram = self.migrate_file(old_file=old_interpretation_request_rd.pedigreeDiagram)
         new_interpretation_request.annotationFile = self.migrate_file(old_file=old_interpretation_request_rd.annotationFile)
         new_interpretation_request.analysisReturnUri = old_interpretation_request_rd.analysisReturnURI
@@ -174,6 +175,8 @@ class MigrateReports3To420SNAPSHOT(object):
             )
 
     def migrate_files(self, old_files):
+        if old_files is None:
+            return None
         return [self.migrate_file(old_file=old_file) for old_file in old_files]
 
     def migrate_life_status(self, life_status):
