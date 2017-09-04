@@ -93,7 +93,18 @@ class MigrateReports3To420SNAPSHOT(object):
             old_report_event.variantClassification, new_classification.not_assessed
         )
 
+        new_report_event.genomicFeature = self.migrate_genomic_feature(old_genomic_feature=old_report_event.genomicFeature)
+
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_genomic_feature(self, old_genomic_feature):
+        new_genomic_feature = self.new_model.GenomicFeature()
+        new_genomic_feature.featureType = old_genomic_feature.featureType
+        new_genomic_feature.ensemblId = old_genomic_feature.ensemblId
+        new_genomic_feature.hgnc = old_genomic_feature.HGNC
+        new_genomic_feature.otherIds = old_genomic_feature.other_ids
+
+        return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
 
     def migrate_report_events(self, old_report_events):
         return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]

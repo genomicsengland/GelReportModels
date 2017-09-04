@@ -37,6 +37,21 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         # Check old InterpretationRequestID is migrated to new interpretationRequestId field
         self.assertEqual(migrated_object.interpretationRequestId, test_ir_id)
 
+        # Check genomic feature is migrated correctly
+        old_variants = old_interpretation_request_rd.TieredVariants
+        new_variants = migrated_object.tieredVariants
+        for old_variant, new_variant in zip(old_variants, new_variants):
+            old_events = old_variant.reportEvents
+            new_events = new_variant.reportEvents
+            for old_event, new_event in zip(old_events, new_events):
+
+                self.assertIsInstance(new_event.genomicFeature, self.new_model.GenomicFeature)
+
+                self.assertEqual(old_event.genomicFeature.featureType, new_event.genomicFeature.featureType)
+                self.assertEqual(old_event.genomicFeature.ensemblId, new_event.genomicFeature.ensemblId)
+                self.assertEqual(old_event.genomicFeature.HGNC, new_event.genomicFeature.hgnc)
+                self.assertEqual(old_event.genomicFeature.other_ids, new_event.genomicFeature.otherIds)
+
     def test_migrate_interpreted_genome_rd(self):
 
         old_interpreted_genome_rd = util.get_valid_interpreted_genome_rd_3_0_0()
