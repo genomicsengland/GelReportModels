@@ -1353,14 +1353,14 @@ def get_valid_tiered_variant_inject_rd_0_3_1():
     object_type = cva_0_3_1.TieredVariantInjectRD
     new_tvi_rd = MockModelObject(object_type=object_type).get_valid_empty_object()
 
-    new_tvi_rd.reportModelVersion = ''
-    new_tvi_rd.id = ''
+    new_tvi_rd.reportModelVersion = 'foo'
+    new_tvi_rd.id = 'foo'
     new_tvi_rd.version = 1
-    new_tvi_rd.familyId = ''
-    new_tvi_rd.cohortId = ''
-    new_tvi_rd.author = ''
-    new_tvi_rd.authorVersion = ''
-    new_tvi_rd.workspace = ['']
+    new_tvi_rd.familyId = 'foo'
+    new_tvi_rd.cohortId = 'foo'
+    new_tvi_rd.author = 'foo'
+    new_tvi_rd.authorVersion = 'foo'
+    new_tvi_rd.workspace = ['foo']
     new_tvi_rd.interpretationRequest = get_valid_interpretation_request_rd_3_1_0()
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
@@ -1371,14 +1371,14 @@ def get_valid_tiered_variant_inject_rd_0_4_0():
     new_tvi_rd = cva_0_4_0_SNAPSHOT.TieredVariantInjectRD()
 
     new_tvi_rd.assembly = cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37
-    new_tvi_rd.reportModelVersion = ''
-    new_tvi_rd.id = ''
+    new_tvi_rd.reportModelVersion = 'foo'
+    new_tvi_rd.id = 'foo'
     new_tvi_rd.version = 1
-    new_tvi_rd.groupId = ''
-    new_tvi_rd.cohortId = ''
-    new_tvi_rd.author = ''
-    new_tvi_rd.authorVersion = ''
-    new_tvi_rd.workspace = ['']
+    new_tvi_rd.groupId = 'foo'
+    new_tvi_rd.cohortId = 'foo'
+    new_tvi_rd.author = 'foo'
+    new_tvi_rd.authorVersion = 'foo'
+    new_tvi_rd.workspace = ['foo']
     new_tvi_rd.interpretationRequest = get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
