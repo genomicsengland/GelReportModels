@@ -48,7 +48,7 @@ class MigrateReports3To420SNAPSHOT(object):
         new_interpretation_request.analysisReturnUri = old_interpretation_request_rd.analysisReturnURI
         new_interpretation_request.internalStudyId = ''
 
-        new_interpretation_request.vesionControl = self.new_model.ReportVersionControl()
+        new_interpretation_request.versionControl = self.new_model.ReportVersionControl()
 
         return self.validate_object(
             object_to_validate=new_interpretation_request, object_type=self.new_model.InterpretationRequestRD
@@ -56,7 +56,7 @@ class MigrateReports3To420SNAPSHOT(object):
 
     def migrate_interpreted_genome_rd(self, old_interpreted_genome_rd):
         """
-        :type old_interpretation_request_rd: reports_3_0_0.InterpretedGenomeRD
+        :type old_interpreted_genome_rd: reports_3_0_0.InterpretedGenomeRD
         :rtype: reports_4_2_0_SNAPSHOT.InterpretedGenomeRD
         """
         new_interpreted_genome_rd = self.new_model.InterpretedGenomeRD.fromJsonDict(
@@ -77,6 +77,29 @@ class MigrateReports3To420SNAPSHOT(object):
 
         return self.validate_object(
             object_to_validate=new_interpreted_genome_rd, object_type=self.new_model.InterpretedGenomeRD
+        )
+
+    def migrate_clinical_report_rd(self, old_clinical_report_rd):
+        """
+        :type old_clinical_report_rd: reports_3_0_0.ClinicalReportRD
+        :rtype: reports_4_2_0_SNAPSHOT.ClinicalReportRD
+        """
+        new_clinical_report_rd = self.new_model.ClinicalReportRD.fromJsonDict(
+            jsonDict=old_clinical_report_rd.toJsonDict()
+        )
+
+        new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
+
+        new_clinical_report_rd.candidateVariants = self.migrate_reported_variants(
+            old_reported_variants=old_clinical_report_rd.candidateVariants
+        )
+
+        new_clinical_report_rd.candidateStructuralVariants = self.migrate_reported_structural_variants(
+            old_reported_structural_variants=old_clinical_report_rd.candidateStructuralVariants
+        )
+
+        return self.validate_object(
+            object_to_validate=new_clinical_report_rd, object_type=self.new_model.InterpretedGenomeRD
         )
 
     def migrate_report_event(self, old_report_event):
