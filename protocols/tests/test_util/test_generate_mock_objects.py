@@ -5,6 +5,8 @@ from protocols import reports_3_0_0
 from protocols import reports_3_1_0
 from protocols import reports_4_0_0
 from protocols import reports_4_2_0_SNAPSHOT
+from protocols import cva_0_3_1
+from protocols import cva_0_4_0_SNAPSHOT
 from protocols.util import generate_mock_objects
 
 
@@ -319,3 +321,31 @@ class TestGenerateMockObjects21(TestCase):
         test_cir = generate_mock_objects.get_valid_clinical_report_cancer_2_1_0()
         self.assertTrue(isinstance(test_cir, self.model.ClinicalReportCancer))
         self.assertTrue(test_cir.validate(test_cir.toJsonDict()))
+
+
+class TestGenerateMockObjectsCVA031(TestCase):
+
+    model = cva_0_3_1
+
+    def test_tiered_variant_inject_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_tiered_variant_inject_rd_0_3_1 returns a valid
+        cva_0_3_1.TieredVariantInjectRD object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_rd_0_3_1()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectRD))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
+
+class TestGenerateMockObjectsCVA040(TestCase):
+
+    model = cva_0_4_0_SNAPSHOT
+
+    def test_tiered_variant_inject_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_tiered_variant_inject_rd_0_4_0 returns a valid
+        cva_0_4_0_SNAPSHOT.TieredVariantInjectRD object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_rd_0_4_0()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectRD))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
