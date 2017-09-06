@@ -255,8 +255,7 @@ def main():
             logging.error('Please provide the version and the name of the package in the following format: package::version')
             sys.exit(-1)
         if model not in MODEL_SHORT_NAME:
-
-            logging.error(str(model) + ' is not a valid package name')
+            logging.error("Model: [{model}] is not a valid package name".format(model=str(model)))
             sys.exit(-1)
 
         list_of_models.append((model, version))
