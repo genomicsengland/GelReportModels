@@ -18,6 +18,8 @@ protocol VariantProtocol {
     */
     record VariantRepresentation {
         SupportedAssembly assembly;
+        union {null, string} annotatorVersion;
+        union {null, string} annotationsVersion;
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
     }
 
