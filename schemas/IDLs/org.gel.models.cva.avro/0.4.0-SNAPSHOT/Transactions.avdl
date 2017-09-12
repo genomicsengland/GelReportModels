@@ -2,6 +2,8 @@
 
 protocol TransactionProtocol {
 
+    // CVA references
+    import idl "Variant.avdl";
 
     /**
     The transaction status:
@@ -29,6 +31,70 @@ protocol TransactionProtocol {
     }
 
     /**
+    Details about the content of a transaction and some logs.
+    */
+    record TransactionDetails {
+        /**
+        The type of the transaction (e.g.: org.gel.models.cva.avro.InterpretationRequestRD)
+        */
+        string type;
+        /**
+        The number of reported variants contained in the transaction
+        */
+        int numberOfReportedVariants;
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the entity containing this reported variant.
+        */
+        string id;
+        /**
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
+        */
+        int version;
+        /**
+        The participant identifier
+        */
+        string groupId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+        /**
+        The assembly to which the variant refers
+        */
+        SupportedAssembly assembly;
+    }
+
+    /**
+    Details about the transaction sender
+    */
+    record RequestDetails {
+        string ip;
+        string host;
+        int port;
+        string user;
+        string uri;
+        string url;
+        string authType;
+    }
+
+    /**
     A transaction having all necessary data to process it into the database
     */
     record Transaction {
@@ -36,8 +102,15 @@ protocol TransactionProtocol {
         string lastModified;
         TransactionStatus status;
         bytes compressedReportedVariants;
-        string errorMessage;
+        union {null, string} errorMessage;
+        union {null, string} stackTrace;
         string requestSignature;
         map<string> options;
+        /**
+        The number of milliseconds to process the transaction.
+        */
+        union {null, int} processingMilli;
+        TransactionDetails transactionDetails;
+        RequestDetails requestDetails;
     }
 }
