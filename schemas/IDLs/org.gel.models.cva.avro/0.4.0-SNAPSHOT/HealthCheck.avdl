@@ -1,0 +1,38 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol HealthCheckProtocol {
+
+    record DataStore {
+        //DataStore type could be potsgres, mongodb, etc
+        string type;
+        string server_name;
+        string status;
+        map<string> additional_properties;
+    }
+
+    enum APIType {
+        REST,
+        OTHER
+    }
+
+    record API {
+        APIType type;
+        string description;
+        string server_name;
+        string status;
+        map<string> additional_properties;
+    }
+
+    record Dependencies {
+        array<DataStore> datastores;
+        array<API> apis;
+    }
+
+    record ServiceHealth {
+        string service_name;
+        string service_url;
+        string datetime;
+        string status;
+        Dependencies dependencies;
+    }
+}
