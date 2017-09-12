@@ -345,6 +345,14 @@ class TestGenerateMockObjectsCVA031(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectRD))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
+    def test_candidate_variant_inject_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_candidate_variant_inject_rd_0_3_1 returns a valid
+        cva_0_3_1.CandidateVariantInjectRD object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_candidate_variant_inject_rd_0_3_1()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectRD))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
 class TestGenerateMockObjectsCVA040(TestCase):
 
@@ -362,8 +370,17 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_reported_variant_inject_rd(self):
         """
         Ensure generate_mock_objects.get_valid_reported_variant_inject_rd_0_4_0 returns a valid
-        cva_0_4_0.ReportedVariantInjectRD object
+        cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD object
         """
         test_tvi_rd = generate_mock_objects.get_valid_reported_variant_inject_rd_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectRD))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
+    def test_candidate_variant_inject_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_candidate_variant_inject_rd_0_4_0 returns a valid
+        cva_0_4_0_SNAPSHOT.CandidateVariantInjectRD object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_candidate_variant_inject_rd_0_4_0()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectRD))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
