@@ -244,6 +244,7 @@ def main():
         help='List of models packages and versions to generated, in the following format package::version'
     )
     parser.add_argument('--skip_doc', default=False, action='store_true', help='Documentation will be skipped')
+    parser.add_argument('--build_only_snapshots', default=False, action='store_true', help='Documentation will be skipped')
     args = parser.parse_args()
 
     list_of_models = []
@@ -254,11 +255,21 @@ def main():
             logging.error('Please provide the version and the name of the package in the following format: package::version')
             sys.exit(-1)
         if model not in MODEL_SHORT_NAME:
-
-            logging.error(str(model) + 'is not a valid package name')
+            logging.error("Model: [{model}] is not a valid package name".format(model=str(model)))
             sys.exit(-1)
 
         list_of_models.append((model, version))
+
+    if args.build_only_snapshots:
+        list_of_models = [
+            ("org.gel.models.participant.avro", "1.0.4-SNAPSHOT"),
+            ("org.gel.models.metrics.avro", "1.1.0-SNAPSHOT"),
+            ("org.ga4gh.models", "3.1.0-SNAPSHOT"),
+            ("org.gel.models.report.avro", "4.2.0-SNAPSHOT"),
+            ("org.gel.models.cva.avro", "0.4.0-SNAPSHOT"),
+            ("org.opencb.biodata.models", "1.2.0")
+        ]
+
 
     build(models=list_of_models, skip_doc=args.skip_doc)
 
