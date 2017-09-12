@@ -1494,3 +1494,42 @@ def get_valid_candidate_variant_inject_rd_0_4_0():
     )
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_reported_variant_inject_rd_0_3_1():
+    object_type = cva_0_3_1.ReportedVariantInjectRD
+    new_tvi_rd = cva_0_3_1.ReportedVariantInjectRD(
+        reportModelVersion='foo',
+        parentId='foo',
+        parentVersion=1,
+        id='foo',
+        version=1,
+        familyId='foo',
+        cohortId='foo',
+        author='foo',
+        authorVersion='foo',
+        workspace=['foo'],
+        interpretedGenome=get_valid_interpreted_genome_rd_3_1_0()
+    )
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_reported_variant_inject_rd_0_4_0():
+    object_type = cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD
+    new_tvi_rd = cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD(
+        assembly=cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37,
+        reportModelVersion='foo',
+        id='foo',
+        parentId='foo',
+        parentVersion=1,
+        version=1,
+        groupId='foo',
+        cohortId='foo',
+        author='foo',
+        authorVersion='foo',
+        workspace=['foo'],
+        interpretedGenome=get_valid_interpreted_genome_rd_4_2_0_SNAPSHOT()
+    )
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)

@@ -254,6 +254,7 @@
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
                                 <argument>build.py</argument>
+                                <argument>--build_only_snapshots</argument>
                                 <!--
                                 <argument>- -models</argument>
                                 <argument>${report.models.package}::${report.models.version}</argument>

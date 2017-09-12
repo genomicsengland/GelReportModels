@@ -354,7 +354,6 @@ class TestGenerateMockObjectsCVA031(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectRD))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
-
 class TestGenerateMockObjectsCVA040(TestCase):
 
     model = cva_0_4_0_SNAPSHOT
