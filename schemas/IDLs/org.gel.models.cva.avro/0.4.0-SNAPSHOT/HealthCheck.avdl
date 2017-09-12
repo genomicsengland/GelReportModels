@@ -2,12 +2,23 @@
 
 protocol HealthCheckProtocol {
 
+    /**
+    Represents the contract of service status
+    */
+    enum Status {
+        OK,
+        DOWN
+    }
+
+    /**
+    Represents the contract of DataStore. Type of the datastore can be mongodb, postgres, etc
+    */
     record DataStore {
-        //DataStore type could be potsgres, mongodb, etc
         string type;
-        string server_name;
-        string status;
-        map<string> additional_properties;
+        string description;
+        string url;
+        Status status;
+        map<string> additionalProperties;
     }
 
     enum APIType {
@@ -15,24 +26,33 @@ protocol HealthCheckProtocol {
         OTHER
     }
 
+    /**
+    Represents the contract of API dependency (either REST or OTHER)
+    */
     record API {
         APIType type;
         string description;
-        string server_name;
-        string status;
-        map<string> additional_properties;
+        string url;
+        Status status;
+        map<string> additionalProperties;
     }
 
+    /**
+    Represents contract of all dependencies for a service
+    */
     record Dependencies {
         array<DataStore> datastores;
         array<API> apis;
     }
 
+    /*
+     Represents the contract for health status of the requested service, including statuses of it's dependencies
+     */
     record ServiceHealth {
-        string service_name;
-        string service_url;
+        string serviceName;
+        string requestUrl;
         string datetime;
-        string status;
+        Status status;
         Dependencies dependencies;
     }
 }
