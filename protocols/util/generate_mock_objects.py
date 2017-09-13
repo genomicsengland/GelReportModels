@@ -210,10 +210,11 @@ def get_valid_cancer_participant_1_0_3():
     new_participant = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_participant.sex = 'M'
     new_participant.germlineSamples.labSampleId = 1
-    new_participant.tumourSamples.tumourId = 1
+    new_participant.tumourSamples.tumourId = '1'
     new_participant.tumourSamples.labSampleId = 1
     new_participant.readyForAnalysis = True
     new_participant.sex = 'UNKNOWN'
+    new_participant.yearOfBirth = 1969
 
     matchedSample = new_participant.matchedSamples
     new_participant.matchedSamples = [matchedSample]

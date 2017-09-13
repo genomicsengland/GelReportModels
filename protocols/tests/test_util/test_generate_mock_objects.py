@@ -7,6 +7,7 @@ from protocols import reports_4_0_0
 from protocols import reports_4_2_0_SNAPSHOT
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0_SNAPSHOT
+from protocols import participant_1_0_3
 from protocols.util import generate_mock_objects
 
 
@@ -412,3 +413,17 @@ class TestGenerateMockObjectsCVA040(TestCase):
         test_tvi_rd = generate_mock_objects.get_valid_candidate_variant_inject_cancer_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectCancer))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
+
+class TestGenerateMockObjectsParticipant103(TestCase):
+
+    model = participant_1_0_3
+
+    def test_tiered_variant_inject_rd(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_participant_1_0_3 returns a valid
+        participant_1_0_3.CancerParticipant object
+        """
+        test_participant = generate_mock_objects.get_valid_cancer_participant_1_0_3()
+        self.assertTrue(isinstance(test_participant, self.model.CancerParticipant))
+        self.assertTrue(test_participant.validate(test_participant.toJsonDict()))
