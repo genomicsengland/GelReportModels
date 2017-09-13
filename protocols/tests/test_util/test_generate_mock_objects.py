@@ -386,6 +386,15 @@ class TestGenerateMockObjectsCVA040(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectRD))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
+    def test_reported_variant_inject_cancer(self):
+        """
+        Ensure generate_mock_objects.get_valid_reported_variant_inject_cancer_0_4_0 returns a valid
+        cva_0_4_0_SNAPSHOT.ReportedVariantInjectCancer object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_reported_variant_inject_cancer_0_4_0()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectCancer))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
     def test_candidate_variant_inject_rd(self):
         """
         Ensure generate_mock_objects.get_valid_candidate_variant_inject_rd_0_4_0 returns a valid

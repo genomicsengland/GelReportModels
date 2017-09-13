@@ -550,6 +550,7 @@ def get_valid_reported_structural_variant_4_0_0():
 
     return validate_object(object_to_validate=new_rsv, object_type=object_type)
 
+
 def get_valid_reported_structural_variant_4_2_0_SNAPSHOT():
     object_type = reports_4_2_0_SNAPSHOT.ReportedStructuralVariant
     new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -986,6 +987,7 @@ def get_valid_disease_penetrance_4_0_0():
 
     return validate_object(object_to_validate=dp, object_type=object_type)
 
+
 def get_valid_disease_penetrance_4_2_0_SNAPSHOT():
     object_type = reports_4_2_0_SNAPSHOT.DiseasePenetrance
     dp = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -1048,6 +1050,7 @@ def get_valid_inbreeding_coefficient_3_1_0():
     ic.coefficient = 0.0
 
     return validate_object(object_to_validate=ic, object_type=object_type)
+
 
 def get_valid_inbreeding_coefficient_3_0_0():
     object_type = reports_3_0_0.InbreedingCoefficient
@@ -1371,6 +1374,17 @@ def get_valid_cancer_interpreted_genome_4_0_0():
     return validate_object(object_to_validate=new_cig, object_type=object_type)
 
 
+def get_valid_cancer_interpreted_genome_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.CancerInterpretedGenome
+    new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cig.softwareVersions = {'this': 'that'}
+    new_cig.referenceDatabasesVersions = {'this': 'that'}
+    new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_4_2_0_SNAPSHOT()
+    new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_4_2_0_SNAPSHOT()
+
+    return validate_object(object_to_validate=new_cig, object_type=object_type)
+
+
 def get_valid_reported_somatic_structural_variant_2_1_0():
     object_type = reports_2_1_0.ReportedSomaticStructuralVariants
     rssv = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -1584,6 +1598,26 @@ def get_valid_reported_variant_inject_rd_0_4_0():
         authorVersion='foo',
         workspace=['foo'],
         interpretedGenome=get_valid_interpreted_genome_rd_4_2_0_SNAPSHOT()
+    )
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_reported_variant_inject_cancer_0_4_0():
+    object_type = cva_0_4_0_SNAPSHOT.ReportedVariantInjectCancer
+    new_tvi_rd = cva_0_4_0_SNAPSHOT.ReportedVariantInjectCancer(
+        assembly=cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37,
+        reportModelVersion='foo',
+        id='foo',
+        parentId='foo',
+        parentVersion=1,
+        version=1,
+        groupId='foo',
+        cohortId='foo',
+        author='foo',
+        authorVersion='foo',
+        workspace=['foo'],
+        interpretedGenome=get_valid_cancer_interpreted_genome_4_2_0_SNAPSHOT()
     )
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
