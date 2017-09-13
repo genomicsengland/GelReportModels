@@ -72,6 +72,8 @@ from .generate_mock_objects import get_valid_cancer_interpretation_request_4_0_0
 
 from .generate_mock_objects import get_valid_reported_variant_inject_cancer_0_4_0
 
+from .generate_mock_objects import get_valid_candidate_variant_inject_cancer_0_4_0
+
 from .generate_mock_objects import get_valid_reported_somatic_structural_variant_3_0_0
 from .generate_mock_objects import get_valid_reported_somatic_structural_variant_4_0_0
 
