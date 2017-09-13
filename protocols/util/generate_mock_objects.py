@@ -138,6 +138,9 @@ def validate_object(object_to_validate, object_type):
     if object_to_validate.validate(jsonDict=object_to_validate.toJsonDict()):
         return object_to_validate
     else:
+        from pprint import pprint
+        from protocols.util import handle_avro_errors
+        pprint(handle_avro_errors(object_to_validate.validate_parts()))
         raise Exception("New {object_type} object is not valid".format(object_type=object_type))
 
 
@@ -1700,4 +1703,38 @@ def get_valid_data_store_0_1_0_SNAPSHOT():
     object_type = system_0_1_0_SNAPSHOT.DataStore
     new_datastore = object_type()
 
+    new_datastore.status = system_0_1_0_SNAPSHOT.Status.OK
+    new_datastore.additionalProperties = {}
+
     return validate_object(object_to_validate=new_datastore, object_type=object_type)
+
+
+def get_valid_api_0_1_0_SNAPSHOT():
+    object_type = system_0_1_0_SNAPSHOT.API
+    new_api = object_type()
+
+    new_api.status = system_0_1_0_SNAPSHOT.Status.OK
+    new_api.type = system_0_1_0_SNAPSHOT.APIType.REST
+    new_api.additionalProperties = {}
+
+    return validate_object(object_to_validate=new_api, object_type=object_type)
+
+
+def get_valid_dependencies_0_1_0_SNAPSHOT():
+    object_type = system_0_1_0_SNAPSHOT.Dependencies
+    new_api = object_type()
+
+    new_api.datastores = [get_valid_data_store_0_1_0_SNAPSHOT()]
+    new_api.apis = [get_valid_api_0_1_0_SNAPSHOT()]
+
+    return validate_object(object_to_validate=new_api, object_type=object_type)
+
+
+def get_valid_servicehealth_0_1_0_SNAPSHOT():
+    object_type = system_0_1_0_SNAPSHOT.ServiceHealth
+    new_api = object_type()
+
+    new_api.dependencies = get_valid_dependencies_0_1_0_SNAPSHOT()
+    new_api.status = system_0_1_0_SNAPSHOT.Status.OK
+
+    return validate_object(object_to_validate=new_api, object_type=object_type)
