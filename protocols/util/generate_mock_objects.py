@@ -6,6 +6,8 @@ from protocols import reports_3_1_0
 from protocols import reports_4_0_0
 from protocols import reports_4_2_0_SNAPSHOT
 from protocols import participant_1_0_0
+from protocols import participant_1_0_3
+from protocols import participant_1_0_4_SNAPSHOT
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0_SNAPSHOT
 
@@ -74,6 +76,7 @@ class MockModelObject(object):
             reports_3_1_0.ReportEventCancer,
             reports_4_0_0.ReportEventCancer,
             reports_4_2_0_SNAPSHOT.ReportEventCancer,
+            reports_4_2_0_SNAPSHOT.VariantCall,
             reports_3_0_0.VariantLevelQuestions,
             reports_3_1_0.VariantLevelQuestions,
             reports_4_0_0.VariantLevelQuestions,
@@ -202,6 +205,51 @@ def get_valid_cancer_participant_1_0_0():
     return validate_object(object_to_validate=new_participant, object_type=object_type)
 
 
+def get_valid_cancer_participant_1_0_3():
+    object_type = participant_1_0_3.CancerParticipant
+    new_participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_participant.sex = 'M'
+    new_participant.germlineSamples.labSampleId = 1
+    new_participant.tumourSamples.tumourId = 1
+    new_participant.tumourSamples.labSampleId = 1
+    new_participant.readyForAnalysis = True
+    new_participant.sex = 'UNKNOWN'
+
+    matchedSample = new_participant.matchedSamples
+    new_participant.matchedSamples = [matchedSample]
+
+    germlineSample = new_participant.germlineSamples
+    new_participant.germlineSamples = [germlineSample]
+
+    tumourSample = new_participant.tumourSamples
+    new_participant.tumourSamples = [tumourSample]
+
+    return validate_object(object_to_validate=new_participant, object_type=object_type)
+
+
+def get_valid_cancer_participant_1_0_4_SNAPSHOT():
+    object_type = participant_1_0_4_SNAPSHOT.CancerParticipant
+    new_participant = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_participant.sex = 'M'
+    new_participant.germlineSamples.labSampleId = 1
+    new_participant.tumourSamples.tumourId = '1'
+    new_participant.tumourSamples.labSampleId = 1
+    new_participant.readyForAnalysis = True
+    new_participant.sex = 'UNKNOWN'
+    new_participant.yearOfBirth = 1969
+
+    matchedSample = new_participant.matchedSamples
+    new_participant.matchedSamples = [matchedSample]
+
+    germlineSample = new_participant.germlineSamples
+    new_participant.germlineSamples = [germlineSample]
+
+    tumourSample = new_participant.tumourSamples
+    new_participant.tumourSamples = [tumourSample]
+
+    return validate_object(object_to_validate=new_participant, object_type=object_type)
+
+
 def get_valid_file_4_0_0(file_type=None):
     file_type = reports_4_0_0.FileType.OTHER if file_type is None else file_type
     new_file = MockModelObject(object_type=reports_4_0_0.File).get_valid_empty_object()
@@ -222,6 +270,28 @@ def get_valid_report_event_cancer_4_0_0():
     return validate_object(object_to_validate=new_report_event, object_type=reports_4_0_0.ReportEventCancer)
 
 
+def get_valid_reported_variant_cancer_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.ReportedVariantCancer
+    reported_variant_cancer = MockModelObject(object_type=object_type).get_valid_empty_object()
+    reported_variant_cancer.position = 1
+    reported_variant_cancer.reportEvents[0] = get_valid_report_event_cancer_4_2_0_SNAPSHOT()
+    reported_variant_cancer.additionalTextualVariantAnnotations = {}
+    reported_variant_cancer.additionalNumericVariantAnnotations = {}
+
+    return validate_object(object_to_validate=reported_variant_cancer, object_type=object_type)
+
+
+def get_valid_report_event_cancer_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.ReportEventCancer
+    new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_report_event.actions[0].variantActionable = False
+    new_report_event.genomicFeatureCancer.featureType = reports_4_2_0_SNAPSHOT.FeatureTypes.Gene
+    new_report_event.tier = reports_4_2_0_SNAPSHOT.Tier.NONE
+    new_report_event.soTerms = [new_report_event.soTerms]
+
+    return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
 def get_valid_reported_somatic_variant_4_0_0():
     new_variant = MockModelObject(object_type=reports_4_0_0.ReportedSomaticVariants).get_valid_empty_object()
     new_variant.reportedVariantCancer.position = 1
@@ -233,8 +303,18 @@ def get_valid_reported_somatic_variant_4_0_0():
     return validate_object(object_to_validate=new_variant, object_type=reports_4_0_0.ReportedSomaticVariants)
 
 
+def get_valid_reported_somatic_variant_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.ReportedSomaticVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_variant.reportedVariantCancer = get_valid_reported_variant_cancer_4_2_0_SNAPSHOT()
+    new_variant.alleleOrigins = [reports_4_2_0_SNAPSHOT.AlleleOrigin.germline_variant]
+
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
+
+
 def get_valid_reported_somatic_structural_variant_4_0_0():
-    new_variant = MockModelObject(object_type=reports_4_0_0.ReportedSomaticStructuralVariants).get_valid_empty_object()
+    object_type = reports_4_0_0.ReportedSomaticStructuralVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_variant.alleleOrigins = [reports_4_0_0.AlleleOrigin.germline_variant]
     new_variant.reportedStructuralVariantCancer.additionalNumericVariantAnnotations = {}
     new_variant.reportedStructuralVariantCancer.additionalTextualVariantAnnotations = {}
@@ -242,7 +322,21 @@ def get_valid_reported_somatic_structural_variant_4_0_0():
     new_variant.reportedStructuralVariantCancer.end = 2
     new_variant.reportedStructuralVariantCancer.type.firstLevelType = reports_4_0_0.StructuralVariantFirstLevelType.DEL
 
-    return validate_object(object_to_validate=new_variant, object_type=reports_4_0_0.ReportedSomaticStructuralVariants)
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
+
+
+def get_valid_reported_somatic_structural_variant_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.ReportedSomaticStructuralVariants
+    new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_variant.alleleOrigins = [reports_4_2_0_SNAPSHOT.AlleleOrigin.germline_variant]
+    new_variant.reportedStructuralVariantCancer.additionalNumericVariantAnnotations = {}
+    new_variant.reportedStructuralVariantCancer.additionalTextualVariantAnnotations = {}
+    new_variant.reportedStructuralVariantCancer.start = 1
+    new_variant.reportedStructuralVariantCancer.end = 2
+    firstLevelType = reports_4_2_0_SNAPSHOT.StructuralVariantFirstLevelType.DEL
+    new_variant.reportedStructuralVariantCancer.type.firstLevelType = firstLevelType
+
+    return validate_object(object_to_validate=new_variant, object_type=object_type)
 
 
 def get_valid_report_version_control_4_0_0():
@@ -1347,6 +1441,26 @@ def get_valid_cancer_interpretation_request_4_0_0():
     return validate_object(object_to_validate=new_cir, object_type=object_type)
 
 
+def get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT():
+    object_type = reports_4_2_0_SNAPSHOT.CancerInterpretationRequest
+    new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_cir.workspace = ['']
+    new_cir.bams = [new_cir.bams]
+    new_cir.bams[0].fileType = reports_4_2_0_SNAPSHOT.FileType.BAM
+    new_cir.bigWigs = [new_cir.bigWigs]
+    new_cir.bigWigs[0].fileType = reports_4_2_0_SNAPSHOT.FileType.BigWig
+    new_cir.vcfs = [new_cir.vcfs]
+    new_cir.vcfs[0].fileType = reports_4_2_0_SNAPSHOT.FileType.VCF_small
+    new_cir.cancerParticipant = get_valid_cancer_participant_1_0_4_SNAPSHOT()
+
+    new_cir.annotationFile.fileType = reports_4_2_0_SNAPSHOT.FileType.ANN
+    new_cir.structuralTieredVariants[0] = get_valid_reported_somatic_structural_variant_4_2_0_SNAPSHOT()
+    new_cir.tieredVariants[0] = get_valid_reported_somatic_variant_4_2_0_SNAPSHOT()
+    new_cir.reportVersion = 1
+
+    return validate_object(object_to_validate=new_cir, object_type=object_type)
+
+
 def get_valid_cancer_interpretation_request_3_1_0():
     object_type = reports_3_1_0.CancerInterpretationRequest
     new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -1414,6 +1528,24 @@ def get_valid_tiered_variant_inject_rd_0_4_0():
     new_tvi_rd.authorVersion = 'foo'
     new_tvi_rd.workspace = ['foo']
     new_tvi_rd.interpretationRequest = get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
+
+    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_tiered_variant_inject_cancer_0_4_0():
+    object_type = cva_0_4_0_SNAPSHOT.TieredVariantInjectCancer
+    new_tvi_rd = cva_0_4_0_SNAPSHOT.TieredVariantInjectCancer()
+
+    new_tvi_rd.assembly = cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37
+    new_tvi_rd.reportModelVersion = 'foo'
+    new_tvi_rd.id = 'foo'
+    new_tvi_rd.version = 1
+    new_tvi_rd.groupId = 'foo'
+    new_tvi_rd.cohortId = 'foo'
+    new_tvi_rd.author = 'foo'
+    new_tvi_rd.authorVersion = 'foo'
+    new_tvi_rd.workspace = ['foo']
+    new_tvi_rd.interpretationRequest = get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT()
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
 
@@ -1491,45 +1623,6 @@ def get_valid_candidate_variant_inject_rd_0_4_0():
         authorVersion='foo',
         workspace=['foo'],
         clinicalReport=get_valid_clinical_report_rd_4_2_0_SNAPSHOT()
-    )
-
-    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
-
-
-def get_valid_reported_variant_inject_rd_0_3_1():
-    object_type = cva_0_3_1.ReportedVariantInjectRD
-    new_tvi_rd = cva_0_3_1.ReportedVariantInjectRD(
-        reportModelVersion='foo',
-        parentId='foo',
-        parentVersion=1,
-        id='foo',
-        version=1,
-        familyId='foo',
-        cohortId='foo',
-        author='foo',
-        authorVersion='foo',
-        workspace=['foo'],
-        interpretedGenome=get_valid_interpreted_genome_rd_3_1_0()
-    )
-
-    return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
-
-
-def get_valid_reported_variant_inject_rd_0_4_0():
-    object_type = cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD
-    new_tvi_rd = cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD(
-        assembly=cva_0_4_0_SNAPSHOT.SupportedAssembly.GRCh37,
-        reportModelVersion='foo',
-        id='foo',
-        parentId='foo',
-        parentVersion=1,
-        version=1,
-        groupId='foo',
-        cohortId='foo',
-        author='foo',
-        authorVersion='foo',
-        workspace=['foo'],
-        interpretedGenome=get_valid_interpreted_genome_rd_4_2_0_SNAPSHOT()
     )
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)

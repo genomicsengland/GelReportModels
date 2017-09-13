@@ -354,6 +354,7 @@ class TestGenerateMockObjectsCVA031(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectRD))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
+
 class TestGenerateMockObjectsCVA040(TestCase):
 
     model = cva_0_4_0_SNAPSHOT
@@ -365,6 +366,15 @@ class TestGenerateMockObjectsCVA040(TestCase):
         """
         test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_rd_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectRD))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
+    def test_tiered_variant_inject_cancer(self):
+        """
+        Ensure generate_mock_objects.get_valid_tiered_variant_inject_cancer_0_4_0 returns a valid
+        cva_0_4_0_SNAPSHOT.TieredVariantInjectCancer object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_cancer_0_4_0()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectCancer))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
     def test_reported_variant_inject_rd(self):
