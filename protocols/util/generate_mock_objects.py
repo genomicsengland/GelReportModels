@@ -10,6 +10,7 @@ from protocols import participant_1_0_3
 from protocols import participant_1_0_4_SNAPSHOT
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0_SNAPSHOT
+from protocols import system_0_1_0_SNAPSHOT
 
 
 class MockModelObject(object):
@@ -1693,3 +1694,10 @@ def get_valid_candidate_variant_inject_cancer_0_4_0():
     )
 
     return validate_object(object_to_validate=new_tvi_rd, object_type=object_type)
+
+
+def get_valid_data_store_0_1_0_SNAPSHOT():
+    object_type = system_0_1_0_SNAPSHOT.DataStore
+    new_datastore = object_type()
+
+    return validate_object(object_to_validate=new_datastore, object_type=object_type)
