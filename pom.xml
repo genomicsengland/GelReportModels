@@ -27,12 +27,14 @@
         <cva.models.package>org.gel.models.cva.avro</cva.models.package>
         <metrics.models.package>org.gel.models.metrics.avro</metrics.models.package>
         <participant.models.package>org.gel.models.participant.avro</participant.models.package>
+        <system.models.package>org.gel.models.system.avro</system.models.package>
         <report.models.version>4.2.0-SNAPSHOT</report.models.version>
         <opencb.models.version>1.3.0-SNAPSHOT</opencb.models.version>
         <ga4gh.models.version>3.1.0-SNAPSHOT</ga4gh.models.version>
         <cva.models.version>0.4.0-SNAPSHOT</cva.models.version>
         <metrics.models.version>1.1.0-SNAPSHOT</metrics.models.version>
         <participant.models.version>1.0.4-SNAPSHOT</participant.models.version>
+        <system.models.version>0.1.0-SNAPSHOT</system.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -200,6 +202,21 @@
                             <fieldVisibility>private</fieldVisibility>
                             <stringType>String</stringType>
                             <sourceDirectory>${project.basedir}/schemas/IDLs/${participant.models.package}/${participant.models.version}/</sourceDirectory>
+                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Generate Java sources for ${system.models.package}::${system.models.version}</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                            <goal>protocol</goal>
+                            <goal>idl-protocol</goal>
+                        </goals>
+                        <configuration>
+                            <fieldVisibility>private</fieldVisibility>
+                            <stringType>String</stringType>
+                            <sourceDirectory>${project.basedir}/schemas/IDLs/${system.models.package}/${system.models.version}/</sourceDirectory>
                             <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
                         </configuration>
                     </execution>
