@@ -9,8 +9,8 @@ protocol ObservedVariantProtocol {
     import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/CommonInterpretedCancer.avdl";
     import idl "../../org.gel.models.participant.avro/1.0.4-SNAPSHOT/CommonParticipant.avdl";
     // OpenCB references
-    import idl "../../org.opencb.biodata.models/1.2.0/variant.avdl";
-    import idl "../../org.opencb.biodata.models/1.2.0/evidence.avdl";
+    import idl "../../org.opencb.biodata.models/1.3.0-SNAPSHOT/variant.avdl";
+    import idl "../../org.opencb.biodata.models/1.3.0-SNAPSHOT/evidence.avdl";
 
     /**
 A variant observed in a specific sample.
