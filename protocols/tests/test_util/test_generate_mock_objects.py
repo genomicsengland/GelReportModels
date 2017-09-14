@@ -8,6 +8,7 @@ from protocols import reports_4_2_0_SNAPSHOT
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0_SNAPSHOT
 from protocols import participant_1_0_3
+from protocols import system_0_1_0_SNAPSHOT
 from protocols.util import generate_mock_objects
 
 
@@ -414,6 +415,46 @@ class TestGenerateMockObjectsCVA040(TestCase):
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectCancer))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
+
+class TestGenerateMockObjectsSystem010SNAPSHOT(TestCase):
+
+    model = system_0_1_0_SNAPSHOT
+
+    def test_datastore(self):
+        """
+        Ensure generate_mock_objects.get_valid_data_store_0_1_0_SNAPSHOT returns a valid
+        system_0_1_0_SNAPSHOT.DataStore object
+        """
+        test_datastore = generate_mock_objects.get_valid_data_store_0_1_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_datastore, self.model.DataStore))
+        self.assertTrue(test_datastore.validate(test_datastore.toJsonDict()))
+
+    def test_api(self):
+        """
+        Ensure generate_mock_objects.get_valid_api_0_1_0_SNAPSHOT returns a valid
+        system_0_1_0_SNAPSHOT.API object
+        """
+        test_api = generate_mock_objects.get_valid_api_0_1_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_api, self.model.API))
+        self.assertTrue(test_api.validate(test_api.toJsonDict()))
+
+    def test_dependencies(self):
+        """
+        Ensure generate_mock_objects.get_valid_dependencies_0_1_0_SNAPSHOT returns a valid
+        system_0_1_0_SNAPSHOT.Dependencies object
+        """
+        test_dependencies = generate_mock_objects.get_valid_dependencies_0_1_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_dependencies, self.model.Dependencies))
+        self.assertTrue(test_dependencies.validate(test_dependencies.toJsonDict()))
+
+    def test_servicehealth(self):
+        """
+        Ensure generate_mock_objects.get_valid_servicehealth_0_1_0_SNAPSHOT returns a valid
+        system_0_1_0_SNAPSHOT.ServiceHealth object
+        """
+        test_servicehealth = generate_mock_objects.get_valid_servicehealth_0_1_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_servicehealth, self.model.ServiceHealth))
+        self.assertTrue(test_servicehealth.validate(test_servicehealth.toJsonDict()))
 
 class TestGenerateMockObjectsParticipant103(TestCase):
 
