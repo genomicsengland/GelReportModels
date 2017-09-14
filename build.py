@@ -20,6 +20,7 @@ MODEL_SHORT_NAME = {
     'org.gel.models.metrics.avro': 'metrics',
     'org.gel.models.participant.avro': 'participant',
     'org.gel.models.report.avro': 'reports',
+    'org.gel.models.system.avro': 'system',
     'org.opencb.biodata.models': 'opencb'
 }
 
@@ -239,6 +240,7 @@ def main():
             'org.gel.models.report.avro::3.1.0', 'org.gel.models.report.avro::4.0.0',
             'org.gel.models.report.avro::4.1.0', 'org.gel.models.report.avro::4.2.0-SNAPSHOT',
             'org.gel.models.cva.avro::0.3.1', 'org.gel.models.cva.avro::0.4.0-SNAPSHOT',
+            'org.gel.models.system.avro::0.1.0-SNAPSHOT',
             'org.opencb.biodata.models::1.2.0'
         ],
         help='List of models packages and versions to generated, in the following format package::version'
@@ -267,6 +269,7 @@ def main():
             ("org.ga4gh.models", "3.1.0-SNAPSHOT"),
             ("org.gel.models.report.avro", "4.2.0-SNAPSHOT"),
             ("org.gel.models.cva.avro", "0.4.0-SNAPSHOT"),
+            ("org.gel.models.system.avro", "0.1.0-SNAPSHOT"),
             ("org.opencb.biodata.models", "1.2.0")
         ]
 
