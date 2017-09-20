@@ -119,5 +119,4 @@ class MigrateReports3To4(object):
         if new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict()):
             return new_cancer_interpretation_request
         else:
-            print new_cancer_interpretation_request.validate_parts()
             raise Exception('This model can not be converted: ',  new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict(), verbose=True).messages)

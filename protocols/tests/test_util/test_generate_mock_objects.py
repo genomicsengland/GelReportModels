@@ -1,12 +1,14 @@
 from unittest import TestCase
 
+from protocols import cva_0_3_1
 from protocols import reports_2_1_0
 from protocols import reports_3_0_0
 from protocols import reports_3_1_0
 from protocols import reports_4_0_0
-from protocols import reports_4_2_0_SNAPSHOT
-from protocols import cva_0_3_1
+from protocols import participant_1_0_3
 from protocols import cva_0_4_0_SNAPSHOT
+from protocols import reports_4_2_0_SNAPSHOT
+from protocols import participant_1_0_4_SNAPSHOT
 from protocols import participant_1_0_3
 from protocols import system_0_1_0_SNAPSHOT
 from protocols.util import generate_mock_objects
@@ -23,6 +25,15 @@ class TestGenerateMockObjects420SNAPSHOT(TestCase):
         """
         test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
+        self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
+
+    def test_cancer_interpretation_request(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT returns a valid
+        reports_4_2_0_SNAPSHOT.CancerInterpretationRequest object
+        """
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT()
+        self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretationRequest))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
 
@@ -456,6 +467,7 @@ class TestGenerateMockObjectsSystem010SNAPSHOT(TestCase):
         self.assertTrue(isinstance(test_servicehealth, self.model.ServiceHealth))
         self.assertTrue(test_servicehealth.validate(test_servicehealth.toJsonDict()))
 
+
 class TestGenerateMockObjectsParticipant103(TestCase):
 
     model = participant_1_0_3
@@ -468,3 +480,25 @@ class TestGenerateMockObjectsParticipant103(TestCase):
         test_participant = generate_mock_objects.get_valid_cancer_participant_1_0_3()
         self.assertTrue(isinstance(test_participant, self.model.CancerParticipant))
         self.assertTrue(test_participant.validate(test_participant.toJsonDict()))
+
+        def test_cancer_participant(self):
+            """
+            Ensure generate_mock_objects.get_valid_cancer_participant_1_0_3 returns a valid
+            participant_1_0_3.CancerParticipant object
+            """
+            test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_3()
+            self.assertTrue(isinstance(test_tvi_rd, self.model.CancerParticipant))
+            self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
+
+
+class TestGenerateMockObjectsParticipant104SNAPSHOT(TestCase):
+    model = participant_1_0_4_SNAPSHOT
+
+    def test_cancer_participant(self):
+        """
+        Ensure generate_mock_objects.get_valid_cancer_participant_1_0_4_SNAPSHOT returns a valid
+        participant_1_0_4_SNAPSHOT.CancerParticipant object
+        """
+        test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_4_SNAPSHOT()
+        self.assertTrue(isinstance(test_tvi_rd, self.model.CancerParticipant))
+        self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))

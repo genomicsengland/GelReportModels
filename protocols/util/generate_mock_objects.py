@@ -1481,7 +1481,6 @@ def get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT():
     new_cir.vcfs = [new_cir.vcfs]
     new_cir.vcfs[0].fileType = reports_4_2_0_SNAPSHOT.FileType.VCF_small
     new_cir.cancerParticipant = get_valid_cancer_participant_1_0_4_SNAPSHOT()
-
     new_cir.annotationFile.fileType = reports_4_2_0_SNAPSHOT.FileType.ANN
     new_cir.structuralTieredVariants[0] = get_valid_reported_somatic_structural_variant_4_2_0_SNAPSHOT()
     new_cir.tieredVariants[0] = get_valid_reported_somatic_variant_4_2_0_SNAPSHOT()
