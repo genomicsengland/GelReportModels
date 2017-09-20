@@ -85,13 +85,13 @@ protocol TransactionProtocol {
     Details about the transaction sender
     */
     record RequestDetails {
-        string ip;
-        string host;
-        int port;
-        string user;
-        string uri;
-        string url;
-        string authType;
+        union {null,string} ip;
+        union {null,string} host;
+        union {null,int} port;
+        union {null,string} user;
+        union {null,string} uri;
+        union {null,string} url;
+        union {null,string} authType;
     }
 
     /**
@@ -101,7 +101,7 @@ protocol TransactionProtocol {
         string id;
         string lastModified;
         TransactionStatus status;
-        bytes compressedReportedVariants;
+        union {null, bytes} compressedReportedVariants;
         union {null, string} errorMessage;
         union {null, string} stackTrace;
         string requestSignature;
@@ -111,6 +111,6 @@ protocol TransactionProtocol {
         */
         union {null, int} processingMilli;
         TransactionDetails transactionDetails;
-        RequestDetails requestDetails;
+        union {null, RequestDetails} requestDetails;
     }
 }
