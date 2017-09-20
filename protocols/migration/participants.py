@@ -2,7 +2,79 @@ from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_1
 from protocols import participant_1_0_3
+from protocols import participant_1_0_4_SNAPSHOT
 from protocols.util import handle_avro_errors
+from protocols.migration import BaseMigration
+
+
+class MigrationParticipants104SNAPSHOTTo100(BaseMigration):
+    old_model = participant_1_0_4_SNAPSHOT
+    new_model = participant_1_0_0
+
+    def migrate_cancer_participant(self, cancer_participant):
+        migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
+
+        migrated_participant.LDPCode = next((tumour_sample.LDPCode for tumour_sample in cancer_participant.tumourSamples), None)
+
+        migrated_participant.primaryDiagnosisDisease = None
+        if isinstance(cancer_participant.primaryDiagnosisDisease, list):
+            migrated_participant.primaryDiagnosisDisease = ','.join(cancer_participant.primaryDiagnosisDisease)
+
+        migrated_participant.primaryDiagnosisSubDisease = None
+        if isinstance(cancer_participant.primaryDiagnosisSubDisease, list):
+            migrated_participant.primaryDiagnosisSubDisease = ','.join(cancer_participant.primaryDiagnosisSubDisease)
+
+        migrated_participant.assignedICD10 = None
+        if isinstance(cancer_participant.assignedICD10, list):
+            migrated_participant.assignedICD10 = ','.join(cancer_participant.assignedICD10)
+
+        migrated_participant.tumourSamples = self.migrate_tumour_samples(
+            tumour_samples=cancer_participant.tumourSamples
+        )
+
+        migrated_participant.germlineSamples = self.migrate_germline_samples(
+            germline_samples=cancer_participant.germlineSamples
+        )
+
+        migrated_participant.matchedSamples = self.migrate_matched_samples(
+            matched_samples=cancer_participant.matchedSamples
+        )
+
+        return self.validate_object(
+            object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
+        )
+
+    def migrate_matched_samples(self, matched_samples):
+        return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
+
+    def migrate_matched_sample(self, matched_sample):
+        return self.new_model.MatchedSamples().fromJsonDict(matched_sample.toJsonDict())
+
+    def migrate_germline_samples(self, germline_samples):
+        return [self.migrate_germline_sample(germline_sample=germline_sample) for germline_sample in germline_samples]
+
+    def migrate_germline_sample(self, germline_sample):
+        return self.new_model.GermlineSample().fromJsonDict(germline_sample.toJsonDict())
+
+    def migrate_tumour_samples(self, tumour_samples):
+        return [self.migrate_tumour_sample(tumour_sample=tumour_sample) for tumour_sample in tumour_samples]
+
+    def migrate_tumour_sample(self, tumour_sample):
+        migrated_tumour_sample = self.new_model.TumourSample().fromJsonDict(
+            jsonDict=tumour_sample.toJsonDict()
+        )
+
+        migrated_tumour_sample.tumourId = None
+        if tumour_sample.tumourId is not None:
+            migrated_tumour_sample.tumourId = int(tumour_sample.tumourId)
+
+        migrated_tumour_sample.tumourType = tumour_sample.diseaseType
+        migrated_tumour_sample.tumourSubType = tumour_sample.diseaseSubType
+        migrated_tumour_sample.phase = tumour_sample.tumourType
+
+        return self.validate_object(
+            object_to_validate=migrated_tumour_sample, object_type=self.new_model.TumourSample
+        )
 
 
 class MigrationParticipants100To103SNAPSHOT(object):
@@ -65,7 +137,7 @@ class MigrationParticipants100To103SNAPSHOT(object):
         return [self.migrate_member(old_member=old_member) for old_member in old_members]
 
 
-class MigrationReportsToParticipants1(object):
+class MigrationReportsToParticipants1(BaseMigration):
     new_model = participant_1_0_1
     old_model = participant_old
 
@@ -86,6 +158,22 @@ class MigrationReportsToParticipants1(object):
         else:
             raise Exception('This model can not be converted')
 
+    @staticmethod
+    def convert_to_float(value):
+        try:
+            return float(value)
+        except (ValueError, TypeError):
+            return None
+
+    def migrate_disorder(self, disorder):
+        new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
+        new_disorder.ageOfOnset = self.convert_to_float(value=disorder.ageOfOnset)
+
+        return self.validate_object(
+            object_to_validate=new_disorder,
+            object_type=self.new_model.Disorder
+        )
+
     def migrate_pedigree_member(self, member, sample_id_to_lab_sample_id=None):
         """
 
@@ -99,6 +187,7 @@ class MigrationReportsToParticipants1(object):
         new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
         new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
         new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
+        new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
         try:
             new_pedigree_member.yearOfBirth = int(member.yearOfBirth)
         except TypeError:
@@ -120,7 +209,6 @@ class MigrationReportsToParticipants1(object):
         if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
             return new_pedigree_member
         else:
-            print new_pedigree_member.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_enumerations(self, etype, value):
