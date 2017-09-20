@@ -16,13 +16,14 @@ protocol HealthCheckProtocol {
     record DataStore {
         string type;
         string description;
-        string url;
+        array<string> url;
         Status status;
         map<string> additionalProperties;
     }
 
     enum APIType {
         REST,
+        MONGODB,
         OTHER
     }
 
@@ -32,7 +33,7 @@ protocol HealthCheckProtocol {
     record API {
         APIType type;
         string description;
-        string url;
+        array<string> url;
         Status status;
         map<string> additionalProperties;
     }
