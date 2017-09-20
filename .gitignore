@@ -13,3 +13,4 @@ protocols/*.py
 .env
 !protocols/helpers.py
 docs/**/*-SNAPSHOT
+dist
