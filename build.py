@@ -241,7 +241,7 @@ def main():
             'org.gel.models.report.avro::4.1.0', 'org.gel.models.report.avro::4.2.0-SNAPSHOT',
             'org.gel.models.cva.avro::0.3.1', 'org.gel.models.cva.avro::0.4.0-SNAPSHOT',
             'org.gel.models.system.avro::0.1.0-SNAPSHOT',
-            'org.opencb.biodata.models::1.2.0'
+            'org.opencb.biodata.models::1.2.1'
         ],
         help='List of models packages and versions to generated, in the following format package::version'
     )
@@ -270,7 +270,7 @@ def main():
             ("org.gel.models.report.avro", "4.2.0-SNAPSHOT"),
             ("org.gel.models.cva.avro", "0.4.0-SNAPSHOT"),
             ("org.gel.models.system.avro", "0.1.0-SNAPSHOT"),
-            ("org.opencb.biodata.models", "1.2.0")
+            ("org.opencb.biodata.models", "1.2.1")
         ]
 
 

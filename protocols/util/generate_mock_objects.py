@@ -1701,6 +1701,7 @@ def get_valid_data_store_0_1_0_SNAPSHOT():
     new_datastore = object_type()
 
     new_datastore.status = system_0_1_0_SNAPSHOT.Status.OK
+    new_datastore.url = ['']
     new_datastore.additionalProperties = {}
 
     return validate_object(object_to_validate=new_datastore, object_type=object_type)
@@ -1712,6 +1713,7 @@ def get_valid_api_0_1_0_SNAPSHOT():
 
     new_api.status = system_0_1_0_SNAPSHOT.Status.OK
     new_api.type = system_0_1_0_SNAPSHOT.APIType.REST
+    new_api.url = ['']
     new_api.additionalProperties = {}
 
     return validate_object(object_to_validate=new_api, object_type=object_type)
