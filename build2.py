@@ -82,7 +82,8 @@ def __create_IDLs_build_folder(packages):
     :return:
     """
     build_folder = os.path.join(IDL_FOLDER, "build")
-    distutils.dir_util.remove_tree(build_folder)
+    if os.path.exists(build_folder):
+        distutils.dir_util.remove_tree(build_folder)
     for package in packages:
         source_folder = os.path.join(IDL_FOLDER, package["package"], package["version"])
         distutils.dir_util.copy_tree(source_folder, build_folder)
