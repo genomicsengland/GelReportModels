@@ -17,7 +17,7 @@ builds = [
             {
                 "package":"org.ga4gh.models",
                 "python_package":"ga4gh",
-                "version":"3.1.0-SNAPSHOT",
+                "version":"3.0.0",
                 "dependencies": []
             },
             {
@@ -61,6 +61,47 @@ builds = [
                 "package":"org.opencb.biodata.models",
                 "python_package":"opencb",
                 "version":"1.2.1",
+                "dependencies": []
+            }
+        ]
+    },
+    {
+        "version":"4.0.0",
+        "packages": [
+            {
+                "package":"org.gel.models.participant.avro",
+                "python_package":"participant",
+                "version":"1.0.0",
+                "dependencies": []
+            },
+            {
+                "package":"org.gel.models.report.avro",
+                "python_package":"reports",
+                "version":"4.0.0",
+                "dependencies": [
+                    "org.gel.models.participant.avro"
+                ]
+            }
+        ]
+    },
+    {
+        "version":"3.0.0",
+        "packages": [
+            {
+                "package":"org.gel.models.report.avro",
+                "python_package":"reports",
+                "version":"3.0.0",
+                "dependencies": []
+            }
+        ]
+    },
+    {
+        "version":"2.1.0",
+        "packages": [
+            {
+                "package":"org.gel.models.report.avro",
+                "python_package":"reports",
+                "version":"2.1.0",
                 "dependencies": []
             }
         ]
@@ -221,7 +262,7 @@ def run_build(build, skip_docs=False):
         # generate python source code
         class_name = "{}_{}.py".format(
             package["python_package"],
-            package["version"].replace("\.", "_").replace("-", "_")
+            package["version"].replace(".", "_").replace("-", "_")
         )
         __json2python(json_build_folder, os.path.join(PYTHON_FOLDER, class_name), package["version"])
 
