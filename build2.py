@@ -85,6 +85,17 @@ builds = [
         ]
     },
     {
+        "version":"3.1.0",
+        "packages": [
+            {
+                "package":"org.gel.models.report.avro",
+                "python_package":"reports",
+                "version":"3.1.0",
+                "dependencies": []
+            }
+        ]
+    },
+    {
         "version":"3.0.0",
         "packages": [
             {
