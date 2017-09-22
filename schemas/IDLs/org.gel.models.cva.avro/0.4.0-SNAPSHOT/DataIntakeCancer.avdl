@@ -23,9 +23,9 @@ protocol DataIntakeCancerProtocol {
 
     // CVA references
     import idl "Variant.avdl";
-    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/InterpretationRequestCancer.avdl";
-    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/InterpretedGenomesCancer.avdl";
-    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/ClinicalReportCancer.avdl";
+    import idl "InterpretationRequestCancer.avdl";
+    import idl "InterpretedGenomesCancer.avdl";
+    import idl "ClinicalReportCancer.avdl";
 
    /**
    Record for tiered variant injection as part of the data intake for CVA

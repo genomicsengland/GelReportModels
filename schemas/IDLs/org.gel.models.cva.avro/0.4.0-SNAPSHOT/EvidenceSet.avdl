@@ -7,8 +7,8 @@ protocol EvidencesSetProtocol {
     import idl "ReportedVariant.avdl";
     import idl "Variant.avdl";
     // OpenCB references
-    import idl "../../org.opencb.biodata.models/1.2.1/variant.avdl";
-    import idl "../../org.opencb.biodata.models/1.2.1/evidence.avdl";
+    import idl "variant.avdl";
+    import idl "evidence.avdl";
 
 
     /**

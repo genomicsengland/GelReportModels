@@ -3,7 +3,7 @@
 protocol VariantProtocol {
 
     // OpenCB references
-    import idl "../../org.opencb.biodata.models/1.2.1/variant.avdl";
+    import idl "variant.avdl";
 
     /**
     Supported assemblies

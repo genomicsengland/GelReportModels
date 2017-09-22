@@ -6,9 +6,9 @@ protocol ReportedVariantProtocol {
     import idl "Comment.avdl";
     import idl "ObservedVariant.avdl";
     // Report models references
-    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/CommonInterpreted.avdl";
-    import idl "../../org.gel.models.report.avro/4.2.0-SNAPSHOT/CommonInterpretedCancer.avdl";
-    import idl "../../org.opencb.biodata.models/1.2.1/evidence.avdl";
+    import idl "CommonInterpreted.avdl";
+    import idl "CommonInterpretedCancer.avdl";
+    import idl "evidence.avdl";
 
     /**
     The type of the ReportedVariant

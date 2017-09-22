@@ -21,20 +21,7 @@
 
     <properties>
         <models.version>4.3.0-SNAPSHOT</models.version>
-        <report.models.package>org.gel.models.report.avro</report.models.package>
-        <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
-        <ga4gh.models.package>org.ga4gh.models</ga4gh.models.package>
-        <cva.models.package>org.gel.models.cva.avro</cva.models.package>
-        <metrics.models.package>org.gel.models.metrics.avro</metrics.models.package>
-        <participant.models.package>org.gel.models.participant.avro</participant.models.package>
-        <system.models.package>org.gel.models.system.avro</system.models.package>
-        <report.models.version>4.2.0-SNAPSHOT</report.models.version>
         <opencb.models.version>1.2.1</opencb.models.version>
-        <ga4gh.models.version>3.1.0-SNAPSHOT</ga4gh.models.version>
-        <cva.models.version>0.4.0-SNAPSHOT</cva.models.version>
-        <metrics.models.version>1.1.0-SNAPSHOT</metrics.models.version>
-        <participant.models.version>1.0.4-SNAPSHOT</participant.models.version>
-        <system.models.version>0.1.0-SNAPSHOT</system.models.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -122,123 +109,26 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-            Generate java source code for all Avro models
-            -->
+            <!-- Includes a folder of generated sources -->
             <plugin>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro-maven-plugin</artifactId>
-                <version>1.7.7</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>Generate Java sources for ${report.models.package}::${report.models.version}</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
+                            <goal>add-source</goal>
                         </goals>
                         <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${report.models.package}/${report.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${ga4gh.models.package}::${ga4gh.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${ga4gh.models.package}/${ga4gh.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${cva.models.package}::${cva.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${cva.models.package}/${cva.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${metrics.models.package}::${metrics.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${metrics.models.package}/${metrics.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${participant.models.package}::${participant.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${participant.models.package}/${participant.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${system.models.package}::${system.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${system.models.package}/${system.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>Generate Java sources for ${opencb.models.package}::${opencb.models.version}</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                            <goal>protocol</goal>
-                            <goal>idl-protocol</goal>
-                        </goals>
-                        <configuration>
-                            <fieldVisibility>private</fieldVisibility>
-                            <stringType>String</stringType>
-                            <sourceDirectory>${project.basedir}/schemas/IDLs/${opencb.models.package}/${opencb.models.version}/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/target/generated-sources/java/</outputDirectory>
+                            <sources>
+                                <source>target/generated-sources/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <!--
-            Generates Python source code and the documentation
+            Generates Python and Java source code and the documentation
             -->
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -261,7 +151,7 @@
                         </configuration>
                     </execution>
                     <execution><!-- Run our version calculation script -->
-                        <id>Generate, AVPRs, JSON schemas, Python sources and documentation</id>
+                        <id>Generate, AVPRs, JSON schemas, Python and Java sources and documentation</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
@@ -270,18 +160,10 @@
                             <executable>python</executable>
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
-                                <argument>build.py</argument>
-                                <argument>--build_only_snapshots</argument>
-                                <!--
-                                <argument>- -models</argument>
-                                <argument>${report.models.package}::${report.models.version}</argument>
-                                <argument>${ga4gh.models.package}::${ga4gh.models.version}</argument>
-                                <argument>${cva.models.package}::${cva.models.version}</argument>
-                                <argument>${opencb.models.package}::${opencb.models.version}</argument>
-                                <argument>${metrics.models.package}::${metrics.models.version}</argument>
-                                <argument>${participant.models.package}::${participant.models.version}</argument>
-                                <argument>- -skip_doc</argument>
-                                -->
+                                <argument>build2.py</argument>
+                                <argument>--version</argument>
+                                <argument>${version}</argument>
+                                <argument>--skip-docs</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -350,6 +232,12 @@
                                 </fileset>
                                 <fileset>
                                     <directory>schemas/JSONs</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                                <fileset>
+                                    <directory>schemas/IDLs/build</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
