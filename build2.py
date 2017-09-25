@@ -3,121 +3,13 @@ import sys
 import os
 import logging
 import argparse
+import ujson
 import distutils.dir_util
 sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
 from GelModelsTools import utils
 from GelModelsTools.gel_models_tools import GelModelsTools
 
 logging.basicConfig(level=logging.DEBUG)
-
-builds = [
-    {
-        "version":"4.3.0-SNAPSHOT",
-        "packages": [
-            {
-                "package":"org.ga4gh.models",
-                "python_package":"ga4gh",
-                "version":"3.0.0",
-                "dependencies": []
-            },
-            {
-                "package":"org.gel.models.cva.avro",
-                "python_package":"cva",
-                "version":"0.4.0-SNAPSHOT",
-                "dependencies": [
-                    "org.gel.models.report.avro",
-                    "org.gel.models.participant.avro",
-                    "org.gel.models.system.avro",
-                    "org.opencb.biodata.models"
-                ]
-            },
-            {
-                "package":"org.gel.models.metrics.avro",
-                "python_package":"metrics",
-                "version":"1.1.0-SNAPSHOT",
-                "dependencies": []
-            },
-            {
-                "package":"org.gel.models.participant.avro",
-                "python_package":"participant",
-                "version":"1.0.4-SNAPSHOT",
-                "dependencies": []
-            },
-            {
-                "package":"org.gel.models.report.avro",
-                "python_package":"reports",
-                "version":"4.2.0-SNAPSHOT",
-                "dependencies": [
-                    "org.gel.models.participant.avro"
-                ]
-            },
-            {
-                "package":"org.gel.models.system.avro",
-                "python_package":"system",
-                "version":"0.1.0-SNAPSHOT",
-                "dependencies": []
-            },
-            {
-                "package":"org.opencb.biodata.models",
-                "python_package":"opencb",
-                "version":"1.2.1",
-                "dependencies": []
-            }
-        ]
-    },
-    {
-        "version":"4.0.0",
-        "packages": [
-            {
-                "package":"org.gel.models.participant.avro",
-                "python_package":"participant",
-                "version":"1.0.0",
-                "dependencies": []
-            },
-            {
-                "package":"org.gel.models.report.avro",
-                "python_package":"reports",
-                "version":"4.0.0",
-                "dependencies": [
-                    "org.gel.models.participant.avro"
-                ]
-            }
-        ]
-    },
-    {
-        "version":"3.1.0",
-        "packages": [
-            {
-                "package":"org.gel.models.report.avro",
-                "python_package":"reports",
-                "version":"3.1.0",
-                "dependencies": []
-            }
-        ]
-    },
-    {
-        "version":"3.0.0",
-        "packages": [
-            {
-                "package":"org.gel.models.report.avro",
-                "python_package":"reports",
-                "version":"3.0.0",
-                "dependencies": []
-            }
-        ]
-    },
-    {
-        "version":"2.1.0",
-        "packages": [
-            {
-                "package":"org.gel.models.report.avro",
-                "python_package":"reports",
-                "version":"2.1.0",
-                "dependencies": []
-            }
-        ]
-    }
-]
 
 IDL_FOLDER = "schemas/IDLs"
 JSON_FOLDER = "schemas/JSONs"
@@ -304,6 +196,7 @@ def main():
 
     # builds all builds or just the indicated in version parameter
     run_any = False
+    builds = ujson.loads(open("builds.json").read())["builds"]
     for build in builds:
         if args.version is None or build["version"] == args.version:
             logging.info("Building build version {}".format(build["version"]))

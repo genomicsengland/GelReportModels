@@ -1,12 +1,9 @@
 Sphinx==1.6.2
 sphinx_rtd_theme==0.2.4
-labkey
 ujson==1.33
 avro==1.7.7
 factory-boy==2.9.2
 humanize==0.5.1
 PyYAML==3.11
-coverage==4.3.4
-pysam
 
 
