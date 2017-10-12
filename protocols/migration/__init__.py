@@ -2,11 +2,11 @@ from .migration import Migration2_1To3
 
 from .base_migration import BaseMigration
 
-from .participants import MigrationParticipants104SNAPSHOTTo100
-from .participants import MigrationParticipants100To104SNAPSHOT
+from .participants import MigrationParticipants104To100
+from .participants import MigrationParticipants100To104
 
-from .migration_reports_4_0_0_to_reports_4_2_0_SNAPSHOT import MigrateReports400To420SNAPSHOT
+from .migration_reports_4_0_0_to_reports_4_2_0 import MigrateReports400To420
 
-from .migration_reports_3_0_0_to_reports_4_2_0_SNAPSHOT import MigrateReports3To420SNAPSHOT
+from .migration_reports_3_0_0_to_reports_4_2_0 import MigrateReports3To420
 
-from .migration_reports_4_2_0_SNAPSHOT_to_reports_4_0_0 import MigrateReports420SNAPSHOTTo400
+from .migration_reports_4_2_0_to_reports_4_0_0 import MigrateReports420To400

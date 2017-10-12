@@ -2,14 +2,14 @@ from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_1
 from protocols import participant_1_0_3
-from protocols import participant_1_0_4_SNAPSHOT
+from protocols import participant_1_0_4
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 
 
-class MigrationParticipants100To104SNAPSHOT(BaseMigration):
+class MigrationParticipants100To104(BaseMigration):
     old_model = participant_1_0_0
-    new_model = participant_1_0_4_SNAPSHOT
+    new_model = participant_1_0_4
 
     def migrate_cancer_participant(self, cancer_participant):
         migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
@@ -67,8 +67,8 @@ class MigrationParticipants100To104SNAPSHOT(BaseMigration):
         return [self.migrate_germline_sample(germline_sample=germline_sample, LDPCode=LDPCode) for germline_sample in germline_samples]
 
 
-class MigrationParticipants104SNAPSHOTTo100(BaseMigration):
-    old_model = participant_1_0_4_SNAPSHOT
+class MigrationParticipants104To100(BaseMigration):
+    old_model = participant_1_0_4
     new_model = participant_1_0_0
 
     def migrate_cancer_participant(self, cancer_participant):
@@ -137,7 +137,7 @@ class MigrationParticipants104SNAPSHOTTo100(BaseMigration):
         )
 
 
-class MigrationParticipants100To103SNAPSHOT(object):
+class MigrationParticipants100To103(object):
     old_model = participant_1_0_1
     new_model = participant_1_0_3
 

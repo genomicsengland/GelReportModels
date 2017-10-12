@@ -6,33 +6,33 @@ from protocols import reports_3_0_0
 from protocols import reports_3_1_0
 from protocols import reports_4_0_0
 from protocols import participant_1_0_3
-from protocols import cva_0_4_0_SNAPSHOT
-from protocols import reports_4_2_0_SNAPSHOT
-from protocols import participant_1_0_4_SNAPSHOT
+from protocols import cva_0_4_0
+from protocols import reports_4_2_0
+from protocols import participant_1_0_4
 from protocols import participant_1_0_3
-from protocols import system_0_1_0_SNAPSHOT
+from protocols import system_0_1_0
 from protocols.util import generate_mock_objects
 
 
-class TestGenerateMockObjects420SNAPSHOT(TestCase):
+class TestGenerateMockObjects420(TestCase):
 
-    model = reports_4_2_0_SNAPSHOT
+    model = reports_4_2_0
 
     def test_interpretation_request_rd(self):
         """
-        Ensure generate_mock_objects.get_valid_interpretation_request_rd_4_2_0_SNAPSHOT returns a valid
-        reports_4_2_0_SNAPSHOT.InterpretationRequestRD object
+        Ensure generate_mock_objects.get_valid_interpretation_request_rd_4_2_0 returns a valid
+        reports_4_2_0.InterpretationRequestRD object
         """
-        test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_4_2_0_SNAPSHOT()
+        test_ir_rd = generate_mock_objects.get_valid_interpretation_request_rd_4_2_0()
         self.assertTrue(isinstance(test_ir_rd, self.model.InterpretationRequestRD))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
     def test_cancer_interpretation_request(self):
         """
-        Ensure generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT returns a valid
-        reports_4_2_0_SNAPSHOT.CancerInterpretationRequest object
+        Ensure generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0 returns a valid
+        reports_4_2_0.CancerInterpretationRequest object
         """
-        test_ir_rd = generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT()
+        test_ir_rd = generate_mock_objects.get_valid_cancer_interpretation_request_4_2_0()
         self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretationRequest))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
@@ -370,12 +370,12 @@ class TestGenerateMockObjectsCVA031(TestCase):
 
 class TestGenerateMockObjectsCVA040(TestCase):
 
-    model = cva_0_4_0_SNAPSHOT
+    model = cva_0_4_0
 
     def test_tiered_variant_inject_rd(self):
         """
         Ensure generate_mock_objects.get_valid_tiered_variant_inject_rd_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.TieredVariantInjectRD object
+        cva_0_4_0.TieredVariantInjectRD object
         """
         test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_rd_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectRD))
@@ -384,7 +384,7 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_tiered_variant_inject_cancer(self):
         """
         Ensure generate_mock_objects.get_valid_tiered_variant_inject_cancer_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.TieredVariantInjectCancer object
+        cva_0_4_0.TieredVariantInjectCancer object
         """
         test_tvi_rd = generate_mock_objects.get_valid_tiered_variant_inject_cancer_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.TieredVariantInjectCancer))
@@ -393,7 +393,7 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_reported_variant_inject_rd(self):
         """
         Ensure generate_mock_objects.get_valid_reported_variant_inject_rd_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.ReportedVariantInjectRD object
+        cva_0_4_0.ReportedVariantInjectRD object
         """
         test_tvi_rd = generate_mock_objects.get_valid_reported_variant_inject_rd_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectRD))
@@ -402,7 +402,7 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_reported_variant_inject_cancer(self):
         """
         Ensure generate_mock_objects.get_valid_reported_variant_inject_cancer_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.ReportedVariantInjectCancer object
+        cva_0_4_0.ReportedVariantInjectCancer object
         """
         test_tvi_rd = generate_mock_objects.get_valid_reported_variant_inject_cancer_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.ReportedVariantInjectCancer))
@@ -411,7 +411,7 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_candidate_variant_inject_rd(self):
         """
         Ensure generate_mock_objects.get_valid_candidate_variant_inject_rd_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.CandidateVariantInjectRD object
+        cva_0_4_0.CandidateVariantInjectRD object
         """
         test_tvi_rd = generate_mock_objects.get_valid_candidate_variant_inject_rd_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectRD))
@@ -420,49 +420,49 @@ class TestGenerateMockObjectsCVA040(TestCase):
     def test_candidate_variant_inject_cancer(self):
         """
         Ensure generate_mock_objects.get_valid_candidate_variant_inject_cancer_0_4_0 returns a valid
-        cva_0_4_0_SNAPSHOT.CandidateVariantInjectCancer object
+        cva_0_4_0.CandidateVariantInjectCancer object
         """
         test_tvi_rd = generate_mock_objects.get_valid_candidate_variant_inject_cancer_0_4_0()
         self.assertTrue(isinstance(test_tvi_rd, self.model.CandidateVariantInjectCancer))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
-class TestGenerateMockObjectsSystem010SNAPSHOT(TestCase):
+class TestGenerateMockObjectsSystem010(TestCase):
 
-    model = system_0_1_0_SNAPSHOT
+    model = system_0_1_0
 
     def test_datastore(self):
         """
-        Ensure generate_mock_objects.get_valid_data_store_0_1_0_SNAPSHOT returns a valid
-        system_0_1_0_SNAPSHOT.DataStore object
+        Ensure generate_mock_objects.get_valid_data_store_0_1_0 returns a valid
+        system_0_1_0.DataStore object
         """
-        test_datastore = generate_mock_objects.get_valid_data_store_0_1_0_SNAPSHOT()
+        test_datastore = generate_mock_objects.get_valid_data_store_0_1_0()
         self.assertTrue(isinstance(test_datastore, self.model.DataStore))
         self.assertTrue(test_datastore.validate(test_datastore.toJsonDict()))
 
     def test_api(self):
         """
-        Ensure generate_mock_objects.get_valid_api_0_1_0_SNAPSHOT returns a valid
-        system_0_1_0_SNAPSHOT.API object
+        Ensure generate_mock_objects.get_valid_api_0_1_0 returns a valid
+        system_0_1_0.API object
         """
-        test_api = generate_mock_objects.get_valid_api_0_1_0_SNAPSHOT()
+        test_api = generate_mock_objects.get_valid_api_0_1_0()
         self.assertTrue(isinstance(test_api, self.model.API))
         self.assertTrue(test_api.validate(test_api.toJsonDict()))
 
     def test_dependencies(self):
         """
-        Ensure generate_mock_objects.get_valid_dependencies_0_1_0_SNAPSHOT returns a valid
-        system_0_1_0_SNAPSHOT.Dependencies object
+        Ensure generate_mock_objects.get_valid_dependencies_0_1_0 returns a valid
+        system_0_1_0.Dependencies object
         """
-        test_dependencies = generate_mock_objects.get_valid_dependencies_0_1_0_SNAPSHOT()
+        test_dependencies = generate_mock_objects.get_valid_dependencies_0_1_0()
         self.assertTrue(isinstance(test_dependencies, self.model.Dependencies))
         self.assertTrue(test_dependencies.validate(test_dependencies.toJsonDict()))
 
     def test_servicehealth(self):
         """
-        Ensure generate_mock_objects.get_valid_servicehealth_0_1_0_SNAPSHOT returns a valid
-        system_0_1_0_SNAPSHOT.ServiceHealth object
+        Ensure generate_mock_objects.get_valid_servicehealth_0_1_0 returns a valid
+        system_0_1_0.ServiceHealth object
         """
-        test_servicehealth = generate_mock_objects.get_valid_servicehealth_0_1_0_SNAPSHOT()
+        test_servicehealth = generate_mock_objects.get_valid_servicehealth_0_1_0()
         self.assertTrue(isinstance(test_servicehealth, self.model.ServiceHealth))
         self.assertTrue(test_servicehealth.validate(test_servicehealth.toJsonDict()))
 
@@ -490,15 +490,15 @@ class TestGenerateMockObjectsParticipant103(TestCase):
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))
 
 
-class TestGenerateMockObjectsParticipant104SNAPSHOT(TestCase):
+class TestGenerateMockObjectsParticipant104(TestCase):
 
-    model = participant_1_0_4_SNAPSHOT
+    model = participant_1_0_4
 
     def test_cancer_participant(self):
         """
-        Ensure generate_mock_objects.get_valid_cancer_participant_1_0_4_SNAPSHOT returns a valid
-        participant_1_0_4_SNAPSHOT.CancerParticipant object
+        Ensure generate_mock_objects.get_valid_cancer_participant_1_0_4 returns a valid
+        participant_1_0_4.CancerParticipant object
         """
-        test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_4_SNAPSHOT()
+        test_tvi_rd = generate_mock_objects.get_valid_cancer_participant_1_0_4()
         self.assertTrue(isinstance(test_tvi_rd, self.model.CancerParticipant))
         self.assertTrue(test_tvi_rd.validate(test_tvi_rd.toJsonDict()))

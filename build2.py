@@ -165,7 +165,7 @@ def run_build(build, skip_docs=False):
         # generate python source code
         class_name = "{}_{}.py".format(
             package["python_package"],
-            package["version"].replace(".", "_").replace("-", "_")
+            package["version"].replace("-SNAPSHOT", "").replace(".", "_").replace("-", "_")
         )
         __json2python(json_build_folder, os.path.join(PYTHON_FOLDER, class_name), package["version"])
 

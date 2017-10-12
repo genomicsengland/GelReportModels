@@ -1,28 +1,28 @@
 from unittest import TestCase
 
 from protocols import reports_4_0_0
-from protocols import reports_4_2_0_SNAPSHOT
-from protocols import participant_1_0_4_SNAPSHOT
+from protocols import reports_4_2_0
+from protocols import participant_1_0_4
 from protocols import participant_1_0_0
-from protocols.migration import MigrateReports420SNAPSHOTTo400
-from protocols.migration import MigrationParticipants104SNAPSHOTTo100
-from protocols.util.generate_mock_objects import get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT
+from protocols.migration import MigrateReports420To400
+from protocols.migration import MigrationParticipants104To100
+from protocols.util.generate_mock_objects import get_valid_cancer_interpretation_request_4_2_0
 
 
 class TestMigrateReports420To4(TestCase):
 
-    old_model = reports_4_2_0_SNAPSHOT
+    old_model = reports_4_2_0
     new_model = reports_4_0_0
 
     def test_migrate_cir_420_to_400(self):
 
-        cir_420 = get_valid_cancer_interpretation_request_4_2_0_SNAPSHOT()
+        cir_420 = get_valid_cancer_interpretation_request_4_2_0()
 
-        # Check cir_420 is a valid reports_4_2_0_SNAPSHOT CancerInterpretationRequest object
+        # Check cir_420 is a valid reports_4_2_0 CancerInterpretationRequest object
         self.assertIsInstance(cir_420, self.old_model.CancerInterpretationRequest)
         self.assertTrue(cir_420.validate(jsonDict=cir_420.toJsonDict()))
 
-        migrated_object = MigrateReports420SNAPSHOTTo400().migrate_cancer_interpretation_request(
+        migrated_object = MigrateReports420To400().migrate_cancer_interpretation_request(
             cancer_interpretation_request=cir_420
         )
 
@@ -31,9 +31,9 @@ class TestMigrateReports420To4(TestCase):
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
 
-class TestMigrationParticipants104SNAPSHOTTo100(TestCase):
+class TestMigrationParticipants104To100(TestCase):
 
-    old_model = participant_1_0_4_SNAPSHOT
+    old_model = participant_1_0_4
     new_model = participant_1_0_0
 
     def test_migrate_tumour_sample(self):
@@ -74,7 +74,7 @@ class TestMigrationParticipants104SNAPSHOTTo100(TestCase):
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
 
-        migrated_sample = MigrationParticipants104SNAPSHOTTo100().migrate_tumour_sample(
+        migrated_sample = MigrationParticipants104To100().migrate_tumour_sample(
             tumour_sample=old_tumour_sample
         )
 

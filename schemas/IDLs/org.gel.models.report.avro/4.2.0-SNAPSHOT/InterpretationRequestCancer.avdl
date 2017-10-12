@@ -84,12 +84,12 @@ protocol CancerInterpretationRequests {
         /**
         Tiered Variants
         */
-        array<ReportedSomaticVariants> tieredVariants;
+        array<ReportedVariantCancer> tieredVariants;
 
         /**
         Structural Tiered Variants
         */
-        array<ReportedSomaticStructuralVariants> structuralTieredVariants;
+        array<ReportedStructuralVariantCancer> structuralTieredVariants;
 
         /**
         Tiering Version
