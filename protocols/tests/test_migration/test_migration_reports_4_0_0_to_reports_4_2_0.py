@@ -21,7 +21,8 @@ class TestMigrateReports420To4(TestCase):
         self.assertTrue(cir_400.validate(cir_400.toJsonDict()))
 
         migrated_cir = MigrateReports400To420().migrate_cancer_interpretation_request(
-            cancer_interpretation_request=cir_400
+            cancer_interpretation_request=cir_400,
+            sample_id="sample1"
         )
         self.assertIsInstance(migrated_cir, self.new_model.CancerInterpretationRequest)
         self.assertTrue(migrated_cir.validate(migrated_cir.toJsonDict()))

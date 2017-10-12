@@ -263,6 +263,7 @@ def get_valid_file_4_0_0(file_type=None):
 def get_valid_report_event_cancer_4_0_0():
     new_report_event = MockModelObject(object_type=reports_4_0_0.ReportEventCancer).get_valid_empty_object()
     new_report_event.actions[0].variantActionable = False
+    new_report_event.actions[0].actionType = "diagnosis"
     new_report_event.genomicFeatureCancer.featureType = reports_4_0_0.FeatureTypes.Gene
     new_report_event.tier = reports_4_0_0.Tier.NONE
     new_report_event.soTerms = [new_report_event.soTerms]

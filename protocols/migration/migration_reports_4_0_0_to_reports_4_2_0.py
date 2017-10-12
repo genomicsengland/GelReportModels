@@ -29,7 +29,7 @@ class MigrateReports400To420(BaseMigration):
 
         # FIXME: we are using a sample_id received as a parameter, models need to be changed
         tiered_variants = []
-        for reported_variant in cancer_interpretation_request.structuralTieredVariants:
+        for reported_variant in cancer_interpretation_request.tieredVariants:
             tiered_variants.append(self.migrate_reported_variant_cancer(
                 reported_variant,
                 sample_id
@@ -38,8 +38,10 @@ class MigrateReports400To420(BaseMigration):
 
         # FIXME: we have no sample id field in the structural variant
         structural_tiered_variants = []
-        for reported_structural_variant in cancer_interpretation_request.tieredVariants:
-            structural_tiered_variants.append(self.migrate_reported_structural_variant_cancer(reported_structural_variant))
+        for reported_structural_variant in cancer_interpretation_request.structuralTieredVariants:
+            structural_tiered_variants.append(self.migrate_reported_structural_variant_cancer(
+                reported_structural_variant
+            ))
         new_cancer_interpretation_request.structuralTieredVariants = structural_tiered_variants
 
         return self.validate_object(
@@ -132,7 +134,7 @@ class MigrateReports400To420(BaseMigration):
 
         new_report_events = []
         for report_event in reported_somatic_variants.reportedVariantCancer.reportEvents:
-            new_report_events.append(self().migrate_report_event(
+            new_report_events.append(self.migrate_report_event(
                 report_event=report_event
             ))
         new_reported_variant_cancer.reportEvents = new_report_events
@@ -150,13 +152,13 @@ class MigrateReports400To420(BaseMigration):
             jsonDict=report_event.toJsonDict()
         )
 
-        new_report_event.genomicFeatureCancer = self().migrate_genomic_feature_cancer(
+        new_report_event.genomicFeatureCancer = self.migrate_genomic_feature_cancer(
             genomic_feature_cancer=report_event.genomicFeatureCancer
         )
 
         new_actions = []
         for action in report_event.actions:
-            new_actions.append(self().migrate_action(
+            new_actions.append(self.migrate_action(
                 action=action
             ))
         new_report_event.actions = new_actions
@@ -187,9 +189,9 @@ class MigrateReports400To420(BaseMigration):
             "pre-clinical": self.new_model.ActionStatus.pre_clinical
         }
 
-        new_action.actionType = action_types_map[action.actionType] if action.actionType in action_types_map else None
+        new_action.actionType = action_types_map.get(action.actionType, None)
         new_action.evidences = action.evidence
-        new_action.status = action_status_map[action.status] if action.status in action_status_map else None
+        new_action.status = action_status_map.get(action.status, None)
 
         return self.validate_object(
             object_to_validate=new_action, object_type=self.new_model.Action
@@ -214,8 +216,8 @@ class MigrateReports400To420(BaseMigration):
             "TSG":self.new_model.RoleInCancer.tumor_suppressor_gene,
             "both":self.new_model.RoleInCancer.both
         }
-        new_genomic_feature_cancer.featureType = feature_type_map[genomic_feature_cancer.featureType]
-        new_genomic_feature_cancer.roleInCancer = feature_type_map[role_in_cancer_map.roleInCancer]
+        new_genomic_feature_cancer.featureType = feature_type_map.get(genomic_feature_cancer.featureType, None)
+        new_genomic_feature_cancer.roleInCancer = role_in_cancer_map.get(genomic_feature_cancer.roleInCancer, None)
 
         return self.validate_object(
             object_to_validate=new_genomic_feature_cancer, object_type=self.new_model.GenomicFeatureCancer
