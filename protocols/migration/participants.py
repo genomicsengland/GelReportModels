@@ -273,7 +273,10 @@ class MigrationReportsToParticipants1(BaseMigration):
 
     def migrate_enumerations(self, etype, value):
         if etype in ['LifeStatus', 'AffectionStatus']:
-            return value.upper()
+            if etype == 'AffectionStatus' and value == self.old_model.AffectionStatus.unknown:
+                return self.new_model.AffectionStatus.UNCERTAIN
+            else:
+                return value.upper()
         elif etype == 'Sex':
             return {'male': 'MALE', 'female': 'FEMALE', 'unknown': 'UNKNOWN', 'undetermined': 'UNKNOWN'}.get(value)
         elif etype == 'AdoptedStatus':
@@ -294,7 +297,6 @@ class MigrationReportsToParticipants1(BaseMigration):
         if new_hpo.validate(new_hpo.toJsonDict()):
             return new_hpo
         else:
-            print new_hpo.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_analysis_panel(self, analysis_panel):
@@ -310,7 +312,6 @@ class MigrationReportsToParticipants1(BaseMigration):
         if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
             return new_analysis_panel
         else:
-            print new_analysis_panel.validate_parts()
             raise Exception('This model can not be converted')
 
 
@@ -332,7 +333,6 @@ class MigrationParticipants1ToReports(object):
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
-            print new_pedigree.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_pedigree_member(self, member, family_id):
@@ -377,7 +377,6 @@ class MigrationParticipants1ToReports(object):
         if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
             return new_pedigree_member
         else:
-            print new_pedigree_member.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_enumerations(self, etype, value):
@@ -408,8 +407,6 @@ class MigrationParticipants1ToReports(object):
         if new_hpo.validate(new_hpo.toJsonDict()):
             return new_hpo
         else:
-            print new_hpo.validate_parts()
-            print new_hpo.toJsonDict()
             raise Exception('This model can not be converted')
 
     def migrate_disorders(self, disorder):
@@ -424,8 +421,6 @@ class MigrationParticipants1ToReports(object):
         if new_disorder.validate(new_disorder.toJsonDict()):
             return new_disorder
         else:
-            print new_disorder.toJsonDict()
-            print new_disorder.validate_parts()
             raise Exception('This model can not be converted')
 
     def migrate_analysis_panel(self, analysis_panel):
@@ -441,5 +436,4 @@ class MigrationParticipants1ToReports(object):
         if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
             return new_analysis_panel
         else:
-            print new_analysis_panel.validate_parts()
             raise Exception('This model can not be converted')

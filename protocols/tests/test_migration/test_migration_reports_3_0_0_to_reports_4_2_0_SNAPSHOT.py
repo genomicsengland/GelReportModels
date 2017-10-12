@@ -21,6 +21,8 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         old_interpretation_request_rd.analysisVersion = '234'
         old_interpretation_request_rd.complexGeneticPhenomena = self.old_model.ComplexGeneticPhenomena.other_aneuploidy
 
+        old_interpretation_request_rd.pedigree.participants[0].affectionStatus = self.old_model.AffectionStatus.unknown
+
         # Check old_interpretation_request_rd is a valid reports_3_0_0 InterpretationRequestRD object
         self.assertTrue(isinstance(old_interpretation_request_rd, self.old_model.InterpretationRequestRD))
         self.assertTrue(old_interpretation_request_rd.validate(jsonDict=old_interpretation_request_rd.toJsonDict()))
