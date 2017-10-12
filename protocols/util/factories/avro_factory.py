@@ -75,7 +75,7 @@ def mock_basic_type(field, field_type):
     elif field_type == 'boolean':
         value = factory.fuzzy.FuzzyChoice([True, False]).fuzz()
     elif field_type == 'string':
-        value = factory.fuzzy.FuzzyText().fuzz()
+        value = unicode(factory.fuzzy.FuzzyText().fuzz())
     elif field_type == 'bytes':
         value = b'a'
     elif field_type == 'int':
