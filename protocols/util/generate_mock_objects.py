@@ -259,6 +259,15 @@ def get_valid_file_4_0_0(file_type=None):
 
     return validate_object(object_to_validate=new_file, object_type=reports_4_0_0.File)
 
+def get_valid_file_4_2_0(file_type=None):
+    file_type = reports_4_0_0.FileType.OTHER if file_type is None else file_type
+    new_file = MockModelObject(object_type=reports_4_0_0.File).get_valid_empty_object()
+    new_file.fileType = file_type
+    new_file.SampleId = ['']
+    new_file.md5Sum.fileType = reports_4_0_0.FileType.OTHER
+
+    return validate_object(object_to_validate=new_file, object_type=reports_4_0_0.File)
+
 
 def get_valid_report_event_cancer_4_0_0():
     new_report_event = MockModelObject(object_type=reports_4_0_0.ReportEventCancer).get_valid_empty_object()
@@ -507,8 +516,8 @@ def get_valid_reported_variant_4_0_0():
 def get_valid_reported_variant_4_2_0():
     object_type = reports_4_2_0.ReportedVariant
     new_rv = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_rv.calledGenotypes[0] = get_valid_called_genotype_4_2_0()
-    new_rv.reportEvents[0] = get_valid_report_event_4_2_0()
+    new_rv.calledGenotypes = [get_valid_called_genotype_4_2_0()]
+    new_rv.reportEvents = [get_valid_report_event_4_2_0()]
     new_rv.position = 0
     new_rv.evidenceIds = {}
     new_rv.comments = ['']
@@ -537,6 +546,25 @@ def get_valid_reported_structural_variant_4_2_0():
     new_rsv.start, new_rsv.end = 1, 2
 
     return validate_object(object_to_validate=new_rsv, object_type=object_type)
+
+
+def get_valid_reported_structural_variant_cancer_4_2_0():
+    object_type = reports_4_2_0.ReportedStructuralVariantCancer
+    new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
+    new_rsv.chromosome = "1"
+    new_rsv.start, new_rsv.end = 1, 2
+    new_rsv.type = get_valid_structural_variant_type_4_2_0()
+    new_rsv.alleleOrigins = []
+    new_rsv.alleleOrigins.append(reports_4_2_0.AlleleOrigin.de_novo_variant)
+
+    return validate_object(object_to_validate=new_rsv, object_type=object_type)
+
+def get_valid_structural_variant_type_4_2_0():
+    object_type = reports_4_2_0.StructuralVariantType
+    new_rsvt = MockModelObject(object_type=object_type).get_valid_empty_object()#
+    new_rsvt.firstLevelType = reports_4_2_0.StructuralVariantFirstLevelType.CNV
+
+    return validate_object(object_to_validate=new_rsvt, object_type=object_type)
 
 
 def get_valid_interpreted_genome_rd_4_0_0():
@@ -780,8 +808,8 @@ def get_valid_cancer_interpreted_genome_3_0_0():
     new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_cig.softwareVersions = {'this': 'that'}
     new_cig.referenceDatabasesVersions = {'this': 'that'}
-    new_cig.reportedStructuralVariants[0] = get_valid_reported_somatic_structural_variant_3_0_0()
-    new_cig.reportedVariants[0] = get_valid_reported_somatic_variant_3_0_0()
+    new_cig.reportedStructuralVariants = [get_valid_reported_somatic_structural_variant_3_0_0()]
+    new_cig.reportedVariants = [get_valid_reported_somatic_variant_3_0_0()]
 
     return validate_object(object_to_validate=new_cig, object_type=object_type)
 
@@ -905,8 +933,8 @@ def get_valid_clinical_report_cancer_4_2_0():
     new_crc = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_crc.softwareVersions = {'this': 'that'}
     new_crc.referenceDatabasesVersions = {'this': 'that'}
-    new_crc.candidateStructuralVariants[0] = get_valid_reported_structural_variant_4_2_0()
-    new_crc.candidateVariants[0] = get_valid_reported_variant_4_2_0()
+    new_crc.candidateStructuralVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
+    new_crc.candidateVariants = [get_valid_reported_variant_4_2_0()]
     new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
     new_crc.cancerParticipant = get_valid_cancer_participant_1_0_4()
 
@@ -1370,8 +1398,8 @@ def get_valid_cancer_interpreted_genome_4_2_0():
     new_cig = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_cig.softwareVersions = {'this': 'that'}
     new_cig.referenceDatabasesVersions = {'this': 'that'}
-    new_cig.reportedStructuralVariants[0] = get_valid_reported_structural_variant_4_2_0()
-    new_cig.reportedVariants[0] = get_valid_reported_variant_4_2_0()
+    new_cig.reportedStructuralVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
+    new_cig.reportedVariants = [get_valid_reported_variant_4_2_0()]
 
     return validate_object(object_to_validate=new_cig, object_type=object_type)
 
@@ -1450,16 +1478,16 @@ def get_valid_cancer_interpretation_request_4_2_0():
     object_type = reports_4_2_0.CancerInterpretationRequest
     new_cir = MockModelObject(object_type=object_type).get_valid_empty_object()
     new_cir.workspace = ['']
-    new_cir.bams = [new_cir.bams]
+    new_cir.bams = [get_valid_file_4_2_0()]
     new_cir.bams[0].fileType = reports_4_2_0.FileType.BAM
-    new_cir.bigWigs = [new_cir.bigWigs]
+    new_cir.bigWigs = [get_valid_file_4_2_0()]
     new_cir.bigWigs[0].fileType = reports_4_2_0.FileType.BigWig
-    new_cir.vcfs = [new_cir.vcfs]
+    new_cir.vcfs = [get_valid_file_4_2_0()]
     new_cir.vcfs[0].fileType = reports_4_2_0.FileType.VCF_small
     new_cir.cancerParticipant = get_valid_cancer_participant_1_0_4()
     new_cir.annotationFile.fileType = reports_4_2_0.FileType.ANN
-    new_cir.structuralTieredVariants[0] = get_valid_reported_structural_variant_4_2_0()
-    new_cir.tieredVariants[0] = get_valid_reported_variant_4_2_0()
+    new_cir.structuralTieredVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
+    new_cir.tieredVariants = [get_valid_reported_variant_4_2_0()]
     new_cir.reportVersion = 1
 
     return validate_object(object_to_validate=new_cir, object_type=object_type)
