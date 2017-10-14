@@ -22,6 +22,7 @@
     <properties>
         <models.version>4.3.0-SNAPSHOT</models.version>
         <opencb.models.version>1.2.1</opencb.models.version>
+        <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
