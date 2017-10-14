@@ -287,6 +287,7 @@ def get_valid_reported_variant_cancer_4_2_0():
     reported_variant_cancer.reportEvents[0] = get_valid_report_event_cancer_4_2_0()
     reported_variant_cancer.additionalTextualVariantAnnotations = {}
     reported_variant_cancer.additionalNumericVariantAnnotations = {}
+    reported_variant_cancer.alleleOrigins = [reports_4_2_0.AlleleOrigin.de_novo_variant]
 
     return validate_object(object_to_validate=reported_variant_cancer, object_type=object_type)
 
@@ -294,12 +295,35 @@ def get_valid_reported_variant_cancer_4_2_0():
 def get_valid_report_event_cancer_4_2_0():
     object_type = reports_4_2_0.ReportEventCancer
     new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_report_event.actions[0].variantActionable = False
-    new_report_event.genomicFeatureCancer.featureType = reports_4_2_0.FeatureTypes.Gene
+    new_report_event.genomicFeatureCancer = get_valid_genomic_feature_cancer_4_2_0()
     new_report_event.tier = reports_4_2_0.Tier.NONE
-    new_report_event.soTerms = [new_report_event.soTerms]
+    new_report_event.soTerms = [get_valid_so_term_4_2_0()]
+    new_report_event.actions = None
 
     return validate_object(object_to_validate=new_report_event, object_type=object_type)
+
+
+def get_valid_genomic_feature_cancer_4_2_0():
+    object_type = reports_4_2_0.GenomicFeatureCancer
+    new_genomic_feature_cancer = MockModelObject(object_type=object_type).get_valid_empty_object()
+    #new_report_event.actions[0].variantActionable = False
+    new_genomic_feature_cancer.featureType = reports_4_2_0.FeatureTypeCancer.gene
+    new_genomic_feature_cancer.ensemblId = ""
+    new_genomic_feature_cancer.refSeqTranscriptId = ""
+    new_genomic_feature_cancer.refSeqProteinId = ""
+    new_genomic_feature_cancer.geneName = ""
+    new_genomic_feature_cancer.roleInCancer = reports_4_2_0.RoleInCancer.oncogene
+
+    return validate_object(object_to_validate=new_genomic_feature_cancer, object_type=object_type)
+
+def get_valid_so_term_4_2_0():
+    object_type = reports_4_2_0.SoTerm
+    new_so_term = MockModelObject(object_type=object_type).get_valid_empty_object()
+    #new_report_event.actions[0].variantActionable = False
+    new_so_term.id = ""
+    new_so_term.name = ""
+
+    return validate_object(object_to_validate=new_so_term, object_type=object_type)
 
 
 def get_valid_reported_somatic_variant_4_0_0():
@@ -934,7 +958,7 @@ def get_valid_clinical_report_cancer_4_2_0():
     new_crc.softwareVersions = {'this': 'that'}
     new_crc.referenceDatabasesVersions = {'this': 'that'}
     new_crc.candidateStructuralVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
-    new_crc.candidateVariants = [get_valid_reported_variant_4_2_0()]
+    new_crc.candidateVariants = [get_valid_reported_variant_cancer_4_2_0()]
     new_crc.genePanelsCoverage = {"panel_name": [{"gene1": "gene1_coverage"}]}
     new_crc.cancerParticipant = get_valid_cancer_participant_1_0_4()
 
@@ -1399,7 +1423,7 @@ def get_valid_cancer_interpreted_genome_4_2_0():
     new_cig.softwareVersions = {'this': 'that'}
     new_cig.referenceDatabasesVersions = {'this': 'that'}
     new_cig.reportedStructuralVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
-    new_cig.reportedVariants = [get_valid_reported_variant_4_2_0()]
+    new_cig.reportedVariants = [get_valid_reported_variant_cancer_4_2_0()]
 
     return validate_object(object_to_validate=new_cig, object_type=object_type)
 
@@ -1485,9 +1509,10 @@ def get_valid_cancer_interpretation_request_4_2_0():
     new_cir.vcfs = [get_valid_file_4_2_0()]
     new_cir.vcfs[0].fileType = reports_4_2_0.FileType.VCF_small
     new_cir.cancerParticipant = get_valid_cancer_participant_1_0_4()
+    new_cir.annotationFile = get_valid_file_4_2_0()
     new_cir.annotationFile.fileType = reports_4_2_0.FileType.ANN
     new_cir.structuralTieredVariants = [get_valid_reported_structural_variant_cancer_4_2_0()]
-    new_cir.tieredVariants = [get_valid_reported_variant_4_2_0()]
+    new_cir.tieredVariants = [get_valid_reported_variant_cancer_4_2_0()]
     new_cir.reportVersion = 1
 
     return validate_object(object_to_validate=new_cir, object_type=object_type)
