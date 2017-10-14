@@ -19,8 +19,7 @@ class MigrateReports400To420(BaseMigration):
             jsonDict=cancer_interpretation_request.toJsonDict()
         )
 
-        new_version_control = cancer_interpretation_request.versionControl
-        new_version_control.gitVersionControl = "4.2.0"
+        new_cancer_interpretation_request.gitVersionControl = "4.2.0"
 
         new_cancer_participant = MigrationParticipants100To104().migrate_cancer_participant(
             cancer_participant=cancer_interpretation_request.cancerParticipant
@@ -58,8 +57,7 @@ class MigrateReports400To420(BaseMigration):
             jsonDict=cancer_interpreted_genome.toJsonDict()
         )
 
-        new_version_control = cancer_interpreted_genome.versionControl
-        new_version_control.gitVersionControl = "4.2.0"
+        new_cancer_interpreted_genome.gitVersionControl = "4.2.0"
 
         # FIXME: we are using the individual identifier in the cancer participant to set the sample id
         reported_variants = []
