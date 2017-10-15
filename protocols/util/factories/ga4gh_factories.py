@@ -3,7 +3,8 @@ import itertools
 import factory.fuzzy
 
 from protocols.ga4gh_3_0_0 import Variant, Call
-from .avro_factory import FactoryAvro
+from protocols.util.dependency_manager import VERSION_430
+from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 
 
 class GA4GHVariantFactory(FactoryAvro):
@@ -12,6 +13,9 @@ class GA4GHVariantFactory(FactoryAvro):
 
     class Meta:
         model = Variant
+
+    _version = VERSION_430
+
     start = factory.fuzzy.FuzzyInteger(1, 10000000)
     referenceBases = factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G'])
     alternateBases = factory.LazyAttribute(lambda x: [factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G']).fuzz()])
@@ -40,6 +44,8 @@ class CallFactory(FactoryAvro):
 
     class Meta:
         model = Call
+
+    _version = VERSION_430
 
     callSetName = factory.Sequence(lambda n: 'Sample%d' % n)
     callSetId = factory.Sequence(lambda n: '%d' % n)

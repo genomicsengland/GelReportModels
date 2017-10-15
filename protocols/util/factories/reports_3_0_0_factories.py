@@ -1,8 +1,5 @@
-import itertools
-import json
-
 import factory.fuzzy
-
+from protocols.util.dependency_manager import VERSION_300
 from protocols.reports_3_0_0 import (
     CancerParticipant,
     CancerSample,
@@ -11,8 +8,15 @@ from protocols.reports_3_0_0 import (
     Actions,
     CancerInterpretationRequest,
     VersionControl,
-    CancerDemographics, ConsentStatus, File, MatchedSamples, GenomicFeatureCancer, ReportedSomaticVariants)
-from avro_factory import FactoryAvro
+    CancerDemographics,
+    ConsentStatus,
+    File,
+    MatchedSamples,
+    GenomicFeatureCancer,
+    ReportedSomaticVariants
+)
+from protocols.util.factories.avro_factory import FactoryAvro
+
 
 class ConsentStatusFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
@@ -21,6 +25,8 @@ class ConsentStatusFactory(FactoryAvro):
     class Meta:
         model = ConsentStatus
 
+    _version = VERSION_300
+
 
 class CancerDemographicsFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
@@ -28,6 +34,8 @@ class CancerDemographicsFactory(FactoryAvro):
 
     class Meta:
         model = CancerDemographics
+
+    _version = VERSION_300
 
 
     consentStatus = factory.SubFactory(ConsentStatusFactory)
@@ -38,6 +46,9 @@ class CancerSampleFactory(FactoryAvro):
 
     class Meta:
         model = CancerSample
+
+    _version = VERSION_300
+
     labId = '1'
     preservationMethod = factory.fuzzy.FuzzyChoice(["FF", "FFPE"])
     phase = factory.fuzzy.FuzzyChoice(["PRIMARY"])
@@ -50,6 +61,8 @@ class CancerParticipantFactory(FactoryAvro):
 
     class Meta:
         model = CancerParticipant
+
+    _version = VERSION_300
 
     cancerDemographics = factory.SubFactory(CancerDemographicsFactory)
     versionControl = VersionControl()
@@ -83,6 +96,8 @@ class FileFactory(FactoryAvro):
     class Meta:
         model = File
 
+    _version = VERSION_300
+
 
 class ActionsFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
@@ -91,12 +106,16 @@ class ActionsFactory(FactoryAvro):
     class Meta:
         model = Actions
 
+    _version = VERSION_300
+
 class GenomicFeatureCancerFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
         super(GenomicFeatureCancerFactory, self).__init__(*args, **kwargs)
 
     class Meta:
         model = GenomicFeatureCancer
+
+    _version = VERSION_300
 
 
 class ReportEventCancerFactory(FactoryAvro):
@@ -105,6 +124,8 @@ class ReportEventCancerFactory(FactoryAvro):
 
     class Meta:
         model = ReportEventCancer
+
+    _version = VERSION_300
 
     genomicFeatureCancer = factory.SubFactory(GenomicFeatureCancerFactory)
     soTerms = [str(factory.fuzzy.FuzzyText('SO:', length=7).fuzz()) for _ in range(0, 2)]
@@ -132,6 +153,8 @@ class CancerReportedVariantsFactory(FactoryAvro):
 
     class Meta:
         model = ReportedVariantCancer
+
+    _version = VERSION_300
 
     chromosome = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23)) + ['X', 'Y', 'MT']))
     position = factory.fuzzy.FuzzyInteger(1, 10000000)
@@ -169,6 +192,8 @@ class ReportedSomaticVariantsFactory(FactoryAvro):
     class Meta:
         model = ReportedSomaticVariants
 
+    _version = VERSION_300
+
     reportedVariantCancer = factory.SubFactory(CancerReportedVariantsFactory)
     somaticOrGermline = 'somatic'
 
@@ -179,6 +204,8 @@ class CancerInterpretationRequestFactory(FactoryAvro):
 
     class Meta:
         model = CancerInterpretationRequest
+
+    _version = VERSION_300
 
     reportVersion = 1
     reportRequestId = factory.Sequence(lambda n: 'CIPID-{}-1'.format(n))
