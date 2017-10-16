@@ -120,13 +120,22 @@ class MigrationParticipants104To100(BaseMigration):
         return [self.migrate_tumour_sample(tumour_sample=tumour_sample) for tumour_sample in tumour_samples]
 
     def migrate_tumour_sample(self, tumour_sample):
+        """
+        The tumourId will be migrated when the value can be parsed to an integer, otherwise it will be replaced
+        by the labSampleId.
+        :param tumour_sample:
+        :return:
+        """
         migrated_tumour_sample = self.new_model.TumourSample().fromJsonDict(
             jsonDict=tumour_sample.toJsonDict()
         )
 
         migrated_tumour_sample.tumourId = None
         if tumour_sample.tumourId is not None:
-            migrated_tumour_sample.tumourId = int(tumour_sample.tumourId)
+            try:
+                migrated_tumour_sample.tumourId = int(tumour_sample.tumourId)
+            except ValueError:
+                migrated_tumour_sample.tumourId = tumour_sample.labSampleId
 
         migrated_tumour_sample.tumourType = tumour_sample.diseaseType
         migrated_tumour_sample.tumourSubType = tumour_sample.diseaseSubType

@@ -6,7 +6,8 @@ from protocols import participant_1_0_4
 from protocols import participant_1_0_0
 from protocols.migration import MigrateReports420To400
 from protocols.migration import MigrationParticipants104To100
-from protocols.util.generate_mock_objects import get_valid_cancer_interpretation_request_4_2_0
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.util.dependency_manager import VERSION_430
 
 
 class TestMigrateReports420To4(TestCase):
@@ -16,7 +17,7 @@ class TestMigrateReports420To4(TestCase):
 
     def test_migrate_cir_420_to_400(self):
 
-        cir_420 = get_valid_cancer_interpretation_request_4_2_0()
+        cir_420 = GenericFactoryAvro.get_factory_avro(reports_4_2_0.CancerInterpretationRequest, VERSION_430)()
 
         # Check cir_420 is a valid reports_4_2_0 CancerInterpretationRequest object
         self.assertIsInstance(cir_420, self.old_model.CancerInterpretationRequest)
@@ -38,60 +39,27 @@ class TestMigrationParticipants104To100(TestCase):
 
     def test_migrate_tumour_sample(self):
 
-        # these should be migrated with the same names
-        test_sample_id = '1'
-        test_lab_sample_id = 1
-        test_tumour_id = '2'
-        test_tumour_content = self.old_model.TumourContent.High
-        test_sample_source = self.old_model.SampleSource.FIBROBLAST
-        test_preparation_method = self.old_model.PreparationMethod.FF
-        test_tissue_source = self.old_model.TissueSource.BMA_TUMOUR_SORTED_CELLS
-        test_product = self.old_model.Product.DNA
-
-        # this should equal new_sample.tumourType
-        test_disease_type = self.old_model.diseaseType.ADULT_GLIOMA
-
-        # this should equal new_sample.tumourSubType
-        test_disease_subtype = 'test_disease_subtype'
-
-        # this should equal new_sample.phase
-        test_tumour_type = self.old_model.TumourType.METASTASES
-
-        old_tumour_sample = self.old_model.TumourSample(
-            sampleId=test_sample_id,
-            labSampleId=test_lab_sample_id,
-            tumourId=test_tumour_id,
-            diseaseType=test_disease_type,
-            diseaseSubType=test_disease_subtype,
-            tumourType=test_tumour_type,
-            tumourContent=test_tumour_content,
-            source=test_sample_source,
-            preparationMethod=test_preparation_method,
-            tissueSource=test_tissue_source,
-            product=test_product,
-        )
-
+        old_tumour_sample = GenericFactoryAvro.get_factory_avro(self.old_model.TumourSample, VERSION_430)()
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
-
         migrated_sample = MigrationParticipants104To100().migrate_tumour_sample(
             tumour_sample=old_tumour_sample
         )
 
         self.assertIsInstance(migrated_sample, self.new_model.TumourSample)
         self.assertTrue(migrated_sample.validate(migrated_sample.toJsonDict()))
-
-        self.assertEqual(migrated_sample.sampleId, test_sample_id)
-        self.assertEqual(migrated_sample.labSampleId, test_lab_sample_id)
-        self.assertEqual(migrated_sample.tumourId, int(test_tumour_id))
-        self.assertEqual(migrated_sample.tumourContent, test_tumour_content)
-        self.assertEqual(migrated_sample.source, test_sample_source)
-        self.assertEqual(migrated_sample.preparationMethod, test_preparation_method)
-        self.assertEqual(migrated_sample.tissueSource, test_tissue_source)
-        self.assertEqual(migrated_sample.product, test_product)
-
-        self.assertEqual(migrated_sample.tumourType, test_disease_type)
-
-        self.assertEqual(migrated_sample.tumourSubType, test_disease_subtype)
-
-        self.assertEqual(migrated_sample.phase, test_tumour_type)
+        self.assertEqual(migrated_sample.sampleId, old_tumour_sample.sampleId)
+        self.assertEqual(migrated_sample.labSampleId, old_tumour_sample.labSampleId)
+        try:
+            tumourId = int(old_tumour_sample.tumourId)
+        except ValueError:
+            tumourId = old_tumour_sample.labSampleId
+        self.assertEqual(migrated_sample.tumourId, tumourId)
+        self.assertEqual(migrated_sample.tumourContent, old_tumour_sample.tumourContent)
+        self.assertEqual(migrated_sample.source, old_tumour_sample.source)
+        self.assertEqual(migrated_sample.preparationMethod, old_tumour_sample.preparationMethod)
+        self.assertEqual(migrated_sample.tissueSource, old_tumour_sample.tissueSource)
+        self.assertEqual(migrated_sample.product, old_tumour_sample.product)
+        self.assertEqual(migrated_sample.tumourType, old_tumour_sample.diseaseType)
+        self.assertEqual(migrated_sample.tumourSubType, old_tumour_sample.diseaseSubType)
+        self.assertEqual(migrated_sample.phase, old_tumour_sample.tumourType)
