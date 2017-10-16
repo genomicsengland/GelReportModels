@@ -8,7 +8,20 @@ protocol CommonInterpretedCancer {
     /**
     this is the type of actionability for the reported event
     */
-    enum ActionType{therapy, therapeutic, prognosis, diagnosis}
+    enum ActionType {
+        therapy,
+        therapeutic,
+        prognosis,
+        diagnosis
+    }
+
+    /**
+    this is the type of actionability for the reported event
+    */
+    enum ActionStatus {
+        clinical,
+        pre_clinical
+    }
 
     /**
         Variant origin.
@@ -31,9 +44,9 @@ protocol CommonInterpretedCancer {
         somatic_variant
     }
 
-    record Actions {
+    record Action {
 
-        string actionType;
+        ActionType actionType;
 
         /**
         This is the tumor type considered to act on this variant
@@ -44,7 +57,7 @@ protocol CommonInterpretedCancer {
         /**
         array of PMIDs
         */
-        union {null, array<string>} evidence;
+        union {null, array<string>} evidences;
 
         /**
         drug
@@ -54,7 +67,7 @@ protocol CommonInterpretedCancer {
         /**
         status i.e. clinical, pre-clinical
         */
-        union {null, string} status;
+        union {null, ActionStatus} status;
 
         /**
         Is variant level actionable
@@ -83,18 +96,37 @@ protocol CommonInterpretedCancer {
 
     }
 
+    /**
+The genomic feature type
 
+* regulatory_region: A region of sequence that is involved in the control of a biological process. SO:0005836
+* gene: A region (or regions) that includes all of the sequence elements necessary to encode a functional transcript. A gene may include regulatory regions, transcribed regions and/or other functional sequence regions. SO:0000704
+* transcript: An RNA synthesized on a DNA or RNA template by an RNA polymerase. SO:0000673
+    */
+    enum FeatureTypeCancer {
+        regulatory_region,
+        gene,
+        transcript
+    }
 
-    enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+    /**
+The role of a given genomic feature in cancer
 
-    enum RoleInCancer {oncogene, TSG, both}
+* oncogene: A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* tumor_suppressor_gene: A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+    */
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene,
+        both
+    }
 
     record GenomicFeatureCancer {
 
         /**
         Feature Type
         */
-        FeatureTypes featureType;
+        FeatureTypeCancer featureType;
 
         /**
         Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
@@ -165,7 +197,7 @@ protocol CommonInterpretedCancer {
         /**
         Types of actionability
         */
-        union {null, array<Actions>} actions;
+        union {null, array<Action>} actions;
 
         /**
         This value groups variants that together could explain the phenotype according to the
@@ -282,12 +314,20 @@ protocol CommonInterpretedCancer {
         */
         union {null, array<string>} comments;
 
+        /**
+        The report events
+        */
         array<ReportEventCancer> reportEvents;
 
         /**
         List of variant calls
         */
-        union {null, array<VariantCall>} variantCall;
+        union {null, array<VariantCall>} variantCalls;
+
+        /**
+        Describe whether this is a somatic or Germline variant
+        */
+        array<AlleleOrigin> alleleOrigins;
     }
 
     /**
@@ -363,34 +403,11 @@ more specific category can be applied.  Reserved subtypes include:
         Comments
         */
         union {null, array<string>} comments;
-    }
-
-
-    record ReportedSomaticVariants {
-        /**
-        This is the normal record for one reported variant
-        */
-        ReportedVariantCancer reportedVariantCancer;
 
         /**
         Describe whether this is a somatic or Germline variant
         */
         array<AlleleOrigin> alleleOrigins;
     }
-
-
-
-    record ReportedSomaticStructuralVariants {
-        /**
-        This is the normal record for one reported variant
-        */
-        ReportedStructuralVariantCancer reportedStructuralVariantCancer;
-
-        /**
-        Describe whether this is a somatic or Germline variant
-        */
-        array<AlleleOrigin> alleleOrigins;
-    }
-
 }
 

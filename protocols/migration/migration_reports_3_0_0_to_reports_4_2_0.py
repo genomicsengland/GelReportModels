@@ -1,20 +1,20 @@
 from protocols import reports_3_0_0
-from protocols import reports_4_2_0_SNAPSHOT
+from protocols import reports_4_2_0
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 from protocols.migration.participants import MigrationReportsToParticipants1
-from protocols.migration.participants import MigrationParticipants100To103SNAPSHOT
+from protocols.migration.participants import MigrationParticipants100To103
 
 
-class MigrateReports3To420SNAPSHOT(BaseMigration):
+class MigrateReports3To420(BaseMigration):
 
     old_model = reports_3_0_0
-    new_model = reports_4_2_0_SNAPSHOT
+    new_model = reports_4_2_0
 
     def migrate_interpretation_request_rd(self, old_interpretation_request_rd):
         """
         :type old_interpretation_request_rd: reports_3_0_0.InterpretationRequestRD
-        :rtype: reports_4_2_0_SNAPSHOT.InterpretationRequestRD
+        :rtype: reports_4_2_0.InterpretationRequestRD
         """
         new_interpretation_request = self.new_model.InterpretationRequestRD.fromJsonDict(
             jsonDict=old_interpretation_request_rd.toJsonDict()
@@ -25,9 +25,9 @@ class MigrateReports3To420SNAPSHOT(BaseMigration):
                 participant.samples = []
 
         migrated_pedigree_1_0_1 = MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_interpretation_request_rd.pedigree)
-        migrated_pedigree = MigrationParticipants100To103SNAPSHOT().migrate_pedigree(old_pedigree=migrated_pedigree_1_0_1)
+        migrated_pedigree = MigrationParticipants100To103().migrate_pedigree(old_pedigree=migrated_pedigree_1_0_1)
 
-        new_interpretation_request.pedigree = reports_4_2_0_SNAPSHOT.Pedigree.fromJsonDict(migrated_pedigree.toJsonDict())
+        new_interpretation_request.pedigree = reports_4_2_0.Pedigree.fromJsonDict(migrated_pedigree.toJsonDict())
 
         new_interpretation_request.interpretationRequestVersion = old_interpretation_request_rd.InterpretationRequestVersion
         new_interpretation_request.interpretationRequestId = old_interpretation_request_rd.InterpretationRequestID
@@ -51,7 +51,7 @@ class MigrateReports3To420SNAPSHOT(BaseMigration):
     def migrate_interpreted_genome_rd(self, old_interpreted_genome_rd):
         """
         :type old_interpreted_genome_rd: reports_3_0_0.InterpretedGenomeRD
-        :rtype: reports_4_2_0_SNAPSHOT.InterpretedGenomeRD
+        :rtype: reports_4_2_0.InterpretedGenomeRD
         """
         new_interpreted_genome_rd = self.new_model.InterpretedGenomeRD.fromJsonDict(
             jsonDict=old_interpreted_genome_rd.toJsonDict()
@@ -76,7 +76,7 @@ class MigrateReports3To420SNAPSHOT(BaseMigration):
     def migrate_clinical_report_rd(self, old_clinical_report_rd):
         """
         :type old_clinical_report_rd: reports_3_0_0.ClinicalReportRD
-        :rtype: reports_4_2_0_SNAPSHOT.ClinicalReportRD
+        :rtype: reports_4_2_0.ClinicalReportRD
         """
         new_clinical_report_rd = self.new_model.ClinicalReportRD.fromJsonDict(
             jsonDict=old_clinical_report_rd.toJsonDict()
