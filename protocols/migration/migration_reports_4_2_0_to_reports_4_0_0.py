@@ -9,6 +9,12 @@ class MigrateReports420To400(BaseMigration):
     We only need migration from 4.2.0 to 4.0.0 to send cancer cases to Illumina.
     Illumina will be returning ClinicalReports in version 4.0.0.
     We don't need to migrate any rare disease case.
+
+    This target schema is missing the attribute `groupOfVariants`, this means we will lose the information related
+    to composite heterozygous variants.
+    The target schema is missing the list of `VariantCall` that includes the important attribute `sampleId`. This means
+    we will lose the ability to represent multiple variant calls for the same ReportEvent and furthermore we lose the
+    reference to the sampleId in the ReportedVariant.
     """
     old_model = reports_4_2_0
     new_model = reports_4_0_0
@@ -97,7 +103,8 @@ class MigrateReports420To400(BaseMigration):
 
     def migrate_report_event_cancer(self, report_event_cancer):
         """
-        This migration is missing the attribute `groupOfVariants`, this will stop
+        This migration is missing the attribute `groupOfVariants`, this means we will lose the information related
+        to composite heterozygous variants.
         :type report_event_cancer: reports_4_2_0.ReportEventCancer
         :rtype: reports_4_0_0.ReportEventCancer
         """

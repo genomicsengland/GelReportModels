@@ -219,7 +219,11 @@ class MigrationReportsToParticipants1(BaseMigration):
         new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
         new_pedigree.versionControl = self.new_model.VersionControl()
         new_pedigree.members = [self.migrate_pedigree_member(member=member) for member in pedigree.participants]
-        new_pedigree.analysisPanels = [self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
+        analysis_panels = []
+        if pedigree.analysisPanels is not None:
+            for analysis_panel in pedigree.analysisPanels:
+                analysis_panels.append(self.migrate_analysis_panel(analysis_panel=analysis_panel))
+        new_pedigree.analysisPanels = analysis_panels
         new_pedigree.readyForAnalysis = ready_for_analysis
         new_pedigree.familyId = pedigree.gelFamilyId
         if new_pedigree.validate(new_pedigree.toJsonDict()):

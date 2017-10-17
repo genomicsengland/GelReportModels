@@ -1,8 +1,12 @@
 from protocols import reports_3_1_0
 from protocols import participant_1_0_0
+from protocols.migration.base_migration import BaseMigration
 
 
-class MigrateReports3ToParticipant1(object):
+class MigrateReports3ToParticipant1(BaseMigration):
+    """
+    Any participant with empty labId in tumour or germline sample will fail to validate.
+    """
     old_model = reports_3_1_0
     new_model = participant_1_0_0
 
@@ -90,10 +94,3 @@ class MigrateReports3ToParticipant1(object):
             self.old_model.Sex.undetermined: self.new_model.Sex.UNKNOWN,
         }
         return sex_map.get(old_sex, self.new_model.Sex.UNKNOWN)
-
-    @staticmethod
-    def convert_string_to_integer(string):
-        try:
-            return int(string)
-        except ValueError:
-            raise Exception("Value: {string} is not an integer contained in a string !".format(string=string))
