@@ -1,15 +1,15 @@
 from unittest import TestCase
 
-from protocols.migration import MigrateReports3To420SNAPSHOT
-from protocols import reports_4_2_0_SNAPSHOT
+from protocols.migration import MigrateReports3To420
+from protocols import reports_4_2_0
 from protocols import reports_3_0_0
 from protocols import util
 
 
-class TestMigrateReports3To420SNAPSHOT(TestCase):
+class TestMigrateReports3To420(TestCase):
 
     old_model = reports_3_0_0
-    new_model = reports_4_2_0_SNAPSHOT
+    new_model = reports_4_2_0
 
     def test_migrate_interpretation_request_rd(self):
 
@@ -21,15 +21,17 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         old_interpretation_request_rd.analysisVersion = '234'
         old_interpretation_request_rd.complexGeneticPhenomena = self.old_model.ComplexGeneticPhenomena.other_aneuploidy
 
+        old_interpretation_request_rd.pedigree.participants[0].affectionStatus = self.old_model.AffectionStatus.unknown
+
         # Check old_interpretation_request_rd is a valid reports_3_0_0 InterpretationRequestRD object
         self.assertTrue(isinstance(old_interpretation_request_rd, self.old_model.InterpretationRequestRD))
         self.assertTrue(old_interpretation_request_rd.validate(jsonDict=old_interpretation_request_rd.toJsonDict()))
 
-        migrated_object = MigrateReports3To420SNAPSHOT().migrate_interpretation_request_rd(
+        migrated_object = MigrateReports3To420().migrate_interpretation_request_rd(
             old_interpretation_request_rd=old_interpretation_request_rd
         )
 
-        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT InterpretationRequestRD object
+        # Check migrated_object is a valid reports_4_2_0 InterpretationRequestRD object
         self.assertTrue(isinstance(migrated_object, self.new_model.InterpretationRequestRD))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
@@ -152,11 +154,11 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         self.assertTrue(isinstance(old_interpreted_genome_rd, self.old_model.InterpretedGenomeRD))
         self.assertTrue(old_interpreted_genome_rd.validate(jsonDict=old_interpreted_genome_rd.toJsonDict()))
 
-        migrated_object = MigrateReports3To420SNAPSHOT().migrate_interpreted_genome_rd(
+        migrated_object = MigrateReports3To420().migrate_interpreted_genome_rd(
             old_interpreted_genome_rd=old_interpreted_genome_rd
         )
 
-        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT InterpretedGenomeRD object
+        # Check migrated_object is a valid reports_4_2_0 InterpretedGenomeRD object
         self.assertTrue(isinstance(migrated_object, self.new_model.InterpretedGenomeRD))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
@@ -168,11 +170,11 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         self.assertTrue(isinstance(old_reported_structural_variant, self.old_model.ReportedStructuralVariant))
         self.assertTrue(old_reported_structural_variant.validate(jsonDict=old_reported_structural_variant.toJsonDict()))
 
-        migrated_object = MigrateReports3To420SNAPSHOT().migrate_reported_structural_variant(
+        migrated_object = MigrateReports3To420().migrate_reported_structural_variant(
             old_reported_structural_variant=old_reported_structural_variant
         )
 
-        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT ReportedStructuralVariant object
+        # Check migrated_object is a valid reports_4_2_0 ReportedStructuralVariant object
         self.assertTrue(isinstance(migrated_object, self.new_model.ReportedStructuralVariant))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
@@ -184,10 +186,10 @@ class TestMigrateReports3To420SNAPSHOT(TestCase):
         self.assertTrue(isinstance(old_clinical_report_rd, self.old_model.ClinicalReportRD))
         self.assertTrue(old_clinical_report_rd.validate(jsonDict=old_clinical_report_rd.toJsonDict()))
 
-        migrated_object = MigrateReports3To420SNAPSHOT().migrate_clinical_report_rd(
+        migrated_object = MigrateReports3To420().migrate_clinical_report_rd(
             old_clinical_report_rd=old_clinical_report_rd
         )
 
-        # Check migrated_object is a valid reports_4_2_0_SNAPSHOT ClinicalReportRD object
+        # Check migrated_object is a valid reports_4_2_0 ClinicalReportRD object
         self.assertTrue(isinstance(migrated_object, self.new_model.ClinicalReportRD))
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
