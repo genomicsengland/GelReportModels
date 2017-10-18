@@ -1,3 +1,9 @@
+version 4.3.3 (18 Oct 2017)
+-------------
+
+* Minor changes:
+    - Fixed erroneous import to participants_1_0_3_SNAPSHOT from participants migration
+
 version 3.0.0 (unreleased)
 --------------------------
 **RDParticipant.avdl**
