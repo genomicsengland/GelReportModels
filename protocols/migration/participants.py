@@ -7,6 +7,19 @@ from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 
 
+class MigrationParticipants103To100(BaseMigration):
+    old_model = participant_1_0_3
+    new_model = participant_1_0_0
+
+    def migrate_cancer_participant(self, cancer_participant):
+        migrated_participant = MigrationParticipants104To100().migrate_cancer_participant(
+            cancer_participant=cancer_participant
+        )
+        return self.validate_object(
+            object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
+        )
+
+
 class MigrationParticipants100To104(BaseMigration):
     old_model = participant_1_0_0
     new_model = participant_1_0_4
