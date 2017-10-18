@@ -9,6 +9,7 @@ class BaseMigration(object):
             from protocols.util import handle_avro_errors
             from pprint import pprint
             pprint(handle_avro_errors(object_to_validate.validate_parts()))
+            print object_to_validate.validate(object_to_validate.toJsonDict(), verbose=True).messages
             raise Exception("New {object_type} object is not valid".format(object_type=object_type))
 
     @staticmethod

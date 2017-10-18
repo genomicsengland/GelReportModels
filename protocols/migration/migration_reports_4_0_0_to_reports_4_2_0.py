@@ -155,11 +155,15 @@ class MigrateReports400To420(BaseMigration):
         )
 
         new_actions = []
-        for action in report_event.actions:
-            new_actions.append(self.migrate_action(
-                action=action
-            ))
-        new_report_event.actions = new_actions
+        if report_event.actions is not None:
+            for action in report_event.actions:
+                new_actions.append(self.migrate_action(
+                    action=action
+                ))
+            new_report_event.actions = new_actions
+        new_report_event.actions = self.new_model.Action()
+
+
 
         return self.validate_object(
             object_to_validate=new_report_event, object_type=self.new_model.ReportEventCancer
