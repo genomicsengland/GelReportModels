@@ -1,13 +1,13 @@
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_1
-from protocols import participant_1_0_3_SNAPSHOT
+from protocols import participant_1_0_3
 from protocols.util import handle_avro_errors
 
 
 class MigrationParticipants100To103SNAPSHOT(object):
     old_model = participant_1_0_1
-    new_model = participant_1_0_3_SNAPSHOT
+    new_model = participant_1_0_3
 
     def migrate_pedigree(self, old_pedigree):
         new_pedigree = self.new_model.Pedigree.fromJsonDict(old_pedigree.toJsonDict())
