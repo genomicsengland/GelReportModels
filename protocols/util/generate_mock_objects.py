@@ -1757,12 +1757,3 @@ def get_valid_dependencies_0_1_0():
 
     return validate_object(object_to_validate=new_api, object_type=object_type)
 
-
-def get_valid_servicehealth_0_1_0():
-    object_type = system_0_1_0.ServiceHealth
-    new_api = object_type()
-
-    new_api.dependencies = get_valid_dependencies_0_1_0()
-    new_api.status = system_0_1_0.Status.OK
-
-    return validate_object(object_to_validate=new_api, object_type=object_type)
