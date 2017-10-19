@@ -1,9 +1,13 @@
 from protocols import participant_1_0_0
 from protocols import reports_3_0_0
 from protocols.util import handle_avro_errors
+from protocols.migration.base_migration import BaseMigration
 
 
-class MigrateReports3ToParticipant1(object):
+class MigrateReports3ToParticipant1(BaseMigration):
+    """
+    Any participant with empty labId in tumour or germline sample will fail to validate.
+    """
     old_model = reports_3_0_0
     new_model = participant_1_0_0
 
@@ -26,21 +30,19 @@ class MigrateReports3ToParticipant1(object):
         new_cancer_participant.readyForAnalysis = True
 
         germline_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == 'germline'
+            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.germline
         ]
         new_cancer_participant.germlineSamples = [self.migrate_germline_sample(sample) for sample in germline_samples]
 
         tumor_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == 'tumor'
+            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.tumor
         ]
 
         new_cancer_participant.tumourSamples = [self.migrate_tumor_sample(sample) for sample in tumor_samples]
 
-        if new_cancer_participant.validate(new_cancer_participant.toJsonDict()):
-            return new_cancer_participant
-        else:
-            # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', new_cancer_participant.validate_parts())
+        return self.validate_object(
+            object_to_validate=new_cancer_participant, object_type=self.new_model.CancerParticipant
+        )
 
     def migrate_tumor_sample(self, old_cancer_sample):
 
@@ -70,11 +72,9 @@ class MigrateReports3ToParticipant1(object):
 
         new_tumour_sample.tumourId = 1
 
-        if new_tumour_sample.validate(new_tumour_sample.toJsonDict()):
-            return new_tumour_sample
-        else:
-            # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', handle_avro_errors(new_tumour_sample.validate_parts()))
+        return self.validate_object(
+            object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
+        )
 
     def migrate_germline_sample(self, old_cancer_sample):
 
@@ -105,10 +105,3 @@ class MigrateReports3ToParticipant1(object):
             self.old_model.Sex.undetermined: self.new_model.Sex.UNKNOWN,
         }
         return sex_map.get(old_sex, self.new_model.Sex.UNKNOWN)
-
-    @staticmethod
-    def convert_string_to_integer(string):
-        try:
-            return int(string)
-        except ValueError:
-            raise Exception("Value: {string} is not an integer contained in a string !".format(string=string))

@@ -2,56 +2,54 @@ import ujson
 import importlib
 import os.path
 import inspect
+from protocols.util.singleton import Singleton
 
 
 VERSION_430 = "4.3.0-SNAPSHOT"
-VERSION_300 = "3.0.0"
 VERSION_410 = "4.1.0"
+VERSION_400 = "4.0.0"
+VERSION_310 = "3.1.0"
+VERSION_300 = "3.0.0"
+VERSION_210 = "2.1.0"
 
-class DependencyManager:
+
+class DependencyManager():
     """
     Singleton class that reads builds.json file at the root of the project
     and provides utils for dependency management.
     """
-
-    class __DependencyManager:
-
-        def __init__(self):
-            filename = inspect.getframeinfo(inspect.currentframe()).filename
-            path = os.path.dirname(os.path.abspath(filename))
-            dependencies_json = "{}/../../builds.json".format(path)
-            self.builds = ujson.load(open(dependencies_json))["builds"]
-
-            # prepares resource: version -> namespace -> python package
-            self.versions = {}
-            for build in self.builds:
-                self.versions[build["version"]] = {}
-                for package in build["packages"]:
-                    namespace = package["package"]
-                    _module = DependencyManager.get_python_module(package)
-                    self.versions[build["version"]][namespace] = _module
-
-        def get_version_dependencies(self, version):
-            if version not in self.versions:
-                raise ValueError("Version {} not available in builds.json!".format(version))
-            return self.versions[version]
-
-        def get_latest_version_dependencies(self):
-            latest_version = max(self.versions.keys())
-            return self.versions[latest_version]
-
-        def get_latest_version(self):
-            latest_version = max(self.versions.keys())
-            return latest_version
-
-    instance = None
+    __metaclass__ = Singleton
 
     def __init__(self):
-        if not DependencyManager.instance:
-            DependencyManager.instance = DependencyManager.__DependencyManager()
+        filename = inspect.getframeinfo(inspect.currentframe()).filename
+        path = os.path.dirname(os.path.abspath(filename))
+        dependencies_json = "{}/../../builds.json".format(path)
+        builds = ujson.load(open(dependencies_json))["builds"]
 
-    def __getattr__(self, name):
-        return getattr(self.instance, name)
+        # prepares resource: version -> namespace -> python package
+        self.builds = {}
+        for build in builds:
+            self.builds[build["version"]] = {}
+            for package in build["packages"]:
+                namespace = package["package"]
+                _module = DependencyManager.get_python_module(package)
+                self.builds[build["version"]][namespace] = _module
+
+    def get_version_dependencies(self, version):
+        if version not in self.builds:
+            raise ValueError("Version {} not available in builds.json!".format(version))
+        return self.builds[version]
+
+    def get_latest_version_dependencies(self):
+        latest_version = max(self.builds.keys())
+        return self.builds[latest_version]
+
+    def get_latest_version(self):
+        latest_version = max(self.builds.keys())
+        return latest_version
+
+    def get_package_version(self, package, build_version):
+        return self.builds[build_version][package]
 
     @staticmethod
     def get_python_package_name(package):

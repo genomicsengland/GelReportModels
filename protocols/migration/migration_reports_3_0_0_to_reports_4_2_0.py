@@ -84,9 +84,12 @@ class MigrateReports3To420(BaseMigration):
 
         new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
 
-        new_clinical_report_rd.candidateVariants = self.migrate_reported_variants(
-            old_reported_variants=old_clinical_report_rd.candidateVariants
-        )
+        if old_clinical_report_rd.candidateVariants is not None:
+            new_clinical_report_rd.candidateVariants = self.migrate_reported_variants(
+                old_reported_variants=old_clinical_report_rd.candidateVariants
+            )
+        else:
+            new_clinical_report_rd.candidateVariants = None
 
         new_clinical_report_rd.candidateStructuralVariants = self.migrate_reported_structural_variants(
             old_reported_structural_variants=old_clinical_report_rd.candidateStructuralVariants

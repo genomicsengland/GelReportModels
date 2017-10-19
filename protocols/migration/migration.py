@@ -7,7 +7,6 @@ class Migration3_0_0To3_1_0(object):
 
     def migrate_interpretation_request_rd(self, interpretation_request):
         """
-
         :type interpretation_request: reports_3_0_0.InterpretationRequestRD
         :rtype: reports_3_1_0.InterpretationRequestRD
         """

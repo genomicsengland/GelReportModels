@@ -33,10 +33,22 @@ class MigrationParticipants100To104(BaseMigration):
         migrated_participant.germlineSamples = self.migrate_germline_samples(
             germline_samples=cancer_participant.germlineSamples, LDPCode=cancer_participant.LDPCode
         )
+        migrated_participant.matchedSamples = self.migrate_matched_samples(
+            matched_samples=cancer_participant.matchedSamples
+        )
 
         return self.validate_object(
             object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
         )
+
+    def migrate_matched_samples(self, matched_samples):
+        if matched_samples is None:
+            ms = self.new_model.MatchedSamples()
+            return [ms]
+        return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
+
+    def migrate_matched_sample(self, matched_sample):
+        return self.new_model.MatchedSamples().fromJsonDict(jsonDict=matched_sample.toJsonDict())
 
     def migrate_tumour_sample(self, tumour_sample, LDPCode):
         migrated_tumour_sample = self.new_model.TumourSample.fromJsonDict(tumour_sample.toJsonDict())
@@ -219,7 +231,11 @@ class MigrationReportsToParticipants1(BaseMigration):
         new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
         new_pedigree.versionControl = self.new_model.VersionControl()
         new_pedigree.members = [self.migrate_pedigree_member(member=member) for member in pedigree.participants]
-        new_pedigree.analysisPanels = [self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
+        analysis_panels = []
+        if pedigree.analysisPanels is not None:
+            for analysis_panel in pedigree.analysisPanels:
+                analysis_panels.append(self.migrate_analysis_panel(analysis_panel=analysis_panel))
+        new_pedigree.analysisPanels = analysis_panels
         new_pedigree.readyForAnalysis = ready_for_analysis
         new_pedigree.familyId = pedigree.gelFamilyId
         if new_pedigree.validate(new_pedigree.toJsonDict()):

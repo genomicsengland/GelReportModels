@@ -155,11 +155,12 @@ class MigrateReports400To420(BaseMigration):
         )
 
         new_actions = []
-        for action in report_event.actions:
-            new_actions.append(self.migrate_action(
-                action=action
-            ))
-        new_report_event.actions = new_actions
+        if report_event.actions is not None:
+            for action in report_event.actions:
+                new_actions.append(self.migrate_action(
+                    action=action
+                ))
+            new_report_event.actions = new_actions
 
         return self.validate_object(
             object_to_validate=new_report_event, object_type=self.new_model.ReportEventCancer
@@ -175,10 +176,10 @@ class MigrateReports400To420(BaseMigration):
         )
 
         action_types_map = {
-            "therapy": self.new_model.ActionType.therapy,
-            "therapeutic": self.new_model.ActionType.therapeutic,
-            "diagnosis": self.new_model.ActionType.diagnosis,
-            "prognosis": self.new_model.ActionType.prognosis
+            self.old_model.ActionType.therapy: self.new_model.ActionType.therapy,
+            self.old_model.ActionType.therapeutic: self.new_model.ActionType.therapeutic,
+            self.old_model.ActionType.diagnosis: self.new_model.ActionType.diagnosis,
+            self.old_model.ActionType.prognosis: self.new_model.ActionType.prognosis
         }
 
         action_status_map = {
