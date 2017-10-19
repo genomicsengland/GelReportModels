@@ -457,15 +457,6 @@ class TestGenerateMockObjectsSystem010(TestCase):
         self.assertTrue(isinstance(test_dependencies, self.model.Dependencies))
         self.assertTrue(test_dependencies.validate(test_dependencies.toJsonDict()))
 
-    def test_servicehealth(self):
-        """
-        Ensure generate_mock_objects.get_valid_servicehealth_0_1_0 returns a valid
-        system_0_1_0.ServiceHealth object
-        """
-        test_servicehealth = generate_mock_objects.get_valid_servicehealth_0_1_0()
-        self.assertTrue(isinstance(test_servicehealth, self.model.ServiceHealth))
-        self.assertTrue(test_servicehealth.validate(test_servicehealth.toJsonDict()))
-
 
 class TestGenerateMockObjectsParticipant103(TestCase):
 
