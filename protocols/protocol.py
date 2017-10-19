@@ -96,6 +96,8 @@ class ProtocolElement(object):
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
+                elif isinstance(val, dict):
+                    out[field.name] = {key: el.toJsonDict() for key, el in val.items()}
                 elif val is None:
                     out[field.name] = None
                 else:
