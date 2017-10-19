@@ -11,6 +11,8 @@ from protocols import participant_1_0_4
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0
 from protocols import system_0_1_0
+from protocols.util.dependency_manager import VERSION_430
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
 class MockModelObject(object):
@@ -716,6 +718,16 @@ def get_valid_rd_exit_questionnaire_4_0_0():
     return validate_object(object_to_validate=new_rd_eq, object_type=object_type)
 
 
+def get_valid_rd_exit_questionnaire_4_2_0():
+    object_type = reports_4_2_0.RareDiseaseExitQuestionnaire
+    rare_disease_exit_questionnaire = GenericFactoryAvro.get_factory_avro(
+        clazz=object_type,
+        version=VERSION_430
+    )
+    new_rd_eq = rare_disease_exit_questionnaire()
+    return validate_object(object_to_validate=new_rd_eq, object_type=object_type)
+
+
 def get_valid_reported_somatic_structural_variant_3_0_0():
     object_type = reports_3_0_0.ReportedSomaticStructuralVariants
     new_variant = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -967,8 +979,11 @@ def get_valid_clinical_report_cancer_4_2_0():
 
 def get_valid_called_genotype_2_1_0():
     object_type = reports_2_1_0.CalledGenotype
-    new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_cg.genotype = ''
+    called_genotype = GenericFactoryAvro.get_factory_avro(
+        clazz=object_type,
+        version="2.1.0"
+    )
+    new_cg = called_genotype()
 
     return validate_object(object_to_validate=new_cg, object_type=object_type)
 

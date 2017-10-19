@@ -36,6 +36,15 @@ class TestGenerateMockObjects420(TestCase):
         self.assertTrue(isinstance(test_ir_rd, self.model.CancerInterpretationRequest))
         self.assertTrue(test_ir_rd.validate(test_ir_rd.toJsonDict()))
 
+    def test_rd_exit_questionnaire(self):
+        """
+        Ensure generate_mock_objects.get_valid_rd_exit_questionnaire_4_2_0 returns a valid
+        reports_4_2_0_SNAPSHOT.RareDiseaseExitQuestionnaire object
+        """
+        test_eq = generate_mock_objects.get_valid_rd_exit_questionnaire_4_2_0()
+        self.assertTrue(isinstance(test_eq, self.model.RareDiseaseExitQuestionnaire))
+        self.assertTrue(test_eq.validate(test_eq.toJsonDict()))
+
 
 class TestGenerateMockObjects4(TestCase):
 
