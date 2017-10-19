@@ -2,10 +2,12 @@ from unittest import TestCase
 
 from protocols import participant_1_0_0
 from protocols import participant_1_0_4
-from protocols.util import get_valid_cancer_participant_1_0_0
+from protocols.util.dependency_manager import VERSION_430
+from protocols.util.dependency_manager import VERSION_400
 from protocols.migration import MigrationParticipants104To100
 from protocols.migration import MigrationParticipants100To104
-from protocols.util import get_valid_cancer_participant_1_0_4
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.util.factories.participant_1_0_0_factories import CancerParticipantFactory
 
 
 class TestMigrationParticipants100To104(TestCase):
@@ -15,8 +17,12 @@ class TestMigrationParticipants100To104(TestCase):
 
     def test_migrate_cancer_participant(self):
 
-        old_participant = get_valid_cancer_participant_1_0_0()
-
+        GenericFactoryAvro.register_factory(clazz=participant_1_0_0.CancerParticipant, factory=CancerParticipantFactory)
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_0.CancerParticipant, version=VERSION_400)()
+        matched_samples = self.old_model.MatchedSamples(
+            germlineSampleId='test_germline_id', tumourSampleId='test_tumour_id'
+        )
+        old_participant.matchedSamples = [matched_samples]
         old_participant.LDPCode = 'test_LDP_code'
 
         self.assertIsInstance(old_participant, self.old_model.CancerParticipant)
@@ -169,7 +175,7 @@ class TestMigrationParticipants104To100(TestCase):
 
     def test_migrate_cancer_participant(self):
 
-        old_participant = get_valid_cancer_participant_1_0_4()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_4.CancerParticipant, version=VERSION_430)()
 
         # Check old_participant is a valid participants_1_0_4 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
