@@ -5,9 +5,12 @@ from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_n
 from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.dependency_manager import VERSION_400, VERSION_300
+from protocols import reports_3_0_0
 
 
 class TestMigrateReports3ToParticipant1(TestCase):
+
+    old_model = reports_3_0_0
 
     def test_migrate_cancer_participant(self):
 
@@ -19,6 +22,7 @@ class TestMigrateReports3ToParticipant1(TestCase):
             cancer_sample.tumorSubType = 'mock_subtype'
             cancer_sample.tumorContent = 'High'
             cancer_sample.labId = "1"
+        old_participant.cancerSamples[0].sampleType = self.old_model.SampleType.tumor
 
         # Check old_participant is a valid reports_3_0_0 CancerParticipant object
         self.assertTrue(isinstance(old_participant, CancerParticipant_old))

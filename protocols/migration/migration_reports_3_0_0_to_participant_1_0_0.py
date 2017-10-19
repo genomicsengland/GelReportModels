@@ -30,21 +30,19 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.readyForAnalysis = True
 
         germline_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == 'germline'
+            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.germline
         ]
         new_cancer_participant.germlineSamples = [self.migrate_germline_sample(sample) for sample in germline_samples]
 
         tumor_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == 'tumor'
+            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.tumor
         ]
 
         new_cancer_participant.tumourSamples = [self.migrate_tumor_sample(sample) for sample in tumor_samples]
 
-        if new_cancer_participant.validate(new_cancer_participant.toJsonDict()):
-            return new_cancer_participant
-        else:
-            # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', new_cancer_participant.validate_parts())
+        return self.validate_object(
+            object_to_validate=new_cancer_participant, object_type=self.new_model.CancerParticipant
+        )
 
     def migrate_tumor_sample(self, old_cancer_sample):
 
@@ -74,11 +72,9 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         new_tumour_sample.tumourId = 1
 
-        if new_tumour_sample.validate(new_tumour_sample.toJsonDict()):
-            return new_tumour_sample
-        else:
-            # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', handle_avro_errors(new_tumour_sample.validate_parts()))
+        return self.validate_object(
+            object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
+        )
 
     def migrate_germline_sample(self, old_cancer_sample):
 
