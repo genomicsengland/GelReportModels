@@ -23,7 +23,9 @@ class DependencyManager():
     def __init__(self):
         filename = inspect.getframeinfo(inspect.currentframe()).filename
         path = os.path.dirname(os.path.abspath(filename))
-        dependencies_json = "{}/../../builds.json".format(path)
+        dependencies_json = "{}/../resources/builds.json".format(path)
+        if not os.path.exists(dependencies_json):
+            raise ValueError("Not found config file '{}'. Try running 'mvn initialize'".format(dependencies_json))
         builds = ujson.load(open(dependencies_json))["builds"]
 
         # prepares resource: version -> namespace -> python package
