@@ -18,28 +18,6 @@ from protocols.reports_3_0_0 import (
 from protocols.util.factories.avro_factory import FactoryAvro
 
 
-class ConsentStatusFactory(FactoryAvro):
-    def __init__(self, *args, **kwargs):
-        super(ConsentStatusFactory, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = ConsentStatus
-
-    _version = VERSION_300
-
-
-class CancerDemographicsFactory(FactoryAvro):
-    def __init__(self, *args, **kwargs):
-        super(CancerDemographicsFactory, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = CancerDemographics
-
-    _version = VERSION_300
-
-
-    consentStatus = factory.SubFactory(ConsentStatusFactory)
-
 class CancerSampleFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
         super(CancerSampleFactory, self).__init__(*args, **kwargs)
@@ -64,7 +42,6 @@ class CancerParticipantFactory(FactoryAvro):
 
     _version = VERSION_300
 
-    cancerDemographics = factory.SubFactory(CancerDemographicsFactory)
     versionControl = VersionControl()
 
     @factory.post_generation
@@ -89,35 +66,6 @@ class CancerParticipantFactory(FactoryAvro):
                                               )]
 
 
-class FileFactory(FactoryAvro):
-    def __init__(self, *args, **kwargs):
-        super(FileFactory, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = File
-
-    _version = VERSION_300
-
-
-class ActionsFactory(FactoryAvro):
-    def __init__(self, *args, **kwargs):
-        super(ActionsFactory, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = Actions
-
-    _version = VERSION_300
-
-class GenomicFeatureCancerFactory(FactoryAvro):
-    def __init__(self, *args, **kwargs):
-        super(GenomicFeatureCancerFactory, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = GenomicFeatureCancer
-
-    _version = VERSION_300
-
-
 class ReportEventCancerFactory(FactoryAvro):
     def __init__(self, *args, **kwargs):
         super(ReportEventCancerFactory, self).__init__(*args, **kwargs)
@@ -127,24 +75,8 @@ class ReportEventCancerFactory(FactoryAvro):
 
     _version = VERSION_300
 
-    genomicFeatureCancer = factory.SubFactory(GenomicFeatureCancerFactory)
     soTerms = [str(factory.fuzzy.FuzzyText('SO:', length=7).fuzz()) for _ in range(0, 2)]
     soNames = [str(factory.fuzzy.FuzzyText(length=8).fuzz()) for _ in range(0, 2)]
-
-    @factory.post_generation
-    def actions(self, create, extacted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if not extacted:
-            extacted = [
-                ActionsFactory.create(),
-                ]
-        self.actions = []
-        for f in extacted:
-            if f:
-                self.actions.append(f)
 
 
 class CancerReportedVariantsFactory(FactoryAvro):
