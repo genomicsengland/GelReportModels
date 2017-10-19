@@ -7,7 +7,7 @@ from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
-class TestMigrateReports420To4(TestCase):
+class TestMigrateReports4To420(TestCase):
 
     old_model = reports_4_0_0
     new_model = reports_4_2_0
@@ -19,6 +19,9 @@ class TestMigrateReports420To4(TestCase):
         )()
 
         cir_400.cancerParticipant.LDPCode = 'test_LDP_code_migrate_cir_400_to_420'
+        cir_400.tieredVariants[0].reportedVariantCancer.reportEvents[0].actions = [self.old_model.Actions()]
+        cir_400.tieredVariants[0].reportedVariantCancer.reportEvents[0].actions[0].actionType = self.old_model.ActionType.diagnosis
+        cir_400.tieredVariants[0].reportedVariantCancer.reportEvents[0].actions[0].variantActionable = False
 
         self.assertIsInstance(cir_400, self.old_model.CancerInterpretationRequest)
         self.assertTrue(cir_400.validate(cir_400.toJsonDict()))

@@ -5,7 +5,6 @@ from protocols import participant_1_0_3
 from protocols import participant_1_0_4
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
-from protocols.reports_4_0_0 import MatchedSamples
 
 
 class MigrationParticipants100To104(BaseMigration):
@@ -44,12 +43,12 @@ class MigrationParticipants100To104(BaseMigration):
 
     def migrate_matched_samples(self, matched_samples):
         if matched_samples is None:
-            ms = MatchedSamples()
+            ms = self.new_model.MatchedSamples()
             return [ms]
         return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
 
     def migrate_matched_sample(self, matched_sample):
-        return MatchedSamples().fromJsonDict(jsonDict=matched_sample.toJsonDict())
+        return self.new_model.MatchedSamples().fromJsonDict(jsonDict=matched_sample.toJsonDict())
 
     def migrate_tumour_sample(self, tumour_sample, LDPCode):
         migrated_tumour_sample = self.new_model.TumourSample.fromJsonDict(tumour_sample.toJsonDict())
