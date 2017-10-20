@@ -11,6 +11,7 @@ from protocols import participant_1_0_4
 from protocols import cva_0_3_1
 from protocols import cva_0_4_0
 from protocols import system_0_1_0
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
 class MockModelObject(object):
@@ -965,14 +966,6 @@ def get_valid_clinical_report_cancer_4_2_0():
     return validate_object(object_to_validate=new_crc, object_type=object_type)
 
 
-def get_valid_called_genotype_2_1_0():
-    object_type = reports_2_1_0.CalledGenotype
-    new_cg = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_cg.genotype = ''
-
-    return validate_object(object_to_validate=new_cg, object_type=object_type)
-
-
 def get_valid_report_event_2_1_0():
     object_type = reports_2_1_0.ReportEvent
     new_report_event = MockModelObject(object_type=object_type).get_valid_empty_object()
@@ -988,7 +981,7 @@ def get_valid_report_event_2_1_0():
 def get_valid_reported_variant_2_1_0():
     object_type = reports_2_1_0.ReportedVariant
     new_rv = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_rv.calledGenotypes[0] = get_valid_called_genotype_2_1_0()
+    new_rv.calledGenotypes[0] = GenericFactoryAvro.get_factory_avro(clazz=reports_2_1_0.CalledGenotype, version="2.1.0")
     new_rv.reportEvents[0] = get_valid_report_event_2_1_0()
     new_rv.position = 0
     new_rv.evidenceIds = {}
@@ -1003,7 +996,7 @@ def get_valid_reported_variant_2_1_0():
 def get_valid_reported_structural_variant_2_1_0():
     object_type = reports_2_1_0.ReportedStructuralVariant
     new_rsv = MockModelObject(object_type=object_type).get_valid_empty_object()
-    new_rsv.calledGenotypes[0] = get_valid_called_genotype_2_1_0()
+    new_rsv.calledGenotypes[0] = GenericFactoryAvro.get_factory_avro(clazz=reports_2_1_0.CalledGenotype, version="2.1.0")
     new_rsv.reportEvents[0] = get_valid_report_event_2_1_0()
     new_rsv.start, new_rsv.end = 1, 2
 
