@@ -1,3 +1,9 @@
+version 4.3.4 (20 Oct 2017)
+-------------
+
+* Minor changes:
+    - Fixed erroneous import to participants_1_0_0 from participants migration
+
 version 4.3.3 (18 Oct 2017)
 -------------
 
