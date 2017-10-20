@@ -12,6 +12,7 @@ from protocols.cva_0_4_0 import TieredVariantInjectRD, TieredVariantInjectCancer
 import protocols.reports_4_2_0
 import protocols.reports_4_1_0
 import protocols.reports_3_0_0
+import protocols.cva_0_4_0
 from protocols.util.dependency_manager import VERSION_430, VERSION_410, VERSION_300
 
 
@@ -264,7 +265,3 @@ class TestGenericFactory(TestCase):
         instance_ir3 = interpretation_request_factory2()
         self.assertTrue(instance_ir3.validate(instance_ir3.toJsonDict()))
         self.assertTrue(instance_ir3.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
-
-
-
-
