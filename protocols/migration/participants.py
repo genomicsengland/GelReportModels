@@ -170,7 +170,7 @@ class MigrationReportsToParticipants1(object):
 
 class MigrationParticipants1ToReports(object):
     new_model = participant_old
-    old_model = participant_1_0_0
+    old_model = participant_1_0_1
 
     def migrate_pedigree(self, pedigree):
         """
