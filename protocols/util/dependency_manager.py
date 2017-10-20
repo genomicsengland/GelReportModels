@@ -4,7 +4,7 @@ import os.path
 import inspect
 from protocols.util.singleton import Singleton
 
-
+VERSION_PARTICIPANT_103_TEST = "1.0.3-participant-tests"
 VERSION_430 = "4.3.0-SNAPSHOT"
 VERSION_410 = "4.1.0"
 VERSION_400 = "4.0.0"
@@ -13,7 +13,7 @@ VERSION_300 = "3.0.0"
 VERSION_210 = "2.1.0"
 
 
-class DependencyManager():
+class DependencyManager:
     """
     Singleton class that reads builds.json file at the root of the project
     and provides utils for dependency management.

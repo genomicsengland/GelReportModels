@@ -1,6 +1,16 @@
 {
   "builds" :
-  [
+  [    {
+      "version": "1.0.3-participant-tests",
+      "packages": [
+        {
+          "package": "org.gel.models.participant.avro",
+          "python_package": "participant",
+          "version": "1.0.3",
+          "dependencies": []
+        }
+      ]
+    },
     {
       "version": "4.3.0-SNAPSHOT",
       "packages": [
