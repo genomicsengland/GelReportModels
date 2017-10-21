@@ -101,7 +101,7 @@ protocol TransactionProtocol {
         string id;
         string lastModified;
         TransactionStatus status;
-        union {null, bytes} compressedReportedVariants;
+        union {null, bytes} compressedReportEvents;
         union {null, string} errorMessage;
         union {null, string} stackTrace;
         string requestSignature;

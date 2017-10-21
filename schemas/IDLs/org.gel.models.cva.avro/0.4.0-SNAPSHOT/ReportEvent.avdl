@@ -13,20 +13,23 @@ protocol ReportEventProtocol {
     /**
     The type of the ReportedVariant
     
-* diagnostic: this is a variant reported by a GMC
-* cip: this is a variant suggested by a CIP
-* tiering: this is a variant highlighted by the tiering process
+* reported: this is a variant reported by a GMC
+* candidate: this is a variant suggested by a Clinical Interpretation Partner
+* tiered: this is a variant highlighted by the tiering process
 * other: any other source
     */
     enum ReportEventType {
-        diagnostic,
-        cip,
-        tiering,
+        reported,
+        candidate,
+        tiered,
         other
     }
 
     /**
     The 100K Genomes program to which the variant belongs, either rare disease or cancer.
+
+* rd: rare disease program
+* cancer: cancer program
     */
     enum Program {
         rd,
