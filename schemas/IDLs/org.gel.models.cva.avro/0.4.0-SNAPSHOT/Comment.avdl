@@ -13,7 +13,7 @@ protocol CommentProtocol {
         /**
         Date in format yyyyMMddhhmm
         */
-        string date;
+        string `date`;
         /**
         The author of the curation event
         */

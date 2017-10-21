@@ -27,7 +27,7 @@ Duplication of the prior fields is not to be supported.
         /**
         The registration date
         */
-        string date;
+        string `date`;
         /**
         The assembly to which the variant refers
         */

@@ -4,7 +4,7 @@ protocol EvidencesSetProtocol {
 
     // CVA references
     import idl "Comment.avdl";
-    import idl "ReportedVariant.avdl";
+    import idl "ReportEvent.avdl";
     import idl "Variant.avdl";
     // OpenCB references
     import idl "variant.avdl";
@@ -80,7 +80,7 @@ protocol EvidencesSetProtocol {
         /**
         Date in format yyyyMMddhhmm
         */
-        string date;
+        string `date`;
         /**
         The current curation at date
         */
@@ -99,7 +99,7 @@ protocol EvidencesSetProtocol {
         /**
         Date in format yyyyMMddhhmm
         */
-        string date;
+        string `date`;
         /**
         The current curation state
         */
@@ -177,9 +177,9 @@ Duplication of the prior fields is not be supported.
         */
         array<Comment> comments = [];
         /**
-        Reported variants
+        Report events
         */
-        array<ReportedVariant> reportedVariants = [];
+        array<ReportEvent> reportEvents = [];
     }
 
     /**
