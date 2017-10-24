@@ -9,6 +9,7 @@ sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resourc
 from GelModelsTools import utils
 from GelModelsTools.gel_models_tools import GelModelsTools
 from protocols.util.dependency_manager import DependencyManager
+import shutil
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -184,6 +185,9 @@ def run_build(build, skip_docs=False):
             for avpr in os.listdir(avpr_build_folder):
                 __avpr2html(os.path.join(avpr_build_folder, avpr), docs_folder)
 
+RESOURCES_FOLDER = "protocols/resources"
+BUILDS_FILE = "builds.json"
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -197,7 +201,14 @@ def main():
 
     # builds all builds or just the indicated in version parameter
     run_any = False
-    builds = ujson.loads(open("builds.json").read())["builds"]
+    builds = ujson.loads(open(BUILDS_FILE).read())["builds"]
+
+    # copies builds.json into the resources folder reachable by the dependency manager
+    if os.path.exists(RESOURCES_FOLDER):
+        distutils.dir_util.remove_tree(RESOURCES_FOLDER)
+    os.mkdir(RESOURCES_FOLDER)
+    shutil.copyfile(BUILDS_FILE, "{}/{}".format(RESOURCES_FOLDER, BUILDS_FILE))
+
     for build in builds:
         if args.version is None or build["version"] == args.version:
             logging.info("Building build version {}".format(build["version"]))
