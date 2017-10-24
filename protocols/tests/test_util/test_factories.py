@@ -270,3 +270,14 @@ class TestGenericFactory(TestCase):
         instance_ir3 = interpretation_request_factory2()
         self.assertTrue(instance_ir3.validate(instance_ir3.toJsonDict()))
         self.assertTrue(instance_ir3.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
+
+    def test_custom_fields(self):
+
+        # get an interpretation request RD for reports 4.2.0
+        interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
+            protocols.reports_4_2_0.InterpretationRequestRD,
+            version = VERSION_430
+        )
+        instance = interpretation_request_factory(analysisReturnUri = "myURI")
+        self.assertTrue(instance.validate(instance.toJsonDict()))
+        self.assertTrue(instance.analysisReturnUri == "myURI")

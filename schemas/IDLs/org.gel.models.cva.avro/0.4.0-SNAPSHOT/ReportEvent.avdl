@@ -1,6 +1,6 @@
 @namespace("org.gel.models.cva.avro")
 
-protocol ReportedVariantProtocol {
+protocol ReportEventProtocol {
 
     // CVA references
     import idl "Comment.avdl";
@@ -13,22 +13,25 @@ protocol ReportedVariantProtocol {
     /**
     The type of the ReportedVariant
     
-* diagnostic: this is a variant reported by a GMC
-* cip: this is a variant suggested by a CIP
-* tiering: this is a variant highlighted by the tiering process
+* reported: this is a variant reported by a GMC
+* candidate: this is a variant suggested by a Clinical Interpretation Partner
+* tiered: this is a variant highlighted by the tiering process
 * other: any other source
     */
-    enum ReportedVariantType {
-        diagnostic,
-        cip,
-        tiering,
+    enum ReportEventType {
+        reported,
+        candidate,
+        tiered,
         other
     }
 
     /**
     The 100K Genomes program to which the variant belongs, either rare disease or cancer.
+
+* rd: rare disease program
+* cancer: cancer program
     */
-    enum GelProgram {
+    enum Program {
         rd,
         cancer
     }
@@ -50,7 +53,7 @@ Every ReportedVariant is uniquely identified by:
 
 Duplication of the prior fields is not be supported.
     */
-    record ReportedVariant {
+    record ReportEvent {
         /**
         Report avro models version
         */
@@ -82,7 +85,7 @@ Duplication of the prior fields is not be supported.
         /**
         Date in format yyyyMMddhhmm
         */
-        string date;
+        string `date`;
         /**
         The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
         */
@@ -94,11 +97,11 @@ Duplication of the prior fields is not be supported.
         /**
         Type of ReportedVariant
         */
-        ReportedVariantType type;
+        ReportEventType type;
         /**
         The 100K Genomes program to which the reported variant belongs.
         */
-        GelProgram program;
+        Program program;
         /**
         Validation flag
         */

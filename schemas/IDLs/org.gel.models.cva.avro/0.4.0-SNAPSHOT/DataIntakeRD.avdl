@@ -78,7 +78,7 @@ protocol DataIntakeRDProtocol {
     /**
     Record for reported variant injection as part of the data intake for CVA
     */
-    record ReportedVariantInjectRD {
+    record CandidateVariantInjectRD {
         /**
         Report avro models version
         */
@@ -133,7 +133,7 @@ protocol DataIntakeRDProtocol {
     /**
     Record for candidate variant injection as part of the data intake for CVA
     */
-    record CandidateVariantInjectRD {
+    record ReportedVariantInjectRD {
         /**
         Report avro models version
         */

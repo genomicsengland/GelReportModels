@@ -77,7 +77,7 @@ protocol DataIntakeCancerProtocol {
     /**
     Record for cancer reported variant injection as part of the data intake for CVA
     */
-    record ReportedVariantInjectCancer {
+    record CandidateVariantInjectCancer {
         /**
         Report avro models version
         */
@@ -132,7 +132,7 @@ protocol DataIntakeCancerProtocol {
     /**
     Record for cancer candidate variant injection as part of the data intake for CVA
     */
-    record CandidateVariantInjectCancer {
+    record ReportedVariantInjectCancer {
         /**
         Report avro models version
         */
