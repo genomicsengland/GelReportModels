@@ -2,18 +2,23 @@ from unittest import TestCase
 
 import factory
 
-from protocols.ga4gh_3_0_0 import Variant
-from protocols.reports_4_1_0 import CancerExitQuestionnaire
-from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory, CallFactory
-from protocols.util.factories.reports_3_0_0_factories import CancerReportedVariantsFactory
-from protocols.util.factories.reports_4_1_0_factories import CancerExitQuestionnaireFactory
-from protocols.util.factories.avro_factory import GenericFactoryAvro, FactoryAvro
-from protocols.cva_0_4_0 import TieredVariantInjectRD, TieredVariantInjectCancer
+import protocols.cva_0_4_0
 import protocols.reports_4_2_0
 import protocols.reports_4_1_0
 import protocols.reports_3_0_0
-import protocols.cva_0_4_0
-from protocols.util.dependency_manager import VERSION_430, VERSION_410, VERSION_300
+from protocols.ga4gh_3_0_0 import Variant
+from protocols.cva_0_4_0 import TieredVariantInjectRD
+from protocols.util.dependency_manager import VERSION_430
+from protocols.util.dependency_manager import VERSION_410
+from protocols.util.dependency_manager import VERSION_300
+from protocols.cva_0_4_0 import TieredVariantInjectCancer
+from protocols.reports_4_1_0 import CancerExitQuestionnaire
+from protocols.util.factories.avro_factory import FactoryAvro
+from protocols.util.factories.ga4gh_factories import CallFactory
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory
+from protocols.util.factories.reports_3_0_0_factories import CancerReportedVariantsFactory
+from protocols.util.factories.reports_4_1_0_factories import CancerExitQuestionnaireFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
