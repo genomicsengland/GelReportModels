@@ -84,20 +84,6 @@
                             </target>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>copy builds.json to python package</id>
-                        <phase>initialize</phase>
-                        <goals><goal>run</goal></goals>
-                        <configuration>
-                            <target>
-                                <copy todir="protocols/resources">
-                                    <fileset dir="">
-                                        <include name="builds.json"/>
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <!--
