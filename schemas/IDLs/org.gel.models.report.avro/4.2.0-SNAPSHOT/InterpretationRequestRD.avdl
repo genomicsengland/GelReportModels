@@ -143,5 +143,10 @@ protocol InterpretationRequestsRD {
         Additional information
         */
         union {null, map<string>} additionalInfo;
+
+        /**
+        Internal Study id
+        */
+        string internalStudyId;
     }
 }
