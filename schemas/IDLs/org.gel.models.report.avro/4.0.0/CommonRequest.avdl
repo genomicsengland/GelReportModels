@@ -39,7 +39,10 @@ Types:
         BigWig,
         MD5Sum,
         ROH,
-        OTHER
+        OTHER,
+        partition,
+        VFResults,
+        coverage
         }
 
     /**

@@ -106,6 +106,12 @@ protocol CancerInterpretationRequests {
         */
         union {null, map<string>} additionalInfo;
 
+        /**
+        Other files that may be vendor specific
+        map of key: type of file, value: record of type File
+        */
+        union {null, map<File>} otherFiles;
+
     }
 
 
