@@ -187,7 +187,7 @@ def get_valid_file_4_0_0(file_type=None):
     new_file = MockModelObject(object_type=reports_4_0_0.File).get_valid_empty_object()
     new_file.fileType = file_type
     new_file.SampleId = ['']
-    new_file.md5Sum.fileType = reports_4_0_0.FileType.OTHER
+    new_file.md5Sum = None
 
     return validate_object(object_to_validate=new_file, object_type=reports_4_0_0.File)
 
