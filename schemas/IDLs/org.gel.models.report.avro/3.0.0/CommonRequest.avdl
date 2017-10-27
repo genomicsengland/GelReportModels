@@ -59,7 +59,7 @@ record File {
 
     FileType fileType;
 
-    union {null, File} md5Sum;
+    union {null, string} md5Sum;
 
 }
 
