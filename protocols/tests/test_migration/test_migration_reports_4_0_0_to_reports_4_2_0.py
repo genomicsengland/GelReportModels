@@ -32,3 +32,22 @@ class TestMigrateReports4To420(TestCase):
         )
         self.assertIsInstance(migrated_cir, self.new_model.CancerInterpretationRequest)
         self.assertTrue(migrated_cir.validate(migrated_cir.toJsonDict()))
+
+        self.assertEqual(
+            migrated_cir.tieredVariants[0].reportEvents[0].actions[0].actionType,
+            self.new_model.ActionType.diagnosis
+        )
+
+        cir_400.tieredVariants[0].reportedVariantCancer.reportEvents[0].actions[0].actionType = "Therapeutic (colorectal ca)"
+        self.assertIsInstance(cir_400, self.old_model.CancerInterpretationRequest)
+        self.assertTrue(cir_400.validate(cir_400.toJsonDict()))
+        migrated_cir = MigrateReports400To420().migrate_cancer_interpretation_request(
+            cancer_interpretation_request=cir_400,
+            sample_id="sample1"
+        )
+        self.assertIsInstance(migrated_cir, self.new_model.CancerInterpretationRequest)
+        self.assertTrue(migrated_cir.validate(migrated_cir.toJsonDict()))
+        self.assertEqual(
+            migrated_cir.tieredVariants[0].reportEvents[0].actions[0].actionType,
+            self.new_model.ActionType.therapeutic
+        )
