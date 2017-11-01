@@ -23,6 +23,9 @@ Types:
 * `MD5Sum`: a MD5Sum file
 * `ROH`: a BED file with Regions of homozygosity
 * `OTHER`: other unspecified file type
+* `PARTITION`: TODO
+* `VARIANT_FREQUENCIES`: TODO
+* `COVERAGE`: TODO
     **/
     enum FileType {
         BAM,
@@ -40,9 +43,9 @@ Types:
         MD5Sum,
         ROH,
         OTHER,
-        partition,
-        VFResults,
-        coverage
+        PARTITION,
+        VARIANT_FREQUENCIES,
+        COVERAGE
         }
 
     /**
