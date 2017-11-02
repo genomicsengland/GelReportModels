@@ -38,6 +38,7 @@ def __create_IDLs_build_folder(packages):
     build_folder = os.path.join(IDL_FOLDER, "build")
     for package in packages:
         source_folder = os.path.join(IDL_FOLDER, package["package"], package["version"])
+        logging.info("Copying '{}'...".format(source_folder))
         distutils.dir_util.copy_tree(source_folder, build_folder)
     return build_folder
 
