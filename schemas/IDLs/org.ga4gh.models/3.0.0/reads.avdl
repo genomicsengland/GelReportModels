@@ -29,7 +29,7 @@ ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear align
 protocol Reads {
 
 import idl "common.avdl";
-import idl "metadata.avdl";
+import idl "_metadata.avdl";
 
 record Program {
   /** The command line used to run this program. */
