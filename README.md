@@ -10,11 +10,99 @@ From the Avro models you can generate:
 * AVPR schemas
 * HTML documentation
 
-Maven is employed to manage the source code generation and dependency management.
+Maven is employed for Java dependency management. Particularly, OpenCB (https://github.com/opencb/biodata)[https://github.com/opencb/biodata] models are imported through a maven dependency and then extracted into the local folder for schemas. To allow Python build to be independent the OpenCB models are commited in the repository under `schemas/IDLs/org.opencb.biodata.models`.
 
-To generate sources and documentation run:
+To import the OpenCB dependency and extract the models in your local environment run:
 ```
-% mvn clean generate-sources
+% mvn clean initialize
+```
+
+## Versioning
+
+Models are organised in **packages**:
+* Internal
+    - org.gel.models.report.avro
+    - org.gel.models.participant.avro
+    - org.gel.models.metrics.avro
+    - org.gel.models.cva.avro
+    - org.gel.models.system.avro
+* External
+    - org.ga4gh.models
+    - org.opencb.biodata.models
+    
+A package is formed by a set of **schema files** having `.avdl` extension.
+
+There are dependencies between packages that require that we **build** packages together.
+    
+Each of those packages support independent versioning. Also there are build versions that determine a set of specific packages that are built together. These information is contained within `builds.json` in an array of build descriptions.
+
+The following represents the build version `4.3.0-SNAPSHOT` having package org.ga4gh.models version 3.0.0, package org.gel.models.cva.avro version 0.4.0-SNAPSHOT and so on.
+```buildoutcfg
+{
+  "version": "4.3.0-SNAPSHOT",
+  "packages": [
+    {
+      "package": "org.ga4gh.models",
+      "python_package": "ga4gh",
+      "version": "3.0.0",
+      "dependencies": []
+    },
+    {
+      "package": "org.gel.models.cva.avro",
+      "python_package": "cva",
+      "version": "0.4.0-SNAPSHOT",
+      "dependencies": [
+        "org.gel.models.report.avro",
+        "org.gel.models.participant.avro",
+        "org.gel.models.system.avro",
+        "org.opencb.biodata.models"
+      ]
+    },
+    {
+      "package": "org.gel.models.metrics.avro",
+      "python_package": "metrics",
+      "version": "1.1.0-SNAPSHOT",
+      "dependencies": []
+    },
+    {
+      "package": "org.gel.models.participant.avro",
+      "python_package": "participant",
+      "version": "1.0.4-SNAPSHOT",
+      "dependencies": []
+    },
+    {
+      "package": "org.gel.models.report.avro",
+      "python_package": "reports",
+      "version": "4.2.0-SNAPSHOT",
+      "dependencies": [
+        "org.gel.models.participant.avro"
+      ]
+    },
+    {
+      "package": "org.gel.models.system.avro",
+      "python_package": "system",
+      "version": "0.1.0-SNAPSHOT",
+      "dependencies": []
+    },
+    {
+      "package": "org.opencb.biodata.models",
+      "python_package": "opencb",
+      "version": "1.3.0-SNAPSHOT",
+      "dependencies": []
+    }
+  ]
+}
+```
+
+Every package in a build is built in a sandbox folder under `schemas/IDLs/build` together with those packages in the list of dependencies for each package. This introduces two strong constraints in the models:
+* The same package cannot contain two records named equally in different schema files
+* Schema files in different packages cannot be named equally
+ 
+The build sandbox is deleted after every build.
+
+To build all builds described in `builds.json` run:
+```
+% python build2.py
 ```
 
 This will create the following:
@@ -22,12 +110,9 @@ This will create the following:
 * Java source code representing the Avro records in the folder `./target/generated-sources/avro`
 * The models HTML documentation under `./docs/html_schemas`
 
-### Building legacy versions of the models
+It may be handy to skip the documentation generation by using the flag `--skip-docs`.
 
-To run against a legacy version of the models by overriding maven properties run:
-```
-% mvn clean generate-sources -Dmodels.version=3.0.0
-```
+### Building legacy versions of the models
 
 To generate the source code for all legacy versions just run:
 ```
@@ -36,7 +121,12 @@ To generate the source code for all legacy versions just run:
 
 See `builds.json` for the information on all legacy versions and the specific package versions and dependencies in each of those.
 
-### Packaging and deployment
+To build a specific version run:
+```
+% python build2.py --version 3.0.0
+```
+
+## Java Packaging
 
 To pack the Java source code representing these models in a jar file use:
 ```
@@ -48,17 +138,26 @@ To install it in your system so it is accessible as a maven dependency to other 
 % mvn install
 ```
 
+## Deployable documentation
+
 To create a war file containing the HTML documentation for the models and the models itself run:
 ```
 % mvn package -Dp.type=war
 ```
 This war can be deployed as a documentation service.
 
+## Unit tests
 
-## OpenCB dependencies
+To run some unit tests implemented in Python run:
+```
+% ./run_tests.sh
+```
 
-The CVA model is extending the OpenCB variant model. In order to do so we need some Avro definitions from OpenCB biodata-models. Maven is extracting the required files from the biodata-models.jar file and use them to generate the required sources.
-Current version relies on biodata [v1.2.1](https://github.com/opencb/biodata/tree/v1.2.1)
+## Mock data
+TODO
+
+## Migrations
+TODO
 
 ## Dependencies
 

@@ -21,7 +21,7 @@
 
     <properties>
         <models.version>4.3.0-SNAPSHOT</models.version>
-        <opencb.models.version>1.2.1</opencb.models.version>
+        <opencb.models.version>1.3.0-SNAPSHOT</opencb.models.version>
         <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
@@ -185,7 +185,7 @@
                 </executions>
             </plugin>
             <!--
-            Deletes dynamic content: OpenCB Avro models, JSON models, AVPR models
+            Deletes dynamic content: JSON models, AVPR models
             TODO: delete documentation once we move away from serving it through GitHub.io
              -->
             <plugin>
@@ -200,14 +200,6 @@
                         </goals>
                         <configuration>
                             <filesets>
-                                <!--
-                                <fileset>
-                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </fileset>
-                                -->
                                 <fileset>
                                     <directory>schemas/AVPRs</directory>
                                     <includes>
