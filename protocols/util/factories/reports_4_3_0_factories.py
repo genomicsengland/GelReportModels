@@ -1,7 +1,7 @@
 from random import randint
 import factory.fuzzy
 from protocols.util.dependency_manager import VERSION_430
-from protocols.reports_4_1_0 import (
+from protocols.reports_4_2_0 import (
     CancerExitQuestionnaire,
     CancerSomaticVariantLevelQuestions,
     CancerGermlineVariantLevelQuestions,

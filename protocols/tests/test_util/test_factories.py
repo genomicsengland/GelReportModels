@@ -4,7 +4,6 @@ import factory
 
 import protocols.cva_0_4_0
 import protocols.reports_4_2_0
-import protocols.reports_4_1_0
 import protocols.reports_3_0_0
 from protocols.ga4gh_3_0_0 import Variant
 from protocols.cva_0_4_0 import TieredVariantInjectRD
@@ -12,7 +11,6 @@ from protocols.util.dependency_manager import VERSION_430
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.dependency_manager import VERSION_300
 from protocols.cva_0_4_0 import TieredVariantInjectCancer
-from protocols.reports_4_1_0 import CancerExitQuestionnaire
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.ga4gh_factories import CallFactory
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -81,7 +79,7 @@ class TestGA4GHVariantFactory(TestCase):
 
     def test_cancer_exitquestionnaire_factory(self):
         batch = CancerExitQuestionnaireFactory.create_batch(1000)
-        validation_results = map(lambda x: CancerExitQuestionnaire.validate(x.toJsonDict()), batch)
+        validation_results = map(lambda x: x.validate(x.toJsonDict()), batch)
         self.assertNotIn(False, validation_results)
 
 
