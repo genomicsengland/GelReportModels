@@ -185,7 +185,7 @@
                 </executions>
             </plugin>
             <!--
-            Deletes dynamic content: OpenCB Avro models, JSON models, AVPR models
+            Deletes dynamic content: JSON models, AVPR models
             TODO: delete documentation once we move away from serving it through GitHub.io
              -->
             <plugin>
@@ -200,14 +200,6 @@
                         </goals>
                         <configuration>
                             <filesets>
-                                <!--
-                                <fileset>
-                                    <directory>schemas/IDLs/${opencb.models.package}/${opencb.models.version}</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </fileset>
-                                -->
                                 <fileset>
                                     <directory>schemas/AVPRs</directory>
                                     <includes>
