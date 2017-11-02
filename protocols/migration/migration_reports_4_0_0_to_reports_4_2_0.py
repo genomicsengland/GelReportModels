@@ -155,7 +155,7 @@ class MigrateReports400To420(BaseMigration):
         )
 
         new_actions = []
-        if report_event.actions is not None:
+        if report_event.actions:
             for action in report_event.actions:
                 new_actions.append(self.migrate_action(
                     action=action
@@ -166,6 +166,27 @@ class MigrateReports400To420(BaseMigration):
             object_to_validate=new_report_event, object_type=self.new_model.ReportEventCancer
         )
 
+    def migrate_action_type(self, action_type):
+        action_types_map = {
+            self.old_model.ActionType.therapy: self.new_model.ActionType.therapy,
+            self.old_model.ActionType.therapeutic: self.new_model.ActionType.therapeutic,
+            self.old_model.ActionType.diagnosis: self.new_model.ActionType.diagnosis,
+            self.old_model.ActionType.prognosis: self.new_model.ActionType.prognosis
+        }
+        new_action_type = action_types_map.get(action_type, None)
+
+        if new_action_type is None:
+            if self.new_model.ActionType.therapy in action_type.lower():
+                new_action_type = self.new_model.ActionType.therapy
+            elif self.new_model.ActionType.therapeutic in action_type.lower():
+                new_action_type = self.new_model.ActionType.therapeutic
+            elif self.new_model.ActionType.diagnosis in action_type.lower():
+                new_action_type = self.new_model.ActionType.diagnosis
+            elif self.new_model.ActionType.prognosis in action_type.lower():
+                new_action_type = self.new_model.ActionType.prognosis
+
+        return new_action_type
+
     def migrate_action(self, action):
         """
         :type action: reports_4_0_0.Action
@@ -175,20 +196,13 @@ class MigrateReports400To420(BaseMigration):
             jsonDict=action.toJsonDict()
         )
 
-        action_types_map = {
-            self.old_model.ActionType.therapy: self.new_model.ActionType.therapy,
-            self.old_model.ActionType.therapeutic: self.new_model.ActionType.therapeutic,
-            self.old_model.ActionType.diagnosis: self.new_model.ActionType.diagnosis,
-            self.old_model.ActionType.prognosis: self.new_model.ActionType.prognosis
-        }
-
         action_status_map = {
             "clinical": self.new_model.ActionStatus.clinical,
             "pre_clinical": self.new_model.ActionStatus.pre_clinical,
             "pre-clinical": self.new_model.ActionStatus.pre_clinical
         }
 
-        new_action.actionType = action_types_map.get(action.actionType, None)
+        new_action.actionType = self.migrate_action_type(action.actionType)
         new_action.evidences = action.evidence
         new_action.status = action_status_map.get(action.status, None)
 
@@ -206,14 +220,14 @@ class MigrateReports400To420(BaseMigration):
         )
 
         feature_type_map = {
-            "RegulatoryRegion":self.new_model.FeatureTypeCancer.regulatory_region,
-            "Gene":self.new_model.FeatureTypeCancer.gene,
-            "Transcript":self.new_model.FeatureTypeCancer.transcript
+            "RegulatoryRegion": self.new_model.FeatureTypeCancer.regulatory_region,
+            "Gene": self.new_model.FeatureTypeCancer.gene,
+            "Transcript": self.new_model.FeatureTypeCancer.transcript
         }
         role_in_cancer_map = {
             "oncogene":self.new_model.RoleInCancer.oncogene,
-            "TSG":self.new_model.RoleInCancer.tumor_suppressor_gene,
-            "both":self.new_model.RoleInCancer.both
+            "TSG": self.new_model.RoleInCancer.tumor_suppressor_gene,
+            "both": self.new_model.RoleInCancer.both
         }
         new_genomic_feature_cancer.featureType = feature_type_map.get(genomic_feature_cancer.featureType, None)
         new_genomic_feature_cancer.roleInCancer = role_in_cancer_map.get(genomic_feature_cancer.roleInCancer, None)

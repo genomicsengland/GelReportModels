@@ -46,7 +46,7 @@ protocol CommonInterpretedCancer {
 
     record Action {
 
-        ActionType actionType;
+        union {null, ActionType} actionType;
 
         /**
         This is the tumor type considered to act on this variant
