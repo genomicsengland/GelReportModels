@@ -15,8 +15,10 @@ class TestMigrateReports3To420(TestCase):
     def test_migrate_interpretation_request_rd(self):
 
         old_interpretation_request_rd = GenericFactoryAvro.get_factory_avro(
-            reports_3_0_0.InterpretationRequestRD, VERSION_300
+            reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=False
         )()
+
+        old_interpretation_request_rd.BAMs[0].md5Sum = old_interpretation_request_rd.BAMs[1]
 
         test_ir_id = 'CHF-2003'
         old_interpretation_request_rd.InterpretationRequestID = test_ir_id
@@ -106,7 +108,7 @@ class TestMigrateReports3To420(TestCase):
             self.assertEqual(new_bam.sampleId, old_bam.SampleId)
             self.assertEqual(new_bam.uriFile, old_bam.URIFile)
             self.assertEqual(new_bam.fileType, old_bam.fileType)
-            self.assertEqual(new_bam.md5Sum, old_bam.md5Sum)
+            self.assertEqual(new_bam.md5Sum, None)
 
         # Check VCF locations are migrated correctly
         old_vcfs = old_interpretation_request_rd.VCFs
@@ -117,7 +119,7 @@ class TestMigrateReports3To420(TestCase):
             self.assertEqual(new_vcf.sampleId, old_vcf.SampleId)
             self.assertEqual(new_vcf.uriFile, old_vcf.URIFile)
             self.assertEqual(new_vcf.fileType, old_vcf.fileType)
-            self.assertEqual(new_vcf.md5Sum, old_vcf.md5Sum)
+            self.assertEqual(new_vcf.md5Sum, None)
 
         # Check BigWig locations are migrated correctly
         old_big_wigs = old_interpretation_request_rd.bigWigs
@@ -129,7 +131,7 @@ class TestMigrateReports3To420(TestCase):
                 self.assertEqual(new_big_wig.sampleId, old_big_wig.SampleId)
                 self.assertEqual(new_big_wig.uriFile, old_big_wig.URIFile)
                 self.assertEqual(new_big_wig.fileType, old_big_wig.fileType)
-                self.assertEqual(new_big_wig.md5Sum, old_big_wig.md5Sum)
+                self.assertEqual(new_big_wig.md5Sum, None)
         else:
             self.assertTrue(new_big_wigs is None)
 
@@ -141,7 +143,7 @@ class TestMigrateReports3To420(TestCase):
             self.assertEqual(new_pedigree_diagram.sampleId, old_pedigree_diagram.SampleId)
             self.assertEqual(new_pedigree_diagram.uriFile, old_pedigree_diagram.URIFile)
             self.assertEqual(new_pedigree_diagram.fileType, old_pedigree_diagram.fileType)
-            self.assertEqual(new_pedigree_diagram.md5Sum, old_pedigree_diagram.md5Sum)
+            self.assertEqual(new_pedigree_diagram.md5Sum, None)
         else:
             self.assertTrue(new_pedigree_diagram is None)
 
@@ -153,7 +155,7 @@ class TestMigrateReports3To420(TestCase):
             self.assertEqual(new_annotation_file.sampleId, old_annotation_file.SampleId)
             self.assertEqual(new_annotation_file.uriFile, old_annotation_file.URIFile)
             self.assertEqual(new_annotation_file.fileType, old_annotation_file.fileType)
-            self.assertEqual(new_annotation_file.md5Sum, old_annotation_file.md5Sum)
+            self.assertEqual(new_annotation_file.md5Sum, None)
         else:
             self.assertTrue(new_annotation_file is None)
 

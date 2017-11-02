@@ -23,6 +23,9 @@ Types:
 * `MD5Sum`: a MD5Sum file
 * `ROH`: a BED file with Regions of homozygosity
 * `OTHER`: other unspecified file type
+* `PARTITION`: Canvas output of coverage in high density areas
+* `VARIANT_FREQUENCIES`: b-allele frequencies
+* `COVERAGE`: whole genome coverage metrics in JSON format
     **/
     enum FileType {
         BAM,
@@ -39,7 +42,10 @@ Types:
         BigWig,
         MD5Sum,
         ROH,
-        OTHER
+        OTHER,
+        PARTITION,
+        VARIANT_FREQUENCIES,
+        COVERAGE
         }
 
     /**
@@ -60,7 +66,7 @@ Types:
 
         FileType fileType;
 
-        union {null, File} md5Sum;
+        union {null, string} md5Sum;
 
     }
 

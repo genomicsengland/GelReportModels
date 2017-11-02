@@ -185,7 +185,7 @@ class MigrateReports3To420(BaseMigration):
                 fileType=old_file.fileType,
                 uriFile=old_file.URIFile,
                 sampleId=sampleId,
-                md5Sum=old_file.md5Sum,
+                md5Sum=None,
             )
         if new_file.validate(new_file.toJsonDict()):
             return new_file
