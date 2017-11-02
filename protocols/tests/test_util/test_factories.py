@@ -93,7 +93,10 @@ class TestGenericFactory(TestCase):
         self.assertTrue(instance.validate(instance.toJsonDict()))
 
     def test_tiered_variant_inject_cancer_factory(self):
-        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(TieredVariantInjectCancer)
+        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(
+            TieredVariantInjectCancer,
+            version=VERSION_430
+        )
         instance = tiered_variant_inject_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
 

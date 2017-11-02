@@ -2,10 +2,10 @@ from unittest import TestCase
 
 from protocols import reports_4_0_0
 from protocols import reports_4_2_0
-from protocols import participant_1_0_4
+from protocols import participant_1_0_3
 from protocols import participant_1_0_0
 from protocols.migration import MigrateReports420To400
-from protocols.migration import MigrationParticipants104To100
+from protocols.migration import MigrationParticipants103To100
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.dependency_manager import VERSION_430
 
@@ -32,9 +32,9 @@ class TestMigrateReports420To4(TestCase):
         self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
 
 
-class TestMigrationParticipants104To100(TestCase):
+class TestMigrationParticipants103To100(TestCase):
 
-    old_model = participant_1_0_4
+    old_model = participant_1_0_3
     new_model = participant_1_0_0
 
     def test_migrate_tumour_sample(self):
@@ -42,7 +42,7 @@ class TestMigrationParticipants104To100(TestCase):
         old_tumour_sample = GenericFactoryAvro.get_factory_avro(self.old_model.TumourSample, VERSION_430)()
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
-        migrated_sample = MigrationParticipants104To100().migrate_tumour_sample(
+        migrated_sample = MigrationParticipants103To100().migrate_tumour_sample(
             tumour_sample=old_tumour_sample
         )
 

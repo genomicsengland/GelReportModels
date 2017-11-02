@@ -2,21 +2,18 @@ from unittest import TestCase
 
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
-from protocols import participant_1_0_4
 from protocols.util.dependency_manager import VERSION_430
 from protocols.util.dependency_manager import VERSION_400
-from protocols.util.dependency_manager import VERSION_404
-from protocols.migration import MigrationParticipants104To100
 from protocols.migration import MigrationParticipants103To100
-from protocols.migration import MigrationParticipants100To104
+from protocols.migration import MigrationParticipants100To103
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.participant_1_0_0_factories import CancerParticipantFactory
 
 
-class TestMigrationParticipants100To104(TestCase):
+class TestMigrationParticipants100To103(TestCase):
 
     old_model = participant_1_0_0
-    new_model = participant_1_0_4
+    new_model = participant_1_0_3
 
     def test_migrate_cancer_participant(self):
 
@@ -31,7 +28,7 @@ class TestMigrationParticipants100To104(TestCase):
         self.assertIsInstance(old_participant, self.old_model.CancerParticipant)
         self.assertTrue(old_participant.validate(old_participant.toJsonDict()))
 
-        migrated_participant = MigrationParticipants100To104().migrate_cancer_participant(
+        migrated_participant = MigrationParticipants100To103().migrate_cancer_participant(
             cancer_participant=old_participant
         )
 
@@ -39,7 +36,7 @@ class TestMigrationParticipants100To104(TestCase):
         self.assertTrue(migrated_participant.validate(migrated_participant.toJsonDict()))
 
         self.assertIsInstance(migrated_participant.versionControl, self.new_model.VersionControl)
-        self.assertDictEqual(migrated_participant.versionControl.toJsonDict(), {"GitVersionControl": "1.0.4"})
+        self.assertDictEqual(migrated_participant.versionControl.toJsonDict(), {"GitVersionControl": "1.0.3"})
 
         for germline_sample in migrated_participant.germlineSamples:
             self.assertEqual(germline_sample.LDPCode, old_participant.LDPCode)
@@ -90,7 +87,7 @@ class TestMigrationParticipants100To104(TestCase):
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
 
-        migrated_sample = MigrationParticipants100To104().migrate_tumour_sample(
+        migrated_sample = MigrationParticipants100To103().migrate_tumour_sample(
             tumour_sample=old_tumour_sample, LDPCode='test_ldp_code'
         )
 
@@ -111,9 +108,9 @@ class TestMigrationParticipants100To104(TestCase):
         self.assertEqual(migrated_sample.tumourType, test_phase)
 
 
-class TestMigrationParticipants104To100(TestCase):
+class TestMigrationParticipants103To100(TestCase):
 
-    old_model = participant_1_0_4
+    old_model = participant_1_0_3
     new_model = participant_1_0_0
 
     def test_migrate_tumour_sample(self):
@@ -154,7 +151,7 @@ class TestMigrationParticipants104To100(TestCase):
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
 
-        migrated_sample = MigrationParticipants104To100().migrate_tumour_sample(
+        migrated_sample = MigrationParticipants103To100().migrate_tumour_sample(
             tumour_sample=old_tumour_sample
         )
 
@@ -178,14 +175,14 @@ class TestMigrationParticipants104To100(TestCase):
 
     def test_migrate_cancer_participant(self):
 
-        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_4.CancerParticipant, version=VERSION_430)()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_3.CancerParticipant, version=VERSION_430)()
 
         # Check old_participant is a valid participants_1_0_4 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
         self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
 
         # # Perform the migration of old_participant from participants_1_0_4 to participants_1_0_0
-        migrated_participant = MigrationParticipants104To100().migrate_cancer_participant(old_participant)
+        migrated_participant = MigrationParticipants103To100().migrate_cancer_participant(old_participant)
 
         # # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(migrated_participant, self.new_model.CancerParticipant))
@@ -200,7 +197,7 @@ class TestMigrationParticipants103To100(TestCase):
     def test_migrate_cancer_participant(self):
 
         object_type = participant_1_0_3.CancerParticipant
-        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_404)()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_430)()
 
         # Check old_participant is a valid participants_1_0_3 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))

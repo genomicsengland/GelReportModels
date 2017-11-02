@@ -5,7 +5,6 @@ import inspect
 from protocols.util.singleton import Singleton
 
 VERSION_430 = "4.3.0"
-VERSION_404 = "4.0.4"
 VERSION_400 = "4.0.0"
 VERSION_300 = "3.0.0"
 VERSION_210 = "2.1.0"
