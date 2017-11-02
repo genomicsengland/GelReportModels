@@ -10,7 +10,8 @@ From the Avro models you can generate:
 * AVPR schemas
 * HTML documentation
 
-Maven is employed for Java dependency management. Particularly, OpenCB (https://github.com/opencb/biodata)[https://github.com/opencb/biodata] models are imported through a maven dependency and then extracted into the local folder for schemas. To allow Python build to be independent the OpenCB models are commited in the repository under `schemas/IDLs/org.opencb.biodata.models`.
+Maven is employed for Java dependency management. Particularly, OpenCB (https://github.com/opencb/biodata)[https://github.com/opencb/biodata] models are imported through a maven dependency and then extracted into the local folder for schemas.
+This is not required unless you upgrade OpenCB models version, as the OpenCB models are commited in the repository under `schemas/IDLs/org.opencb.biodata.models`.
 
 To import the OpenCB dependency and extract the models in your local environment run:
 ```
@@ -37,7 +38,7 @@ There are dependencies between packages that require that we **build** packages 
 Each of those packages support independent versioning. Also there are build versions that determine a set of specific packages that are built together. These information is contained within `builds.json` in an array of build descriptions.
 
 The following represents the build version `4.3.0-SNAPSHOT` having package org.ga4gh.models version 3.0.0, package org.gel.models.cva.avro version 0.4.0-SNAPSHOT and so on.
-```buildoutcfg
+```
 {
   "version": "4.3.0-SNAPSHOT",
   "packages": [
@@ -114,17 +115,21 @@ It may be handy to skip the documentation generation by using the flag `--skip-d
 
 ### Building legacy versions of the models
 
-To generate the source code for all legacy versions just run:
-```
-% python build2.py
-```
-
 See `builds.json` for the information on all legacy versions and the specific package versions and dependencies in each of those.
 
 To build a specific version run:
 ```
 % python build2.py --version 3.0.0
 ```
+
+### Using custom tools to build the models
+
+To facilitate using custom tools to build the models you can prepare the sandbox for a specific version running:
+```
+% python build2.py --version 4.0.0 --only-prepare-sandbox
+```
+
+This will copy all required schemas for that build under the folder `schemas/IDLs/build`.
 
 ## Java Packaging
 
