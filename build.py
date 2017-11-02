@@ -213,7 +213,7 @@ BUILDS_FILE = "builds.json"
 def main():
     parser = argparse.ArgumentParser(
         description='GEL models build',
-        usage='''build2.py [<args>]''')
+        usage='''build.py [<args>]''')
     parser.add_argument('--version', help='A specific build version to run (if not provided runs all)')
     parser.add_argument('--skip-docs', action='store_true', help='Skips the documentation')
     parser.add_argument('--only-prepare-sandbox', action='store_true', help='Copies the required IDL schemas in the build folder under schemas/IDLs/build. A version must be specified')

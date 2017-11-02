@@ -161,7 +161,7 @@
                             <executable>python</executable>
                             <workingDirectory>${basedir}</workingDirectory>
                             <arguments>
-                                <argument>build2.py</argument>
+                                <argument>build.py</argument>
                                 <argument>--version</argument>
                                 <argument>${version}</argument>
                                 <argument>--skip-docs</argument>

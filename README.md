@@ -103,7 +103,7 @@ The build sandbox is deleted after every build.
 
 To build all builds described in `builds.json` run:
 ```
-% python build2.py
+% python build.py
 ```
 
 This will create the following:
@@ -119,14 +119,14 @@ See `builds.json` for the information on all legacy versions and the specific pa
 
 To build a specific version run:
 ```
-% python build2.py --version 3.0.0
+% python build.py --version 3.0.0
 ```
 
 ### Using custom tools to build the models
 
 To facilitate using custom tools to build the models you can prepare the sandbox for a specific version running:
 ```
-% python build2.py --version 4.0.0 --only-prepare-sandbox
+% python build.py --version 4.0.0 --only-prepare-sandbox
 ```
 
 This will copy all required schemas for that build under the folder `schemas/IDLs/build`.
