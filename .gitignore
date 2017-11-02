@@ -14,3 +14,4 @@ protocols/*.py
 !protocols/helpers.py
 docs/**/*-SNAPSHOT
 dist
+protocols/resources/*

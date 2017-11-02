@@ -1,7 +1,7 @@
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_4_2_0
 from protocols.migration import BaseMigration
-from protocols.migration.participants import MigrationParticipants100To104
+from protocols.migration.participants import MigrationParticipants100To103
 
 
 class MigrateReports400To420(BaseMigration):
@@ -21,7 +21,7 @@ class MigrateReports400To420(BaseMigration):
 
         new_cancer_interpretation_request.gitVersionControl = "4.2.0"
 
-        new_cancer_participant = MigrationParticipants100To104().migrate_cancer_participant(
+        new_cancer_participant = MigrationParticipants100To103().migrate_cancer_participant(
             cancer_participant=cancer_interpretation_request.cancerParticipant
         )
         new_cancer_interpretation_request.cancerParticipant = new_cancer_participant

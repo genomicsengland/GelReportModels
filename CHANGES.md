@@ -1,3 +1,26 @@
+version 4.3.5 (2nd November 2017)
+--------------------------
+* reports 4.0.0
+    - MD5 sum changed to a string
+    - Other files added to the cancer interpretation request
+    - New file types PARTITION, VARIANT_FREQUENCIES and COVERAGE
+* Build system and package versioning refactored
+* Python mock data factories
+
+version 4.3.4 (20 Oct 2017)
+-------------
+
+* Minor changes:
+    - Fixed erroneous import to participants_1_0_0 from participants migration
+
+version 4.3.3 (18 Oct 2017)
+-------------
+
+* Minor changes:
+    - Fixed erroneous import to participants_1_0_3_SNAPSHOT from participants migration
+
+[...]
+
 version 3.0.0 (unreleased)
 --------------------------
 **RDParticipant.avdl**
