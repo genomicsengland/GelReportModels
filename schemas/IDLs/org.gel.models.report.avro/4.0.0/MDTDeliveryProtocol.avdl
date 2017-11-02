@@ -81,6 +81,9 @@ protocol MDTDelivery {
         /** Tiering Version */
         string tieringVersion;
 
+        /** Internal Study id */
+        string internalStudyId;
+
         /** Complex Genetic Phenomena */
         union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
 
