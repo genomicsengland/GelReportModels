@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
-from protocols.util.dependency_manager import VERSION_430
+from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.migration import MigrationParticipants103To100
 from protocols.migration import MigrationParticipants100To103
@@ -175,7 +175,7 @@ class TestMigrationParticipants103To100(TestCase):
 
     def test_migrate_cancer_participant(self):
 
-        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_3.CancerParticipant, version=VERSION_430)()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=participant_1_0_3.CancerParticipant, version=VERSION_500)()
 
         # Check old_participant is a valid participants_1_0_4 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
@@ -197,7 +197,7 @@ class TestMigrationParticipants103To100(TestCase):
     def test_migrate_cancer_participant(self):
 
         object_type = participant_1_0_3.CancerParticipant
-        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_430)()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_500)()
 
         # Check old_participant is a valid participants_1_0_3 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))

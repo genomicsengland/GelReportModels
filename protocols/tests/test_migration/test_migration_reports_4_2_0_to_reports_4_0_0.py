@@ -7,7 +7,7 @@ from protocols import participant_1_0_0
 from protocols.migration import MigrateReports420To400
 from protocols.migration import MigrationParticipants103To100
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.util.dependency_manager import VERSION_430
+from protocols.util.dependency_manager import VERSION_500
 
 
 class TestMigrateReports420To4(TestCase):
@@ -17,7 +17,7 @@ class TestMigrateReports420To4(TestCase):
 
     def test_migrate_cir_420_to_400(self):
 
-        cir_420 = GenericFactoryAvro.get_factory_avro(reports_4_2_0.CancerInterpretationRequest, VERSION_430)()
+        cir_420 = GenericFactoryAvro.get_factory_avro(reports_4_2_0.CancerInterpretationRequest, VERSION_500)()
 
         # Check cir_420 is a valid reports_4_2_0 CancerInterpretationRequest object
         self.assertIsInstance(cir_420, self.old_model.CancerInterpretationRequest)
@@ -39,7 +39,7 @@ class TestMigrationParticipants103To100(TestCase):
 
     def test_migrate_tumour_sample(self):
 
-        old_tumour_sample = GenericFactoryAvro.get_factory_avro(self.old_model.TumourSample, VERSION_430)()
+        old_tumour_sample = GenericFactoryAvro.get_factory_avro(self.old_model.TumourSample, VERSION_500)()
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
         migrated_sample = MigrationParticipants103To100().migrate_tumour_sample(
