@@ -186,7 +186,7 @@ protocol CancerParticipants {
     This defines a Cancer Participant
     */
     record CancerParticipant{
-        int yearOfBirth;
+        union {null, int} yearOfBirth;
 
         union {null, array<string>}  morphology;
 
