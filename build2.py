@@ -3,13 +3,20 @@ import sys
 import os
 import logging
 import argparse
-import ujson
-import distutils.dir_util
-sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
-from GelModelsTools import utils
-from GelModelsTools.gel_models_tools import GelModelsTools
-from protocols.util.dependency_manager import DependencyManager
+try:
+    import ujson as json
+except:
+    import json
 import shutil
+import distutils.dir_util
+try:
+    sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
+    from GelModelsTools import utils
+    from GelModelsTools.gel_models_tools import GelModelsTools
+    from protocols.util.dependency_manager import DependencyManager
+except:
+    logging.warning("Unmet dependencies. Not all build functionality will work")
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -27,13 +34,20 @@ def __create_IDLs_build_folder(packages):
     :param packages:
     :return:
     """
+    __delete_IDLs_build_folder()
     build_folder = os.path.join(IDL_FOLDER, "build")
-    if os.path.exists(build_folder):
-        distutils.dir_util.remove_tree(build_folder)
     for package in packages:
         source_folder = os.path.join(IDL_FOLDER, package["package"], package["version"])
         distutils.dir_util.copy_tree(source_folder, build_folder)
     return build_folder
+
+def __delete_IDLs_build_folder():
+    """
+    Deletes the build folder
+    """
+    build_folder = os.path.join(IDL_FOLDER, "build")
+    if os.path.exists(build_folder):
+        distutils.dir_util.remove_tree(build_folder)
 
 
 def __get_package_from_build(build, package_name):
@@ -123,6 +137,13 @@ def __avpr2html(input, output):
     sys.argv = args
     GelModelsTools()
 
+def __get_build_by_version(builds, version):
+    build = None
+    for _build in builds:
+        if _build["version"] == version:
+            build = _build
+    return build
+
 
 def run_build(build, skip_docs=False):
     """
@@ -195,13 +216,14 @@ def main():
         usage='''build2.py [<args>]''')
     parser.add_argument('--version', help='A specific build version to run (if not provided runs all)')
     parser.add_argument('--skip-docs', action='store_true', help='Skips the documentation')
+    parser.add_argument('--only-prepare-sandbox', action='store_true', help='Copies the required IDL schemas in the build folder under schemas/IDLs/build. A version must be specified')
     # parse_args defaults to [1:] for args, but you need to
     # exclude the rest of the args too, or validation will fail
     args = parser.parse_args(sys.argv[1:])
 
     # builds all builds or just the indicated in version parameter
     run_any = False
-    builds = ujson.loads(open(BUILDS_FILE).read())["builds"]
+    builds = json.loads(open(BUILDS_FILE).read())["builds"]
 
     # copies builds.json into the resources folder reachable by the dependency manager
     if os.path.exists(RESOURCES_FOLDER):
@@ -209,14 +231,28 @@ def main():
     os.mkdir(RESOURCES_FOLDER)
     shutil.copyfile(BUILDS_FILE, "{}/{}".format(RESOURCES_FOLDER, BUILDS_FILE))
 
-    for build in builds:
-        if args.version is None or build["version"] == args.version:
-            logging.info("Building build version {}".format(build["version"]))
-            run_build(build, args.skip_docs)
-            run_any = True
+    if args.only_prepare_sandbox and args.version is None:
+        raise ValueError("Please, provide a version to create the build sandbox")
 
-    if not run_any and args.version is not None:
-        raise ValueError("Provided build version does not exist [{}]".format(args.version))
+    if args.only_prepare_sandbox:
+        build = __get_build_by_version(builds, args.version)
+        packages = build["packages"]
+        # copy IDLs from specified packages in build into build folder
+        __create_IDLs_build_folder(packages)
+        logging.info("The build sandbox has been created under 'schemas/IDLs/build'")
+    else:
+        try:
+            for build in builds:
+                if args.version is None or build["version"] == args.version:
+                    logging.info("Building build version {}".format(build["version"]))
+                    run_build(build, args.skip_docs)
+                    run_any = True
+        finally:
+            __delete_IDLs_build_folder()
+
+        if not run_any and args.version is not None:
+            raise ValueError("Provided build version does not exist [{}]".format(args.version))
+        logging.info("Build/s finished succesfully!")
 
 
 if __name__ == '__main__':
