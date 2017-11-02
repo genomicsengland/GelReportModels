@@ -51,6 +51,11 @@ protocol InterpretationRequestsRD {
         string cellbaseVersion="4.0";
 
         /**
+        Internal Study id
+        */
+        string internalStudyId;
+
+        /**
         Version of this request
         */
         int interpretationRequestVersion;
