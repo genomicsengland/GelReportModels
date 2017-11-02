@@ -146,7 +146,7 @@ def __get_build_by_version(builds, version):
     return build
 
 
-def run_build(build, skip_docs=False):
+def run_build(build, skip_docs=False, skip_java=False):
     """
     Builds a build ...
     :param build:
@@ -157,18 +157,19 @@ def run_build(build, skip_docs=False):
     # copy IDLs from specified packages in build into build folder
     build_folder = __create_IDLs_build_folder(packages)
 
-    # generate JSON schemas
-    json_build_folder = os.path.join(JSON_FOLDER, "build")
-    if os.path.exists(json_build_folder):
-        distutils.dir_util.remove_tree(json_build_folder)
-    utils.makedir(json_build_folder)
-    __idl2json(build_folder, json_build_folder)
+    if not skip_java:
+        # generate JSON schemas
+        json_build_folder = os.path.join(JSON_FOLDER, "build")
+        if os.path.exists(json_build_folder):
+            distutils.dir_util.remove_tree(json_build_folder)
+        utils.makedir(json_build_folder)
+        __idl2json(build_folder, json_build_folder)
 
-    # generate Java source code
-    if os.path.exists(JAVA_FOLDER):
-        distutils.dir_util.remove_tree(JAVA_FOLDER)
-    utils.makedir(JAVA_FOLDER)
-    __json2java(json_build_folder, JAVA_FOLDER)
+        # generate Java source code
+        if os.path.exists(JAVA_FOLDER):
+            distutils.dir_util.remove_tree(JAVA_FOLDER)
+        utils.makedir(JAVA_FOLDER)
+        __json2java(json_build_folder, JAVA_FOLDER)
 
     # process each package separately now
     for package in packages:
@@ -217,6 +218,7 @@ def main():
         usage='''build.py [<args>]''')
     parser.add_argument('--version', help='A specific build version to run (if not provided runs all)')
     parser.add_argument('--skip-docs', action='store_true', help='Skips the documentation')
+    parser.add_argument('--skip-java', action='store_true', help='Skips the generation of java source code')
     parser.add_argument('--only-prepare-sandbox', action='store_true', help='Copies the required IDL schemas in the build folder under schemas/IDLs/build. A version must be specified')
     # parse_args defaults to [1:] for args, but you need to
     # exclude the rest of the args too, or validation will fail
@@ -246,7 +248,7 @@ def main():
             for build in builds:
                 if args.version is None or build["version"] == args.version:
                     logging.info("Building build version {}".format(build["version"]))
-                    run_build(build, args.skip_docs)
+                    run_build(build, args.skip_docs, args.skip_java)
                     run_any = True
         finally:
             __delete_IDLs_build_folder()
