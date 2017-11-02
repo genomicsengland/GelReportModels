@@ -67,6 +67,10 @@ Duplication of the prior fields is not be supported.
         */
         int version;
         /**
+        A flag to indicate that this report event corresponds to the latest interpretation of the same case as defined by the highest `version`
+        */
+        union {null, boolean} latest;
+        /**
         The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
         */
         union {null, string} parentId;
