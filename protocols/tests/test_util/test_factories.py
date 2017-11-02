@@ -9,7 +9,7 @@ import protocols.reports_3_0_0
 from protocols.ga4gh_3_0_0 import Variant
 from protocols.cva_0_4_0 import TieredVariantInjectRD
 from protocols.util.dependency_manager import VERSION_430
-from protocols.util.dependency_manager import VERSION_410
+from protocols.util.dependency_manager import VERSION_400
 from protocols.util.dependency_manager import VERSION_300
 from protocols.cva_0_4_0 import TieredVariantInjectCancer
 from protocols.reports_4_1_0 import CancerExitQuestionnaire
@@ -18,7 +18,7 @@ from protocols.util.factories.ga4gh_factories import CallFactory
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory
 from protocols.util.factories.reports_3_0_0_factories import CancerReportedVariantsFactory
-from protocols.util.factories.reports_4_1_0_factories import CancerExitQuestionnaireFactory
+from protocols.util.factories.reports_4_3_0_factories import CancerExitQuestionnaireFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
@@ -105,10 +105,10 @@ class TestGenericFactory(TestCase):
         )
         instance = interpretation_request_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
-        # get an interpretation request RD for reports 4.1.0
+        # get an interpretation request RD for reports 4.0.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_1_0.InterpretationRequestRD,
-            version=VERSION_410
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version=VERSION_400
         )
         instance = interpretation_request_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))

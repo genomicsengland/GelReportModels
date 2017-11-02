@@ -5,11 +5,11 @@ from protocols import participant_1_0_3
 from protocols import participant_1_0_4
 from protocols.util.dependency_manager import VERSION_430
 from protocols.util.dependency_manager import VERSION_400
+from protocols.util.dependency_manager import VERSION_404
 from protocols.migration import MigrationParticipants104To100
 from protocols.migration import MigrationParticipants103To100
 from protocols.migration import MigrationParticipants100To104
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.util.dependency_manager import VERSION_PARTICIPANT_103_TEST
 from protocols.util.factories.participant_1_0_0_factories import CancerParticipantFactory
 
 
@@ -200,7 +200,7 @@ class TestMigrationParticipants103To100(TestCase):
     def test_migrate_cancer_participant(self):
 
         object_type = participant_1_0_3.CancerParticipant
-        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_PARTICIPANT_103_TEST)()
+        old_participant = GenericFactoryAvro.get_factory_avro(clazz=object_type, version=VERSION_404)()
 
         # Check old_participant is a valid participants_1_0_3 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
