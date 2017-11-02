@@ -2,23 +2,15 @@ from unittest import TestCase
 
 import factory
 
-import protocols.cva_0_4_0
-import protocols.reports_4_2_0
-import protocols.reports_4_1_0
 import protocols.reports_3_0_0
 from protocols.ga4gh_3_0_0 import Variant
-from protocols.cva_0_4_0 import TieredVariantInjectRD
-from protocols.util.dependency_manager import VERSION_430
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.dependency_manager import VERSION_300
-from protocols.cva_0_4_0 import TieredVariantInjectCancer
-from protocols.reports_4_1_0 import CancerExitQuestionnaire
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.ga4gh_factories import CallFactory
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.ga4gh_factories import GA4GHVariantFactory
 from protocols.util.factories.reports_3_0_0_factories import CancerReportedVariantsFactory
-from protocols.util.factories.reports_4_3_0_factories import CancerExitQuestionnaireFactory
 
 
 class TestGA4GHVariantFactory(TestCase):
@@ -79,35 +71,10 @@ class TestGA4GHVariantFactory(TestCase):
         for i, v in enumerate(JumpingGA4GHVariantFactory.create_batch(5)):
             self.assertEqual(v.start, i*2 + 1000)
 
-    def test_cancer_exitquestionnaire_factory(self):
-        batch = CancerExitQuestionnaireFactory.create_batch(1000)
-        validation_results = map(lambda x: CancerExitQuestionnaire.validate(x.toJsonDict()), batch)
-        self.assertNotIn(False, validation_results)
-
 
 class TestGenericFactory(TestCase):
 
-    def test_tiered_variant_inject_rd_factory(self):
-        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(TieredVariantInjectRD)
-        instance = tiered_variant_inject_factory()
-        self.assertTrue(instance.validate(instance.toJsonDict()))
-
-    def test_tiered_variant_inject_cancer_factory(self):
-        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(
-            TieredVariantInjectCancer,
-            version=VERSION_430
-        )
-        instance = tiered_variant_inject_factory()
-        self.assertTrue(instance.validate(instance.toJsonDict()))
-
     def test_interpretation_request(self):
-        # get an interpretation request RD for reports 4.2.0
-        interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version = VERSION_430
-        )
-        instance = interpretation_request_factory()
-        self.assertTrue(instance.validate(instance.toJsonDict()))
         # get an interpretation request RD for reports 4.0.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
             protocols.reports_4_0_0.InterpretationRequestRD,
@@ -126,8 +93,8 @@ class TestGenericFactory(TestCase):
     def test_batch(self):
         # builds a batch of 5 interpretation requests
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version=VERSION_430
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version=VERSION_400
         )
         instances = interpretation_request_factory.create_batch(5)
         for instance in instances:
@@ -166,21 +133,21 @@ class TestGenericFactory(TestCase):
         # as a factory that fill nullable fields
         # NOTE: this is the workaround to circumvent the loop in model definition
         file_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.File,
-            VERSION_430,
+            protocols.reports_4_0_0.File,
+            VERSION_400,
             False,
             False
         )
         GenericFactoryAvro.register_factory(
-            protocols.reports_4_2_0.File,
+            protocols.reports_4_0_0.File,
             file_factory,
-            VERSION_430,
+            VERSION_400,
             True
         )
         # get an interpretation request RD for reports 4.2.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version = VERSION_430,
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version = VERSION_400,
             fill_nullables=True
         )
         instance = interpretation_request_factory()
@@ -190,8 +157,8 @@ class TestGenericFactory(TestCase):
 
         # get an interpretation request RD for reports 4.2.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version = VERSION_430
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version = VERSION_400
         )
         instance = interpretation_request_factory(analysisReturnUri = "myURI")
         self.assertTrue(instance.validate(instance.toJsonDict()))
@@ -201,18 +168,18 @@ class TestGenericFactory(TestCase):
 
         # get an interpretation request RD for reports 4.2.0
         version_control_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.ReportVersionControl,
-            version = VERSION_430
+            protocols.reports_4_0_0.ReportVersionControl,
+            version = VERSION_400
         )
-        instance_vc = version_control_factory(gitVersionControl = "4.3.0-SNAPSHOT")
+        instance_vc = version_control_factory(gitVersionControl = "4.0.0")
         self.assertTrue(instance_vc.validate(instance_vc.toJsonDict()))
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version=VERSION_430
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version=VERSION_400
         )
         instance_ir = interpretation_request_factory(versionControl=instance_vc)
         self.assertTrue(instance_ir.validate(instance_ir.toJsonDict()))
-        self.assertTrue(instance_ir.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
+        self.assertTrue(instance_ir.versionControl.gitVersionControl == "4.0.0")
 
     def test_register_custom_factory(self):
 
@@ -222,64 +189,64 @@ class TestGenericFactory(TestCase):
                 super(ReportVersionControlFactory, self).__init__(*args, **kwargs)
 
             class Meta:
-                model = protocols.reports_4_2_0.ReportVersionControl
+                model = protocols.reports_4_0_0.ReportVersionControl
 
-            _version = VERSION_430
-            gitVersionControl = "4.3.0-SNAPSHOT"
+            _version = VERSION_400
+            gitVersionControl = "4.0.0"
 
         GenericFactoryAvro.register_factory(
-            protocols.reports_4_2_0.ReportVersionControl,
+            protocols.reports_4_0_0.ReportVersionControl,
             ReportVersionControlFactory,
-            version=VERSION_430
+            version=VERSION_400
         )
 
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version=VERSION_430
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version=VERSION_400
         )
         instance_ir = interpretation_request_factory()
         self.assertTrue(instance_ir.validate(instance_ir.toJsonDict()))
-        self.assertTrue(instance_ir.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
+        self.assertTrue(instance_ir.versionControl.gitVersionControl == "4.0.0")
 
         # now creates another factory generating values for nullable fields
         file_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.File,
-            VERSION_430,
+            protocols.reports_4_0_0.File,
+            VERSION_400,
             False,
             False
         )
         GenericFactoryAvro.register_factory(
-            protocols.reports_4_2_0.File,
+            protocols.reports_4_0_0.File,
             file_factory,
-            VERSION_430,
+            VERSION_400,
             True
         )
         interpretation_request_factory2 = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version=VERSION_430,
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version=VERSION_400,
             fill_nullables=True
         )
         instance_ir2 = interpretation_request_factory2()
         self.assertTrue(instance_ir2.validate(instance_ir2.toJsonDict()))
-        self.assertFalse(instance_ir2.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
+        self.assertFalse(instance_ir2.versionControl.gitVersionControl == "4.0.0")
 
         # now registers the factory for ReportVersionControl when filling nullables
         GenericFactoryAvro.register_factory(
-            protocols.reports_4_2_0.ReportVersionControl,
+            protocols.reports_4_0_0.ReportVersionControl,
             ReportVersionControlFactory,
-            version=VERSION_430,
+            version=VERSION_400,
             fill_nullables=True
         )
         instance_ir3 = interpretation_request_factory2()
         self.assertTrue(instance_ir3.validate(instance_ir3.toJsonDict()))
-        self.assertTrue(instance_ir3.versionControl.gitVersionControl == "4.3.0-SNAPSHOT")
+        self.assertTrue(instance_ir3.versionControl.gitVersionControl == "4.0.0")
 
     def test_custom_fields(self):
 
         # get an interpretation request RD for reports 4.2.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-            protocols.reports_4_2_0.InterpretationRequestRD,
-            version = VERSION_430
+            protocols.reports_4_0_0.InterpretationRequestRD,
+            version = VERSION_400
         )
         instance = interpretation_request_factory(analysisReturnUri = "myURI")
         self.assertTrue(instance.validate(instance.toJsonDict()))
