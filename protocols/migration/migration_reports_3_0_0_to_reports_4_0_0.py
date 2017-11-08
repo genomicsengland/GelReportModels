@@ -8,6 +8,7 @@ class MigrateReports3To4(BaseMigration):
 
     old_model = reports_3_0_0
     new_model = reports_4_0_0
+    re_counter = 1
 
     def migrate_reported_somatic_variants(self, old_reported_somatic_variants):
         """
@@ -37,8 +38,6 @@ class MigrateReports3To4(BaseMigration):
             reference=old_reported_variant_cancer.reference,
             reportEvents=old_reported_variant_cancer.reportEvents,
         )
-
-        # TODO(Greg): Need to migrate each [event for event in reportEvents]
 
         allele_origins_map = {
             reports_3_0_0.SomaticOrGermline.somatic: reports_4_0_0.AlleleOrigin.somatic_variant,
@@ -80,9 +79,11 @@ class MigrateReports3To4(BaseMigration):
             actions=self.migrate_actions(actions=old_report_event_cancer.actions),
             genomicFeatureCancer=old_report_event_cancer.genomicFeatureCancer,
             tier=old_report_event_cancer.tier,
-            reportEventId=old_report_event_cancer.reportEventId,
+            reportEventId='RE' + str(self.re_counter) if old_report_event_cancer.reportEventId in ['None', '']
+            else old_report_event_cancer.reportEventId
         )
 
+        self.re_counter += 1
         if new_report_event_cancer.genomicFeatureCancer.roleInCancer not in ['oncogene', 'TSG', 'both']:
             new_report_event_cancer.genomicFeatureCancer.roleInCancer = None
 
