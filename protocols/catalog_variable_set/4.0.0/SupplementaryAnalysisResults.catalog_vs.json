@@ -1,0 +1,60 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "OBJECT", 
+  "name": "contextualAnalysisSubstitutionsCounts", 
+  "description": "Counts for each substitution trinucleotide context\n    e.g. {\"A[T>A]G\": 117, \"G[T>G]C\": 39, [...]}"
+ }, 
+ {
+  "name": "mutationalSignatureContribution", 
+  "required": true, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "OBJECT", 
+    "name": "coefficients", 
+    "description": "Coefficients for each mutational signatures\n    e.g. {\"coefficients\":{\"signature1\":91.2595, [...]}}"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "DOUBLE", 
+    "name": "rss", 
+    "description": "Confidence value\n    e.g. {\"RSS\":0.0063}"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Coefficients for mutational signatures\n    e.g. {\"coefficients\":{\"signature1\":91.2595, [...]}, \"RSS\":0.0063}"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "OBJECT", 
+  "name": "sNVAlleleFrequencyHistogramCounts", 
+  "description": "SNVs counts for each allele frequency bin\n    e.g. {\"(-0.005,0.005]\":0,\"(0.005,0.015]\":0, [...]}"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "OBJECT", 
+  "name": "indelAlleleFrequencyHistogramCounts", 
+  "description": "Indel counts for each allele frequency bin\n    e.g. {\"(-0.005,0.005]\":0,\"(0.005,0.015]\":0, [...]}"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "OBJECT", 
+  "name": "indelLengthHistogramCounts", 
+  "description": "Counts for each indel length\n    e.g. {\"(-50,-49]\":2,\"(-49,-48]\":2, [...]}"
+ }, 
+ {
+  "multiValue": true, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "genomicRegionsOfHypermutation", 
+  "description": "Kataegis genomic regions\n    e.g. [\"chrY:56829002,56833739\", \"chrX:1813120,1813466\", [...]]"
+ }
+]
