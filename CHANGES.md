@@ -1,3 +1,16 @@
+version 5.0.0 (13th November 2017)
+--------------------------
+* org.gel.models.cva.avro 0.4.0
+    * First released version of CVA models
+* org.gel.models.report.avro 4.2.0
+    * ClinicalReportCancer refactored
+    * ReportedVariantCancer refactored
+    * CancerExitQuestionnaire
+    * InterpretationRequestCancer refactored
+    * InterpretedGenomeCancer refactored
+* org.gel.models.system.avro 0.1.0
+    * First version of the model to hold results from health checks
+
 version 4.3.5 (2nd November 2017)
 --------------------------
 * reports 4.0.0
