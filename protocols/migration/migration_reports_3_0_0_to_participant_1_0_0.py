@@ -39,6 +39,8 @@ class MigrateReports3ToParticipant1(BaseMigration):
         ]
 
         new_cancer_participant.tumourSamples = [self.migrate_tumor_sample(sample) for sample in tumor_samples]
+        new_cancer_participant.matchedSamples = [self.migrate_match_samples(matched_sample) for matched_sample in
+                                                 old_cancer_participant.matchedSamples]
 
         return self.validate_object(
             object_to_validate=new_cancer_participant, object_type=self.new_model.CancerParticipant
@@ -65,7 +67,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_tumour_content = None
         if isinstance(old_cancer_sample.tumorContent, basestring):
             old_tumor_content = old_cancer_sample.tumorContent
-            new_tumour_content = getattr(participant_1_0_0.TumourContent, old_tumor_content, None)
+            new_tumour_content = getattr(participant_1_0_0.TumourContent, old_tumor_content.title(), None)
         new_tumour_sample.tumourContent = new_tumour_content
 
         new_tumour_sample.tumourSubType = old_cancer_sample.tumorSubType
@@ -75,6 +77,11 @@ class MigrateReports3ToParticipant1(BaseMigration):
         return self.validate_object(
             object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
         )
+
+    def migrate_match_samples(self, old_match_samples):
+        new_match_sample = self.new_model.MatchedSamples.fromJsonDict(old_match_samples.toJsonDict())
+        new_match_sample.tumourSampleId = old_match_samples.tumorSampleId
+        return new_match_sample
 
     def migrate_germline_sample(self, old_cancer_sample):
 
@@ -99,9 +106,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
     def migrate_sex(self, old_sex):
         sex_map = {
-            self.old_model.Sex.female: self.new_model.Sex.FEMALE,
-            self.old_model.Sex.male: self.new_model.Sex.MALE,
-            self.old_model.Sex.unknown: self.new_model.Sex.UNKNOWN,
-            self.old_model.Sex.undetermined: self.new_model.Sex.UNKNOWN,
+            'F': self.new_model.Sex.FEMALE,
+            'M': self.new_model.Sex.MALE
         }
         return sex_map.get(old_sex, self.new_model.Sex.UNKNOWN)
