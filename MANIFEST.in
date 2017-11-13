@@ -1,1 +1,2 @@
 graft protocols/catalog_variable_set
+graft protocols/resources
