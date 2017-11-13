@@ -1,6 +1,5 @@
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
-from protocols import participant_1_0_1
 from protocols import participant_1_0_3
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
@@ -213,7 +212,7 @@ class MigrationParticipants103To100(BaseMigration):
 
 
 class MigrationReportsToParticipants1(BaseMigration):
-    new_model = participant_1_0_1
+    new_model = participant_1_0_0
     old_model = participant_old
 
     def migrate_pedigree(self, pedigree, ready_for_analysis=True):
