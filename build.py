@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import sys
 import os
 import logging
@@ -26,6 +27,7 @@ AVPR_FOLDER = "schemas/AVPRs"
 JAVA_FOLDER = "target/generated-sources/java"
 PYTHON_FOLDER = "protocols"
 DOCS_FOLDER = "docs/html_schemas"
+MODELS_DOCS_FILE = "docs/source/models.rst"
 
 
 def __create_IDLs_build_folder(packages):
@@ -145,6 +147,50 @@ def __get_build_by_version(builds, version):
             build = _build
     return build
 
+def __update_documentation_index():
+    htmls = {}
+    fd = open(MODELS_DOCS_FILE, "w")
+    print("GEL Models documentation", file=fd)
+    print("========================", file=fd)
+    print("", file=fd)
+    for package in os.listdir(DOCS_FOLDER):
+        print(package, file=fd)
+        print("-" * len(package), file=fd)
+        print("", file=fd)
+        for version in os.listdir(os.path.join(DOCS_FOLDER, package)):
+            print(version, file=fd)
+            print("^" * len(version), file=fd)
+            print("", file=fd)
+            for html in os.listdir(os.path.join(DOCS_FOLDER, package, version)):
+
+                if os.path.exists(os.path.join(IDL_FOLDER, package, version, html.replace(".html", ".avdl"))):
+                    tag = "{package}{version}{name}".format(
+                        package=package.replace(".", ""),
+                        version=version.replace(".", "").replace("-", ""),
+                        name=html.replace(".html", "")
+                    )
+                    htmls[tag] = (package, version, html)
+                    print("* |{tag}|".format(tag=tag), file=fd)
+            print("", file=fd)
+        print("", file=fd)
+    print("", file=fd)
+
+    for tag, (package, version, html) in htmls.items():
+        print(".. |{tag}| raw:: html".format(tag=tag), file=fd)
+        print("", file=fd)
+        print("    <a href=\"html_schemas/{package}/{version}/{html}\" target=\"_blank\">{name}</a>".format(
+            package=package, version=version, html=html, name=html.replace(".html", "")
+        ), file=fd)
+    fd.close()
+
+    # Calls Sphinx
+    args = [
+        'resources/GelModelsTools/gel_models_tools.py',
+        'update_docs_index'
+    ]
+    original_args = sys.argv
+    sys.argv = args
+    GelModelsTools()
 
 def run_build(build, skip_docs=False, skip_java=False):
     """
@@ -208,6 +254,7 @@ def run_build(build, skip_docs=False, skip_java=False):
             for avpr in os.listdir(avpr_build_folder):
                 __avpr2html(os.path.join(avpr_build_folder, avpr), docs_folder)
 
+
 RESOURCES_FOLDER = "protocols/resources"
 BUILDS_FILE = "builds.json"
 
@@ -218,6 +265,7 @@ def main():
         usage='''build.py [<args>]''')
     parser.add_argument('--version', help='A specific build version to run (if not provided runs all)')
     parser.add_argument('--skip-docs', action='store_true', help='Skips the documentation')
+    parser.add_argument('--update-docs-index', action='store_true', help='Updates the documentation index based on the existing documentation')
     parser.add_argument('--skip-java', action='store_true', help='Skips the generation of java source code')
     parser.add_argument('--only-prepare-sandbox', action='store_true', help='Copies the required IDL schemas in the build folder under schemas/IDLs/build. A version must be specified')
     # parse_args defaults to [1:] for args, but you need to
@@ -237,6 +285,11 @@ def main():
     if args.only_prepare_sandbox and args.version is None:
         raise ValueError("Please, provide a version to create the build sandbox")
 
+    if not args.skip_docs:
+        if os.path.exists(DOCS_FOLDER):
+            distutils.dir_util.remove_tree(DOCS_FOLDER)
+        utils.makedir(DOCS_FOLDER)
+
     if args.only_prepare_sandbox:
         build = __get_build_by_version(builds, args.version)
         packages = build["packages"]
@@ -252,6 +305,10 @@ def main():
                     run_any = True
         finally:
             __delete_IDLs_build_folder()
+
+        if args.update_docs_index:
+            __update_documentation_index()
+
 
         if not run_any and args.version is not None:
             raise ValueError("Provided build version does not exist [{}]".format(args.version))

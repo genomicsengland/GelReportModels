@@ -27,7 +27,10 @@ class GelModelsTools(object):
         parser = argparse.ArgumentParser(
             description='GEL models toolbox',
             usage='''gel_models_tools.py <command> [<args>]''')
-        parser.add_argument('command', help='Subcommand to run (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html)')
+        parser.add_argument(
+            'command',
+            help='Subcommand to run (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index)'
+        )
         # parse_args defaults to [1:] for args, but you need to
         # exclude the rest of the args too, or validation will fail
         args = parser.parse_args(sys.argv[1:2])
@@ -172,6 +175,20 @@ class GelModelsTools(object):
         avrodoc_command = "avrodoc {} > {}".format(args.input_file, os.path.join(args.output, output_html))
         logging.info("Running: [%s]" % avrodoc_command)
         utils.run_command(avrodoc_command)
+
+    def update_docs_index(self):
+        """
+        Transforms all AVPR schemas in a given folder to HTML documentation.
+        :return:
+        """
+        parser = argparse.ArgumentParser(
+            description='Updates documentation index')
+        # NOT prefixing the argument with -- means it's not optional
+        args = parser.parse_args(sys.argv[2:])
+        logging.info('Updating docs index...')
+        sphinx_command = "make html"
+        logging.info("Running: [%s]" % sphinx_command)
+        utils.run_command(sphinx_command, cwd="./docs")
 
 
 if __name__ == '__main__':
