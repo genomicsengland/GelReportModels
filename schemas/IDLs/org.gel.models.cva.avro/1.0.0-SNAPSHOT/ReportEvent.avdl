@@ -71,11 +71,11 @@ Duplication of the prior fields is not be supported.
         */
         union {null, boolean} latest;
         /**
-        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        The identifier for the InterpretationRequest
         */
         union {null, string} parentId;
         /**
-        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        The version for the InterpretationRequest
         */
         union {null, int} parentVersion;
         /**

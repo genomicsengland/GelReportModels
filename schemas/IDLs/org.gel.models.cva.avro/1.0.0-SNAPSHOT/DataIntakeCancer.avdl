@@ -23,9 +23,12 @@ protocol DataIntakeCancerProtocol {
 
     // CVA references
     import idl "Variant.avdl";
+    import idl "EvidenceSet.avdl";
+
     import idl "InterpretationRequestCancer.avdl";
     import idl "InterpretedGenomesCancer.avdl";
     import idl "ClinicalReportCancer.avdl";
+    import idl "ExitQuestionnaire.avdl";
 
    /**
    Record for tiered variant injection as part of the data intake for CVA
@@ -182,5 +185,88 @@ protocol DataIntakeCancerProtocol {
         Information that Genomics England needs to generate a clinical report
         */
         org.gel.models.report.avro.ClinicalReportCancer clinicalReport;
+    }
+
+    /**
+    A record holding the somatic variant level questions for a single variant together with its coordinates
+    */
+    record CancerSomaticVariantLevelQuestionnaire {
+        /**
+        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        */
+        VariantCoordinates variantCoordinates;
+        /**
+        The questions at variant level
+        */
+        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+    }
+
+    /**
+    A record holding the germline variant level questions for a single variant together with its coordinates
+    */
+    record CancerGermlineVariantLevelQuestionnaire {
+        /**
+        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        */
+        VariantCoordinates variantCoordinates;
+        /**
+        The questions at variant level
+        */
+        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+    }
+
+    /**
+    Record for cancer exit questionnaire injection as part of the data intake for CVA
+    */
+    record ExitQuestionnaireInjectCancer {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the Clinical Report.
+        */
+        string id;
+        /**
+        The version for the Clinical Report. This is a correlative number being the highest
+        value the latest version.
+        */
+        int version;
+        /**
+        The identifier for the Interpretation Request
+        */
+        string parentId;
+        /**
+        The version for the Interpretation Request
+        */
+        int parentVersion;
+        /**
+        The participant identifier
+        */
+        string groupId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
+        */
+        array<string> workspace;
+        /**
+        Cancer somatic exit questionnaire
+        */
+        array<CancerSomaticVariantLevelQuestionnaire> cancerSomaticExitQuestionnaires;
+        /**
+        Germline somatic exit questionnaire
+        */
+        array<CancerGermlineVariantLevelQuestionnaire> cancerGermlineExitQuestionnaires;
     }
 }
