@@ -22,4 +22,4 @@ RUN cd ./GelReportModels && \
     pip install --upgrade pip && \
     pip install -r requirements.txt && \
     pip install --upgrade pysam && \
-    python build.py --skip-docs
+    python build.py --skip-docs --skip-java
