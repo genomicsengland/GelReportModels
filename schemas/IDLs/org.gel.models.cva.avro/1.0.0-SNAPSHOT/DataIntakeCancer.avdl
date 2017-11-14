@@ -198,7 +198,7 @@ protocol DataIntakeCancerProtocol {
         /**
         The questions at variant level
         */
-        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+        org.gel.models.report.avro.CancerSomaticVariantLevelQuestions variantLevelQuestions;
     }
 
     /**
@@ -212,7 +212,7 @@ protocol DataIntakeCancerProtocol {
         /**
         The questions at variant level
         */
-        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+        org.gel.models.report.avro.CancerGermlineVariantLevelQuestions variantLevelQuestions;
     }
 
     /**
