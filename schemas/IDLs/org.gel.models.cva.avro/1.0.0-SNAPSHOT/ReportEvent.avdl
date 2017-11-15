@@ -8,6 +8,7 @@ protocol ReportEventProtocol {
     // Report models references
     import idl "CommonInterpreted.avdl";
     import idl "CommonInterpretedCancer.avdl";
+    import idl "ExitQuestionnaire.avdl";
     import idl "evidence.avdl";
 
     /**
@@ -22,6 +23,7 @@ protocol ReportEventProtocol {
         reported,
         candidate,
         tiered,
+        questionnaire,
         other
     }
 
@@ -71,11 +73,11 @@ Duplication of the prior fields is not be supported.
         */
         union {null, boolean} latest;
         /**
-        The identifier for the parent entity, either InterpretationRequest or InterpretedGenome
+        The identifier for the InterpretationRequest
         */
         union {null, string} parentId;
         /**
-        The version for the parent entity, either InterpretationRequest or InterpretedGenome
+        The version for the InterpretationRequest
         */
         union {null, int} parentVersion;
         /**
@@ -120,9 +122,25 @@ Duplication of the prior fields is not be supported.
         */
         union {null, org.gel.models.report.avro.ReportEvent} reportEvent;
         /**
+        The variant level questions
+        */
+        union {null, org.gel.models.report.avro.VariantLevelQuestions} variantLevelQuestions;
+        /**
+        The variant group level questions
+        */
+        union {null, array<org.gel.models.report.avro.VariantGroupLevelQuestions>} variantGroupLevelQuestions;
+        /**
         The report event for the cancer program
         */
         union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
+        /**
+        The somatic variant level questions
+        */
+        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
+        /**
+        The variant group level questions
+        */
+        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
         /**
         The observed variants
         */
