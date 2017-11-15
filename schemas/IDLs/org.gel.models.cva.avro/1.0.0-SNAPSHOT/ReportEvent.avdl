@@ -23,6 +23,7 @@ protocol ReportEventProtocol {
         reported,
         candidate,
         tiered,
+        questionnaire,
         other
     }
 
@@ -127,7 +128,7 @@ Duplication of the prior fields is not be supported.
         /**
         The variant group level questions
         */
-        union {null, org.gel.models.report.avro.VariantGroupLevelQuestions} variantGroupLevelQuestions;
+        union {null, array<org.gel.models.report.avro.VariantGroupLevelQuestions>} variantGroupLevelQuestions;
         /**
         The report event for the cancer program
         */
