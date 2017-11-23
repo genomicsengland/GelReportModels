@@ -89,19 +89,19 @@ class MigrateReports400To420(BaseMigration):
         )
 
         # FIXME: we are using the individual identifier in the cancer participant to set the sample id
-        candidate_variants = []
-        for candidate_variant in cancer_clinical_report.candidateVariants:
-            candidate_variants.append(self.migrate_reported_variant_cancer(
-                candidate_variant,
-                sample_id
-            ))
-        new_cancer_clinical_report.reportedVariants = candidate_variants
+        new_cancer_clinical_report.candidateVariants = [
+            self.migrate_reported_variant_cancer(
+                reported_somatic_variants=candidate_variant,
+                sample_id=sample_id
+            ) for candidate_variant in cancer_clinical_report.candidateVariants
+        ]
 
         # FIXME: we have no sample id field in the structural variant
-        structural_candidate_variants = []
-        for candidate_structural_variant in cancer_clinical_report.candidateStructuralVariants:
-            structural_candidate_variants.append(self.migrate_reported_structural_variant_cancer(candidate_structural_variant))
-        new_cancer_clinical_report.reportedStructuralVariants = structural_candidate_variants
+        new_cancer_clinical_report.candidateStructuralVariants = [
+            self.migrate_reported_structural_variant_cancer(
+                reported_somatic_structural_variants=candidate_structural_variant
+            ) for candidate_structural_variant in cancer_clinical_report.candidateStructuralVariants
+        ]
 
         return self.validate_object(
             object_to_validate=new_cancer_clinical_report, object_type=self.new_model.ClinicalReportCancer
