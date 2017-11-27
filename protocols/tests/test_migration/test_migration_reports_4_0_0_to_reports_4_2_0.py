@@ -14,7 +14,6 @@ class TestMigrateReports4To420(TestCase):
     new_model = reports_4_2_0
 
     def test_migrate_cancer_clinical_report(self):
-
         cr_c_400 = GenericFactoryAvro.get_factory_avro(
             self.old_model.ClinicalReportCancer, VERSION_400, fill_nullables=True
         ).create()
