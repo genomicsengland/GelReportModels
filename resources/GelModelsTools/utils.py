@@ -4,13 +4,16 @@ import os
 import errno
 
 
-def run_command(command, fail_if_error=True):
+def run_command(command, fail_if_error=True, cwd=None):
     """
     Runs a given command
     :param command:
     :return:
     """
-    sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if cwd is not None:
+        sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
+    else:
+        sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = sp.communicate()
     if stdout is not None and stdout != "":
         logging.info(stdout)

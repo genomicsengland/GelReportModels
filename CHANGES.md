@@ -1,3 +1,10 @@
+version 5.0.0 (14th November 2017)
+--------------------------
+
+Minor changes
+* `build.py` takes care of updating documentation indexes with option `--update-docs-index`
+* Documentation updated
+
 version 5.0.0 (13th November 2017)
 --------------------------
 * org.gel.models.cva.avro 0.4.0
