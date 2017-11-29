@@ -135,22 +135,6 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
                 <executions>
-                    <execution><!-- Installs requirements.txt -->
-                        <id>Installs Python requirements</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pip</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>install</argument>
-                                <argument>-r</argument>
-                                <argument>requirements.txt</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                     <execution><!-- Run our version calculation script -->
                         <id>Generate, AVPRs, JSON schemas, Python and Java sources and documentation</id>
                         <phase>generate-sources</phase>
@@ -165,20 +149,6 @@
                                 <argument>--version</argument>
                                 <argument>${version}</argument>
                                 <argument>--skip-docs</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution><!-- Run our version calculation script -->
-                        <id>Generate Sphynx documentation</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>make</executable>
-                            <workingDirectory>${basedir}/docs</workingDirectory>
-                            <arguments>
-                                <argument>html</argument>
                             </arguments>
                         </configuration>
                     </execution>
