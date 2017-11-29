@@ -101,6 +101,30 @@ Every package in a build is built in a sandbox folder under `schemas/IDLs/build`
  
 The build sandbox is deleted after every build.
 
+
+## Getting started
+
+### Install requirements
+
+Install `sphynx`:
+```
+sudo apt-get install python-sphinx
+```
+
+Install `avrodoc`:
+```
+sudo apt-get install nodejs nodejs-legacy
+sudo apt-get install npm
+sudo npm install avrodoc -g
+```
+
+Install python dependencies:
+```
+pip install -r requirements.txt
+```
+
+### Build the models
+
 To build all builds described in `builds.json` run:
 ```
 % python build.py
@@ -113,7 +137,7 @@ This will create the following:
 
 It may be handy to skip the documentation generation by using the flag `--skip-docs`.
 
-### Building legacy versions of the models
+#### Building legacy versions of the models
 
 See `builds.json` for the information on all legacy versions and the specific package versions and dependencies in each of those.
 
@@ -122,7 +146,7 @@ To build a specific version run:
 % python build.py --version 3.0.0
 ```
 
-### Using custom tools to build the models
+#### Using custom tools to build the models
 
 To facilitate using custom tools to build the models you can prepare the sandbox for a specific version running:
 ```
@@ -131,7 +155,15 @@ To facilitate using custom tools to build the models you can prepare the sandbox
 
 This will copy all required schemas for that build under the folder `schemas/IDLs/build`.
 
-## Java Packaging
+#### Other build options
+
+Use `--skip-docs` to avoid generating documentation which affects build time greatly.
+
+Use `--skip-java` to avoid generating Java source code.
+
+Use `--update-docs-index` to update the documentation landing page with the latest documentation generated.
+
+### Java Packaging
 
 To pack the Java source code representing these models in a jar file use:
 ```
@@ -143,14 +175,6 @@ To install it in your system so it is accessible as a maven dependency to other 
 % mvn install
 ```
 
-## Deployable documentation
-
-To create a war file containing the HTML documentation for the models and the models itself run:
-```
-% mvn package -Dp.type=war
-```
-This war can be deployed as a documentation service.
-
 ## Unit tests
 
 To run some unit tests implemented in Python run:
@@ -159,18 +183,23 @@ To run some unit tests implemented in Python run:
 ```
 
 ## Mock data
-TODO
+
+Generate a mocked object with custom fields as follows:
+```
+from protocols.util.dependency_manager import VERSION_500
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+
+interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
+    protocols.reports_4_2_0.InterpretationRequestRD,
+    version = VERSION_500
+)
+instance = interpretation_request_factory(analysisReturnUri = "myURI")
+self.assertTrue(instance.validate(instance.toJsonDict()))
+self.assertTrue(instance.analysisReturnUri == "myURI")
+```
 
 ## Migrations
 TODO
-
-## Dependencies
-
-* **npm**: to install run `apt-get install npm`
-* **node**: to install run `apt-get install nodejs nodejs-legacy`
-* **Avrodoc**: to install avrodoc run `npm install avrodoc -g`
-* **pip**: to install pip run `apt-get install pip`
-* Other python dependencies documented in `requirements.txt` should be installed automatically.
 
 ## Building Resources From a Container
 From your starting directory, eg. ~/gel/:
