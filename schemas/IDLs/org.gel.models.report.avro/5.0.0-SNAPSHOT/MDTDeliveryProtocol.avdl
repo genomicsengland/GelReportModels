@@ -11,27 +11,6 @@ protocol MDTDelivery {
     import idl "InterpretationRequestRD.avdl";
     import idl "InterpretedGenomesRD.avdl";
 
-    enum AnalysisType {rare_disease, cancer}
-
-    /**
-    Defines a delivery task. A delivery task identifies an instance of the whole delivery
-    interaction cycle, whether successful or not. This allows traceability and identification
-    of failed deliveries
-    */
-    record DeliveryTask {
-        /**
-        Unique id of the delivery task, linked to one TieringResult
-        */
-        int tieringResultId;
-
-        /**
-        Base path on MDT storage where GEL should transfer files associated with the study
-        */
-        string basePath;
-
-        string protocolVersion;
-        AnalysisType analysisType;
-    }
 
     /**
     Represents the results of a tiering process and its input patient data. TieringResult
@@ -39,15 +18,12 @@ protocol MDTDelivery {
     We cannot use the InterpretationRequestRD structure because there may be many interpretation
     requests for the same tiering results.
     */
-    record TieringResult {
+    record InterpretationDetails {
         /** Model version number */
         ReportVersionControl versionControl;
 
         /** This is the version of the assembly used to align the reads */
-        string genomeAssemblyVersion = "GRCh37.p13";
-
-        /**  Cellbase version */
-        string cellbaseVersion = "4.0";
+        string genomeAssemblyVersion;
 
         /** The genome shall be assigned to the
             workspaces(projects or domains with a predefined set of users) to control user access */
@@ -62,24 +38,12 @@ protocol MDTDelivery {
         /** BigWig Files */
         union {null, array<File>} bigWigs;
 
-        /**  Pedigree Diagram Files as an SGV */
-        union {null, File} pedigreeDiagram;
-
-        /**  Variant Annotation using cellbase */
-        union {null, File} annotationFile;
-
         /** Other files that may be vendor specific
             map of key: type of file, value: record of type File */
         union {null, map<File>} otherFiles;
 
         /** Pedigree */
         org.gel.models.participant.avro.Pedigree pedigree;
-
-        /** Tiered Variants */
-        array<ReportedVariant> tieredVariants;
-
-        /** Tiering Version */
-        string tieringVersion;
 
         /** Internal Study id */
         string internalStudyId;
@@ -108,55 +72,10 @@ protocol MDTDelivery {
               approved by the originating GMCs
     */
     record InterpretationData {
-        TieringResult tieringResult;
+        InterpretationDetails interpretationDetails;
         array<InterpretedGenomeRD> interpretationResults;
+        InterpretedGenomeRD tieringResults;
     }
 
-
-    /************ OPERATIONS EXPOSED BY BOTH SIDES *******************/
-
-    /** Server returns a token to be used in subsequent calls.
-        Token expires after 20 minutes of not being used.
-        Token expires after 7 days of created - even if there is activity. */
-    string login(string username, string password);
-
-    /** Invalidate token */
-    void logout(string token);
-
-
-    /************ OPERATIONS EXPOSED BY MDT **************************/
-
-    /** Creates a new delivery task and allocates a directory for it */
-    DeliveryTask createDeliveryTask(string token, int tieringResultId, string protocolVersion, string rareOrCancer);
-
-    /** Notifies that RSync file transfers for this task are complete and MDT can
-    proceed to process them (validate, ingest, or whichever process they need to do).*/
-    void filesDelivered(string token, int tieringResultId);
-
-    /** Sets all interpretation data (excluding file contents) for this TieringResult. The server
-        associates the metadata to the files. All files referenced by the TieringResult in interpretation_data
-        must exist in MDT Server - i.e. must have been successfully and completely copied. If no associated
-        data existed, it is created; if any data existed, it is completely replaced by the new data. */
-    void putInterpretationData(string token, InterpretationData interpretationData);
-
-    /** Deletes all data (including files) associated with the tieringResultId */
-    void delete(string token, int tieringResultId);
-
-    /* TODO: optionally, we could add operations to get a deliveryTask and to get interpretationData for a given TieringResultsId. This would be good mainly for debbugging purposes... thoughts? */
-
-
-    /************ OPERATIONS EXPOSED BY GEL **************************/
-
-    /** Notifies that MDT has correctly processed files for this tieringResultId, and that it is ready to
-        receive interpretation data. */
-    void filesOk(string token, int tieringResultId);
-
-    /* TODO: how can file processing by MDT fail? *?
-
-    /* TODO: is the receipt of interpretation data sync or async? If async, we may need some operation like this: */
-    /** Notifies that MDT has finished processing interpretation data
-        status: "OK" or "ERROR"
-        message: description of error if any, or empty if success */
-    void interpretationDataProcessed(int delivery_id, string status, string message);
 
 }
