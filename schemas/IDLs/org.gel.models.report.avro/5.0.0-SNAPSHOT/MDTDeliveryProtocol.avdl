@@ -12,6 +12,58 @@ protocol MDTDelivery {
     import idl "InterpretedGenomesRD.avdl";
 
 
+    /**
+    Represents the results of a tiering process and its input patient data. TieringResult
+    is simply a more specific, less ambiguous term for "cohort".
+    We cannot use the InterpretationRequestRD structure because there may be many interpretation
+    requests for the same tiering results.
+    */
+    record InterpretationDetails {
+        /** Model version number */
+        ReportVersionControl versionControl;
+
+        /** This is the version of the assembly used to align the reads */
+        string genomeAssemblyVersion;
+
+        /** The genome shall be assigned to the
+            workspaces(projects or domains with a predefined set of users) to control user access */
+        array<string> workspace;
+
+        /** BAMs Files */
+        array<File> bams;
+
+        /** VCFs Files where SVs and CNVs are represented  */
+        array<File> vcfs;
+
+        /** BigWig Files */
+        union {null, array<File>} bigWigs;
+
+        /** Other files that may be vendor specific
+            map of key: type of file, value: record of type File */
+        union {null, map<File>} otherFiles;
+
+        /** Pedigree */
+        org.gel.models.participant.avro.Pedigree pedigree;
+
+        /** Internal Study id */
+        string internalStudyId;
+
+        /** Complex Genetic Phenomena */
+        union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+
+        /** It is paternal or maternal with reference to the participant. */
+        union {null, OtherFamilyHistory} otherFamilyHistory;
+
+        /** This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+            That is: a map of tables of genes and metrics */
+        union {null, map<map<map<float>>>} genePanelsCoverage;
+
+        /** Additional information */
+        union {null, map<string>} additionalInfo;
+    }
+
+
+
     /** Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
         one TieringResult.
         Semantic restrictions (not automatically verifiable):
@@ -20,9 +72,9 @@ protocol MDTDelivery {
               approved by the originating GMCs
     */
     record InterpretationData {
-        InterpretationRequestRD interpretationMetaData;
-        union{null, InterpretedGenomeRD} tieringResult;
-        union{null, array<InterpretedGenomeRD>} otherInterpretationResults;
+        InterpretationDetails interpretationDetails;
+        union{null, array<InterpretedGenomeRD>} interpretationResults;
+        union{null, InterpretedGenomeRD} tieringResults;
     }
 
 
