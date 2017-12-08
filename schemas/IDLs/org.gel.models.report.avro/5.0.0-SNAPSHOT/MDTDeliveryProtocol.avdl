@@ -73,8 +73,8 @@ protocol MDTDelivery {
     */
     record InterpretationData {
         InterpretationDetails interpretationDetails;
-        array<InterpretedGenomeRD> interpretationResults;
-        InterpretedGenomeRD tieringResults;
+        union{null, array<InterpretedGenomeRD>} interpretationResults;
+        union{null, InterpretedGenomeRD} tieringResults;
     }
 
 
