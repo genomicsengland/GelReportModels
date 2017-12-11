@@ -30,13 +30,6 @@ protocol InterpretedGenomesRD {
         */
 
         /**
-        This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
-        used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
-        It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
-        */
-        string analysisId;
-
-        /**
         Name of the intepretation service
         */
         string intepretationService;
@@ -44,7 +37,7 @@ protocol InterpretedGenomesRD {
         /**
         List of all reported variants
         */
-        array<ReportedVariant> reportedVariants;
+        array<ReportedVariant> variants;
 
         /**
         This map should contains the version of the different DBs used in the process
@@ -59,7 +52,7 @@ protocol InterpretedGenomesRD {
         /**
         List of all reported structural variants
         */
-        union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
+        union {null, array<ReportedStructuralVariant>} structuralVariants;
 
         /**
         Comments about the report
