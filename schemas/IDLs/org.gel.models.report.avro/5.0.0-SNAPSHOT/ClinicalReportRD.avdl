@@ -60,15 +60,5 @@ protocol ClinicalReportsRD {
         */
         union {null, array<string>} supportingEvidence;
 
-        /**
-        This map should contains the version of the different DBs used in the process
-        */
-        map<string> referenceDatabasesVersions;
-
-        /**
-        This map should contains the version of the different software in the process
-        */
-        map<string> softwareVersions;
-
     }
 }
