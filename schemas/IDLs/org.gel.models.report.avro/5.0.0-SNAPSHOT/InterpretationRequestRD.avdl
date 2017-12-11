@@ -74,10 +74,6 @@ protocol InterpretationRequestsRD {
         */
         union {null, File} pedigreeDiagram;
 
-        /**
-        Variant Annotation using cellbase
-        */
-        union {null, File} annotationFile;
 
         /**
         Other files that may be vendor specific
