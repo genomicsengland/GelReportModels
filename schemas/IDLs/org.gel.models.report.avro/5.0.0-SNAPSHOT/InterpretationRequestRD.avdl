@@ -31,9 +31,14 @@ protocol InterpretationRequestsRD {
         ReportVersionControl versionControl;
 
         /**
-        Unique id for this report
+        id for this request
         */
         string interpretationRequestId;
+
+        /**
+        version for this request
+        */
+        string interpretationRequestVersion;
 
         /**
         Internal Study id
@@ -43,22 +48,7 @@ protocol InterpretationRequestsRD {
         /**
         This is the version of the assembly used to align the reads
         */
-        string genomeAssemblyVersion = "GRCh37.p13";
-
-        /**
-        Cellbase version
-        */
-        string cellbaseVersion="4.0";
-
-        /**
-        Version of this request
-        */
-        int interpretationRequestVersion;
-
-        /**
-        Load data to system or also provide interpretation?
-        */
-        boolean interpretGenome = false;
+        string genomeAssembly;
 
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
@@ -68,12 +58,12 @@ protocol InterpretationRequestsRD {
         /**
         BAMs Files
         */
-        array<File> bams;
+        union {null, array<File>} bams;
 
         /**
         VCFs Files where SVs and CNVs are represented
         */
-        array<File> vcfs;
+        union {null, array<File>} vcfs;
 
         /**
         BigWig Files
@@ -85,10 +75,6 @@ protocol InterpretationRequestsRD {
         */
         union {null, File} pedigreeDiagram;
 
-        /**
-        Variant Annotation using cellbase
-        */
-        union {null, File} annotationFile;
 
         /**
         Other files that may be vendor specific
@@ -101,15 +87,6 @@ protocol InterpretationRequestsRD {
         */
         org.gel.models.participant.avro.Pedigree pedigree;
 
-        /**
-        Tiered Variants
-        */
-        array<ReportedVariant> tieredVariants;
-
-        /**
-        Tiering Version
-        */
-        string tieringVersion;
 
         /**
         Complex Genetic Phenomena
@@ -120,18 +97,6 @@ protocol InterpretationRequestsRD {
         It is paternal or maternal with reference to the participant.
         */
         union {null, OtherFamilyHistory} otherFamilyHistory;
-
-        /**
-        name of the directory or endpoint where the analysed genome will be returned.
-        */
-        string analysisReturnUri;
-
-        /**
-        In the event that the provider has multiple versions of their system and an analysis will need to be provided against
-        a particular version, then that version goes here. If it is null the provider is free to analyse it against its more
-        recent stable version.
-        */
-        union {null, string} analysisVersion;
 
         /**
         This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
