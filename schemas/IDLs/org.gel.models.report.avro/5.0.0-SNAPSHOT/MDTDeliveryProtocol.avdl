@@ -20,7 +20,7 @@ protocol MDTDelivery {
               approved by the originating GMCs
     */
     record InterpretationData {
-        InterpretationRequestRD InterpretationMetaData;
+        InterpretationRequestRD interpretationMetaData;
         union{null, InterpretedGenomeRD} tieringResult;
         union{null, array<InterpretedGenomeRD>} otherInterpretationResults;
     }
