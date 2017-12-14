@@ -35,6 +35,11 @@ protocol InterpretedGenomesRD {
         string intepretationService;
 
         /**
+        URL where the results can be accessed in the company's web interface
+        */
+        union {null, string} reportUrl;
+
+        /**
         List of all reported variants
         */
         array<ReportedVariant> variants;
