@@ -358,5 +358,4 @@ It is a representation of the zygosity
 
     //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
 
-    //TODO: Think about this ^ with Eik and Augusto
 }
