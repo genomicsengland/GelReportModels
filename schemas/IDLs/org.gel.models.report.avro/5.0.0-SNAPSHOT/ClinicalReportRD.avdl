@@ -27,13 +27,6 @@ protocol ClinicalReportsRD {
         */
         string interpretationRequestVersion;
 
-        /**
-        This is the version of the analytical approach that was carried out on the same interpretationRequest.
-        For example provider produces two types of analysis on the data and end user produces different summaries depending
-        on the analysis version
-        */
-        union {null, string} interpretationRequestAnalysisVersion;
-
 
         /**
         Date of this report YYYY-MM-DD
@@ -48,12 +41,12 @@ protocol ClinicalReportsRD {
         /**
         Candidate Variants - as defined in CommonInterpreted
         */
-        union {null, array<ReportedVariant>} candidateVariants;
+        union {null, array<ReportedVariant>} variants;
 
         /**
         Candidate Structural Variants - as defined in CommonInterpreted
         */
-        union {null, array<ReportedStructuralVariant>} candidateStructuralVariants;
+        union {null, array<ReportedStructuralVariant>} structuralVariants;
 
         /**
         Summary of the interpretation, this should reflects the positive conclusions of this interpretation

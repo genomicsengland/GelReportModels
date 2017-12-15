@@ -16,40 +16,33 @@ protocol InterpretedGenomesRD {
         ReportVersionControl versionControl;
 
         /**
-        This is the ID of the clinical interpretation request
+        This is the ID of the clinical interpretation request. This is unique per case and Interepretation
         */
         string interpretationRequestId;
+
+        /**
+        This is the ID of the clinical interpretation request
+        */
+        string interpretationRequestVersion;
 
         /** This object define the type of report being returned for the participant)
         ReportType reportType;
         */
 
         /**
-        This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
-        used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
-        It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+        Name of the intepretation service
         */
-        string analysisId;
-
-        /**
-        Name of the company
-        */
-        string companyName;
-
-        /**
-        URI in the GEL file system where the company has upload files from this analysis
-        */
-        string reportUri;
+        string intepretationService;
 
         /**
         URL where the results can be accessed in the company's web interface
         */
-        string reportUrl;
+        union {null, string} reportUrl;
 
         /**
         List of all reported variants
         */
-        array<ReportedVariant> reportedVariants;
+        array<ReportedVariant> variants;
 
         /**
         This map should contains the version of the different DBs used in the process
@@ -64,7 +57,7 @@ protocol InterpretedGenomesRD {
         /**
         List of all reported structural variants
         */
-        union {null, array<ReportedStructuralVariant>} reportedStructuralVariants;
+        union {null, array<ReportedStructuralVariant>} structuralVariants;
 
         /**
         Comments about the report
