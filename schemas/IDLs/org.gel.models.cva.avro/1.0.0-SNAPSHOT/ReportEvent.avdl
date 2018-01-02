@@ -39,6 +39,28 @@ protocol ReportEventProtocol {
     }
 
     /**
+    The report event for a questionnaire in RD.
+    */
+    record ReportEventQuestionnaireRd {
+        /**
+        The identifier used to group variants together
+        */
+        union {null, int} groupOfVariants;
+        /**
+        The variant level questions
+        */
+        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+        /**
+        The variant group level questions
+        */
+        org.gel.models.report.avro.VariantGroupLevelQuestions variantGroupLevelQuestions;
+        /**
+        The family level questions
+        */
+        org.gel.models.report.avro.FamilyLevelQuestions familyLevelQuestions;
+    }
+
+    /**
 A variant or variants (i.e.: composite heterozygous) reported by any manual or automated means.
 The information about the report is contained within a ReportEvent, it is linked to one or more
 ObservedVariant.
@@ -122,23 +144,19 @@ Duplication of the prior fields is not be supported.
         */
         union {null, org.gel.models.report.avro.ReportEvent} reportEvent;
         /**
-        The variant level questions
+        The report event for the questionnaire reports in the rare disease program
         */
-        union {null, org.gel.models.report.avro.VariantLevelQuestions} variantLevelQuestions;
-        /**
-        The variant group level questions
-        */
-        union {null, array<org.gel.models.report.avro.VariantGroupLevelQuestions>} variantGroupLevelQuestions;
+        union {null, ReportEventQuestionnaireRd} reportEventQuestionnaire;
         /**
         The report event for the cancer program
         */
         union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
         /**
-        The somatic variant level questions
+        The somatic variant level questions for the cancer program
         */
         union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
         /**
-        The variant group level questions
+        The variant group level questions for the cancer program
         */
         union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
         /**
