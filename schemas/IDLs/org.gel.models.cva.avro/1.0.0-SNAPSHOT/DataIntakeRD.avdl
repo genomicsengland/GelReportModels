@@ -68,13 +68,13 @@ protocol DataIntakeRDProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
-        Basic information about the InterpretationRequest
+        Rare disease Interpreted Genome
         */
-        org.gel.models.report.avro.InterpretationRequestRD interpretationRequest;
+        org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
     }
 
     /**
@@ -123,7 +123,7 @@ protocol DataIntakeRDProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
@@ -178,7 +178,7 @@ protocol DataIntakeRDProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
@@ -188,32 +188,33 @@ protocol DataIntakeRDProtocol {
     }
 
     /**
-    A record holding the variant level questions for a single variant together with its coordinates
+    This object holds the variant group level questions together with normalized variant coordinates.
     */
-    record VariantLevelQuestionnaire {
+    record VariantGroupLevelQuestionsWithCoordinates {
         /**
-        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        The list of variant coordinates
+        (ASSUMPTION: the order of this list is the same as the order of variants in VariantLevelQuestions)
         */
-        VariantCoordinates variantCoordinates;
+        array<VariantCoordinates> variantsCoordinates;
         /**
-        The questions at variant level
+        The variant group level questions containing also the variant level questions
         */
-        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+        org.gel.models.report.avro.VariantGroupLevelQuestions variantGroupLevelQuestions;
     }
 
     /**
-    A record holding the variant group level questions for a group of variants
-    (the variant level questions inside the VariantGroupLevelQuestions will be ignored)
+    This is an entity to hold the information in org.gel.models.report.avro.RareDiseaseExitQuestionnaire in
+    a form compatible with CVA.
     */
-    record VariantGroupLevelQuestionnaire {
+    record ExitQuestionnaireRD {
         /**
-        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        The family level questions
         */
-        array<VariantCoordinates> variantCoordinates;
+        org.gel.models.report.avro.FamilyLevelQuestions familyLevelQuestions;
         /**
-        The questions at variant level
+        The list variant group level questions (this list will be unwinded during ingestion)
         */
-        org.gel.models.report.avro.VariantGroupLevelQuestions variantGroupLevelQuestions;
+        array<VariantGroupLevelQuestionsWithCoordinates> variantGroupLevelQuestions;
     }
 
     /**
@@ -262,12 +263,12 @@ protocol DataIntakeRDProtocol {
         */
         array<string> workspace;
         /**
-        Exit questionnaires at variant level for a set of variants
+        The assembly to which the variants refer
         */
-        array<VariantLevelQuestionnaire> variantLevelQuestionnaires;
+        SupportedAssembly assembly;
         /**
-        Exit questionnaires at variant group level for a set of variants
+        Exit questionnaire, having reliable variant coordinates
         */
-        array<VariantGroupLevelQuestionnaire> variantGroupLevelQuestionnaires;
+        ExitQuestionnaireRD exitQuestionnaireRd;
     }
 }
