@@ -51,12 +51,12 @@ protocol CancerInterpretedGenomes {
         /**
         The reported small variants for cancer
         */
-        array<ReportedVariantCancer> reportedVariants;
+        array<ReportedVariantCancer> variants;
 
         /**
         The reported structural variants for cancer
         */
-        array<ReportedStructuralVariantCancer> reportedStructuralVariants;
+        array<ReportedStructuralVariantCancer> structuralVariants;
 
         /**
         Comments about the report

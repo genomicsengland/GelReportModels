@@ -35,12 +35,12 @@ protocol ClinicalReportsCancer {
         /**
         Candidate Variants - as defined in CommonInterpreted
         */
-        union {null, array<ReportedVariantCancer>} candidateVariants;
+        union {null, array<ReportedVariantCancer>} variants;
 
         /**
         Candidate Structural Variants - as defined in CommonInterpreted
         */
-        union {null, array<ReportedStructuralVariantCancer>} candidateStructuralVariants;
+        union {null, array<ReportedStructuralVariantCancer>} structuralVariants;
 
         /**
         Summary of the interpretation, this should reflects the positive conclusions of this interpretation
