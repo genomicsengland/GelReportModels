@@ -83,8 +83,6 @@ protocol ExitQuestionnaires {
 
     }
 
-
-
     record RareDiseaseExitQuestionnaire{
         string eventDate;
         string reporter;
