@@ -68,13 +68,13 @@ protocol DataIntakeCancerProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
-        Basic information about the InterpretationRequest
+        Rare disease Interpreted Genome
         */
-        org.gel.models.report.avro.CancerInterpretationRequest interpretationRequest;
+        org.gel.models.report.avro.CancerInterpretedGenome interpretedGenome;
     }
 
     /**
@@ -123,7 +123,7 @@ protocol DataIntakeCancerProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
@@ -178,7 +178,7 @@ protocol DataIntakeCancerProtocol {
         */
         array<string> workspace;
         /**
-        The assembly to which the variant refers
+        The assembly to which the variants refer
         */
         SupportedAssembly assembly;
         /**
@@ -188,7 +188,7 @@ protocol DataIntakeCancerProtocol {
     }
 
     /**
-    A record holding the somatic variant level questions for a single variant together with its coordinates
+    A record holding the somatic variant level questions for a single variant together with its normalized variant coordinates
     */
     record CancerSomaticVariantLevelQuestionnaire {
         /**
@@ -202,7 +202,7 @@ protocol DataIntakeCancerProtocol {
     }
 
     /**
-    A record holding the germline variant level questions for a single variant together with its coordinates
+    A record holding the germline variant level questions for a single variant together with its normalized variant coordinates
     */
     record CancerGermlineVariantLevelQuestionnaire {
         /**
@@ -260,6 +260,10 @@ protocol DataIntakeCancerProtocol {
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
         */
         array<string> workspace;
+        /**
+        The assembly to which the variants refer
+        */
+        SupportedAssembly assembly;
         /**
         Cancer somatic exit questionnaire
         */

@@ -69,7 +69,10 @@ protocol CancerInterpretationRequests {
         */
         union{null, File} annotationFile;
 
-        org.gel.models.participant.avro.CancerParticipant cancerParticipant;
+        /**
+        The participant to which this corresponds
+        */
+        org.gel.models.participant.avro.CancerParticipant participant;
 
         /**
         Location (URI) where the data can be found
@@ -84,12 +87,12 @@ protocol CancerInterpretationRequests {
         /**
         Tiered Variants
         */
-        array<ReportedVariantCancer> tieredVariants;
+        array<ReportedVariantCancer> variants;
 
         /**
         Structural Tiered Variants
         */
-        array<ReportedStructuralVariantCancer> structuralTieredVariants;
+        array<ReportedStructuralVariantCancer> structuralVariants;
 
         /**
         Tiering Version
