@@ -6,7 +6,28 @@ protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
 
-    /**
+/**
+        Variant origin.
+
+* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
+* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
+* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
+* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
+* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
+* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
+* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
+    */
+    enum AlleleOrigin {
+        de_novo_variant,
+        germline_variant,
+        maternal_variant,
+        paternal_variant,
+        pedigree_specific_variant,
+        population_specific_variant,
+        somatic_variant
+    }
+
+/**
 An enumeration for the different mode of inheritances:
 
 * `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
@@ -56,7 +77,8 @@ It is a representation of the zygosity
         half_missing_alternate,
         alternate_hemizigous,
         reference_hemizigous,
-        unk
+        unk,
+        na
 
     }
 
@@ -64,12 +86,12 @@ It is a representation of the zygosity
     This is intended to hold the genotypes for the family members
     In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
     */
-    record CalledGenotype {
+    record VariantCall {
 
         /**
         Participant id of the family member:
         */
-        string gelId;
+        string participantId;
 
         /**
         LP Number of the family member:
@@ -79,13 +101,17 @@ It is a representation of the zygosity
         /**
         Zygosity
         */
-        Zygosity genotype;
+        Zygosity zygosity;
 
         /**
         Phase set of variants when variants are phased
         */
         union {null, int} phaseSet;
 
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
 
         /**
         Depth for Reference Allele
@@ -104,8 +130,27 @@ It is a representation of the zygosity
 
     }
 
-    enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+    enum FeatureTypes {
+        regulatory_region,
+        gene,
+        transcript,
+        intergenic
+    }
 
+    /**
+    this is the type of actionability for the reported event
+    */
+    enum ActionStatus {
+        clinical,
+        pre_clinical
+    }
+
+
+    record AlleleFrequency {
+        string study;
+        string population;
+        float alternateFrequency;
+    }
 
     record GenomicFeature {
         /**
@@ -121,7 +166,7 @@ It is a representation of the zygosity
         /**
         This field is optional, BUT it should be filled if possible
         */
-        union {null, string} hgnc;
+        union {null, string} geneSymbol;
 
         /**
         Others IDs
@@ -130,18 +175,95 @@ It is a representation of the zygosity
 
     }
 
-    /**
-    This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
-    */
-    // TODO: refactor with ACMGClassification in ExitQuestionnaire
+    record GenePanel{
+        /**
+        Gene Panel used from panelApp
+        */
+        union {null, string} panelName;
+
+        /**
+        Gene Panel Version
+        */
+        union {null, string} panelVersion;
+    }
+
+/**
+This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
+*/
+// TODO: refactor with ACMGClassification in ExitQuestionnaire
     enum VariantClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
 
+/**
+The role of a given genomic feature in cancer
+
+* oncogene: A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* tumor_suppressor_gene: A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+*/
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene
+    }
+
 
 
     /**
-    Possible tiers as defined by Genomics England
+    A Sequence Ontology term identifier by its id and name (e.g.: id = SO:0001816 ; name = non synonymous)
     */
+    record ConsequenceType {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        string name;
+    }
+
+
+    record Action {
+
+        /**
+        //Todo This field needs a better name
+        */
+        string actionType;
+
+        /**
+        status i.e. clinical, pre-clinical
+        //Todo needs a better name?
+        */
+        union {null, ActionStatus} status;
+
+        /**
+        Is variant level actionable
+        */
+        boolean variantActionable;
+
+        /**
+        link to original source, i.e https://clinicaltrials.gov/ct2/show/NCT02664935
+        */
+        union {null, string} url;
+
+        /**
+        type of evidence
+        //Todo do we need this?
+        */
+        union {null, string} evidenceType;
+
+        /**
+        source of the information, i.e clinicaltrials.gov
+        */
+        string source;
+
+    }
+
+/**
+Possible tiers as defined by Genomics England
+enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
+*/
     enum Tier {NONE, TIER1, TIER2, TIER3}
+
+    enum Assembly {GRCh38, GRCh37}
 
     record ReportEvent {
 
@@ -154,39 +276,41 @@ It is a representation of the zygosity
         /**
         This is the phenotype (usually the HPO term or the disorder name) considered to report this variant
         */
-        string phenotype;
+        array<string> phenotypes;
 
         /**
-        Gene Panel used from panelApp
+        Sequence Ontology terms for consequence types used in tier
         */
-        union {null, string} panelName;
+        array<ConsequenceType> consequenceTypes;
 
-        /**
-        Gene Panel Version
-        */
-        union {null, string} panelVersion;
+        union {null, GenePanel} genePanel;
 
         /**
         Mode of inheritance used to analyze the family
         */
-        ReportedModeOfInheritance modeOfInheritance;
+        union {null, ReportedModeOfInheritance} modeOfInheritance;
+
+       /**
+        Role in cancer: oncogene, TSG
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
 
         /**
         This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
         If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
         */
-        GenomicFeature genomicFeature;
+        array<GenomicFeature> genomicFeature;
 
         /**
         This is the penetrance assumed for scoring or classifying this variant
         */
-        org.gel.models.participant.avro.Penetrance penetrance;
+        union {null, org.gel.models.participant.avro.Penetrance} penetrance;
 
         /**
         This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
         a specific mode of Inheritance
         */
-        float score;
+        union {null, float} score;
 
         /**
         Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)
@@ -218,24 +342,24 @@ It is a representation of the zygosity
         union {null, string} eventJustification;
 
         /**
+        Types of actionability
+        */
+        union {null, array<Action>} actions;
+
+
+        /**
         Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions
         This should be filled with the information provided by GEL
         */
         union {null, Tier} tier;
-    }
 
+     }
 
-    record ReportedVariant {
-
+    record VariantCoordinates {
         /**
         chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header
         */
         string chromosome;
-
-        /**
-        variant ID in dbSNP
-        */
-        union {null, string} dbSnpId;
 
         /**
         position: Position 1-based
@@ -252,10 +376,55 @@ It is a representation of the zygosity
         */
         string alternate;
 
+        Assembly assembly;
+
+    }
+
+    record ReportedVariant {
+
+        VariantCoordinates variantCoordinates;
+
         /**
-        array of genotypes for the family
+        variant ID in dbSNP
         */
-        array<CalledGenotype> calledGenotypes;
+        union {null, string} dbSnpId;
+
+        /**
+        variant ID in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        variant ID in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        /**
+        gDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, string} genomicChange;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} cdnaChanges;
+
+        /**
+        protein change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} proteinChanges;
+
+
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+
+        /**
+        Largest reference interrupted homopolymer length intersecting with the indel
+        //TODO can we move this to additional Numeric Annotation?
+        */
+        union {null, int} ihp;
 
         /**
         This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -273,76 +442,7 @@ It is a representation of the zygosity
         */
         union {null,map<string>} evidenceIds;
 
-
-
-        /**
-        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
-        */
-        union {null, map<float>} additionalNumericVariantAnnotations;
-
-        /**
-        Comments
-        */
-        union {null, array<string>} comments;
-
-    }
-
-
-
-    record ReportedStructuralVariant {
-
-        /**
-        chromosome, named as: 1-22,X,Y,MT(other contigs name)
-        */
-        string chromosome;
-
-        /**
-        start: start position 1-based
-        */
-        int start;
-
-        /**
-        end: end position 1-based
-        */
-        int end;
-
-        /**
-        The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
-        (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
-        */
-        string type;
-
-        /**
-        reference: Reference Allele sequence, the same provided in vcf
-        */
-        string reference;
-
-        /**
-        alternate: Alternate Allele sequence, the same provided in vcf
-        */
-        string alternate;
-
-
-        array<CalledGenotype> calledGenotypes;
-
-        /**
-        This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-        the variants can have only one Report event.
-        */
-        array<ReportEvent> reportEvents;
-
-
-        /**
-        For example HGMD ID)
-        */
-        union {null,map<string>} additionalTextualVariantAnnotations;
-
-
-        /**
-        For example HGMD ID, dbSNP ID or Pubmed Id
-        */
-        union {null,map<string>} evidenceIds;
-
+        union {null, array<AlleleFrequency>} alleleFrequencies;
 
         /**
         For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -354,8 +454,12 @@ It is a representation of the zygosity
         */
         union {null, array<string>} comments;
 
-    }
+        /**
+        Describe whether this is a somatic or Germline variant
+        */
+        array<AlleleOrigin> alleleOrigins;
 
-    //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
+
+    }
 
 }

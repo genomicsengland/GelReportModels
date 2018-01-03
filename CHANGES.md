@@ -1,3 +1,41 @@
+version 5.0.0 (2nd January 2018)
+--------------------------------
+
+#### Major Changes
+
+* Merged Cancer and Rare Disease `CommonInterpreted`, `InterpretationRequest`,
+`InterpretedGenome`, `ClinicalReport`, `InterpretationData`
+* `cosmicIds`, `clinVarIds`, `genomicChange`, `cdnaChanges` , `ihp`,
+`alleleFrequencies`, `alleleOrigins` and `proteinChanges`
+added to `ReportedVariant`
+* Variant coordinates `chromosome`, `position`, `reference` and
+`alternate` has been refactored and move into  a new record
+`VariantCoordinates`
+* Renamed `calledGenotypes` to `variantCalls` in `ReportedVariant`
+* Renamed `CalledGenotypes` to `VariantCalls`
+* New record called `AlleleFrequencies`
+* New record called `GenePanel` containing previous, `panelName` and
+`panelVersion`
+* `phenotype` is now an array of string and it is called `phenotypes` in
+`ReportEvent`
+* `actions` added to `ReportEvent`
+* `consequenceTypes` added to `ReportEvent`
+* `panelName` and `panelVersion` removed from `ReportEvent`, replaced by
+`genePanel`
+* `modeOfInheritance` in `ReportEvent` is now nullable
+* Added `roleInCancer` to `ReportEvent` (nullable)
+* `penetrance` in `ReportEvent` is now nullable
+* `score` in `ReportEvent` is now nullable
+* `genomicFeature` in `ReportEvent` is now an array
+* `hgnc` in `GenomicFeature` has been renamed to `geneSymbol`
+* Added `intergenic` as a new Feature Type
+* Renamed `gelId` to `participantId` in `VariantCall`
+* Renamed `genotype` to `zygosity` in `VariantCall`
+* Added `na` to `Zygosity` enum
+* Added `vaf` to `VariantCall` (nullable)
+
+
+
 version 5.0.0 (14th November 2017)
 --------------------------
 

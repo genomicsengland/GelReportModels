@@ -3,40 +3,46 @@
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
 */
-protocol CancerInterpretedGenomes {
+protocol InterpretedGenomes {
 
-    //TODO: ADD variant and gene specific pharmacogenic information e.g. metaboliser status and drug response targets
-
-    import idl "CommonInterpretedCancer.avdl";
+    import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
 
+    record InterpretedGenome {
 
-    record CancerInterpretedGenome {
         /**
         Model version number
         */
         ReportVersionControl versionControl;
 
         /**
+        This is the ID of the clinical interpretation request. This is unique per case and Interepretation
+        */
+        string interpretationRequestId;
+
+        /**
         This is the ID of the clinical interpretation request
         */
-        string reportRequestId;
+        string interpretationRequestVersion;
 
         /** This object define the type of report being returned for the participant)
         ReportType reportType;
         */
 
         /**
-        This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters
-        used to produce the clinical interpretation over this group of samples. It is critical to establish provenance.
-        It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools
+        Name of the intepretation service
         */
-        string analysisId;
+        string intepretationService;
 
         /**
-        URI where the company can upload files for this analysis
+        URL where the results can be accessed in the company's web interface
         */
-        string reportUri;
+        union {null, string} reportUrl;
+
+        /**
+        List of all reported variants
+        */
+        array<ReportedVariant> variants;
 
         /**
         This map should contains the version of the different DBs used in the process
@@ -49,14 +55,9 @@ protocol CancerInterpretedGenomes {
         map <string> softwareVersions;
 
         /**
-        The reported small variants for cancer
+        List of all reported structural variants
+        union {null, array<ReportedStructuralVariant>} structuralVariants;
         */
-        array<ReportedVariantCancer> variants;
-
-        /**
-        The reported structural variants for cancer
-        */
-        array<ReportedStructuralVariantCancer> structuralVariants;
 
         /**
         Comments about the report
