@@ -183,24 +183,6 @@ Duplication of the prior fields is not be supported.
     }
 
     /**
-    Variant coordinates
-    */
-    record VariantCoordinates {
-        SupportedAssembly assembly;
-        string chromosome;
-        int position;
-        string reference;
-        string alternate;
-    }
-
-    /**
-    Variants coordinates
-    */
-    record VariantsCoordinates {
-        array<VariantCoordinates> variants = [];
-    }
-
-    /**
     A curation and the variants coordinates to which it corresponds
     */
     record CurationAndVariants {

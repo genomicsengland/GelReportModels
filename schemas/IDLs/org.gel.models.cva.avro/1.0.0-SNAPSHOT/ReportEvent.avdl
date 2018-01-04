@@ -61,6 +61,38 @@ protocol ReportEventProtocol {
     }
 
     /**
+    Variant coordinates
+    */
+    record VariantCoordinates {
+        SupportedAssembly assembly;
+        string chromosome;
+        int position;
+        string reference;
+        string alternate;
+    }
+
+    /**
+    A list of variant coordinates
+    */
+    record VariantsCoordinates {
+        array<VariantCoordinates> variants = [];
+    }
+
+    /**
+    This object holds all questionnaire questions together with normalized variant coordinates.
+    */
+    record ReportedVariantQuestionnaireRd {
+        /**
+        The normalized representation of variants coordinates
+        */
+        VariantCoordinates variantCoordinates;
+        /**
+        The questionnaire report event
+        */
+        ReportEventQuestionnaireRd reportEvent;
+    }
+
+    /**
 A variant or variants (i.e.: composite heterozygous) reported by any manual or automated means.
 The information about the report is contained within a ReportEvent, it is linked to one or more
 ObservedVariant.
