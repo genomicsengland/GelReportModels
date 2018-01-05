@@ -92,6 +92,31 @@ protocol ReportEventProtocol {
         ReportEventQuestionnaireRd reportEvent;
     }
 
+    record ReportEventQuestionnaireCancer {
+        /**
+        The somatic variant level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
+        /**
+        The variant group level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
+        /**
+        Cancer case level questions
+        */
+        org.gel.models.report.avro.CancerCaseLevelQuestions cancercaseLevelQuestions;
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, string} otherActionableVariants;
+    }
+
     /**
 A variant or variants (i.e.: composite heterozygous) reported by any manual or automated means.
 The information about the report is contained within a ReportEvent, it is linked to one or more
@@ -184,13 +209,9 @@ Duplication of the prior fields is not be supported.
         */
         union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
         /**
-        The somatic variant level questions for the cancer program
+        The report event for the questionnaire reports in the cancer program
         */
-        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
-        /**
-        The variant group level questions for the cancer program
-        */
-        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
+        union {null, ReportEventQuestionnaireCancer} reportEventQuestionnaireCancer;
         /**
         The observed variants
         */
