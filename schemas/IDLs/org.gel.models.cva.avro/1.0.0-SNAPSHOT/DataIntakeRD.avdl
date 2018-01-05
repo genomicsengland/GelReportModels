@@ -195,7 +195,7 @@ protocol DataIntakeRDProtocol {
         /**
         The list variant group level questions (this list will be unwinded during ingestion)
         */
-        array<ReportedVariantQuestionnaireRd> variants;
+        array<ReportedVariantQuestionnaireRD> variants;
     }
 
     /**

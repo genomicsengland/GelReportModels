@@ -41,7 +41,7 @@ protocol ReportEventProtocol {
     /**
     The report event for a questionnaire in RD.
     */
-    record ReportEventQuestionnaireRd {
+    record ReportEventQuestionnaireRD {
         /**
         The identifier used to group variants together
         */
@@ -81,7 +81,7 @@ protocol ReportEventProtocol {
     /**
     This object holds all questionnaire questions together with normalized variant coordinates.
     */
-    record ReportedVariantQuestionnaireRd {
+    record ReportedVariantQuestionnaireRD {
         /**
         The normalized representation of variants coordinates
         */
@@ -89,7 +89,7 @@ protocol ReportEventProtocol {
         /**
         The questionnaire report event
         */
-        ReportEventQuestionnaireRd reportEvent;
+        ReportEventQuestionnaireRD reportEvent;
     }
 
     record ReportEventQuestionnaireCancer {
@@ -203,7 +203,7 @@ Duplication of the prior fields is not be supported.
         /**
         The report event for the questionnaire reports in the rare disease program
         */
-        union {null, ReportEventQuestionnaireRd} reportEventQuestionnaire;
+        union {null, ReportEventQuestionnaireRD} reportEventQuestionnaire;
         /**
         The report event for the cancer program
         */
