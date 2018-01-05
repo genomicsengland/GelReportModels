@@ -1,39 +1,46 @@
-version 5.0.0 (2nd January 2018)
+version 5.0.0 (5nd January 2018)
 --------------------------------
 
 #### Major Changes
 
-* Merged Cancer and Rare Disease `CommonInterpreted`, `InterpretationRequest`,
-`InterpretedGenome`, `ClinicalReport`, `InterpretationData`
-* `cosmicIds`, `clinVarIds`, `genomicChange`, `cdnaChanges` , `ihp`,
-`alleleFrequencies`, `alleleOrigins` and `proteinChanges`
-added to `ReportedVariant`
+###### Clinical Report Cancer
+
+* `candidateVariants` renamed to `variants`
+
+###### Clinical Report Rare Disease
+
+* `candidateVariants` renamed to `variants`
+* `supportingEvidences` renamed to `references`
+
+###### ReportedVariant Rare Disease
+
+* Renamed `calledGenotypes` to `variantCalls`
+* `cosmicIds`, `clinVarIds`, `genomicChange`, `cdnaChanges` ,
+`alleleFrequencies`, `alleleOrigins`, `flags` and `proteinChanges`
+* `evidenceIds` renamed to `references`
 * Variant coordinates `chromosome`, `position`, `reference` and
 `alternate` has been refactored and move into  a new record
 `VariantCoordinates`
-* Renamed `calledGenotypes` to `variantCalls` in `ReportedVariant`
-* Renamed `CalledGenotypes` to `VariantCalls`
 * New record called `AlleleFrequencies`
-* New record called `GenePanel` containing previous, `panelName` and
-`panelVersion`
-* `phenotype` is now an array of string and it is called `phenotypes` in
-`ReportEvent`
-* `actions` added to `ReportEvent`
-* `consequenceTypes` added to `ReportEvent`
-* `panelName` and `panelVersion` removed from `ReportEvent`, replaced by
-`genePanel`
-* `modeOfInheritance` in `ReportEvent` is now nullable
-* Added `roleInCancer` to `ReportEvent` (nullable)
+* Renamed `gelId` to `participantId` in `VariantCall`
+* Renamed `genotype` to `zygosity` in `VariantCall`
+* Added `vaf` to `VariantCall` (nullable)
+* Added `na` to `Zygosity` enum
+
+###### Report Event (RD)
+
+* `phenotype` is now an array of string and it is called `phenotypes`
+* Added `consequenceTypes`
+* Removed `panelName` and `panelVersion`, replaced by `genePanel`
+* `VariantClassification` is now a complex object (defined in biodata)
 * `penetrance` in `ReportEvent` is now nullable
 * `score` in `ReportEvent` is now nullable
 * `genomicFeature` in `ReportEvent` is now an array
 * `hgnc` in `GenomicFeature` has been renamed to `geneSymbol`
 * Added `intergenic` as a new Feature Type
-* Renamed `gelId` to `participantId` in `VariantCall`
-* Renamed `genotype` to `zygosity` in `VariantCall`
-* Added `na` to `Zygosity` enum
-* Added `vaf` to `VariantCall` (nullable)
 
+###### Interpretation Request (RD and Cancer)
+* Added `interpretationFlags` (nullable)
 
 
 version 5.0.0 (14th November 2017)

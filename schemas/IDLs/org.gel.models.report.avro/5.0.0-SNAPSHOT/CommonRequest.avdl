@@ -86,4 +86,12 @@ Types:
         union {null, array<string>} paternalFamilyHistory;
     }
 
+    enum Program {cancer, rare_disease}
+
+    enum InterpretationFlags {mixed_chemistries, mixedLab_preparation, low_tumour_purity, uniparental_isodisomy, uniparental_heterodisomy, unusual_karyotype, high_cnv_count, high_estimate_human_contamination_fraction, mixed_recruiting_gmc, suspected_mosaicism, low_quality_sample, ffpe_tumour_sample, ff_nano_tumour_sample, missing_values_for_proband_in_reported_variant, reissued, supplementary_report_errors, internal_use_only, other}
+
+    record InterpretationFlag{
+        InterpretationFlags  interepretationFlag;
+        union {null, string} additionalDescription;
+    }
 }

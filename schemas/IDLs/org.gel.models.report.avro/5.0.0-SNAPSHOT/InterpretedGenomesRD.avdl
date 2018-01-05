@@ -3,12 +3,12 @@
 /**
 Define the Report used by GEL to get the clinical interpretation companies results for bronze level
 */
-protocol InterpretedGenomes {
+protocol InterpretedGenomesRD {
 
     import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
 
-    record InterpretedGenome {
+    record InterpretedGenomeRD {
 
         /**
         Model version number
@@ -54,10 +54,6 @@ protocol InterpretedGenomes {
         */
         map <string> softwareVersions;
 
-        /**
-        List of all reported structural variants
-        union {null, array<ReportedStructuralVariant>} structuralVariants;
-        */
 
         /**
         Comments about the report

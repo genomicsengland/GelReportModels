@@ -4,18 +4,12 @@ This protocol defines the minimum information that Genomics England needs to gen
 define by a GMC in a CIP environment. Notice that most of the information needed is already collected in the
 Interpretation Request or interpreted genome.
 */
-protocol ClinicalReports {
+protocol ClinicalReportsCancer {
 
-    import idl "CommonInterpreted.avdl";
+    import idl "CommonInterpretedCancer.avdl";
     import idl "ReportVersionControl.avdl";
 
-    record AdditionalAnalysisPanel {
-        string specificDisease;
-        string panelName;
-        union {null, string} panelVersion;
-    }
-
-    record ClinicalReport {
+    record ClinicalReportCancer {
 
         /**
         This is the interpretation Request Id, first number in XXX-123-1
@@ -26,7 +20,6 @@ protocol ClinicalReports {
         This is the version of the interpretation Request Id, second number in XXX-123-2
         */
         string interpretationRequestVersion;
-
 
         /**
         Date of this report YYYY-MM-DD
@@ -41,34 +34,27 @@ protocol ClinicalReports {
         /**
         Candidate Variants - as defined in CommonInterpreted
         */
-        union {null, array<ReportedVariant>} variants;
-
-        /**
-        Candidate Structural Variants - as defined in CommonInterpreted
-        */
-        union {null, array<ReportedStructuralVariant>} structuralVariants;
+        union {null, array<ReportedVariantCancer>} variants;
 
         /**
         Summary of the interpretation, this should reflects the positive conclusions of this interpretation
         */
         string genomicInterpretation;
 
-        union {null, array<AdditionalAnalysisPanel>} additionalAnalysisPanels;
-
         /**
-        Supporting evidence (pubmed Ids)
+        References (pubmed Ids)
         */
-        union {null, array<string>} supportingEvidence;
+        union {null, array<string>} references;
 
         /**
         This map should contains the version of the different DBs used in the process
         */
-        map<string> referenceDatabasesVersions;
+        map <string> referenceDatabasesVersions;
 
         /**
-        This map should contains the version of the different software in the process
+        This map should contains the version of the different DBs software in the process
         */
-        map<string> softwareVersions;
+        map <string> softwareVersions;
 
     }
 }

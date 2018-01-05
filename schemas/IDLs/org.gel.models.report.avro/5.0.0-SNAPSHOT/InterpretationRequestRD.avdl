@@ -6,7 +6,7 @@ The record Report is the top level class. This includes clinical information + v
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
-protocol InterpretationRequests {
+protocol InterpretationRequestsRD {
 
     import idl "CommonRequest.avdl";
     import idl "ReportVersionControl.avdl";
@@ -15,14 +15,10 @@ protocol InterpretationRequests {
     import idl "CancerParticipant.avdl";
 
 
-    //TODO: Convert this in a record to stored chr, parent....
-    enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
-    enum Program {cancer, rare_disease}
-
     /**
     This record represents basic information for this report
     */
-    record InterpretationRequest {
+    record InterpretationRequestRD {
         /**
         Model version number
         */
@@ -74,7 +70,7 @@ protocol InterpretationRequests {
         union {null, File} pedigreeDiagram;
 
         /**
-        Variant Annotation using cellbase
+        Variant Annotation File
         */
         union {null, File} annotationFile;
 
@@ -84,21 +80,10 @@ protocol InterpretationRequests {
         */
         union {null, map<File>} otherFiles;
 
-        Program program;
-
         /**
         Pedigree of the family. ONLY if program is cancer
         */
         union {null, org.gel.models.participant.avro.Pedigree} pedigree;
-        /**
-        Cancer Particiapnt Data. ONLY if program is rare_disease
-        */
-        union {null, org.gel.models.participant.avro.CancerParticipant} cancerParticipant;
-
-        /**
-        Complex Genetic Phenomena
-        */
-        union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
 
         /**
         It is paternal or maternal with reference to the participant.
@@ -110,6 +95,9 @@ protocol InterpretationRequests {
         That is: a map of tables of genes and metrics
         */
         union {null, map<map<map<float>>>} genePanelsCoverage;
+
+
+        union {null, array<InterpretationFlag>} interpretationFlags;
 
         /**
         Additional information

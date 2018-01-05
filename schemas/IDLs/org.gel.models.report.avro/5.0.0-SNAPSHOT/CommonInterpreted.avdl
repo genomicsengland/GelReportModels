@@ -5,9 +5,10 @@ This protocol defines the Commons for GEL models
 protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
+    import idl "evidence.avdl";
 
 /**
-        Variant origin.
+        Allele origin.
 
 * `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
 * `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
@@ -83,7 +84,7 @@ It is a representation of the zygosity
     }
 
     /**
-    This is intended to hold the genotypes for the family members
+    This is intended to hold the genotypes for the family members. This assumes that varinats have been split before.
     In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
     */
     record VariantCall {
@@ -99,7 +100,7 @@ It is a representation of the zygosity
         string sampleId;
 
         /**
-        Zygosity
+        Zygosity. For somatic variants, or variants without zygosity use `na`
         */
         Zygosity zygosity;
 
@@ -124,9 +125,9 @@ It is a representation of the zygosity
         union {null, int} depthAlternate;
 
         /**
-        Copy number genotype for imprecise events
+        Describe whether this is a somatic or Germline variant
         */
-        union {null, int} copyNumber;
+        array<AlleleOrigin> alleleOrigins;
 
     }
 
@@ -135,14 +136,6 @@ It is a representation of the zygosity
         gene,
         transcript,
         intergenic
-    }
-
-    /**
-    this is the type of actionability for the reported event
-    */
-    enum ActionStatus {
-        clinical,
-        pre_clinical
     }
 
 
@@ -187,23 +180,6 @@ It is a representation of the zygosity
         union {null, string} panelVersion;
     }
 
-/**
-This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
-*/
-// TODO: refactor with ACMGClassification in ExitQuestionnaire
-    enum VariantClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
-
-/**
-The role of a given genomic feature in cancer
-
-* oncogene: A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
-* tumor_suppressor_gene: A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
-*/
-    enum RoleInCancer {
-        oncogene,
-        tumor_suppressor_gene
-    }
-
 
 
     /**
@@ -221,47 +197,11 @@ The role of a given genomic feature in cancer
     }
 
 
-    record Action {
-
-        /**
-        //Todo This field needs a better name
-        */
-        string actionType;
-
-        /**
-        status i.e. clinical, pre-clinical
-        //Todo needs a better name?
-        */
-        union {null, ActionStatus} status;
-
-        /**
-        Is variant level actionable
-        */
-        boolean variantActionable;
-
-        /**
-        link to original source, i.e https://clinicaltrials.gov/ct2/show/NCT02664935
-        */
-        union {null, string} url;
-
-        /**
-        type of evidence
-        //Todo do we need this?
-        */
-        union {null, string} evidenceType;
-
-        /**
-        source of the information, i.e clinicaltrials.gov
-        */
-        string source;
-
-    }
 
 /**
 Possible tiers as defined by Genomics England
-enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
 */
-    enum Tier {NONE, TIER1, TIER2, TIER3}
+    enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
 
     enum Assembly {GRCh38, GRCh37}
 
@@ -288,12 +228,7 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         /**
         Mode of inheritance used to analyze the family
         */
-        union {null, ReportedModeOfInheritance} modeOfInheritance;
-
-       /**
-        Role in cancer: oncogene, TSG
-        */
-        union {null, array<RoleInCancer>} roleInCancer;
+        ReportedModeOfInheritance modeOfInheritance;
 
         /**
         This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
@@ -320,7 +255,7 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
 
         /** Classification of the pathogenicity of this variant with respect to the phenotype
         */
-        union {null, VariantClassification} variantClassification;
+        union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
 
         /**
         This variant using this mode of inheritance can fully explain the phenotype? true or false
@@ -340,12 +275,6 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
         */
         union {null, string} eventJustification;
-
-        /**
-        Types of actionability
-        */
-        union {null, array<Action>} actions;
-
 
         /**
         Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions
@@ -372,12 +301,20 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         string reference;
 
         /**
-        alternate: Alternate Allele sequence, the same provided in vcf
+        alternate: Alternate Allele sequence, the same provided in vcf. Only one
+        allele is supported
         */
         string alternate;
 
         Assembly assembly;
 
+    }
+
+    record VariantAttributes {
+        union {null, int} ihp;
+        union {null, boolean} recurrentlyReported;
+        union {null, string} fdp50;
+        union {null, map<string>} others;
     }
 
     record ReportedVariant {
@@ -402,7 +339,7 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         /**
         gDNA change, HGVS nomenclature (e.g.)
         */
-        union {null, string} genomicChange;
+        union {null, array<string>} genomicChange;
 
         /**
         cDNA change, HGVS nomenclature (e.g.)
@@ -421,12 +358,6 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         array<VariantCall> variantCalls;
 
         /**
-        Largest reference interrupted homopolymer length intersecting with the indel
-        //TODO can we move this to additional Numeric Annotation?
-        */
-        union {null, int} ihp;
-
-        /**
         This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
         the variants can have only one Report event.
         */
@@ -440,7 +371,9 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         /**
         For example HGMD ID, dbSNP ID or Pubmed Id
         */
-        union {null,map<string>} evidenceIds;
+        union {null,map<string>} references;
+
+        union {null, VariantAttributes} variantAttributes;
 
         union {null, array<AlleleFrequency>} alleleFrequencies;
 
@@ -455,9 +388,10 @@ enum Tier {NONE, TIER1, TIER2, TIER3, DOMAIN1, DOMAIN2, DOMAIN3}???
         union {null, array<string>} comments;
 
         /**
-        Describe whether this is a somatic or Germline variant
+        List of allele origins for this variant in this report
         */
         array<AlleleOrigin> alleleOrigins;
+
 
 
     }

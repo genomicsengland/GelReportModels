@@ -1,0 +1,225 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the Commons for GEL models
+*/
+protocol CommonInterpretedCancer {
+
+    import idl "CommonInterpreted.avdl";
+    import idl "evidence.avdl";
+
+    /**
+    this is the type of actionability for the reported event
+    */
+    enum ActionType {
+        therapy,
+        therapeutic,
+        prognosis,
+        diagnosis
+    }
+
+    /**
+    this is the type of actionability for the reported event
+    */
+    enum ActionStatus {
+        clinical,
+        pre_clinical
+    }
+
+
+    record Action {
+
+        union {null, ActionType} actionType;
+
+
+        /**
+        array of PMIDs
+        */
+        union {null, array<string>} references;
+
+        /**
+        status i.e. clinical, pre-clinical
+        */
+        union {null, ActionStatus} status;
+
+        /**
+        Is variant level actionable
+        */
+        boolean variantActionable;
+
+        /**
+        link to original source
+        */
+        union {null, string} url;
+
+        /**
+        type of evidence
+        */
+        union {null, string} evidenceType;
+
+        /**
+        source of the information
+        */
+        string source;
+
+    }
+
+
+    /**
+    The role of a given genomic feature in cancer
+
+* oncogene: A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* tumor_suppressor_gene: A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+    */
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene,
+        both
+    }
+
+
+    record ReportEventCancer {
+
+        /**
+        Unique identifier for each report event, this has to be unique across the whole report, and it will be used by GEL
+        to validate the report
+        */
+        string reportEventId;
+
+        /**
+        This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
+        If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
+        */
+        array<GenomicFeature>  genomicFeature;
+
+        /**
+        Sequence Ontology terms used in tier
+        */
+        array<ConsequenceType> consequenceTypes;
+
+        /**
+        Types of actionability
+        */
+        union {null, array<Action>} actions;
+
+        /**
+        This value groups variants that together could explain the phenotype according to the
+        mode of inheritance used. All the variants sharing the same value will be considered in the same group.
+        This value is an integer unique in the whole analysis.
+        */
+        union {null, int} groupOfVariants;
+
+        /**
+        This is the description of why this variant would be reported, for example that it affects the protein in this way
+        and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+        using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+        */
+        union {null, string} eventJustification;
+
+        /**
+        This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
+        a specific mode of Inheritance
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+
+        /** Classification of the pathogenicity of this variant with respect to the phenotype
+        */
+        union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
+
+
+        /**
+        Role in cancer: oncogene, TSG
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
+
+        /**
+        Tier variant classification
+        */
+        union {null, Tier} tier;
+
+    }
+
+
+    record ReportedVariantCancer {
+
+        VariantCoordinates variantCoordinates;
+
+        /**
+        variant ID in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        variant ID in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        variant ID in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        /**
+        gDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} genomicChange;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} cdnaChanges;
+
+        /**
+        protein change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} proteinChanges;
+
+
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+
+        /**
+        This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
+        the variants can have only one Report event.
+        */
+        array<ReportEventCancer> reportEvents;
+
+        /**
+        For example a quote from a paper
+        */
+        union {null,map<string>} additionalTextualVariantAnnotations;
+
+        /**
+        For example HGMD ID, dbSNP ID or Pubmed Id
+        */
+        union {null,map<string>} references;
+
+        union {null, VariantAttributes} variantAttributes;
+
+        union {null, array<AlleleFrequency>} alleleFrequencies;
+
+        /**
+        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
+        */
+        union {null, map<float>} additionalNumericVariantAnnotations;
+
+        /**
+        Comments
+        */
+        union {null, array<string>} comments;
+
+        /**
+        List of allele origins for this variant in this report
+        */
+        array<AlleleOrigin> alleleOrigins;
+
+    }
+}
+
