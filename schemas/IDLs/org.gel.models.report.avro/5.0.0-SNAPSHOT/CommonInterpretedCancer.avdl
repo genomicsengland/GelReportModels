@@ -89,7 +89,7 @@ protocol CommonInterpretedCancer {
         This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
         If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
         */
-        array<GenomicFeature>  genomicFeature;
+        array<GenomicFeature>  genomicFeatures;
 
         /**
         Sequence Ontology terms used in tier
