@@ -193,7 +193,7 @@ It is a representation of the zygosity
         /**
         The SO term name (e.g.: non synonymous)
         */
-        string name;
+        union {null, string} name;
     }
 
 
