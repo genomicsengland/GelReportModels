@@ -172,7 +172,7 @@ It is a representation of the zygosity
         /**
         Gene Panel used from panelApp
         */
-        union {null, string} panelName;
+        string panelName;
 
         /**
         Gene Panel Version
