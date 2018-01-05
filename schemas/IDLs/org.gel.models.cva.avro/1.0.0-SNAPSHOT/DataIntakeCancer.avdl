@@ -265,6 +265,10 @@ protocol DataIntakeCancerProtocol {
         */
         SupportedAssembly assembly;
         /**
+        Case level questions
+        */
+        org.gel.models.report.avro.CancerCaseLevelQuestions cancercaseLevelQuestions;
+        /**
         Cancer somatic exit questionnaire
         */
         array<CancerSomaticVariantLevelQuestionnaire> cancerSomaticExitQuestionnaires;
@@ -272,5 +276,15 @@ protocol DataIntakeCancerProtocol {
         Germline somatic exit questionnaire
         */
         array<CancerGermlineVariantLevelQuestionnaire> cancerGermlineExitQuestionnaires;
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, string} otherActionableVariants;
     }
 }
