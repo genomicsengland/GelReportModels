@@ -41,7 +41,7 @@ protocol ReportEventProtocol {
     /**
     The report event for a questionnaire in RD.
     */
-    record ReportEventQuestionnaireRd {
+    record ReportEventQuestionnaireRD {
         /**
         The identifier used to group variants together
         */
@@ -58,6 +58,63 @@ protocol ReportEventProtocol {
         The family level questions
         */
         org.gel.models.report.avro.FamilyLevelQuestions familyLevelQuestions;
+    }
+
+    /**
+    Variant coordinates
+    */
+    record VariantCoordinates {
+        SupportedAssembly assembly;
+        string chromosome;
+        int position;
+        string reference;
+        string alternate;
+    }
+
+    /**
+    A list of variant coordinates
+    */
+    record VariantsCoordinates {
+        array<VariantCoordinates> variants = [];
+    }
+
+    /**
+    This object holds all questionnaire questions together with normalized variant coordinates.
+    */
+    record ReportedVariantQuestionnaireRD {
+        /**
+        The normalized representation of variants coordinates
+        */
+        VariantCoordinates variantCoordinates;
+        /**
+        The questionnaire report event
+        */
+        ReportEventQuestionnaireRD reportEvent;
+    }
+
+    record ReportEventQuestionnaireCancer {
+        /**
+        The somatic variant level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
+        /**
+        The variant group level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
+        /**
+        Cancer case level questions
+        */
+        org.gel.models.report.avro.CancerCaseLevelQuestions cancercaseLevelQuestions;
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, string} otherActionableVariants;
     }
 
     /**
@@ -146,19 +203,15 @@ Duplication of the prior fields is not be supported.
         /**
         The report event for the questionnaire reports in the rare disease program
         */
-        union {null, ReportEventQuestionnaireRd} reportEventQuestionnaire;
+        union {null, ReportEventQuestionnaireRD} reportEventQuestionnaire;
         /**
         The report event for the cancer program
         */
         union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
         /**
-        The somatic variant level questions for the cancer program
+        The report event for the questionnaire reports in the cancer program
         */
-        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
-        /**
-        The variant group level questions for the cancer program
-        */
-        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
+        union {null, ReportEventQuestionnaireCancer} reportEventQuestionnaireCancer;
         /**
         The observed variants
         */

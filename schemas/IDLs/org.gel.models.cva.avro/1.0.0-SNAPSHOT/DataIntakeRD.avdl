@@ -188,33 +188,14 @@ protocol DataIntakeRDProtocol {
     }
 
     /**
-    This object holds the variant group level questions together with normalized variant coordinates.
-    */
-    record VariantGroupLevelQuestionsWithCoordinates {
-        /**
-        The list of variant coordinates
-        (ASSUMPTION: the order of this list is the same as the order of variants in VariantLevelQuestions)
-        */
-        array<VariantCoordinates> variantsCoordinates;
-        /**
-        The variant group level questions containing also the variant level questions
-        */
-        org.gel.models.report.avro.VariantGroupLevelQuestions variantGroupLevelQuestions;
-    }
-
-    /**
     This is an entity to hold the information in org.gel.models.report.avro.RareDiseaseExitQuestionnaire in
     a form compatible with CVA.
     */
     record ExitQuestionnaireRD {
         /**
-        The family level questions
-        */
-        org.gel.models.report.avro.FamilyLevelQuestions familyLevelQuestions;
-        /**
         The list variant group level questions (this list will be unwinded during ingestion)
         */
-        array<VariantGroupLevelQuestionsWithCoordinates> variantGroupLevelQuestions;
+        array<ReportedVariantQuestionnaireRD> variants;
     }
 
     /**
