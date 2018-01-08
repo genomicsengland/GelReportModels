@@ -1,3 +1,48 @@
+version 5.0.0 (5nd January 2018)
+--------------------------------
+
+#### Major Changes
+
+###### Clinical Report Cancer
+
+* `candidateVariants` renamed to `variants`
+
+###### Clinical Report Rare Disease
+
+* `candidateVariants` renamed to `variants`
+* `supportingEvidences` renamed to `references`
+
+###### ReportedVariant Rare Disease
+
+* Renamed `calledGenotypes` to `variantCalls`
+* `cosmicIds`, `clinVarIds`, `genomicChange`, `cdnaChanges` ,
+`alleleFrequencies`, `alleleOrigins`, `flags` and `proteinChanges`
+* `evidenceIds` renamed to `references`
+* Variant coordinates `chromosome`, `position`, `reference` and
+`alternate` has been refactored and move into  a new record
+`VariantCoordinates`
+* New record called `AlleleFrequencies`
+* Renamed `gelId` to `participantId` in `VariantCall`
+* Renamed `genotype` to `zygosity` in `VariantCall`
+* Added `vaf` to `VariantCall` (nullable)
+* Added `na` to `Zygosity` enum
+
+###### Report Event (RD)
+
+* `phenotype` is now an array of string and it is called `phenotypes`
+* Added `consequenceTypes`
+* Removed `panelName` and `panelVersion`, replaced by `genePanel`
+* `VariantClassification` is now a complex object (defined in biodata)
+* `penetrance` in `ReportEvent` is now nullable
+* `score` in `ReportEvent` is now nullable
+* `genomicFeature` in `ReportEvent` is now an array
+* `hgnc` in `GenomicFeature` has been renamed to `geneSymbol`
+* Added `intergenic` as a new Feature Type
+
+###### Interpretation Request (RD and Cancer)
+* Added `interpretationFlags` (nullable)
+
+
 version 5.0.0 (14th November 2017)
 --------------------------
 

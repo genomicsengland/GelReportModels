@@ -8,17 +8,12 @@ All annotations are against Ensembl gene models
 */
 protocol InterpretationRequestsRD {
 
-    /**
-    Caution!! This has been removed
-    import idl "variants.avdl";
-    import idl "CommonInterpreted.avdl";
-    */
     import idl "CommonRequest.avdl";
     import idl "ReportVersionControl.avdl";
+    import idl "CommonInterpreted.avdl";
     import idl "RDParticipant.avdl";
+    import idl "CancerParticipant.avdl";
 
-    //TODO: Convert this in a record to stored chr, parent....
-    enum ComplexGeneticPhenomena {mosaicism, monosomy, disomy, uniparental_disomy, trisomy, other_aneuploidy}
 
     /**
     This record represents basic information for this report
@@ -75,7 +70,7 @@ protocol InterpretationRequestsRD {
         union {null, File} pedigreeDiagram;
 
         /**
-        Variant Annotation using cellbase
+        Variant Annotation File
         */
         union {null, File} annotationFile;
 
@@ -86,15 +81,9 @@ protocol InterpretationRequestsRD {
         union {null, map<File>} otherFiles;
 
         /**
-        Pedigree of the family to analyze
+        Pedigree of the family. ONLY if program is cancer
         */
-        org.gel.models.participant.avro.Pedigree pedigree;
-
-
-        /**
-        Complex Genetic Phenomena
-        */
-        union {null, ComplexGeneticPhenomena} complexGeneticPhenomena;
+        union {null, org.gel.models.participant.avro.Pedigree} pedigree;
 
         /**
         It is paternal or maternal with reference to the participant.
@@ -106,6 +95,9 @@ protocol InterpretationRequestsRD {
         That is: a map of tables of genes and metrics
         */
         union {null, map<map<map<float>>>} genePanelsCoverage;
+
+
+        union {null, array<InterpretationFlag>} interpretationFlags;
 
         /**
         Additional information

@@ -30,14 +30,14 @@ protocol CancerInterpretationRequests {
         ReportVersionControl versionControl;
 
         /**
-        Unique id for this report
+        id for this request
         */
-        string reportRequestId;
+        string interpretationRequestId;
 
         /**
-        Version of this report
+        version for this request
         */
-        int reportVersion;
+        string interpretationRequestVersion;
 
         /**
         Internal Study id
@@ -45,59 +45,9 @@ protocol CancerInterpretationRequests {
         string internalStudyId;
 
         /**
-        Simply load data to system or also provide interpretation?
+        This is the version of the assembly used to align the reads
         */
-        boolean interpretGenome = false;
-
-        /**
-        BAMs Files
-        */
-        array<File> bams;
-
-        /**
-        VCFs Files where SVs and CNVs are represented
-        */
-        array<File> vcfs;
-
-        /**
-        BigWig Files
-        */
-        array<File> bigWigs;
-
-        /**
-        This will be the output file from Cellbase + version used
-        */
-        union{null, File} annotationFile;
-
-        /**
-        The participant to which this corresponds
-        */
-        org.gel.models.participant.avro.CancerParticipant participant;
-
-        /**
-        Location (URI) where the data can be found
-        */
-        string analysisUri;
-
-        /**
-        GEL's analysis version for this request. It can increase if a change is made to the underlying data for example
-        */
-        string analysisVersion;
-
-        /**
-        Tiered Variants
-        */
-        array<ReportedVariantCancer> variants;
-
-        /**
-        Structural Tiered Variants
-        */
-        array<ReportedStructuralVariantCancer> structuralVariants;
-
-        /**
-        Tiering Version
-        */
-        string tieringVersion;
+        string genomeAssembly;
 
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
@@ -105,15 +55,55 @@ protocol CancerInterpretationRequests {
         array<string> workspace;
 
         /**
-        Additional information
+        BAMs Files
         */
-        union {null, map<string>} additionalInfo;
+        union {null, array<File>} bams;
+
+        /**
+        VCFs Files where SVs and CNVs are represented
+        */
+        union {null, array<File>} vcfs;
+
+        /**
+        BigWig Files
+        */
+        union {null, array<File>} bigWigs;
+
+
+        /**
+        Variant Annotation File
+        */
+        union {null, File} annotationFile;
 
         /**
         Other files that may be vendor specific
         map of key: type of file, value: record of type File
         */
         union {null, map<File>} otherFiles;
+
+        /**
+        Cancer Particiapnt Data. ONLY if program is rare_disease
+        */
+        union {null, org.gel.models.participant.avro.CancerParticipant} cancerParticipant;
+
+        /**
+        It is paternal or maternal with reference to the participant.
+        */
+        union {null, OtherFamilyHistory} otherFamilyHistory;
+
+        /**
+        This map of key: panel_name, value: (map of key: gene, value: (map of metrics of key: metric name, value: float))
+        That is: a map of tables of genes and metrics
+        */
+        union {null, map<map<map<float>>>} genePanelsCoverage;
+
+
+        union {null, array<InterpretationFlag>} interpretationFlags;
+
+        /**
+        Additional information
+        */
+        union {null, map<string>} additionalInfo;
 
     }
 
