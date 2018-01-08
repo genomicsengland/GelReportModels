@@ -54,10 +54,6 @@ protocol InterpretedGenomesRD {
         */
         map <string> softwareVersions;
 
-        /**
-        List of all reported structural variants
-        */
-        union {null, array<ReportedStructuralVariant>} structuralVariants;
 
         /**
         Comments about the report

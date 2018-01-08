@@ -44,11 +44,6 @@ protocol ClinicalReportsRD {
         union {null, array<ReportedVariant>} variants;
 
         /**
-        Candidate Structural Variants - as defined in CommonInterpreted
-        */
-        union {null, array<ReportedStructuralVariant>} structuralVariants;
-
-        /**
         Summary of the interpretation, this should reflects the positive conclusions of this interpretation
         */
         string genomicInterpretation;
@@ -58,7 +53,7 @@ protocol ClinicalReportsRD {
         /**
         Supporting evidence (pubmed Ids)
         */
-        union {null, array<string>} supportingEvidence;
+        union {null, array<string>} references;
 
         /**
         This map should contains the version of the different DBs used in the process

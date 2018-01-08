@@ -7,7 +7,6 @@ Interpretation Request or interpreted genome.
 protocol ClinicalReportsCancer {
 
     import idl "CommonInterpretedCancer.avdl";
-    import idl "CancerParticipant.avdl";
     import idl "ReportVersionControl.avdl";
 
     record ClinicalReportCancer {
@@ -38,11 +37,6 @@ protocol ClinicalReportsCancer {
         union {null, array<ReportedVariantCancer>} variants;
 
         /**
-        Candidate Structural Variants - as defined in CommonInterpreted
-        */
-        union {null, array<ReportedStructuralVariantCancer>} structuralVariants;
-
-        /**
         Summary of the interpretation, this should reflects the positive conclusions of this interpretation
         */
         string genomicInterpretation;
@@ -61,11 +55,6 @@ protocol ClinicalReportsCancer {
         This map should contains the version of the different DBs software in the process
         */
         map <string> softwareVersions;
-
-        /**
-        This map of key: panel_name, value: (arrays of (map of key: gene, value: gene coverage))
-        */
-        map<array<map<string>>> genePanelsCoverage;
 
     }
 }

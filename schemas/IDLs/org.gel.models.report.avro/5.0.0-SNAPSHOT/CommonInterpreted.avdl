@@ -5,8 +5,30 @@ This protocol defines the Commons for GEL models
 protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
+    import idl "evidence.avdl";
 
-    /**
+/**
+        Allele origin.
+
+* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
+* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
+* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
+* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
+* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
+* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
+* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
+    */
+    enum AlleleOrigin {
+        de_novo_variant,
+        germline_variant,
+        maternal_variant,
+        paternal_variant,
+        pedigree_specific_variant,
+        population_specific_variant,
+        somatic_variant
+    }
+
+/**
 An enumeration for the different mode of inheritances:
 
 * `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
@@ -56,20 +78,21 @@ It is a representation of the zygosity
         half_missing_alternate,
         alternate_hemizigous,
         reference_hemizigous,
-        unk
+        unk,
+        na
 
     }
 
     /**
-    This is intended to hold the genotypes for the family members
+    This is intended to hold the genotypes for the family members. This assumes that varinats have been split before.
     In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
     */
-    record CalledGenotype {
+    record VariantCall {
 
         /**
         Participant id of the family member:
         */
-        string gelId;
+        string participantId;
 
         /**
         LP Number of the family member:
@@ -77,15 +100,19 @@ It is a representation of the zygosity
         string sampleId;
 
         /**
-        Zygosity
+        Zygosity. For somatic variants, or variants without zygosity use `na`
         */
-        Zygosity genotype;
+        Zygosity zygosity;
 
         /**
         Phase set of variants when variants are phased
         */
         union {null, int} phaseSet;
 
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
 
         /**
         Depth for Reference Allele
@@ -98,14 +125,25 @@ It is a representation of the zygosity
         union {null, int} depthAlternate;
 
         /**
-        Copy number genotype for imprecise events
+        Describe whether this is a somatic or Germline variant
         */
-        union {null, int} copyNumber;
+        array<AlleleOrigin> alleleOrigins;
 
     }
 
-    enum FeatureTypes {RegulatoryRegion, Gene, Transcript}
+    enum FeatureTypes {
+        regulatory_region,
+        gene,
+        transcript,
+        intergenic
+    }
 
+
+    record AlleleFrequency {
+        string study;
+        string population;
+        float alternateFrequency;
+    }
 
     record GenomicFeature {
         /**
@@ -121,7 +159,7 @@ It is a representation of the zygosity
         /**
         This field is optional, BUT it should be filled if possible
         */
-        union {null, string} hgnc;
+        union {null, string} geneSymbol;
 
         /**
         Others IDs
@@ -130,18 +168,42 @@ It is a representation of the zygosity
 
     }
 
-    /**
-    This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
-    */
-    // TODO: refactor with ACMGClassification in ExitQuestionnaire
-    enum VariantClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
+    record GenePanel{
+        /**
+        Gene Panel used from panelApp
+        */
+        string panelName;
+
+        /**
+        Gene Panel Version
+        */
+        union {null, string} panelVersion;
+    }
 
 
 
     /**
-    Possible tiers as defined by Genomics England
+    A Sequence Ontology term identifier by its id and name (e.g.: id = SO:0001816 ; name = non synonymous)
     */
-    enum Tier {NONE, TIER1, TIER2, TIER3}
+    record ConsequenceType {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        union {null, string} name;
+    }
+
+
+
+/**
+Possible tiers as defined by Genomics England
+*/
+    enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
+
+    enum Assembly {GRCh38, GRCh37}
 
     record ReportEvent {
 
@@ -154,17 +216,14 @@ It is a representation of the zygosity
         /**
         This is the phenotype (usually the HPO term or the disorder name) considered to report this variant
         */
-        string phenotype;
+        array<string> phenotypes;
 
         /**
-        Gene Panel used from panelApp
+        Sequence Ontology terms for consequence types used in tier
         */
-        union {null, string} panelName;
+        array<ConsequenceType> consequenceTypes;
 
-        /**
-        Gene Panel Version
-        */
-        union {null, string} panelVersion;
+        union {null, GenePanel} genePanel;
 
         /**
         Mode of inheritance used to analyze the family
@@ -175,18 +234,18 @@ It is a representation of the zygosity
         This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
         If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
         */
-        GenomicFeature genomicFeature;
+        array<GenomicFeature> genomicFeatures;
 
         /**
         This is the penetrance assumed for scoring or classifying this variant
         */
-        org.gel.models.participant.avro.Penetrance penetrance;
+        union {null, org.gel.models.participant.avro.Penetrance} penetrance;
 
         /**
         This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
         a specific mode of Inheritance
         */
-        float score;
+        union {null, float} score;
 
         /**
         Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)
@@ -196,7 +255,7 @@ It is a representation of the zygosity
 
         /** Classification of the pathogenicity of this variant with respect to the phenotype
         */
-        union {null, VariantClassification} variantClassification;
+        union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
 
         /**
         This variant using this mode of inheritance can fully explain the phenotype? true or false
@@ -222,20 +281,14 @@ It is a representation of the zygosity
         This should be filled with the information provided by GEL
         */
         union {null, Tier} tier;
-    }
 
+     }
 
-    record ReportedVariant {
-
+    record VariantCoordinates {
         /**
         chromosome, named as: 1-22,X,Y,MT or other contig names as defined in the BAM header
         */
         string chromosome;
-
-        /**
-        variant ID in dbSNP
-        */
-        union {null, string} dbSnpId;
 
         /**
         position: Position 1-based
@@ -248,14 +301,61 @@ It is a representation of the zygosity
         string reference;
 
         /**
-        alternate: Alternate Allele sequence, the same provided in vcf
+        alternate: Alternate Allele sequence, the same provided in vcf. Only one
+        allele is supported
         */
         string alternate;
 
+        Assembly assembly;
+
+    }
+
+    record VariantAttributes {
+        union {null, int} ihp;
+        union {null, boolean} recurrentlyReported;
+        union {null, string} fdp50;
+        union {null, map<string>} others;
+    }
+
+    record ReportedVariant {
+
+        VariantCoordinates variantCoordinates;
+
         /**
-        array of genotypes for the family
+        variant ID in dbSNP
         */
-        array<CalledGenotype> calledGenotypes;
+        union {null, string} dbSnpId;
+
+        /**
+        variant ID in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        variant ID in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        /**
+        gDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} genomicChange;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} cdnaChanges;
+
+        /**
+        protein change, HGVS nomenclature (e.g.)
+        */
+        union {null, array<string>} proteinChanges;
+
+
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
 
         /**
         This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
@@ -271,78 +371,11 @@ It is a representation of the zygosity
         /**
         For example HGMD ID, dbSNP ID or Pubmed Id
         */
-        union {null,map<string>} evidenceIds;
+        union {null,map<string>} references;
 
+        union {null, VariantAttributes} variantAttributes;
 
-
-        /**
-        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
-        */
-        union {null, map<float>} additionalNumericVariantAnnotations;
-
-        /**
-        Comments
-        */
-        union {null, array<string>} comments;
-
-    }
-
-
-
-    record ReportedStructuralVariant {
-
-        /**
-        chromosome, named as: 1-22,X,Y,MT(other contigs name)
-        */
-        string chromosome;
-
-        /**
-        start: start position 1-based
-        */
-        int start;
-
-        /**
-        end: end position 1-based
-        */
-        int end;
-
-        /**
-        The ID field indicates the type of structural variant, and can be a colon-separated list of types and subtypes
-        (this is VCF Format): DEL, INS, DUP, INV, CNV, DUP:TANDEM, DEL:ME, INS:ME, INS:ME:ALU...
-        */
-        string type;
-
-        /**
-        reference: Reference Allele sequence, the same provided in vcf
-        */
-        string reference;
-
-        /**
-        alternate: Alternate Allele sequence, the same provided in vcf
-        */
-        string alternate;
-
-
-        array<CalledGenotype> calledGenotypes;
-
-        /**
-        This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
-        the variants can have only one Report event.
-        */
-        array<ReportEvent> reportEvents;
-
-
-        /**
-        For example HGMD ID)
-        */
-        union {null,map<string>} additionalTextualVariantAnnotations;
-
-
-        /**
-        For example HGMD ID, dbSNP ID or Pubmed Id
-        */
-        union {null,map<string>} evidenceIds;
-
+        union {null, array<AlleleFrequency>} alleleFrequencies;
 
         /**
         For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -354,8 +387,13 @@ It is a representation of the zygosity
         */
         union {null, array<string>} comments;
 
-    }
+        /**
+        List of allele origins for this variant in this report
+        */
+        array<AlleleOrigin> alleleOrigins;
 
-    //enum ReportType {primaryFindings, SecondaryFindings, CarrierStatus}
+
+
+    }
 
 }

@@ -4,6 +4,8 @@ This protocol defines the Commons for GEL models
 */
 protocol CommonInterpretedCancer {
 
+    import idl "CommonInterpreted.avdl";
+    import idl "evidence.avdl";
 
     /**
     this is the type of actionability for the reported event
@@ -23,46 +25,16 @@ protocol CommonInterpretedCancer {
         pre_clinical
     }
 
-    /**
-        Variant origin.
-
-* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
-* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
-* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
-* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
-* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
-* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
-* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
-    */
-    enum AlleleOrigin {
-        de_novo_variant,
-        germline_variant,
-        maternal_variant,
-        paternal_variant,
-        pedigree_specific_variant,
-        population_specific_variant,
-        somatic_variant
-    }
 
     record Action {
 
         union {null, ActionType} actionType;
 
-        /**
-        This is the tumor type considered to act on this variant
-        string tumorType;
-        */
-
 
         /**
         array of PMIDs
         */
-        union {null, array<string>} evidences;
-
-        /**
-        drug
-        */
-        union {null, string} drug;
+        union {null, array<string>} references;
 
         /**
         status i.e. clinical, pre-clinical
@@ -73,11 +45,6 @@ protocol CommonInterpretedCancer {
         Is variant level actionable
         */
         boolean variantActionable;
-
-        /**
-        comments
-        */
-        union {null, array<string>} comments;
 
         /**
         link to original source
@@ -96,21 +63,9 @@ protocol CommonInterpretedCancer {
 
     }
 
-    /**
-The genomic feature type
-
-* regulatory_region: A region of sequence that is involved in the control of a biological process. SO:0005836
-* gene: A region (or regions) that includes all of the sequence elements necessary to encode a functional transcript. A gene may include regulatory regions, transcribed regions and/or other functional sequence regions. SO:0000704
-* transcript: An RNA synthesized on a DNA or RNA template by an RNA polymerase. SO:0000673
-    */
-    enum FeatureTypeCancer {
-        regulatory_region,
-        gene,
-        transcript
-    }
 
     /**
-The role of a given genomic feature in cancer
+    The role of a given genomic feature in cancer
 
 * oncogene: A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
 * tumor_suppressor_gene: A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
@@ -121,59 +76,6 @@ The role of a given genomic feature in cancer
         both
     }
 
-    record GenomicFeatureCancer {
-
-        /**
-        Feature Type
-        */
-        FeatureTypeCancer featureType;
-
-        /**
-        Transcript used, this should be a feature ID from Ensembl, (i.e, ENST00000544455)
-        */
-        string ensemblId;
-
-         /**
-        Refseq transcript
-        */
-        string refSeqTranscriptId;
-
-         /**
-        Refseq protein
-        */
-        string refSeqProteinId;
-
-        /**
-        Gene used in tier
-        */
-        string geneName;
-
-        /**
-        Role in cancer: oncogene, TSG or both
-        */
-        union {null, RoleInCancer} roleInCancer;
-
-    }
-
-
-    /**
-    Possible tiers as defined by Genomics England
-    */
-    enum Tier {NONE, TIER1, TIER2, TIER3}
-
-    /**
-    A Sequence Ontology term identifier by its id and name (e.g.: id = SO:0001816 ; name = non synonymous)
-    */
-    record SoTerm {
-        /**
-        The SO term identifier (e.g.: SO:0001816)
-        */
-        string id;
-        /**
-        The SO term name (e.g.: non synonymous)
-        */
-        string name;
-    }
 
     record ReportEventCancer {
 
@@ -187,12 +89,12 @@ The role of a given genomic feature in cancer
         This is the genomicsFeature of interest for this reported variant, please note that one variant can overlap more that one gene/transcript
         If more than one gene/transcript is considered interesting for this particular variant, should be reported in two different ReportEvents
         */
-        GenomicFeatureCancer genomicFeatureCancer;
+        array<GenomicFeature>  genomicFeatures;
 
         /**
         Sequence Ontology terms used in tier
         */
-        array<SoTerm> soTerms;
+        array<ConsequenceType> consequenceTypes;
 
         /**
         Types of actionability
@@ -214,55 +116,43 @@ The role of a given genomic feature in cancer
         union {null, string} eventJustification;
 
         /**
-        Gel Tier
+        This is the score provided by the company to reflect a variant's likelihood of explaining the phenotype using
+        a specific mode of Inheritance
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+
+        /** Classification of the pathogenicity of this variant with respect to the phenotype
+        */
+        union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
+
+
+        /**
+        Role in cancer: oncogene, TSG
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
+
+        /**
+        Tier variant classification
         */
         union {null, Tier} tier;
 
     }
 
-    record VariantCall {
-        /**
-        LP Number of the family member:
-        */
-        string sampleId;
-
-        /**
-        Depth for Reference Allele
-        */
-        union {null, int} depthReference;
-
-        /**
-        Depth for Alternate Allele
-        */
-        union {null, int} depthAlternate;
-
-        /**
-        Variant Allele Frequency
-        */
-        union {null, double} vaf;
-    }
 
     record ReportedVariantCancer {
 
-        /**
-        chromosome, named as: 1-22,X,Y,MT(other contigs name)
-        */
-        string chromosome;
+        VariantCoordinates variantCoordinates;
 
         /**
-        position: Position 1-based
+        variant ID in dbSNP
         */
-        int position;
-
-        /**
-        reference: Reference Allele sequence, the same provided in vcf
-        */
-        string reference;
-
-        /**
-        alternate: Alternate Allele sequence, the same provided in vcf
-        */
-        string alternate;
+        union {null, string} dbSnpId;
 
         /**
         variant ID in Cosmic
@@ -275,124 +165,45 @@ The role of a given genomic feature in cancer
         union {null, array<string>} clinVarIds;
 
         /**
-        variant ID in dbSNP
+        gDNA change, HGVS nomenclature (e.g.)
         */
-        union {null, string} dbSnpId;
+        union {null, array<string>} genomicChange;
 
         /**
         cDNA change, HGVS nomenclature (e.g.)
         */
-        union {null, string} cdnaChange;
+        union {null, array<string>} cdnaChanges;
 
         /**
         protein change, HGVS nomenclature (e.g.)
         */
-        union {null, string} proteinChange;
+        union {null, array<string>} proteinChanges;
+
 
         /**
-        AF in germline DBs
+        array of genotypes for the samples
         */
-        union {null, int} commonAf;
+        array<VariantCall> variantCalls;
 
         /**
-        Largest reference interrupted homopolymer length intersecting with the indel
-        */
-        union {null, int} ihp;
-
-        /**
-        For example HGMD ID)
-        */
-        union {null, map<string>} additionalTextualVariantAnnotations;
-
-        /**
-        For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
-        */
-        union {null, map<float>} additionalNumericVariantAnnotations;
-
-        /**
-        Comments
-        */
-        union {null, array<string>} comments;
-
-        /**
-        The report events
+        This is the scores across multiple modes of inheritance, for each model of inheritance analyzed,
+        the variants can have only one Report event.
         */
         array<ReportEventCancer> reportEvents;
 
         /**
-        List of variant calls
+        For example a quote from a paper
         */
-        union {null, array<VariantCall>} variantCalls;
+        union {null,map<string>} additionalTextualVariantAnnotations;
 
         /**
-        Describe whether this is a somatic or Germline variant
+        For example HGMD ID, dbSNP ID or Pubmed Id
         */
-        array<AlleleOrigin> alleleOrigins;
-    }
+        union {null,map<string>} references;
 
-    /**
-The first level type must be one
-of the following:
+        union {null, VariantAttributes} variantAttributes;
 
-* `DEL` Deletion relative to the reference
-* `INS` Insertion of novel sequence relative to the reference
-* `DUP` Region of elevated copy number relative to the reference
-* `INV` Inversion of reference sequence
-* `CNV` Copy number variable region (may be both deletion and duplication) The CNV category should not be used when a
-more specific category can be applied.  Reserved subtypes include:
-* `DUP:TANDEM` Tandem duplication
-* `DEL:ME` Deletion of mobile element relative to the reference
-* `INS:ME` Insertion of a mobile element relative to the reference
-    */
-    enum StructuralVariantFirstLevelType {
-        DEL, INS, DUP, INV, CNV, DUP_TANDEM, DEL_ME, INS_ME
-    }
-
-    /**
-    Structural variant type as defined by the VCF specification 4.2 for field ID.
-    */
-    record StructuralVariantType {
-        StructuralVariantFirstLevelType firstLevelType;
-        union {null, string} subtype;
-    }
-
-
-    record ReportedStructuralVariantCancer {
-
-        /**
-        chromosome, named as: 1-22,X,Y,MT(other contigs name)
-        */
-        string chromosome;
-
-        /**
-        start: start position 1-based
-        */
-        int start;
-
-        /**
-        end: end position 1-based
-        */
-        int end;
-
-        /**
-        The structural variant type
-        */
-        StructuralVariantType type;
-
-        /**
-        reference: Reference Allele sequence, the same provided in vcf
-        */
-        string reference;
-
-        /**
-        alternate: Alternate Allele sequence, the same provided in vcf
-        */
-        string alternate;
-
-        /**
-        For example HGMD ID)
-        */
-        union {null, map<string>} additionalTextualVariantAnnotations;
+        union {null, array<AlleleFrequency>} alleleFrequencies;
 
         /**
         For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -405,9 +216,10 @@ more specific category can be applied.  Reserved subtypes include:
         union {null, array<string>} comments;
 
         /**
-        Describe whether this is a somatic or Germline variant
+        List of allele origins for this variant in this report
         */
         array<AlleleOrigin> alleleOrigins;
+
     }
 }
 
