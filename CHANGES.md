@@ -1,7 +1,9 @@
-version 5.0.0 (5nd January 2018)
+Version 6.0.0 (5th January 2018)
 --------------------------------
 
 #### Major Changes
+
+##### org.gel.models.report.avro 5.0.0
 
 ###### Clinical Report Cancer
 
@@ -41,6 +43,20 @@ version 5.0.0 (5nd January 2018)
 
 ###### Interpretation Request (RD and Cancer)
 * Added `interpretationFlags` (nullable)
+
+##### org.gel.models.participant.avro 1.1.0
+
+###### Common participant
+
+* `Sex` has now only one definition
+* `SampleSource` has now only one definition
+
+##### org.gel.models.cva.avro 1.0.0
+
+* `SupportedAssembly` has been replaced by `org.gel.models.report.avro.Assembly`
+* `Program` has been replaced by `org.gel.models.report.avro.Program`
+* `VariantCoordinates` has been replaced by `org.gel.models.report.avro.VariantCoordinates`
+* `CalledGenotype` has been replaced by `VariantCall`
 
 
 version 5.0.0 (14th November 2017)
