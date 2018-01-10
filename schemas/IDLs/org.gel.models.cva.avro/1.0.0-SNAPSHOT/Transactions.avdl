@@ -78,7 +78,7 @@ protocol TransactionProtocol {
         /**
         The assembly to which the variant refers
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
     }
 
     /**

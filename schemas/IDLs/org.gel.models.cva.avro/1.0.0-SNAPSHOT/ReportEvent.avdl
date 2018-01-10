@@ -7,6 +7,7 @@ protocol ReportEventProtocol {
     import idl "ObservedVariant.avdl";
     // Report models references
     import idl "CommonInterpreted.avdl";
+    import idl "CommonRequest.avdl";
     import idl "CommonInterpretedCancer.avdl";
     import idl "ExitQuestionnaire.avdl";
     import idl "evidence.avdl";
@@ -25,17 +26,6 @@ protocol ReportEventProtocol {
         tiered,
         questionnaire,
         other
-    }
-
-    /**
-    The 100K Genomes program to which the variant belongs, either rare disease or cancer.
-
-* rd: rare disease program
-* cancer: cancer program
-    */
-    enum Program {
-        rd,
-        cancer
     }
 
     /**
@@ -61,21 +51,10 @@ protocol ReportEventProtocol {
     }
 
     /**
-    Variant coordinates
-    */
-    record VariantCoordinates {
-        SupportedAssembly assembly;
-        string chromosome;
-        int position;
-        string reference;
-        string alternate;
-    }
-
-    /**
     A list of variant coordinates
     */
     record VariantsCoordinates {
-        array<VariantCoordinates> variants = [];
+        array<org.gel.models.report.avro.VariantCoordinates> variants = [];
     }
 
     /**
@@ -85,7 +64,7 @@ protocol ReportEventProtocol {
         /**
         The normalized representation of variants coordinates
         */
-        VariantCoordinates variantCoordinates;
+        org.gel.models.report.avro.VariantCoordinates variantCoordinates;
         /**
         The questionnaire report event
         */
@@ -186,7 +165,7 @@ Duplication of the prior fields is not be supported.
         /**
         The 100K Genomes program to which the reported variant belongs.
         */
-        Program program;
+        org.gel.models.report.avro.Program program;
         /**
         Validation flag
         */

@@ -70,7 +70,7 @@ protocol DataIntakeRDProtocol {
         /**
         The assembly to which the variants refer
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
         /**
         Rare disease Interpreted Genome
         */
@@ -125,7 +125,7 @@ protocol DataIntakeRDProtocol {
         /**
         The assembly to which the variants refer
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
         /**
         Rare disease Interpreted Genome
         */
@@ -180,7 +180,7 @@ protocol DataIntakeRDProtocol {
         /**
         The assembly to which the variants refer
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
         /**
         Information that Genomics England needs to generate a clinical report
         */
@@ -246,7 +246,7 @@ protocol DataIntakeRDProtocol {
         /**
         The assembly to which the variants refer
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
         /**
         Exit questionnaire, having reliable variant coordinates
         */
