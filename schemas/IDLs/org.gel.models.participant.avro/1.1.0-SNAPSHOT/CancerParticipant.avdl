@@ -1,0 +1,248 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the `CancerParticipant`
+*/
+protocol CancerParticipants {
+
+    import idl "CommonParticipant.avdl";
+    import idl "VersionControl.avdl";
+
+    enum diseaseType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL,
+    ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
+    OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL,
+    NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
+
+
+    enum TumourType {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
+
+    enum ProgrammePhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
+
+    enum Method {RESECTION, BIOPSY, BLOOD}
+
+    enum Product {DNA, RNA}
+
+    enum TumourContent {High, Medium, Low}
+
+    enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
+    ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
+    SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY}
+
+
+
+    record GermlineSample {
+
+        /**
+        Sample Id (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample Id
+        */
+        int labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        string LDPCode;
+
+        /**
+        Source
+        */
+        union {null, SampleSource} source;
+
+        /**
+        Product
+        */
+        union {null, Product} product;
+
+        /**
+        preparationMethod
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        gelPhase (eg cruk, brc, cll, iip, main)
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null,string} clinicalSampleDateTime;
+
+    }
+
+    record TumourSample {
+
+        /**
+        Sample Id (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample Id
+        */
+        int labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        string LDPCode;
+
+        /**
+        Id of each one of the tumors for a participant
+        */
+        string tumourId;
+
+        /**
+        gelPhase (eg cruk, brc, cll, iip, main)
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        Disease Type
+        */
+        union {null, diseaseType} diseaseType;
+
+        /**
+        Disease Subtype
+        */
+        union {null, string} diseaseSubType;
+
+        /**
+        In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null, string} clinicalSampleDateTime;
+
+        /**
+        Tumor Type
+        */
+        union {null, TumourType} tumourType;
+
+        /**
+        tumourContent
+        */
+        union {null, TumourContent} tumourContent;
+
+        /**
+        Method
+        */
+        union {null, SampleSource} source;
+
+        /**
+        The preparation method
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        The tissue source
+        */
+        union {null, TissueSource} tissueSource;
+
+        /**
+        Product
+        */
+        union {null, Product} product;
+
+        /**
+        One of these morphology fields will be provided
+        */
+        union {null, string} morphologyICD;
+        union {null, string} morphologySnomedCT;
+        union {null, string} morphologySnomedRT;
+
+        /**
+        One of these topography fields will be provided
+        */
+        union {null, string} topographyICD;
+        union {null, string} topographySnomedCT;
+        union {null, string} topographySnomedRT;
+
+    }
+
+    /**
+    This defines a pair of germline and tumor, this pair should/must be analyzed together
+    */
+    record MatchedSamples{
+
+        /**
+        Sample Id (e.g, LP00012645_5GH)) for the germline
+        */
+        union {null, string} germlineSampleId;
+
+        /**
+        Sample Id (e.g, LP00012643_7JS)) for the tumor
+        */
+        union {null, string} tumourSampleId;
+
+    }
+
+    /**
+    This defines a Cancer Participant
+    */
+    record CancerParticipant{
+        union {null, int} yearOfBirth;
+
+        union {null, array<string>}  morphology;
+
+        boolean readyForAnalysis;
+
+        /**
+        What has this participant consented to?
+        A participant that has been consented to the programme should also have sequence data associated with them; however
+        this needs to be programmatically checked
+        */
+        union {null, ConsentStatus} consentStatus;
+
+        /**
+        Center
+        */
+        union {null, string} center;
+
+        /**
+        Individual Id
+        */
+        string individualId;
+
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisDisease;
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisSubDisease;
+
+        /**
+        Sex
+        */
+        Sex sex;
+
+        /**
+        We could add a map here to store additional information for example URIs to images, ECGs, etc
+        */
+        union {null, map<string>} additionalInformation;
+
+        /**
+        assigned ICD10 code
+        */
+        union {null, array<string>} assignedICD10;
+
+
+        array<TumourSample> tumourSamples;
+        array<GermlineSample> germlineSamples;
+        array<MatchedSamples> matchedSamples;
+
+        /**
+        Model version number
+        */
+        union {null, VersionControl} versionControl;
+
+
+    }
+}
