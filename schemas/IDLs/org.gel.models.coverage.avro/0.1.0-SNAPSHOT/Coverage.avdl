@@ -32,18 +32,22 @@ protocol CoverageProtocol {
         int bases;
         /**
         The number of positions with a depth of coverage greater than or equal than 50x
+        (the original name is %>=50x, but this cannot be used as a property name in Avro)
         */
         int gte50x;
         /**
         The number of positions with a depth of coverage greater than or equal than 30x
+        (the original name is %>=30x, but this cannot be used as a property name in Avro)
         */
         int gte30x;
         /**
         The number of positions with a depth of coverage greater than or equal than 15x
+        (the original name is %>=15x, but this cannot be used as a property name in Avro)
         */
         int gte15x;
         /**
         The number of positions with a depth of coverage less than 15x
+        (the original name is %<15x, but this cannot be used as a property name in Avro)
         */
         int lt15x;
         /**
