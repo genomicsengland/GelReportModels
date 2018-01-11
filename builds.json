@@ -11,17 +11,6 @@
           "dependencies": []
         },
         {
-          "package": "org.gel.models.cva.avro",
-          "python_package": "cva",
-          "version": "1.0.0-SNAPSHOT",
-          "dependencies": [
-            "org.gel.models.report.avro",
-            "org.gel.models.participant.avro",
-            "org.gel.models.system.avro",
-            "org.opencb.biodata.models"
-          ]
-        },
-        {
           "package": "org.gel.models.metrics.avro",
           "python_package": "metrics",
           "version": "1.0.1",

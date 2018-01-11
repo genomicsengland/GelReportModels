@@ -1,0 +1,386 @@
+@namespace("org.gel.models.coverage.avro")
+
+protocol CoverageProtocol {
+
+    /**
+    Represents a group of coverage statistics over a genomic region
+    */
+    record RegionStatistics {
+        /**
+        The average depth of coverage
+        */
+        int avg;
+        /**
+        The median depth of coverage
+        */
+        int med;
+        /**
+        The GC content
+        */
+        union {null, float} gc;
+        /**
+        The 75th percentile of coverage distribution
+        */
+        int pct75;
+        /**
+        The 25th percentile of coverage distribution
+        */
+        int pct25;
+        /**
+        The number of bases in the region
+        */
+        int bases;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 50x
+        (the original name is %>=50x, but this cannot be used as a property name in Avro)
+        */
+        int gte50x;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 30x
+        (the original name is %>=30x, but this cannot be used as a property name in Avro)
+        */
+        int gte30x;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 15x
+        (the original name is %>=15x, but this cannot be used as a property name in Avro)
+        */
+        int gte15x;
+        /**
+        The number of positions with a depth of coverage less than 15x
+        (the original name is %<15x, but this cannot be used as a property name in Avro)
+        */
+        int lt15x;
+        /**
+        The squared root sum of squares of the deviation from the mean
+        */
+        union {null, float} rmsd;
+    }
+
+    /**
+    A gap in coverage. A gap is a contiguous region under a certain depth of coverage.
+    There are two thresholds to define at analysis time:
+* The depth of coverage threshold under which a gap is considered
+* The number of consecutive positions under the depth of coverage threshold to call a gap
+
+    e.g.: we may consider a gap those regions of more than 5 consecutive bp under 15x
+    */
+    record CoverageGap {
+        /**
+        Gap start position
+        */
+        int s;
+        /**
+        Gap end position
+        */
+        int e;
+        /**
+        Gap length (this information is redundant as can be calculated from start and end)
+        */
+        union {null, int} l;
+    }
+
+    /**
+    All coverage information about a given exon
+    */
+    record Exon {
+        /**
+        An exon unique name within each transcript (e.g.: exon1, exon2, etc.)
+        */
+        string exon;
+        /**
+        The exon start position
+        */
+        int s;
+        /**
+        The exon padded start
+        (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon start positions minus 15 bp)
+        */
+        int padded_s;
+        /**
+        The exon end position
+        */
+        int e;
+        /**
+        The exon padded end
+        (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon end positions plus 15 bp)
+        */
+        int padded_e;
+        /**
+        The exon length calculated without padding (this field is redundant)
+        */
+        union {null, int} l;
+        /**
+        The list of coverage gaps
+        */
+        array <CoverageGap> gaps;
+        /**
+        The coverage statistics across this exon
+        */
+        RegionStatistics stats;
+    }
+
+    /**
+    All coverage information about a given transcript
+    */
+    record Transcript {
+        /**
+        The transcript's Ensembl identifier
+        */
+        string id;
+        /**
+        The coverage statistics across this transcript
+        */
+        RegionStatistics stats;
+        /**
+        The list of exons in this transcript
+        */
+        union {null, array<Exon>} exons;
+    }
+
+    /**
+    All coverage information about a given gene
+    */
+    record Gene {
+        /**
+        The coverage statistics for each transcript
+        */
+        array<Transcript> trs;
+        /**
+        The coverage statistics for the union transcript
+        */
+        Transcript union_tr;
+        /**
+        The HGNC gene symbol
+        */
+        string name;
+        /**
+        The chromosome identifier (may have "chr" prefix or not depending on input data)
+        */
+        string chr;
+    }
+
+    /**
+    All coverage information about a given chromosome
+    */
+    record Chromosome {
+        /**
+        The chromosome identifier (may have "chr" prefix or not depending on input data)
+        */
+        string chr;
+        /**
+        The coverage statistics across this chromosome
+        */
+        //TODO: RegionStatistics stats;
+        /**
+        The average depth of coverage
+        */
+        int avg;
+        /**
+        The median depth of coverage
+        */
+        int med;
+        /**
+        The GC content
+        */
+        union {null, float} gc;
+        /**
+        The 75th percentile of coverage distribution
+        */
+        int pct75;
+        /**
+        The 25th percentile of coverage distribution
+        */
+        int pct25;
+        /**
+        The number of bases in the region
+        */
+        int bases;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 50x
+        */
+        int gte50x;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 30x
+        */
+        int gte30x;
+        /**
+        The number of positions with a depth of coverage greater than or equal than 15x
+        */
+        int gte15x;
+        /**
+        The number of positions with a depth of coverage less than 15x
+        */
+        int lt15x;
+        /**
+        The squared root sum of squares of the deviation from the mean
+        */
+        union {null, float} rmsd;
+    }
+
+    /**
+    All coverage information about the coding region
+    */
+    record CodingRegion {
+        /**
+        The coverage statistics across the whole coding region
+        */
+        RegionStatistics stats;
+        /**
+        The list of chromosome in this coding region analysis
+        */
+        array<Chromosome> chrs;
+    }
+
+    /**
+    A gene for which there is no information about coverage. A low covered gene will not be identified in this list,
+    only genes for which there is no coverage data.
+    */
+    record UncoveredGene {
+        /**
+        The chromosome to which the gene belongs
+        */
+        string chr;
+        /**
+        The gene symbol of the gene
+        */
+        string name;
+    }
+
+    record WholeGenome {
+        /**
+        The coverage statistics across the whole genome
+        */
+        RegionStatistics stats;
+        /**
+        The coverage statistics disaggregated by chromosome. The aggregation of all autosomes is in this list as another chromosome with chr="autosomes"
+        */
+        array<Chromosome> chrs;
+    }
+
+    /**
+    Coverage analysis results
+    */
+    record CoverageAnalysisResults {
+        /**
+        The coverage statistics for each gene (only filled when coding region analysis enabled)
+        */
+        array<Gene> genes;
+        /**
+        The coverage statistics across the whole coding region (only filled when coding region analysis enabled)
+        (i.e.: the coding region may refer to the whole exome, to a provided list of genes or to the genes belonging
+        to a PanelApp panel)
+        */
+        union {null, CodingRegion} coding_region;
+        /**
+        The coverage statistics across the whole genome (only filled when whole genome analysis enabled)
+        */
+        union {null, WholeGenome} whole_genome;
+        /**
+        The list of genes intended to be analysed for which there is no coverage information.
+        */
+        array<UncoveredGene> uncovered_genes;
+    }
+
+    /**
+    The configuration parameters used for the analysis
+    */
+    record AnalysisParameters {
+
+        /**
+        The flag indicating if coding region analysis is to run
+        */
+        boolean coding_region_stats_enabled;
+        /**
+        The flag indicating if the exon stats are to be maintained in the results (these increase the size of the output sensibly).
+        */
+        boolean exon_stats_enabled;
+        /**
+        The flag indicating if whole genome analysis is to run
+        */
+        boolean wg_stats_enabled;
+        /**
+        The list of genes to analyse
+        */
+        union{null, array<string>} gene_list;
+
+        /**
+        The panel name
+        */
+        union {null, string} panel;
+        /**
+        The panel version
+        */
+        union {null, string} panel_version;
+        /**
+        The PanelApp host
+        */
+        union {null, string} panelapp_host;
+        /**
+        The comma-separated list of PanelApp gene confidences that will be analysed
+        (i.e.: "HighEvidence" will imply that only genes with "HighEvidence" in a given panel will be analysed)
+        */
+        union {null, string} panelapp_gene_confidence;
+        /**
+        The comma-separated list of Havana transcript biotypes that are valid for analysis. Any transcript with a different biotype will not be analysed.
+        Biotypes are defined here http://vega.archive.ensembl.org/info/about/gene_and_transcript_types.html
+        Common configuration is: IG_C_gene,IG_D_gene,IG_J_gene,IG_V_gene,IG_V_gene,protein_coding,nonsense_mediated_decay,non_stop_decay,TR_C_gene,TR_D_gene,TR_J_gene,TR_V_gene
+        */
+        string transcript_filtering_biotypes;
+        /**
+        The comma-separated list of transcript flags that are valid for anlysis.
+        Common configuration: basic
+        */
+        string transcript_filtering_flags;
+        /**
+        The CellBase host
+        */
+        string cellbase_host;
+        /**
+        The CellBase version
+        */
+        string cellbase_version;
+        /**
+        The assembly used to fetch data from CellBase
+        */
+        string grch37;
+        /**
+        Cellbase configuration for the species (e.g.: hsapiens)
+        */
+        string species;
+        /**
+        The exon padding measured in base pairs
+        */
+        int exon_padding;
+        /**
+        The depth of coverage under which a gap is considered
+        */
+        int gap_coverage_threshold;
+        /**
+        The input bigwig file
+        */
+        string input_file;
+        /**
+        The input configuration file
+        */
+        string configuration_file;
+        /**
+        The input BED file determining the whole genome regions to be analysed (this is usually used to discard regions containing ambiguous bases from the coverage analysis by providing a non N regions BED file)
+        */
+        union {null, string} wg_regions;
+
+    }
+
+    /**
+    The output of a coverage analysis
+    */
+    record AnalysisResults {
+        /**
+        The coverage analysis results
+        */
+        CoverageAnalysisResults results;
+        /**
+        The analysis parameters for this analysis
+        */
+        AnalysisParameters parameters;
+    }
+}
