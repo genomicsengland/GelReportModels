@@ -31,9 +31,9 @@ protocol CancerInterpretedGenomes {
         */
 
         /**
-        Name of the intepretation service
+        Name of the interpretation service
         */
-        string intepretationService;
+        string interpretationService;
 
         /**
         URL where the results can be accessed in the company's web interface
