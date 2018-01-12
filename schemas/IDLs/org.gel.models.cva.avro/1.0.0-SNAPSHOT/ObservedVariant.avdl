@@ -31,26 +31,16 @@ Duplication of the prior fields is not to be supported.
         /**
         The assembly to which the variant refers
         */
-        SupportedAssembly assembly;
+        org.gel.models.report.avro.Assembly assembly;
         /**
         The abstract variant
         */
         Variant variant;
 
-        // Data for RD program //
-        /**
-        The observation information
-        */
-        union {null, org.gel.models.report.avro.CalledGenotype} genotype;
-        //  //
-
-        // Data for cancer program //
         /**
         Variant call
         */
         union {null, org.gel.models.report.avro.VariantCall} variantCall;
-
-        //  //
 
         /**
         Validation flag

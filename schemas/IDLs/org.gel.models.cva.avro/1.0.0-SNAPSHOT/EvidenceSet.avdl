@@ -6,6 +6,8 @@ protocol EvidencesSetProtocol {
     import idl "Comment.avdl";
     import idl "ReportEvent.avdl";
     import idl "Variant.avdl";
+    // Report models references
+    import idl "CommonInterpreted.avdl";
     // OpenCB references
     import idl "variant.avdl";
     import idl "evidence.avdl";
@@ -26,7 +28,7 @@ protocol EvidencesSetProtocol {
         /**
         The assembly to which the curation refers
         */
-        union {null, SupportedAssembly} assembly;
+        union {null, org.gel.models.report.avro.Assembly} assembly;
         /**
         The variant's classification.
         */
