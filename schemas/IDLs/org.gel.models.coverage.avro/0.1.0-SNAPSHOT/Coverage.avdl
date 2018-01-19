@@ -27,9 +27,9 @@ protocol CoverageProtocol {
         */
         int pct25;
         /**
-        The number of bases in the region
+        The number of bases in the region (this is nullable as it can be calculated from coordinates of the region)
         */
-        int bases;
+        union {null, int} bases;
         /**
         The number of positions with a depth of coverage greater than or equal than 50x
         (the original name is %>=50x, but this cannot be used as a property name in Avro)
@@ -66,15 +66,16 @@ protocol CoverageProtocol {
     */
     record CoverageGap {
         /**
-        Gap start position
+        Gap start position. Inclusive, 0-based
         */
         int s;
         /**
-        Gap end position
+        Gap end position. Exclusive, 0-based
         */
         int e;
         /**
         Gap length (this information is redundant as can be calculated from start and end)
+        DEPRECATED
         */
         union {null, int} l;
     }
@@ -88,25 +89,28 @@ protocol CoverageProtocol {
         */
         string exon;
         /**
-        The exon start position
+        The exon start position. Inclusive, 0-based
         */
         int s;
         /**
-        The exon padded start
+        The exon padded start. Inclusive, 0-based
         (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon start positions minus 15 bp)
+        DEPRECATED
         */
-        int padded_s;
+        union{null, int} padded_s;
         /**
-        The exon end position
+        The exon end position. Exclusive, 0-based
         */
         int e;
         /**
-        The exon padded end
+        The exon padded end. Exclusive, 0-based
         (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon end positions plus 15 bp)
+        DEPRECATED
         */
-        int padded_e;
+        union{null, int} padded_e;
         /**
         The exon length calculated without padding (this field is redundant)
+        DEPRECATED
         */
         union {null, int} l;
         /**
@@ -355,6 +359,10 @@ protocol CoverageProtocol {
         The depth of coverage under which a gap is considered
         */
         int gap_coverage_threshold;
+        /**
+        The length of contiguous positions with low coverage to consider a gap
+        */
+        int gap_length_threshold;
         /**
         The input bigwig file
         */
