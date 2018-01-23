@@ -18,8 +18,8 @@ GEL models project contains the data models that aim at standardizing data excha
 
 Two illustrative examples:
 
-The CIPAPI exchanges data with the CIPs based on these models. This allows the CIPAPI to be completely independent of the specific implementations in the CIPs.
-The CIPAPI pushes data to CVA. While the CIPAPI is implemented as a Django application in Python, CVA is a Java application deployed in Tomcat.
+* The CIPAPI exchanges data with the CIPs based on these models. This allows the CIPAPI to be completely independent of the specific implementations in the CIPs.
+* The CIPAPI pushes data to CVA. While the CIPAPI is implemented as a Django application in Python, CVA is a Java application deployed in Tomcat.
 The above exchanges are based on a REST interface, but any other technology could be used.
 
 We use Avro to describe our models.
@@ -39,9 +39,9 @@ The models are organised in packages:
 Main functionalities
 ^^^^^^^^^^^^^^^^^^^^
 
-* Data serialization to JSON
 * Automatic code generation to hold the data (Python and Java supported out-of-the-box; others as C, C++ and C# are supported by ad hoc avro libraries).
 * Enable data validation against a schema (see the validation service)
+* Data serialisation/deserialisation to/from JSON
 * Generation of mocked data
 * Documentation automatically generated from the models
 
@@ -98,6 +98,8 @@ This will create the following:
 
 It may be handy to skip the documentation generation by using the flag ``--skip-docs``.
 
+NOTE: Java source code is only generated for the last build version, while Python source code is generated for all versions
+
 Building legacy versions of the models
 """"""""""""""""""""""""""""""""""""""
 
@@ -151,19 +153,66 @@ To run some unit tests implemented in Python run:
 Mock data
 ^^^^^^^^^
 
-Generate a mocked object with custom fields as follows:
+Generate a mocked object or a batch of objects with custom fields as follows:
 ::
 
-    from protocols.util.dependency_manager import VERSION_500
     from protocols.util.factories.avro_factory import GenericFactoryAvro
 
-    interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
-        protocols.reports_4_2_0.InterpretationRequestRD,
-        version = VERSION_500
+    # gets a default factory of InterpretationRequestRD for reports package 5.0.0 included in build 6.0.0
+    factory = GenericFactoryAvro.get_factory_avro(
+        protocols.reports_5_0_0.InterpretationRequestRD,
+        version = '6.0.0'
     )
-    instance = interpretation_request_factory(analysisReturnUri = "myURI")
-    self.assertTrue(instance.validate(instance.toJsonDict()))
-    self.assertTrue(instance.analysisReturnUri == "myURI")
+    # creates one mocked instance
+    instance = factory.create()
+    # creates a batch of mocked instances
+    instances = factory.create_batch(5)
+    # creates an instance with one custom value
+    instance_with_uri = factory.create(analysisReturnUri = "myURI")
+
+Get a factory that fills all nullable fields (nullable fields are not filled by default)
+::
+
+    # get an interpretation request RD for reports 4.2.0
+    factory = GenericFactoryAvro.get_factory_avro(
+        protocols.reports_5_0_0.CancerInterpretedGenome,
+        version = '6.0.0',
+        fill_nullables=True
+    )
+
+Generate custom factories as follows
+::
+
+    from protocols.ga4gh_3_0_0 import Variant
+    from protocols.util.factories.avro_factory import FactoryAvro
+
+
+    class GA4GHVariantFactory(FactoryAvro):
+        def __init__(self, *args, **kwargs):
+            super(GA4GHVariantFactory, self).__init__(*args, **kwargs)
+
+        class Meta:
+            model = Variant
+
+        _version = '6.0.0'
+
+        start = factory.fuzzy.FuzzyInteger(1, 10000000)
+        referenceBases = factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G'])
+        alternateBases = factory.LazyAttribute(lambda x: [factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G']).fuzz()])
+        qual = factory.fuzzy.FuzzyInteger(1, 600)
+        referenceName = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23)) + ['X', 'Y', 'MT']))
+
+    factory = GA4GHVariantFactory
+    variant = factory()
+    variants = factory.create_batch(3)
+
+Schema validation
+^^^^^^^^^^^^^^^^^
+
+Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.
+::
+
+    isValid = instance.validate(instance.toJsonDict()))
 
 Migrations
 ^^^^^^^^^^
