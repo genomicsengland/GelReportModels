@@ -55,11 +55,11 @@ protocol CommonParticipant {
     enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 
     /**
-    1K Population
+    1K Genomes project populations
     */
     enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
     /**
-    1K Super Population
+    1K Genomes project super populations
     */
     enum KgSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
 
