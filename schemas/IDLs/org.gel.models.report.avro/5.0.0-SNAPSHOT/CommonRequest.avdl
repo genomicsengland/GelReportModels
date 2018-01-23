@@ -5,8 +5,7 @@ This protocol defines the Commons for GEL models
 protocol CommonRequest {
 
     /*
-This is used in `File`
-Types:
+Types of files:
 
 * `BAM`: alignment
 * `gVCF`: genomic VCF for variants
@@ -50,22 +49,28 @@ Types:
 
     /**
     This defines a file
-    This Record is defined by the sampleID and a URI
-    Currently SampleID can be a single String or an array of strings if multiple samples are associated with the same file
+    This record is uniquely defined by the sample identfier and an URI
+    Currently sample identifier can be a single string or a list of strings if multiple samples are associated with the same file
     **/
     record File {
         /**
-        Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids
+        Unique identifier(s) of the sample. For example in a multisample vcf this would have an array of all the sample identifiers
         */
         union {null, array<string>} sampleId;
 
         /**
-        URI PATH
+        URI path of the file
         */
         string uriFile;
 
+        /**
+        The type of the file
+        */
         FileType fileType;
 
+        /**
+        The MD5 checksum
+        */
         union {null, string} md5Sum;
 
     }
@@ -86,12 +91,50 @@ Types:
         union {null, array<string>} paternalFamilyHistory;
     }
 
-    enum Program {cancer, rare_disease}
+    /**
+    The Genomics England program
+    */
+    enum Program {
+        cancer,
+        rare_disease
+    }
 
-    enum InterpretationFlags {mixed_chemistries, mixedLab_preparation, low_tumour_purity, uniparental_isodisomy, uniparental_heterodisomy, unusual_karyotype, high_cnv_count, high_estimate_human_contamination_fraction, mixed_recruiting_gmc, suspected_mosaicism, low_quality_sample, ffpe_tumour_sample, ff_nano_tumour_sample, missing_values_for_proband_in_reported_variant, reissued, supplementary_report_errors, internal_use_only, high_priority, other}
+    /**
+    Some flags relevant to the interpretation of a case
+    */
+    enum InterpretationFlags {
+        mixed_chemistries,
+        mixedLab_preparation,
+        low_tumour_purity,
+        uniparental_isodisomy,
+        uniparental_heterodisomy,
+        unusual_karyotype,
+        high_cnv_count,
+        high_estimate_human_contamination_fraction,
+        mixed_recruiting_gmc,
+        suspected_mosaicism,
+        low_quality_sample,
+        ffpe_tumour_sample,
+        ff_nano_tumour_sample,
+        missing_values_for_proband_in_reported_variant,
+        reissued,
+        supplementary_report_errors,
+        internal_use_only,
+        high_priority,
+        other
+    }
 
+    /**
+    A given interpretation flag together with an optional description
+    */
     record InterpretationFlag{
+        /**
+        The interpretation flag
+        */
         InterpretationFlags  interpretationFlag;
+        /**
+        The description for the flag
+        */
         union {null, string} additionalDescription;
     }
 }

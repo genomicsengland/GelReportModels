@@ -159,7 +159,7 @@ protocol CommonInterpreted {
         /**
         The specific population where this allele frequency belongs
         */
-        union {null, string} population;
+        string population;
         /**
         The frequency of the alternate allele
         */
@@ -251,7 +251,7 @@ protocol CommonInterpreted {
         array<string> phenotypes;
 
         /**
-        Sequence Ontology terms for relevant consequence types in tier
+        Sequence Ontology terms for relevant consequence types in tiering
         */
         array<ConsequenceType> consequenceTypes;
 
@@ -290,7 +290,7 @@ protocol CommonInterpreted {
         union {null, map<float>} vendorSpecificScores;
 
         /**
-        Variant classification of this variant
+        Variant classification
         */
         union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
 
@@ -315,7 +315,8 @@ protocol CommonInterpreted {
         union {null, string} eventJustification;
 
         /**
-        Tier is a property of the model of inheritance and therefore is subject to change depending on the inheritance assumptions
+        The tier where this variant has been classified. Tier is a property of the model of inheritance and therefore
+        is subject to change depending on the inheritance assumptions
         */
         union {null, Tier} tier;
     }
@@ -357,7 +358,7 @@ protocol CommonInterpreted {
     */
     record VariantAttributes {
         /**
-        TODO
+        Largest reference interrupted homopolymer length intersecting with the indel
         */
         union {null, int} ihp;
         /**
@@ -365,7 +366,7 @@ protocol CommonInterpreted {
         */
         union {null, boolean} recurrentlyReported;
         /**
-        TODO
+        Average tier1 number of basecalls filtered from original read depth within 50 bases
         */
         union {null, string} fdp50;
         /**

@@ -1,12 +1,13 @@
 @namespace("org.gel.models.report.avro")
 /**
-This protocol defines the Participants and Pedigree
+This protocol defines the version control
 */
 protocol VersionControl {
 
     record ReportVersionControl {
 
-        /** This is the version for the entire set of data models as referred to the Git release tag
+        /**
+        This is the version for the entire set of data models as referred to the Git release tag
         */
         string gitVersionControl = "5.0.0";
     }
