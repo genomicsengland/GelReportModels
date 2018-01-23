@@ -85,12 +85,33 @@ protocol TransactionProtocol {
     Details about the transaction sender
     */
     record RequestDetails {
+        /**
+        IP adress
+        */
         union {null,string} ip;
+        /**
+        Hostname
+        */
         union {null,string} host;
+        /**
+        Port
+        */
         union {null,int} port;
+        /**
+        User
+        */
         union {null,string} user;
+        /**
+        URI
+        */
         union {null,string} uri;
+        /**
+        URL
+        */
         union {null,string} url;
+        /**
+        Authentication type
+        */
         union {null,string} authType;
     }
 
@@ -98,19 +119,49 @@ protocol TransactionProtocol {
     A transaction having all necessary data to process it into the database
     */
     record Transaction {
+        /**
+        The identifier of the transaction
+        */
         string id;
+        /**
+        Timestamp of last transaction status modification
+        */
         string lastModified;
+        /**
+        Transaction status
+        */
         TransactionStatus status;
+        /**
+        The data to be ingested in CVA compressed
+        */
         union {null, bytes} compressedReportEvents;
+        /**
+        An error message in case the transaction ingestion failed
+        */
         union {null, string} errorMessage;
+        /**
+        The stracktrace in case the transaction ingestion failed
+        */
         union {null, string} stackTrace;
+        /**
+        A hash signature of the transaction used to discard identical requests
+        */
         string requestSignature;
+        /**
+        Options to process the transaction
+        */
         map<string> options;
         /**
         The number of milliseconds to process the transaction.
         */
         union {null, int} processingMilli;
+        /**
+        The details of a transaction
+        */
         TransactionDetails transactionDetails;
+        /**
+        The details of a request
+        */
         union {null, RequestDetails} requestDetails;
     }
 }
