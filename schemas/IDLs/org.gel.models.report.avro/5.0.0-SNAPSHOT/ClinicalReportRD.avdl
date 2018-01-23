@@ -1,35 +1,46 @@
 @namespace("org.gel.models.report.avro")
 /**
 This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants
-define by a GMC in a CIP environment. Notice that most of the information needed is already collected in the
-Interpretation Request or interpreted genome.
+define by a Genomic Medicine Centre (GMC) in a Clinical Interpretation Partner (CIP) environment. Notice that most of
+the information needed is already collected in the interpretation request or interpreted genome.
 */
 protocol ClinicalReportsRD {
 
     import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
 
+    /**
+    A panel of genes and the specific disease that it assesses
+    */
     record AdditionalAnalysisPanel {
+        /*
+        The specific disease
+        */
         string specificDisease;
-        string panelName;
-        union {null, string} panelVersion;
+        /*
+        The panel of genes
+        */
+        GenePanel panel;
     }
 
+    /**
+    A clinical report for the rare disease program. This holds the list of reported variants by a GMC together with all
+    the relevant information that identify the case and how these conclusions were reached.
+    */
     record ClinicalReportRD {
 
         /**
-        This is the interpretation Request Id, first number in XXX-123-1
+        This is the interpretation request identifier (i.e.: first number in XXX-123-1)
         */
         string interpretationRequestId;
 
         /**
-        This is the version of the interpretation Request Id, second number in XXX-123-2
+        This is the version of the interpretation request identifier (i.e.: second number in XXX-123-2)
         */
         string interpretationRequestVersion;
 
-
         /**
-        Date of this report YYYY-MM-DD
+        Date of this report in format YYYY-MM-DD
         */
         string reportingDate;
 
@@ -39,31 +50,35 @@ protocol ClinicalReportsRD {
         string user;
 
         /**
-        Candidate Variants - as defined in CommonInterpreted
+        List of reported variants
         */
         union {null, array<ReportedVariant>} variants;
 
         /**
-        Summary of the interpretation, this should reflects the positive conclusions of this interpretation
+        Summary of the interpretation, this should reflect the positive conclusions of this interpretation
         */
         string genomicInterpretation;
 
+        /**
+        The list of panels analysed to generate this report
+        */
         union {null, array<AdditionalAnalysisPanel>} additionalAnalysisPanels;
 
         /**
-        Supporting evidence (pubmed Ids)
+        Supporting evidence (pubmed identifiers)
         */
         union {null, array<string>} references;
 
         /**
-        This map should contains the version of the different DBs used in the process
+        This map contains the versions of the different databases used in the process, being the database names the
+        keys and the versions the values.
         */
         map<string> referenceDatabasesVersions;
 
         /**
-        This map should contains the version of the different software in the process
+        This map contains the versions of the different software systems used in the process, being the software
+        names the keys and the versions the values.
         */
         map<string> softwareVersions;
-
     }
 }
