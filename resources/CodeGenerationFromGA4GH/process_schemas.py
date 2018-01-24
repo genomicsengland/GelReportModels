@@ -175,6 +175,10 @@ class SchemaClass(object):
             if str(field.type) == '"string"':
                 string_ = "'{}', '{}')".format(field.name, field.default)
                 self._writeWithIndent(string_, outputFile, 3)
+            # This was added by priesgo to cascade default values initialisation
+            elif type(field.type) == avro.schema.RecordSchema and field.type.type == 'record':
+                string_ = "'{}', {}())".format(field.name, field.type.name)
+                self._writeWithIndent(string_, outputFile, 3)
             else:
                 string_ = "'{}', {})".format(field.name, field.default)
                 self._writeWithIndent(string_, outputFile, 3)
