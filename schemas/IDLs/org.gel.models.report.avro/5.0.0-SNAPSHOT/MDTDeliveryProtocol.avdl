@@ -1,7 +1,8 @@
 @namespace("org.gel.models.report.avro")
 
-/** This protocol defines the integration mechanism to store analysis results in
-    the MDT (Multi-disciplinary Tool). */
+/**
+This protocol defines the integration mechanism to store analysis results in the MDT (Multi-disciplinary Tool).
+*/
 protocol MDTDelivery {
 
     import idl "ReportVersionControl.avdl";
@@ -10,18 +11,17 @@ protocol MDTDelivery {
     import idl "InterpretationRequestRD.avdl";
     import idl "InterpretedGenomesRD.avdl";
 
+    /**
+    Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
+one TieringResult.
+Semantic restrictions (not automatically verifiable):
 
-    /** Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
-        one TieringResult.
-        Semantic restrictions (not automatically verifiable):
-            - All InterpretedGenomesRD in interpretationResults refer to the TieringResult tieringResult.
-            - All InterpretedGenomesRD in interpretationResults have passed the QC stage and have been
-              approved by the originating GMCs
+* All InterpretedGenomesRD in interpretationResults refer to the TieringResult tieringResult.
+* All InterpretedGenomesRD in interpretationResults have passed the QC stage and have been approved by the originating GMCs
     */
     record InterpretationData {
         InterpretationRequestRD interpretationMetaData;
         union{null, InterpretedGenomeRD} tieringResult;
         union{null, array<InterpretedGenomeRD>} otherInterpretationResults;
     }
-
 }

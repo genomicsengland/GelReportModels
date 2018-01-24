@@ -1,19 +1,13 @@
 @namespace("org.gel.models.report.avro")
 
 /**
-Cancer specific
-This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
-The record Report is the top level class. This includes clinical information + various version
+This protocol defines the mechanism that Genomics England uses to trigger a clinical interpretation process from a third
+party in the cancer program
+The record report is the top level class. This includes clinical information + various version
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
 protocol CancerInterpretationRequests {
-
-
-    /**
-    Caution!! This has been removed
-    import idl "variants.avdl";
-    */
 
     import idl "CancerParticipant.avdl";
     import idl "CommonRequest.avdl";
@@ -30,24 +24,24 @@ protocol CancerInterpretationRequests {
         ReportVersionControl versionControl;
 
         /**
-        id for this request
+        Identifier for this interpretation request
         */
         string interpretationRequestId;
 
         /**
-        version for this request
+        Version for this interpretation request
         */
-        string interpretationRequestVersion;
+        int interpretationRequestVersion;
 
         /**
-        Internal Study id
+        Internal study identifier
         */
         string internalStudyId;
 
         /**
         This is the version of the assembly used to align the reads
         */
-        string genomeAssembly;
+        Assembly genomeAssembly;
 
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
@@ -69,7 +63,6 @@ protocol CancerInterpretationRequests {
         */
         union {null, array<File>} bigWigs;
 
-
         /**
         Variant Annotation File
         */
@@ -82,7 +75,7 @@ protocol CancerInterpretationRequests {
         union {null, map<File>} otherFiles;
 
         /**
-        Cancer Particiapnt Data. ONLY if program is rare_disease
+        Cancer Particiapnt Data.
         */
         union {null, org.gel.models.participant.avro.CancerParticipant} cancerParticipant;
 
@@ -97,15 +90,14 @@ protocol CancerInterpretationRequests {
         */
         union {null, map<map<map<float>>>} genePanelsCoverage;
 
-
+        /**
+        Flags about this case relevant for interpretation
+        */
         union {null, array<InterpretationFlag>} interpretationFlags;
 
         /**
         Additional information
         */
         union {null, map<string>} additionalInfo;
-
     }
-
-
 }
