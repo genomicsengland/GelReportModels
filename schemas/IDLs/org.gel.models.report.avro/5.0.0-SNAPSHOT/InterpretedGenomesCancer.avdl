@@ -27,7 +27,7 @@ protocol CancerInterpretedGenomes {
         /**
         Version for this interpretation request
         */
-        string interpretationRequestVersion;
+        int interpretationRequestVersion;
 
         /**
         Name of the interpretation service

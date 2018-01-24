@@ -31,7 +31,7 @@ protocol CancerInterpretationRequests {
         /**
         Version for this interpretation request
         */
-        string interpretationRequestVersion;
+        int interpretationRequestVersion;
 
         /**
         Internal study identifier

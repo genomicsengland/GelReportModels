@@ -37,7 +37,7 @@ protocol ClinicalReportsRD {
         /**
         This is the version of the interpretation request identifier (i.e.: second number in XXX-123-2)
         */
-        string interpretationRequestVersion;
+        int interpretationRequestVersion;
 
         /**
         Date of this report in format YYYY-MM-DD
