@@ -173,7 +173,10 @@ class SchemaClass(object):
 
             # This was added by antonior to fix the problem with default strings
             if str(field.type) == '"string"':
-                string_ = "'{}', '{}')".format(field.name, field.default)
+                if field.default is not None:
+                    string_ = "'{}', '{}')".format(field.name, field.default)
+                else:
+                    string_ = "'{}', {})".format(field.name, field.default)
                 self._writeWithIndent(string_, outputFile, 3)
             # This was added by priesgo to cascade default values initialisation
             elif type(field.type) == avro.schema.RecordSchema and field.type.type == 'record':
