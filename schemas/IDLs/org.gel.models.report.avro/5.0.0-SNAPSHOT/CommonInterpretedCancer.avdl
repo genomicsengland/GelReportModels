@@ -103,7 +103,7 @@ protocol CommonInterpretedCancer {
         /**
         Sequence Ontology terms for relevant consequence types in tiering
         */
-        array<ConsequenceType> consequenceTypes;
+        array<ConsequenceTypes> consequenceTypes;
 
         /**
         Actions on the variant

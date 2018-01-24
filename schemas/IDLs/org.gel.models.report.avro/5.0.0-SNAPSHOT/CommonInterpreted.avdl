@@ -208,8 +208,9 @@ protocol CommonInterpreted {
 
     /**
     The consequence type for a given variant as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    NOTE: the record name is in plural to avoid a collision with OpenCB's ConsequenceType
     */
-    record ConsequenceType {
+    record ConsequenceTypes {
         /**
         The SO term identifier (e.g.: SO:0001816)
         */
@@ -253,7 +254,7 @@ protocol CommonInterpreted {
         /**
         Sequence Ontology terms for relevant consequence types in tiering
         */
-        array<ConsequenceType> consequenceTypes;
+        array<ConsequenceTypes> consequenceTypes;
 
         /**
         The panel of genes to which this report corresponds
