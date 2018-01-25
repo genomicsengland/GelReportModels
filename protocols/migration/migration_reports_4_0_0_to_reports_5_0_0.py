@@ -127,7 +127,7 @@ class MigrateReports400To500(BaseMigration):
 
         # missing fields not existing in reports_4_0_0.InterpretationRequestRD will be received as parameters
         new_instance.interpretationService = interpretation_service
-        new_instance.referenceDatabaseVersions = reference_database_versions
+        new_instance.referenceDatabasesVersions = reference_database_versions
         new_instance.softwareVersions = software_versions
         new_instance.reportUrl = report_url
         new_instance.comments = comments
@@ -366,10 +366,12 @@ class MigrateReports400To500(BaseMigration):
         )
 
         # field cDnaChange renamed to cdnaChange
-        new_instance.cdnaChanges = old_instance.reportedVariantCancer.cDnaChange
+        if old_instance.reportedVariantCancer.cDnaChange:
+            new_instance.cdnaChanges = [old_instance.reportedVariantCancer.cDnaChange]
 
         # field proteinChange changed to a list
-        new_instance.proteinChanges = [old_instance.reportedVariantCancer.proteinChange]
+        if old_instance.reportedVariantCancer.proteinChange:
+            new_instance.proteinChanges = [old_instance.reportedVariantCancer.proteinChange]
 
         # NOTE: missing fields: genomicChanges
 
@@ -385,12 +387,12 @@ class MigrateReports400To500(BaseMigration):
         )]
 
         # builds up an AlleleFrequency object
-        new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
-            study='genomics_england',
-            population='ALL',
-            alternateFrequency=float(old_instance.reportedVariantCancer.commonAf)
-            if old_instance.reportedVariantCancer.commonAf is not None else None
-        )]
+        if old_instance.reportedVariantCancer.commonAf is not None:
+            new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
+                study='genomics_england',
+                population='ALL',
+                alternateFrequency=float(old_instance.reportedVariantCancer.commonAf)
+            )]
 
         # builds up the VariantAttributes
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(
@@ -432,11 +434,12 @@ class MigrateReports400To500(BaseMigration):
 
         # populates the role in cancer with the field inside the genomic feature
         map_role_in_cancer = {
-            reports_4_0_0.RoleInCancer.both: reports_5_0_0.RoleInCancer.both,
-            reports_4_0_0.RoleInCancer.oncogene: reports_5_0_0.RoleInCancer.oncogene,
-            reports_4_0_0.RoleInCancer.TSG: reports_5_0_0.RoleInCancer.tumor_suppressor_gene
+            None: None,
+            reports_4_0_0.RoleInCancer.both: [reports_5_0_0.RoleInCancer.both],
+            reports_4_0_0.RoleInCancer.oncogene: [reports_5_0_0.RoleInCancer.oncogene],
+            reports_4_0_0.RoleInCancer.TSG: [reports_5_0_0.RoleInCancer.tumor_suppressor_gene]
         }
-        new_instance.roleInCancer = [map_role_in_cancer[old_instance.genomicFeatureCancer.roleInCancer]]
+        new_instance.roleInCancer = map_role_in_cancer[old_instance.genomicFeatureCancer.roleInCancer]
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer
@@ -480,30 +483,21 @@ class MigrateReports400To500(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.Action, old_instance)
 
-        # maps the action type
-        action_type = old_instance.actionType.lower()
-        if action_type == reports_5_0_0.ActionType.therapy:
-            new_instance.actionType = reports_5_0_0.ActionType.therapy
-        elif action_type == reports_5_0_0.ActionType.therapeutic:
-            new_instance.actionType = reports_5_0_0.ActionType.therapeutic
-        elif action_type == reports_5_0_0.ActionType.prognosis:
-            new_instance.actionType = reports_5_0_0.ActionType.prognosis
-        elif action_type == reports_5_0_0.ActionType.diagnosis:
-            new_instance.actionType = reports_5_0_0.ActionType.diagnosis
-        elif action_type is not None and action_type != "":
-            raise MigrationError("Action type does not match any known value '{}'".format(action_type))
+        new_instance.evidenceType = old_instance.actionType
+        new_instance.actionType = None
 
         # rename evidence to references
         new_instance.references = old_instance.evidence
 
         # maps the action status
-        status = old_instance.status.lower().replace('-', '_')
-        if status == reports_5_0_0.ActionStatus.clinical:
-            new_instance.status = reports_5_0_0.ActionStatus.clinical
-        elif status == reports_5_0_0.ActionStatus.pre_clinical:
-            new_instance.status = reports_5_0_0.ActionStatus.pre_clinical
-        elif status is not None and status != "":
-            raise MigrationError("Action status does not match any known value '{}'".format(status))
+        if old_instance.status is not None:
+            status = old_instance.status.lower().replace('-', '_')
+            if status == reports_5_0_0.ActionStatus.clinical:
+                new_instance.status = reports_5_0_0.ActionStatus.clinical
+            elif status == reports_5_0_0.ActionStatus.pre_clinical:
+                new_instance.status = reports_5_0_0.ActionStatus.pre_clinical
+            elif status is not None and status != "":
+                raise MigrationError("Action status does not match any known value '{}'".format(status))
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.Action
