@@ -18,7 +18,7 @@ protocol HealthCheckProtocol {
         string description;
         array<string> url;
         Status status;
-        map<string> additionalProperties;
+        union {null, map<string>} additionalProperties;
     }
 
     enum APIType {
