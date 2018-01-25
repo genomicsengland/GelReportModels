@@ -15,3 +15,4 @@ protocols/*.py
 docs/**/*-SNAPSHOT
 dist
 protocols/resources/*
+*.avsc
