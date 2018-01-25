@@ -406,7 +406,7 @@ protocol CommonInterpreted {
         /**
         gDNA change, HGVS nomenclature (e.g.: g.476A>T)
         */
-        union {null, array<string>} genomicChange;
+        union {null, array<string>} genomicChanges;
 
         /**
         cDNA change, HGVS nomenclature (e.g.: c.76A>T)
