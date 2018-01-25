@@ -69,7 +69,7 @@ protocol CancerParticipants {
         union {null, ProgrammePhase} programmePhase;
 
         /**
-        The time when the sample was recieved. In the format YYYY-MM-DDTHH:MM:SS+0000
+        The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         union {null,string} clinicalSampleDateTime;
 
@@ -96,7 +96,7 @@ protocol CancerParticipants {
         string LDPCode;
 
         /**
-        Identifier of each one of the tumors for a participant
+        Identifier of each one of the tumours for a participant
         */
         string tumourId;
 
@@ -153,29 +153,28 @@ protocol CancerParticipants {
         /**
         Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologyICD;
+        union {null, array<string>} morphologyICDs;
         /**
         Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologySnomedCT;
+        union {null, array<string>} morphologySnomedCTs;
         /**
         Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologySnomedRT;
+        union {null, array<string>} morphologySnomedRTs;
 
         /**
         Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographyICD;
+        union {null, array<string>} topographyICDs;
         /**
         Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographySnomedCT;
+        union {null, array<string>} topographySnomedCTs;
         /**
         Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographySnomedRT;
-
+        union {null, array<string>} topographySnomedRTs;
     }
 
     /**
