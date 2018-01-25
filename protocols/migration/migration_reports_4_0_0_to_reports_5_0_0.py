@@ -9,9 +9,17 @@ class MigrateReports400To500(BaseMigration):
     old_model = reports_4_0_0
     new_model = reports_5_0_0
 
-    def migrate_interpretation_request_rd(self, old_instance, assembly, sample_id, interpretation_service,
-                                          reference_database_versions,
-                                          software_versions, report_url=None, comments=None):
+    def migrate_interpretation_request_rd(self, old_instance):
+        """
+        Migrates an InterpretationRequestRD into an InterpreteGenomeRD, several unexisting fields need to be provided
+        :type old_instance: reports_4_0_0.InterpretationRequestRD
+        :rtype: reports_5_0_0.InterpretationRequestRD
+        """
+        raise NotImplemented
+
+    def migrate_interpretation_request_rd_to_interpreted_genome_rd(
+            self, old_instance, assembly, sample_id, interpretation_service,
+            reference_database_versions, software_versions, report_url=None, comments=None):
         """
         Migrates an InterpretationRequestRD into an InterpreteGenomeRD, several unexisting fields need to be provided
         :type old_instance: reports_4_0_0.InterpretationRequestRD
@@ -103,10 +111,19 @@ class MigrateReports400To500(BaseMigration):
             object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD
         )
 
-    def migrate_cancer_interpretation_request(self, old_instance, assembly, participant_id, sample_id,
-                                              interpretation_service, reference_database_versions,
-                                              software_versions, report_url=None, comments=None):
+    def migrate_cancer_interpretation_request(self, old_instance):
         """
+        :type old_instance: reports_4_0_0.CancerInterpretationRequest
+        :rtype: reports_5_0_0.CancerInterpretationRequest
+        """
+        raise NotImplemented
+
+    def migrate_cancer_interpretation_request_to_cancer_interpreted_genome(
+            self, old_instance, assembly, participant_id, sample_id, interpretation_service,
+            reference_database_versions, software_versions, report_url=None, comments=None):
+        """
+        NOTE: we migrate from a model where only one sample and one participant is supported, thus we do not need
+        a list of samples or participants
         :type old_instance: reports_4_0_0.CancerInterpretationRequest
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
@@ -133,8 +150,8 @@ class MigrateReports400To500(BaseMigration):
         new_instance.comments = comments
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants_cancer(old_instance.tieredVariants,
-                                                                      assembly, participant_id, sample_id)
+        new_instance.variants = self.migrate_reported_variants_cancer(
+            old_instance.tieredVariants, assembly, participant_id, sample_id)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
@@ -144,6 +161,8 @@ class MigrateReports400To500(BaseMigration):
                                           assembly, participant_id, sample_id,
                                           interpretation_request_version, interpretation_service):
         """
+        NOTE: we migrate from a model where only one sample and one participant is supported, thus we do not need
+        a list of samples or participants
         :type old_instance: reports_4_0_0.CancerInterpretedGenome
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
@@ -179,6 +198,8 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_cancer_clinical_report(self, old_instance, assembly, participant_id, sample_id):
         """
+        NOTE: we migrate from a model where only one sample and one participant is supported, thus we do not need
+        a list of samples or participants
         :type old_instance: reports_4_0_0.ClinicalReportCancer
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
@@ -221,7 +242,7 @@ class MigrateReports400To500(BaseMigration):
             position=old_instance.position,
             reference=old_instance.reference,
             alternate=old_instance.alternate,
-            assembly=assembly
+            assembly=self.migrate_assembly(assembly)
         )
 
         # NOTE: missing fields: dbSnpId, cosmicIds, clinVarIds, genomicChange, cdnaChanges, proteinChanges
@@ -246,12 +267,32 @@ class MigrateReports400To500(BaseMigration):
         )
 
     def migrate_reported_variants(self, old_reported_variants, assembly, sample_id):
-        return [self.migrate_reported_variant(old_reported_variant, assembly, sample_id)
-                for old_reported_variant in old_reported_variants]
+        new_variants = None
+        if old_reported_variants is not None:
+            new_variants = [self.migrate_reported_variant(old_reported_variant, assembly, sample_id)
+                            for old_reported_variant in old_reported_variants]
+        return new_variants
+
+    def migrate_assembly(self, assembly):
+        """
+        :type assembly: str
+        :rtype: str
+        :return:
+        """
+        new_assembly = None
+        if assembly is not None:
+            if assembly.lower().startswith(reports_5_0_0.Assembly.GRCh37.lower()) \
+                    or assembly.lower().startswith('hg19'):
+                new_assembly = reports_5_0_0.Assembly.GRCh37
+            elif assembly.lower().startswith(reports_5_0_0.Assembly.GRCh38.lower()):
+                new_assembly = reports_5_0_0.Assembly.GRCh38
+            else:
+                raise MigrationError("Assembly does not match any known value '{}'".format(assembly))
+        return new_assembly
 
     def migrate_called_genotype_to_variant_call(self, old_instance, sample_id):
         """
-
+        NOTE: fields that cannot be filled ""
         :type old_instance: reports_4_0_0.CalledGenotype
         :type sample_id: str
         :rtype reports_5_0_0.VariantCall
@@ -344,7 +385,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_reported_variant_cancer(self, old_instance, assembly, participant_id, sample_id):
         """
-
+        NOTE: fields that cannot be filled are "genomicChanges", "references"
         :type old_instance: reports_4_0_0.ReportedSomaticVariants
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
@@ -362,7 +403,7 @@ class MigrateReports400To500(BaseMigration):
             position=old_instance.reportedVariantCancer.position,
             reference=old_instance.reportedVariantCancer.reference,
             alternate=old_instance.reportedVariantCancer.alternate,
-            assembly=assembly
+            assembly=self.migrate_assembly(assembly)
         )
 
         # field cDnaChange renamed to cdnaChange
@@ -376,6 +417,7 @@ class MigrateReports400To500(BaseMigration):
         # NOTE: missing fields: genomicChanges
 
         # builds up the VariantCall object
+        # NOTE: fields that cannot be filled "phaseSet"
         new_instance.variantCalls = [reports_5_0_0.VariantCall(
             depthReference=old_instance.reportedVariantCancer.depthReference,
             depthAlternate=old_instance.reportedVariantCancer.depthAlternate,
@@ -395,6 +437,7 @@ class MigrateReports400To500(BaseMigration):
             )]
 
         # builds up the VariantAttributes
+        # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(
             ihp=old_instance.reportedVariantCancer.ihp
         )
@@ -410,12 +453,16 @@ class MigrateReports400To500(BaseMigration):
         )
 
     def migrate_reported_variants_cancer(self, old_reported_variants, assembly, participant_id, sample_id):
-        return [self.migrate_reported_variant_cancer(old_reported_variant, assembly, participant_id, sample_id)
+        new_variants = None
+        if old_reported_variants is not None:
+            new_variants = [self.migrate_reported_variant_cancer(
+                old_reported_variant, assembly, participant_id, sample_id)
                 for old_reported_variant in old_reported_variants]
+        return new_variants
 
     def migrate_report_event_cancer(self, old_instance):
         """
-
+        NOTE: fields that cannot be filled are "groupOfVariants", "score", "vendorSpecificScores", "variantClassification"
         :type old_instance: reports_4_0_0.ReportEventCancer
         :rtype reports_5_0_0.ReportEventCancer
         :return:
@@ -450,7 +497,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_genomic_feature_cancer(self, old_instance):
         """
-
+        NOTE: fields that cannot be filled are "xrefs"
         :type old_instance: reports_4_0_0.GenomicFeatureCancer
         :rtype reports_5_0_0.GenomicFeature
         :return:
@@ -476,7 +523,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_action(self, old_instance):
         """
-
+        NOTE: fields that cannot be filled are "actionType"
         :type old_instance: reports_4_0_0.Actions
         :rtype reports_5_0_0.Action
         :return:
@@ -504,4 +551,7 @@ class MigrateReports400To500(BaseMigration):
         )
 
     def migrate_actions(self, old_instances):
-        return [self.migrate_action(old_instance) for old_instance in old_instances]
+        new_instances = None
+        if old_instances is not None:
+            new_instances = [self.migrate_action(old_instance) for old_instance in old_instances]
+        return new_instances
