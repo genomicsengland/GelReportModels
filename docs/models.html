@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GEL Models documentation &mdash; GelReportModels 3.0.0 documentation</title>
+  <title>GEL Models documentation &mdash; GEL models 6.0.0 documentation</title>
   
 
   
@@ -35,9 +35,8 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GelReportModels 3.0.0 documentation" href="index.html"/>
-        <link rel="next" title="Models Validation" href="validation.html"/>
-        <link rel="prev" title="GelReportModels Documentation" href="index.html"/> 
+    <link rel="top" title="GEL models 6.0.0 documentation" href="index.html"/>
+        <link rel="prev" title="GEL models documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -56,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> GelReportModels
+            <a href="index.html" class="icon icon-home"> GEL models
           
 
           
@@ -66,7 +65,7 @@
             
             
               <div class="version">
-                3.0.0
+                6.0
               </div>
             
           
@@ -91,6 +90,28 @@
             
             
               <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">GEL models documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#models-documentation">Models Documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">GEL Models documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-metrics-avro">org.gel.models.metrics.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-coverage-avro">org.gel.models.coverage.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-opencb-biodata-models-variant-avro">org.opencb.biodata.models.variant.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-participant-avro">org.gel.models.participant.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-ga4gh-models">org.ga4gh.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gel-bioinf-models">Gel_BioInf_Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-system-avro">org.gel.models.system.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-cva-avro">org.gel.models.cva.avro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#org-gel-models-report-avro">org.gel.models.report.avro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#getting-started">Getting started</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">GEL Models documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#org-gel-models-metrics-avro">org.gel.models.metrics.avro</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">1.0.1</a></li>
@@ -124,21 +145,19 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#org-gel-models-cva-avro">org.gel.models.cva.avro</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">0.4.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">1.0.0-SNAPSHOT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">0.4.0</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#org-gel-models-report-avro">org.gel.models.report.avro</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">4.2.0</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">5.0.0-SNAPSHOT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">4.0.0</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">3.0.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">4.2.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">5.0.0-SNAPSHOT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">4.0.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">3.0.0</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="validation.html">Models Validation</a></li>
 </ul>
 
             
@@ -153,7 +172,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">GelReportModels</a>
+          <a href="index.html">GEL models</a>
         
       </nav>
 
@@ -345,7 +364,20 @@
 <div class="section" id="org-gel-models-cva-avro">
 <h2>org.gel.models.cva.avro<a class="headerlink" href="#org-gel-models-cva-avro" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id10">
-<h3>0.4.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>1.0.0-SNAPSHOT<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Transactions.html" target="_blank">Transactions</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/ReportEvent.html" target="_blank">ReportEvent</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/ObservedVariant.html" target="_blank">ObservedVariant</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Variant.html" target="_blank">Variant</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/DataIntakeRD.html" target="_blank">DataIntakeRD</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Comment.html" target="_blank">Comment</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/DataIntakeCancer.html" target="_blank">DataIntakeCancer</a></li>
+<li><a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/EvidenceSet.html" target="_blank">EvidenceSet</a></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>0.4.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a href="html_schemas/org.gel.models.cva.avro/0.4.0/Transactions.html" target="_blank">Transactions</a></li>
 <li><a href="html_schemas/org.gel.models.cva.avro/0.4.0/ReportEvent.html" target="_blank">ReportEvent</a></li>
@@ -360,8 +392,8 @@
 </div>
 <div class="section" id="org-gel-models-report-avro">
 <h2>org.gel.models.report.avro<a class="headerlink" href="#org-gel-models-report-avro" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>4.2.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>4.2.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a href="html_schemas/org.gel.models.report.avro/4.2.0/ClinicalReportCancer.html" target="_blank">ClinicalReportCancer</a></li>
 <li><a href="html_schemas/org.gel.models.report.avro/4.2.0/ClinicalReportRD.html" target="_blank">ClinicalReportRD</a></li>
@@ -378,8 +410,8 @@
 <li><a href="html_schemas/org.gel.models.report.avro/4.2.0/ExitQuestionnaire.html" target="_blank">ExitQuestionnaire</a></li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>5.0.0-SNAPSHOT<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>5.0.0-SNAPSHOT<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a href="html_schemas/org.gel.models.report.avro/5.0.0-SNAPSHOT/ClinicalReportCancer.html" target="_blank">ClinicalReportCancer</a></li>
 <li><a href="html_schemas/org.gel.models.report.avro/5.0.0-SNAPSHOT/ClinicalReportRD.html" target="_blank">ClinicalReportRD</a></li>
@@ -396,8 +428,8 @@
 <li><a href="html_schemas/org.gel.models.report.avro/5.0.0-SNAPSHOT/ExitQuestionnaire.html" target="_blank">ExitQuestionnaire</a></li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>4.0.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>4.0.0<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a href="html_schemas/org.gel.models.report.avro/4.0.0/ClinicalReportCancer.html" target="_blank">ClinicalReportCancer</a></li>
 <li><a href="html_schemas/org.gel.models.report.avro/4.0.0/ClinicalReportRD.html" target="_blank">ClinicalReportRD</a></li>
@@ -414,8 +446,8 @@
 <li><a href="html_schemas/org.gel.models.report.avro/4.0.0/ExitQuestionnaire.html" target="_blank">ExitQuestionnaire</a></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>3.0.0<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>3.0.0<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a href="html_schemas/org.gel.models.report.avro/3.0.0/ClinicalReportCancer.html" target="_blank">ClinicalReportCancer</a></li>
 <li><a href="html_schemas/org.gel.models.report.avro/3.0.0/ClinicalReportRD.html" target="_blank">ClinicalReportRD</a></li>
@@ -455,10 +487,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="validation.html" class="btn btn-neutral float-right" title="Models Validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="index.html" class="btn btn-neutral" title="GelReportModels Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="GEL models documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -489,7 +519,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'3.0.0',
+            VERSION:'6.0.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

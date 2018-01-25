@@ -169,12 +169,10 @@ protocol Pedigrees {
         */
         union {null, string} participantId;
 
-
         /**
         participantQCState
         */
         union {null, ParticipantQCState} participantQCState;
-
 
         /**
         superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
@@ -195,7 +193,6 @@ protocol Pedigrees {
         Year of Birth
         */
         union {null, int} yearOfBirth;
-
 
         /**
         refers to the pedigreeId of the father
@@ -278,12 +275,10 @@ protocol Pedigrees {
         */
         union {null, array<Sample>} samples;
 
-
         /**
         Inbreeding Coefficient Estimation
         */
         union {null, InbreedingCoefficient} inbreedingCoefficient;
-
 
         /**
         We could add a map here to store additional information for example URIs to images, ECGs, etc
@@ -293,17 +288,43 @@ protocol Pedigrees {
 
     }
 
+    /**
+    An analysis panel
+    */
     record AnalysisPanel {
+        /**
+        The specific disease that a panel tests
+        */
         string specificDisease;
+        /**
+        The name of the panel
+        */
         string panelName;
+        /**
+        The version of the panel
+        */
         union {null, string} panelVersion;
+        /**
+        The outcome of the review
+        */
         string reviewOutcome;
+        /**
+        TODO
+        */
         string multipleGeneticOrigins;
     }
 
-
+    /**
+    A disease penetrance definition
+    */
     record DiseasePenetrance {
+        /**
+        The disease to which the penetrance applies
+        */
         string specificDisease;
+        /**
+        The penetrance
+        */
         Penetrance penetrance;
     }
 
@@ -317,21 +338,39 @@ protocol Pedigrees {
         */
         union {null, VersionControl} versionControl;
 
+        /**
+        LDP Code (Local Delivery Partner)
+        */
         union {null, string} LDPCode;
 
         /**
-        Family id which internally translate to a sample set
+        Family identifier which internally translate to a sample set
         */
         string familyId;
 
+        /**
+        List of members of a pedigree
+        */
         array <PedigreeMember> members;
 
+        /**
+        List of panels
+        */
         union {null, array<AnalysisPanel>} analysisPanels;
 
+        /**
+        List of disease penetrances
+        */
         union {null, array<DiseasePenetrance>} diseasePenetrances;
 
+        /**
+        Flag indicating if a pedigree is ready for analysis
+        */
         boolean readyForAnalysis;
 
+        /**
+        The famili quality control status
+        */
         union {null, FamilyQCState} familyQCState;
     }
 }

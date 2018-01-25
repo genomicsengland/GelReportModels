@@ -9,11 +9,15 @@ protocol CoverageProtocol {
         /**
         The average depth of coverage
         */
-        int avg;
+        float avg;
+        /**
+        The depth of coverage standard deviation
+        */
+        float sd;
         /**
         The median depth of coverage
         */
-        int med;
+        float med;
         /**
         The GC content
         */
@@ -21,35 +25,51 @@ protocol CoverageProtocol {
         /**
         The 75th percentile of coverage distribution
         */
-        int pct75;
+        float pct75;
         /**
         The 25th percentile of coverage distribution
         */
-        int pct25;
+        float pct25;
         /**
-        The number of bases in the region
+        The number of bases in the region (this is nullable as it can be calculated from coordinates of the region)
         */
-        int bases;
+        union {null, int} bases;
+        /**
+        The number of bases in the region with a coverage less than 15x (this is nullable as it can be calculated from coordinates of the region)
+        */
+        union {null, int} bases_lt_15x;
+        /**
+        The number of bases in the region with a coverage greater than or equal 15x (this is nullable as it can be calculated from coordinates of the region)
+        */
+        union {null, int} bases_gte_15x;
+        /**
+        The number of bases in the region with a coverage greater than or equal 30x (this is nullable as it can be calculated from coordinates of the region)
+        */
+        union {null, int} bases_gte_30x;
+        /**
+        The number of bases in the region with a coverage greater than or equal 50x (this is nullable as it can be calculated from coordinates of the region)
+        */
+        union {null, int} bases_gte_50x;
         /**
         The number of positions with a depth of coverage greater than or equal than 50x
         (the original name is %>=50x, but this cannot be used as a property name in Avro)
         */
-        int gte50x;
+        float gte50x;
         /**
         The number of positions with a depth of coverage greater than or equal than 30x
         (the original name is %>=30x, but this cannot be used as a property name in Avro)
         */
-        int gte30x;
+        float gte30x;
         /**
         The number of positions with a depth of coverage greater than or equal than 15x
         (the original name is %>=15x, but this cannot be used as a property name in Avro)
         */
-        int gte15x;
+        float gte15x;
         /**
         The number of positions with a depth of coverage less than 15x
         (the original name is %<15x, but this cannot be used as a property name in Avro)
         */
-        int lt15x;
+        float lt15x;
         /**
         The squared root sum of squares of the deviation from the mean
         */
@@ -66,15 +86,16 @@ protocol CoverageProtocol {
     */
     record CoverageGap {
         /**
-        Gap start position
+        Gap start position. Inclusive, 0-based
         */
         int s;
         /**
-        Gap end position
+        Gap end position. Exclusive, 0-based
         */
         int e;
         /**
         Gap length (this information is redundant as can be calculated from start and end)
+        DEPRECATED
         */
         union {null, int} l;
     }
@@ -88,25 +109,28 @@ protocol CoverageProtocol {
         */
         string exon;
         /**
-        The exon start position
+        The exon start position. Inclusive, 0-based
         */
         int s;
         /**
-        The exon padded start
+        The exon padded start. Inclusive, 0-based
         (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon start positions minus 15 bp)
+        DEPRECATED
         */
-        int padded_s;
+        union{null, int} padded_s;
         /**
-        The exon end position
+        The exon end position. Exclusive, 0-based
         */
         int e;
         /**
-        The exon padded end
+        The exon padded end. Exclusive, 0-based
         (i.e.: for a gene in the positive strand and a padding of 15bp, this will be the exon end positions plus 15 bp)
+        DEPRECATED
         */
-        int padded_e;
+        union{null, int} padded_e;
         /**
         The exon length calculated without padding (this field is redundant)
+        DEPRECATED
         */
         union {null, int} l;
         /**
@@ -174,11 +198,15 @@ protocol CoverageProtocol {
         /**
         The average depth of coverage
         */
-        int avg;
+        float avg;
+        /**
+        The depth of coverage standard deviation
+        */
+        float sd;
         /**
         The median depth of coverage
         */
-        int med;
+        float med;
         /**
         The GC content
         */
@@ -186,11 +214,11 @@ protocol CoverageProtocol {
         /**
         The 75th percentile of coverage distribution
         */
-        int pct75;
+        float pct75;
         /**
         The 25th percentile of coverage distribution
         */
-        int pct25;
+        float pct25;
         /**
         The number of bases in the region
         */
@@ -198,19 +226,19 @@ protocol CoverageProtocol {
         /**
         The number of positions with a depth of coverage greater than or equal than 50x
         */
-        int gte50x;
+        float gte50x;
         /**
         The number of positions with a depth of coverage greater than or equal than 30x
         */
-        int gte30x;
+        float gte30x;
         /**
         The number of positions with a depth of coverage greater than or equal than 15x
         */
-        int gte15x;
+        float gte15x;
         /**
         The number of positions with a depth of coverage less than 15x
         */
-        int lt15x;
+        float lt15x;
         /**
         The squared root sum of squares of the deviation from the mean
         */
@@ -244,6 +272,14 @@ protocol CoverageProtocol {
         The gene symbol of the gene
         */
         string name;
+        /**
+        The exon start position. Inclusive, 0-based (nullable to maintain backward compatibility)
+        */
+        union {null, int} s;
+        /**
+        The exon end position. Exclusive, 0-based (nullable to maintain backward compatibility)
+        */
+        union {null, int} e;
     }
 
     record WholeGenome {
@@ -276,7 +312,7 @@ protocol CoverageProtocol {
         */
         union {null, WholeGenome} whole_genome;
         /**
-        The list of genes intended to be analysed for which there is no coverage information.
+        The coding regions for which the average coverage is 0.0.
         */
         array<UncoveredGene> uncovered_genes;
     }
@@ -355,6 +391,10 @@ protocol CoverageProtocol {
         The depth of coverage under which a gap is considered
         */
         int gap_coverage_threshold;
+        /**
+        The length of contiguous positions with low coverage to consider a gap
+        */
+        int gap_length_threshold;
         /**
         The input bigwig file
         */

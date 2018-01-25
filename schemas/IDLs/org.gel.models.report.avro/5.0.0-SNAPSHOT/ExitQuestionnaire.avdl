@@ -16,7 +16,9 @@ protocol ExitQuestionnaires {
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
 
 
-
+    /**
+    The family level questions
+    */
     record FamilyLevelQuestions{
         /**
         Have the results reported here explained the genetic basis of the family’s presenting phenotype(s)?
@@ -32,10 +34,14 @@ protocol ExitQuestionnaires {
         string additionalComments;
     }
 
+    /**
+    The variant level questions
+    */
     record VariantLevelQuestions{
         /**
-        Chr: Pos Ref > Alt
+        Variant coordinates following format `Chr: Pos Ref > Alt`
         */
+        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
         /**
         Did you carry out technical confirmation of this variant via an alternative test?
@@ -54,43 +60,74 @@ protocol ExitQuestionnaires {
         */
         ACMGClassification acmgClassification;
         /**
-        Please provide PMIDs for papers which you have used to inform your assessment for this variant, separated by a ; for multiple papers
+        Please provide PMIDs for papers which you have used to inform your assessment for this variant, separated by a `;` for multiple papers
         */
         string publications;
 
     }
 
+    /**
+    The variant group level questions
+    */
     record VariantGroupLevelQuestions{
 
+        /**
+        This value groups variants that together could explain the phenotype according to the mode of inheritance used.
+        (e.g.: compound heterozygous). All the variants in the same report sharing the same value will be considered in
+        the same group (i.e.: reported together). This value is an integer unique in the whole report.
+        These values are only relevant within the same report.
+        */
         int variantGroup;
+
+        /**
+        The variant level questions for each of the variants in the group
+        */
         array<VariantLevelQuestions> variantLevelQuestions;
+
         /**
         Is evidence for this variant/variant pair sufficient to use it for clinical purposes such as prenatal diagnosis or predictive testing?
         */
         Actionability actionability;
+
         /**
         Has the clinical team identified any changes to clinical care which could potentially arise as a result of this variant/variant pair?
         */
         array<ClinicalUtility> clinicalUtility;
+
         /**
         Did you report the variant(s) as being partially or completely causative of the family's presenting phenotype(s)?
         */
         PhenotypesSolved phenotypesSolved;
+
         /**
         If you indicated that the variant(s) only partially explained the family’s presenting phenotypes, please indicate which HPO terms you are confident that they DO explain
         */
         union {null, array<string>}  phenotypesExplained;
-
-    }
-
-    record RareDiseaseExitQuestionnaire{
-        string eventDate;
-        string reporter;
-        FamilyLevelQuestions familyLevelQuestions;
-        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
     }
 
     /**
+    The rare disease program exit questionnaire
+    */
+    record RareDiseaseExitQuestionnaire{
+        /**
+        The date when the questionnaire was submitted
+        */
+        string eventDate;
+        /**
+        The person that submitted the questionnaire
+        */
+        string reporter;
+        /**
+        The set of questions at family level
+        */
+        FamilyLevelQuestions familyLevelQuestions;
+        /**
+        The list of variant group level variants (ungrouped variants are to be set in single variant group)
+        */
+        array<VariantGroupLevelQuestions> variantGroupLevelQuestions;
+    }
+
+    /*
     -------------------------------------------------
     CANCER EXITQUESTIONNAIRE
     -------------------------------------------------
@@ -98,52 +135,56 @@ protocol ExitQuestionnaires {
 
     /**
     An enumeration for Which parts of the WGA were reviewed?:
-        * `domain_1`: Domain 1 only
-        * `domain_1_and_2`: Domains 1 and 2
-        * `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
+* `domain_1`: Domain 1 only
+* `domain_1_and_2`: Domains 1 and 2
+* `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
     */
     enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary}
 
     /**
-     * `yes`: yes
-     * `no`: no
+    Are the variants actionable?
+* `yes`: yes
+* `no`: no
     */
     enum CancerActionableVariants {yes, no}
 
     /**
-    An enumeration Variant Actionability:
-        * `predicts_therapeutic_response`: Predicts therapeutic response
-        * `prognostic`: Prognostic
-        * `defines_diagnosis_group`: Defines diagnosis group
-        * `eligibility_for_trial`: Eligibility for trial
-        * `other`:  Other (please specify)
+    The variant actionabilities:
+* `predicts_therapeutic_response`: Predicts therapeutic response
+* `prognostic`: Prognostic
+* `defines_diagnosis_group`: Defines diagnosis group
+* `eligibility_for_trial`: Eligibility for trial
+* `other`:  Other (please specify)
     */
     enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
 
     /**
-    An enumeration Variant Usability:
-        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
-        * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
-        * `not_yet_actioned`: not yet actioned, but potentially actionable in the future
+    Variant usability for somatic variants:
+* `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
+* `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
+* `not_yet_actioned`: not yet actioned, but potentially actionable in the future
     */
     enum CancerUsabilitySomatic {already_actioned, actioned_result_of_this_wga, not_yet_actioned}
 
     /**
-    An enumeration Variant Usability:
-        * `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
-        * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
+    Variant usability for germline variants:
+* `already_actioned`: Already actioned (i.e. prior to receiving this WGA)
+* `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
     */
     enum CancerUsabilityGermline {already_actioned, actioned_result_of_this_wga}
 
     /**
-    An enumeration Variant tested:
-        * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
-        * `no_orthologous_test_available`: No: no orthologous test available
-        * `test_performed_prior_to_wga`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
-        * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
+    Was the variant validated with an orthogonal technology?
+* `not_indicated_for_patient_care`: No: not indicated for patient care at this time
+* `no_orthologous_test_available`: No: no orthologous test available
+* `test_performed_prior_to_wga`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
+* `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
     */
     enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_wga, technical_validation_following_wga}
 
+    /**
+    The questions for the cancer program exit questionnaire at case level
+    */
     record CancerCaseLevelQuestions{
         /**
         Total time taken to review/collate evidence for variants (hours).
@@ -212,11 +253,14 @@ protocol ExitQuestionnaires {
         CancerActionableVariants actionableVariants;
     }
 
-
+    /**
+    The questions for the cancer program exit questionnaire for germline variants
+    */
     record CancerGermlineVariantLevelQuestions{
         /**
-        Chr: Pos Ref > Alt
+        Variant coordinates following format `Chr: Pos Ref > Alt`
         */
+        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
 
         /**
@@ -235,15 +279,24 @@ protocol ExitQuestionnaires {
         string validationAssayType;
     }
 
+    /**
+    The questions for the cancer program exit questionnaire for somatic variants
+    */
     record CancerSomaticVariantLevelQuestions{
         /**
-        Chr: Pos Ref > Alt
+        Variant coordinates following format `Chr: Pos Ref > Alt`
         */
+        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
+
         /**
         Type of potential actionability:
         */
         CancerActionability variantActionability;
+
+        /**
+        Other information about variant actionability
+        */
         union {null, string} otherVariantActionability;
 
         /**
@@ -262,18 +315,32 @@ protocol ExitQuestionnaires {
         string validationAssayType;
     }
 
+    /**
+    The cancer program exit questionnaire
+    */
     record CancerExitQuestionnaire{
+        /**
+        The date when the questionnaire was submitted
+        */
         string eventDate;
+
+        /**
+        The person that submitted the questionnaire
+        */
         string reporter;
+
+        /**
+        The case level questions
+        */
         CancerCaseLevelQuestions caseLevelQuestions;
 
         /**
-        Somatic variants
+        The questions for somatic variants
         */
         union {null, array<CancerSomaticVariantLevelQuestions>} somaticVariantLevelQuestions;
 
         /**
-        Pathogenic germline cancer susceptability variants
+        The questions for germline variants
         */
         union {null, array<CancerGermlineVariantLevelQuestions>} germlineVariantLevelQuestions;
 
