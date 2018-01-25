@@ -139,6 +139,18 @@ org.gel.models.system.avro
 org.gel.models.cva.avro
 -----------------------
 
+1.0.0-SNAPSHOT
+^^^^^^^^^^^^^^
+
+* |orggelmodelscvaavro100SNAPSHOTTransactions|
+* |orggelmodelscvaavro100SNAPSHOTReportEvent|
+* |orggelmodelscvaavro100SNAPSHOTObservedVariant|
+* |orggelmodelscvaavro100SNAPSHOTVariant|
+* |orggelmodelscvaavro100SNAPSHOTDataIntakeRD|
+* |orggelmodelscvaavro100SNAPSHOTComment|
+* |orggelmodelscvaavro100SNAPSHOTDataIntakeCancer|
+* |orggelmodelscvaavro100SNAPSHOTEvidenceSet|
+
 0.4.0
 ^^^^^
 
@@ -307,6 +319,9 @@ org.gel.models.report.avro
 .. |orggelmodelsparticipantavro110SNAPSHOTVersionControl| raw:: html
 
     <a href="html_schemas/org.gel.models.participant.avro/1.1.0-SNAPSHOT/VersionControl.html" target="_blank">VersionControl</a>
+.. |orggelmodelsreportavro300CommonInterpretedCancer| raw:: html
+
+    <a href="html_schemas/org.gel.models.report.avro/3.0.0/CommonInterpretedCancer.html" target="_blank">CommonInterpretedCancer</a>
 .. |orgopencbbiodatamodelsvariantavro130SNAPSHOTvariantAnnotation| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.3.0-SNAPSHOT/variantAnnotation.html" target="_blank">variantAnnotation</a>
@@ -343,6 +358,9 @@ org.gel.models.report.avro
 .. |orggelmodelsmetricsavro101sampleState| raw:: html
 
     <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/sampleState.html" target="_blank">sampleState</a>
+.. |orggelmodelscvaavro100SNAPSHOTEvidenceSet| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/EvidenceSet.html" target="_blank">EvidenceSet</a>
 .. |orgga4ghmodels300reads| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/reads.html" target="_blank">reads</a>
@@ -373,9 +391,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro420ReportVersionControl| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.2.0/ReportVersionControl.html" target="_blank">ReportVersionControl</a>
-.. |orggelmodelsreportavro300CommonInterpretedCancer| raw:: html
+.. |orggelmodelscvaavro100SNAPSHOTDataIntakeRD| raw:: html
 
-    <a href="html_schemas/org.gel.models.report.avro/3.0.0/CommonInterpretedCancer.html" target="_blank">CommonInterpretedCancer</a>
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/DataIntakeRD.html" target="_blank">DataIntakeRD</a>
 .. |Gel_BioInf_Models210CancerParticipant| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/CancerParticipant.html" target="_blank">CancerParticipant</a>
@@ -397,6 +415,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro420AuditLog| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.2.0/AuditLog.html" target="_blank">AuditLog</a>
+.. |orggelmodelscvaavro100SNAPSHOTComment| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Comment.html" target="_blank">Comment</a>
 .. |orggelmodelsmetricsavro101SupplementaryAnalysisResults| raw:: html
 
     <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/SupplementaryAnalysisResults.html" target="_blank">SupplementaryAnalysisResults</a>
@@ -469,6 +490,12 @@ org.gel.models.report.avro
 .. |orgopencbbiodatamodelsvariantavro130variant| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.3.0/variant.html" target="_blank">variant</a>
+.. |orggelmodelscvaavro100SNAPSHOTVariant| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Variant.html" target="_blank">Variant</a>
+.. |orggelmodelsreportavro300RDParticipant| raw:: html
+
+    <a href="html_schemas/org.gel.models.report.avro/3.0.0/RDParticipant.html" target="_blank">RDParticipant</a>
 .. |orgopencbbiodatamodelsvariantavro130metadata| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.3.0/metadata.html" target="_blank">metadata</a>
@@ -541,6 +568,9 @@ org.gel.models.report.avro
 .. |orggelmodelscvaavro040DataIntakeRD| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/0.4.0/DataIntakeRD.html" target="_blank">DataIntakeRD</a>
+.. |orggelmodelscvaavro100SNAPSHOTTransactions| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/Transactions.html" target="_blank">Transactions</a>
 .. |orggelmodelsreportavro400ReportVersionControl| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.0.0/ReportVersionControl.html" target="_blank">ReportVersionControl</a>
@@ -595,6 +625,9 @@ org.gel.models.report.avro
 .. |orggelmodelsparticipantavro100CommonParticipant| raw:: html
 
     <a href="html_schemas/org.gel.models.participant.avro/1.0.0/CommonParticipant.html" target="_blank">CommonParticipant</a>
+.. |orggelmodelscvaavro100SNAPSHOTObservedVariant| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/ObservedVariant.html" target="_blank">ObservedVariant</a>
 .. |orggelmodelsreportavro500SNAPSHOTCommonInterpreted| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/5.0.0-SNAPSHOT/CommonInterpreted.html" target="_blank">CommonInterpreted</a>
@@ -616,9 +649,9 @@ org.gel.models.report.avro
 .. |orgga4ghmodels300common| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/common.html" target="_blank">common</a>
-.. |orggelmodelsreportavro300RDParticipant| raw:: html
+.. |orggelmodelscvaavro100SNAPSHOTReportEvent| raw:: html
 
-    <a href="html_schemas/org.gel.models.report.avro/3.0.0/RDParticipant.html" target="_blank">RDParticipant</a>
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/ReportEvent.html" target="_blank">ReportEvent</a>
 .. |Gel_BioInf_Models210CommonRequest| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/CommonRequest.html" target="_blank">CommonRequest</a>
@@ -643,6 +676,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro300ClinicalReportCancer| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/3.0.0/ClinicalReportCancer.html" target="_blank">ClinicalReportCancer</a>
+.. |orggelmodelscvaavro100SNAPSHOTDataIntakeCancer| raw:: html
+
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0-SNAPSHOT/DataIntakeCancer.html" target="_blank">DataIntakeCancer</a>
 .. |orgga4ghmodels300methods| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/methods.html" target="_blank">methods</a>

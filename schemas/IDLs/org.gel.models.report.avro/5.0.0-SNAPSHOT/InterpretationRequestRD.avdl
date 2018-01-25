@@ -1,8 +1,8 @@
 @namespace("org.gel.models.report.avro")
 
 /**
-This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party
-The record Report is the top level class. This includes clinical information + various version
+This protocol defines the mechanism that Genomics England uses to trigger a clinical interpretation process from a third party
+The record report is the top level class. This includes clinical information + various version
 The annotation provided by Genomics England is created using CellBase https://github.com/opencb/cellbase/wiki
 All annotations are against Ensembl gene models
 */
@@ -14,7 +14,6 @@ protocol InterpretationRequestsRD {
     import idl "RDParticipant.avdl";
     import idl "CancerParticipant.avdl";
 
-
     /**
     This record represents basic information for this report
     */
@@ -25,24 +24,24 @@ protocol InterpretationRequestsRD {
         ReportVersionControl versionControl;
 
         /**
-        id for this request
+        Identifier for this interpretation request
         */
         string interpretationRequestId;
 
         /**
-        version for this request
+        Version for this interpretation request
         */
-        string interpretationRequestVersion;
+        int interpretationRequestVersion;
 
         /**
-        Internal Study id
+        Internal study identifier
         */
         string internalStudyId;
 
         /**
         This is the version of the assembly used to align the reads
         */
-        string genomeAssembly;
+        Assembly genomeAssembly;
 
         /**
         The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
@@ -81,7 +80,7 @@ protocol InterpretationRequestsRD {
         union {null, map<File>} otherFiles;
 
         /**
-        Pedigree of the family. ONLY if program is cancer
+        Pedigree of the family.
         */
         union {null, org.gel.models.participant.avro.Pedigree} pedigree;
 
@@ -96,7 +95,9 @@ protocol InterpretationRequestsRD {
         */
         union {null, map<map<map<float>>>} genePanelsCoverage;
 
-
+        /**
+        Flags for this case relevant for interpretation
+        */
         union {null, array<InterpretationFlag>} interpretationFlags;
 
         /**

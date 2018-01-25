@@ -11,9 +11,21 @@ protocol VariantProtocol {
     A variant represented in a given assembly
     */
     record VariantRepresentation {
+        /**
+        The assembly on which this variant is represented
+        */
         org.gel.models.report.avro.Assembly assembly;
+        /**
+        The annotator software version
+        */
         union {null, string} annotatorVersion;
+        /**
+        The annotator data version
+        */
         union {null, string} annotationsVersion;
+        /**
+        The variant
+        */
         org.opencb.biodata.models.variant.avro.VariantAvro variant;
     }
 
@@ -21,6 +33,9 @@ protocol VariantProtocol {
     The map of variants in the different assemblies
     */
     record Variant {
+        /**
+        A list of variant representations
+        */
         array<VariantRepresentation> variants = [];
     }
 }

@@ -28,16 +28,18 @@ protocol CancerParticipants {
     SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY}
 
 
-
+    /**
+    A germline sample
+    */
     record GermlineSample {
 
         /**
-        Sample Id (e.g, LP00012645_5GH))
+        Sample identifier (e.g, LP00012645_5GH))
         */
         string sampleId;
 
         /**
-        Lab sample Id
+        Lab sample identifier
         */
         int labSampleId;
 
@@ -47,41 +49,44 @@ protocol CancerParticipants {
         string LDPCode;
 
         /**
-        Source
+        Source of the sample
         */
         union {null, SampleSource} source;
 
         /**
-        Product
+        Product of the sample
         */
         union {null, Product} product;
 
         /**
-        preparationMethod
+        Preparation method
         */
         union {null, PreparationMethod} preparationMethod;
 
         /**
-        gelPhase (eg cruk, brc, cll, iip, main)
+        Genomics England programme phase
         */
         union {null, ProgrammePhase} programmePhase;
 
         /**
-        In the format YYYY-MM-DDTHH:MM:SS+0000
+        The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         union {null,string} clinicalSampleDateTime;
 
     }
 
+    /**
+    A tumour sample
+    */
     record TumourSample {
 
         /**
-        Sample Id (e.g, LP00012645_5GH))
+        Sample identifier (e.g, LP00012645_5GH))
         */
         string sampleId;
 
         /**
-        Lab sample Id
+        Lab sample identifier
         */
         int labSampleId;
 
@@ -91,42 +96,42 @@ protocol CancerParticipants {
         string LDPCode;
 
         /**
-        Id of each one of the tumors for a participant
+        Identifier of each one of the tumours for a participant
         */
         string tumourId;
 
         /**
-        gelPhase (eg cruk, brc, cll, iip, main)
+        Genomics England programme phase
         */
         union {null, ProgrammePhase} programmePhase;
 
         /**
-        Disease Type
+        Disease type
         */
         union {null, diseaseType} diseaseType;
 
         /**
-        Disease Subtype
+        Disease subtype
         */
         union {null, string} diseaseSubType;
 
         /**
-        In the format YYYY-MM-DDTHH:MM:SS+0000
+        The time when the sample was recieved. In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         union {null, string} clinicalSampleDateTime;
 
         /**
-        Tumor Type
+        Tumor type
         */
         union {null, TumourType} tumourType;
 
         /**
-        tumourContent
+        Tumour content
         */
         union {null, TumourContent} tumourContent;
 
         /**
-        Method
+        Source of the sample
         */
         union {null, SampleSource} source;
 
@@ -141,24 +146,35 @@ protocol CancerParticipants {
         union {null, TissueSource} tissueSource;
 
         /**
-        Product
+        Product of the sample
         */
         union {null, Product} product;
 
         /**
-        One of these morphology fields will be provided
+        Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologyICD;
-        union {null, string} morphologySnomedCT;
-        union {null, string} morphologySnomedRT;
+        union {null, array<string>} morphologyICDs;
+        /**
+        Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, array<string>} morphologySnomedCTs;
+        /**
+        Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, array<string>} morphologySnomedRTs;
 
         /**
-        One of these topography fields will be provided
+        Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographyICD;
-        union {null, string} topographySnomedCT;
-        union {null, string} topographySnomedRT;
-
+        union {null, array<string>} topographyICDs;
+        /**
+        Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, array<string>} topographySnomedCTs;
+        /**
+        Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, array<string>} topographySnomedRTs;
     }
 
     /**
@@ -167,12 +183,12 @@ protocol CancerParticipants {
     record MatchedSamples{
 
         /**
-        Sample Id (e.g, LP00012645_5GH)) for the germline
+        Sample identifier (e.g, LP00012645_5GH)) for the germline
         */
         union {null, string} germlineSampleId;
 
         /**
-        Sample Id (e.g, LP00012643_7JS)) for the tumor
+        Sample identifier (e.g, LP00012643_7JS)) for the tumor
         */
         union {null, string} tumourSampleId;
 
@@ -182,10 +198,20 @@ protocol CancerParticipants {
     This defines a Cancer Participant
     */
     record CancerParticipant{
+
+        /**
+        Year of birth for the cancer participant
+        */
         union {null, int} yearOfBirth;
 
+        /**
+        TODO
+        */
         union {null, array<string>}  morphology;
 
+        /**
+        Flag indicating if the participant is ready for analysis
+        */
         boolean readyForAnalysis;
 
         /**
@@ -201,7 +227,7 @@ protocol CancerParticipants {
         union {null, string} center;
 
         /**
-        Individual Id
+        Individual identifier
         */
         string individualId;
 
@@ -233,16 +259,24 @@ protocol CancerParticipants {
         */
         union {null, array<string>} assignedICD10;
 
-
+        /**
+        List of tumour samples
+        */
         array<TumourSample> tumourSamples;
+
+        /**
+        List of germline samples
+        */
         array<GermlineSample> germlineSamples;
+
+        /**
+        List of matched samples (i.e.: pairs tumour-germline)
+        */
         array<MatchedSamples> matchedSamples;
 
         /**
         Model version number
         */
         union {null, VersionControl} versionControl;
-
-
     }
 }
