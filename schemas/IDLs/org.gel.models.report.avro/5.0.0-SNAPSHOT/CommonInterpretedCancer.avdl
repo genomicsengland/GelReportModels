@@ -98,7 +98,7 @@ protocol CommonInterpretedCancer {
         that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
         variant, should be reported in two different ReportEvents
         */
-        array<GenomicFeature>  genomicFeatures;
+        array<GenomicEntity>  genomicEntities;
 
         /**
         Sequence Ontology terms for relevant consequence types in tiering

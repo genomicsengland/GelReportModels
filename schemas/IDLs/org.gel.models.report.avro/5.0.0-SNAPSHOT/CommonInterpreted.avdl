@@ -169,7 +169,7 @@ protocol CommonInterpreted {
     /**
     A genomic feature
     */
-    record GenomicFeature {
+    record GenomicEntity {
         /**
         The type of the genomic feature
         */
@@ -271,7 +271,7 @@ protocol CommonInterpreted {
         that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
         variant, should be reported in two different ReportEvents
         */
-        array<GenomicFeature> genomicFeatures;
+        array<GenomicEntity> genomicEntities;
 
         /**
         This is the penetrance assumed for scoring or classifying this variant
