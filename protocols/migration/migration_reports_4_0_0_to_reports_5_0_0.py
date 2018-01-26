@@ -11,7 +11,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_interpretation_request_rd(self, old_instance):
         """
-        Migrates an InterpretationRequestRD into an InterpreteGenomeRD, several unexisting fields need to be provided
+        Migrates an InterpretationRequestRD into an InterpretedGenomeRD, several unexisting fields need to be provided
         :type old_instance: reports_4_0_0.InterpretationRequestRD
         :rtype: reports_5_0_0.InterpretationRequestRD
         """
@@ -21,7 +21,7 @@ class MigrateReports400To500(BaseMigration):
             self, old_instance, assembly, interpretation_service,
             reference_database_versions, software_versions, report_url=None, comments=None):
         """
-        Migrates an InterpretationRequestRD into an InterpreteGenomeRD, several unexisting fields need to be provided
+        Migrates an InterpretationRequestRD into an InterpretedGenomeRD, several unexisting fields need to be provided
         :type old_instance: reports_4_0_0.InterpretationRequestRD
         :type assembly: reports_5_0_0.Assembly
         :type interpretation_service: str
@@ -148,7 +148,7 @@ class MigrateReports400To500(BaseMigration):
         # converts all reported variants
         participant_id = old_instance.cancerParticipant.individualId
         tumor_samples = old_instance.cancerParticipant.tumourSamples
-        if tumor_samples is None or len(tumor_samples) < 1:
+        if not tumor_samples:
             raise MigrationError("There is no tumour sample to perform the migration")
         elif len(tumor_samples) > 1:
             raise MigrationError("There are several tumour samples, cannot decide which to use '{}'"
@@ -230,7 +230,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_reported_variant(self, old_instance, assembly):
         """
-        NOTE: some fields cannot be filles: alleleFrequencies, genomicChanges, proteinChanges, cdnaChanges,
+        NOTE: some fields cannot be filled: alleleFrequencies, genomicChanges, proteinChanges, cdnaChanges,
         dbSnpId, cosmicIds, clinVarIds, variantAttributes, alleleFrequencies
 
         :type old_instance: reports_4_0_0.ReportedVariant
@@ -349,15 +349,15 @@ class MigrateReports400To500(BaseMigration):
 
         # variant classification is now in a complex object
         if old_instance.variantClassification is not None:
+            old_variant_classification = reports_4_0_0.VariantClassification
+            new_clinical_significance = reports_5_0_0.ClinicalSignificance
             map_variant_classification = {
-                reports_4_0_0.VariantClassification.benign_variant: reports_5_0_0.ClinicalSignificance.benign,
-                reports_4_0_0.VariantClassification.likely_benign_variant: reports_5_0_0.ClinicalSignificance.likely_benign,
-                reports_4_0_0.VariantClassification.variant_of_unknown_clinical_significance:
-                    reports_5_0_0.ClinicalSignificance.VUS,
-                reports_4_0_0.VariantClassification.likely_pathogenic_variant:
-                    reports_5_0_0.ClinicalSignificance.likely_pathogenic,
-                reports_4_0_0.VariantClassification.pathogenic_variant: reports_5_0_0.ClinicalSignificance.pathogenic,
-                reports_4_0_0.VariantClassification.not_assessed: None
+                old_variant_classification.benign_variant: new_clinical_significance.benign,
+                old_variant_classification.likely_benign_variant: new_clinical_significance.likely_benign,
+                old_variant_classification.variant_of_unknown_clinical_significance: new_clinical_significance.VUS,
+                old_variant_classification.likely_pathogenic_variant: new_clinical_significance.likely_pathogenic,
+                old_variant_classification.pathogenic_variant: new_clinical_significance.pathogenic,
+                old_variant_classification.not_assessed: None
             }
             clinical_significance = map_variant_classification[old_instance.variantClassification]
             if clinical_significance is not None:

@@ -69,11 +69,7 @@ protocol CancerParticipants {
         union {null, ProgrammePhase} programmePhase;
 
         /**
-<<<<<<< HEAD
-        The time when the sample was recieved. In the format YYYY-MM-DDTHH:MM:SS+0000
-=======
         The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
->>>>>>> develop
         */
         union {null,string} clinicalSampleDateTime;
 
