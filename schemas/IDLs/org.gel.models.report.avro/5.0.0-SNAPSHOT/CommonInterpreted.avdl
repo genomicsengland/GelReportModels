@@ -141,7 +141,7 @@ protocol CommonInterpreted {
 * `transcript`: a transcript
 * `intergenic`: an intergenic region
     */
-    enum FeatureTypes {
+    enum GenomicEntityType {
         regulatory_region,
         gene,
         transcript,
@@ -171,9 +171,9 @@ protocol CommonInterpreted {
     */
     record GenomicEntity {
         /**
-        The type of the genomic feature
+        The type of the genomic entity
         */
-        FeatureTypes featureType;
+        GenomicEntityType type;
 
         /**
         Ensembl identifier for the feature (e.g, ENST00000544455)
@@ -207,10 +207,10 @@ protocol CommonInterpreted {
     }
 
     /**
-    The consequence type for a given variant as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
-    NOTE: the record name is in plural to avoid a collision with OpenCB's ConsequenceType
+    A variant consequence as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    NOTE: this record is equivalent to OpenCB's `ConsequenceType`, but we want to avoid naming collisions
     */
-    record ConsequenceTypes {
+    record VariantConsequence {
         /**
         The SO term identifier (e.g.: SO:0001816)
         */
@@ -254,7 +254,7 @@ protocol CommonInterpreted {
         /**
         Sequence Ontology terms for relevant consequence types in tiering
         */
-        array<ConsequenceTypes> consequenceTypes;
+        array<VariantConsequence> variantConsequences;
 
         /**
         The panel of genes to which this report corresponds

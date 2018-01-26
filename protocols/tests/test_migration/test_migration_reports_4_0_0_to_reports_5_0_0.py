@@ -240,7 +240,7 @@ class TestMigrateReports4To500(TestCase):
         self._check_non_empty_fields(new_instance,
                                      exclusions=["alleleFrequencies", "genomicChanges", "proteinChanges",
                                                  "cdnaChanges", "dbSnpId", "cosmicIds", "clinVarIds",
-                                                 "consequenceTypes", "drugResponseClassification",
+                                                 "variantConsequences", "drugResponseClassification",
                                                  "functionalEffect", "traitAssociation", "tumorigenesisClassification",
                                                  "clinicalSignificance", "variantAttributes", "vaf"])
         self._check_variant_coordinates(
@@ -281,7 +281,7 @@ class TestMigrateReports4To500(TestCase):
         self._check_non_empty_fields(new_instance,
                                      exclusions=["alleleFrequencies", "genomicChanges", "proteinChanges",
                                                  "cdnaChanges", "dbSnpId", "cosmicIds", "clinVarIds",
-                                                 "consequenceTypes", "drugResponseClassification",
+                                                 "variantConsequences", "drugResponseClassification",
                                                  "functionalEffect", "traitAssociation", "tumorigenesisClassification",
                                                  "clinicalSignificance", "variantAttributes", "vaf"])
         self._check_variant_coordinates(
@@ -330,7 +330,7 @@ class TestMigrateReports4To500(TestCase):
         self._check_non_empty_fields(new_instance,
                                      exclusions=["alleleFrequencies", "genomicChanges", "proteinChanges",
                                                  "cdnaChanges", "dbSnpId", "cosmicIds", "clinVarIds",
-                                                 "consequenceTypes", "drugResponseClassification",
+                                                 "variantConsequences", "drugResponseClassification",
                                                  "functionalEffect", "traitAssociation", "tumorigenesisClassification",
                                                  "clinicalSignificance", "variantAttributes", "vaf"])
         self._check_variant_coordinates(

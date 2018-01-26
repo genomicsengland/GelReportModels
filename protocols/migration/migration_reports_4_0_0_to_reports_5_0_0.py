@@ -365,8 +365,8 @@ class MigrateReports400To500(BaseMigration):
                     clinicalSignificance=map_variant_classification[old_instance.variantClassification]
                 )
 
-        # NOTE: consequence types cannot be filled, but it is not nullable so we are creating an empty list
-        new_instance.consequenceTypes = []
+        # NOTE: variant consequences cannot be filled, but it is not nullable so we are creating an empty list
+        new_instance.variantConsequences = []
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportEvent
@@ -389,11 +389,11 @@ class MigrateReports400To500(BaseMigration):
 
         # enum feature type has been renamed
         map_feature_type = {
-            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.FeatureTypes.transcript,
-            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.FeatureTypes.regulatory_region,
-            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.FeatureTypes.gene
+            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.GenomicEntityType.transcript,
+            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.GenomicEntityType.regulatory_region,
+            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.GenomicEntityType.gene
         }
-        new_instance.featureType = map_feature_type[old_instance.featureType]
+        new_instance.type = map_feature_type[old_instance.featureType]
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.GenomicEntity
@@ -488,9 +488,9 @@ class MigrateReports400To500(BaseMigration):
         # map one genomic feature cancer into a list of common genomic features
         new_instance.genomicEntities = [self.migrate_genomic_feature_cancer(old_instance.genomicFeatureCancer)]
 
-        # transforms a list of SO terms into a list of consequence types
-        new_instance.consequenceTypes = [reports_5_0_0.ConsequenceTypes(id=so_term.id, name=so_term.name)
-                                         for so_term in old_instance.soTerms]
+        # transforms a list of SO terms into a list of variant consequences
+        new_instance.variantConsequences = [reports_5_0_0.VariantConsequence(id=so_term.id, name=so_term.name)
+                                            for so_term in old_instance.soTerms]
 
         # migrates actions
         new_instance.actions = self.migrate_actions(old_instance.actions)
@@ -522,11 +522,11 @@ class MigrateReports400To500(BaseMigration):
 
         # maps the feature type
         map_feature_type = {
-            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.FeatureTypes.transcript,
-            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.FeatureTypes.regulatory_region,
-            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.FeatureTypes.gene
+            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.GenomicEntityType.transcript,
+            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.GenomicEntityType.regulatory_region,
+            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.GenomicEntityType.gene
         }
-        new_instance.featureType = map_feature_type[old_instance.featureType]
+        new_instance.type = map_feature_type[old_instance.featureType]
 
         # rename gene name to gene symbol
         new_instance.geneSymbol = old_instance.geneName
