@@ -170,7 +170,7 @@
       ]
     },
     {
-      "version": "opencb-1.2.0",
+      "version": "1.2.0-opencb",
       "packages": [
         {
           "package": "org.opencb.biodata.models.variant.avro",
