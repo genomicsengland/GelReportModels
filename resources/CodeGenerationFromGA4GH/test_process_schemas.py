@@ -8,7 +8,7 @@ from process_schemas import SchemaProcessor
 
 class TestProcessSchema(TestCase):
 
-    test_folder = './test'
+    test_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), './test')
     test_avdl = os.path.join(test_folder, "test.avdl")
     test_python_package = os.path.join(test_folder, 'protocols_test.py')
     BASE_DIR = os.path.dirname(__file__)
