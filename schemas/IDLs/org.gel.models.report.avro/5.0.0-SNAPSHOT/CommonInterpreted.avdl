@@ -141,7 +141,7 @@ protocol CommonInterpreted {
 * `transcript`: a transcript
 * `intergenic`: an intergenic region
     */
-    enum FeatureTypes {
+    enum GenomicEntityType {
         regulatory_region,
         gene,
         transcript,
@@ -169,11 +169,11 @@ protocol CommonInterpreted {
     /**
     A genomic feature
     */
-    record GenomicFeature {
+    record GenomicEntity {
         /**
-        The type of the genomic feature
+        The type of the genomic entity
         */
-        FeatureTypes featureType;
+        GenomicEntityType type;
 
         /**
         Ensembl identifier for the feature (e.g, ENST00000544455)
@@ -207,9 +207,10 @@ protocol CommonInterpreted {
     }
 
     /**
-    The consequence type for a given variant as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    A variant consequence as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    NOTE: this record is equivalent to OpenCB's `ConsequenceType`, but we want to avoid naming collisions
     */
-    record ConsequenceType {
+    record VariantConsequence {
         /**
         The SO term identifier (e.g.: SO:0001816)
         */
@@ -253,7 +254,7 @@ protocol CommonInterpreted {
         /**
         Sequence Ontology terms for relevant consequence types in tiering
         */
-        array<ConsequenceType> consequenceTypes;
+        array<VariantConsequence> variantConsequences;
 
         /**
         The panel of genes to which this report corresponds
@@ -270,7 +271,7 @@ protocol CommonInterpreted {
         that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
         variant, should be reported in two different ReportEvents
         */
-        array<GenomicFeature> genomicFeatures;
+        array<GenomicEntity> genomicEntities;
 
         /**
         This is the penetrance assumed for scoring or classifying this variant
@@ -405,7 +406,7 @@ protocol CommonInterpreted {
         /**
         gDNA change, HGVS nomenclature (e.g.: g.476A>T)
         */
-        union {null, array<string>} genomicChange;
+        union {null, array<string>} genomicChanges;
 
         /**
         cDNA change, HGVS nomenclature (e.g.: c.76A>T)
