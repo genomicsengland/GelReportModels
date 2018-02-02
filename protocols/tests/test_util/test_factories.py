@@ -11,6 +11,7 @@ from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.dependency_manager import VERSION_300
 from protocols.cva_0_4_0 import TieredVariantInjectCancer
+import protocols.cva_1_0_0 as cva_1_0_0
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.ga4gh_factories import CallFactory
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -86,7 +87,7 @@ class TestGA4GHVariantFactory(TestCase):
 class TestGenericFactory(TestCase):
 
     def test_tiered_variant_inject_rd_factory(self):
-        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(TieredVariantInjectRD)
+        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(cva_1_0_0.TieredVariantInjectRD)
         instance = tiered_variant_inject_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
 

@@ -4,9 +4,3 @@ from .base_migration import BaseMigration
 
 from .participants import MigrationParticipants103To100
 from .participants import MigrationParticipants100To103
-
-from .migration_reports_4_0_0_to_reports_4_2_0 import MigrateReports400To420
-
-from .migration_reports_3_0_0_to_reports_4_2_0 import MigrateReports3To420
-
-from .migration_reports_4_2_0_to_reports_4_0_0 import MigrateReports420To400

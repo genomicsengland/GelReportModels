@@ -98,12 +98,12 @@ protocol CommonInterpretedCancer {
         that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
         variant, should be reported in two different ReportEvents
         */
-        array<GenomicFeature>  genomicFeatures;
+        array<GenomicEntity>  genomicEntities;
 
         /**
         Sequence Ontology terms for relevant consequence types in tiering
         */
-        array<ConsequenceType> consequenceTypes;
+        array<VariantConsequence> variantConsequences;
 
         /**
         Actions on the variant
@@ -187,7 +187,7 @@ protocol CommonInterpretedCancer {
         /**
         gDNA change, HGVS nomenclature (e.g.: g.476A>T)
         */
-        union {null, array<string>} genomicChange;
+        union {null, array<string>} genomicChanges;
 
         /**
         cDNA change, HGVS nomenclature (e.g.: c.76A>T)

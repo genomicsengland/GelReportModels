@@ -1,5 +1,17 @@
 
+class MigrationError(Exception):
+
+    pass
+
+
 class BaseMigration(object):
+
+    @staticmethod
+    def convert_class(target_klass, instance):
+        new_instance = target_klass.fromJsonDict(
+            jsonDict=instance.toJsonDict()
+        )
+        return new_instance
 
     @staticmethod
     def validate_object(object_to_validate, object_type):
