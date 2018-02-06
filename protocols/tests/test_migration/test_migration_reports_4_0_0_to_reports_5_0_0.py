@@ -5,6 +5,7 @@ from protocols import reports_4_0_0
 from protocols import reports_5_0_0
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
 from protocols.util.dependency_manager import VERSION_400
+from protocols.util.dependency_manager import VERSION_500
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.avro_factory import FactoryAvro
 
@@ -308,7 +309,7 @@ class TestMigrateReports4To500(TestCase):
             reports_5_0_0.Assembly.GRCh37
         )
 
-    def test_migrate_rd_interpretation_request(self):
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_rd(self):
 
         # creates a random clinical report cancer for testing filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(
@@ -360,3 +361,16 @@ class TestMigrateReports4To500(TestCase):
             new_instance.variants,
             reports_5_0_0.Assembly.GRCh37
         )
+
+    def test_migrate_interpretation_request_rd(self):
+
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretationRequestRD, VERSION_400, fill_nullables=True
+        ).create()
+        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrateReports400To500().migrate_interpretation_request_rd(
+            old_instance=old_instance, assembly='GRCh38'
+        )
+        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
