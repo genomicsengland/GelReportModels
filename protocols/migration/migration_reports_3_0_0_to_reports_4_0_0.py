@@ -2,6 +2,7 @@ from protocols import reports_3_0_0
 from protocols import reports_4_0_0
 from protocols.migration import BaseMigration
 from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
+from protocols.migration.participants import MigrationReportsToParticipants1
 
 
 class MigrateReports3To4(BaseMigration):
@@ -55,12 +56,6 @@ class MigrateReports3To4(BaseMigration):
             object_to_validate=new_reported_somatic_variants, object_type=self.new_model.ReportedSomaticVariants
         )
 
-        # if new_reported_somatic_variants.validate(new_reported_somatic_variants.toJsonDict()):
-        #     return new_reported_somatic_variants
-        # else:
-        #     TODO(Greg): Improve these error messages
-            # raise Exception('This model can not be converted: ', new_reported_somatic_variants.validate_parts())
-
     def migrate_action(self, action):
         new_action = self.new_model.Actions().fromJsonDict(jsonDict=action.toJsonDict())
         new_action.variantActionable = action.variantActionable or False
@@ -93,11 +88,6 @@ class MigrateReports3To4(BaseMigration):
         return self.validate_object(
             object_to_validate=new_report_event_cancer, object_type=self.new_model.ReportEventCancer
         )
-        # if .validate(new_report_event_cancer.toJsonDict()):
-        #     return new_report_event_cancer
-        # else:
-        #     # TODO(Greg): Improve these error messages
-        #     raise Exception('This model can not be converted: ', new_report_event_cancer.validate_parts())
 
     def migrate_cancer_interpretation_request(self, old_interpretation_request):
 
@@ -140,3 +130,56 @@ class MigrateReports3To4(BaseMigration):
             return new_cancer_interpretation_request
         else:
             raise Exception('This model can not be converted: ',  new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict(), verbose=True).messages)
+
+    def migrate_tiered_variant(self, old_tiered_variant):
+        new_instance = self.convert_class(self.new_model.ReportedVariant, old_tiered_variant)
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
+        )
+
+    def migrate_tiered_variants(self, old_tiered_variants):
+        return [
+            self.migrate_tiered_variant(old_tiered_variant=old_tiered_variant)
+            for old_tiered_variant in old_tiered_variants
+        ]
+
+    def migrate_interpretation_request_rd(self, old_instance):
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+
+        new_instance.interpretationRequestId = old_instance.InterpretationRequestID
+        new_instance.interpretationRequestVersion = old_instance.InterpretationRequestVersion
+        new_instance.bams = self.migrate_files(old_files=old_instance.BAMs)
+        new_instance.vcfs = self.migrate_files(old_files=old_instance.VCFs)
+        new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
+        new_instance.tieredVariants = self.migrate_tiered_variants(old_tiered_variants=old_instance.TieredVariants)
+        new_instance.tieringVersion = old_instance.TieringVersion
+        new_instance.analysisReturnUri = old_instance.analysisReturnURI
+        new_instance.pedigree = MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_instance.pedigree)
+        new_instance.internalStudyId = ''
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
+        )
+
+    def migrate_file(self, old_file):
+        if old_file is None:
+            return None
+        if isinstance(old_file.SampleId, list):
+            sampleId = old_file.SampleId
+        elif old_file.SampleId is None:
+            sampleId = None
+        else:
+            sampleId = [old_file.SampleId]
+        new_file = self.new_model.File(
+                fileType=old_file.fileType,
+                uriFile=old_file.URIFile,
+                sampleId=sampleId,
+                md5Sum=None,
+            )
+        return self.validate_object(
+            object_to_validate=new_file, object_type=self.new_model.File
+        )
+
+    def migrate_files(self, old_files):
+        return None if old_files is None else [self.migrate_file(old_file=old_file) for old_file in old_files]
