@@ -708,11 +708,11 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_cs1kgp3p, object_type=new_object_type)
 
     def migrate_chiSquare1KGenomesPhase3Pop_list(self, old_chiSquare1KGenomesPhase3Pop_list):
-        return [
-            self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop=old_chiSquare1KGenomesPhase3Pop)
-            for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pop_list
-            if old_chiSquare1KGenomesPhase3Pop_list is not None
-        ]
+        if old_chiSquare1KGenomesPhase3Pop_list is not None:
+            return [
+                self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop=old_chiSquare1KGenomesPhase3Pop)
+                for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pop_list
+            ]
 
     def migrate_ancestries(self, old_ancestries):
         new_object_type = self.new_model.Ancestries
@@ -732,4 +732,5 @@ class MigrateReports400To500(BaseMigration):
         return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
 
     def migrate_other_files(self, other_files):
-        return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
+        if isinstance(other_files, dict):
+            return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
