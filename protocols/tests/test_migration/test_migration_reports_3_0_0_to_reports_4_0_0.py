@@ -74,6 +74,15 @@ class TestMigrateReports3To4(TestCase):
 
         self.assertIsNone(migrated_report_event_cancer.genomicFeatureCancer.roleInCancer)
 
+    def test_migrate_clinical_report_rd(self):
+        """ Test passing on 186 real cases"""
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=True
+        ).create()
+        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_clinical_report_rd=old_instance)
+        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+
     def test_migrate_interpreted_genome_rd(self):
         """ Test passing on 3000 real cases"""
         old_instance = GenericFactoryAvro.get_factory_avro(self.old_model.InterpretedGenomeRD, VERSION_300).create()
