@@ -27,8 +27,7 @@
           "python_package": "reports",
           "version": "5.0.0-SNAPSHOT",
           "dependencies": [
-            "org.gel.models.participant.avro",
-            "org.opencb.biodata.models.variant.avro"
+            "org.gel.models.participant.avro"
           ]
         },
         {
