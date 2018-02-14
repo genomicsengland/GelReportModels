@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python -m unittest discover protocols
+python -m unittest discover

@@ -20,9 +20,9 @@
     <packaging>${p.type}</packaging>
 
     <properties>
-        <models.version>5.0.0</models.version>
-        <opencb.models.version>1.3.0-SNAPSHOT</opencb.models.version>
-        <opencb.models.package>org.opencb.biodata.models</opencb.models.package>
+        <models.version>6.0.0</models.version>
+        <opencb.models.version>1.3.0</opencb.models.version>
+        <opencb.models.package>org.opencb.biodata.models.variant.avro</opencb.models.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <avro.version>1.7.7</avro.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -135,22 +135,6 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
                 <executions>
-                    <execution><!-- Installs requirements.txt -->
-                        <id>Installs Python requirements</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pip</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>install</argument>
-                                <argument>-r</argument>
-                                <argument>requirements.txt</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                     <execution><!-- Run our version calculation script -->
                         <id>Generate, AVPRs, JSON schemas, Python and Java sources and documentation</id>
                         <phase>generate-sources</phase>
@@ -165,20 +149,7 @@
                                 <argument>--version</argument>
                                 <argument>${version}</argument>
                                 <argument>--skip-docs</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution><!-- Run our version calculation script -->
-                        <id>Generate Sphynx documentation</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>make</executable>
-                            <workingDirectory>${basedir}/docs</workingDirectory>
-                            <arguments>
-                                <argument>html</argument>
+                                <argument>--update-docs-index</argument>
                             </arguments>
                         </configuration>
                     </execution>
