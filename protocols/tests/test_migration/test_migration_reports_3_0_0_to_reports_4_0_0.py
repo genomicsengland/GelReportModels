@@ -73,3 +73,23 @@ class TestMigrateReports3To4(TestCase):
         migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
 
         self.assertIsNone(migrated_report_event_cancer.genomicFeatureCancer.roleInCancer)
+
+    def test_migrate_interpretation_request_rd(self):
+        """Also tested with real data"""
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretationRequestRD, VERSION_300, fill_nullables=False
+        ).create()  # reports_3_0_0.InterpretationRequestRD
+        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        migrated_instance = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=old_instance)
+        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+
+        old_big_wigs = old_instance.bigWigs
+        new_big_wigs = migrated_instance.bigWigs
+
+        if old_big_wigs is not None:
+            for old_big_wig, new_big_wig in zip(old_big_wigs, new_big_wigs):
+                self.assertIsInstance(new_big_wig, self.new_model.File)
+                self.assertEqual(new_big_wig.sampleId, old_big_wig.SampleId)
+                self.assertEqual(new_big_wig.uriFile, old_big_wig.URIFile)
+                self.assertEqual(new_big_wig.fileType, old_big_wig.fileType)
+                self.assertEqual(new_big_wig.md5Sum, None)
