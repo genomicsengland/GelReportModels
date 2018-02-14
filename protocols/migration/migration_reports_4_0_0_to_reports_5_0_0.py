@@ -116,12 +116,25 @@ class MigrateReports400To500(BaseMigration):
             object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD
         )
 
-    def migrate_cancer_interpretation_request(self, old_instance):
+    def migrate_cancer_interpretation_request(self, old_instance, assembly):
         """
         :type old_instance: reports_4_0_0.CancerInterpretationRequest
         :rtype: reports_5_0_0.CancerInterpretationRequest
         """
-        raise NotImplemented
+        new_instance = self.convert_class(
+            self.new_model.CancerInterpretationRequest, old_instance
+        )  # :type: reports_5_0_0.CancerInterpretationRequest
+
+        new_instance.interpretationRequestId = old_instance.reportRequestId
+        new_instance.interpretationRequestVersion = old_instance.reportVersion
+        new_instance.genomeAssembly = assembly
+        new_instance.cancerParticipant = self.migrate_cancer_participant(old_participant=old_instance.cancerParticipant)
+
+        new_instance.otherFiles = old_instance.otherFiles
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest
+        )
 
     def migrate_cancer_interpretation_request_to_cancer_interpreted_genome(
             self, old_instance, assembly, interpretation_service,
@@ -578,6 +591,66 @@ class MigrateReports400To500(BaseMigration):
         if old_instances is not None:
             new_instances = [self.migrate_action(old_instance) for old_instance in old_instances]
         return new_instances
+
+    def migrate_tumour_sample(self, old_sample, ldp_code):
+        ts = self.new_model.TumourSample
+        tt = self.new_model.TumourType
+        new_sample = self.convert_class(ts, old_sample)  # :type: reports_5_0_0.TumourSample
+
+        tumour_type_enum = [
+            tt.PRIMARY, tt.METASTATIC_RECURRENCE, tt.RECURRENCE_OF_PRIMARY_TUMOUR, tt.METASTASES
+        ]
+        new_sample.tumourType = old_sample.tumourType if old_sample.tumourType in tumour_type_enum else None
+        new_sample.tumourId = self.convert_int_to_str(value=old_sample.tumourId)
+        new_sample.LDPCode = ldp_code
+
+        return self.validate_object(object_to_validate=new_sample, object_type=ts)
+
+    def migrate_tumour_samples(self, old_samples, ldp_code):
+        return [
+            self.migrate_tumour_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
+            if old_samples is not None
+        ]
+
+    @staticmethod
+    def convert_int_to_str(value):
+        try:
+            return str(value)
+        except ValueError:
+            return None
+
+    def migrate_germline_sample(self, old_sample, ldp_code):
+        gs = self.new_model.GermlineSample
+        new_sample = self.convert_class(gs, old_sample)  # :type: reports_5_0_0.GermlineSample
+        new_sample.LDPCode = ldp_code
+        return self.validate_object(object_to_validate=new_sample, object_type=gs)
+
+    def migrate_germline_samples(self, old_samples, ldp_code):
+        return [
+            self.migrate_germline_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
+            if old_samples is not None
+        ]
+
+    def migrate_cancer_participant(self, old_participant):
+        new_participant = self.convert_class(
+            self.new_model.CancerParticipant, old_participant
+        )  # :type: reports_5_0_0.CancerParticipant
+
+        new_participant.tumourSamples = self.migrate_tumour_samples(
+            old_samples=old_participant.tumourSamples, ldp_code=old_participant.LDPCode
+        )
+        new_participant.germlineSamples = self.migrate_germline_samples(
+            old_samples=old_participant.germlineSamples, ldp_code=old_participant.LDPCode
+        )
+
+        new_participant.primaryDiagnosisDisease = [old_participant.primaryDiagnosisDisease]
+        new_participant.primaryDiagnosisSubDisease = [old_participant.primaryDiagnosisSubDisease]
+        new_participant.assignedICD10 = [old_participant.assignedICD10]
+
+        return self.validate_object(
+            object_to_validate=new_participant, object_type=self.new_model.CancerParticipant
+        )
+
 
     @staticmethod
     def migrate_disorder_age_of_onset(old_age_of_onset):

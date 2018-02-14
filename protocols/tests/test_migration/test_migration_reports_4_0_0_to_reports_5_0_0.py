@@ -376,3 +376,17 @@ class TestMigrateReports4To500(TestCase):
         self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
         for other_file in migrated_instance.otherFiles.values():
             self.assertIsInstance(other_file, self.new_model.File)
+
+    def test_migrate_cancer_interpretation_request(self):
+        """
+        Test passing with ILMN-8308-1 cancer IR
+        """
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=True
+        ).create()  # we need to enforce that it can be cast to int
+        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(
+            old_instance=old_instance, assembly='GRCh38'
+        )
+        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
