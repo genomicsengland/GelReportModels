@@ -582,8 +582,8 @@ class MigrateReports400To500(BaseMigration):
     @staticmethod
     def migrate_disorder_age_of_onset(old_age_of_onset):
         try:
-            return int(old_age_of_onset)
-        except ValueError:
+            return float(old_age_of_onset)
+        except (ValueError, TypeError):
             return None
 
     def migrate_disorder(self, old_disorder):
