@@ -374,3 +374,5 @@ class TestMigrateReports4To500(TestCase):
             old_instance=old_instance, assembly='GRCh38'
         )
         self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        for other_file in migrated_instance.otherFiles.values():
+            self.assertIsInstance(other_file, self.new_model.File)

@@ -18,7 +18,7 @@ class MigrateReports400To500(BaseMigration):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
         new_instance.pedigree.members = self.migrate_pedigree_members(old_members=old_instance.pedigree.members)
-        new_instance.otherFiles = old_instance.otherFiles
+        new_instance.otherFiles = self.migrate_other_files(other_files=old_instance.otherFiles)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
@@ -657,3 +657,6 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_pedigree_members(self, old_members):
         return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
+
+    def migrate_other_files(self, other_files):
+        return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
