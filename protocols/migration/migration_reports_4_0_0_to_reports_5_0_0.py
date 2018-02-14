@@ -9,13 +9,20 @@ class MigrateReports400To500(BaseMigration):
     old_model = reports_4_0_0
     new_model = reports_5_0_0
 
-    def migrate_interpretation_request_rd(self, old_instance):
+    def migrate_interpretation_request_rd(self, old_instance, assembly):
         """
         Migrates an InterpretationRequestRD into an InterpretedGenomeRD, several unexisting fields need to be provided
         :type old_instance: reports_4_0_0.InterpretationRequestRD
         :rtype: reports_5_0_0.InterpretationRequestRD
         """
-        raise NotImplemented
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance.genomeAssembly = assembly
+        new_instance.pedigree.members = self.migrate_pedigree_members(old_members=old_instance.pedigree.members)
+        new_instance.otherFiles = self.migrate_other_files(other_files=old_instance.otherFiles)
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
+        )
 
     def migrate_interpretation_request_rd_to_interpreted_genome_rd(
             self, old_instance, assembly, interpretation_service,
@@ -571,3 +578,85 @@ class MigrateReports400To500(BaseMigration):
         if old_instances is not None:
             new_instances = [self.migrate_action(old_instance) for old_instance in old_instances]
         return new_instances
+
+    @staticmethod
+    def migrate_disorder_age_of_onset(old_age_of_onset):
+        try:
+            return float(old_age_of_onset)
+        except (ValueError, TypeError):
+            return None
+
+    def migrate_disorder(self, old_disorder):
+        new_object_type = self.new_model.Disorder
+        new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
+        new_disorder.ageOfOnset = self.migrate_disorder_age_of_onset(old_age_of_onset=old_disorder.ageOfOnset)
+        return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
+
+    def migrate_disorder_list(self, old_disorder_list):
+        return [
+            self.migrate_disorder(old_disorder=old_disorder) for old_disorder in old_disorder_list
+            if old_disorder_list is not None
+        ]
+
+    def migrate_hpo_term_age_of_onset(self, old_age_of_onset):
+        new_age_of_onset = None
+        age_of_onset_enum = [
+            self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
+            self.new_model.AgeOfOnset.FETAL_ONSET,
+            self.new_model.AgeOfOnset.NEONATAL_ONSET,
+            self.new_model.AgeOfOnset.INFANTILE_ONSET,
+            self.new_model.AgeOfOnset.CHILDHOOD_ONSET,
+            self.new_model.AgeOfOnset.JUVENILE_ONSET,
+            self.new_model.AgeOfOnset.YOUNG_ADULT_ONSET,
+            self.new_model.AgeOfOnset.LATE_ONSET,
+            self.new_model.AgeOfOnset.MIDDLE_AGE_ONSET,
+        ]
+        if isinstance(old_age_of_onset, str):
+            if old_age_of_onset.upper() in age_of_onset_enum:
+                new_age_of_onset = old_age_of_onset.upper()
+        return new_age_of_onset
+
+    def migrate_hpo_term(self, old_hpo_term):
+        new_object_type = self.new_model.HpoTerm
+        new_hpo_term = self.convert_class(target_klass=new_object_type, instance=old_hpo_term)
+        new_hpo_term.ageOfOnset = self.migrate_hpo_term_age_of_onset(old_age_of_onset=old_hpo_term.ageOfOnset)
+        return self.validate_object(object_to_validate=new_hpo_term, object_type=new_object_type)
+
+    def migrate_hpo_term_list(self, old_hpo_term_list):
+        return [
+            self.migrate_hpo_term(old_hpo_term=old_hpo_term) for old_hpo_term in old_hpo_term_list
+            if old_hpo_term_list is not None
+        ]
+
+    def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
+        new_object_type = self.new_model.ChiSquare1KGenomesPhase3Pop
+        new_cs1kgp3p = self.convert_class(target_klass=new_object_type, instance=old_chiSquare1KGenomesPhase3Pop)
+        new_cs1kgp3p.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
+        return self.validate_object(object_to_validate=new_cs1kgp3p, object_type=new_object_type)
+
+    def migrate_chiSquare1KGenomesPhase3Pop_list(self, old_chiSquare1KGenomesPhase3Pop_list):
+        return [
+            self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop=old_chiSquare1KGenomesPhase3Pop)
+            for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pop_list
+            if old_chiSquare1KGenomesPhase3Pop_list is not None
+        ]
+
+    def migrate_ancestries(self, old_ancestries):
+        new_object_type = self.new_model.Ancestries
+        new_ancestries = self.convert_class(target_klass=new_object_type, instance=old_ancestries)
+        new_ancestries.chiSquare1KGenomesPhase3Pop = self.migrate_chiSquare1KGenomesPhase3Pop_list(old_chiSquare1KGenomesPhase3Pop_list=old_ancestries.chiSquare1KGenomesPhase3Pop)
+        return self.validate_object(object_to_validate=new_ancestries, object_type=new_object_type)
+
+    def migrate_pedigree_member(self, old_member):
+        new_object_type = self.new_model.PedigreeMember
+        new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
+        new_member.disorderList = self.migrate_disorder_list(old_disorder_list=old_member.disorderList)
+        new_member.hpoTermList = self.migrate_hpo_term_list(old_hpo_term_list=old_member.hpoTermList)
+        new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
+        return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
+
+    def migrate_pedigree_members(self, old_members):
+        return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
+
+    def migrate_other_files(self, other_files):
+        return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}

@@ -5,7 +5,6 @@ This protocol defines common definitions for Genomics England reports models
 protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
-    import idl "evidence.avdl";
 
 /**
    Allele origin.
@@ -232,6 +231,74 @@ protocol CommonInterpreted {
     */
     enum Assembly {GRCh38, GRCh37}
 
+    enum ClinicalSignificance {
+        benign,
+        likely_benign,
+        VUS,
+        likely_pathogenic,
+        pathogenic,
+        uncertain_significance
+    }
+
+    enum DrugResponseClassification {
+        responsive,
+        resistant,
+        toxicity,
+        indication,
+        contraindication,
+        dosing,
+        increased_monitoring,
+        efficacy
+    }
+
+    enum TraitAssociation {
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        protective
+    }
+
+    enum TumorigenesisClassification {
+        driver,
+        passenger,
+        modifier
+    }
+
+    enum VariantFunctionalEffect {
+        dominant_negative_variant,
+        gain_of_function_variant,
+        lethal_variant,
+        loss_of_function_variant,
+        loss_of_heterozygosity,
+        null_variant
+    }
+
+    /**
+    The variant classification according to different properties.
+    */
+    record VariantClassification {
+        /**
+        The variant's clinical significance.
+        */
+        union{null, ClinicalSignificance} clinicalSignificance;
+        /**
+        The variant's pharmacogenomics classification.
+        */
+        union{null, DrugResponseClassification} drugResponseClassification;
+        /**
+        The variant's trait association.
+        */
+        union{null, TraitAssociation} traitAssociation;
+        /**
+        The variant's tumorigenesis classification.
+        */
+        union{null, TumorigenesisClassification} tumorigenesisClassification;
+        /**
+        The variant functional effect
+        */
+        union {null, VariantFunctionalEffect} functionalEffect;
+    }
+
     /**
     A report event holds all the information about why a given variant is relevant to report. The same variant may have
     several report events. For instance, we may have two report events from the tiering process when two panels are
@@ -293,7 +360,7 @@ protocol CommonInterpreted {
         /**
         Variant classification
         */
-        union {null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
+        union {null, VariantClassification} variantClassification;
 
         /**
         Flag to indicate if this variant using this mode of inheritance can fully explain the phenotype
