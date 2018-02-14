@@ -272,18 +272,19 @@ class MigrationReportsToParticipants1(BaseMigration):
             new_pedigree_member.yearOfBirth = None
 
         new_pedigree_member.samples = []
-        for sample in member.samples:
-            if sample_id_to_lab_sample_id is not None and isinstance(sample_id_to_lab_sample_id, dict):
-                try:
-                    lab_sample_id = int(sample_id_to_lab_sample_id.get(sample, -1))
-                except ValueError:
+        if member.samples is not None:
+            for sample in member.samples:
+                if sample_id_to_lab_sample_id is not None and isinstance(sample_id_to_lab_sample_id, dict):
+                    try:
+                        lab_sample_id = int(sample_id_to_lab_sample_id.get(sample, -1))
+                    except ValueError:
+                        lab_sample_id = -1
+                else:
                     lab_sample_id = -1
-            else:
-                lab_sample_id = -1
-            new_pedigree_member.samples.append(self.new_model.Sample(
-                sampleId=sample,
-                labSampleId=lab_sample_id
-            ))
+                new_pedigree_member.samples.append(self.new_model.Sample(
+                    sampleId=sample,
+                    labSampleId=lab_sample_id
+                ))
         if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
             return new_pedigree_member
         else:

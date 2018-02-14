@@ -1,0 +1,19 @@
+@namespace("org.gel.test.avro")
+
+protocol TestProtocol {
+
+    record B {
+        int integer_with_default = 5;
+        int integer_without_default;
+        string string_with_default = "default_value";
+        string string_without_default;
+        string string_nullable;
+        float float_with_default = 0.5;
+        float float_without_default;
+    }
+
+    record A {
+        union{null, B} nullable_b;
+        B just_b;
+    }
+}
