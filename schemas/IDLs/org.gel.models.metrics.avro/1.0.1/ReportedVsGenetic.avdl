@@ -1,0 +1,22 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the states a sample can inherit
+*/
+protocol ReportedVsGenetic {
+
+
+enum Sex {MALE, FEMALE, OTHER, UNKNOWN}
+enum Karyotype {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+
+
+
+
+
+record CoverageBasedSex{
+    Sex sex;
+    Karyotype karyotype;
+    union {null, float} ratioChrX;
+    union {null, float} ratioChrY;
+}
+
+}
