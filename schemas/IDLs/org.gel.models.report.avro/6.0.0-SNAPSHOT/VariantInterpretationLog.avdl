@@ -1,0 +1,35 @@
+@namespace("org.gel.models.report.avro")
+
+protocol VariantInterpretationLogProtocol {
+
+    import idl "CommonInterpreted.avdl";
+
+    record User{
+        string username;
+        string email;
+        array<string> groups;
+    }
+
+    enum SangerValidation{NotPerformed, Confirmed, NotConfirmed}
+
+    enum AcmgEvidenceStrength{Supporting, Moderate, Strong, VeryStrong}
+    enum AcmgEvidenceType{Bening, Pathogenic}
+    enum AcmgEvidenceCategory{PopulationData, ComputationalAndPredictiveData, FunctionalData, SeggregationData, DeNovoData, AllelicData, otherDataBase, otherData}
+
+    record AcmgEvidence {
+        AcmgCategory category;
+        AcmgStrength strength;
+        union {null, string} description;
+    }
+
+    record VariantInterpretationLog{
+        VariantCoordinates variantCoordinates;
+        User user;
+        union {null, SangerValidation} sangerValidation;
+        union {null, array<string>} comments;
+        union {null, array<AcmgEvidence>} acmgEvidences;
+        union {null, VariantClassification} VariantClassification;
+        union {null, bool} blackListed;
+
+    }
+}
