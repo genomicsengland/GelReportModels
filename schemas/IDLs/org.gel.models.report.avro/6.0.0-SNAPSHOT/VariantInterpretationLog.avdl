@@ -6,6 +6,7 @@ protocol VariantInterpretationLogProtocol {
 
     record User{
         string username;
+        string role;
         string email;
         array<string> groups;
     }
@@ -18,6 +19,7 @@ protocol VariantInterpretationLogProtocol {
 
     record AcmgEvidence {
         AcmgCategory category;
+        AcmgEvidenceType type;
         AcmgStrength strength;
         union {null, string} description;
     }
@@ -30,6 +32,7 @@ protocol VariantInterpretationLogProtocol {
         union {null, array<AcmgEvidence>} acmgEvidences;
         union {null, VariantClassification} VariantClassification;
         union {null, bool} blackListed;
+        union {null, array<string>} decisionSupportSystemFilters;
 
     }
 }
