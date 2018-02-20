@@ -614,12 +614,12 @@ protocol CommonInterpreted {
     enum StructuralVaraintType {del, ins, dup, inv, cnv, dup_tandem, del_me, ins_me}
 
     record Reagragment {
-        Coordiante leftCoordiante;
-        Coordiante rightCoordiante;
+        Coordinates leftCoordinates;
+        Coordinates rightCoordinates;
         Orientation orientation;
     }
 
-    record Fragment {
+    record Rearrangement {
         union {null, Coordinates} preCoordinates;
         union {null, Coordinates} postCoordinates;
         union {null, string} leftInsSeq;
@@ -641,7 +641,7 @@ protocol CommonInterpreted {
     record StructuralEvent {
         union {null, array<BreakPoint>} breakPoints;
         array<Fragment> fragments;
-        array<Reagragment> reagragments;
+        array<Rearrangement> rearrangements;
 
     }
 
