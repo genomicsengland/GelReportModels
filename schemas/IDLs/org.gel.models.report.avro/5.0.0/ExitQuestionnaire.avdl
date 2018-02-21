@@ -258,7 +258,10 @@ protocol ExitQuestionnaires {
     */
     record CancerGermlineVariantLevelQuestions{
         /**
-        Variant coordinates following format `Chr: Pos Ref > Alt`
+        Variant coordinates following format:
+        ${v.chromosome}:${v.position}:${v.reference}:${v.alternate}
+        seen in lines 318 and 310 here:
+        https://github.com/genomicsengland/genomic_interpretation_portal/blob/5bb43553bd0e0fc879d146569257d2a4032252ac/src/apps/questions/cancer.tsx#L318
         */
         // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
@@ -284,7 +287,10 @@ protocol ExitQuestionnaires {
     */
     record CancerSomaticVariantLevelQuestions{
         /**
-        Variant coordinates following format `Chr: Pos Ref > Alt`
+        Variant coordinates following format:
+        ${v.chromosome}:${v.position}:${v.reference}:${v.alternate}
+        seen in lines 318 and 310 here:
+        https://github.com/genomicsengland/genomic_interpretation_portal/blob/5bb43553bd0e0fc879d146569257d2a4032252ac/src/apps/questions/cancer.tsx#L318
         */
         // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
