@@ -144,7 +144,8 @@ protocol CommonInterpreted {
         regulatory_region,
         gene,
         transcript,
-        intergenic
+        intergenic,
+        gene_fusion
     }
 
     /**
@@ -177,7 +178,7 @@ protocol CommonInterpreted {
         /**
         Ensembl identifier for the feature (e.g, ENST00000544455)
         */
-        string ensemblId;
+        union {null, string} ensemblId;
 
         /**
         The HGNC gene symbol. This field is optional, BUT it should be filled if possible
@@ -356,6 +357,11 @@ protocol CommonInterpreted {
         informed scores)
         */
         union {null, map<float>} vendorSpecificScores;
+
+        /**
+        Likelihood of being a de novo variant
+        */
+        union {null, float} deNovoQualityScore;
 
         /**
         Variant classification
@@ -611,7 +617,7 @@ protocol CommonInterpreted {
         end_end
     }
 
-    enum StructuralVaraintType {del, ins, dup, inv, cnv, dup_tandem, del_me, ins_me}
+    enum StructuralVaraintType {del, ins, dup, inv, amplification, deletion, dup_tandem, del_me, ins_me}
 
     record Reagragment {
         Coordinates leftCoordinates;
@@ -634,14 +640,20 @@ protocol CommonInterpreted {
         string chromosome;
         int start;
         int end;
-        string reference;
-        string alternate;
+        union{null, string} reference;
+        union{null, string} alternate;
     }
 
     record StructuralEvent {
+        /**
+        Three of them as optional, but one at least should be provided
+            * BreakPoints: shows the variants as in the VCF format, should be provided always if it is possible
+            * Fragments: Represents each fragment change in a Structural variant
+            * Rearrangements(probably name will change): Whole Chromosomes Rearrangement
+        */
         union {null, array<BreakPoint>} breakPoints;
-        array<Fragment> fragments;
-        array<Rearrangement> rearrangements;
+        union {null, array<Fragment>} fragments;
+        union {null, array<Rearrangement>} rearrangements;
 
     }
 
