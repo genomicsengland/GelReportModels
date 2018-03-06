@@ -1,22 +1,97 @@
 @namespace("org.gel.models.report.avro")
 /**
-This protocol defines the states a sample can inherit
+This protocol defines the metrics we calculate and store for genetic vs reported checks
 */
 protocol ReportedVsGenetic {
 
 
-enum Sex {MALE, FEMALE, OTHER, UNKNOWN}
+enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
 enum Karyotype {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
-
-
-
+/** Coverage-based sex */
 record CoverageBasedSex{
     Sex sex;
     Karyotype karyotype;
-    union {null, float} ratioChrX;
-    union {null, float} ratioChrY;
+    union {null, double} ratioChrX;
+    union {null, double} ratioChrY;
+}
+
+/** Plink sex check */
+record PlinkSexCheck {
+    string fid;
+    string iid;
+
+    /** (1 = male, 2 = female, 0 = unknown) */
+    union {null, double} PEDSEX;
+    union {null, double} SNPSEX;
+
+    string status;
+    union {null, double} f;
+    union {null, double} yCount;
+}
+
+/** Mendelian inconsistencies */
+record Fmendel {
+    string fid;
+    string pat;
+    string mat;
+    union {null, double} chld;
+    union {null, double} n;
+}
+
+record Imendel {
+    string fid;
+    string iid;
+    union {null, double} n;
+}
+
+record MendelianInconsistencies {
+    array<Fmendel> fmendel;
+    array<Imendel> imendel;
+}
+
+/** Relatedness */
+record RelatednessPair {
+    string fid1;
+    string iid1;
+    string fid2;
+    string iid2;
+    string rt;
+    union {null, double} ez;
+    union {null, double} z0;
+    union {null, double} z1;
+    union {null, double} z2;
+    union {null, double} pi_hat;
+    union {null, double} phe;
+    union {null, double} dst;
+    union {null, double} ppc;
+    union {null, double} ratio;
+}
+
+record FamilyRelatedness {
+    array<RelatednessPair> relatedness;
+}
+
+/** BED/BIM/FAM information */
+record BedBimFamInfo {
+    string bedFile;
+    string bimFile;
+    string famFile;
+    string positionsFile;
+    union {null, double} numMarkers; /** From BIM file */
+}
+
+/** Main objects */
+record ReportedVsGeneticSample {
+    union {null, CoverageBasedSex} CoverageBasedSex;
+    union {null, PlinkSexCheck} PlinkSexCheck;
+}
+
+record ReportedVsGeneticFamily {
+    union {null, MendelianInconsistencies} MendelianInconsistencies;
+    union {null, FamilyRelatedness} FamilyRelatedness;
+    union {null, BedBimFamInfo} BedBimFamInfo;
 }
 
 }
