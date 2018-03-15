@@ -349,7 +349,7 @@ protocol ExitQuestionnaires {
         /**
         Type of potential actionability:
         */
-        array<CancerActionability> variantActionability;
+        array<CancerActionabilitySomatic> variantActionability;
 
         /**
         Other information about variant actionability
