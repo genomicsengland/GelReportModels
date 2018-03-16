@@ -1,3 +1,11 @@
+Version 6.0.1 (16th March 2018)
+--------------------------------
+
+#### Major Changes
+
+* Exit questionnaire models have been updated with some changes that were lost back in the day merging `develop` and `master` branches. 
+
+
 Version 6.0.0 (5th January 2018)
 --------------------------------
 
