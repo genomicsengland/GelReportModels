@@ -32,6 +32,7 @@ protocol VariantInterpretationLogProtocol {
     record VariantInterpretationLog{
         VariantCoordinates variantCoordinates;
         User user;
+        string timestamp;
         string family_id;
         string case_id;
         union {null, SangerValidation} sangerValidation;
