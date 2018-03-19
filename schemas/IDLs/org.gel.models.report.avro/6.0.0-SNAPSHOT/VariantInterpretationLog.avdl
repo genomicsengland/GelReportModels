@@ -11,8 +11,7 @@ protocol VariantInterpretationLogProtocol {
         array<string> groups;
     }
 
-    enum SangerValidation{NotPerformed, Confirmed, NotConfirmed}
-
+    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed}
     enum AcmgEvidenceStrength{Supporting, Moderate, Strong, VeryStrong}
     enum AcmgEvidenceType{Bening, Pathogenic}
     enum AcmgEvidenceCategory{PopulationData, ComputationalAndPredictiveData, FunctionalData, SeggregationData, DeNovoData, AllelicData, otherDataBase, otherData}
@@ -24,13 +23,21 @@ protocol VariantInterpretationLogProtocol {
         union {null, string} description;
     }
 
+    record VariantValidation{
+        string validationTechnology;
+        ValidationResult validationResult;
+
+    }
+
     record VariantInterpretationLog{
         VariantCoordinates variantCoordinates;
         User user;
+        string family_id;
+        string case_id;
         union {null, SangerValidation} sangerValidation;
         union {null, array<string>} comments;
         union {null, array<AcmgEvidence>} acmgEvidences;
-        union {null, VariantClassification} VariantClassification;
+        union {null, VariantValidation} VariantValidation;
         union {null, bool} blackListed;
         union {null, array<string>} decisionSupportSystemFilters;
 
