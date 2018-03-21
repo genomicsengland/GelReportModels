@@ -1,3 +1,11 @@
+Version 6.0.2 (21st March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Migration of participants fixed for field `ageOfOnset` 
+
+
 Version 6.0.1 (16th March 2018)
 --------------------------------
 

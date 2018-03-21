@@ -245,7 +245,6 @@ class MigrationReportsToParticipants1(BaseMigration):
 
     def migrate_disorder(self, disorder):
         new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
-        new_disorder.ageOfOnset = self.convert_to_float(value=disorder.ageOfOnset)
 
         return self.validate_object(
             object_to_validate=new_disorder,
