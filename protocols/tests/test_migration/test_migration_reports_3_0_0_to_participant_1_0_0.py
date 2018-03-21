@@ -29,15 +29,10 @@ class TestMigrateReports3ToParticipant1(TestCaseMigration):
 
         new_instance = MigrateReports3ToParticipant1().migrate_cancer_participant(old_instance)
         self.assertTrue(new_instance.validate(new_instance.toJsonDict()))
-        self._check_non_empty_fields(new_instance, exclusions = ["clinicalSampleDateTime", "preparationMethod",
-                                                                 "product", "primaryDiagnosisSubDisease", "source",
-                                                                 "tissueSource", "tumourContent", "tumourType"])
-                                     # exclusions=["genomicChanges", "references", "actionType", "otherIds",
-                                     #             "groupOfVariants", "score", "vendorSpecificScores",
-                                     #             "variantClassification", "fdp50", "recurrentlyReported", "others",
-                                     #             "phaseSet"])
-
-        ####
+        self._check_non_empty_fields(
+            new_instance,
+            exclusions=["clinicalSampleDateTime", "preparationMethod", "product", "primaryDiagnosisSubDisease",
+                        "source", "tissueSource", "tumourContent", "tumourType"])
 
         old_participant = GenericFactoryAvro.get_factory_avro(CancerParticipant_old, VERSION_300)()
         new_participant = GenericFactoryAvro.get_factory_avro(CancerParticipant_new, VERSION_400)()
