@@ -13,6 +13,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
     def migrate_cancer_participant(self, old_cancer_participant):
         """
+        PRE: germlineSamples.labId follows an integer format
         :type old_cancer_participant: reports_3_0_0.CancerParticipant
         :rtype: participant_1_0_0.CancerParticipant
         """
@@ -30,15 +31,19 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.readyForAnalysis = True
 
         germline_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.germline
+            sample for sample in old_cancer_participant.cancerSamples
+            if sample.sampleType == self.old_model.SampleType.germline
         ]
-        new_cancer_participant.germlineSamples = [self.migrate_germline_sample(sample) for sample in germline_samples]
+        new_cancer_participant.germlineSamples = [
+            self.migrate_germline_sample(sample) for sample in germline_samples]
 
         tumor_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.tumor
+            sample for sample in old_cancer_participant.cancerSamples
+            if sample.sampleType == self.old_model.SampleType.tumor
         ]
+        new_cancer_participant.tumourSamples = [
+            self.migrate_tumor_sample(sample) for sample in tumor_samples]
 
-        new_cancer_participant.tumourSamples = [self.migrate_tumor_sample(sample) for sample in tumor_samples]
         new_cancer_participant.matchedSamples = [self.migrate_match_samples(matched_sample) for matched_sample in
                                                  old_cancer_participant.matchedSamples]
 
@@ -74,6 +79,23 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         new_tumour_sample.tumourId = 1
 
+        phase_map = {
+            reports_3_0_0.Phase.PRIMARY: participant_1_0_0.Phase.PRIMARY,
+            reports_3_0_0.Phase.METASTATIC: participant_1_0_0.Phase.METASTASES,
+            reports_3_0_0.Phase.RECURRENCE: participant_1_0_0.Phase.RECURRENCE_OF_PRIMARY_TUMOUR
+        }
+        new_tumour_sample.phase = phase_map.get(old_cancer_sample.phase)
+
+        preservation_to_preparation_map = {
+            reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
+        }
+        new_tumour_sample.preparationMethod = preservation_to_preparation_map.get(
+            old_cancer_sample.preservationMethod)
+
         return self.validate_object(
             object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
         )
@@ -88,17 +110,32 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_germline_sample = self.new_model.GermlineSample.fromJsonDict(old_cancer_sample.toJsonDict())
 
         new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
-        new_germline_sample.source = old_cancer_sample.preservationMethod
 
         preservation_to_preparation_map = {
             reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
-            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
         }
-        new_germline_sample.preparationMethod = preservation_to_preparation_map.get(new_germline_sample.source)
+        new_germline_sample.preparationMethod = preservation_to_preparation_map.get(
+            old_cancer_sample.preservationMethod)
+
+        preservation_to_source_map = {
+            reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.SampleSource.BLOOD,
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.SampleSource.SALIVA,
+            reports_3_0_0.PreservationMethod.FF: participant_1_0_0.SampleSource.TUMOUR,
+            reports_3_0_0.PreservationMethod.FFPE: participant_1_0_0.SampleSource.TUMOUR,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
+        }
+        new_germline_sample.source = preservation_to_source_map.get(
+            old_cancer_sample.preservationMethod)
 
         new_germline_sample.programmePhase = old_cancer_sample.gelPhase
 
-        if new_germline_sample.validate(new_germline_sample.toJsonDict()):
+        if new_germline_sample.validate(new_germline_sample.toJsonDict(), verbose=True):
             return new_germline_sample
         else:
             # TODO(Greg): Improve these error messages

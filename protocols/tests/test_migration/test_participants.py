@@ -1,5 +1,4 @@
-from unittest import TestCase
-
+from protocols.tests.test_migration.test_migration import TestCaseMigration
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
 from protocols.util.dependency_manager import VERSION_500
@@ -10,7 +9,7 @@ from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.participant_1_0_0_factories import CancerParticipantFactory
 
 
-class TestMigrationParticipants100To103(TestCase):
+class TestMigrationParticipants100To103(TestCaseMigration):
 
     old_model = participant_1_0_0
     new_model = participant_1_0_3
@@ -108,7 +107,7 @@ class TestMigrationParticipants100To103(TestCase):
         self.assertEqual(migrated_sample.tumourType, test_phase)
 
 
-class TestMigrationParticipants103To100(TestCase):
+class TestMigrationParticipants103To100(TestCaseMigration):
 
     old_model = participant_1_0_3
     new_model = participant_1_0_0
@@ -189,7 +188,7 @@ class TestMigrationParticipants103To100(TestCase):
         self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
 
 
-class TestMigrationParticipants103To100(TestCase):
+class TestMigrationParticipants103To100(TestCaseMigration):
 
     old_model = participant_1_0_3
     new_model = participant_1_0_0

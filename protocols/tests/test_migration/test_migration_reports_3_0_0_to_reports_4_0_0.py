@@ -1,5 +1,4 @@
-from unittest import TestCase
-
+from protocols.tests.test_migration.test_migration import TestCaseMigration
 from protocols import reports_3_0_0
 from protocols import reports_4_0_0
 from protocols.util.dependency_manager import VERSION_300
@@ -10,7 +9,7 @@ from protocols.reports_4_0_0 import ReportEventCancer as ReportEventCancer_new
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 
 
-class TestMigrateReports3To4(TestCase):
+class TestMigrateReports3To4(TestCaseMigration):
 
     old_model = reports_3_0_0
     new_model = reports_4_0_0
