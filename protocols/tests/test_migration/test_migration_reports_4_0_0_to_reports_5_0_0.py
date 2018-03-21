@@ -1,5 +1,4 @@
-from unittest import TestCase
-
+from protocols.tests.test_migration.test_migration import TestCaseMigration
 import factory.fuzzy
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
@@ -27,7 +26,7 @@ class ActionFactory(FactoryAvro):
     source = factory.fuzzy.FuzzyText()
 
 
-class TestMigrateReports4To500(TestCase):
+class TestMigrateReports4To500(TestCaseMigration):
 
     old_model = reports_4_0_0
     new_model = reports_5_0_0
@@ -43,31 +42,6 @@ class TestMigrateReports4To500(TestCase):
             self.assertEqual(old_variant.position, new_variant.variantCoordinates.position)
             self.assertEqual(old_variant.chromosome, new_variant.variantCoordinates.chromosome)
             self.assertEqual(assembly, new_variant.variantCoordinates.assembly)
-
-    def _check_non_empty_fields(self, instance, exclusions=[]):
-        """
-        Checks that no field is empty, assuming empty as None, "", [] or {}
-        If object has any nullable or non nullable field not filled it will raise an error.
-        :type instance: protocols.protocol.ProtocolElement
-        :return:
-        """
-        empty_values = [None, "", [], {}]
-        for slot in instance.__slots__:
-            attribute = instance.__getattribute__(slot)
-            if slot not in exclusions:
-                self.assertTrue(
-                    attribute not in empty_values,
-                    "Field '{}.{}' is empty!".format(instance.__class__, slot)
-                )
-                if instance.__class__.isEmbeddedType(slot):
-                    if isinstance(attribute, list):
-                        for element in attribute:
-                            self._check_non_empty_fields(element, exclusions)
-                    elif isinstance(attribute, dict):
-                        for element in attribute.values():
-                            self._check_non_empty_fields(element, exclusions)
-                    else:
-                        self._check_non_empty_fields(attribute, exclusions)
 
     def test_migrate_cancer_clinical_report(self):
 

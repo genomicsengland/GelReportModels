@@ -1,5 +1,4 @@
-from unittest import TestCase
-
+from protocols.tests.test_migration.test_migration import TestCaseMigration
 from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_old
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
 from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
@@ -8,11 +7,37 @@ from protocols.util.dependency_manager import VERSION_400, VERSION_300
 from protocols import reports_3_0_0
 
 
-class TestMigrateReports3ToParticipant1(TestCase):
+class TestMigrateReports3ToParticipant1(TestCaseMigration):
 
     old_model = reports_3_0_0
 
     def test_migrate_cancer_participant(self):
+
+        # creates a random clinical report cancer for testing filling null values
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            CancerParticipant_old, VERSION_300, fill_nullables=True
+        ).create()
+        # NOTE: we enforce the field labId to follow an integer format as it is a precondition of migration
+        for cancer_sample in old_instance.cancerSamples:
+            cancer_sample.labId = "12345"
+        # NOTE: enforces at least one tumour and one germline sample
+        old_instance.cancerSamples[0].sampleType = self.old_model.SampleType.germline
+        old_instance.cancerSamples[1].sampleType = self.old_model.SampleType.tumor
+
+        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._check_non_empty_fields(old_instance)
+
+        new_instance = MigrateReports3ToParticipant1().migrate_cancer_participant(old_instance)
+        self.assertTrue(new_instance.validate(new_instance.toJsonDict()))
+        self._check_non_empty_fields(new_instance, exclusions = ["clinicalSampleDateTime", "preparationMethod",
+                                                                 "product", "primaryDiagnosisSubDisease", "source",
+                                                                 "tissueSource", "tumourContent", "tumourType"])
+                                     # exclusions=["genomicChanges", "references", "actionType", "otherIds",
+                                     #             "groupOfVariants", "score", "vendorSpecificScores",
+                                     #             "variantClassification", "fdp50", "recurrentlyReported", "others",
+                                     #             "phaseSet"])
+
+        ####
 
         old_participant = GenericFactoryAvro.get_factory_avro(CancerParticipant_old, VERSION_300)()
         new_participant = GenericFactoryAvro.get_factory_avro(CancerParticipant_new, VERSION_400)()
