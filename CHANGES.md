@@ -1,3 +1,11 @@
+Version 6.0.3 (22nd March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Fixed `MigrateReports400To500().migrate_cancer_interpretation_request` and `MigrateReports400To500().migrate_interpretation_request_rd` that were failing when tested with nullable fields being null. Tests are improved
+* Refactored migration tests to use `_validate`
+
 Version 6.0.2 (21st March 2018)
 --------------------------------
 
