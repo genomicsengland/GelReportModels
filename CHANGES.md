@@ -1,6 +1,11 @@
 Version 6.0.3 (22nd March 2018)
 --------------------------------
 
+### Major changes
+
+* Remove hotfix version numbering from build version from 6.0 onwards. To generate any mock data from build 6.0 onwards, the string `6.0` is expected instead of `6.0.0`
+
+
 #### Minor Changes
 
 * Fixed `MigrateReports400To500().migrate_cancer_interpretation_request` and `MigrateReports400To500().migrate_interpretation_request_rd` that were failing when tested with nullable fields being null. Tests are improved
