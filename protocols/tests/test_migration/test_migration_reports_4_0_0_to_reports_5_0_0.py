@@ -1,4 +1,4 @@
-from protocols.tests.test_migration.test_migration import TestCaseMigration
+from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 import factory.fuzzy
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
@@ -338,29 +338,56 @@ class TestMigrateReports4To500(TestCaseMigration):
 
     def test_migrate_interpretation_request_rd(self):
 
+        # tests with all nullable fields being filled
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_400, fill_nullables=True
         ).create()
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrateReports400To500().migrate_interpretation_request_rd(
             old_instance=old_instance, assembly='GRCh38'
         )
-        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        self._validate(migrated_instance)
         for other_file in migrated_instance.otherFiles.values():
             self.assertIsInstance(other_file, self.new_model.File)
+
+        # test with all nullable fields being null
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretationRequestRD, VERSION_400, fill_nullables=False
+        ).create()
+        self._validate(old_instance)
+
+        migrated_instance = MigrateReports400To500().migrate_interpretation_request_rd(
+            old_instance=old_instance, assembly='GRCh38'
+        )
+        self._validate(migrated_instance)
+        if migrated_instance.otherFiles is not None:
+            for other_file in migrated_instance.otherFiles.values():
+                self.assertIsInstance(other_file, self.new_model.File)
 
     def test_migrate_cancer_interpretation_request(self):
         """
         Test passing with ILMN-8308-1 cancer IR
         """
+        # tests with all nullable fields being filled
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=True
         ).create()  # we need to enforce that it can be cast to int
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
         migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(
             old_instance=old_instance, assembly='GRCh38'
         )
-        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        self._validate(migrated_instance)
+
+        # test with all nullable fields being null
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=False
+        ).create()  # we need to enforce that it can be cast to int
+        old_instance.cancerParticipant.LDPCode = "needs to be filled"
+        self._validate(old_instance)
+        migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(
+            old_instance=old_instance, assembly='GRCh38'
+        )
+        self._validate(migrated_instance)

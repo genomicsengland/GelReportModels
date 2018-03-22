@@ -1,4 +1,4 @@
-from protocols.tests.test_migration.test_migration import TestCaseMigration
+from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
 from protocols.util.dependency_manager import VERSION_500
