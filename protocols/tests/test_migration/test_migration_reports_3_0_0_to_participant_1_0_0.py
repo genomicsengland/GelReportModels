@@ -24,11 +24,11 @@ class TestMigrateReports3ToParticipant1(TestCaseMigration):
         old_instance.cancerSamples[0].sampleType = self.old_model.SampleType.germline
         old_instance.cancerSamples[1].sampleType = self.old_model.SampleType.tumor
 
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
         new_instance = MigrateReports3ToParticipant1().migrate_cancer_participant(old_instance)
-        self.assertTrue(new_instance.validate(new_instance.toJsonDict()))
+        self._validate(new_instance)
         self._check_non_empty_fields(
             new_instance,
             exclusions=["clinicalSampleDateTime", "preparationMethod", "product", "primaryDiagnosisSubDisease",
@@ -46,18 +46,18 @@ class TestMigrateReports3ToParticipant1(TestCaseMigration):
 
         # Check old_participant is a valid reports_3_0_0 CancerParticipant object
         self.assertTrue(isinstance(old_participant, CancerParticipant_old))
-        self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
+        self._validate(old_participant)
 
         # Check new_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(new_participant, CancerParticipant_new))
-        self.assertTrue(new_participant.validate(jsonDict=new_participant.toJsonDict()))
+        self._validate(new_participant)
 
         # Perform the migration of old_participant from reports_3_0_0 to participant_1_0_0
         migrated_participant = MigrateReports3ToParticipant1().migrate_cancer_participant(old_participant)
 
         # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(migrated_participant, CancerParticipant_new))
-        self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
+        self._validate(migrated_participant)
 
         self.assertEqual(
             migrated_participant.tumourSamples[0].tumourType,

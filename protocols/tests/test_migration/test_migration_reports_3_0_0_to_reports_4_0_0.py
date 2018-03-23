@@ -21,19 +21,19 @@ class TestMigrateReports3To4(TestCaseMigration):
 
         # Check old_variants is a valid reports_3_0_0 ReportedSomaticVariants object
         self.assertTrue(isinstance(old_variants, self.old_model.ReportedSomaticVariants))
-        self.assertTrue(old_variants.validate(jsonDict=old_variants.toJsonDict()))
+        self._validate(old_variants)
 
         new_variants = GenericFactoryAvro.get_factory_avro(self.new_model.ReportedSomaticVariants, VERSION_400)()
 
         # Check new_variants is a valid participant_1_0_0 ReportedSomaticVariants object
         self.assertTrue(isinstance(new_variants, self.new_model.ReportedSomaticVariants))
-        self.assertTrue(new_variants.validate(jsonDict=new_variants.toJsonDict()))
+        self._validate(new_variants)
 
         migrated_object = MigrateReports3To4().migrate_reported_somatic_variants(old_variants)
 
         # Check migrated_object is a valid participant_1_0_0 ReportedSomaticVariants object
         self.assertTrue(isinstance(migrated_object, self.new_model.ReportedSomaticVariants))
-        self.assertTrue(migrated_object.validate(jsonDict=migrated_object.toJsonDict()))
+        self._validate(migrated_object)
 
     def test_migrate_report_event_cancer(self):
 
@@ -41,13 +41,13 @@ class TestMigrateReports3To4(TestCaseMigration):
 
         # Check old_report_event_cancer is a valid reports_3_0_0.ReportEventCancer object
         self.assertTrue(isinstance(old_report_event_cancer, ReportEventCancer_old))
-        self.assertTrue(old_report_event_cancer.validate(old_report_event_cancer.toJsonDict()))
+        self._validate(old_report_event_cancer)
 
         migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
 
         # Check migrated_report_event_cancer is a valid reports_4_0_0.ReportEventCancer object
         self.assertTrue(isinstance(migrated_report_event_cancer, ReportEventCancer_new))
-        self.assertTrue(migrated_report_event_cancer.validate(migrated_report_event_cancer.toJsonDict()))
+        self._validate(migrated_report_event_cancer)
 
     def test_migrate_report_event_cancer_specific_cancer_role(self):
         """
@@ -78,25 +78,25 @@ class TestMigrateReports3To4(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=True
         ).create()
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_clinical_report_rd=old_instance)
-        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        self._validate(migrated_instance)
 
     def test_migrate_interpreted_genome_rd(self):
         """ Test passing on 3000 real cases"""
         old_instance = GenericFactoryAvro.get_factory_avro(self.old_model.InterpretedGenomeRD, VERSION_300).create()
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         migrated_instance = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=old_instance)
-        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        self._validate(migrated_instance)
 
     def test_migrate_interpretation_request_rd(self):
         """Also tested with real data"""
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_300, fill_nullables=False
         ).create()  # reports_3_0_0.InterpretationRequestRD
-        self.assertTrue(old_instance.validate(old_instance.toJsonDict()))
+        self._validate(old_instance)
         migrated_instance = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=old_instance)
-        self.assertTrue(migrated_instance.validate(migrated_instance.toJsonDict()))
+        self._validate(migrated_instance)
 
         old_big_wigs = old_instance.bigWigs
         new_big_wigs = migrated_instance.bigWigs
