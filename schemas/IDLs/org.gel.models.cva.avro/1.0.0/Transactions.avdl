@@ -10,7 +10,9 @@ protocol TransactionProtocol {
 
 * PENDING: a transaction in the queue pending to be processed
 * BLOCKED: a transaction already being processed
-* APPLIED: a transaction has gone through the first phase of the two-phase commit
+* PROCESSING: a transaction being processed (normalised, lifted over and annotated)
+* PERSISTING: a transaction being persisted in the database
+* BLOCKED: a transaction already being processed
 * DONE: a transaction has been successfully processed
 * CANCELLING: a transaction is being rolled back
 * CANCELLED: a transaction has been rolled back
@@ -22,7 +24,8 @@ protocol TransactionProtocol {
     enum TransactionStatus {
         PENDING,
         BLOCKED,
-        APPLIED,
+        PROCESSING,
+        PERSISTING,
         DONE,
         CANCELLING,
         CANCELLED,

@@ -1,3 +1,11 @@
+Version 6.0.4 (23rd March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Transaction.avdl `TransactionStatus` having two new states `PROCESSING` and `PERSISTING`
+* Transaction.avdl `TransactionStatus` has one less state `APPLIED`
+
 Version 6.0.3 (22nd March 2018)
 --------------------------------
 
