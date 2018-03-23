@@ -1,4 +1,4 @@
-from protocols.tests.test_migration.test_migration import TestCaseMigration
+from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
 from protocols.util.dependency_manager import VERSION_500
@@ -25,14 +25,14 @@ class TestMigrationParticipants100To103(TestCaseMigration):
         old_participant.LDPCode = 'test_LDP_code'
 
         self.assertIsInstance(old_participant, self.old_model.CancerParticipant)
-        self.assertTrue(old_participant.validate(old_participant.toJsonDict()))
+        self._validate(old_participant)
 
         migrated_participant = MigrationParticipants100To103().migrate_cancer_participant(
             cancer_participant=old_participant
         )
 
         self.assertIsInstance(migrated_participant, self.new_model.CancerParticipant)
-        self.assertTrue(migrated_participant.validate(migrated_participant.toJsonDict()))
+        self._validate(migrated_participant)
 
         self.assertIsInstance(migrated_participant.versionControl, self.new_model.VersionControl)
         self.assertDictEqual(migrated_participant.versionControl.toJsonDict(), {"GitVersionControl": "1.0.3"})
@@ -84,14 +84,14 @@ class TestMigrationParticipants100To103(TestCaseMigration):
         )
 
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
-        self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
+        self._validate(old_tumour_sample)
 
         migrated_sample = MigrationParticipants100To103().migrate_tumour_sample(
             tumour_sample=old_tumour_sample, LDPCode='test_ldp_code'
         )
 
         self.assertIsInstance(migrated_sample, self.new_model.TumourSample)
-        self.assertTrue(migrated_sample.validate(migrated_sample.toJsonDict()))
+        self._validate(migrated_sample)
 
         self.assertEqual(migrated_sample.sampleId, test_sample_id)
         self.assertEqual(migrated_sample.labSampleId, test_lab_sample_id)
@@ -148,14 +148,14 @@ class TestMigrationParticipants103To100(TestCaseMigration):
         )
 
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
-        self.assertTrue(old_tumour_sample.validate(old_tumour_sample.toJsonDict()))
+        self._validate(old_tumour_sample)
 
         migrated_sample = MigrationParticipants103To100().migrate_tumour_sample(
             tumour_sample=old_tumour_sample
         )
 
         self.assertIsInstance(migrated_sample, self.new_model.TumourSample)
-        self.assertTrue(migrated_sample.validate(migrated_sample.toJsonDict()))
+        self._validate(migrated_sample)
 
         self.assertEqual(migrated_sample.sampleId, test_sample_id)
         self.assertEqual(migrated_sample.labSampleId, test_lab_sample_id)
@@ -178,14 +178,14 @@ class TestMigrationParticipants103To100(TestCaseMigration):
 
         # Check old_participant is a valid participants_1_0_4 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
-        self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
+        self._validate(old_participant)
 
         # # Perform the migration of old_participant from participants_1_0_4 to participants_1_0_0
         migrated_participant = MigrationParticipants103To100().migrate_cancer_participant(old_participant)
 
         # # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(migrated_participant, self.new_model.CancerParticipant))
-        self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
+        self._validate(migrated_participant)
 
 
 class TestMigrationParticipants103To100(TestCaseMigration):
@@ -200,11 +200,11 @@ class TestMigrationParticipants103To100(TestCaseMigration):
 
         # Check old_participant is a valid participants_1_0_3 CancerParticipant object
         self.assertTrue(isinstance(old_participant, self.old_model.CancerParticipant))
-        self.assertTrue(old_participant.validate(jsonDict=old_participant.toJsonDict()))
+        self._validate(old_participant)
 
         # # Perform the migration of old_participant from participants_1_0_3 to participants_1_0_0
         migrated_participant = MigrationParticipants103To100().migrate_cancer_participant(old_participant)
 
         # # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(migrated_participant, self.new_model.CancerParticipant))
-        self.assertTrue(migrated_participant.validate(jsonDict=migrated_participant.toJsonDict()))
+        self._validate(migrated_participant)
