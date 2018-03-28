@@ -1,3 +1,11 @@
+Version 6.0.5 (28th March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Transaction.avdl `TransactionStatus` having a new state `DELETED`
+* Transaction.avdl having a record of transaction status changes in `TransactionStatusChange`
+
 Version 6.0.4 (23rd March 2018)
 --------------------------------
 
