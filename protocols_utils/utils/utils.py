@@ -7,6 +7,8 @@ import errno
 def run_command(command, fail_if_error=True, cwd=None):
     """
     Runs a given command
+    :param cwd:
+    :param fail_if_error:
     :param command:
     :return:
     """
@@ -25,6 +27,7 @@ def run_command(command, fail_if_error=True, cwd=None):
         logging.error(error_message)
         if fail_if_error:
             raise ValueError(error_message)
+
 
 def makedir(path):
     try:

@@ -11,13 +11,9 @@ except:
     import json
 import shutil
 import distutils.dir_util
-try:
-    sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
-    from GelModelsTools import utils
-    from GelModelsTools.gel_models_tools import GelModelsTools
-    from protocols.util.dependency_manager import DependencyManager
-except:
-    logging.warning("Unmet dependencies. Not all build functionality will work")
+from protocols_utils.utils import utils
+from protocols_utils.utils.conversion_tools import ConversionTools
+from protocols.util.dependency_manager import DependencyManager
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -44,6 +40,7 @@ def __create_IDLs_build_folder(packages):
         logging.info("Copying '{}'...".format(source_folder))
         distutils.dir_util.copy_tree(source_folder, build_folder)
     return build_folder
+
 
 def __delete_IDLs_build_folder():
     """
@@ -78,7 +75,7 @@ def __idl2json(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __json2java(input, output):
@@ -90,7 +87,7 @@ def __json2java(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __idl2json(input, output):
@@ -102,7 +99,7 @@ def __idl2json(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __json2python(input, output, version):
@@ -115,7 +112,7 @@ def __json2python(input, output, version):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __idl2avpr(input, output):
@@ -127,7 +124,7 @@ def __idl2avpr(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __avpr2html(input, output):
@@ -139,7 +136,7 @@ def __avpr2html(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __get_build_by_version(builds, version):
@@ -197,7 +194,7 @@ def __update_documentation_index():
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def run_build(build, skip_docs=False, skip_java=False):
