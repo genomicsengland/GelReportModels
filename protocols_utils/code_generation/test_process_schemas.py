@@ -12,7 +12,7 @@ class TestProcessSchema(TestCase):
     test_avdl = os.path.join(test_folder, "test.avdl")
     test_python_package = os.path.join(test_folder, 'protocols_test.py')
     BASE_DIR = os.path.dirname(__file__)
-    AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "..", "bin", "avro-tools-1.7.7.jar")
+    AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "../..", "resources/bin", "avro-tools-1.7.7.jar")
 
     def setUp(self):
         pass

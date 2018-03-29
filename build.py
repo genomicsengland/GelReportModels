@@ -147,10 +147,6 @@ def __get_build_by_version(builds, version):
     return build
 
 
-def _remove_hotfix_version(version):
-    return re.sub("\.\d$", '', version)
-
-
 def __update_documentation_index():
     htmls = {}
     fd = open(MODELS_DOCS_FILE, "w")
@@ -307,7 +303,7 @@ def main():
             if args.version:
                 build = __get_build_by_version(builds, args.version)
                 if build is None:
-                    build = __get_build_by_version(builds, _remove_hotfix_version(args.version))
+                    build = __get_build_by_version(builds, DependencyManager.remove_hotfix_version(args.version))
                     if build is None:
                         raise ValueError("Build version '{}' does not exist".format(args.version))
                 run_build(build, args.skip_docs, args.skip_java)
