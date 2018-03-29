@@ -1,3 +1,11 @@
+Version 6.0.6 (29th March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Add backwards compatibility to mock data with the hotfix version
+* Transaction.avdl including a field to keep track of cva version
+
 Version 6.0.5 (28th March 2018)
 --------------------------------
 
