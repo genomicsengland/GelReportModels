@@ -5,6 +5,7 @@ Version 6.0.6 (29th March 2018)
 
 * Add backwards compatibility to mock data with the hotfix version
 * Transaction.avdl including a field to keep track of cva version
+* Package participants 1.0.1 is back into the build as it is used by `pythoncommonlibs`
 
 Version 6.0.5 (28th March 2018)
 --------------------------------
