@@ -40,10 +40,6 @@ protocol TransactionProtocol {
     */
     record TransactionStatusChange {
         /**
-        The old transaction status
-        */
-        TransactionStatus from;
-        /**
         The new transaction status
         */
         TransactionStatus to;
@@ -63,6 +59,10 @@ protocol TransactionProtocol {
         The stracktrace in case the transaction ingestion failed
         */
         union {null, string} stackTrace;
+        /**
+        The CVA version that processed the transaction
+        */
+        union {null, string} cvaVersion;
     }
 
     /**
@@ -175,7 +175,8 @@ protocol TransactionProtocol {
         */
         union {null, bytes} compressedReportEvents;
         /**
-        A hash signature of the transaction used to discard identical requests
+        A MD5 hash signature of the transaction used to discard identical requests.
+        To have a 50% chance of a collision by the birthday paradox we need 2**64 transactions
         */
         string requestSignature;
         /**
