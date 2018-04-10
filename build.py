@@ -4,19 +4,16 @@ import sys
 import os
 import logging
 import argparse
+import re
 try:
     import ujson as json
 except:
     import json
 import shutil
 import distutils.dir_util
-try:
-    sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), 'resources', 'GelModelsTools')))
-    from GelModelsTools import utils
-    from GelModelsTools.gel_models_tools import GelModelsTools
-    from protocols.util.dependency_manager import DependencyManager
-except:
-    logging.warning("Unmet dependencies. Not all build functionality will work")
+from protocols_utils.utils import utils
+from protocols_utils.utils.conversion_tools import ConversionTools
+from protocols.util.dependency_manager import DependencyManager
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -43,6 +40,7 @@ def __create_IDLs_build_folder(packages):
         logging.info("Copying '{}'...".format(source_folder))
         distutils.dir_util.copy_tree(source_folder, build_folder)
     return build_folder
+
 
 def __delete_IDLs_build_folder():
     """
@@ -77,7 +75,7 @@ def __idl2json(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __json2java(input, output):
@@ -89,7 +87,7 @@ def __json2java(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __idl2json(input, output):
@@ -101,7 +99,7 @@ def __idl2json(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __json2python(input, output, version):
@@ -114,7 +112,7 @@ def __json2python(input, output, version):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __idl2avpr(input, output):
@@ -126,7 +124,7 @@ def __idl2avpr(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
 
 
 def __avpr2html(input, output):
@@ -138,7 +136,8 @@ def __avpr2html(input, output):
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
+
 
 def __get_build_by_version(builds, version):
     build = None
@@ -146,6 +145,7 @@ def __get_build_by_version(builds, version):
         if _build["version"] == version:
             build = _build
     return build
+
 
 def __update_documentation_index():
     htmls = {}
@@ -190,7 +190,8 @@ def __update_documentation_index():
     ]
     original_args = sys.argv
     sys.argv = args
-    GelModelsTools()
+    ConversionTools()
+
 
 def run_build(build, skip_docs=False, skip_java=False):
     """
@@ -198,6 +199,7 @@ def run_build(build, skip_docs=False, skip_java=False):
     :param build:
     :return:
     """
+    logging.info("Building build version {}".format(build["version"]))
     version = build["version"]
     packages = build["packages"]
     # copy IDLs from specified packages in build into build folder
@@ -298,11 +300,19 @@ def main():
         logging.info("The build sandbox has been created under 'schemas/IDLs/build'")
     else:
         try:
-            for build in builds:
-                if args.version is None or build["version"] == args.version:
-                    logging.info("Building build version {}".format(build["version"]))
-                    run_build(build, args.skip_docs, args.skip_java)
-                    run_any = True
+            if args.version:
+                build = __get_build_by_version(builds, args.version)
+                if build is None:
+                    build = __get_build_by_version(builds, DependencyManager.remove_hotfix_version(args.version))
+                    if build is None:
+                        raise ValueError("Build version '{}' does not exist".format(args.version))
+                run_build(build, args.skip_docs, args.skip_java)
+                run_any = True
+            else:
+                for build in builds:
+                    if args.version is None or build["version"] == args.version:
+                        run_build(build, args.skip_docs, args.skip_java)
+                        run_any = True
         finally:
             __delete_IDLs_build_folder()
 

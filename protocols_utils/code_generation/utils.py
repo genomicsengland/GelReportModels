@@ -22,7 +22,6 @@ except:
     pass
 
 
-
 def log(message):
     print(message)
 

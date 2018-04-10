@@ -10,24 +10,59 @@ protocol TransactionProtocol {
 
 * PENDING: a transaction in the queue pending to be processed
 * BLOCKED: a transaction already being processed
-* APPLIED: a transaction has gone through the first phase of the two-phase commit
+* PROCESSING: a transaction being processed (normalised, lifted over and annotated)
+* PERSISTING: a transaction being persisted in the database
+* BLOCKED: a transaction already being processed
 * DONE: a transaction has been successfully processed
 * CANCELLING: a transaction is being rolled back
 * CANCELLED: a transaction has been rolled back
 * ERROR: erroneous transaction that cannot be processed, nor retried (this is caused by reported variants already in the database)
 * ROLLBACK_ERROR: a transaction failed to roll back (this may leave the database in an inconsistent state)
+* DELETED: a transaction has been deleted by a user (same effect as CANCELLED but user triggered)
 
-    The happy path is PENDING -> BLOCKED -> APPLIED -> DONE
+    The happy path is PENDING -> BLOCKED -> PROCESSING -> PERSISTING -> DONE
     */
     enum TransactionStatus {
         PENDING,
         BLOCKED,
-        APPLIED,
+        PROCESSING,
+        PERSISTING,
         DONE,
         CANCELLING,
         CANCELLED,
         ERROR,
-        ROLLBACK_ERROR
+        ROLLBACK_ERROR,
+        DELETED
+    }
+
+    /**
+    Keeps track of a transaction status change
+    */
+    record TransactionStatusChange {
+        /**
+        The new transaction status
+        */
+        TransactionStatus to;
+        /**
+        A timestamp with the status change
+        */
+        string timestamp;
+        /**
+        A message
+        */
+        union {null,string} message;
+        /**
+        An error message in case the transaction ingestion failed
+        */
+        union {null, string} errorMessage;
+        /**
+        The stracktrace in case the transaction ingestion failed
+        */
+        union {null, string} stackTrace;
+        /**
+        The CVA version that processed the transaction
+        */
+        union {null, string} cvaVersion;
     }
 
     /**
@@ -79,6 +114,10 @@ protocol TransactionProtocol {
         The assembly to which the variant refers
         */
         org.gel.models.report.avro.Assembly assembly;
+        /**
+        Messages
+        */
+        array<TransactionStatusChange> history;
     }
 
     /**
@@ -136,15 +175,8 @@ protocol TransactionProtocol {
         */
         union {null, bytes} compressedReportEvents;
         /**
-        An error message in case the transaction ingestion failed
-        */
-        union {null, string} errorMessage;
-        /**
-        The stracktrace in case the transaction ingestion failed
-        */
-        union {null, string} stackTrace;
-        /**
-        A hash signature of the transaction used to discard identical requests
+        A MD5 hash signature of the transaction used to discard identical requests.
+        To have a 50% chance of a collision by the birthday paradox we need 2**64 transactions
         */
         string requestSignature;
         /**

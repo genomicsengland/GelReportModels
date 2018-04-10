@@ -1,26 +1,25 @@
 #!/usr/bin/env python
 import argparse
-import sys
+import fnmatch
 import logging
 import os
-import fnmatch
 import os.path
+import sys
 import utils
-sys.path.append(os.path.dirname(os.path.join(os.path.dirname(__file__), '../CodeGenerationFromGA4GH')))
-from CodeGenerationFromGA4GH.process_schemas import SchemaGenerator
+from protocols_utils.code_generation.process_schemas import SchemaGenerator
 
 
 logging.basicConfig(level=logging.DEBUG)
 BASE_DIR = os.path.dirname(__file__)
-AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "..", "bin", "avro-tools-1.7.7.jar")
-GA4GH_CODE_GENERATION = os.path.join(BASE_DIR, "CodeGenerationFromGA4GH", "process_schemas.py")
+AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "../..", "resources/bin", "avro-tools-1.7.7.jar")
+GA4GH_CODE_GENERATION = os.path.join(BASE_DIR, "code_generation", "process_schemas.py")
 IDL_EXTENSION = "avdl"
 JSON_EXTENSION = "avsc"
 AVPR_EXTENSION = "avpr"
 HTML_EXTENSION = "html"
 
 
-class GelModelsTools(object):
+class ConversionTools(object):
 
 
     def __init__(self):
@@ -40,7 +39,6 @@ class GelModelsTools(object):
             exit(1)
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
-
 
     def idl2json(self):
         """
@@ -66,7 +64,6 @@ class GelModelsTools(object):
             )
             logging.info("Running: [%s]" % idl2schemata_command)
             utils.run_command(idl2schemata_command)
-
 
     def idl2avpr(self):
         """
@@ -192,4 +189,4 @@ class GelModelsTools(object):
 
 
 if __name__ == '__main__':
-    GelModelsTools()
+    ConversionTools()

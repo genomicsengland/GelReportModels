@@ -2,6 +2,7 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols import opencb_1_3_0 as opencb_1_3_0
 from protocols.migration.base_migration import BaseMigration, MigrationError
+import itertools
 
 
 class MigrateReports400To500(BaseMigration):
@@ -602,6 +603,10 @@ class MigrateReports400To500(BaseMigration):
         ]
         new_sample.tumourType = old_sample.tumourType if old_sample.tumourType in tumour_type_enum else None
         new_sample.tumourId = self.convert_int_to_str(value=old_sample.tumourId)
+        if ldp_code is None:
+            raise MigrationError("Cannot migrate '{}' to '{}' having an empty value of 'ldp_code'".format(
+                type(old_sample), type(new_sample))
+            )
         new_sample.LDPCode = ldp_code
 
         return self.validate_object(object_to_validate=new_sample, object_type=ts)
@@ -642,15 +647,21 @@ class MigrateReports400To500(BaseMigration):
         new_participant.germlineSamples = self.migrate_germline_samples(
             old_samples=old_participant.germlineSamples, ldp_code=old_participant.LDPCode
         )
+        # NOTE: we create all combinations of germline and tumour as a conservative approach
+        new_participant.matchedSamples = \
+            [self.new_model.MatchedSamples(germlineSampleId=x.sampleId, tumourSampleId=y.sampleId)
+             for (x, y) in list(itertools.product(new_participant.germlineSamples, new_participant.tumourSamples))]
 
-        new_participant.primaryDiagnosisDisease = [old_participant.primaryDiagnosisDisease]
-        new_participant.primaryDiagnosisSubDisease = [old_participant.primaryDiagnosisSubDisease]
-        new_participant.assignedICD10 = [old_participant.assignedICD10]
+        new_participant.primaryDiagnosisDisease = \
+            [old_participant.primaryDiagnosisDisease] if old_participant.primaryDiagnosisDisease else None
+        new_participant.primaryDiagnosisSubDisease = \
+            [old_participant.primaryDiagnosisSubDisease] if old_participant.primaryDiagnosisSubDisease else None
+        new_participant.assignedICD10 = \
+            [old_participant.assignedICD10] if old_participant.assignedICD10 else None
 
         return self.validate_object(
             object_to_validate=new_participant, object_type=self.new_model.CancerParticipant
         )
-
 
     @staticmethod
     def migrate_disorder_age_of_onset(old_age_of_onset):
@@ -666,10 +677,10 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
 
     def migrate_disorder_list(self, old_disorder_list):
-        return [
-            self.migrate_disorder(old_disorder=old_disorder) for old_disorder in old_disorder_list
-            if old_disorder_list is not None
-        ]
+        new_disorder_list = None
+        if old_disorder_list is not None:
+            new_disorder_list = [self.migrate_disorder(old_disorder=old_disorder) for old_disorder in old_disorder_list]
+        return new_disorder_list
 
     def migrate_hpo_term_age_of_onset(self, old_age_of_onset):
         new_age_of_onset = None
@@ -696,10 +707,10 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_hpo_term, object_type=new_object_type)
 
     def migrate_hpo_term_list(self, old_hpo_term_list):
-        return [
-            self.migrate_hpo_term(old_hpo_term=old_hpo_term) for old_hpo_term in old_hpo_term_list
-            if old_hpo_term_list is not None
-        ]
+        new_hpo_term_list = None
+        if old_hpo_term_list is not None:
+            new_hpo_term_list = [self.migrate_hpo_term(old_hpo_term=old_hpo) for old_hpo in old_hpo_term_list]
+        return new_hpo_term_list
 
     def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
         new_object_type = self.new_model.ChiSquare1KGenomesPhase3Pop
@@ -725,7 +736,10 @@ class MigrateReports400To500(BaseMigration):
         new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
         new_member.disorderList = self.migrate_disorder_list(old_disorder_list=old_member.disorderList)
         new_member.hpoTermList = self.migrate_hpo_term_list(old_hpo_term_list=old_member.hpoTermList)
-        new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
+        if old_member.ancestries is not None:
+            new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
+        else:
+            new_member.ancestries = None
         return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
 
     def migrate_pedigree_members(self, old_members):
