@@ -5,17 +5,16 @@ This protocol defines the metrics we calculate and store for genetic vs reported
 protocol ReportedVsGenetic {
 
 
-enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
-enum Karyotype {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+    enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
+    enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
-/** Coverage-based sex */
-record CoverageBasedSex{
-    Sex sex;
-    Karyotype karyotype;
-    union {null, double} ratioChrX;
-    union {null, double} ratioChrY;
-}
+    /** Coverage-based sex */
+    record CoverageBasedSex {
+        KaryotypicSex coverageKaryotype;
+        union {null, double} ratioChrX;
+        union {null, double} ratioChrY;
+    }
 
 /** Plink sex check */
 record PlinkSexCheck {
