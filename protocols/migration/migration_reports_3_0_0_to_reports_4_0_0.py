@@ -247,8 +247,19 @@ class MigrateReports3To4(BaseMigration):
     def migrate_report_events(self, old_report_events):
         return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
 
-    def migrate_tiered_variant(self, old_tiered_variant):
-        new_instance = self.convert_class(self.new_model.ReportedVariant, old_tiered_variant)
+    def migrate_tiered_variant(self, old_instance):
+        """
+
+        :type old_instance: reports_3_0_0.ReportedVariant
+        :type assembly: reports_5_0_0.Assembly
+        :type sample_id: str
+        :rtype reports_4_0_0.ReportedVariant
+        :return:
+        """
+        new_instance = self.convert_class(
+            self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
+        new_instance.dbSnpId = old_instance.dbSNPid
+        new_instance.reportEvents = [self.migrate_report_event(x) for x in old_instance.reportEvents]
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
@@ -256,7 +267,7 @@ class MigrateReports3To4(BaseMigration):
 
     def migrate_tiered_variants(self, old_tiered_variants):
         return [
-            self.migrate_tiered_variant(old_tiered_variant=old_tiered_variant)
+            self.migrate_tiered_variant(old_instance=old_tiered_variant)
             for old_tiered_variant in old_tiered_variants
         ]
 
@@ -268,6 +279,9 @@ class MigrateReports3To4(BaseMigration):
         new_instance.bams = self.migrate_files(old_files=old_instance.BAMs)
         new_instance.vcfs = self.migrate_files(old_files=old_instance.VCFs)
         new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
+        new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
+        new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
+        new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
         new_instance.tieredVariants = self.migrate_tiered_variants(old_tiered_variants=old_instance.TieredVariants)
         new_instance.tieringVersion = old_instance.TieringVersion
         new_instance.analysisReturnUri = old_instance.analysisReturnURI
@@ -282,15 +296,15 @@ class MigrateReports3To4(BaseMigration):
         if old_file is None:
             return None
         if isinstance(old_file.SampleId, list):
-            sampleId = old_file.SampleId
+            sample_id = old_file.SampleId
         elif old_file.SampleId is None:
-            sampleId = None
+            sample_id = None
         else:
-            sampleId = [old_file.SampleId]
+            sample_id = [old_file.SampleId]
         new_file = self.new_model.File(
                 fileType=old_file.fileType,
                 uriFile=old_file.URIFile,
-                sampleId=sampleId,
+                sampleId=sample_id,
                 md5Sum=None,
             )
         return self.validate_object(
@@ -298,4 +312,8 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_files(self, old_files):
-        return None if old_files is None else [self.migrate_file(old_file=old_file) for old_file in old_files]
+        if isinstance(old_files, list):
+            return None if old_files is None else [self.migrate_file(old_file=old_file) for old_file in old_files]
+        elif isinstance(old_files, dict):
+            return None if old_files is None else \
+                {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.iteritems()}
