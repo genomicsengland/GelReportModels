@@ -20,6 +20,7 @@ Two illustrative examples:
 
 * The CIPAPI exchanges data with the CIPs based on these models. This allows the CIPAPI to be completely independent of the specific implementations in the CIPs.
 * The CIPAPI pushes data to CVA. While the CIPAPI is implemented as a Django application in Python, CVA is a Java application deployed in Tomcat.
+
 The above exchanges are based on a REST interface, but any other technology could be used.
 
 We use Avro to describe our models.
@@ -40,7 +41,7 @@ Main functionalities
 ^^^^^^^^^^^^^^^^^^^^
 
 * Automatic code generation to hold the data (Python and Java supported out-of-the-box; others as C, C++ and C# are supported by ad hoc avro libraries).
-* Enable data validation against a schema (see the validation service)
+* Enable data validation against a schema (see the validation service `https://github.com/genomicsengland/data-validation <https://github.com/genomicsengland/data-validation>` for additional validation business rules)
 * Data serialisation/deserialisation to/from JSON
 * Generation of mocked data
 * Documentation automatically generated from the models
@@ -59,11 +60,20 @@ Models Documentation
 
     models
 
-Getting started
----------------
+Installation
+------------
 
-Install requirements
-^^^^^^^^^^^^^^^^^^^^
+Install built version from PyPIP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install from pip:
+::
+
+    pip install -i $PIP_SERVER GelReportModels
+
+
+Or build locally
+^^^^^^^^^^^^^^^^
 
 Install ``sphynx``:
 ::
@@ -150,6 +160,52 @@ To run some unit tests implemented in Python run:
 
     % ./run_tests.sh
 
+
+
+Getting started
+---------------
+
+Serialisation to/from JSON
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Given that you hold your data in JSON format in a string in memory deserialise as follows:
+
+::
+
+    from protocols.reports_4_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_4_0_0
+    instance = CancerInterpretationRequest_4_0_0.fromJsonString(json_string)
+    # now you can access the data in the instance
+    print("This interpretation request has {} variants".format(instance.tieredVariants))
+
+If your data is hold in a Python dictionary in memory deserialise as follows:
+
+::
+
+    instance = CancerInterpretationRequest_4_0_0.fromJsonDict(json_dict)
+
+The object can be serialised into JSON as follows:
+
+::
+
+    instance.toJsonDict()
+    instance.toJsonString()
+
+
+Serialisation to/from AVRO
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO
+
+Schema validation
+^^^^^^^^^^^^^^^^^
+
+Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.
+::
+
+    isValid = instance.validate(instance.toJsonDict())
+    isValid = instance.validate(instance.toJsonDict(), verbose=True)
+
+
 Mock data
 ^^^^^^^^^
 
@@ -206,18 +262,26 @@ Generate custom factories as follows
     variant = factory()
     variants = factory.create_batch(3)
 
-Schema validation
-^^^^^^^^^^^^^^^^^
-
-Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.
-::
-
-    isValid = instance.validate(instance.toJsonDict()))
 
 Migrations
 ^^^^^^^^^^
 
-TODO
+There a number of migration scripts in the package `protocols.migration`. They can be used as follows:
+
+::
+
+    from protocols.reports_4_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_4_0_0
+    from protocols.reports_5_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_5_0_0
+    from protocols.util.dependency_manager import VERSION_400
+    from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
+
+    old_instance = GenericFactoryAvro.get_factory_avro(CancerInterpretationRequest_4_0_0, VERSION_400).create()
+    old_instance.validate(old_instance.toJsonDict())
+
+    migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(
+        old_instance=old_instance, assembly='GRCh38'
+    )
+    migrated_instance.validate(migrated_instance.toJsonDict())
 
 Building Resources From a Container
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -284,18 +348,17 @@ then check you have them present:
 Additional tools
 ^^^^^^^^^^^^^^^^
 
-The conversion between the different Avro schema formats, source code and documentation are available through the following utility:
+The conversion between the different Avro schema formats, source code and documentation are available through the following script:
 ::
 
-    $ cd resources/GelModelsTools/
-    $ python gel_models_tools.py --help
-    usage: gel_models_tools.py <command> [<args>]
+    $ conversion_tools.py --help
+    usage: conversion_tools.py <command> [<args>]
 
     GEL models toolbox
 
     positional arguments:
       command     Subcommand to run
-                  (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html)
+                  (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index)
 
     optional arguments:
       -h, --help  show this help message and exit
