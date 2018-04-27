@@ -312,6 +312,7 @@ class TestMigrateReports4To500(TestCaseMigration):
             new_instance.variants,
             reports_5_0_0.Assembly.GRCh38
         )
+        self.assertEqual(old_instance.tieringVersion, new_instance.softwareVersions['tiering'])
 
         # creates a random clinical report cancer for testing not filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(
