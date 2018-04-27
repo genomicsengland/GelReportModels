@@ -402,5 +402,3 @@ class TestMigrateReports4To500(TestCaseMigration):
 
         cir_v4_from_json = CancerInterpretationRequest_4_0_0.fromJsonDict(cir_v4_json)
         cir_v4_from_json.validate(cir_v4_from_json.toJsonDict())
-
-
