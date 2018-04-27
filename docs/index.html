@@ -101,8 +101,9 @@
 <li class="toctree-l3"><a class="reference internal" href="models.html">GEL Models documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#install-requirements">Install requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-built-version-from-pypip">Install built version from PyPIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#or-build-locally">Or build locally</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build-the-models">Build the models</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#building-legacy-versions-of-the-models">Building legacy versions of the models</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-custom-tools-to-build-the-models">Using custom tools to build the models</a></li>
@@ -111,8 +112,13 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#java-packaging">Java Packaging</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unit-tests">Unit tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mock-data">Mock data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#serialisation-to-from-json">Serialisation to/from JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serialisation-to-from-avro">Serialisation to/from AVRO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#schema-validation">Schema validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mock-data">Mock data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#migrations">Migrations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-resources-from-a-container">Building Resources From a Container</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-tools">Additional tools</a></li>
@@ -212,8 +218,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#install-requirements">Install requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-built-version-from-pypip">Install built version from PyPIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#or-build-locally">Or build locally</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build-the-models">Build the models</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#building-legacy-versions-of-the-models">Building legacy versions of the models</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-custom-tools-to-build-the-models">Using custom tools to build the models</a></li>
@@ -222,8 +229,13 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#java-packaging">Java Packaging</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unit-tests">Unit tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mock-data">Mock data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#serialisation-to-from-json">Serialisation to/from JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serialisation-to-from-avro">Serialisation to/from AVRO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#schema-validation">Schema validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mock-data">Mock data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#migrations">Migrations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-resources-from-a-container">Building Resources From a Container</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-tools">Additional tools</a></li>
@@ -259,7 +271,7 @@
 <h3>Main functionalities<a class="headerlink" href="#main-functionalities" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Automatic code generation to hold the data (Python and Java supported out-of-the-box; others as C, C++ and C# are supported by ad hoc avro libraries).</li>
-<li>Enable data validation against a schema (see the validation service)</li>
+<li>Enable data validation against a schema (see the validation service <cite>https://github.com/genomicsengland/data-validation &lt;https://github.com/genomicsengland/data-validation&gt;</cite> for additional validation business rules)</li>
 <li>Data serialisation/deserialisation to/from JSON</li>
 <li>Generation of mocked data</li>
 <li>Documentation automatically generated from the models</li>
@@ -328,10 +340,17 @@
 </ul>
 </div>
 </div>
-<div class="section" id="getting-started">
-<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="install-requirements">
-<h3>Install requirements<a class="headerlink" href="#install-requirements" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-built-version-from-pypip">
+<h3>Install built version from PyPIP<a class="headerlink" href="#install-built-version-from-pypip" title="Permalink to this headline">¶</a></h3>
+<p>Install from pip:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pip install -i $PIP_SERVER GelReportModels
+</pre></div>
+</div>
+</div>
+<div class="section" id="or-build-locally">
+<h3>Or build locally<a class="headerlink" href="#or-build-locally" title="Permalink to this headline">¶</a></h3>
 <p>Install <code class="docutils literal"><span class="pre">sphynx</span></code>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">sphinx</span>
 </pre></div>
@@ -400,6 +419,40 @@
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="serialisation-to-from-json">
+<h3>Serialisation to/from JSON<a class="headerlink" href="#serialisation-to-from-json" title="Permalink to this headline">¶</a></h3>
+<p>Given that you hold your data in JSON format in a string in memory deserialise as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">protocols.reports_4_0_0</span> <span class="k">import</span> <span class="n">CancerInterpretationRequest</span> <span class="k">as</span> <span class="n">CancerInterpretationRequest_4_0_0</span>
+<span class="n">instance</span> <span class="o">=</span> <span class="n">CancerInterpretationRequest_4_0_0</span><span class="o">.</span><span class="n">fromJsonString</span><span class="p">(</span><span class="n">json_string</span><span class="p">)</span>
+<span class="c1"># now you can access the data in the instance</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This interpretation request has </span><span class="si">{}</span><span class="s2"> variants&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">tieredVariants</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If your data is hold in a Python dictionary in memory deserialise as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">instance</span> <span class="o">=</span> <span class="n">CancerInterpretationRequest_4_0_0</span><span class="o">.</span><span class="n">fromJsonDict</span><span class="p">(</span><span class="n">json_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The object can be serialised into JSON as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">()</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">toJsonString</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="serialisation-to-from-avro">
+<h3>Serialisation to/from AVRO<a class="headerlink" href="#serialisation-to-from-avro" title="Permalink to this headline">¶</a></h3>
+<p>TODO</p>
+</div>
+<div class="section" id="schema-validation">
+<h3>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h3>
+<p>Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">isValid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">())</span>
+<span class="n">isValid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">(),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="mock-data">
 <h3>Mock data<a class="headerlink" href="#mock-data" title="Permalink to this headline">¶</a></h3>
 <p>Generate a mocked object or a batch of objects with custom fields as follows:</p>
@@ -453,16 +506,23 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="schema-validation">
-<h3>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h3>
-<p>Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">isValid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">()))</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="migrations">
 <h3>Migrations<a class="headerlink" href="#migrations" title="Permalink to this headline">¶</a></h3>
-<p>TODO</p>
+<p>There a number of migration scripts in the package <cite>protocols.migration</cite>. They can be used as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">protocols.reports_4_0_0</span> <span class="k">import</span> <span class="n">CancerInterpretationRequest</span> <span class="k">as</span> <span class="n">CancerInterpretationRequest_4_0_0</span>
+<span class="kn">from</span> <span class="nn">protocols.reports_5_0_0</span> <span class="k">import</span> <span class="n">CancerInterpretationRequest</span> <span class="k">as</span> <span class="n">CancerInterpretationRequest_5_0_0</span>
+<span class="kn">from</span> <span class="nn">protocols.util.dependency_manager</span> <span class="k">import</span> <span class="n">VERSION_400</span>
+<span class="kn">from</span> <span class="nn">protocols.migration.migration_reports_4_0_0_to_reports_5_0_0</span> <span class="k">import</span> <span class="n">MigrateReports400To500</span>
+
+<span class="n">old_instance</span> <span class="o">=</span> <span class="n">GenericFactoryAvro</span><span class="o">.</span><span class="n">get_factory_avro</span><span class="p">(</span><span class="n">CancerInterpretationRequest_4_0_0</span><span class="p">,</span> <span class="n">VERSION_400</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="n">old_instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">old_instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">())</span>
+
+<span class="n">migrated_instance</span> <span class="o">=</span> <span class="n">MigrateReports400To500</span><span class="p">()</span><span class="o">.</span><span class="n">migrate_cancer_interpretation_request</span><span class="p">(</span>
+    <span class="n">old_instance</span><span class="o">=</span><span class="n">old_instance</span><span class="p">,</span> <span class="n">assembly</span><span class="o">=</span><span class="s1">&#39;GRCh38&#39;</span>
+<span class="p">)</span>
+<span class="n">migrated_instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">migrated_instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">())</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="building-resources-from-a-container">
 <h3>Building Resources From a Container<a class="headerlink" href="#building-resources-from-a-container" title="Permalink to this headline">¶</a></h3>
@@ -519,16 +579,15 @@ ga4gh.py              metrics.py        participant.py            reports.py
 </div>
 <div class="section" id="additional-tools">
 <h3>Additional tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline">¶</a></h3>
-<p>The conversion between the different Avro schema formats, source code and documentation are available through the following utility:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd resources/GelModelsTools/
-$ python gel_models_tools.py --help
-usage: gel_models_tools.py &lt;command&gt; [&lt;args&gt;]
+<p>The conversion between the different Avro schema formats, source code and documentation are available through the following script:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ conversion_tools.py --help
+usage: conversion_tools.py &lt;command&gt; [&lt;args&gt;]
 
 GEL models toolbox
 
 positional arguments:
   command     Subcommand to run
-              (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html)
+              (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index)
 
 optional arguments:
   -h, --help  show this help message and exit

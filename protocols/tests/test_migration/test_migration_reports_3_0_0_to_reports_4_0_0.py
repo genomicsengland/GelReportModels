@@ -7,6 +7,7 @@ from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.reports_3_0_0 import ReportEventCancer as ReportEventCancer_old
 from protocols.reports_4_0_0 import ReportEventCancer as ReportEventCancer_new
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
+import protocols.reports_3_0_0
 
 
 class TestMigrateReports3To4(TestCaseMigration):
@@ -14,9 +15,26 @@ class TestMigrateReports3To4(TestCaseMigration):
     old_model = reports_3_0_0
     new_model = reports_4_0_0
 
+    def setUp(self):
+        # avoids infinite recursion in mocked data
+        # now creates another factory generating values for nullable fields
+        file_factory = GenericFactoryAvro.get_factory_avro(
+            protocols.reports_3_0_0.File,
+            VERSION_300,
+            False,
+            False
+        )
+        GenericFactoryAvro.register_factory(
+            protocols.reports_3_0_0.File,
+            file_factory,
+            VERSION_300,
+            True
+        )
+
     def test_migrate_reported_somatic_variants(self):
 
-        old_variants = GenericFactoryAvro.get_factory_avro(self.old_model.ReportedSomaticVariants, VERSION_300)()
+        old_variants = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ReportedSomaticVariants, VERSION_300, fill_nullables=False)()
         old_variants.somaticOrGermline = self.old_model.SomaticOrGermline.somatic
 
         # Check old_variants is a valid reports_3_0_0 ReportedSomaticVariants object
@@ -35,9 +53,34 @@ class TestMigrateReports3To4(TestCaseMigration):
         self.assertTrue(isinstance(migrated_object, self.new_model.ReportedSomaticVariants))
         self._validate(migrated_object)
 
+        old_variants = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ReportedSomaticVariants, VERSION_300, fill_nullables=True)()
+        old_variants.somaticOrGermline = self.old_model.SomaticOrGermline.somatic
+
+        migrated_object = MigrateReports3To4().migrate_reported_somatic_variants(old_variants)
+
+        # Check migrated_object is a valid participant_1_0_0 ReportedSomaticVariants object
+        self.assertTrue(isinstance(migrated_object, self.new_model.ReportedSomaticVariants))
+        self._validate(migrated_object)
+
     def test_migrate_report_event_cancer(self):
 
-        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(ReportEventCancer_old, VERSION_300)()
+        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+            ReportEventCancer_old, VERSION_300, fill_nullables=False)()
+
+        # Check old_report_event_cancer is a valid reports_3_0_0.ReportEventCancer object
+        self.assertTrue(isinstance(old_report_event_cancer, ReportEventCancer_old))
+        self._validate(old_report_event_cancer)
+
+        migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
+
+        # Check migrated_report_event_cancer is a valid reports_4_0_0.ReportEventCancer object
+        self.assertTrue(isinstance(migrated_report_event_cancer, ReportEventCancer_new))
+        self._validate(migrated_report_event_cancer)
+
+        # fill nullables
+        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+            ReportEventCancer_old, VERSION_300, fill_nullables=True)()
 
         # Check old_report_event_cancer is a valid reports_3_0_0.ReportEventCancer object
         self.assertTrue(isinstance(old_report_event_cancer, ReportEventCancer_old))
@@ -56,7 +99,8 @@ class TestMigrateReports3To4(TestCaseMigration):
         """
 
         for valid_cancer_role in ['oncogene', 'TSG', 'both']:
-            old_report_event_cancer = GenericFactoryAvro.get_factory_avro(ReportEventCancer_old, VERSION_300)()
+            old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+                ReportEventCancer_old, VERSION_300, fill_nullables=False)()
             old_report_event_cancer.genomicFeatureCancer.roleInCancer = valid_cancer_role
 
             migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
@@ -66,7 +110,29 @@ class TestMigrateReports3To4(TestCaseMigration):
                 old_report_event_cancer.genomicFeatureCancer.roleInCancer,
                 migrated_report_event_cancer.genomicFeatureCancer.roleInCancer,
             )
-        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(ReportEventCancer_old, VERSION_300)()
+        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+            ReportEventCancer_old, VERSION_300, fill_nullables=False)()
+        old_report_event_cancer.genomicFeatureCancer.roleInCancer = 'not an included cancer role'
+
+        migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
+
+        self.assertIsNone(migrated_report_event_cancer.genomicFeatureCancer.roleInCancer)
+
+        ## fill nullables
+        for valid_cancer_role in ['oncogene', 'TSG', 'both']:
+            old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+                ReportEventCancer_old, VERSION_300, fill_nullables=True)()
+            old_report_event_cancer.genomicFeatureCancer.roleInCancer = valid_cancer_role
+
+            migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
+
+            # Check migrated_report_event_cancer.genomicFeatureCancer.roleInCancer is copied across
+            self.assertEqual(
+                old_report_event_cancer.genomicFeatureCancer.roleInCancer,
+                migrated_report_event_cancer.genomicFeatureCancer.roleInCancer,
+            )
+        old_report_event_cancer = GenericFactoryAvro.get_factory_avro(
+            ReportEventCancer_old, VERSION_300, fill_nullables=True)()
         old_report_event_cancer.genomicFeatureCancer.roleInCancer = 'not an included cancer role'
 
         migrated_report_event_cancer = MigrateReports3To4().migrate_report_event_cancer(old_report_event_cancer)
@@ -76,6 +142,14 @@ class TestMigrateReports3To4(TestCaseMigration):
     def test_migrate_clinical_report_rd(self):
         """ Test passing on 186 real cases"""
         old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=False
+        ).create()
+        self._validate(old_instance)
+        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_clinical_report_rd=old_instance)
+        self._validate(migrated_instance)
+
+        # fill all nullables
+        old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=True
         ).create()
         self._validate(old_instance)
@@ -84,7 +158,17 @@ class TestMigrateReports3To4(TestCaseMigration):
 
     def test_migrate_interpreted_genome_rd(self):
         """ Test passing on 3000 real cases"""
-        old_instance = GenericFactoryAvro.get_factory_avro(self.old_model.InterpretedGenomeRD, VERSION_300).create()
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_300, fill_nullables=False
+        ).create()
+        self._validate(old_instance)
+        migrated_instance = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=old_instance)
+        self._validate(migrated_instance)
+
+        # fill all nullables
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_300, fill_nullables=True
+        ).create()
         self._validate(old_instance)
         migrated_instance = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=old_instance)
         self._validate(migrated_instance)
@@ -108,3 +192,15 @@ class TestMigrateReports3To4(TestCaseMigration):
                 self.assertEqual(new_big_wig.uriFile, old_big_wig.URIFile)
                 self.assertEqual(new_big_wig.fileType, old_big_wig.fileType)
                 self.assertEqual(new_big_wig.md5Sum, None)
+
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretationRequestRD, VERSION_300, fill_nullables=True
+        ).create()  # reports_3_0_0.InterpretationRequestRD
+        self._validate(old_instance)
+        migrated_instance = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=old_instance)
+
+        for old_variant, new_variant in zip(old_instance.TieredVariants, migrated_instance.tieredVariants):
+            for old_re, new_re in zip(old_variant.reportEvents, new_variant.reportEvents):
+                self.assertEqual(old_re.genomicFeature.HGNC, new_re.genomicFeature.hgnc)
+
+        self._validate(migrated_instance)

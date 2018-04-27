@@ -14,13 +14,13 @@ reqs = [
     "PyYAML==3.12",
 ]
 
-VERSION = "6.0.6"
+VERSION = "6.0.7"
 setup(
     name='GelReportModels',
     version=VERSION,
     packages=find_packages(),
     include_package_data=True,
-    scripts=['bin/ModelValidator'],
+    scripts=['bin/ModelValidator', 'protocols_utils/utils/conversion_tools.py'],
     url='',
     license='',
     author='Bioinformatics Team at Genomics England',

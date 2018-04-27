@@ -267,7 +267,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
         try:
             new_pedigree_member.yearOfBirth = int(member.yearOfBirth)
-        except TypeError:
+        except Exception:
             new_pedigree_member.yearOfBirth = None
 
         new_pedigree_member.samples = []
