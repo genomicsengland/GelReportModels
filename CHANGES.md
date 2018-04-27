@@ -1,3 +1,13 @@
+Version 6.0.7 (27th April 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Bugfix IP-735 deserializing maps from JSON
+* Bugfix IP-1094 fix lost HGNC
+* Improved documentation
+* Added `conversion_tools.py` as a script to python package
+
 Version 6.0.6 (29th March 2018)
 --------------------------------
 
