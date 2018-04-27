@@ -44,6 +44,9 @@ class MigrateReports400To500(BaseMigration):
         # missing fields not existing in reports_4_0_0.InterpretationRequestRD will be received as parameters
         new_instance.interpretationService = interpretation_service
         new_instance.referenceDatabasesVersions = reference_database_versions
+        if software_versions is None:
+            software_versions = {}
+        software_versions['tiering'] = old_instance.tieringVersion
         new_instance.softwareVersions = software_versions
         new_instance.reportUrl = report_url
         new_instance.comments = comments

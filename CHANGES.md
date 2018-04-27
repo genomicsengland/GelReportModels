@@ -1,3 +1,10 @@
+Version 6.0.8 (27th April 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Bugfix IP-1169 tiering version lost in translation
+
 Version 6.0.7 (27th April 2018)
 --------------------------------
 
