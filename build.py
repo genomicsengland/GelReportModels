@@ -11,7 +11,7 @@ except:
     import json
 import shutil
 import distutils.dir_util
-from protocols_utils.utils import utils
+import protocols_utils.utils.conversion_tools as conversion_tools
 from protocols_utils.utils.conversion_tools import ConversionTools
 from protocols.util.dependency_manager import DependencyManager
 
@@ -185,7 +185,7 @@ def __update_documentation_index():
 
     # Calls Sphinx
     args = [
-        'resources/GelModelsTools/gel_models_tools.py',
+        'protocols_utils/utils/conversion_tools.py',
         'update_docs_index'
     ]
     original_args = sys.argv
@@ -210,13 +210,13 @@ def run_build(build, skip_docs=False, skip_java=False):
         json_build_folder = os.path.join(JSON_FOLDER, "build")
         if os.path.exists(json_build_folder):
             distutils.dir_util.remove_tree(json_build_folder)
-        utils.makedir(json_build_folder)
+        conversion_tools.makedir(json_build_folder)
         __idl2json(build_folder, json_build_folder)
 
         # generate Java source code
         if os.path.exists(JAVA_FOLDER):
             distutils.dir_util.remove_tree(JAVA_FOLDER)
-        utils.makedir(JAVA_FOLDER)
+        conversion_tools.makedir(JAVA_FOLDER)
         __json2java(json_build_folder, JAVA_FOLDER)
 
     # process each package separately now
@@ -232,7 +232,7 @@ def run_build(build, skip_docs=False, skip_java=False):
         json_build_folder = os.path.join(JSON_FOLDER, "build")
         if os.path.exists(json_build_folder):
             distutils.dir_util.remove_tree(json_build_folder)
-        utils.makedir(json_build_folder)
+        conversion_tools.makedir(json_build_folder)
         __idl2json(build_folder, json_build_folder)
 
         # generate python source code
@@ -247,12 +247,12 @@ def run_build(build, skip_docs=False, skip_java=False):
             avpr_build_folder = os.path.join(AVPR_FOLDER, "build")
             if os.path.exists(avpr_build_folder):
                 distutils.dir_util.remove_tree(avpr_build_folder)
-            utils.makedir(avpr_build_folder)
+            conversion_tools.makedir(avpr_build_folder)
             __idl2avpr(build_folder, avpr_build_folder)
 
             # generate documentation
             docs_folder = os.path.join(DOCS_FOLDER, package["package"], package["version"])
-            utils.makedir(docs_folder)
+            conversion_tools.makedir(docs_folder)
             for avpr in os.listdir(avpr_build_folder):
                 __avpr2html(os.path.join(avpr_build_folder, avpr), docs_folder)
 
@@ -290,7 +290,7 @@ def main():
     if not args.skip_docs:
         if os.path.exists(DOCS_FOLDER):
             distutils.dir_util.remove_tree(DOCS_FOLDER)
-        utils.makedir(DOCS_FOLDER)
+        conversion_tools.makedir(DOCS_FOLDER)
 
     if args.only_prepare_sandbox:
         build = __get_build_by_version(builds, args.version)
@@ -318,7 +318,6 @@ def main():
 
         if args.update_docs_index:
             __update_documentation_index()
-
 
         if not run_any and args.version is not None:
             raise ValueError("Provided build version does not exist [{}]".format(args.version))

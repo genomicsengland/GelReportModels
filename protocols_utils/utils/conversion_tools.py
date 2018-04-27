@@ -5,7 +5,9 @@ import logging
 import os
 import os.path
 import sys
-import utils
+import subprocess
+import logging
+import errno
 from protocols_utils.code_generation.process_schemas import SchemaGenerator
 
 
@@ -19,13 +21,47 @@ AVPR_EXTENSION = "avpr"
 HTML_EXTENSION = "html"
 
 
-class ConversionTools(object):
+def run_command(command, fail_if_error=True, cwd=None):
+    """
+    Runs a given command
+    :param cwd:
+    :param fail_if_error:
+    :param command:
+    :return:
+    """
+    if cwd is not None:
+        sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
+    else:
+        sp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = sp.communicate()
+    if stdout is not None and stdout != "":
+        logging.info(stdout)
+    if stderr is not None and stderr != "":
+        logging.error(stderr)
+    # raise an error if sort return code is other than 0
+    if sp.returncode:
+        error_message = 'Command [{0}] returned error code [{1}]'.format(command, str(sp.returncode))
+        logging.error(error_message)
+        if fail_if_error:
+            raise ValueError(error_message)
 
+
+def makedir(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+
+class ConversionTools(object):
 
     def __init__(self):
         parser = argparse.ArgumentParser(
             description='GEL models toolbox',
-            usage='''gel_models_tools.py <command> [<args>]''')
+            usage='''conversion_tools.py <command> [<args>]''')
         parser.add_argument(
             'command',
             help='Subcommand to run (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index)'
@@ -52,7 +88,7 @@ class ConversionTools(object):
         parser.add_argument('--output', help='Output folder for the JSON schemas')
         args = parser.parse_args(sys.argv[2:])
         logging.info('idl2schema')
-        utils.makedir(args.output)
+        makedir(args.output)
         idls = [os.path.join(dirpath, f)
                 for dirpath, dirnames, files in os.walk(args.input)
                 for f in fnmatch.filter(files, "*.{}".format(IDL_EXTENSION))]
@@ -63,7 +99,7 @@ class ConversionTools(object):
                 AVRO_TOOLS_JAR, idl, args.output
             )
             logging.info("Running: [%s]" % idl2schemata_command)
-            utils.run_command(idl2schemata_command)
+            run_command(idl2schemata_command)
 
     def idl2avpr(self):
         """
@@ -77,7 +113,7 @@ class ConversionTools(object):
         parser.add_argument('--output', help='Output folder for the AVPRs')
         args = parser.parse_args(sys.argv[2:])
         logging.info('idl2avpr')
-        utils.makedir(args.output)
+        makedir(args.output)
         idls = [os.path.join(dirpath, f)
                 for dirpath, dirnames, files in os.walk(args.input)
                 for f in fnmatch.filter(files, "*.{}".format(IDL_EXTENSION))]
@@ -88,7 +124,7 @@ class ConversionTools(object):
                 AVRO_TOOLS_JAR, idl, args.output, file_name
             )
             logging.info("Running: [%s]" % idl2avpr_command)
-            utils.run_command(idl2avpr_command)
+            run_command(idl2avpr_command)
 
 
     def json2java(self):
@@ -103,7 +139,7 @@ class ConversionTools(object):
         parser.add_argument('--output', help='Output folder for the Java source code')
         args = parser.parse_args(sys.argv[2:])
         logging.info('json2java')
-        utils.makedir(args.output)
+        makedir(args.output)
         jsons = [os.path.join(dirpath, f)
                 for dirpath, dirnames, files in os.walk(args.input)
                 for f in fnmatch.filter(files, "*.{}".format(JSON_EXTENSION))]
@@ -113,7 +149,7 @@ class ConversionTools(object):
                 AVRO_TOOLS_JAR, json, args.output
             )
             logging.info("Running: [%s]" % idl2avpr_command)
-            utils.run_command(idl2avpr_command)
+            run_command(idl2avpr_command)
 
 
     def idl2python(self):
@@ -129,12 +165,12 @@ class ConversionTools(object):
         parser.add_argument('--version', help='Python package version')
         args = parser.parse_args(sys.argv[2:])
         logging.info('idl2python')
-        utils.makedir(os.path.dirname(args.output))
+        makedir(os.path.dirname(args.output))
         idl2python_command = "python {} --inputSchemasDirectory {} --avro-tools-jar {} --outputFile {} {} --verbose".format(
             GA4GH_CODE_GENERATION, args.input, AVRO_TOOLS_JAR, args.output_file, args.version
         )
         logging.info("Running: [%s]" % idl2python_command)
-        utils.run_command(idl2python_command)
+        run_command(idl2python_command)
 
 
     def json2python(self):
@@ -150,7 +186,7 @@ class ConversionTools(object):
         parser.add_argument('--version', help='Python package version')
         args = parser.parse_args(sys.argv[2:])
         logging.info('json2python')
-        utils.makedir(os.path.dirname(args.output_file))
+        makedir(os.path.dirname(args.output_file))
         sg = SchemaGenerator(args.version, args.input, args.output_file, True)
         sg.write()
 
@@ -167,11 +203,11 @@ class ConversionTools(object):
         parser.add_argument('--output', help='Output folder for the HTML documentation')
         args = parser.parse_args(sys.argv[2:])
         logging.info('avpr2html')
-        utils.makedir(args.output)
+        makedir(args.output)
         output_html = os.path.basename(args.input_file).replace(AVPR_EXTENSION, HTML_EXTENSION)
         avrodoc_command = "avrodoc {} > {}".format(args.input_file, os.path.join(args.output, output_html))
         logging.info("Running: [%s]" % avrodoc_command)
-        utils.run_command(avrodoc_command)
+        run_command(avrodoc_command)
 
     def update_docs_index(self):
         """
@@ -185,7 +221,7 @@ class ConversionTools(object):
         logging.info('Updating docs index...')
         sphinx_command = "make html"
         logging.info("Running: [%s]" % sphinx_command)
-        utils.run_command(sphinx_command, cwd="./docs")
+        run_command(sphinx_command, cwd="./docs")
 
 
 if __name__ == '__main__':

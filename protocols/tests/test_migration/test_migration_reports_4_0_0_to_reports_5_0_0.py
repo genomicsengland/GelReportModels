@@ -390,3 +390,17 @@ class TestMigrateReports4To500(TestCaseMigration):
             old_instance=old_instance, assembly='GRCh38'
         )
         self._validate(migrated_instance)
+
+    def test_json_serialization(self):
+        from protocols.util.dependency_manager import VERSION_400
+        from protocols.util.factories.avro_factory import GenericFactoryAvro
+        from protocols.reports_4_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_4_0_0
+        cir_v4 = GenericFactoryAvro.get_factory_avro(clazz=CancerInterpretationRequest_4_0_0,
+                                                            version=VERSION_400, fill_nullables=True).create()
+        cir_v4.validate(cir_v4.toJsonDict())
+        cir_v4_json = cir_v4.toJsonDict()
+
+        cir_v4_from_json = CancerInterpretationRequest_4_0_0.fromJsonDict(cir_v4_json)
+        cir_v4_from_json.validate(cir_v4_from_json.toJsonDict())
+
+
