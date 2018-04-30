@@ -55,7 +55,7 @@ class Migration2_1To3(object):
             return new_called_genotype
         else:
             new_called_genotype.genotype = 'unk'
-            if new_called_genotype.validate(new_called_genotype.toJsonDict()):
+            if new_called_genotype.validate(new_called_genotype.toJsonDict(), verbose=True):
                 return new_called_genotype
             else:
                 raise Exception('This model can not be converted')
@@ -160,7 +160,7 @@ class Migration2_1To3(object):
         new_interpreted_genome.softwareVersions = {}
         new_interpreted_genome.referenceDatabasesVersions = {}
 
-        if new_interpreted_genome.validate(new_interpreted_genome.toJsonDict()):
+        if new_interpreted_genome.validate(new_interpreted_genome.toJsonDict(), verbose=True):
             return new_interpreted_genome
         else:
             raise Exception('This model can not be converted')
@@ -179,7 +179,7 @@ class Migration2_1To3(object):
         for tiered_variant in interpretation_request.TieredVariants:
             new_interpretation_request.TieredVariants.append(self.migrate_reported_variant(tiered_variant))
 
-        if new_interpretation_request.validate(new_interpretation_request.toJsonDict()):
+        if new_interpretation_request.validate(new_interpretation_request.toJsonDict(), verbose=True):
             return new_interpretation_request
         else:
             raise Exception('This model can not be converted')
