@@ -6,7 +6,7 @@ from protocols.util.dependency_manager import VERSION_210, VERSION_300, VERSION_
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.avro_factory import FactoryAvro
 
-import protocols.migration.migration_helpers as migration_helpers
+from protocols.migration.migration_helpers import MigrationHelpers
 
 
 class ActionFactory400(FactoryAvro):
@@ -55,6 +55,7 @@ class FileFactory300(FactoryAvro):
                                           reports_3_0_0.FileType.ANN, reports_3_0_0.FileType.VCF_small])
     md5Sum = None
 
+
 class FileFactory210(FactoryAvro):
     class Meta:
         model = reports_2_1_0.File
@@ -88,7 +89,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpretation_request_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -99,7 +100,7 @@ class TestMigrationHelpers(TestCaseMigration):
         ).create()
         self._validate(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpretation_request_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -110,7 +111,7 @@ class TestMigrationHelpers(TestCaseMigration):
         ).create()
         self._validate(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpretation_request_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -121,7 +122,7 @@ class TestMigrationHelpers(TestCaseMigration):
         ).create()
         self._validate(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpretation_request_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -135,7 +136,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpreted_genome_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38', interpretation_request_version=1
         )
         self._validate(migrated_instance)
@@ -147,7 +148,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpreted_genome_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38', interpretation_request_version=1
         )
         self._validate(migrated_instance)
@@ -159,7 +160,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpreted_genome_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38', interpretation_request_version=1
         )
         self._validate(migrated_instance)
@@ -171,7 +172,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_interpreted_genome_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38', interpretation_request_version=1
         )
         self._validate(migrated_instance)
@@ -185,7 +186,7 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance.interpretationRequestVersion = str(factory.fuzzy.FuzzyInteger(0).fuzz())
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
-        migrated_instance = migration_helpers.migrate_clinical_report_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -198,7 +199,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_clinical_report_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -211,7 +212,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_clinical_report_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
@@ -223,7 +224,7 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        migrated_instance = migration_helpers.migrate_clinical_report_rd_to_version_5_0_0(
+        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_version_5_0_0(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
         self._validate(migrated_instance)
