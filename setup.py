@@ -14,7 +14,7 @@ reqs = [
     "PyYAML==3.12",
 ]
 
-VERSION = "6.0.8"
+VERSION = "6.0.9"
 setup(
     name='GelReportModels',
     version=VERSION,
