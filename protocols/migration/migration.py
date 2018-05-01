@@ -1,3 +1,4 @@
+import logging
 from protocols import reports_2_1_0, reports_3_0_0 as reports_3_0_0
 
 
@@ -54,6 +55,7 @@ class Migration2_1To3(object):
         if new_called_genotype.validate(new_called_genotype.toJsonDict()):
             return new_called_genotype
         else:
+            logging.warning("Lost genotype '{}' during migration".format(called_genotype.genotype))
             new_called_genotype.genotype = 'unk'
             if new_called_genotype.validate(new_called_genotype.toJsonDict(), verbose=True):
                 return new_called_genotype
@@ -124,14 +126,12 @@ class Migration2_1To3(object):
         """
 
         new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(reported_structural_variant.toJsonDict())
-        new_reported_structural_variant.calledGenotypes = []
-        new_reported_structural_variant.reportEvents = []
-
-        for called_genotype in reported_structural_variant.calledGenotypes:
-            new_reported_structural_variant.calledGenotypes.append(self.migrate_reported_called_genotype(called_genotype))
-
-        for report_event in reported_structural_variant.reportEvents:
-            new_reported_structural_variant.reportEvents.append(self.migrate_report_event(report_event))
+        new_reported_structural_variant.calledGenotypes = [
+            self.migrate_reported_called_genotype(called_genotype)
+            for called_genotype in reported_structural_variant.calledGenotypes]
+        new_reported_structural_variant.reportEvents = [
+            self.migrate_report_event(report_event)
+            for report_event in reported_structural_variant.reportEvents]
 
         if new_reported_structural_variant.validate(new_reported_structural_variant.toJsonDict()):
             return new_reported_structural_variant
@@ -146,17 +146,12 @@ class Migration2_1To3(object):
         """
 
         new_interpreted_genome = self.new_model.InterpretedGenomeRD.fromJsonDict(interpreted_genome.toJsonDict())
-        new_interpreted_genome.reportedVariants = []
-        new_interpreted_genome.ReportedStructuralVariant = []
+        new_interpreted_genome.reportedVariants = [
+            self.migrate_reported_variant(reported_variant) for reported_variant in interpreted_genome.reportedVariants ]
+        new_interpreted_genome.reportedStructuralVariants = [
+            self.migrate_reported_structural_variant(reported_structural_variant)
+            for reported_structural_variant in interpreted_genome.reportedStructuralVariants]
         interpreted_genome.versionControl = reports_3_0_0.VersionControl()
-
-        for reported_variant in interpreted_genome.reportedVariants:
-            new_interpreted_genome.reportedVariants.append(self.migrate_reported_variant(reported_variant))
-
-        if interpreted_genome.reportedStructuralVariants:
-            for reported_structural_variant in interpreted_genome.reportedStructuralVariants:
-                new_interpreted_genome.ReportedStructuralVariant.append(self.migrate_reported_structural_variant(reported_structural_variant))
-
         new_interpreted_genome.softwareVersions = {}
         new_interpreted_genome.referenceDatabasesVersions = {}
 
