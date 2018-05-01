@@ -8,7 +8,7 @@ class PayloadValidation(object):
 
     @property
     def is_valid(self):
-        return self._klass.validate(self._payload)
+        return self._klass.validate(self._payload)  # , verbose=True)
 
     def validate(self):
         if not self.is_valid:

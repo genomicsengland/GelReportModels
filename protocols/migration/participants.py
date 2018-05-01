@@ -1,8 +1,10 @@
+import logging
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
+from protocols.migration.base_migration import MigrationError
 
 
 class MigrationParticipants100To103(BaseMigration):
@@ -120,13 +122,66 @@ class MigrationParticipants100To103(BaseMigration):
     def migrate_member(self, old_member):
         new_member = self.new_model.PedigreeMember.fromJsonDict(old_member.toJsonDict())
         new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
-
-        if new_member.validate(new_member.toJsonDict()):
+        new_member.disorderList = [self.migrate_disorder(disorder) for disorder in old_member.disorderList]
+        new_member.hpoTermList = [self.migrate_hpo_term(hpo_term) for hpo_term in old_member.hpoTermList]
+        if new_member.validate(new_member.toJsonDict(), verbose=True):
             return new_member
         else:
             raise Exception(
                 'This model can not be converted: ', handle_avro_errors(new_member.validate_parts())
             )
+
+    def migrate_disorder(self, old_instance):
+        new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
+        try:
+            new_instance.ageOfOnset = float(old_instance.ageOfOnset)
+        except ValueError:
+            raise MigrationError("Cannot parse ageOfOnset='{}' into a float".format(old_instance.ageOfOnset))
+        return new_instance
+
+    def migrate_hpo_term(self, old_instance):
+        new_instance = self.new_model.HpoTerm.fromJsonDict(old_instance.toJsonDict())
+        values = [
+            self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
+            self.new_model.AgeOfOnset.FETAL_ONSET,
+            self.new_model.AgeOfOnset.NEONATAL_ONSET,
+            self.new_model.AgeOfOnset.INFANTILE_ONSET,
+            self.new_model.AgeOfOnset.CHILDHOOD_ONSET,
+            self.new_model.AgeOfOnset.JUVENILE_ONSET,
+            self.new_model.AgeOfOnset.YOUNG_ADULT_ONSET,
+            self.new_model.AgeOfOnset.LATE_ONSET,
+            self.new_model.AgeOfOnset.MIDDLE_AGE_ONSET
+        ]
+        if old_instance.ageOfOnset not in values:
+            new_instance.ageOfOnset = None
+            logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
+        if old_instance.modifiers is not None:
+            for name, value in old_instance.modifiers.iteritems():
+                new_modifiers = self.new_model.HpoTermModifiers()
+                if name == "laterality" and value in [self.new_model.Laterality.RIGHT,
+                                                      self.new_model.Laterality.UNILATERAL,
+                                                      self.new_model.Laterality.BILATERAL,
+                                                      self.new_model.Laterality.LEFT]:
+                    new_modifiers.laterality = value
+                elif name == "progression" and value in [self.new_model.Progression.PROGRESSIVE,
+                                                         self.new_model.Progression.NONPROGRESSIVE]:
+                    new_modifiers.progression = value
+                elif name == "severity" and value in [self.new_model.Severity.BORDERLINE,
+                                                      self.new_model.Severity.MILD,
+                                                      self.new_model.Severity.MODERATE,
+                                                      self.new_model.Severity.SEVERE,
+                                                      self.new_model.Severity.PROFOUND]:
+                    new_modifiers.severity = value
+                elif name == "spatialPattern" and value in [self.new_model.SpatialPattern.DISTAL,
+                                                            self.new_model.SpatialPattern.GENERALIZED,
+                                                            self.new_model.SpatialPattern.LOCALIZED,
+                                                            self.new_model.SpatialPattern.PROXIMAL]:
+                    new_modifiers.severity = value
+                else:
+                    logging.warning("Lost modifier '{}={}' during migration".format(name, value))
+                new_instance.modifiers = new_modifiers
+
+        return new_instance
 
     def migrate_members(self, old_members):
         return [self.migrate_member(old_member=old_member) for old_member in old_members]
