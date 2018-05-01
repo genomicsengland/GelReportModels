@@ -2,7 +2,7 @@ from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 import factory.fuzzy
 from protocols import reports_2_1_0, reports_3_0_0, reports_4_0_0, reports_5_0_0, participant_1_0_0, participant_1_0_3
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
-from protocols.util.dependency_manager import VERSION_210, VERSION_300, VERSION_400, VERSION_500, VERSION_60
+from protocols.util.dependency_manager import VERSION_210, VERSION_300, VERSION_400, VERSION_500, VERSION_61
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.avro_factory import FactoryAvro
 
@@ -124,7 +124,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
         # tests IG 500 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.InterpretedGenomeRD, VERSION_60, fill_nullables=True
+            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=True
         ).create()
         self._validate(old_instance)
 
@@ -179,7 +179,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
         # tests IG 500 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.InterpretedGenomeRD, VERSION_60, fill_nullables=True
+            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=True
         ).create()
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
@@ -237,7 +237,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
         # tests IG 500 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.ClinicalReportRD, VERSION_60, fill_nullables=True
+            reports_5_0_0.ClinicalReportRD, VERSION_61, fill_nullables=True
         ).create()
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)

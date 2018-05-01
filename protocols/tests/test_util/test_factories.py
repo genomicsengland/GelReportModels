@@ -8,7 +8,7 @@ import protocols.reports_4_2_0
 import protocols.reports_3_0_0
 from protocols.ga4gh_3_0_0 import Variant
 from protocols.cva_0_4_0 import TieredVariantInjectRD
-from protocols.util.dependency_manager import VERSION_300, VERSION_400, VERSION_500, VERSION_60
+from protocols.util.dependency_manager import VERSION_300, VERSION_400, VERSION_500, VERSION_61
 from protocols.cva_0_4_0 import TieredVariantInjectCancer
 import protocols.cva_1_0_0 as cva_1_0_0
 from protocols.util.factories.avro_factory import FactoryAvro
@@ -288,7 +288,7 @@ class TestGenericFactory(TestCase):
         # get an interpretation request RD for reports 5.0.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
             protocols.reports_5_0_0.InterpretationRequestRD,
-            version=VERSION_60
+            version=VERSION_61
         )
         instance = interpretation_request_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
@@ -296,7 +296,7 @@ class TestGenericFactory(TestCase):
         # now try the same with the build version including the hotfix version
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
             protocols.reports_5_0_0.InterpretationRequestRD,
-            version="6.0.0"
+            version="6.1.0"
         )
         instance = interpretation_request_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
