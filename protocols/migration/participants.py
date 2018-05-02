@@ -134,8 +134,9 @@ class MigrationParticipants100To103(BaseMigration):
     def migrate_disorder(self, old_instance):
         new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
         try:
-            new_instance.ageOfOnset = float(old_instance.ageOfOnset)
-        except ValueError:
+            if old_instance.ageOfOnset:
+                new_instance.ageOfOnset = float(old_instance.ageOfOnset)
+        except TypeError:
             raise MigrationError("Cannot parse ageOfOnset='{}' into a float".format(old_instance.ageOfOnset))
         return new_instance
 
@@ -154,7 +155,8 @@ class MigrationParticipants100To103(BaseMigration):
         ]
         if old_instance.ageOfOnset not in values:
             new_instance.ageOfOnset = None
-            logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
+            if old_instance.ageOfOnset:
+                logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
         if old_instance.modifiers is not None:
             for name, value in old_instance.modifiers.iteritems():
                 new_modifiers = self.new_model.HpoTermModifiers()
