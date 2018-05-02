@@ -279,8 +279,9 @@ class MigrateReports400To500(BaseMigration):
 
         # converts a list of called genotypes into a list of variant calls
         variant_calls = []
-        for called_genotype in old_instance.calledGenotypes:
-            variant_calls.append(self.migrate_called_genotype_to_variant_call(called_genotype))
+        if old_instance.calledGenotypes is not None:
+            for called_genotype in old_instance.calledGenotypes:
+                variant_calls.append(self.migrate_called_genotype_to_variant_call(called_genotype))
         new_instance.variantCalls = variant_calls
 
         # converts a list of report events
@@ -397,7 +398,9 @@ class MigrateReports400To500(BaseMigration):
         )
 
     def migrate_report_events(self, old_report_events):
-        return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+        if old_report_events is not None:
+            return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+        return None
 
     def migrate_genomic_feature(self, old_instance):
         """
@@ -513,8 +516,9 @@ class MigrateReports400To500(BaseMigration):
         new_instance.genomicEntities = [self.migrate_genomic_feature_cancer(old_instance.genomicFeatureCancer)]
 
         # transforms a list of SO terms into a list of variant consequences
-        new_instance.variantConsequences = [reports_5_0_0.VariantConsequence(id=so_term.id, name=so_term.name)
-                                            for so_term in old_instance.soTerms]
+        if old_instance.soTerms is not None:
+            new_instance.variantConsequences = [reports_5_0_0.VariantConsequence(id=so_term.id, name=so_term.name)
+                                                for so_term in old_instance.soTerms]
 
         # migrates actions
         new_instance.actions = self.migrate_actions(old_instance.actions)
@@ -533,7 +537,9 @@ class MigrateReports400To500(BaseMigration):
         )
 
     def migrate_report_events_cancer(self, old_report_events):
-        return [self.migrate_report_event_cancer(old_report_event) for old_report_event in old_report_events]
+        if old_report_events is not None:
+            return [self.migrate_report_event_cancer(old_report_event) for old_report_event in old_report_events]
+        return None
 
     def migrate_genomic_feature_cancer(self, old_instance):
         """
@@ -615,10 +621,12 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_sample, object_type=ts)
 
     def migrate_tumour_samples(self, old_samples, ldp_code):
-        return [
-            self.migrate_tumour_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
-            if old_samples is not None
-        ]
+        if old_samples is not None:
+            return [
+                self.migrate_tumour_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
+                if old_samples is not None
+            ]
+        return None
 
     @staticmethod
     def convert_int_to_str(value):
@@ -634,10 +642,12 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_sample, object_type=gs)
 
     def migrate_germline_samples(self, old_samples, ldp_code):
-        return [
-            self.migrate_germline_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
-            if old_samples is not None
-        ]
+        if old_samples is not None:
+            return [
+                self.migrate_germline_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
+                if old_samples is not None
+            ]
+        return None
 
     def migrate_cancer_participant(self, old_participant):
         new_participant = self.convert_class(
@@ -651,9 +661,10 @@ class MigrateReports400To500(BaseMigration):
             old_samples=old_participant.germlineSamples, ldp_code=old_participant.LDPCode
         )
         # NOTE: we create all combinations of germline and tumour as a conservative approach
-        new_participant.matchedSamples = \
-            [self.new_model.MatchedSamples(germlineSampleId=x.sampleId, tumourSampleId=y.sampleId)
-             for (x, y) in list(itertools.product(new_participant.germlineSamples, new_participant.tumourSamples))]
+        if new_participant.germlineSamples is not None and new_participant.tumourSamples is not None:
+            new_participant.matchedSamples = \
+                [self.new_model.MatchedSamples(germlineSampleId=x.sampleId, tumourSampleId=y.sampleId)
+                 for (x, y) in list(itertools.product(new_participant.germlineSamples, new_participant.tumourSamples))]
 
         new_participant.primaryDiagnosisDisease = \
             [old_participant.primaryDiagnosisDisease] if old_participant.primaryDiagnosisDisease else None
@@ -727,6 +738,7 @@ class MigrateReports400To500(BaseMigration):
                 self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop=old_chiSquare1KGenomesPhase3Pop)
                 for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pop_list
             ]
+        return None
 
     def migrate_ancestries(self, old_ancestries):
         new_object_type = self.new_model.Ancestries
@@ -746,7 +758,9 @@ class MigrateReports400To500(BaseMigration):
         return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
 
     def migrate_pedigree_members(self, old_members):
-        return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
+        if old_members is not None:
+            return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
+        return None
 
     def migrate_other_files(self, other_files):
         if isinstance(other_files, dict):
