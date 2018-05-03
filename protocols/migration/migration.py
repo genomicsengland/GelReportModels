@@ -1,3 +1,4 @@
+import logging
 from protocols import reports_2_1_0, reports_3_0_0 as reports_3_0_0
 
 
@@ -18,9 +19,8 @@ class Migration2_1To3(object):
         new_pedigree.diseasePenetrances = None
         new_pedigree.versionControl = reports_3_0_0.VersionControl()
         new_pedigree.gelFamilyId = pedigree.gelFamilyId
-        new_pedigree.participants = []
-        for member in pedigree.participants:
-            new_pedigree.participants.append(self.migrate_rd_participant(member))
+        if pedigree.participants is not None:
+            new_pedigree.participants = [self.migrate_rd_participant(member) for member in pedigree.participants]
 
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
@@ -54,8 +54,9 @@ class Migration2_1To3(object):
         if new_called_genotype.validate(new_called_genotype.toJsonDict()):
             return new_called_genotype
         else:
+            logging.warning("Lost genotype '{}' during migration".format(called_genotype.genotype))
             new_called_genotype.genotype = 'unk'
-            if new_called_genotype.validate(new_called_genotype.toJsonDict()):
+            if new_called_genotype.validate(new_called_genotype.toJsonDict(), verbose=True):
                 return new_called_genotype
             else:
                 raise Exception('This model can not be converted')
@@ -102,14 +103,16 @@ class Migration2_1To3(object):
         """
 
         new_reported_variant = self.new_model.ReportedVariant.fromJsonDict(reported_variant.toJsonDict())
-        new_reported_variant.calledGenotypes = []
-        new_reported_variant.reportEvents = []
 
-        for called_genotype in reported_variant.calledGenotypes:
-            new_reported_variant.calledGenotypes.append(self.migrate_reported_called_genotype(called_genotype))
+        if reported_variant.calledGenotypes is not None:
+            new_reported_variant.calledGenotypes = [
+                self.migrate_reported_called_genotype(called_genotype)
+                for called_genotype in reported_variant.calledGenotypes
+            ]
 
-        for report_event in reported_variant.reportEvents:
-            new_reported_variant.reportEvents.append(self.migrate_report_event(report_event))
+        if reported_variant.reportEvents is not None:
+            new_reported_variant.reportEvents = [self.migrate_report_event(report_event)
+                                                 for report_event in reported_variant.reportEvents]
 
         if new_reported_variant.validate(new_reported_variant.toJsonDict()):
             return new_reported_variant
@@ -122,16 +125,16 @@ class Migration2_1To3(object):
         :type reported_structural_variant: reports_2_1_0.ReportedStructuralVariant
         :rtype: reports_3_0_0.ReportedStructuralVariant
         """
-
-        new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(reported_structural_variant.toJsonDict())
-        new_reported_structural_variant.calledGenotypes = []
-        new_reported_structural_variant.reportEvents = []
-
-        for called_genotype in reported_structural_variant.calledGenotypes:
-            new_reported_structural_variant.calledGenotypes.append(self.migrate_reported_called_genotype(called_genotype))
-
-        for report_event in reported_structural_variant.reportEvents:
-            new_reported_structural_variant.reportEvents.append(self.migrate_report_event(report_event))
+        new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(
+            reported_structural_variant.toJsonDict())
+        if reported_structural_variant.calledGenotypes is not None:
+            new_reported_structural_variant.calledGenotypes = [
+                self.migrate_reported_called_genotype(called_genotype)
+                for called_genotype in reported_structural_variant.calledGenotypes]
+        if reported_structural_variant.reportEvents is not None:
+            new_reported_structural_variant.reportEvents = [
+                self.migrate_report_event(report_event)
+                for report_event in reported_structural_variant.reportEvents]
 
         if new_reported_structural_variant.validate(new_reported_structural_variant.toJsonDict()):
             return new_reported_structural_variant
@@ -146,21 +149,19 @@ class Migration2_1To3(object):
         """
 
         new_interpreted_genome = self.new_model.InterpretedGenomeRD.fromJsonDict(interpreted_genome.toJsonDict())
-        new_interpreted_genome.reportedVariants = []
-        new_interpreted_genome.ReportedStructuralVariant = []
+        if interpreted_genome.reportedVariants is not None:
+            new_interpreted_genome.reportedVariants = [
+                self.migrate_reported_variant(reported_variant)
+                for reported_variant in interpreted_genome.reportedVariants]
+        if interpreted_genome.reportedStructuralVariants is not None:
+            new_interpreted_genome.reportedStructuralVariants = [
+                self.migrate_reported_structural_variant(reported_structural_variant)
+                for reported_structural_variant in interpreted_genome.reportedStructuralVariants]
         interpreted_genome.versionControl = reports_3_0_0.VersionControl()
-
-        for reported_variant in interpreted_genome.reportedVariants:
-            new_interpreted_genome.reportedVariants.append(self.migrate_reported_variant(reported_variant))
-
-        if interpreted_genome.reportedStructuralVariants:
-            for reported_structural_variant in interpreted_genome.reportedStructuralVariants:
-                new_interpreted_genome.ReportedStructuralVariant.append(self.migrate_reported_structural_variant(reported_structural_variant))
-
         new_interpreted_genome.softwareVersions = {}
         new_interpreted_genome.referenceDatabasesVersions = {}
 
-        if new_interpreted_genome.validate(new_interpreted_genome.toJsonDict()):
+        if new_interpreted_genome.validate(new_interpreted_genome.toJsonDict(), verbose=True):
             return new_interpreted_genome
         else:
             raise Exception('This model can not be converted')
@@ -173,13 +174,13 @@ class Migration2_1To3(object):
         """
 
         new_interpretation_request = self.new_model.InterpretationRequestRD.fromJsonDict(interpretation_request.toJsonDict())
-        new_interpretation_request.TieredVariants = []
         new_interpretation_request.pedigree = self.migrate_pedigree(interpretation_request.pedigree)
         new_interpretation_request.versionControl = reports_3_0_0.VersionControl()
-        for tiered_variant in interpretation_request.TieredVariants:
-            new_interpretation_request.TieredVariants.append(self.migrate_reported_variant(tiered_variant))
+        if interpretation_request.TieredVariants is not None:
+            new_interpretation_request.TieredVariants = [self.migrate_reported_variant(tiered_variant)
+                                                         for tiered_variant in interpretation_request.TieredVariants]
 
-        if new_interpretation_request.validate(new_interpretation_request.toJsonDict()):
+        if new_interpretation_request.validate(new_interpretation_request.toJsonDict(), verbose=True):
             return new_interpretation_request
         else:
             raise Exception('This model can not be converted')
@@ -192,15 +193,16 @@ class Migration2_1To3(object):
         """
 
         new_clinical_report = self.new_model.ClinicalReportRD.fromJsonDict(clinical_report.toJsonDict())
-        new_clinical_report.candidateVariants = []
-        new_clinical_report.candidateStructuralVariants = []
-        for reported_variant in clinical_report.candidateVariants:
-            new_clinical_report.candidateVariants.append(self.migrate_reported_variant(reported_variant))
 
-        if clinical_report.candidateStructuralVariants:
-            for reported_structural_variant in clinical_report.candidateStructuralVariants:
-                new_clinical_report.candidateStructuralVariants.append(
-                    self.migrate_reported_structural_variant(reported_structural_variant))
+        if clinical_report.candidateVariants is not None:
+            new_clinical_report.candidateVariants = [self.migrate_reported_variant(reported_variant)
+                                                     for reported_variant in clinical_report.candidateVariants]
+
+        if clinical_report.candidateStructuralVariants is not None:
+            new_clinical_report.candidateStructuralVariants = [
+                self.migrate_reported_structural_variant(reported_structural_variant)
+                for reported_structural_variant in clinical_report.candidateStructuralVariants
+            ]
 
         if new_clinical_report.validate(new_clinical_report.toJsonDict()):
             return new_clinical_report

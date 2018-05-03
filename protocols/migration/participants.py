@@ -1,8 +1,10 @@
+import logging
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
+from protocols.migration.base_migration import MigrationError
 
 
 class MigrationParticipants100To103(BaseMigration):
@@ -62,7 +64,9 @@ class MigrationParticipants100To103(BaseMigration):
         )
 
     def migrate_tumour_samples(self, tumour_samples, LDPCode):
-        return [self.migrate_tumour_sample(tumour_sample=tumour_sample, LDPCode=LDPCode) for tumour_sample in tumour_samples]
+        if tumour_samples is not None:
+            return [self.migrate_tumour_sample(tumour_sample=tumour_sample, LDPCode=LDPCode) for tumour_sample in tumour_samples]
+        return None
 
     def migrate_germline_sample(self, germline_sample, LDPCode):
         migrated_germline_sample = self.new_model.GermlineSample.fromJsonDict(germline_sample.toJsonDict())
@@ -74,7 +78,9 @@ class MigrationParticipants100To103(BaseMigration):
         )
 
     def migrate_germline_samples(self, germline_samples, LDPCode):
-        return [self.migrate_germline_sample(germline_sample=germline_sample, LDPCode=LDPCode) for germline_sample in germline_samples]
+        if germline_samples is not None:
+            return [self.migrate_germline_sample(germline_sample=germline_sample, LDPCode=LDPCode) for germline_sample in germline_samples]
+        return None
 
     def migrate_pedigree(self, old_pedigree):
         new_pedigree = self.new_model.Pedigree.fromJsonDict(old_pedigree.toJsonDict())
@@ -120,16 +126,73 @@ class MigrationParticipants100To103(BaseMigration):
     def migrate_member(self, old_member):
         new_member = self.new_model.PedigreeMember.fromJsonDict(old_member.toJsonDict())
         new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
-
-        if new_member.validate(new_member.toJsonDict()):
+        if old_member.disorderList is not None:
+            new_member.disorderList = [self.migrate_disorder(disorder) for disorder in old_member.disorderList]
+        if old_member.hpoTermList is not None:
+            new_member.hpoTermList = [self.migrate_hpo_term(hpo_term) for hpo_term in old_member.hpoTermList]
+        if new_member.validate(new_member.toJsonDict(), verbose=True):
             return new_member
         else:
             raise Exception(
                 'This model can not be converted: ', handle_avro_errors(new_member.validate_parts())
             )
 
+    def migrate_disorder(self, old_instance):
+        new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
+        try:
+            new_instance.ageOfOnset = float(old_instance.ageOfOnset)
+        except ValueError:
+            raise MigrationError("Cannot parse ageOfOnset='{}' into a float".format(old_instance.ageOfOnset))
+        return new_instance
+
+    def migrate_hpo_term(self, old_instance):
+        new_instance = self.new_model.HpoTerm.fromJsonDict(old_instance.toJsonDict())
+        values = [
+            self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
+            self.new_model.AgeOfOnset.FETAL_ONSET,
+            self.new_model.AgeOfOnset.NEONATAL_ONSET,
+            self.new_model.AgeOfOnset.INFANTILE_ONSET,
+            self.new_model.AgeOfOnset.CHILDHOOD_ONSET,
+            self.new_model.AgeOfOnset.JUVENILE_ONSET,
+            self.new_model.AgeOfOnset.YOUNG_ADULT_ONSET,
+            self.new_model.AgeOfOnset.LATE_ONSET,
+            self.new_model.AgeOfOnset.MIDDLE_AGE_ONSET
+        ]
+        if old_instance.ageOfOnset not in values:
+            new_instance.ageOfOnset = None
+            logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
+        if old_instance.modifiers is not None:
+            for name, value in old_instance.modifiers.iteritems():
+                new_modifiers = self.new_model.HpoTermModifiers()
+                if name == "laterality" and value in [self.new_model.Laterality.RIGHT,
+                                                      self.new_model.Laterality.UNILATERAL,
+                                                      self.new_model.Laterality.BILATERAL,
+                                                      self.new_model.Laterality.LEFT]:
+                    new_modifiers.laterality = value
+                elif name == "progression" and value in [self.new_model.Progression.PROGRESSIVE,
+                                                         self.new_model.Progression.NONPROGRESSIVE]:
+                    new_modifiers.progression = value
+                elif name == "severity" and value in [self.new_model.Severity.BORDERLINE,
+                                                      self.new_model.Severity.MILD,
+                                                      self.new_model.Severity.MODERATE,
+                                                      self.new_model.Severity.SEVERE,
+                                                      self.new_model.Severity.PROFOUND]:
+                    new_modifiers.severity = value
+                elif name == "spatialPattern" and value in [self.new_model.SpatialPattern.DISTAL,
+                                                            self.new_model.SpatialPattern.GENERALIZED,
+                                                            self.new_model.SpatialPattern.LOCALIZED,
+                                                            self.new_model.SpatialPattern.PROXIMAL]:
+                    new_modifiers.severity = value
+                else:
+                    logging.warning("Lost modifier '{}={}' during migration".format(name, value))
+                new_instance.modifiers = new_modifiers
+
+        return new_instance
+
     def migrate_members(self, old_members):
-        return [self.migrate_member(old_member=old_member) for old_member in old_members]
+        if old_members is not None:
+            return [self.migrate_member(old_member=old_member) for old_member in old_members]
+        return None
 
 
 class MigrationParticipants103To100(BaseMigration):
@@ -139,7 +202,8 @@ class MigrationParticipants103To100(BaseMigration):
     def migrate_cancer_participant(self, cancer_participant):
         migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
 
-        migrated_participant.LDPCode = next((tumour_sample.LDPCode for tumour_sample in cancer_participant.tumourSamples), None)
+        if cancer_participant.tumourSamples is not None:
+            migrated_participant.LDPCode = next((tumour_sample.LDPCode for tumour_sample in cancer_participant.tumourSamples), None)
 
         migrated_participant.primaryDiagnosisDisease = None
         if isinstance(cancer_participant.primaryDiagnosisDisease, list):
@@ -176,13 +240,17 @@ class MigrationParticipants103To100(BaseMigration):
         return self.new_model.MatchedSamples().fromJsonDict(matched_sample.toJsonDict())
 
     def migrate_germline_samples(self, germline_samples):
-        return [self.migrate_germline_sample(germline_sample=germline_sample) for germline_sample in germline_samples]
+        if germline_samples is not None:
+            return [self.migrate_germline_sample(germline_sample=germline_sample) for germline_sample in germline_samples]
+        return None
 
     def migrate_germline_sample(self, germline_sample):
         return self.new_model.GermlineSample().fromJsonDict(germline_sample.toJsonDict())
 
     def migrate_tumour_samples(self, tumour_samples):
-        return [self.migrate_tumour_sample(tumour_sample=tumour_sample) for tumour_sample in tumour_samples]
+        if tumour_samples is not None:
+            return [self.migrate_tumour_sample(tumour_sample=tumour_sample) for tumour_sample in tumour_samples]
+        return None
 
     def migrate_tumour_sample(self, tumour_sample):
         """
@@ -223,7 +291,8 @@ class MigrationReportsToParticipants1(BaseMigration):
         """
         new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
         new_pedigree.versionControl = self.new_model.VersionControl()
-        new_pedigree.members = [self.migrate_pedigree_member(member=member) for member in pedigree.participants]
+        if pedigree.participants is not None:
+            new_pedigree.members = [self.migrate_pedigree_member(member=member) for member in pedigree.participants]
         analysis_panels = []
         if pedigree.analysisPanels is not None:
             for analysis_panel in pedigree.analysisPanels:
@@ -263,8 +332,10 @@ class MigrationReportsToParticipants1(BaseMigration):
         new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
         new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
         new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
-        new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
-        new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
+        if member.hpoTermList is not None:
+            new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
+        if member.disorderList is not None:
+            new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
         try:
             new_pedigree_member.yearOfBirth = int(member.yearOfBirth)
         except Exception:
@@ -345,9 +416,14 @@ class MigrationParticipants1ToReports(object):
         """
         new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
         new_pedigree.versionControl = self.new_model.VersionControl()
-        new_pedigree.analysisPanels = [self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
+        if pedigree.analysisPanels is not None:
+            new_pedigree.analysisPanels = [
+                self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
         new_pedigree.gelFamilyId = pedigree.familyId
-        new_pedigree.participants = [self.migrate_pedigree_member(member=member, family_id=new_pedigree.gelFamilyId) for member in pedigree.members]
+        if pedigree.members is not None:
+            new_pedigree.participants = [
+                self.migrate_pedigree_member(member=member, family_id=new_pedigree.gelFamilyId)
+                for member in pedigree.members]
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
@@ -370,7 +446,7 @@ class MigrationParticipants1ToReports(object):
         if new_pedigree_member.affectionStatus == 'uncertain':
             new_pedigree_member.affectionStatus = 'unknown'
 
-        if member.hpoTermList:
+        if member.hpoTermList is not None:
             new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
         else:
             new_pedigree_member.hpoTermList = []
@@ -379,12 +455,12 @@ class MigrationParticipants1ToReports(object):
         except TypeError:
             new_pedigree_member.yearOfBirth = None
 
-        if member.samples:
+        if member.samples is not None:
             new_pedigree_member.samples = [sample.sampleId for sample in member.samples]
         else:
             new_pedigree_member.samples = []
 
-        if member.disorderList:
+        if member.disorderList is not None:
             new_pedigree_member.disorderList = [self.migrate_disorders(d) for d in member.disorderList]
         else:
             new_pedigree_member.disorderList = []

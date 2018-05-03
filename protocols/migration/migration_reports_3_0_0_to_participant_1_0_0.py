@@ -30,19 +30,24 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.primaryDiagnosisDisease = old_cancer_participant.cancerDemographics.primaryDiagnosis
         new_cancer_participant.readyForAnalysis = True
 
-        germline_samples = [
-            sample for sample in old_cancer_participant.cancerSamples
-            if sample.sampleType == self.old_model.SampleType.germline
-        ]
-        new_cancer_participant.germlineSamples = [
-            self.migrate_germline_sample(sample) for sample in germline_samples]
+        if old_cancer_participant.cancerSamples is not None:
+            germline_samples = [
+                sample for sample in old_cancer_participant.cancerSamples
+                if sample.sampleType == self.old_model.SampleType.germline
+            ]
 
-        tumor_samples = [
-            sample for sample in old_cancer_participant.cancerSamples
-            if sample.sampleType == self.old_model.SampleType.tumor
-        ]
-        new_cancer_participant.tumourSamples = [
-            self.migrate_tumor_sample(sample) for sample in tumor_samples]
+        if germline_samples is not None:
+            new_cancer_participant.germlineSamples = [
+                self.migrate_germline_sample(sample) for sample in germline_samples]
+
+        if old_cancer_participant.cancerSamples is not None:
+            tumor_samples = [
+                sample for sample in old_cancer_participant.cancerSamples
+                if sample.sampleType == self.old_model.SampleType.tumor
+            ]
+        if tumor_samples is not None:
+            new_cancer_participant.tumourSamples = [
+                self.migrate_tumor_sample(sample) for sample in tumor_samples]
 
         new_cancer_participant.matchedSamples = [self.migrate_match_samples(matched_sample) for matched_sample in
                                                  old_cancer_participant.matchedSamples]

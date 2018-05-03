@@ -29,4 +29,4 @@ class TestCaseMigration(TestCase):
                         self._check_non_empty_fields(attribute, exclusions)
 
     def _validate(self, instance):
-        self.assertTrue(instance.validate(instance.toJsonDict()))
+        self.assertTrue(instance.validate(instance.toJsonDict(), verbose=True))

@@ -7,3 +7,4 @@ from .participants import MigrationParticipants100To103
 
 from .migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from .migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
+from .migration_helpers import MigrationHelpers
