@@ -47,9 +47,10 @@ class MigrateReports3To4(BaseMigration):
         old_variant = old_reported_somatic_variants.somaticOrGermline
         new_reported_somatic_variants.alleleOrigins = [allele_origins_map.get(old_variant)]
 
-        new_report_events_cancer = [
-            self.migrate_report_event_cancer(event) for event in old_reported_variant_cancer.reportEvents
-        ]
+        if old_reported_variant_cancer.reportEvents is not None:
+            new_report_events_cancer = [
+                self.migrate_report_event_cancer(event) for event in old_reported_variant_cancer.reportEvents
+            ]
         new_reported_somatic_variants.reportedVariantCancer.reportEvents = new_report_events_cancer
 
         return self.validate_object(
@@ -64,7 +65,9 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_actions(self, actions):
-        return [self.migrate_action(action=action) for action in actions]
+        if actions is not None:
+            return [self.migrate_action(action=action) for action in actions]
+        return None
 
     def migrate_report_event_cancer(self, old_report_event_cancer):
 
@@ -82,8 +85,9 @@ class MigrateReports3To4(BaseMigration):
         if new_report_event_cancer.genomicFeatureCancer.roleInCancer not in ['oncogene', 'TSG', 'both']:
             new_report_event_cancer.genomicFeatureCancer.roleInCancer = None
 
-        for name, term in zip(old_report_event_cancer.soNames, old_report_event_cancer.soTerms):
-            new_report_event_cancer.soTerms.append(self.new_model.SoTerm(id=term, name=name))
+        if old_report_event_cancer.soNames is not None and old_report_event_cancer.soTerms is not None:
+            for name, term in zip(old_report_event_cancer.soNames, old_report_event_cancer.soTerms):
+                new_report_event_cancer.soTerms.append(self.new_model.SoTerm(id=term, name=name))
 
         return self.validate_object(
             object_to_validate=new_report_event_cancer, object_type=self.new_model.ReportEventCancer
@@ -161,15 +165,16 @@ class MigrateReports3To4(BaseMigration):
         new_tiered_variant.reportEvents = self.migrate_report_events(
             old_report_events=old_reported_variant.reportEvents
         )
-
         return self.validate_object(object_to_validate=new_tiered_variant, object_type=self.new_model.ReportedVariant)
 
     def migrate_reported_variants(self, old_reported_variants):
-        return [
-            self.migrate_reported_variant(
-                old_reported_variant=old_reported_variant
-            ) for old_reported_variant in old_reported_variants
-        ]
+        if old_reported_variants is not None:
+            return [
+                self.migrate_reported_variant(
+                    old_reported_variant=old_reported_variant
+                ) for old_reported_variant in old_reported_variants
+            ]
+        return None
 
     def migrate_reported_structural_variant(self, old_reported_structural_variant):
         new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(
@@ -245,7 +250,9 @@ class MigrateReports3To4(BaseMigration):
         return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
 
     def migrate_report_events(self, old_report_events):
-        return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+        if old_report_events is not None:
+            return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+        return None
 
     def migrate_tiered_variant(self, old_instance):
         """
@@ -259,17 +266,20 @@ class MigrateReports3To4(BaseMigration):
         new_instance = self.convert_class(
             self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
         new_instance.dbSnpId = old_instance.dbSNPid
-        new_instance.reportEvents = [self.migrate_report_event(x) for x in old_instance.reportEvents]
+        if old_instance.reportEvents is not None:
+            new_instance.reportEvents = [self.migrate_report_event(x) for x in old_instance.reportEvents]
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
         )
 
     def migrate_tiered_variants(self, old_tiered_variants):
-        return [
-            self.migrate_tiered_variant(old_instance=old_tiered_variant)
-            for old_tiered_variant in old_tiered_variants
-        ]
+        if old_tiered_variants is not None:
+            return [
+                self.migrate_tiered_variant(old_instance=old_tiered_variant)
+                for old_tiered_variant in old_tiered_variants
+            ]
+        return None
 
     def migrate_interpretation_request_rd(self, old_instance):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
