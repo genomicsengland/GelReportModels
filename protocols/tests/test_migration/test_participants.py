@@ -1,12 +1,48 @@
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
+from protocols import participant_1_1_0
 from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.migration import MigrationParticipants103To100
 from protocols.migration import MigrationParticipants100To103
+from protocols.migration import MigrationParticipants103To110
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.participant_1_0_0_factories import CancerParticipantFactory
+
+
+class TestMigrationParticipants103To110(TestCaseMigration):
+
+    old_model = participant_1_0_3
+    new_model = participant_1_1_0
+
+    def test_migrate_cancer_participant(self):
+
+        old_participant = GenericFactoryAvro.get_factory_avro(
+            clazz=participant_1_0_3.CancerParticipant, version=VERSION_500, fill_nullables=True)()
+        migrated_participant = MigrationParticipants103To110().migrate_cancer_participant(old_participant)
+        self.assertIsInstance(migrated_participant, self.new_model.CancerParticipant)
+        self._validate(migrated_participant)
+
+        old_participant = GenericFactoryAvro.get_factory_avro(
+            clazz=participant_1_0_3.CancerParticipant, version=VERSION_500, fill_nullables=False)()
+        migrated_participant = MigrationParticipants103To110().migrate_cancer_participant(old_participant)
+        self.assertIsInstance(migrated_participant, self.new_model.CancerParticipant)
+        self._validate(migrated_participant)
+
+    def test_migrate_pedigree(self):
+
+        old_pedigree = GenericFactoryAvro.get_factory_avro(
+            clazz=participant_1_0_3.Pedigree, version=VERSION_500, fill_nullables=True)()
+        migrated_pedigree = MigrationParticipants103To110().migrate_pedigree(old_pedigree)
+        self.assertIsInstance(migrated_pedigree, self.new_model.Pedigree)
+        self._validate(migrated_pedigree)
+
+        old_pedigree = GenericFactoryAvro.get_factory_avro(
+            clazz=participant_1_0_3.Pedigree, version=VERSION_500, fill_nullables=False)()
+        migrated_pedigree = MigrationParticipants103To110().migrate_pedigree(old_pedigree)
+        self.assertIsInstance(migrated_pedigree, self.new_model.Pedigree)
+        self._validate(migrated_pedigree)
 
 
 class TestMigrationParticipants100To103(TestCaseMigration):

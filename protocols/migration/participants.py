@@ -2,9 +2,73 @@ import logging
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
+from protocols import participant_1_1_0
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
+
+
+class MigrationParticipants103To110(BaseMigration):
+    old_model = participant_1_0_3
+    new_model = participant_1_1_0
+
+    def migrate_pedigree(self, old_instance):
+        new_instance = self.new_model.Pedigree.fromJsonDict(old_instance.toJsonDict())
+
+        if new_instance.validate(new_instance.toJsonDict()):
+            return new_instance
+        else:
+            raise MigrationError(
+                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
+            )
+
+    def migrate_cancer_participant(self, old_instance):
+        """
+
+        :param old_instance:
+        :type old_instance: participants_1_0_3.CancerParticipant
+        :return:
+        """
+        new_instance = self.new_model.CancerParticipant.fromJsonDict(
+            old_instance.toJsonDict())   # type: participant_1_1_0.CancerParticipant
+
+        if old_instance.tumourSamples is not None:
+            new_instance.tumourSamples = [self._migrate_tumour_sample(tumour_sample)
+                                          for tumour_sample in old_instance.tumourSamples]
+
+        if new_instance.validate(new_instance.toJsonDict()):
+            return new_instance
+        else:
+            raise MigrationError(
+                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
+            )
+
+    def _migrate_tumour_sample(self, old_instance):
+        """
+
+        :param old_instance:
+        :type old_instance: old_model.TumourSample
+        :return:
+        """
+        new_instance = self.new_model.TumourSample.fromJsonDict(
+            old_instance.toJsonDict())  # type: new_model.TumourSample
+
+        if old_instance.morphologyICD is not None:
+            new_instance.morphologyICDs = [old_instance.morphologyICD]
+        if old_instance.morphologySnomedCT is not None:
+            new_instance.morphologySnomedCTs = [old_instance.morphologySnomedCT]
+        if old_instance.morphologySnomedRT is not None:
+            new_instance.morphologySnomedRTs = [old_instance.morphologySnomedRT]
+        if old_instance.topographyICD is not None:
+            new_instance.topographyICDs = [old_instance.topographyICD]
+        if old_instance.topographySnomedCT is not None:
+            new_instance.topographySnomedCTs = [old_instance.topographySnomedCT]
+        if old_instance.topographySnomedRT is not None:
+            new_instance.topographySnomedRTs = [old_instance.topographySnomedRT]
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.TumourSample
+        )
 
 
 class MigrationParticipants100To103(BaseMigration):
@@ -96,7 +160,8 @@ class MigrationParticipants100To103(BaseMigration):
             )
 
     def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
-        new_chiSquare1KGenomesPhase3Pop = self.new_model.ChiSquare1KGenomesPhase3Pop.fromJsonDict(old_chiSquare1KGenomesPhase3Pop.toJsonDict())
+        new_chiSquare1KGenomesPhase3Pop = self.new_model.ChiSquare1KGenomesPhase3Pop.fromJsonDict(
+            old_chiSquare1KGenomesPhase3Pop.toJsonDict())
         new_chiSquare1KGenomesPhase3Pop.kgPopCategory = old_chiSquare1KGenomesPhase3Pop.kGPopCategory
         new_chiSquare1KGenomesPhase3Pop.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
 
