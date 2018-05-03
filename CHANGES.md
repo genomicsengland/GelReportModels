@@ -1,3 +1,24 @@
+Version 6.1.0 (3rd May 2018)
+--------------------------------
+
+#### Major Changes
+
+* ReportEvent in cva package renamed to ReportEventRecord
+
+#### Minor changes
+
+* Migrations from participants 1.0.3 to 1.1.0
+* Removed participants backwards migrations
+
+Version 6.0.9 (1st May 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Migration helpers
+* Fix bug migration called genotypes for structural variants
+* Implement migration of disorders and HPO terms
+
 Version 6.0.8 (27th April 2018)
 --------------------------------
 

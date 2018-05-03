@@ -56,6 +56,9 @@ class ValidationResult(object):
         self.result = False
         self.messages.append(custom_message)
 
+    def short_messages(self, characters=80):
+        return [message[0:characters] for message in self.messages]
+
 
 class ProtocolElement(object):
     """

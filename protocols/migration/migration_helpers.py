@@ -28,22 +28,23 @@ from protocols.reports_5_0_0 import InterpretationRequestRD as InterpretationReq
 from protocols.reports_5_0_0 import CancerInterpretedGenome as CancerInterpretedGenome_5_0_0
 from protocols.reports_5_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_5_0_0
 
+from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
 from protocols.participant_1_0_0 import Pedigree as Pedigree_1_0_0
 from protocols.reports_3_0_0 import Pedigree as Pedigree_reports_3_0_0
 
 from protocols.migration.model_validator import PayloadValidation
 from protocols.migration.migration import Migration2_1To3
-from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import \
-    MigrationReportsToParticipants1, MigrateReports3To4
+from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
-from protocols.migration.participants import MigrationParticipants1ToReports, MigrationParticipants100To103
+from protocols.migration.participants import \
+    MigrationReportsToParticipants1, MigrationParticipants100To103, MigrationParticipants103To110
 
 
 class MigrationHelpers(object):
 
     @staticmethod
-    def migrate_interpretation_request_rd_to_version_5_0_0(json_dict, assembly):
+    def migrate_interpretation_request_rd_to_latest(json_dict, assembly):
         ir_v500 = None
 
         if PayloadValidation(klass=InterpretedGenomeRD_5_0_0, payload=json_dict).is_valid:
@@ -83,7 +84,7 @@ class MigrationHelpers(object):
         raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
     @staticmethod
-    def migrate_interpreted_genome_rd_to_version_5_0_0(json_dict, assembly, interpretation_request_version):
+    def migrate_interpreted_genome_rd_to_latest(json_dict, assembly, interpretation_request_version):
         ig_v500 = None
 
         if PayloadValidation(klass=InterpretedGenomeRD_5_0_0, payload=json_dict).is_valid:
@@ -120,7 +121,7 @@ class MigrationHelpers(object):
         raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0]")
 
     @staticmethod
-    def migrate_clinical_report_rd_to_version_5_0_0(json_dict, assembly):
+    def migrate_clinical_report_rd_to_latest(json_dict, assembly):
         cr_v500 = None
 
         if PayloadValidation(klass=ClinicalReportRD_5_0_0, payload=json_dict).is_valid:
@@ -161,25 +162,32 @@ class MigrationHelpers(object):
         raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
     @staticmethod
-    def migrate_pedigree_to_version_1_0_3(json_dict):
-        ped_v103 = None
+    def migrate_pedigree_to_latest(json_dict):
+        ped_v110 = None
+
+        if PayloadValidation(klass=Pedigree_1_1_0, payload=json_dict).is_valid:
+            ped_v110 = Pedigree_1_1_0.fromJsonDict(jsonDict=json_dict)
+            logging.info("Pedigree in models participants 1.1.0")
 
         if PayloadValidation(klass=Pedigree_1_0_3, payload=json_dict).is_valid:
             ped_v103 = Pedigree_1_0_3.fromJsonDict(jsonDict=json_dict)
+            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
             logging.info("Pedigree in models participants 1.0.3")
 
         elif PayloadValidation(klass=Pedigree_1_0_0, payload=json_dict).is_valid:
             ped_v100 = Pedigree_1_0_0.fromJsonDict(jsonDict=json_dict)
-            ped_v103 = MigrationParticipants100To103().migrate_pedigree(old_pedigree=ped_v100)
+            ped_v103 = MigrationParticipants100To103().migrate_pedigree(ped_v100)
+            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
             logging.info("Pedigree in models participants 1.0.0")
 
         elif PayloadValidation(klass=Pedigree_reports_3_0_0, payload=json_dict).is_valid:
             ped_v300 = Pedigree_reports_3_0_0.fromJsonDict(jsonDict=json_dict)
-            ped_v100 = MigrationReportsToParticipants1().migrate_pedigree(pedigree=ped_v300)
-            ped_v103 = MigrationParticipants100To103().migrate_pedigree(old_pedigree=ped_v100)
+            ped_v100 = MigrationReportsToParticipants1().migrate_pedigree(ped_v300)
+            ped_v103 = MigrationParticipants100To103().migrate_pedigree(ped_v100)
+            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
             logging.info("Pedigree in models reports 3.1.0")
 
-        if ped_v103 is not None:
-            return ped_v103
+        if ped_v110 is not None:
+            return ped_v110
 
-        raise MigrationError("Pedigree is not in versions: [1.0.3, 1.0.0, reports 2.1.0]")
+        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")
