@@ -181,7 +181,7 @@ Duplication of the prior fields is not be supported.
         /**
         Report events
         */
-        array<ReportEventRecord> reportEvents = [];
+        array<ReportEventEntry> reportEvents = [];
     }
 
     /**

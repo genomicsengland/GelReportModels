@@ -113,7 +113,7 @@ Every ReportedVariant is uniquely identified by:
 
 Duplication of the prior fields is not be supported.
     */
-    record ReportEventRecord {
+    record ReportEventEntry {
         /**
         Report avro models version
         */
