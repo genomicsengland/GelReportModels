@@ -2,9 +2,73 @@ import logging
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
+from protocols import participant_1_1_0
 from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
+
+
+class MigrationParticipants103To110(BaseMigration):
+    old_model = participant_1_0_3
+    new_model = participant_1_1_0
+
+    def migrate_pedigree(self, old_instance):
+        new_instance = self.new_model.Pedigree.fromJsonDict(old_instance.toJsonDict())
+
+        if new_instance.validate(new_instance.toJsonDict()):
+            return new_instance
+        else:
+            raise MigrationError(
+                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
+            )
+
+    def migrate_cancer_participant(self, old_instance):
+        """
+
+        :param old_instance:
+        :type old_instance: participants_1_0_3.CancerParticipant
+        :return:
+        """
+        new_instance = self.new_model.CancerParticipant.fromJsonDict(
+            old_instance.toJsonDict())   # type: participant_1_1_0.CancerParticipant
+
+        if old_instance.tumourSamples is not None:
+            new_instance.tumourSamples = [self._migrate_tumour_sample(tumour_sample)
+                                          for tumour_sample in old_instance.tumourSamples]
+
+        if new_instance.validate(new_instance.toJsonDict()):
+            return new_instance
+        else:
+            raise MigrationError(
+                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
+            )
+
+    def _migrate_tumour_sample(self, old_instance):
+        """
+
+        :param old_instance:
+        :type old_instance: old_model.TumourSample
+        :return:
+        """
+        new_instance = self.new_model.TumourSample.fromJsonDict(
+            old_instance.toJsonDict())  # type: new_model.TumourSample
+
+        if old_instance.morphologyICD is not None:
+            new_instance.morphologyICDs = [old_instance.morphologyICD]
+        if old_instance.morphologySnomedCT is not None:
+            new_instance.morphologySnomedCTs = [old_instance.morphologySnomedCT]
+        if old_instance.morphologySnomedRT is not None:
+            new_instance.morphologySnomedRTs = [old_instance.morphologySnomedRT]
+        if old_instance.topographyICD is not None:
+            new_instance.topographyICDs = [old_instance.topographyICD]
+        if old_instance.topographySnomedCT is not None:
+            new_instance.topographySnomedCTs = [old_instance.topographySnomedCT]
+        if old_instance.topographySnomedRT is not None:
+            new_instance.topographySnomedRTs = [old_instance.topographySnomedRT]
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.TumourSample
+        )
 
 
 class MigrationParticipants100To103(BaseMigration):
@@ -96,7 +160,8 @@ class MigrationParticipants100To103(BaseMigration):
             )
 
     def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
-        new_chiSquare1KGenomesPhase3Pop = self.new_model.ChiSquare1KGenomesPhase3Pop.fromJsonDict(old_chiSquare1KGenomesPhase3Pop.toJsonDict())
+        new_chiSquare1KGenomesPhase3Pop = self.new_model.ChiSquare1KGenomesPhase3Pop.fromJsonDict(
+            old_chiSquare1KGenomesPhase3Pop.toJsonDict())
         new_chiSquare1KGenomesPhase3Pop.kgPopCategory = old_chiSquare1KGenomesPhase3Pop.kGPopCategory
         new_chiSquare1KGenomesPhase3Pop.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
 
@@ -193,90 +258,6 @@ class MigrationParticipants100To103(BaseMigration):
         if old_members is not None:
             return [self.migrate_member(old_member=old_member) for old_member in old_members]
         return None
-
-
-class MigrationParticipants103To100(BaseMigration):
-    old_model = participant_1_0_3
-    new_model = participant_1_0_0
-
-    def migrate_cancer_participant(self, cancer_participant):
-        migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
-
-        if cancer_participant.tumourSamples is not None:
-            migrated_participant.LDPCode = next((tumour_sample.LDPCode for tumour_sample in cancer_participant.tumourSamples), None)
-
-        migrated_participant.primaryDiagnosisDisease = None
-        if isinstance(cancer_participant.primaryDiagnosisDisease, list):
-            migrated_participant.primaryDiagnosisDisease = ','.join(cancer_participant.primaryDiagnosisDisease)
-
-        migrated_participant.primaryDiagnosisSubDisease = None
-        if isinstance(cancer_participant.primaryDiagnosisSubDisease, list):
-            migrated_participant.primaryDiagnosisSubDisease = ','.join(cancer_participant.primaryDiagnosisSubDisease)
-
-        migrated_participant.assignedICD10 = None
-        if isinstance(cancer_participant.assignedICD10, list):
-            migrated_participant.assignedICD10 = ','.join(cancer_participant.assignedICD10)
-
-        migrated_participant.tumourSamples = self.migrate_tumour_samples(
-            tumour_samples=cancer_participant.tumourSamples
-        )
-
-        migrated_participant.germlineSamples = self.migrate_germline_samples(
-            germline_samples=cancer_participant.germlineSamples
-        )
-
-        migrated_participant.matchedSamples = self.migrate_matched_samples(
-            matched_samples=cancer_participant.matchedSamples
-        )
-
-        return self.validate_object(
-            object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
-        )
-
-    def migrate_matched_samples(self, matched_samples):
-        return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
-
-    def migrate_matched_sample(self, matched_sample):
-        return self.new_model.MatchedSamples().fromJsonDict(matched_sample.toJsonDict())
-
-    def migrate_germline_samples(self, germline_samples):
-        if germline_samples is not None:
-            return [self.migrate_germline_sample(germline_sample=germline_sample) for germline_sample in germline_samples]
-        return None
-
-    def migrate_germline_sample(self, germline_sample):
-        return self.new_model.GermlineSample().fromJsonDict(germline_sample.toJsonDict())
-
-    def migrate_tumour_samples(self, tumour_samples):
-        if tumour_samples is not None:
-            return [self.migrate_tumour_sample(tumour_sample=tumour_sample) for tumour_sample in tumour_samples]
-        return None
-
-    def migrate_tumour_sample(self, tumour_sample):
-        """
-        The tumourId will be migrated when the value can be parsed to an integer, otherwise it will be replaced
-        by the labSampleId.
-        :param tumour_sample:
-        :return:
-        """
-        migrated_tumour_sample = self.new_model.TumourSample().fromJsonDict(
-            jsonDict=tumour_sample.toJsonDict()
-        )
-
-        migrated_tumour_sample.tumourId = None
-        if tumour_sample.tumourId is not None:
-            try:
-                migrated_tumour_sample.tumourId = int(tumour_sample.tumourId)
-            except ValueError:
-                migrated_tumour_sample.tumourId = tumour_sample.labSampleId
-
-        migrated_tumour_sample.tumourType = tumour_sample.diseaseType
-        migrated_tumour_sample.tumourSubType = tumour_sample.diseaseSubType
-        migrated_tumour_sample.phase = tumour_sample.tumourType
-
-        return self.validate_object(
-            object_to_validate=migrated_tumour_sample, object_type=self.new_model.TumourSample
-        )
 
 
 class MigrationReportsToParticipants1(BaseMigration):
@@ -398,135 +379,6 @@ class MigrationReportsToParticipants1(BaseMigration):
         new_analysis_panel = self.new_model.AnalysisPanel.fromJsonDict(analysis_panel.toJsonDict())
         new_analysis_panel.multipleGeneticOrigins = ''
         new_analysis_panel.reviewOutcome = ''
-        if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
-            return new_analysis_panel
-        else:
-            raise Exception('This model can not be converted')
-
-
-class MigrationParticipants1ToReports(object):
-    new_model = participant_old
-    old_model = participant_1_0_0
-
-    def migrate_pedigree(self, pedigree):
-        """
-
-        :type pedigree: participant_1_0_1.Pedigree
-        :rtype: participant_old.Pedigree
-        """
-        new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
-        new_pedigree.versionControl = self.new_model.VersionControl()
-        if pedigree.analysisPanels is not None:
-            new_pedigree.analysisPanels = [
-                self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
-        new_pedigree.gelFamilyId = pedigree.familyId
-        if pedigree.members is not None:
-            new_pedigree.participants = [
-                self.migrate_pedigree_member(member=member, family_id=new_pedigree.gelFamilyId)
-                for member in pedigree.members]
-        if new_pedigree.validate(new_pedigree.toJsonDict()):
-            return new_pedigree
-        else:
-            raise Exception('This model can not be converted')
-
-    def migrate_pedigree_member(self, member, family_id):
-        """
-
-        :type member: participant_1_0_1.PedigreeMember
-        :rtype: participant_old.RDParticipant
-        """
-        new_pedigree_member = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
-        new_pedigree_member.versionControl = participant_old.VersionControl()
-        new_pedigree_member.gelId = str(member.participantId)
-        new_pedigree_member.gelFamilyId = family_id
-        new_pedigree_member.sex = self.migrate_enumerations('Sex', member.sex)
-        new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
-        new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
-        new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
-        if new_pedigree_member.affectionStatus == 'uncertain':
-            new_pedigree_member.affectionStatus = 'unknown'
-
-        if member.hpoTermList is not None:
-            new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
-        else:
-            new_pedigree_member.hpoTermList = []
-        try:
-            new_pedigree_member.yearOfBirth = str(int(member.yearOfBirth))
-        except TypeError:
-            new_pedigree_member.yearOfBirth = None
-
-        if member.samples is not None:
-            new_pedigree_member.samples = [sample.sampleId for sample in member.samples]
-        else:
-            new_pedigree_member.samples = []
-
-        if member.disorderList is not None:
-            new_pedigree_member.disorderList = [self.migrate_disorders(d) for d in member.disorderList]
-        else:
-            new_pedigree_member.disorderList = []
-
-        if member.ancestries is None:
-            new_pedigree_member.ancestries = participant_old.Ancestries()
-
-        if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
-            return new_pedigree_member
-        else:
-            raise Exception('This model can not be converted')
-
-    def migrate_enumerations(self, etype, value):
-        if etype in ['LifeStatus', 'AffectionStatus']:
-            return value.lower()
-        elif etype == 'Sex':
-            return {'MALE': 'male', 'FEMALE': 'female', 'UNKNOWN': 'unknown'}.get(value)
-        elif etype == 'AdoptedStatus':
-            return {'notadopted': 'not_adopted', 'adoptedin': 'adoptedin', 'adoptedout': 'adoptedout'}.get(value)
-        elif etype == 'termPresence':
-            return {'yes': True, 'no': False, 'unknown': None}.get(value)
-        else:
-            raise NotImplementedError(etype + ' is not a valid enumeration type or is not implemented')
-
-    def migrate_hpo_terms(self, hpo_term):
-        """
-
-        :type hpo_term: participant_1_0_1.HpoTerm
-        :rtype: participant_old.HpoTerm
-        """
-        new_hpo = self.new_model.HpoTerm.fromJsonDict(hpo_term.toJsonDict())
-        new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
-        if hpo_term.modifiers:
-            mod_as_json = hpo_term.modifiers.toJsonDict()
-        else:
-            mod_as_json = {}
-        new_hpo.modifiers = {k: mod_as_json[k] for k in mod_as_json if mod_as_json[k]}
-        if new_hpo.validate(new_hpo.toJsonDict()):
-            return new_hpo
-        else:
-            raise Exception('This model can not be converted')
-
-    def migrate_disorders(self, disorder):
-        """
-
-        :type disorder: participant_1_0_1.Disorder
-        :rtype: participant_old.Disorder
-        """
-        new_disorder = self.new_model.Disorder.fromJsonDict(disorder.toJsonDict())
-        if disorder.ageOfOnset is not None:
-            new_disorder.ageOfOnset = str(disorder.ageOfOnset)
-        if new_disorder.validate(new_disorder.toJsonDict()):
-            return new_disorder
-        else:
-            raise Exception('This model can not be converted')
-
-    def migrate_analysis_panel(self, analysis_panel):
-        """
-
-        :type analysis_panel: participant_1_0_1.AnalysisPanel
-        :rtype: participant_old.AnalysisPanel
-        """
-
-        new_analysis_panel = self.new_model.AnalysisPanel.fromJsonDict(analysis_panel.toJsonDict())
-        new_analysis_panel.multiple_genetic_origins = analysis_panel.multipleGeneticOrigins
-        new_analysis_panel.review_outcome = analysis_panel.reviewOutcome
         if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
             return new_analysis_panel
         else:
