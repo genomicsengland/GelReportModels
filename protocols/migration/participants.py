@@ -208,6 +208,8 @@ class MigrationParticipants100To103(BaseMigration):
         return new_instance
 
     def migrate_hpo_term(self, old_instance):
+        if old_instance.ageOfOnset:
+            old_instance.ageOfOnset = old_instance.ageOfOnset.upper().replace(" ", "_")
         new_instance = self.new_model.HpoTerm.fromJsonDict(old_instance.toJsonDict())
         values = [
             self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
@@ -222,7 +224,8 @@ class MigrationParticipants100To103(BaseMigration):
         ]
         if old_instance.ageOfOnset not in values:
             new_instance.ageOfOnset = None
-            logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
+            if old_instance.ageOfOnset:
+                logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
         if old_instance.modifiers is not None:
             for name, value in old_instance.modifiers.iteritems():
                 new_modifiers = self.new_model.HpoTermModifiers()
