@@ -44,8 +44,11 @@ class MigrateReports3To4(BaseMigration):
             reports_3_0_0.SomaticOrGermline.somatic: reports_4_0_0.AlleleOrigin.somatic_variant,
             reports_3_0_0.SomaticOrGermline.germline: reports_4_0_0.AlleleOrigin.germline_variant,
         }
-        old_variant = old_reported_somatic_variants.somaticOrGermline
-        new_reported_somatic_variants.alleleOrigins = [allele_origins_map.get(old_variant)]
+        old_allele_origin = old_reported_somatic_variants.somaticOrGermline
+        new_allele_origin = allele_origins_map.get(old_allele_origin, None)
+        new_reported_somatic_variants.alleleOrigins = []
+        if new_allele_origin:
+            new_reported_somatic_variants.alleleOrigins.append(new_allele_origin)
 
         if old_reported_variant_cancer.reportEvents is not None:
             new_report_events_cancer = [
@@ -106,9 +109,9 @@ class MigrateReports3To4(BaseMigration):
             additionalInfo=old_interpretation_request.additionalInfo,
             analysisUri=old_interpretation_request.analysisURI,
             analysisVersion=old_interpretation_request.analysisVersion,
-            annotationFile=old_interpretation_request.annotationFile,
-            bams=old_interpretation_request.BAMs,
-            bigWigs=old_interpretation_request.bigWigs,
+            annotationFile=self.migrate_file(old_interpretation_request.annotationFile),
+            bams=self.migrate_files(old_interpretation_request.BAMs),
+            bigWigs=self.migrate_files(old_interpretation_request.bigWigs),
             cancerParticipant=m.migrate_cancer_participant(old_interpretation_request.cancerParticipant),
             internalStudyId="1",
             interpretGenome=old_interpretation_request.interpretGenome,
@@ -116,21 +119,16 @@ class MigrateReports3To4(BaseMigration):
             reportVersion=old_interpretation_request.reportVersion,
             structuralTieredVariants=old_interpretation_request.structuralTieredVariants,
             tieredVariants=[
-                self.migrate_reported_somatic_variants(v) for v in old_interpretation_request.TieredVariants
-                ],
+                self.migrate_reported_somatic_variants(v) for v in old_interpretation_request.TieredVariants],
             tieringVersion=old_interpretation_request.TieringVersion,
-            vcfs=[self.new_model.File(
-                uriFile=f.URIFile,
-                sampleId=[f.SampleId],
-                fileType=f.fileType
-            ) for f in old_interpretation_request.VCFs],
+            vcfs=self.migrate_files(old_interpretation_request.VCFs),
             workspace=old_interpretation_request.workspace,
         )
         # new_cancer_interpretation_request.bigWigs = []
 
         new_cancer_interpretation_request.versionControl = self.new_model.ReportVersionControl()
 
-        if new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict()):
+        if new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict(), verbose=True):
             return new_cancer_interpretation_request
         else:
             raise Exception('This model can not be converted: ',  new_cancer_interpretation_request.validate(new_cancer_interpretation_request.toJsonDict(), verbose=True).messages)

@@ -1,3 +1,5 @@
+import logging
+
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols import opencb_1_3_0 as opencb_1_3_0
@@ -62,7 +64,7 @@ class MigrateReports400To500(BaseMigration):
         """
         :type old_instance: reports_4_0_0.InterpretedGenomeRD
         :type assembly: reports_5_0_0.Assembly
-        :type interpretation_request_version: str
+        :type interpretation_request_version: int
         :rtype: reports_5_0_0.InterpretedGenomeRD
         """
         new_instance = self.convert_class(
@@ -95,10 +97,12 @@ class MigrateReports400To500(BaseMigration):
 
         # type of interpretationRequestVersion has been changed from int to string
         try:
-            new_instance.interpretationRequestVersion = int(old_instance.interpretationRequestVersion)
-        except ValueError:
-            raise MigrationError("Error converting 'interpretationRequestVersion' to integer from value '{}'"
-                                 .format(old_instance.interpretationRequestVersion))
+            new_instance.interpretationRequestVersion = self.convert_string_to_integer(
+                old_instance.interpretationRequestVersion)
+        except MigrationError, ex:
+            logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
+                old_instance.interpretationRequestVersion))
+            raise ex
 
         # supportingEvidence has been renamed to references
         new_instance.references = old_instance.supportingEvidence
@@ -239,10 +243,12 @@ class MigrateReports400To500(BaseMigration):
 
         # type of interpretationRequestVersion has been changed from int to string
         try:
-            new_instance.interpretationRequestVersion = int(old_instance.interpretationRequestVersion)
-        except ValueError:
-            raise MigrationError("Error converting 'interpretationRequestVersion' to integer from value '{}'"
-                                 .format(old_instance.interpretationRequestVersion))
+            new_instance.interpretationRequestVersion = self.convert_string_to_integer(
+                old_instance.interpretationRequestVersion)
+        except MigrationError, ex:
+            logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
+                old_instance.interpretationRequestVersion))
+            raise ex
 
         # converts all reported variants
         new_instance.variants = self.migrate_reported_variants_cancer(old_instance.candidateVariants,

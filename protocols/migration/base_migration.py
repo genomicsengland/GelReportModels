@@ -26,13 +26,15 @@ class BaseMigration(object):
                 print "---------------"
                 print message
 
-            raise Exception("New {object_type} object is not valid".format(object_type=object_type))
+            raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
 
     @staticmethod
-    def convert_string_to_integer(string):
+    def convert_string_to_integer(string, default_value=None):
         if string is None:
-            return None
+            return default_value
         try:
             return int(string)
         except ValueError:
-            raise Exception("Value: {string} is not an integer contained in a string !".format(string=string))
+            if default_value:
+                return default_value
+            raise MigrationError("Value: {string} is not an integer contained in a string !".format(string=string))

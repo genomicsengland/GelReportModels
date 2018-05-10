@@ -318,18 +318,17 @@ class MigrationReportsToParticipants1(BaseMigration):
         if member.disorderList is not None:
             new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
         try:
-            new_pedigree_member.yearOfBirth = int(member.yearOfBirth)
-        except Exception:
+            new_pedigree_member.yearOfBirth = self.convert_string_to_integer(member.yearOfBirth)
+        except MigrationError:
             new_pedigree_member.yearOfBirth = None
+            logging.warning("We are losing the year of birth as it cannot be converted into an integer")
 
         new_pedigree_member.samples = []
         if member.samples is not None:
             for sample in member.samples:
                 if sample_id_to_lab_sample_id is not None and isinstance(sample_id_to_lab_sample_id, dict):
-                    try:
-                        lab_sample_id = int(sample_id_to_lab_sample_id.get(sample, -1))
-                    except ValueError:
-                        lab_sample_id = -1
+                    lab_sample_id = self.convert_string_to_integer(
+                        sample_id_to_lab_sample_id.get(sample, -1), default_value=-1)
                 else:
                     lab_sample_id = -1
                 new_pedigree_member.samples.append(self.new_model.Sample(
