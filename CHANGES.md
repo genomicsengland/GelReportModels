@@ -1,3 +1,13 @@
+Version 6.1.1 (10th May 2018)
+--------------------------------
+
+#### Minor changes
+
+* Migrations helpers for cancer entities
+* Migration helper for RD exit questionnaire
+* Migration testing strategy improved for migration helpers
+* Several bugfixes in cancer migrations
+
 Version 6.1.0 (3rd May 2018)
 --------------------------------
 
