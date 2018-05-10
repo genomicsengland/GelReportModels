@@ -142,7 +142,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
         # tests IG 500 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
+            reports_5_0_0.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
 
@@ -153,6 +153,72 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_interpretation_request_rd_500_500_null(self):
         self.test_migrate_interpretation_request_rd_500_500(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_400_500(self, fill_nullables=True):
+
+        # tests IR 400 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_4_0_0.InterpretationRequestRD, VERSION_400, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            old_instance.toJsonDict(), assembly='GRCh38'
+        )
+        self._validate(migrated_instance)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_400_500_nulls(self):
+        self.test_migrate_interpretation_request_rd_to_interpreted_genome_400_500(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_300_500(self, fill_nullables=True):
+
+        # tests IR 300 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            old_instance.toJsonDict(), assembly='GRCh38'
+        )
+        self._validate(migrated_instance)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_300_500_null(self):
+        self.test_migrate_interpretation_request_rd_to_interpreted_genome_300_500(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_210_500(self, fill_nullables=True):
+
+        # tests IR 210 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_2_1_0.InterpretationRequestRD, VERSION_210, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            old_instance.toJsonDict(), assembly='GRCh38'
+        )
+        self._validate(migrated_instance)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_210_500_nulls(self):
+        self.test_migrate_interpretation_request_rd_to_interpreted_genome_210_500(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_500_500(self, fill_nullables=True):
+
+        # tests IG 500 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            old_instance.toJsonDict(), assembly='GRCh38'
+        )
+        self._validate(migrated_instance)
+
+    def test_migrate_interpretation_request_rd_to_interpreted_genome_500_500_null(self):
+        self.test_migrate_interpretation_request_rd_to_interpreted_genome_500_500(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_400_500(self, fill_nullables=True):
 

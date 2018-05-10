@@ -686,7 +686,7 @@ class MigrateReports400To500(BaseMigration):
     def migrate_disorder(self, old_disorder):
         new_object_type = self.new_model.Disorder
         new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
-        new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset)
+        new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset, fail=False)
         return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
 
     def migrate_disorder_list(self, old_disorder_list):

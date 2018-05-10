@@ -1,3 +1,5 @@
+import logging
+
 
 class MigrationError(Exception):
 
@@ -40,7 +42,7 @@ class BaseMigration(object):
             raise MigrationError("Value: {string} is not an integer contained in a string !".format(string=string))
 
     @staticmethod
-    def convert_string_to_float(string, default_value=None):
+    def convert_string_to_float(string, default_value=None, fail=True):
         if string is None:
             return default_value
         try:
@@ -48,4 +50,9 @@ class BaseMigration(object):
         except ValueError:
             if default_value:
                 return default_value
-            raise MigrationError("Value: {string} is not a float contained in a string !".format(string=string))
+            message = "Value: {string} is not a float contained in a string !".format(string=string)
+            if fail:
+                raise MigrationError(message)
+            else:
+                logging.warning(message)
+                return None

@@ -55,6 +55,45 @@ class MigrationHelpers(object):
         """
         :type json_dict: dict
         :type assembly: Assembly
+        :rtype: InterpretationRequestRD_5_0_0
+        """
+        ir_v500 = None
+
+        if PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
+            ir_v500 = InterpretedGenomeRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+            logging.info("Case in models reports 5.0.0")
+
+        elif PayloadValidation(klass=InterpretationRequestRD_4_0_0, payload=json_dict).is_valid:
+            ir_v400 = InterpretationRequestRD_4_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
+                old_instance=ir_v400, assembly=assembly)
+            logging.info("Case in models reports 4.0.0")
+
+        elif PayloadValidation(klass=InterpretationRequestRD_3_0_0, payload=json_dict).is_valid:
+            ir_v3 = InterpretationRequestRD_3_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
+            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
+                old_instance=ir_v400, assembly=assembly)
+            logging.info("Case in models reports 3.0.0")
+
+        elif PayloadValidation(klass=InterpretationRequestRD_2_1_0, payload=json_dict).is_valid:
+            ir_v2 = InterpretationRequestRD_2_1_0.fromJsonDict(jsonDict=json_dict)
+            ir_v3 = Migration2_1To3().migrate_interpretation_request(interpretation_request=ir_v2)
+            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
+            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
+                old_instance=ir_v400, assembly=assembly)
+            logging.info("Case in models reports 2.1.0")
+
+        if ir_v500 is not None:
+            return ir_v500
+
+        raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
+
+    @staticmethod
+    def migrate_interpretation_request_rd_to_interpreted_genome_latest(json_dict, assembly):
+        """
+        :type json_dict: dict
+        :type assembly: Assembly
         :rtype: InterpretedGenomeRD_5_0_0
         """
         ir_v500 = None

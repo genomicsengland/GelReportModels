@@ -204,7 +204,7 @@ class MigrationParticipants100To103(BaseMigration):
 
     def migrate_disorder(self, old_instance):
         new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
-        new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset)
+        new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset, fail=False)
         return new_instance
 
     def migrate_hpo_term(self, old_instance):
