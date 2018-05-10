@@ -38,3 +38,14 @@ class BaseMigration(object):
             if default_value:
                 return default_value
             raise MigrationError("Value: {string} is not an integer contained in a string !".format(string=string))
+
+    @staticmethod
+    def convert_string_to_float(string, default_value=None):
+        if string is None:
+            return default_value
+        try:
+            return float(string)
+        except ValueError:
+            if default_value:
+                return default_value
+            raise MigrationError("Value: {string} is not a float contained in a string !".format(string=string))

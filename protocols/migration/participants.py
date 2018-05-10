@@ -204,10 +204,7 @@ class MigrationParticipants100To103(BaseMigration):
 
     def migrate_disorder(self, old_instance):
         new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
-        try:
-            new_instance.ageOfOnset = float(old_instance.ageOfOnset)
-        except ValueError:
-            raise MigrationError("Cannot parse ageOfOnset='{}' into a float".format(old_instance.ageOfOnset))
+        new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset)
         return new_instance
 
     def migrate_hpo_term(self, old_instance):
@@ -285,13 +282,6 @@ class MigrationReportsToParticipants1(BaseMigration):
             return new_pedigree
         else:
             raise Exception('This model can not be converted')
-
-    @staticmethod
-    def convert_to_float(value):
-        try:
-            return float(value)
-        except (ValueError, TypeError):
-            return None
 
     def migrate_disorder(self, disorder):
         new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())

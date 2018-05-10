@@ -482,7 +482,7 @@ class MigrateReports400To500(BaseMigration):
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
-                alternateFrequency=float(old_instance.reportedVariantCancer.commonAf)
+                alternateFrequency=self.convert_string_to_float(old_instance.reportedVariantCancer.commonAf)
             )]
 
         # builds up the VariantAttributes
@@ -683,17 +683,10 @@ class MigrateReports400To500(BaseMigration):
             object_to_validate=new_participant, object_type=self.new_model.CancerParticipant
         )
 
-    @staticmethod
-    def migrate_disorder_age_of_onset(old_age_of_onset):
-        try:
-            return float(old_age_of_onset)
-        except (ValueError, TypeError):
-            return None
-
     def migrate_disorder(self, old_disorder):
         new_object_type = self.new_model.Disorder
         new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
-        new_disorder.ageOfOnset = self.migrate_disorder_age_of_onset(old_age_of_onset=old_disorder.ageOfOnset)
+        new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset)
         return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
 
     def migrate_disorder_list(self, old_disorder_list):

@@ -33,6 +33,8 @@ class TestMigrateReports4To500(TestCaseMigration):
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_4_0_0.Actions, ActionFactory, VERSION_400, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_4_0_0.Actions, ActionFactory, VERSION_400, fill_nullables=False)
 
     def _check_variant_coordinates(self, old_variants, new_variants, assembly):
         for old_variant, new_variant in zip(old_variants, new_variants):
@@ -342,6 +344,11 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_400, fill_nullables=True
         ).create()
+        if old_instance.pedigree.members:
+            for member in old_instance.pedigree.members:
+                if member.disorderList:
+                    for disorder in member.disorderList:
+                        disorder.ageOfOnset = "1.5"
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
