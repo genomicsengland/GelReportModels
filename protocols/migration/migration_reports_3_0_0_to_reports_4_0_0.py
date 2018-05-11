@@ -11,6 +11,39 @@ class MigrateReports3To4(BaseMigration):
     new_model = reports_4_0_0
     re_counter = 1
 
+    def migrate_rd_exit_questionnaire(self, old_instance):
+        """
+        :type old_instance: reports_3_0_0.RareDiseaseExitQuestionnaire
+        :rtype: reports_4_0_0.RareDiseaseExitQuestionnaire
+        """
+        new_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire,
+                                          old_instance) # type: reports_4_0_0.RareDiseaseExitQuestionnaire
+        new_instance.variantGroupLevelQuestions = [
+            self.migrate_variant_group_questions(q) for q in old_instance.variantGroupLevelQuestions]
+        return new_instance
+
+    def migrate_variant_group_questions(self, old_instance):
+        """
+        :type old_instance: reports_3_0_0.VariantGroupLevelQuestions
+        :rtype:  reports_4_0_0.VariantGroupLevelQuestions
+        """
+        new_instance = self.convert_class(
+            self.new_model.VariantGroupLevelQuestions, old_instance)  # type: reports_4_0_0.VariantGroupLevelQuestions
+        new_instance.variantGroup = old_instance.variant_group
+        new_instance.variantLevelQuestions = [
+            self.migrate_variant_questions(q) for q in old_instance.variantLevelQuestions]
+        return new_instance
+
+    def migrate_variant_questions(self, old_instance):
+        """
+        :type old_instance: reports_3_0_0.VariantLevelQuestions
+        :rtype: reports_4_0_0.VariantLevelQuestions
+        """
+        new_instance = self.convert_class(
+            self.new_model.VariantLevelQuestions, old_instance)  # type: reports_4_0_0.VariantLevelQuestions
+        new_instance.variantDetails = old_instance.variant_details
+        return new_instance
+
     def migrate_reported_somatic_variants(self, old_reported_somatic_variants):
         """
         :type old_reported_somatic_variants: reports_3_0_0.ReportedSomaticVariants

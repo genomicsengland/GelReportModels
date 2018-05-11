@@ -226,7 +226,7 @@ class MigrationHelpers(object):
     @staticmethod
     def migrate_exit_questionnaire_rd_to_latest(json_dict):
         """
-        There are no changes in exit questionnaires between versions 3, 4 and 5
+        There are no changes in exit questionnaires between versions 4 and 5
         :type json_dict: dict
         :rtype: RareDiseaseExitQuestionnaire_5_0_0
         """
@@ -234,7 +234,11 @@ class MigrationHelpers(object):
 
         if PayloadValidation(klass=RareDiseaseExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
             eq_v500 = RareDiseaseExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
-            logging.info("Exit questionnaire in models reports 5.0.0")
+            logging.info("Exit questionnaire in models reports 5.0.0 or 4.0.0")
+        elif PayloadValidation(klass=RareDiseaseExitQuestionnaire_3_0_0, payload=json_dict).is_valid:
+            eq_v300 = RareDiseaseExitQuestionnaire_3_0_0.fromJsonDict(jsonDict=json_dict)
+            eq_v500 = MigrateReports3To4().migrate_rd_exit_questionnaire(eq_v300)
+            logging.info("Exit questionnaire in models reports 3.0.0")
 
         if eq_v500 is not None:
             return eq_v500

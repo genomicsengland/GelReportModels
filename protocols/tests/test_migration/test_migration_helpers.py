@@ -701,3 +701,54 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_clinical_report_cancer_500_500_nulls(self):
         self.test_migrate_clinical_report_cancer_500_500(fill_nullables=False)
+
+    ####
+
+    def test_migrate_questionnaire_rd_300_500(self, fill_nullables=True):
+
+        # tests EQ 300 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_3_0_0.RareDiseaseExitQuestionnaire, VERSION_300, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_exit_questionnaire_rd_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_questionnaire_rd_300_500_nulls(self):
+        self.test_migrate_questionnaire_rd_300_500(fill_nullables=False)
+
+    def test_migrate_questionnaire_rd_400_500(self, fill_nullables=True):
+
+        # tests EQ 300 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_4_0_0.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_exit_questionnaire_rd_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_questionnaire_rd_400_500_nulls(self):
+        self.test_migrate_questionnaire_rd_400_500(fill_nullables=False)
+
+    def test_migrate_questionnaire_rd_500_500(self, fill_nullables=True):
+
+        # tests EQ 300 -> 500
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_5_0_0.RareDiseaseExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_exit_questionnaire_rd_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_questionnaire_rd_500_500_nulls(self):
+        self.test_migrate_questionnaire_rd_400_500(fill_nullables=False)
+
