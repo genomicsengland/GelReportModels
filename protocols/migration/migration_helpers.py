@@ -38,6 +38,11 @@ from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
 from protocols.participant_1_0_0 import Pedigree as Pedigree_1_0_0
 from protocols.reports_3_0_0 import Pedigree as Pedigree_reports_3_0_0
 
+from protocols.participant_1_1_0 import CancerParticipant as CancerParticipant_1_1_0
+from protocols.participant_1_0_3 import CancerParticipant as CancerParticipant_1_0_3
+from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_1_0_0
+from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_reports_3_0_0
+
 from protocols.migration.model_validator import PayloadValidation
 from protocols.migration.migration import Migration2_1To3
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
@@ -420,3 +425,39 @@ class MigrationHelpers(object):
             return cr_v500
 
         raise MigrationError("Cancer clinical report is not in versions: [4.0.0, 5.0.0]")
+
+    @staticmethod
+    def migrate_cancer_participant_to_latest(json_dict):
+        """
+        :type json_dict: dict
+        :rtype: CancerParticipant_1_1_0
+        """
+        cp_v110 = None
+
+        if PayloadValidation(klass=CancerParticipant_1_1_0, payload=json_dict).is_valid:
+            cp_v110 = CancerParticipant_1_1_0.fromJsonDict(jsonDict=json_dict)
+            logging.info("CancerParticipant in models participants 1.1.0")
+
+        if PayloadValidation(klass=CancerParticipant_1_0_3, payload=json_dict).is_valid:
+            cp_v103 = CancerParticipant_1_0_3.fromJsonDict(jsonDict=json_dict)
+            cp_v110 = MigrationParticipants103To110().migrate_cancer_participant(cp_v103)
+            logging.info("CancerParticipant in models participants 1.0.3")
+
+        elif PayloadValidation(klass=CancerParticipant_1_0_0, payload=json_dict).is_valid:
+            cp_v100 = CancerParticipant_1_0_0.fromJsonDict(jsonDict=json_dict)
+            cp_v103 = MigrationParticipants100To103().migrate_cancer_participant(cp_v100)
+            cp_v110 = MigrationParticipants103To110().migrate_cancer_participant(cp_v103)
+            logging.info("CancerParticipant in models participants 1.0.0")
+
+        elif PayloadValidation(klass=CancerParticipant_reports_3_0_0, payload=json_dict).is_valid:
+            raise NotImplemented
+            # cp_v300 = CancerParticipant_reports_3_0_0.fromJsonDict(jsonDict=json_dict)
+            # cp_v100 = MigrationReportsToParticipants1().cuaucuacua(cp_v300)
+            # cp_v103 = MigrationParticipants100To103().migrate_cancer_participant(cp_v100)
+            # cp_v110 = MigrationParticipants103To110().migrate_cancer_participant(cp_v103)
+            # logging.info("CancerParticipant in models reports 3.1.0")
+
+        if cp_v110 is not None:
+            return cp_v110
+
+        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")

@@ -378,16 +378,6 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
         self._validate(migrated_instance)
 
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_3_0_0.Pedigree, VERSION_300, fill_nullables=False
-        ).create()
-        for participant in old_instance.participants:
-            for disorder in participant.disorderList:
-                disorder.ageOfOnset = str(factory.fuzzy.FuzzyFloat(0.0).fuzz())
-        self._validate(old_instance)
-        migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
-        self._validate(migrated_instance)
-
     def test_migrate_pedigree_300_110_nulls(self):
         self.test_migrate_pedigree_300_110(fill_nullables=False)
 
@@ -407,13 +397,6 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
         self._validate(migrated_instance)
 
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            participant_1_0_0.Pedigree, VERSION_400, fill_nullables=False
-        ).create()
-        self._validate(old_instance)
-        migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
-        self._validate(migrated_instance)
-
     def test_migrate_pedigree_100_110_nulls(self):
         self.test_migrate_pedigree_100_110(fill_nullables=False)
 
@@ -429,13 +412,6 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
         self._validate(migrated_instance)
 
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            participant_1_0_3.Pedigree, VERSION_500, fill_nullables=False
-        ).create()
-        self._validate(old_instance)
-        migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
-        self._validate(migrated_instance)
-
     def test_migrate_pedigree_103_110_nulls(self):
         self.test_migrate_pedigree_103_110(fill_nullables=False)
 
@@ -448,13 +424,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(old_instance)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
-        migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
-        self._validate(migrated_instance)
-
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            participant_1_0_3.Pedigree, VERSION_61, fill_nullables=False
-        ).create()
-        self._validate(old_instance)
         migrated_instance = MigrationHelpers.migrate_pedigree_to_latest(old_instance.toJsonDict())
         self._validate(migrated_instance)
 
@@ -702,8 +671,6 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_clinical_report_cancer_500_500_nulls(self):
         self.test_migrate_clinical_report_cancer_500_500(fill_nullables=False)
 
-    ####
-
     def test_migrate_questionnaire_rd_300_500(self, fill_nullables=True):
 
         # tests EQ 300 -> 500
@@ -752,3 +719,48 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_questionnaire_rd_500_500_nulls(self):
         self.test_migrate_questionnaire_rd_400_500(fill_nullables=False)
 
+    def test_migrate_cancer_participant_100_110(self, fill_nullables=True):
+
+        # tests IG participants 100 -> participants 103
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            participant_1_0_0.CancerParticipant, VERSION_400, fill_nullables=fill_nullables
+        ).create()  # type: participant_1_0_0.CancerParticipant
+        old_instance.LDPCode = "fakedLDP"
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.migrate_cancer_participant_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_cancer_participant_100_110_nulls(self):
+        self.test_migrate_cancer_participant_100_110(fill_nullables=False)
+
+    def test_migrate_cancer_participant_103_110(self, fill_nullables=True):
+
+        # tests pedigree participants 103 -> participants 103
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            participant_1_0_3.CancerParticipant, VERSION_500, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.migrate_cancer_participant_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_cancer_participant_103_110_nulls(self):
+        self.test_migrate_cancer_participant_103_110(fill_nullables=False)
+
+    def test_migrate_cancer_participant_110_110(self, fill_nullables=True):
+
+        # tests pedigree participants 103 -> participants 103
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            participant_1_0_3.CancerParticipant, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.migrate_cancer_participant_to_latest(old_instance.toJsonDict())
+        self._validate(migrated_instance)
+
+    def test_migrate_cancer_participant_110_110_nulls(self):
+        self.test_migrate_cancer_participant_110_110(fill_nullables=False)
