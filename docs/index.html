@@ -448,8 +448,14 @@
 <div class="section" id="schema-validation">
 <h3>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h3>
 <p>Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">isValid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">())</span>
-<span class="n">isValid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">(),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># just Avro native validation</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">())</span>
+
+<span class="c1"># verbose validation</span>
+<span class="n">validation_object</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">toJsonDict</span><span class="p">(),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">validation_object</span><span class="o">.</span><span class="n">result</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid</span>
+    <span class="nb">print</span> <span class="n">validation_object</span><span class="o">.</span><span class="n">messages</span>
 </pre></div>
 </div>
 </div>

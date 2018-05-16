@@ -35,8 +35,9 @@ class Migration2_1To3(object):
         """
         new_rd_participant = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
         new_rd_participant.versionControl = reports_3_0_0.VersionControl()
-        if 'yearOfBirth' in member.additionalInformation:
-            new_rd_participant.yearOfBirth = member.additionalInformation['yearOfBirth']
+        if member.additionalInformation:
+            if 'yearOfBirth' in member.additionalInformation:
+                new_rd_participant.yearOfBirth = member.additionalInformation['yearOfBirth']
 
         if new_rd_participant.validate(new_rd_participant.toJsonDict()):
             return new_rd_participant

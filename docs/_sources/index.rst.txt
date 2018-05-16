@@ -202,8 +202,14 @@ Schema validation
 Validate any instance against the corresponding schema. This validation will ensure that all non-nullable fields are actually filled.
 ::
 
-    isValid = instance.validate(instance.toJsonDict())
-    isValid = instance.validate(instance.toJsonDict(), verbose=True)
+    # just Avro native validation
+    is_valid = instance.validate(instance.toJsonDict())
+
+    # verbose validation
+    validation_object = instance.validate(instance.toJsonDict(), verbose=True)
+    is_valid = validation_object.result
+    if not is_valid
+        print validation_object.messages
 
 
 Mock data
