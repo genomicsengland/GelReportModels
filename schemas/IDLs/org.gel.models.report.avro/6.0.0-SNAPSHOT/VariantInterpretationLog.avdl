@@ -33,14 +33,14 @@ protocol VariantInterpretationLogProtocol {
         VariantCoordinates variantCoordinates;
         User user;
         string timestamp;
-        string family_id;
-        string case_id;
-        union {null, SangerValidation} sangerValidation;
+        string familyId;
+        string caseId;
+        union {null, VariantValidation} variantValidation;
         union {null, array<string>} comments;
         union {null, array<AcmgEvidence>} acmgEvidences;
         union {null, VariantValidation} VariantValidation;
-        union {null, bool} blackListed;
-        union {null, array<string>} decisionSupportSystemFilters;
+        union {null, bool} Artifact;
+        union {null, map<string>} decisionSupportSystemFilters;
 
     }
 }
