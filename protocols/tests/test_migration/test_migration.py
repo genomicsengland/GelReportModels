@@ -48,3 +48,19 @@ class TestCaseMigration(TestCase):
         self.assertFalse(InterpretationRequestRD.validate("whatever", verbose=True).result)
         self.assertFalse(InterpretationRequestRD.validate(False, verbose=True).result)
         self.assertTrue(InterpretationRequestRD.validate(old_instance.toJsonDict(), verbose=True).result)
+
+    def test_equality(self):
+        """
+        Ensures that validation fails when other object than a dict is passed
+        :return:
+        """
+        first_instance = GenericFactoryAvro.get_factory_avro(
+            InterpretationRequestRD, VERSION_400, fill_nullables=False
+        ).create()
+        second_instance = GenericFactoryAvro.get_factory_avro(
+            InterpretationRequestRD, VERSION_400, fill_nullables=False
+        ).create()
+        self.assertFalse(first_instance.equals(second_instance) is True)
+        self.assertFalse(second_instance.equals(first_instance) is True)
+        self.assertTrue(first_instance.equals(first_instance) is True)
+        self.assertTrue(second_instance.equals(second_instance) is True)
