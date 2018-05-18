@@ -49,7 +49,6 @@ from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import Migrate
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
 from protocols.migration.participants import \
     MigrationReportsToParticipants1, MigrationParticipants100To103, MigrationParticipants103To110
-
 from protocols.reports_5_0_0 import Assembly
 
 
@@ -460,4 +459,4 @@ class MigrationHelpers(object):
         if cp_v110 is not None:
             return cp_v110
 
-        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")
+        raise MigrationError("Cancer participant is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")

@@ -364,7 +364,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_rd_clinical_report_500_500(fill_nullables=False)
 
     def test_migrate_pedigree_300_110(self, fill_nullables=True):
-
         # tests reports 300 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.Pedigree, VERSION_300, fill_nullables=fill_nullables
@@ -382,7 +381,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_300_110(fill_nullables=False)
 
     def test_migrate_pedigree_100_110(self, fill_nullables=True):
-
         # tests IG participants 100 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_0.Pedigree, VERSION_400, fill_nullables=fill_nullables
@@ -416,7 +414,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_103_110(fill_nullables=False)
 
     def test_migrate_pedigree_110_110(self, fill_nullables=True):
-
         # tests pedigree participants 103 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_3.Pedigree, VERSION_61, fill_nullables=fill_nullables
