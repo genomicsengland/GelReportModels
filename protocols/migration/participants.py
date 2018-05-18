@@ -204,13 +204,12 @@ class MigrationParticipants100To103(BaseMigration):
 
     def migrate_disorder(self, old_instance):
         new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
-        try:
-            new_instance.ageOfOnset = float(old_instance.ageOfOnset)
-        except ValueError:
-            raise MigrationError("Cannot parse ageOfOnset='{}' into a float".format(old_instance.ageOfOnset))
+        new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset, fail=False)
         return new_instance
 
     def migrate_hpo_term(self, old_instance):
+        if old_instance.ageOfOnset:
+            old_instance.ageOfOnset = old_instance.ageOfOnset.upper().replace(" ", "_")
         new_instance = self.new_model.HpoTerm.fromJsonDict(old_instance.toJsonDict())
         values = [
             self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
@@ -225,7 +224,8 @@ class MigrationParticipants100To103(BaseMigration):
         ]
         if old_instance.ageOfOnset not in values:
             new_instance.ageOfOnset = None
-            logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
+            if old_instance.ageOfOnset:
+                logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
         if old_instance.modifiers is not None:
             for name, value in old_instance.modifiers.iteritems():
                 new_modifiers = self.new_model.HpoTermModifiers()
@@ -286,13 +286,6 @@ class MigrationReportsToParticipants1(BaseMigration):
         else:
             raise Exception('This model can not be converted')
 
-    @staticmethod
-    def convert_to_float(value):
-        try:
-            return float(value)
-        except (ValueError, TypeError):
-            return None
-
     def migrate_disorder(self, disorder):
         new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
 
@@ -318,18 +311,17 @@ class MigrationReportsToParticipants1(BaseMigration):
         if member.disorderList is not None:
             new_pedigree_member.disorderList = [self.migrate_disorder(disorder) for disorder in member.disorderList]
         try:
-            new_pedigree_member.yearOfBirth = int(member.yearOfBirth)
-        except Exception:
+            new_pedigree_member.yearOfBirth = self.convert_string_to_integer(member.yearOfBirth)
+        except MigrationError:
             new_pedigree_member.yearOfBirth = None
+            logging.warning("We are losing the year of birth as it cannot be converted into an integer")
 
         new_pedigree_member.samples = []
         if member.samples is not None:
             for sample in member.samples:
                 if sample_id_to_lab_sample_id is not None and isinstance(sample_id_to_lab_sample_id, dict):
-                    try:
-                        lab_sample_id = int(sample_id_to_lab_sample_id.get(sample, -1))
-                    except ValueError:
-                        lab_sample_id = -1
+                    lab_sample_id = self.convert_string_to_integer(
+                        sample_id_to_lab_sample_id.get(sample, -1), default_value=-1)
                 else:
                     lab_sample_id = -1
                 new_pedigree_member.samples.append(self.new_model.Sample(
