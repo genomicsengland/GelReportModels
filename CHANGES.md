@@ -1,3 +1,11 @@
+Version 6.1.2 (18th May 2018)
+--------------------------------
+
+#### Minor changes
+
+* Fix error in validation when the input entity is not a dict always returned True
+* Added a method `equals()` to all objects to check equality
+
 Version 6.1.1 (10th May 2018)
 --------------------------------
 
