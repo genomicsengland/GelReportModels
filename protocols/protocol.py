@@ -223,7 +223,7 @@ class ProtocolElement(object):
         elif schema_type == 'array':
             if not isinstance(datum, list):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
-            if isinstance(datum, list):
+            elif isinstance(datum, list):
                 for data in datum:
                     if not avro.io.validate(expected_schema=expected_schema.items, datum=data):
                         validation_result.update_simple(
@@ -274,6 +274,12 @@ class ProtocolElement(object):
                             schema_type=f.type,
                             value=datum.get(f.name)
                         )
+            else:
+                validation_result.update_simple(
+                    expected_schema=expected_schema,
+                    schema_type=expected_schema,
+                    datum=datum
+                )
 
         return validation_result
 
