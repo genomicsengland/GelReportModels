@@ -9,6 +9,8 @@ import sys
 import json
 import inspect
 import itertools
+import dictdiffer
+import logging
 
 import avro.io
 from avro.schema import UnionSchema, ArraySchema
@@ -110,6 +112,19 @@ class ProtocolElement(object):
             else:
                 out[field.name] = val
         return out
+
+    def equals(self, instance):
+        """
+        Method to compare entities
+        :return:
+        """
+        if not isinstance(instance, ProtocolElement):
+            logging.error("Comparing instance of type {} with instance of type {}".format(type(self), type(instance)))
+            return False
+        differences = list(dictdiffer.diff(self.toJsonDict(), instance.toJsonDict()))
+        if differences is None or differences == []:
+            return True
+        return differences
 
     def validate_parts(self):
         out = {}
@@ -223,7 +238,7 @@ class ProtocolElement(object):
         elif schema_type == 'array':
             if not isinstance(datum, list):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
-            if isinstance(datum, list):
+            elif isinstance(datum, list):
                 for data in datum:
                     if not avro.io.validate(expected_schema=expected_schema.items, datum=data):
                         validation_result.update_simple(
@@ -274,6 +289,12 @@ class ProtocolElement(object):
                             schema_type=f.type,
                             value=datum.get(f.name)
                         )
+            else:
+                validation_result.update_simple(
+                    expected_schema=expected_schema,
+                    schema_type=expected_schema,
+                    datum=datum
+                )
 
         return validation_result
 
