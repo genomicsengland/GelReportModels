@@ -12,9 +12,10 @@ reqs = [
     "factory-boy==2.9.2",
     "humanize==0.5.1",
     "PyYAML==3.12",
+    "dictdiffer"
 ]
 
-VERSION = "6.1.1"
+VERSION = "6.1.2"
 setup(
     name='GelReportModels',
     version=VERSION,
