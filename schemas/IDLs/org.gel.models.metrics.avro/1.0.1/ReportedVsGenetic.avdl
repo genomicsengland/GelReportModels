@@ -4,93 +4,116 @@ This protocol defines the metrics we calculate and store for genetic vs reported
 */
 protocol ReportedVsGenetic {
 
-
+/** Definitions
+    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
+    */
     enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
     enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
-    /** Coverage-based sex */
-    record CoverageBasedSex {
-        KaryotypicSex coverageKaryotype;
-        union {null, double} ratioChrX;
-        union {null, double} ratioChrY;
+/**
+ReportedVsGeneticSummary
+========================================
+General information about the checks, versions, tools, and number of markers
+*/
+
+    record SamplesInfo {
+        string sampleId;
+        string deliveryId;
     }
 
-/** Plink sex check */
-record PlinkSexCheck {
-    string fid;
-    string iid;
+    record ReportedVsGeneticSummary {
+        string RvsGCheckVersion;
+        string runDate;
+        union {null, double} numberOfMarkers;
+        union {null, double} numberOfMarkersLE;
+        string mendelErrorsTool;
+        string relatednessTool;
+        array<SamplesInfo> samplesInfo;
+    }
 
-    /** (1 = male, 2 = female, 0 = unknown) */
-    union {null, double} PEDSEX;
-    union {null, double} SNPSEX;
+/**
+Coverage-based sex
+========================================
+General information about the checks, versions, tools, and number of markers
+TODO: Consider removing Inferred karyotype
+*/
+    record CoverageBasedSex {
+        string sampleId;
+        union {null, KaryotypicSex} inferredKaryotype;
+        union {null, double} ratioChrX;
+        union {null, double} ratioChrY;
+        union {null, double} avgCnvChrX; // should be here?
+        union {null, double} avgCnvChrY; // should be here?
+    }
 
-    string status;
-    union {null, double} f;
-    union {null, double} yCount;
-}
+/**
+Mendelian inconsistencies
+========================================
+- fmendel reports a line per nuclear family
+- imendel reports a line per member of the family
+*/
+    record PerFamilyMendelErrors {
+        string fatherId;
+        string motherId;
+        union {null, double} numberOfOffspring;
+        union {null, double} numberOfMendelErrors;
+    }
 
-/** Mendelian inconsistencies */
-record Fmendel {
-    string fid;
-    string pat;
-    string mat;
-    union {null, double} chld;
-    union {null, double} n;
-}
+    record IndividualMendelErrors {
+        string sampleId;
+        union {null, double} numberOfMendelErrors;
+        union {null, double} rateMendelErrors;
+    }
 
-record Imendel {
-    string fid;
-    string iid;
-    union {null, double} n;
-}
+    record AggregatedIndividualMendelErrors {
+        string sampleId;
+        union {null, double} totalnumberOfMendelErrors;
+    }
 
-record MendelianInconsistencies {
-    array<Fmendel> fmendel;
-    array<Imendel> imendel;
-}
+    record TotalNumberOfMendelErrors {
+        union {null, double} family;
+        union {null, array<AggregatedIndividualMendelErrors>} individual;
+    }
 
-/** Relatedness */
-record RelatednessPair {
-    string fid1;
-    string iid1;
-    string fid2;
-    string iid2;
-    string rt;
-    union {null, double} ez;
-    union {null, double} z0;
-    union {null, double} z1;
-    union {null, double} z2;
-    union {null, double} pi_hat;
-    union {null, double} phe;
-    union {null, double} dst;
-    union {null, double} ppc;
-    union {null, double} ratio;
-}
+    record LocusMendelSummary {
+        string sampleId;
+        string chr;
+        double code;
+        double numberOfErrors;
+    }
 
-record FamilyRelatedness {
-    array<RelatednessPair> relatedness;
-}
+    record MendelianInconsistencies {
+        union {null, array<PerFamilyMendelErrors>} perFamilyMendelErrors;
+        union {null, array<IndividualMendelErrors>} individualMendelErrors;
+        union {null, TotalNumberOfMendelErrors} totalNumberOfMendelErrors;
+        union {null, array<LocusMendelSummary>} locusMendelSummary;
+    }
 
-/** BED/BIM/FAM information */
-record BedBimFamInfo {
-    string bedFile;
-    string bimFile;
-    string famFile;
-    string positionsFile;
-    union {null, double} numMarkers; /** From BIM file */
-}
+/** Relatedness
+========================================
+*/
+    record RelatednessPair {
+        string sampleId1;
+        string sampleId2;
+        union {null, double} ibd0;
+        union {null, double} ibd1;
+        union {null, double} ibd2;
+        union {null, double} piHat;
+    }
 
-/** Main objects */
-record ReportedVsGeneticSample {
-    union {null, CoverageBasedSex} CoverageBasedSex;
-    union {null, PlinkSexCheck} PlinkSexCheck;
-}
+    record FamilyRelatedness {
+        union {null, array<RelatednessPair>} relatedness;
+    }
 
-record ReportedVsGeneticFamily {
-    union {null, MendelianInconsistencies} MendelianInconsistencies;
-    union {null, FamilyRelatedness} FamilyRelatedness;
-    union {null, BedBimFamInfo} BedBimFamInfo;
-}
 
+/** Main object
+========================================
+*/
+    record ReportedVsGeneticChecks {
+        union {null, ReportedVsGeneticSummary} reportedVsGeneticSummary;
+        union {null, array<CoverageBasedSex>} coverageBasedSex;
+        union {null, MendelianInconsistencies} mendelianInconsistencies;
+        union {null, array<FamilyRelatedness>} familyRelatedness;
+    }
 }
