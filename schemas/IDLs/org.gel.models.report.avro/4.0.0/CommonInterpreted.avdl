@@ -134,7 +134,7 @@ It is a representation of the zygosity
     This is the classification of the variant according to standard practice guidelines (e.g. ACMG)
     */
     // TODO: refactor with ACMGClassification in ExitQuestionnaire
-    enum VariantClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed}
+    enum VariantClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant, benign_variant, not_assessed}
 
 
 
