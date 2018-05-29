@@ -63,7 +63,7 @@ class TestMigrateReports5To400(TestCaseMigration):
             self.old_model.GenomicEntityType.transcript,
         ]
         if old_entity.type not in valid_genomic_features:
-            entity.type = valid_genomic_features[randint(0, len(valid_genomic_features)-1)]
+            old_entity.type = valid_genomic_features[randint(0, len(valid_genomic_features)-1)]
 
         entity_type = old_entity.type
         feature_type_map = {
@@ -210,7 +210,7 @@ class TestMigrateReports5To400(TestCaseMigration):
 
         new_instance = MigrateReports500To400().migrate_clinical_report_rd(old_instance=old_instance)
 
-        self.assertTrue(new_instance.validate(new_instance.toJsonDict()))
+        self.assertTrue(isinstance(new_instance, self.new_model.ClinicalReportRD))
 
         self._validate(new_instance)
         self._check_variant_coordinates(
