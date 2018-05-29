@@ -163,22 +163,24 @@ class TestMigrateReports5To400(TestCaseMigration):
         self.assertTrue(isinstance(new_instance, self.new_model.CalledGenotype))
         self._validate(new_instance)
 
-    def test_migrate_rd_clinical_report(self):
+    def test_migrate_rd_clinical_report(self, fill_nullables=True):
         # creates a random clinical report RD for testing filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(
-            self.old_model.ClinicalReportRD, VERSION_61, fill_nullables=True
+            self.old_model.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
         ).create(interpretationRequestVersion='1')  # we need to enforce that it can be cast to int
 
         self._validate(old_instance)
-        self._check_non_empty_fields(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
 
         #################################################
         # TODO(Greg): Remove this when IP-1394 is resolved
         valid_tiers = ["TIER1", "TIER2", "TIER3", "NONE"]
-        for rv in old_instance.variants:
-            for re in rv.reportEvents:
-                if re.tier not in valid_tiers:
-                    re.tier = valid_tiers[randint(0, len(valid_tiers)-1)]
+        if old_instance.variants:
+            for rv in old_instance.variants:
+                for re in rv.reportEvents:
+                    if re.tier not in valid_tiers:
+                        re.tier = valid_tiers[randint(0, len(valid_tiers)-1)]
         #################################################
 
         valid_genomic_features = [
@@ -186,11 +188,12 @@ class TestMigrateReports5To400(TestCaseMigration):
             self.old_model.GenomicEntityType.gene,
             self.old_model.GenomicEntityType.transcript,
         ]
-        for rv in old_instance.variants:
-            for re in rv.reportEvents:
-                entity = re.genomicEntities[0]
-                if entity.type not in valid_genomic_features:
-                    entity.type = valid_genomic_features[randint(0, len(valid_genomic_features)-1)]
+        if old_instance.variants:
+            for rv in old_instance.variants:
+                for re in rv.reportEvents:
+                    entity = re.genomicEntities[0]
+                    if entity.type not in valid_genomic_features:
+                        entity.type = valid_genomic_features[randint(0, len(valid_genomic_features)-1)]
 
         valid_genotypes = [
             self.old_model.Zygosity.reference_homozygous,
@@ -203,18 +206,21 @@ class TestMigrateReports5To400(TestCaseMigration):
             self.old_model.Zygosity.reference_hemizigous,
             self.old_model.Zygosity.unk,
         ]
-        for rv in old_instance.variants:
-            for vc in rv.variantCalls:
-                if vc.zygosity not in valid_genotypes:
-                    vc.zygosity = valid_genotypes[randint(0, len(valid_genotypes)-1)]
+        if old_instance.variants:
+            for rv in old_instance.variants:
+                for vc in rv.variantCalls:
+                    if vc.zygosity not in valid_genotypes:
+                        vc.zygosity = valid_genotypes[randint(0, len(valid_genotypes)-1)]
 
         new_instance = MigrateReports500To400().migrate_clinical_report_rd(old_instance=old_instance)
-
         self.assertTrue(isinstance(new_instance, self.new_model.ClinicalReportRD))
-
         self._validate(new_instance)
-        self._check_variant_coordinates(
-            old_variants=old_instance.variants,
-            new_variants=new_instance.candidateVariants,
-        )
+        if fill_nullables:
+            self._check_variant_coordinates(
+                old_variants=old_instance.variants,
+                new_variants=new_instance.candidateVariants,
+            )
+
+    def test_migrate_rd_clinical_report_nullables_false(self):
+        self.test_migrate_rd_clinical_report(fill_nullables=False)
 

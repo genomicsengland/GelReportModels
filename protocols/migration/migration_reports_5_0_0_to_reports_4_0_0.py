@@ -25,9 +25,10 @@ class MigrateReports500To400(BaseMigration):
         new_instance.supportingEvidence = old_instance.references
 
         # converts all reported variants
-        new_instance.candidateVariants = [
-            self.migrate_reported_variant(old_reported_variant=old_variant) for old_variant in old_instance.variants
-        ]
+        if old_instance.variants:
+            new_instance.candidateVariants = [
+                self.migrate_reported_variant(old_reported_variant=old_variant) for old_variant in old_instance.variants
+            ]
 
         if old_instance.additionalAnalysisPanels is not None:
             new_instance.additionalAnalysisPanels = [
