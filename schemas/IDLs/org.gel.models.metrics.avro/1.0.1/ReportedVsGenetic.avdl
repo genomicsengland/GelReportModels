@@ -9,7 +9,7 @@ protocol ReportedVsGenetic {
     */
     enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
     enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
-
+    enum Query {yes, no, unknown}
 
 /**
 ReportedVsGeneticSummary
@@ -18,6 +18,7 @@ General information about the checks, versions, tools, and number of markers
 */
 
     record SamplesInfo {
+        string participantId;
         string sampleId;
         string deliveryId;
     }
@@ -25,6 +26,7 @@ General information about the checks, versions, tools, and number of markers
     record ReportedVsGeneticSummary {
         string RvsGCheckVersion;
         string runDate;
+        string pathToDirectory;
         union {null, double} numberOfMarkers;
         union {null, double} numberOfMarkersLE;
         string mendelErrorsTool;
@@ -106,6 +108,37 @@ Mendelian inconsistencies
         union {null, array<RelatednessPair>} relatedness;
     }
 
+/** Evaluation
+========================================
+reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck
+*/
+    record CoverageBasedSexCheck {
+        string sampleId;
+        union {null, Sex} reportedPhenotypicSex;
+        union {null, KaryotypicSex} reportedKaryotypicSex;
+        union {null, KaryotypicSex} inferredSexKaryotype;
+        union {null, Query} sexQuery;
+    }
+
+    record MendelianInconsistenciesCheck {
+        string sampleId;
+        union {null, Query} mendelianInconsistenciesQuery;
+        union {null, string} comments;
+    }
+
+    record familyRelatednessCheck {
+        string sampleId1;
+        string sampleId2;
+        union {null, string} relationshipFromPedigree;
+        union {null, string} possibleRelationship;
+        union {null, Query} withinFamilyIBDQuery;
+    }
+
+    record Evaluation {
+        union {null, array<CoverageBasedSexCheck>} coverageBasedSexCheck;
+        union {null, array<MendelianInconsistenciesCheck>} coverageBasedSexCheck;
+        union {null, string} reportedVsGeneticSummary;
+    }
 
 /** Main object
 ========================================
@@ -115,5 +148,6 @@ Mendelian inconsistencies
         union {null, array<CoverageBasedSex>} coverageBasedSex;
         union {null, MendelianInconsistencies} mendelianInconsistencies;
         union {null, array<FamilyRelatedness>} familyRelatedness;
+        union {null, Evaluation} evaluation;
     }
 }
