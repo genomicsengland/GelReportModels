@@ -4,6 +4,8 @@ This protocol defines the metrics we calculate and store for genetic vs reported
 */
 protocol ReportedVsGenetic {
 
+    import idl "CommonParticipant.avdl";
+
     /**
     Sex
     TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
@@ -19,16 +21,6 @@ protocol ReportedVsGenetic {
     A query
     */
     enum Query {yes, no, unknown}
-
-    /**
-    Relationship from pedrigree
-    */
-    enum relationshipFromPedigree {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
-         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
-         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
-         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
-         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
-         RelationIsNotClear, Unknown}
 
     /**
     Reported vs Genetic Summary
@@ -325,7 +317,7 @@ protocol ReportedVsGenetic {
         /**
         Reported relationship from sampleId1 to sampleId2 according to the pedigree provided
         */
-        union {null, relationshipFromPedigree} relationshipFromPedigree;
+        union {null, org.gel.models.participant.avro.FamiliarRelationship} relationshipFromPedigree;
         /**
         Expected relationship according to IBD
         */
