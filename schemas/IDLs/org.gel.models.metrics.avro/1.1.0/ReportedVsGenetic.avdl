@@ -4,18 +4,22 @@ This protocol defines the metrics we calculate and store for genetic vs reported
 */
 protocol ReportedVsGenetic {
 
-/** Definitions
+    /**
+    Sex
     TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
     */
     enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
+
+    /**
+    Kariotypic sex
+    */
     enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+
+    /**
+    A query
+    */
     enum Query {yes, no, unknown}
 
-/**
-ReportedVsGeneticSummary
-========================================
-General information about the checks, versions, tools, and number of markers
-*/
 
     record SamplesInfo {
         /**
@@ -32,6 +36,11 @@ General information about the checks, versions, tools, and number of markers
         string deliveryId;
     }
 
+    /**
+    ReportedVsGeneticSummary
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    */
     record ReportedVsGeneticSummary {
         /**
         Reported vs Genetic checks version. This version should point to specific versions of the RvsG script,
@@ -77,12 +86,12 @@ General information about the checks, versions, tools, and number of markers
         array<SamplesInfo> samplesInfo;
     }
 
-/**
-Coverage-based sex
-========================================
-General information about the checks, versions, tools, and number of markers
-TODO: Consider removing Inferred karyotype
-*/
+    /**
+    Coverage-based sex
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    TODO: Consider removing Inferred karyotype
+    */
     record CoverageBasedSex {
         /**
         Sample Id (e.g, LP00012645_5GH))
@@ -110,12 +119,12 @@ TODO: Consider removing Inferred karyotype
         union {null, double} avgCnvChrY;
     }
 
-/**
-Mendelian inconsistencies
-========================================
-- fmendel reports a line per nuclear family
-- imendel reports a line per member of the family and nuclear family
-*/
+    /**
+    Mendelian inconsistencies
+    ========================================
+    - fmendel reports a line per nuclear family
+    - imendel reports a line per member of the family and nuclear family
+    */
     record PerFamilyMendelErrors {
         /**
         Sample Id of the father
@@ -213,9 +222,9 @@ Mendelian inconsistencies
         union {null, array<LocusMendelSummary>} locusMendelSummary;
     }
 
-/** Relatedness
-========================================
-*/
+    /** Relatedness
+    ========================================
+    */
     record RelatednessPair {
         /**
         Sample Id of one of the samples in the pair
@@ -250,10 +259,6 @@ Mendelian inconsistencies
         union {null, array<RelatednessPair>} relatedness;
     }
 
-/** Evaluation
-========================================
-reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck
-*/
     record CoverageBasedSexCheck {
         /**
         Sample Id
@@ -316,6 +321,10 @@ reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissi
         union {null, Query} withinFamilyIBDQuery;
     }
 
+    /** Evaluation
+    ========================================
+    reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck
+    */
     record Evaluation {
         /**
         Coverae-based sex evaluation. One entry per sample
@@ -335,9 +344,9 @@ reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissi
         union {null, string} reportedVsGeneticSummary;
     }
 
-/** Main object
-========================================
-*/
+    /** Reported versus Genetic checks object
+    ========================================
+    */
     record ReportedVsGeneticChecks {
         /**
         Summary of the software, versions and samples used for the RvsG checks
