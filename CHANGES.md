@@ -1,3 +1,10 @@
+Version 6.1.4 (1st June 2018)
+--------------------------------
+
+#### Major changes
+
+* Models for reported versus genetic checks
+
 Version 6.1.3 (1st June 2018)
 --------------------------------
 

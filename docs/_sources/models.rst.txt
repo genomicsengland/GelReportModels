@@ -4,6 +4,17 @@ GEL Models documentation
 org.gel.models.metrics.avro
 ---------------------------
 
+1.1.0
+^^^^^
+
+* |orggelmodelsmetricsavro110GelVcfMetrics|
+* |orggelmodelsmetricsavro110sampleState|
+* |orggelmodelsmetricsavro110ReportedVsGenetic|
+* |orggelmodelsmetricsavro110SupplementaryAnalysisResults|
+* |orggelmodelsmetricsavro110GelBamMetrics|
+* |orggelmodelsmetricsavro110RareDiseaseInterpretationPipeline|
+* |orggelmodelsmetricsavro110individualState|
+
 1.0.1
 ^^^^^
 
@@ -313,6 +324,9 @@ org.gel.models.report.avro
 .. |orggelmodelscvaavro040ObservedVariant| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/0.4.0/ObservedVariant.html" target="_blank">ObservedVariant</a>
+.. |orggelmodelsparticipantavro110CancerParticipant| raw:: html
+
+    <a href="html_schemas/org.gel.models.participant.avro/1.1.0/CancerParticipant.html" target="_blank">CancerParticipant</a>
 .. |orgga4ghmodels300variantmethods| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/variantmethods.html" target="_blank">variantmethods</a>
@@ -346,6 +360,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro400ClinicalReportRD| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.0.0/ClinicalReportRD.html" target="_blank">ClinicalReportRD</a>
+.. |orggelmodelsmetricsavro110SupplementaryAnalysisResults| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/SupplementaryAnalysisResults.html" target="_blank">SupplementaryAnalysisResults</a>
 .. |orgga4ghmodels300references| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/references.html" target="_blank">references</a>
@@ -385,9 +402,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro500CommonInterpretedCancer| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/5.0.0/CommonInterpretedCancer.html" target="_blank">CommonInterpretedCancer</a>
-.. |orggelmodelscvaavro100DataIntakeRD| raw:: html
+.. |orgga4ghmodels300reads| raw:: html
 
-    <a href="html_schemas/org.gel.models.cva.avro/1.0.0/DataIntakeRD.html" target="_blank">DataIntakeRD</a>
+    <a href="html_schemas/org.ga4gh.models/3.0.0/reads.html" target="_blank">reads</a>
 .. |orggelmodelsparticipantavro101ParticipantSensitiveInformation| raw:: html
 
     <a href="html_schemas/org.gel.models.participant.avro/1.0.1/ParticipantSensitiveInformation.html" target="_blank">ParticipantSensitiveInformation</a>
@@ -433,6 +450,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro300SampleState| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/3.0.0/SampleState.html" target="_blank">SampleState</a>
+.. |orggelmodelsmetricsavro110GelBamMetrics| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/GelBamMetrics.html" target="_blank">GelBamMetrics</a>
 .. |orggelmodelsreportavro300CommonRequest| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/3.0.0/CommonRequest.html" target="_blank">CommonRequest</a>
@@ -454,9 +474,9 @@ org.gel.models.report.avro
 .. |orgopencbbiodatamodelsvariantavro120variant| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.2.0/variant.html" target="_blank">variant</a>
-.. |orggelmodelsmetricsavro101SupplementaryAnalysisResults| raw:: html
+.. |Gel_BioInf_Models210InterpretedGenomesCancer| raw:: html
 
-    <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/SupplementaryAnalysisResults.html" target="_blank">SupplementaryAnalysisResults</a>
+    <a href="html_schemas/Gel_BioInf_Models/2.1.0/InterpretedGenomesCancer.html" target="_blank">InterpretedGenomesCancer</a>
 .. |Gel_BioInf_Models210CommonInterpretedCancer| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/CommonInterpretedCancer.html" target="_blank">CommonInterpretedCancer</a>
@@ -484,9 +504,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro400CommonInterpretedCancer| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.0.0/CommonInterpretedCancer.html" target="_blank">CommonInterpretedCancer</a>
-.. |orgopencbbiodatamodelsvariantavro120read| raw:: html
+.. |orggelmodelsmetricsavro110sampleState| raw:: html
 
-    <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.2.0/read.html" target="_blank">read</a>
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/sampleState.html" target="_blank">sampleState</a>
 .. |orggelmodelsparticipantavro103RDParticipantChangeLog| raw:: html
 
     <a href="html_schemas/org.gel.models.participant.avro/1.0.3/RDParticipantChangeLog.html" target="_blank">RDParticipantChangeLog</a>
@@ -502,9 +522,9 @@ org.gel.models.report.avro
 .. |Gel_BioInf_Models210GelBamMetrics| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/GelBamMetrics.html" target="_blank">GelBamMetrics</a>
-.. |Gel_BioInf_Models210InterpretedGenomesCancer| raw:: html
+.. |orggelmodelsmetricsavro101SupplementaryAnalysisResults| raw:: html
 
-    <a href="html_schemas/Gel_BioInf_Models/2.1.0/InterpretedGenomesCancer.html" target="_blank">InterpretedGenomesCancer</a>
+    <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/SupplementaryAnalysisResults.html" target="_blank">SupplementaryAnalysisResults</a>
 .. |Gel_BioInf_Models210GelVcfMetrics| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/GelVcfMetrics.html" target="_blank">GelVcfMetrics</a>
@@ -535,6 +555,9 @@ org.gel.models.report.avro
 .. |orgopencbbiodatamodelsvariantavro130variant| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.3.0/variant.html" target="_blank">variant</a>
+.. |orggelmodelsmetricsavro110ReportedVsGenetic| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/ReportedVsGenetic.html" target="_blank">ReportedVsGenetic</a>
 .. |orggelmodelsreportavro500CommonRequest| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/5.0.0/CommonRequest.html" target="_blank">CommonRequest</a>
@@ -592,6 +615,9 @@ org.gel.models.report.avro
 .. |orgopencbbiodatamodelsvariantavro130SNAPSHOTvariantMetadata| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.3.0-SNAPSHOT/variantMetadata.html" target="_blank">variantMetadata</a>
+.. |orggelmodelsmetricsavro110individualState| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/individualState.html" target="_blank">individualState</a>
 .. |orggelmodelscoverageavro010Coverage| raw:: html
 
     <a href="html_schemas/org.gel.models.coverage.avro/0.1.0/Coverage.html" target="_blank">Coverage</a>
@@ -607,9 +633,9 @@ org.gel.models.report.avro
 .. |orggelmodelscvaavro100Transactions| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/1.0.0/Transactions.html" target="_blank">Transactions</a>
-.. |orgga4ghmodels300reads| raw:: html
+.. |orggelmodelscvaavro100DataIntakeRD| raw:: html
 
-    <a href="html_schemas/org.ga4gh.models/3.0.0/reads.html" target="_blank">reads</a>
+    <a href="html_schemas/org.gel.models.cva.avro/1.0.0/DataIntakeRD.html" target="_blank">DataIntakeRD</a>
 .. |orggelmodelscvaavro040DataIntakeRD| raw:: html
 
     <a href="html_schemas/org.gel.models.cva.avro/0.4.0/DataIntakeRD.html" target="_blank">DataIntakeRD</a>
@@ -622,9 +648,9 @@ org.gel.models.report.avro
 .. |orggelmodelsmetricsavro101RareDiseaseInterpretationPipeline| raw:: html
 
     <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/RareDiseaseInterpretationPipeline.html" target="_blank">RareDiseaseInterpretationPipeline</a>
-.. |orggelmodelsparticipantavro110CancerParticipant| raw:: html
+.. |orgopencbbiodatamodelsvariantavro120read| raw:: html
 
-    <a href="html_schemas/org.gel.models.participant.avro/1.1.0/CancerParticipant.html" target="_blank">CancerParticipant</a>
+    <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.2.0/read.html" target="_blank">read</a>
 .. |Gel_BioInf_Models210InterpretationRequestCancer| raw:: html
 
     <a href="html_schemas/Gel_BioInf_Models/2.1.0/InterpretationRequestCancer.html" target="_blank">InterpretationRequestCancer</a>
@@ -661,6 +687,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro420InterpretedGenomesRD| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.2.0/InterpretedGenomesRD.html" target="_blank">InterpretedGenomesRD</a>
+.. |orggelmodelsmetricsavro110GelVcfMetrics| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/GelVcfMetrics.html" target="_blank">GelVcfMetrics</a>
 .. |orggelmodelsmetricsavro101GelVcfMetrics| raw:: html
 
     <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/GelVcfMetrics.html" target="_blank">GelVcfMetrics</a>
@@ -682,6 +711,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro300AuditLog| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/3.0.0/AuditLog.html" target="_blank">AuditLog</a>
+.. |orggelmodelsmetricsavro110RareDiseaseInterpretationPipeline| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.1.0/RareDiseaseInterpretationPipeline.html" target="_blank">RareDiseaseInterpretationPipeline</a>
 .. |orgga4ghmodels300referencemethods| raw:: html
 
     <a href="html_schemas/org.ga4gh.models/3.0.0/referencemethods.html" target="_blank">referencemethods</a>
