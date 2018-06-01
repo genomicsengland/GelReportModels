@@ -1,3 +1,10 @@
+Version 6.1.3 (1st June 2018)
+--------------------------------
+
+#### Major changes
+
+* Backwards migrations from reports 5 to reports 3
+
 Version 6.1.2 (18th May 2018)
 --------------------------------
 
