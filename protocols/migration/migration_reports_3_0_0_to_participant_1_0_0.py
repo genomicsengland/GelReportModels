@@ -1,7 +1,9 @@
+import logging
+
 from protocols import participant_1_0_0
 from protocols import reports_3_0_0
 from protocols.util import handle_avro_errors
-from protocols.migration.base_migration import BaseMigration
+from protocols.migration.base_migration import BaseMigration, MigrationError
 
 
 class MigrateReports3ToParticipant1(BaseMigration):
@@ -13,6 +15,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
     def migrate_cancer_participant(self, old_cancer_participant):
         """
+        PRE: germlineSamples.labId follows an integer format
         :type old_cancer_participant: reports_3_0_0.CancerParticipant
         :rtype: participant_1_0_0.CancerParticipant
         """
@@ -29,16 +32,25 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.primaryDiagnosisDisease = old_cancer_participant.cancerDemographics.primaryDiagnosis
         new_cancer_participant.readyForAnalysis = True
 
-        germline_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.germline
-        ]
-        new_cancer_participant.germlineSamples = [self.migrate_germline_sample(sample) for sample in germline_samples]
+        if old_cancer_participant.cancerSamples is not None:
+            germline_samples = [
+                sample for sample in old_cancer_participant.cancerSamples
+                if sample.sampleType == self.old_model.SampleType.germline
+            ]
 
-        tumor_samples = [
-            sample for sample in old_cancer_participant.cancerSamples if sample.sampleType == self.old_model.SampleType.tumor
-        ]
+        if germline_samples is not None:
+            new_cancer_participant.germlineSamples = [
+                self.migrate_germline_sample(sample) for sample in germline_samples]
 
-        new_cancer_participant.tumourSamples = [self.migrate_tumor_sample(sample) for sample in tumor_samples]
+        if old_cancer_participant.cancerSamples is not None:
+            tumor_samples = [
+                sample for sample in old_cancer_participant.cancerSamples
+                if sample.sampleType == self.old_model.SampleType.tumor
+            ]
+        if tumor_samples is not None:
+            new_cancer_participant.tumourSamples = [
+                self.migrate_tumor_sample(sample) for sample in tumor_samples]
+
         new_cancer_participant.matchedSamples = [self.migrate_match_samples(matched_sample) for matched_sample in
                                                  old_cancer_participant.matchedSamples]
 
@@ -52,7 +64,11 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         new_tumour_sample.TNMStageGrouping = old_cancer_sample.tmn_stage_grouping
         new_tumour_sample.TNMStageVersion = old_cancer_sample.tmn_stage_grouping
-        new_tumour_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
+        try:
+            new_tumour_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
+        except MigrationError, ex:
+            logging.error("Laboratory identifier in tumour sample cannot be converted to an integer!")
+            raise ex
         new_tumour_sample.programmePhase = old_cancer_sample.gelPhase
 
         new_tumour_sample.preparationMethod = old_cancer_sample.preservationMethod
@@ -74,6 +90,23 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         new_tumour_sample.tumourId = 1
 
+        phase_map = {
+            reports_3_0_0.Phase.PRIMARY: participant_1_0_0.Phase.PRIMARY,
+            reports_3_0_0.Phase.METASTATIC: participant_1_0_0.Phase.METASTASES,
+            reports_3_0_0.Phase.RECURRENCE: participant_1_0_0.Phase.RECURRENCE_OF_PRIMARY_TUMOUR
+        }
+        new_tumour_sample.phase = phase_map.get(old_cancer_sample.phase)
+
+        preservation_to_preparation_map = {
+            reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
+        }
+        new_tumour_sample.preparationMethod = preservation_to_preparation_map.get(
+            old_cancer_sample.preservationMethod)
+
         return self.validate_object(
             object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
         )
@@ -87,18 +120,37 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         new_germline_sample = self.new_model.GermlineSample.fromJsonDict(old_cancer_sample.toJsonDict())
 
-        new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
-        new_germline_sample.source = old_cancer_sample.preservationMethod
+        try:
+            new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
+        except MigrationError, ex:
+            logging.error("Laboratory identifier in germline sample cannot be converted to an integer!")
+            raise ex
 
         preservation_to_preparation_map = {
             reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
-            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
         }
-        new_germline_sample.preparationMethod = preservation_to_preparation_map.get(new_germline_sample.source)
+        new_germline_sample.preparationMethod = preservation_to_preparation_map.get(
+            old_cancer_sample.preservationMethod)
+
+        preservation_to_source_map = {
+            reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.SampleSource.BLOOD,
+            reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.SampleSource.SALIVA,
+            reports_3_0_0.PreservationMethod.FF: participant_1_0_0.SampleSource.TUMOUR,
+            reports_3_0_0.PreservationMethod.FFPE: participant_1_0_0.SampleSource.TUMOUR,
+            reports_3_0_0.PreservationMethod.UNKNOWN: None,
+            reports_3_0_0.PreservationMethod.GL: None,
+            reports_3_0_0.PreservationMethod.LEUK: None,
+        }
+        new_germline_sample.source = preservation_to_source_map.get(
+            old_cancer_sample.preservationMethod)
 
         new_germline_sample.programmePhase = old_cancer_sample.gelPhase
 
-        if new_germline_sample.validate(new_germline_sample.toJsonDict()):
+        if new_germline_sample.validate(new_germline_sample.toJsonDict(), verbose=True):
             return new_germline_sample
         else:
             # TODO(Greg): Improve these error messages

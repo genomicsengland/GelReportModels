@@ -1,3 +1,181 @@
+Version 6.1.3 (1st June 2018)
+--------------------------------
+
+#### Major changes
+
+* Backwards migrations from reports 5 to reports 3
+
+Version 6.1.2 (18th May 2018)
+--------------------------------
+
+#### Minor changes
+
+* Fix error in validation when the input entity is not a dict always returned True
+* Added a method `equals()` to all objects to check equality
+
+Version 6.1.1 (10th May 2018)
+--------------------------------
+
+#### Minor changes
+
+* Migrations helpers for cancer entities
+* Migration helper for RD exit questionnaire
+* Migration testing strategy improved for migration helpers
+* Several bugfixes in cancer migrations
+
+Version 6.1.0 (3rd May 2018)
+--------------------------------
+
+#### Major Changes
+
+* ReportEvent in cva package renamed to ReportEventRecord
+
+#### Minor changes
+
+* Migrations from participants 1.0.3 to 1.1.0
+* Removed participants backwards migrations
+
+Version 6.0.9 (1st May 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Migration helpers
+* Fix bug migration called genotypes for structural variants
+* Implement migration of disorders and HPO terms
+
+Version 6.0.8 (27th April 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Bugfix IP-1169 tiering version lost in translation
+
+Version 6.0.7 (27th April 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Bugfix IP-735 deserializing maps from JSON
+* Bugfix IP-1094 fix lost HGNC
+* Improved documentation
+* Added `conversion_tools.py` as a script to python package
+
+Version 6.0.6 (29th March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Add backwards compatibility to mock data with the hotfix version
+* Transaction.avdl including a field to keep track of cva version
+* Package participants 1.0.1 is back into the build as it is used by `pythoncommonlibs`
+
+Version 6.0.5 (28th March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Transaction.avdl `TransactionStatus` having a new state `DELETED`
+* Transaction.avdl having a record of transaction status changes in `TransactionStatusChange`
+
+Version 6.0.4 (23rd March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Transaction.avdl `TransactionStatus` having two new states `PROCESSING` and `PERSISTING`
+* Transaction.avdl `TransactionStatus` has one less state `APPLIED`
+
+Version 6.0.3 (22nd March 2018)
+--------------------------------
+
+### Major changes
+
+* Remove hotfix version numbering from build version from 6.0 onwards. To generate any mock data from build 6.0 onwards, the string `6.0` is expected instead of `6.0.0`
+
+
+#### Minor Changes
+
+* Fixed `MigrateReports400To500().migrate_cancer_interpretation_request` and `MigrateReports400To500().migrate_interpretation_request_rd` that were failing when tested with nullable fields being null. Tests are improved
+* Refactored migration tests to use `_validate`
+
+Version 6.0.2 (21st March 2018)
+--------------------------------
+
+#### Minor Changes
+
+* Migration of participants fixed for field `ageOfOnset` 
+
+
+Version 6.0.1 (16th March 2018)
+--------------------------------
+
+#### Major Changes
+
+* Exit questionnaire models have been updated with some changes that were lost back in the day merging `develop` and `master` branches. 
+
+
+Version 6.0.0 (5th January 2018)
+--------------------------------
+
+#### Major Changes
+
+##### org.gel.models.report.avro 5.0.0
+
+###### Clinical Report Cancer
+
+* `candidateVariants` renamed to `variants`
+
+###### Clinical Report Rare Disease
+
+* `candidateVariants` renamed to `variants`
+* `supportingEvidences` renamed to `references`
+
+###### ReportedVariant Rare Disease
+
+* Renamed `calledGenotypes` to `variantCalls`
+* `cosmicIds`, `clinVarIds`, `genomicChange`, `cdnaChanges` ,
+`alleleFrequencies`, `alleleOrigins`, `flags` and `proteinChanges`
+* `evidenceIds` renamed to `references`
+* Variant coordinates `chromosome`, `position`, `reference` and
+`alternate` has been refactored and move into  a new record
+`VariantCoordinates`
+* New record called `AlleleFrequencies`
+* Renamed `gelId` to `participantId` in `VariantCall`
+* Renamed `genotype` to `zygosity` in `VariantCall`
+* Added `vaf` to `VariantCall` (nullable)
+* Added `na` to `Zygosity` enum
+
+###### Report Event (RD)
+
+* `phenotype` is now an array of string and it is called `phenotypes`
+* Added `consequenceTypes`
+* Removed `panelName` and `panelVersion`, replaced by `genePanel`
+* `VariantClassification` is now a complex object (defined in biodata)
+* `penetrance` in `ReportEvent` is now nullable
+* `score` in `ReportEvent` is now nullable
+* `genomicFeature` in `ReportEvent` is now an array
+* `hgnc` in `GenomicFeature` has been renamed to `geneSymbol`
+* Added `intergenic` as a new Feature Type
+
+###### Interpretation Request (RD and Cancer)
+* Added `interpretationFlags` (nullable)
+
+##### org.gel.models.participant.avro 1.1.0
+
+###### Common participant
+
+* `Sex` has now only one definition
+* `SampleSource` has now only one definition
+
+##### org.gel.models.cva.avro 1.0.0
+
+* `SupportedAssembly` has been replaced by `org.gel.models.report.avro.Assembly`
+* `Program` has been replaced by `org.gel.models.report.avro.Program`
+* `VariantCoordinates` has been replaced by `org.gel.models.report.avro.VariantCoordinates`
+* `CalledGenotype` has been replaced by `VariantCall`
+
+
 version 5.0.0 (14th November 2017)
 --------------------------
 

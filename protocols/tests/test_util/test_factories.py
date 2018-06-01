@@ -3,14 +3,14 @@ from unittest import TestCase
 import factory
 
 import protocols.cva_0_4_0
+import protocols.reports_5_0_0
 import protocols.reports_4_2_0
 import protocols.reports_3_0_0
 from protocols.ga4gh_3_0_0 import Variant
 from protocols.cva_0_4_0 import TieredVariantInjectRD
-from protocols.util.dependency_manager import VERSION_500
-from protocols.util.dependency_manager import VERSION_400
-from protocols.util.dependency_manager import VERSION_300
+from protocols.util.dependency_manager import VERSION_300, VERSION_400, VERSION_500, VERSION_61
 from protocols.cva_0_4_0 import TieredVariantInjectCancer
+import protocols.cva_1_0_0 as cva_1_0_0
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.ga4gh_factories import CallFactory
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -86,7 +86,7 @@ class TestGA4GHVariantFactory(TestCase):
 class TestGenericFactory(TestCase):
 
     def test_tiered_variant_inject_rd_factory(self):
-        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(TieredVariantInjectRD)
+        tiered_variant_inject_factory = GenericFactoryAvro.get_factory_avro(cva_1_0_0.TieredVariantInjectRD)
         instance = tiered_variant_inject_factory()
         self.assertTrue(instance.validate(instance.toJsonDict()))
 
@@ -277,8 +277,26 @@ class TestGenericFactory(TestCase):
         # get an interpretation request RD for reports 4.2.0
         interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
             protocols.reports_4_2_0.InterpretationRequestRD,
-            version = VERSION_500
+            version=VERSION_500
         )
         instance = interpretation_request_factory(analysisReturnUri = "myURI")
         self.assertTrue(instance.validate(instance.toJsonDict()))
         self.assertTrue(instance.analysisReturnUri == "myURI")
+
+    def test_build_version_with_hotfix(self):
+
+        # get an interpretation request RD for reports 5.0.0
+        interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
+            protocols.reports_5_0_0.InterpretationRequestRD,
+            version=VERSION_61
+        )
+        instance = interpretation_request_factory()
+        self.assertTrue(instance.validate(instance.toJsonDict()))
+
+        # now try the same with the build version including the hotfix version
+        interpretation_request_factory = GenericFactoryAvro.get_factory_avro(
+            protocols.reports_5_0_0.InterpretationRequestRD,
+            version="6.1.0"
+        )
+        instance = interpretation_request_factory()
+        self.assertTrue(instance.validate(instance.toJsonDict()))

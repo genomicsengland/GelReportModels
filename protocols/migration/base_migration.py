@@ -1,5 +1,19 @@
+import logging
+
+
+class MigrationError(Exception):
+
+    pass
+
 
 class BaseMigration(object):
+
+    @staticmethod
+    def convert_class(target_klass, instance):
+        new_instance = target_klass.fromJsonDict(
+            jsonDict=instance.toJsonDict()
+        )
+        return new_instance
 
     @staticmethod
     def validate_object(object_to_validate, object_type):
@@ -14,13 +28,31 @@ class BaseMigration(object):
                 print "---------------"
                 print message
 
-            raise Exception("New {object_type} object is not valid".format(object_type=object_type))
+            raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
 
     @staticmethod
-    def convert_string_to_integer(string):
+    def convert_string_to_integer(string, default_value=None):
         if string is None:
-            return None
+            return default_value
         try:
             return int(string)
         except ValueError:
-            raise Exception("Value: {string} is not an integer contained in a string !".format(string=string))
+            if default_value:
+                return default_value
+            raise MigrationError("Value: {string} is not an integer contained in a string !".format(string=string))
+
+    @staticmethod
+    def convert_string_to_float(string, default_value=None, fail=True):
+        if string is None:
+            return default_value
+        try:
+            return float(string)
+        except ValueError:
+            if default_value:
+                return default_value
+            message = "Value: {string} is not a float contained in a string !".format(string=string)
+            if fail:
+                raise MigrationError(message)
+            else:
+                logging.warning(message)
+                return None

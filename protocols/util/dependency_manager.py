@@ -4,6 +4,7 @@ import os.path
 import inspect
 from protocols.util.singleton import Singleton
 
+VERSION_61 = "6.1"
 VERSION_500 = "5.0.0"
 VERSION_400 = "4.0.0"
 VERSION_300 = "3.0.0"
@@ -70,3 +71,10 @@ class DependencyManager:
         package_name = DependencyManager.get_python_package_name(package)
         _module = importlib.import_module("protocols.{}".format(package_name))
         return _module
+
+    @staticmethod
+    def remove_hotfix_version(version):
+        versions = version.split(".")
+        if len(versions) < 2:
+            raise ValueError("Version needs to have at least a major and minor versions")
+        return ".".join(versions[0:2])
