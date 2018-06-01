@@ -5160,6 +5160,43 @@ class ExpressionCall(object):
     DOWN = "DOWN"
 
 
+class FamiliarRelationship(object):
+    """
+    Familiar relationship from pedrigree
+    """
+    TwinsMonozygous = "TwinsMonozygous"
+    TwinsDizygous = "TwinsDizygous"
+    TwinsUnknown = "TwinsUnknown"
+    FullSibling = "FullSibling"
+    FullSiblingF = "FullSiblingF"
+    FullSiblingM = "FullSiblingM"
+    Mother = "Mother"
+    Father = "Father"
+    Son = "Son"
+    Daughter = "Daughter"
+    ChildOfUnknownSex = "ChildOfUnknownSex"
+    MaternalAunt = "MaternalAunt"
+    MaternalUncle = "MaternalUncle"
+    MaternalUncleOrAunt = "MaternalUncleOrAunt"
+    PaternalAunt = "PaternalAunt"
+    PaternalUncle = "PaternalUncle"
+    PaternalUncleOrAunt = "PaternalUncleOrAunt"
+    MaternalGrandmother = "MaternalGrandmother"
+    PaternalGrandmother = "PaternalGrandmother"
+    MaternalGrandfather = "MaternalGrandfather"
+    PaternalGrandfather = "PaternalGrandfather"
+    DoubleFirstCousin = "DoubleFirstCousin"
+    MaternalCousinSister = "MaternalCousinSister"
+    PaternalCousinSister = "PaternalCousinSister"
+    MaternalCousinBrother = "MaternalCousinBrother"
+    PaternalCousinBrother = "PaternalCousinBrother"
+    Cousin = "Cousin"
+    Spouse = "Spouse"
+    Other = "Other"
+    RelationIsNotClear = "RelationIsNotClear"
+    Unknown = "Unknown"
+
+
 class FamilyLevelQuestions(ProtocolElement):
     """
     The family level questions

@@ -15,7 +15,7 @@ reqs = [
     "dictdiffer"
 ]
 
-VERSION = "6.1.3"
+VERSION = "6.1.4"
 setup(
     name='GelReportModels',
     version=VERSION,
