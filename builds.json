@@ -13,8 +13,10 @@
         {
           "package": "org.gel.models.metrics.avro",
           "python_package": "metrics",
-          "version": "1.0.1",
-          "dependencies": []
+          "version": "1.1.0",
+          "dependencies": [
+            "org.gel.models.participant.avro"
+          ]
         },
         {
           "package": "org.gel.models.participant.avro",

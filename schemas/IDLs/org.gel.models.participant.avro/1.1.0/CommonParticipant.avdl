@@ -166,4 +166,14 @@ protocol CommonParticipant {
         */
         union {null, double} standardError;
     }
+
+    /**
+    Familiar relationship from pedrigree
+    */
+    enum FamiliarRelationship {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
+         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
+         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
+         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
+         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
+         RelationIsNotClear, Unknown}
 }
