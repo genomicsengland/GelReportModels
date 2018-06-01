@@ -30,6 +30,9 @@ protocol ReportedVsGenetic {
          PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
          RelationIsNotClear, Unknown}
 
+    /**
+    Reported vs Genetic Summary
+    */
     enum reportedVsGeneticSummary {familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck}
 
 
