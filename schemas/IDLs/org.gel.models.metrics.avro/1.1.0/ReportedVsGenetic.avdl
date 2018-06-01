@@ -20,6 +20,18 @@ protocol ReportedVsGenetic {
     */
     enum Query {yes, no, unknown}
 
+    /**
+    Relationship from pedrigree
+    */
+    enum relationshipFromPedigree {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
+         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
+         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
+         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
+         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
+         RelationIsNotClear, Unknown}
+
+    enum reportedVsGeneticSummary {familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck}
+
 
     record SamplesInfo {
         /**
@@ -175,12 +187,12 @@ protocol ReportedVsGenetic {
         Total number of Mendelian errors in the family, this should be the sum of the mendelian errors in each
         nuclear family
         */
-        union {null, double} family;
+        union {null, double} familyMendelErrors;
         /**
         Number of Mendelian errors per sample considering all nuclear families. Should be one entry per sample in
         the family
         */
-        union {null, array<AggregatedIndividualMendelErrors>} individual;
+        union {null, array<AggregatedIndividualMendelErrors>} individualMendelErrors;
     }
 
     record LocusMendelSummary {
@@ -310,7 +322,7 @@ protocol ReportedVsGenetic {
         /**
         Reported relationship from sampleId1 to sampleId2 according to the pedigree provided
         */
-        union {null, string} relationshipFromPedigree;
+        union {null, relationshipFromPedigree} relationshipFromPedigree;
         /**
         Expected relationship according to IBD
         */
@@ -341,7 +353,7 @@ protocol ReportedVsGenetic {
         /**
         Final evaluation summary. Does the family passes RvsG checks or errors are present?
         */
-        union {null, string} reportedVsGeneticSummary;
+        union {null, reportedVsGeneticSummary} reportedVsGeneticSummary;
     }
 
     /** Reported versus Genetic checks object
