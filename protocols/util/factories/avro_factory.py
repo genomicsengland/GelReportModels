@@ -276,7 +276,7 @@ class GenericFactoryAvro():
             version = dependency_manager.remove_hotfix_version(version)
         if version not in dependency_manager.builds:
             raise ValueError("Not valid build version '{version}'. Use one of: {valid_versions}"
-                             .format(version, ", ".join(dependency_manager.builds)))
+                             .format(version=version, valid_versions=", ".join(dependency_manager.builds)))
         # checks if the factory is already in the cache
         if cache and (clazz, version, fill_nullables) in GenericFactoryAvro.factory_avro_cache:
             return GenericFactoryAvro.factory_avro_cache[(clazz, version, fill_nullables)]
