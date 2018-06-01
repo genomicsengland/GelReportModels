@@ -47,8 +47,15 @@ from protocols.migration.model_validator import PayloadValidation
 from protocols.migration.migration import Migration2_1To3
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
-from protocols.migration.participants import \
-    MigrationReportsToParticipants1, MigrationParticipants100To103, MigrationParticipants103To110
+from protocols.migration import (
+    MigrateReports500To400,
+    MigrateReports400To300,
+)
+from protocols.migration.participants import (
+    MigrationReportsToParticipants1,
+    MigrationParticipants100To103,
+    MigrationParticipants103To110,
+)
 from protocols.reports_5_0_0 import Assembly
 
 
@@ -460,3 +467,25 @@ class MigrationHelpers(object):
             return cp_v110
 
         raise MigrationError("Cancer participant is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")
+
+    @staticmethod
+    def reverse_migrate_v5_RD_clinical_report_to_v3(json_dict):
+        """
+        Whether html or json, the clinical report data needs to be migrated from v5 to v3 for RD
+        :param json_dict: ClinicalReport RD v5 json
+        :return: ClinicalReport model object with cr.clinical_report_data migrated from v5 to v3
+        """
+        cr_rd_v5 = ClinicalReportRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+
+        cr_rd_v4 = MigrateReports500To400().migrate_clinical_report_rd(old_instance=cr_rd_v5)
+        if not cr_rd_v4.validate(cr_rd_v4.toJsonDict()):
+            logging.warning(msg="Migration from clinical report RD v5 to v4 has failed")
+            PayloadValidation(klass=ClinicalReportRD_4_0_0, payload=cr_rd_v4.toJsonDict()).validate()
+
+        cr_rd_v3 = MigrateReports400To300().migrate_clinical_report_rd(old_instance=cr_rd_v4)
+        cr_data_v3 = cr_rd_v3.toJsonDict()
+        if not cr_rd_v3.validate(cr_data_v3):
+            logging.warning(msg="Migration from clinical report RD v4 to v3 has failed")
+            PayloadValidation(klass=ClinicalReportRD_3_0_0, payload=cr_data_v3).validate()
+
+        return cr_data_v3
