@@ -17,9 +17,10 @@ protocol VariantInterpretationLogProtocol {
     enum AcmgEvidenceCategory{PopulationData, ComputationalAndPredictiveData, FunctionalData, SeggregationData, DeNovoData, AllelicData, otherDataBase, otherData}
 
     record AcmgEvidence {
-        AcmgCategory category;
+    /**AcmgCriteria*/
+        AcmgEvidenceCategory category;
         AcmgEvidenceType type;
-        AcmgStrength strength;
+        AcmgEvidenceStrength strength;
         union {null, string} description;
     }
 
@@ -39,7 +40,7 @@ protocol VariantInterpretationLogProtocol {
         union {null, array<string>} comments;
         union {null, array<AcmgEvidence>} acmgEvidences;
         union {null, VariantValidation} VariantValidation;
-        union {null, bool} Artifact;
+        union {null, boolean} Artifact;
         union {null, map<string>} decisionSupportSystemFilters;
 
     }

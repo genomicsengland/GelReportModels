@@ -82,6 +82,11 @@ protocol CommonInterpreted {
         na
 
     }
+    enum SupportingReadType {
+        spanning,
+        flanking,
+        inrepeat
+    }
 
     /**
     This object holds all the information related to a specific variant observation in a given sample, including
@@ -221,6 +226,26 @@ protocol CommonInterpreted {
         union {null, string} name;
     }
 
+    record VariantIdentifiers{
+        /**
+        Variant identifier in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        Variant identifier in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        Variant identifier in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        union {null, map<string>} otherIds;
+
+    }
+
 
     /**
     Variant tiers as defined by Genomics England
@@ -320,7 +345,7 @@ protocol CommonInterpreted {
         array<string> phenotypes;
 
         /**
-        Sequence Ontology terms for relevant consequence types in tiering
+        Sequence Ontology terms for relevant consequence types for this report event
         */
         array<VariantConsequence> variantConsequences;
 
@@ -431,50 +456,6 @@ protocol CommonInterpreted {
     Some additional variant attributes
     */
     record VariantAttributes {
-        /**
-        Largest reference interrupted homopolymer length intersecting with the indel
-        */
-        union {null, int} ihp;
-        /**
-        Flag indicating if the variant is recurrently reported
-        */
-        union {null, boolean} recurrentlyReported;
-        /**
-        Average tier1 number of basecalls filtered from original read depth within 50 bases
-        */
-        union {null, string} fdp50;
-        /**
-        Map of other attributes where keys are the attribute names and values are the attributes
-        */
-        union {null, map<string>} others;
-    }
-
-    /**
-    A reported variant
-    */
-    record ReportedVariant {
-
-        /**
-        The variant coordinates. Chromosome is either 1-22, X, Y, MT or any other contif in the reference genome,
-        no "chr" prefix is expected. Position is 1- based. Reference and alternate should never be empty or any
-        character representing emptiness (e.g.: . or -), a VCF-like indel representation is expected.
-        */
-        VariantCoordinates variantCoordinates;
-
-        /**
-        Variant identifier in dbSNP
-        */
-        union {null, string} dbSnpId;
-
-        /**
-        Variant identifier in Cosmic
-        */
-        union {null, array<string>} cosmicIds;
-
-        /**
-        Variant identifier in ClinVar
-        */
-        union {null, array<string>} clinVarIds;
 
         /**
         gDNA change, HGVS nomenclature (e.g.: g.476A>T)
@@ -492,16 +473,6 @@ protocol CommonInterpreted {
         union {null, array<string>} proteinChanges;
 
         /**
-        List of variant calls across all samples under analysis for this variant
-        */
-        array<VariantCall> variantCalls;
-
-        /**
-        The list of report events for this variant across multiple modes of inheritance and panels
-        */
-        array<ReportEvent> reportEvents;
-
-        /**
         Any additional information in a free text field. For example a quote from a paper
         */
         union {null,map<string>} additionalTextualVariantAnnotations;
@@ -511,10 +482,7 @@ protocol CommonInterpreted {
         */
         union {null,map<string>} references;
 
-        /**
-        Additional variant attributes
-        */
-        union {null, VariantAttributes} variantAttributes;
+        union {null, VariantIdentifiers} variantIdentifiers;
 
         /**
         A list of population allele frequencies
@@ -535,10 +503,33 @@ protocol CommonInterpreted {
         /**
         List of allele origins for this variant in this report
         */
-        array<AlleleOrigin> alleleOrigins;
+        union {null, array<AlleleOrigin>} alleleOrigins;
+
+        /**
+        Largest reference interrupted homopolymer length intersecting with the indel
+        */
+        union {null, int} ihp;
+        /**
+        Flag indicating if the variant is recurrently reported
+        */
+        union {null, boolean} recurrentlyReported;
+        /**
+        Average tier1 number of basecalls filtered from original read depth within 50 bases
+        */
+        union {null, string} fdp50;
+        /**
+        Map of other attributes where keys are the attribute names and values are the attributes
+        */
+        union {null, map<string>} others;
     }
 
-/**
+
+    record PhaseGenotype {
+        array<string> sortedAlleles;
+        int phaseSet;
+    }
+
+    /**
     This is intended to hold the genotypes for the family members. This assumes that varinats have been split before.
     In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
     */
@@ -560,9 +551,9 @@ protocol CommonInterpreted {
         Zygosity zygosity;
 
         /**
-        Phase set of variants when variants are phased
+        phase alleles for those in phase
         */
-        union {null, int} phaseSet;
+        union {null, PhaseGenotype} phaseGenotype;
 
         /**
         Variant Allele Frequency
@@ -580,9 +571,16 @@ protocol CommonInterpreted {
         union {null, int} depthAlternate;
 
         /**
+        Alleles for copy number variation - add doc
+        */
+        array<int> numberOfCopies;
+
+        /**
         Describe whether this is a somatic or Germline variant
         */
         array<AlleleOrigin> alleleOrigins;
+
+        union {null, array<SupportingReadType>} supportingReadTypes;
 
     }
 
@@ -591,11 +589,7 @@ protocol CommonInterpreted {
         deletion
     }
 
-    enum StrReadType {
-        spanning,
-        flanking,
-        irr
-    }
+
 
     record ConfidenceInterval {
         int left;
@@ -617,23 +611,14 @@ protocol CommonInterpreted {
         end_end
     }
 
-    enum StructuralVaraintType {del, ins, dup, inv, amplification, deletion, dup_tandem, del_me, ins_me}
+    enum StructuralVariantType {ins, dup, inv, amplification, deletion, dup_tandem, del_me, ins_me}
 
-    record Reagragment {
+    record Rearrangement {
         Coordinates leftCoordinates;
         Coordinates rightCoordinates;
         Orientation orientation;
-    }
-
-    record Rearrangement {
-        union {null, Coordinates} preCoordinates;
-        union {null, Coordinates} postCoordinates;
         union {null, string} leftInsSeq;
         union {null, string} rightInsSeq;
-        union {null, Indel} indel;
-        union {null, int} referenceNumberOfCopies;
-        union {null, int} alternateNumberOfCopies;
-        union {null, bool} reversed;
     }
 
     record BreakPoint{
@@ -642,39 +627,86 @@ protocol CommonInterpreted {
         int end;
         union{null, string} reference;
         union{null, string} alternate;
+        union{null, map<string>} info;
     }
 
-    record StructuralEvent {
+
+    record ChromosomalRearrangement {
         /**
-        Three of them as optional, but one at least should be provided
-            * BreakPoints: shows the variants as in the VCF format, should be provided always if it is possible
-            * Fragments: Represents each fragment change in a Structural variant
-            * Rearrangements(probably name will change): Whole Chromosomes Rearrangement
+        The assembly to which this variant corresponds
         */
+        Assembly assembly;
         union {null, array<BreakPoint>} breakPoints;
-        union {null, array<Fragment>} fragments;
-        union {null, array<Rearrangement>} rearrangements;
-
-    }
-
-    record StructuralVariant {
-        StructuralEvent structuralEvent;
-        union {null, array<StrReadType>} strReadType;
-        union {null, VariantAttributes} variantAttributes;
-        /**
-        Structural Variant Type as would appear in VCF
-        */
-        StructuralVaraintType variantType;
-
+        array<Rearrangement> rearrangements;
         array<ReportEvent> reportEvents;
         /**
         array of genotypes for the samples
         */
         array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+    }
+
+    record StructuralVariant {
         /**
-        List of allele origins for this variant in this report
+        The assembly to which this variant corresponds
         */
-        array<AlleleOrigin> alleleOrigins;
+        Assembly assembly;
+        /**
+        Structural Variant Type as would appear in VCF
+        */
+        StructuralVariantType variantType;
+        Coordinates coordinates;
+        union {null, string} leftInsSeq;
+        union {null, string} rightInsSeq;
+        array<ReportEvent> reportEvents;
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+
+    }
+
+    record ShortTandemRepeat {
+        /**
+        The assembly to which this variant corresponds
+        */
+        Assembly assembly;
+        Coordinates coordinates;
+        array<ReportEvent> reportEvents;
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+
+    }
+
+    /**
+    A reported variant
+    */
+    record SmallVariant {
+
+        /**
+        The variant coordinates. Chromosome is either 1-22, X, Y, MT or any other contif in the reference genome,
+        no "chr" prefix is expected. Position is 1- based. Reference and alternate should never be empty or any
+        character representing emptiness (e.g.: . or -), a VCF-like indel representation is expected.
+        */
+        VariantCoordinates variantCoordinates;
+
+        /**
+        List of variant calls across all samples under analysis for this variant
+        */
+        array<VariantCall> variantCalls;
+
+        /**
+        The list of report events for this variant across multiple modes of inheritance and panels
+        */
+        array<ReportEvent> reportEvents;
+        union {null, VariantAttributes} variantAttributes;
+
+
+
     }
 
 }

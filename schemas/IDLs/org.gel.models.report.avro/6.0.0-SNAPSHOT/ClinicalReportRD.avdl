@@ -52,7 +52,7 @@ protocol ClinicalReportsRD {
         /**
         List of reported variants
         */
-        union {null, array<ReportedVariant>} variants;
+        union {null, array<SmallVariant>} variants;
 
         /**
         Summary of the interpretation, this should reflect the positive conclusions of this interpretation

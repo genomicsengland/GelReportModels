@@ -40,9 +40,24 @@ protocol InterpretedGenomesRD {
         union {null, string} reportUrl;
 
         /**
-        List of all reported variants
+        List of small reported variants
         */
-        array<ReportedVariant> variants;
+        union {null, array<SmallVariant>} variants;
+
+        /**
+        List of simple structural reported variants (duplications, deletions, insertions, inversions, CNVs)
+        */
+        union {null, array<StructuralVariant>} structuralVariants;
+
+        /**
+        List of complex structural reported variants (chomosomal rearrangement)
+        */
+        union {null, array<ChromosomalRearrangement>} chromosomalRearrangements;
+
+        /**
+        List of short tandem repeat variants
+        */
+        union {null, array<ShortTandemRepeat>} shortTandemRepeats;
 
         /**
         This map contains the versions of the different databases used in the process, being the database names the
