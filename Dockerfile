@@ -19,7 +19,7 @@ ADD . /gel/GelReportModels
 ADD m2_settings.xml /gel
 RUN mkdir -p ~/.m2 && cp m2_settings.xml ~/.m2/settings.xml
 RUN cd ./GelReportModels && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt && \
+    pip install --upgrade pip==9.0.3 && \
+    pip install . && \
     pip install --upgrade pysam && \
     python build.py --skip-docs --skip-java
