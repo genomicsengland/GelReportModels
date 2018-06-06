@@ -233,6 +233,66 @@ class AdditionalAnalysisPanel(ProtocolElement):
             'specificDisease', None)
 
 
+class AdditionalVariantsQuestions(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "AdditionalVariantsQuestions",
+"fields": [{"doc": "", "type": "string", "name": "variantDetails"}, {"doc": "", "type": {"items":
+{"symbols": ["germline_susceptibility", "predicts_therapeutic_response", "prognostic",
+"defines_diagnosis_group", "eligibility_for_trial", "other"], "doc": "", "type": "enum", "name":
+"CancerActionability"}, "type": "array"}, "name": "variantActionability"}, {"type": ["null",
+"string"], "name": "otherVariantActionability"}, {"doc": "", "type": {"symbols":
+["already_actioned", "actioned_result_of_this_wga", "not_yet_actioned"], "doc": "", "type": "enum",
+"name": "CancerUsabilitySomatic"}, "name": "variantUsability"}, {"doc": "", "type": {"symbols":
+["not_indicated_for_patient_care", "no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"], "doc": "", "type": "enum", "name":
+"CancerTestedAdditional"}, "name": "variantTested"}, {"doc": "", "type": "string", "name":
+"validationAssayType"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "otherVariantActionability",
+        "validationAssayType",
+        "variantActionability",
+        "variantDetails",
+        "variantTested",
+        "variantUsability",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'otherVariantActionability', 'validationAssayType',
+        'variantActionability', 'variantDetails', 'variantTested',
+        'variantUsability'
+    ]
+
+    def __init__(self, **kwargs):
+        self.otherVariantActionability = kwargs.get(
+            'otherVariantActionability', None)
+        self.validationAssayType = kwargs.get(
+            'validationAssayType', None)
+        self.variantActionability = kwargs.get(
+            'variantActionability', None)
+        self.variantDetails = kwargs.get(
+            'variantDetails', None)
+        self.variantTested = kwargs.get(
+            'variantTested', None)
+        self.variantUsability = kwargs.get(
+            'variantUsability', None)
+
+
 class AdoptedStatus(object):
     """
     adoptedin means adopted into the family     adoptedout means child
@@ -502,6 +562,23 @@ class BreakPoint(ProtocolElement):
 
 class CancerActionability(object):
     """
+    An enumeration Variant Actionability:       *
+    `predicts_therapeutic_response`: Predicts therapeutic response
+    * `prognostic`: Prognostic       * `defines_diagnosis_group`:
+    Defines diagnosis group       * `eligibility_for_trial`:
+    Eligibility for trial       * `germline_susceptibility`: Germline
+    susceptibility       * `other`:  Other (please specify)
+    """
+    germline_susceptibility = "germline_susceptibility"
+    predicts_therapeutic_response = "predicts_therapeutic_response"
+    prognostic = "prognostic"
+    defines_diagnosis_group = "defines_diagnosis_group"
+    eligibility_for_trial = "eligibility_for_trial"
+    other = "other"
+
+
+class CancerActionabilitySomatic(object):
+    """
     The variant actionabilities: * `predicts_therapeutic_response`:
     Predicts therapeutic response * `prognostic`: Prognostic *
     `defines_diagnosis_group`: Defines diagnosis group *
@@ -624,10 +701,10 @@ class CancerExitQuestionnaire(ProtocolElement):
 {"symbols": ["yes", "no"], "doc": "", "type": "enum", "name": "CancerActionableVariants"}, "name":
 "actionableVariants"}]}, "name": "caseLevelQuestions"}, {"doc": "", "type": ["null", {"items":
 {"doc": "", "type": "record", "name": "CancerSomaticVariantLevelQuestions", "fields": [{"doc": "",
-"type": "string", "name": "variantDetails"}, {"doc": "", "type": {"symbols":
+"type": "string", "name": "variantDetails"}, {"doc": "", "type": {"items": {"symbols":
 ["predicts_therapeutic_response", "prognostic", "defines_diagnosis_group", "eligibility_for_trial",
-"other"], "doc": "", "type": "enum", "name": "CancerActionability"}, "name":
-"variantActionability"}, {"doc": "", "type": ["null", "string"], "name":
+"other"], "doc": "", "type": "enum", "name": "CancerActionabilitySomatic"}, "type": "array"},
+"name": "variantActionability"}, {"doc": "", "type": ["null", "string"], "name":
 "otherVariantActionability"}, {"doc": "", "type": {"symbols": ["already_actioned",
 "actioned_result_of_this_wga", "not_yet_actioned"], "doc": "", "type": "enum", "name":
 "CancerUsabilitySomatic"}, "name": "variantUsability"}, {"doc": "", "type": {"symbols":
@@ -636,13 +713,24 @@ class CancerExitQuestionnaire(ProtocolElement):
 "variantTested"}, {"doc": "", "type": "string", "name": "validationAssayType"}]}, "type": "array"}],
 "name": "somaticVariantLevelQuestions"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type":
 "record", "name": "CancerGermlineVariantLevelQuestions", "fields": [{"doc": "", "type": "string",
-"name": "variantDetails"}, {"doc": "", "type": {"symbols": ["already_actioned",
-"actioned_result_of_this_wga"], "doc": "", "type": "enum", "name": "CancerUsabilityGermline"},
-"name": "variantUsability"}, {"doc": "", "type": "CancerTested", "name": "variantTested"}, {"doc":
-"", "type": "string", "name": "validationAssayType"}]}, "type": "array"}], "name":
-"germlineVariantLevelQuestions"}, {"doc": "", "type": ["null", "string"], "name":
-"additionalComments"}, {"doc": "", "type": ["null", "string"], "name": "otherActionableVariants"}],
-"doc": ""}
+"name": "variantDetails"}, {"doc": "", "type": {"items": {"symbols": ["germline_susceptibility",
+"predicts_therapeutic_response", "prognostic", "defines_diagnosis_group", "eligibility_for_trial",
+"other"], "doc": "", "type": "enum", "name": "CancerActionability"}, "type": "array"}, "name":
+"variantActionability"}, {"type": ["null", "string"], "name": "otherVariantActionability"}, {"doc":
+"", "type": {"symbols": ["already_actioned", "actioned_result_of_this_wga"], "doc": "", "type":
+"enum", "name": "CancerUsabilityGermline"}, "name": "variantUsability"}, {"doc": "", "type":
+"CancerTested", "name": "variantTested"}, {"doc": "", "type": "string", "name":
+"validationAssayType"}]}, "type": "array"}], "name": "germlineVariantLevelQuestions"}, {"doc": "",
+"type": ["null", "string"], "name": "additionalComments"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "variantDetails"}, {"doc": "", "type": {"items":
+"CancerActionability", "type": "array"}, "name": "variantActionability"}, {"type": ["null",
+"string"], "name": "otherVariantActionability"}, {"doc": "", "type": "CancerUsabilitySomatic",
+"name": "variantUsability"}, {"doc": "", "type": {"symbols": ["not_indicated_for_patient_care",
+"no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"], "doc": "", "type": "enum", "name":
+"CancerTestedAdditional"}, "name": "variantTested"}, {"doc": "", "type": "string", "name":
+"validationAssayType"}], "type": "record", "name": "AdditionalVariantsQuestions"}, "type":
+"array"}], "name": "otherActionableVariants"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -660,6 +748,7 @@ class CancerExitQuestionnaire(ProtocolElement):
         embeddedTypes = {
             'caseLevelQuestions': CancerCaseLevelQuestions,
             'germlineVariantLevelQuestions': CancerGermlineVariantLevelQuestions,
+            'otherActionableVariants': AdditionalVariantsQuestions,
             'somaticVariantLevelQuestions': CancerSomaticVariantLevelQuestions,
         }
         return fieldName in embeddedTypes
@@ -669,6 +758,7 @@ class CancerExitQuestionnaire(ProtocolElement):
         embeddedTypes = {
             'caseLevelQuestions': CancerCaseLevelQuestions,
             'germlineVariantLevelQuestions': CancerGermlineVariantLevelQuestions,
+            'otherActionableVariants': AdditionalVariantsQuestions,
             'somaticVariantLevelQuestions': CancerSomaticVariantLevelQuestions,
         }
 
@@ -705,16 +795,22 @@ class CancerGermlineVariantLevelQuestions(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerGermlineVariantLevelQuestions", "fields": [{"doc": "", "type": "string", "name":
-"variantDetails"}, {"doc": "", "type": {"symbols": ["already_actioned",
-"actioned_result_of_this_wga"], "doc": "", "type": "enum", "name": "CancerUsabilityGermline"},
-"name": "variantUsability"}, {"doc": "", "type": {"symbols": ["not_indicated_for_patient_care",
-"no_orthologous_test_available", "test_performed_prior_to_wga",
-"technical_validation_following_wga"], "doc": "", "type": "enum", "name": "CancerTested"}, "name":
-"variantTested"}, {"doc": "", "type": "string", "name": "validationAssayType"}], "doc": ""}
+"variantDetails"}, {"doc": "", "type": {"items": {"symbols": ["germline_susceptibility",
+"predicts_therapeutic_response", "prognostic", "defines_diagnosis_group", "eligibility_for_trial",
+"other"], "doc": "", "type": "enum", "name": "CancerActionability"}, "type": "array"}, "name":
+"variantActionability"}, {"type": ["null", "string"], "name": "otherVariantActionability"}, {"doc":
+"", "type": {"symbols": ["already_actioned", "actioned_result_of_this_wga"], "doc": "", "type":
+"enum", "name": "CancerUsabilityGermline"}, "name": "variantUsability"}, {"doc": "", "type":
+{"symbols": ["not_indicated_for_patient_care", "no_orthologous_test_available",
+"test_performed_prior_to_wga", "technical_validation_following_wga"], "doc": "", "type": "enum",
+"name": "CancerTested"}, "name": "variantTested"}, {"doc": "", "type": "string", "name":
+"validationAssayType"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "otherVariantActionability",
         "validationAssayType",
+        "variantActionability",
         "variantDetails",
         "variantTested",
         "variantUsability",
@@ -732,13 +828,18 @@ class CancerGermlineVariantLevelQuestions(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'validationAssayType', 'variantDetails', 'variantTested',
+        'otherVariantActionability', 'validationAssayType',
+        'variantActionability', 'variantDetails', 'variantTested',
         'variantUsability'
     ]
 
     def __init__(self, **kwargs):
+        self.otherVariantActionability = kwargs.get(
+            'otherVariantActionability', None)
         self.validationAssayType = kwargs.get(
             'validationAssayType', None)
+        self.variantActionability = kwargs.get(
+            'variantActionability', None)
         self.variantDetails = kwargs.get(
             'variantDetails', None)
         self.variantTested = kwargs.get(
@@ -753,7 +854,7 @@ class CancerInterpretationRequest(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "CancerInterpretationRequest",
-"fields": [{"doc": "", "type": {"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name":
+"fields": [{"doc": "", "type": {"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name":
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
@@ -951,7 +1052,7 @@ class CancerInterpretedGenome(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "CancerInterpretedGenome",
-"fields": [{"doc": "", "type": {"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name":
+"fields": [{"doc": "", "type": {"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name":
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "interpretationService"},
@@ -1269,15 +1370,16 @@ class CancerSomaticVariantLevelQuestions(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "CancerSomaticVariantLevelQuestions", "fields": [{"doc": "", "type": "string", "name":
-"variantDetails"}, {"doc": "", "type": {"symbols": ["predicts_therapeutic_response", "prognostic",
-"defines_diagnosis_group", "eligibility_for_trial", "other"], "doc": "", "type": "enum", "name":
-"CancerActionability"}, "name": "variantActionability"}, {"doc": "", "type": ["null", "string"],
-"name": "otherVariantActionability"}, {"doc": "", "type": {"symbols": ["already_actioned",
-"actioned_result_of_this_wga", "not_yet_actioned"], "doc": "", "type": "enum", "name":
-"CancerUsabilitySomatic"}, "name": "variantUsability"}, {"doc": "", "type": {"symbols":
-["not_indicated_for_patient_care", "no_orthologous_test_available", "test_performed_prior_to_wga",
-"technical_validation_following_wga"], "doc": "", "type": "enum", "name": "CancerTested"}, "name":
-"variantTested"}, {"doc": "", "type": "string", "name": "validationAssayType"}], "doc": ""}
+"variantDetails"}, {"doc": "", "type": {"items": {"symbols": ["predicts_therapeutic_response",
+"prognostic", "defines_diagnosis_group", "eligibility_for_trial", "other"], "doc": "", "type":
+"enum", "name": "CancerActionabilitySomatic"}, "type": "array"}, "name": "variantActionability"},
+{"doc": "", "type": ["null", "string"], "name": "otherVariantActionability"}, {"doc": "", "type":
+{"symbols": ["already_actioned", "actioned_result_of_this_wga", "not_yet_actioned"], "doc": "",
+"type": "enum", "name": "CancerUsabilitySomatic"}, "name": "variantUsability"}, {"doc": "", "type":
+{"symbols": ["not_indicated_for_patient_care", "no_orthologous_test_available",
+"test_performed_prior_to_wga", "technical_validation_following_wga"], "doc": "", "type": "enum",
+"name": "CancerTested"}, "name": "variantTested"}, {"doc": "", "type": "string", "name":
+"validationAssayType"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1336,6 +1438,24 @@ class CancerTested(object):
     no_orthologous_test_available = "no_orthologous_test_available"
     test_performed_prior_to_wga = "test_performed_prior_to_wga"
     technical_validation_following_wga = "technical_validation_following_wga"
+
+
+class CancerTestedAdditional(object):
+    """
+    An enumeration Variant tested:       *
+    `not_indicated_for_patient_care`: No: not indicated for patient
+    care at this time       * `no_orthologous_test_available`: No: no
+    orthologous test available       * `test_performed_prior_to_wga`:
+    Yes: test performed prior to receiving WGA (eg using standard-of-
+    care assay such as panel testing, or sanger sequencing)       *
+    `technical_validation_following_wga`: Yes: technical validation
+    performed/planned following receiving this WGA       * `na`: N/A
+    """
+    not_indicated_for_patient_care = "not_indicated_for_patient_care"
+    no_orthologous_test_available = "no_orthologous_test_available"
+    test_performed_prior_to_wga = "test_performed_prior_to_wga"
+    technical_validation_following_wga = "technical_validation_following_wga"
+    na = "na"
 
 
 class CancerUsabilityGermline(object):
@@ -2209,6 +2329,43 @@ class EthnicCategory(object):
     Z = "Z"
 
 
+class FamiliarRelationship(object):
+    """
+    Familiar relationship from pedrigree
+    """
+    TwinsMonozygous = "TwinsMonozygous"
+    TwinsDizygous = "TwinsDizygous"
+    TwinsUnknown = "TwinsUnknown"
+    FullSibling = "FullSibling"
+    FullSiblingF = "FullSiblingF"
+    FullSiblingM = "FullSiblingM"
+    Mother = "Mother"
+    Father = "Father"
+    Son = "Son"
+    Daughter = "Daughter"
+    ChildOfUnknownSex = "ChildOfUnknownSex"
+    MaternalAunt = "MaternalAunt"
+    MaternalUncle = "MaternalUncle"
+    MaternalUncleOrAunt = "MaternalUncleOrAunt"
+    PaternalAunt = "PaternalAunt"
+    PaternalUncle = "PaternalUncle"
+    PaternalUncleOrAunt = "PaternalUncleOrAunt"
+    MaternalGrandmother = "MaternalGrandmother"
+    PaternalGrandmother = "PaternalGrandmother"
+    MaternalGrandfather = "MaternalGrandfather"
+    PaternalGrandfather = "PaternalGrandfather"
+    DoubleFirstCousin = "DoubleFirstCousin"
+    MaternalCousinSister = "MaternalCousinSister"
+    PaternalCousinSister = "PaternalCousinSister"
+    MaternalCousinBrother = "MaternalCousinBrother"
+    PaternalCousinBrother = "PaternalCousinBrother"
+    Cousin = "Cousin"
+    Spouse = "Spouse"
+    Other = "Other"
+    RelationIsNotClear = "RelationIsNotClear"
+    Unknown = "Unknown"
+
+
 class FamilyLevelQuestions(ProtocolElement):
     """
     The family level questions
@@ -2683,7 +2840,7 @@ class InterpretationData(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "InterpretationData",
 "fields": [{"type": {"doc": "", "type": "record", "name": "InterpretationRequestRD", "fields":
-[{"doc": "", "type": {"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name":
+[{"doc": "", "type": {"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name":
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
@@ -3045,7 +3202,7 @@ class InterpretationRequestRD(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "InterpretationRequestRD",
-"fields": [{"doc": "", "type": {"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name":
+"fields": [{"doc": "", "type": {"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name":
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
@@ -3277,7 +3434,7 @@ class InterpretedGenomeRD(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "InterpretedGenomeRD",
-"fields": [{"doc": "", "type": {"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name":
+"fields": [{"doc": "", "type": {"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name":
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "interpretationService"},
@@ -4671,7 +4828,7 @@ class ReportVersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "ReportVersionControl",
-"fields": [{"default": "5.0.0", "doc": "", "type": "string", "name": "gitVersionControl"}]}
+"fields": [{"default": "6.0.0", "doc": "", "type": "string", "name": "gitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {}
@@ -4693,7 +4850,7 @@ class ReportVersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.gitVersionControl = kwargs.get(
-            'gitVersionControl', '5.0.0')
+            'gitVersionControl', '6.0.0')
 
 
 class ReportedModeOfInheritance(object):
