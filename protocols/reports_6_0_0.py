@@ -929,7 +929,7 @@ class CancerInterpretationRequest(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
 ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
 "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
+{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
 "record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}], "name":
 "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
@@ -1276,7 +1276,7 @@ class CancerParticipant(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
 ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
 "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
+{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
 "record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -2858,7 +2858,7 @@ class InterpretationData(ProtocolElement):
 "pedigreeDiagram"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "",
 "type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type":
 ["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree",
-"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.0.3", "doc": "", "type":
+"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
 "versionControl"}, {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type":
 "string", "name": "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
@@ -3220,7 +3220,7 @@ class InterpretationRequestRD(ProtocolElement):
 "pedigreeDiagram"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "",
 "type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type":
 ["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree",
-"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.0.3", "doc": "", "type":
+"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
 "string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
 "versionControl"}, {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type":
 "string", "name": "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
@@ -3815,7 +3815,7 @@ class Pedigree(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree", "fields":
-[{"doc": "", "type": ["null", {"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name":
+[{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"},
 {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
 "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "PedigreeMember",
@@ -4290,7 +4290,7 @@ class RDFamilyChange(ProtocolElement):
 "ConsentStatusChanged", "AffectionStatusChanged", "PanelAssignmentChanged", "SexChanged",
 "SampleChanged"], "doc": "", "type": "enum", "name": "RDFamilyChangeCode"}, "name": "code"}, {"doc":
 "", "type": {"doc": "", "type": "record", "name": "Pedigree", "fields": [{"doc": "", "type":
-["null", {"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name":
+["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"},
 {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
 "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "PedigreeMember",
@@ -5194,7 +5194,7 @@ class SensitiveInformation(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "SensitiveInformation",
-"fields": [{"doc": "", "type": {"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name":
+"fields": [{"doc": "", "type": {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
 "GitVersionControl"}], "type": "record", "name": "VersionControl"}, "name": "versionControl"},
 {"type": "string", "name": "gelID"}, {"type": ["null", {"items": "string", "type": "array"}],
 "name": "externalIds"}, {"type": ["null", "string"], "name": "genomicMedicineCenter"}, {"type":
@@ -6708,7 +6708,7 @@ class VersionControl(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "VersionControl",
-"fields": [{"default": "1.0.3", "doc": "", "type": "string", "name": "GitVersionControl"}]}
+"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {}
@@ -6730,7 +6730,7 @@ class VersionControl(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.GitVersionControl = kwargs.get(
-            'GitVersionControl', '1.0.3')
+            'GitVersionControl', '1.1.0')
 
 
 class Zygosity(object):
