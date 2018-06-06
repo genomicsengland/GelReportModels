@@ -39,7 +39,7 @@ protocol ExitQuestionnaires {
     */
     record VariantLevelQuestions{
         /**
-        Variant coordinates following format `Chr: Pos Ref > Alt`
+        Variant coordinates following format `chromosome:position:reference:alternate`
         */
         // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
@@ -156,7 +156,19 @@ protocol ExitQuestionnaires {
 * `eligibility_for_trial`: Eligibility for trial
 * `other`:  Other (please specify)
     */
-    enum CancerActionability {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
+    enum CancerActionabilitySomatic {predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
+
+    /**
+    An enumeration Variant Actionability:
+      * `predicts_therapeutic_response`: Predicts therapeutic response
+      * `prognostic`: Prognostic
+      * `defines_diagnosis_group`: Defines diagnosis group
+      * `eligibility_for_trial`: Eligibility for trial
+      * `germline_susceptibility`: Germline susceptibility
+      * `other`:  Other (please specify)
+    */
+    enum CancerActionability {germline_susceptibility, predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
+
 
     /**
     Variant usability for somatic variants:
@@ -181,6 +193,17 @@ protocol ExitQuestionnaires {
 * `technical_validation_following_WGA`: Yes: technical validation performed/planned following receiving this WGA
     */
     enum CancerTested {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_wga, technical_validation_following_wga}
+
+    /**
+    An enumeration Variant tested:
+      * `not_indicated_for_patient_care`: No: not indicated for patient care at this time
+      * `no_orthologous_test_available`: No: no orthologous test available
+      * `test_performed_prior_to_wga`: Yes: test performed prior to receiving WGA (eg using standard-of-care assay such as panel testing, or sanger sequencing)
+      * `technical_validation_following_wga`: Yes: technical validation performed/planned following receiving this WGA
+      * `na`: N/A
+    */
+    enum CancerTestedAdditional {not_indicated_for_patient_care, no_orthologous_test_available, test_performed_prior_to_wga, technical_validation_following_wga, na}
+
 
     /**
     The questions for the cancer program exit questionnaire at case level
@@ -258,10 +281,16 @@ protocol ExitQuestionnaires {
     */
     record CancerGermlineVariantLevelQuestions{
         /**
-        Variant coordinates following format `Chr: Pos Ref > Alt`
+        Variant coordinates following format `chromosome:position:reference:alternate`
         */
         // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
+
+        /**
+        Type of potential actionability:
+        */
+        array<CancerActionability> variantActionability;
+        union {null, string} otherVariantActionability;
 
         /**
         How has/will this potentially actionable variant been/be used?
@@ -279,12 +308,40 @@ protocol ExitQuestionnaires {
         string validationAssayType;
     }
 
+    record AdditionalVariantsQuestions{
+        /**
+        Chr: Pos Ref > Alt
+        */
+        string variantDetails;
+
+        /**
+        Type of potential actionability:
+        */
+        array<CancerActionability> variantActionability;
+        union {null, string} otherVariantActionability;
+
+        /**
+        How has/will this potentially actionable variant been/be used?
+        */
+        CancerUsabilitySomatic variantUsability;
+
+        /**
+        Has this variant been tested by another method (either prior to or following receipt of this WGA)?
+        */
+        CancerTestedAdditional variantTested;
+
+        /**
+        Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS, Sanger sequencing. If not applicable enter NA;
+        */
+        string validationAssayType;
+    }
+
     /**
     The questions for the cancer program exit questionnaire for somatic variants
     */
     record CancerSomaticVariantLevelQuestions{
         /**
-        Variant coordinates following format `Chr: Pos Ref > Alt`
+        Variant coordinates following format `chromosome:position:reference:alternate`
         */
         // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
@@ -292,7 +349,7 @@ protocol ExitQuestionnaires {
         /**
         Type of potential actionability:
         */
-        CancerActionability variantActionability;
+        array<CancerActionabilitySomatic> variantActionability;
 
         /**
         Other information about variant actionability
@@ -351,10 +408,9 @@ protocol ExitQuestionnaires {
 
         /**
         Other actionable variants or entities.
-        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
-        SV/CNV, mutational signatures, mutational burden
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants or SV/CNV, mutational signatures, mutational burden
         */
-        union {null, string} otherActionableVariants;
+        union {null, array<AdditionalVariantsQuestions>} otherActionableVariants;
     }
 
 }
