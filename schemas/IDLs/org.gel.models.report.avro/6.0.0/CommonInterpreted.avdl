@@ -326,6 +326,43 @@ protocol CommonInterpreted {
     }
 
     /**
+    Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record OntologyTerm {
+        union {null, string} id;
+        union {null, string} name;
+        union {null, string} namespace;
+        union {null, string} definition;
+        union {null, string} comment;
+        union {null, string} alternativeIds;
+        union {null, string} synonyms;
+        union {null, string} isAs;
+        /**
+        The ontology (e.g.: HPO, OMIM, SNOMED CT)
+        */
+        union {null, string} ontology;
+        /**
+        The match between the disorder and this term when computed automatically
+        */
+        union {null, float} matchScore;
+    }
+
+    /**
+    The disorder object is a placeholder for any given disorder in a free text field + a number of ontology terms.
+
+    */
+    record Disorder {
+        /**
+        Disorder name is compulsory
+        */
+        string disorder;
+        /**
+        Ontology terms provided or computed from the disorder name
+        */
+        union {null, array<OntologyTerm>} terms;
+    }
+
+    /**
     A report event holds all the information about why a given variant is relevant to report. The same variant may have
     several report events. For instance, we may have two report events from the tiering process when two panels are
     analysed, a positive report from a Genomic Medicine Centre (GMC) will correspond to an additional report event.
@@ -340,9 +377,9 @@ protocol CommonInterpreted {
         string reportEventId;
 
         /**
-        This is the list of phenotypes (usually the HPO term or the disorder name) considered to report this variant
+        This is the list of disorders
         */
-        array<string> phenotypes;
+        array<Disorder> disorders;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
