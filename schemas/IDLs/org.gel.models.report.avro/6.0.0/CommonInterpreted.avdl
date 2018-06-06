@@ -326,10 +326,18 @@ protocol CommonInterpreted {
     }
 
     /**
-    Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    The ontology to which a standard term belongs
     */
-    record OntologyTerm {
-        union {null, string} id;
+    record Ontology {
+        string name;
+        string version;
+    }
+
+    /**
+    Standard phenotype term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record StandardPhenotype {
+        string id;
         union {null, string} name;
         union {null, string} namespace;
         union {null, string} definition;
@@ -340,26 +348,25 @@ protocol CommonInterpreted {
         /**
         The ontology (e.g.: HPO, OMIM, SNOMED CT)
         */
-        union {null, string} ontology;
+        Ontology ontology;
         /**
-        The match between the disorder and this term when computed automatically
+        The match between the non standard phenotype and this term when in silico
         */
         union {null, float} matchScore;
     }
 
     /**
-    The disorder object is a placeholder for any given disorder in a free text field + a number of ontology terms.
-
+    Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
     */
-    record Disorder {
+    record Phenotype {
         /**
-        Disorder name is compulsory
+        The non standardised phenotypes (i.e.: may be free text)
         */
-        string disorder;
+        union {null, string} nonStandardPhenotype;
         /**
-        Ontology terms provided or computed from the disorder name
+        The standardised phenotypes (i.e.: controlled terminology)
         */
-        union {null, array<OntologyTerm>} terms;
+        array<StandardPhenotype> standardPhenotypes;
     }
 
     /**
@@ -377,9 +384,9 @@ protocol CommonInterpreted {
         string reportEventId;
 
         /**
-        This is the list of disorders
+        The list of phenotypes
         */
-        array<Disorder> disorders;
+        array<Phenotype> phenotypes;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
