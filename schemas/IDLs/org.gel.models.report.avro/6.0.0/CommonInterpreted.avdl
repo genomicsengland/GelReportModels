@@ -573,7 +573,7 @@ protocol CommonInterpreted {
         /**
         Alleles for copy number variation - add doc
         */
-        array<int> numberOfCopies;
+        union {null, array<int>} numberOfCopies;
 
         /**
         Describe whether this is a somatic or Germline variant
@@ -630,6 +630,11 @@ protocol CommonInterpreted {
         union{null, map<string>} info;
     }
 
+    record ShortTandemRepeatReferenceData{
+        string repeatedSequence;
+        int pathogenic_number_of_repeats_threshold;
+        int normal_number_of_repeats_threshold;
+    }
 
     record ChromosomalRearrangement {
         /**
@@ -679,6 +684,7 @@ protocol CommonInterpreted {
         */
         array<VariantCall> variantCalls;
         union {null, VariantAttributes} variantAttributes;
+        union {null, ShortTandemRepeatReferenceData} shortTandemRepeatReferenceData;
 
     }
 
