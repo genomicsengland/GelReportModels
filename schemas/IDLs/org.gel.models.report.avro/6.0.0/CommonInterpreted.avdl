@@ -573,6 +573,17 @@ protocol CommonInterpreted {
         int phaseSet;
     }
 
+    record NumberOfCopies {
+        /**
+        Number of copies given by the caller in one of the allele
+        */
+        int numberOfCopies;
+
+        union{null, int} confidenceIntervalMaximun;
+        union{null, int} confidenceIntervalMinimun;
+
+    }
+
     /**
     This is intended to hold the genotypes for the family members. This assumes that varinats have been split before.
     In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
@@ -617,7 +628,7 @@ protocol CommonInterpreted {
         /**
         Alleles for copy number variation - add doc
         */
-        union {null, array<int>} numberOfCopies;
+        union {null, array<NumberOfCopies>} numberOfCopies;
 
         /**
         Describe whether this is a somatic or Germline variant
