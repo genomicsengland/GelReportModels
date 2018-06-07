@@ -362,7 +362,7 @@ protocol CommonInterpreted {
         /**
         The non standardised phenotypes (i.e.: may be free text)
         */
-        union {null, string} nonStandardPhenotype;
+        union {null, array<string>} nonStandardPhenotype;
         /**
         The standardised phenotypes (i.e.: controlled terminology)
         */
@@ -386,7 +386,7 @@ protocol CommonInterpreted {
         /**
         The list of phenotypes
         */
-        array<Phenotype> phenotypes;
+        Phenotype phenotypes;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
