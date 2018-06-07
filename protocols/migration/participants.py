@@ -375,3 +375,127 @@ class MigrationReportsToParticipants1(BaseMigration):
             return new_analysis_panel
         else:
             raise Exception('This model can not be converted')
+
+
+class MigrationParticipants1ToReports(object):
+    new_model = participant_old
+    old_model = participant_1_0_0
+
+    def migrate_pedigree(self, pedigree):
+        """
+
+        :type pedigree: participant_1_0_1.Pedigree
+        :rtype: participant_old.Pedigree
+        """
+        new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
+        new_pedigree.versionControl = self.new_model.VersionControl()
+        new_pedigree.analysisPanels = [self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
+        new_pedigree.gelFamilyId = pedigree.familyId
+        new_pedigree.participants = [self.migrate_pedigree_member(member=member, family_id=new_pedigree.gelFamilyId) for member in pedigree.members]
+        if new_pedigree.validate(new_pedigree.toJsonDict()):
+            return new_pedigree
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_pedigree_member(self, member, family_id):
+        """
+
+        :type member: participant_1_0_1.PedigreeMember
+        :rtype: participant_old.RDParticipant
+        """
+        new_pedigree_member = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
+        new_pedigree_member.versionControl = participant_old.VersionControl()
+        new_pedigree_member.gelId = str(member.participantId)
+        new_pedigree_member.gelFamilyId = family_id
+        new_pedigree_member.sex = self.migrate_enumerations('Sex', member.sex)
+        new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
+        new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
+        new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
+        if new_pedigree_member.affectionStatus == 'uncertain':
+            new_pedigree_member.affectionStatus = 'unknown'
+
+        if member.hpoTermList:
+            new_pedigree_member.hpoTermList = [self.migrate_hpo_terms(hpo) for hpo in member.hpoTermList]
+        else:
+            new_pedigree_member.hpoTermList = []
+        try:
+            new_pedigree_member.yearOfBirth = str(int(member.yearOfBirth))
+        except TypeError:
+            new_pedigree_member.yearOfBirth = None
+
+        if member.samples:
+            new_pedigree_member.samples = [sample.sampleId for sample in member.samples]
+        else:
+            new_pedigree_member.samples = []
+
+        if member.disorderList:
+            new_pedigree_member.disorderList = [self.migrate_disorders(d) for d in member.disorderList]
+        else:
+            new_pedigree_member.disorderList = []
+
+        if member.ancestries is None:
+            new_pedigree_member.ancestries = participant_old.Ancestries()
+
+        if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
+            return new_pedigree_member
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_enumerations(self, etype, value):
+        if etype in ['LifeStatus', 'AffectionStatus']:
+            return value.lower()
+        elif etype == 'Sex':
+            return {'MALE': 'male', 'FEMALE': 'female', 'UNKNOWN': 'unknown'}.get(value)
+        elif etype == 'AdoptedStatus':
+            return {'notadopted': 'not_adopted', 'adoptedin': 'adoptedin', 'adoptedout': 'adoptedout'}.get(value)
+        elif etype == 'termPresence':
+            return {'yes': True, 'no': False, 'unknown': None}.get(value)
+        else:
+            raise NotImplementedError(etype + ' is not a valid enumeration type or is not implemented')
+
+    def migrate_hpo_terms(self, hpo_term):
+        """
+
+        :type hpo_term: participant_1_0_1.HpoTerm
+        :rtype: participant_old.HpoTerm
+        """
+        new_hpo = self.new_model.HpoTerm.fromJsonDict(hpo_term.toJsonDict())
+        new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
+        if hpo_term.modifiers:
+            mod_as_json = hpo_term.modifiers.toJsonDict()
+        else:
+            mod_as_json = {}
+        new_hpo.modifiers = {k: mod_as_json[k] for k in mod_as_json if mod_as_json[k]}
+        if new_hpo.validate(new_hpo.toJsonDict()):
+            return new_hpo
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_disorders(self, disorder):
+        """
+
+        :type disorder: participant_1_0_1.Disorder
+        :rtype: participant_old.Disorder
+        """
+        new_disorder = self.new_model.Disorder.fromJsonDict(disorder.toJsonDict())
+        if disorder.ageOfOnset is not None:
+            new_disorder.ageOfOnset = str(disorder.ageOfOnset)
+        if new_disorder.validate(new_disorder.toJsonDict()):
+            return new_disorder
+        else:
+            raise Exception('This model can not be converted')
+
+    def migrate_analysis_panel(self, analysis_panel):
+        """
+
+        :type analysis_panel: participant_1_0_1.AnalysisPanel
+        :rtype: participant_old.AnalysisPanel
+        """
+
+        new_analysis_panel = self.new_model.AnalysisPanel.fromJsonDict(analysis_panel.toJsonDict())
+        new_analysis_panel.multiple_genetic_origins = analysis_panel.multipleGeneticOrigins
+        new_analysis_panel.review_outcome = analysis_panel.reviewOutcome
+        if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
+            return new_analysis_panel
+        else:
+            raise Exception('This model can not be converted')

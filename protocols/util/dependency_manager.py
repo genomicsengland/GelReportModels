@@ -4,6 +4,7 @@ import os.path
 import inspect
 from protocols.util.singleton import Singleton
 
+VERSION_70 = "7.0"
 VERSION_61 = "6.1"
 VERSION_500 = "5.0.0"
 VERSION_400 = "4.0.0"

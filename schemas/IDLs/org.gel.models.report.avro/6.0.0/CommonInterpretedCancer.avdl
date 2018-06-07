@@ -1,0 +1,317 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines common definitions for Genomics England reports models specific to the cancer program
+*/
+protocol CommonInterpretedCancer {
+
+    import idl "CommonInterpreted.avdl";
+
+    /**
+    Type of clinical action on a variant
+    */
+    enum ActionType {
+        therapy,
+        therapeutic,
+        prognosis,
+        diagnosis
+    }
+
+    /**
+    Clinical status of an action
+    */
+    enum ActionStatus {
+        clinical,
+        pre_clinical
+    }
+
+    /**
+    A clinical action
+    */
+    record Action {
+
+        /**
+        Type of clinical action
+        */
+        union {null, ActionType} actionType;
+
+        /**
+        List of PubMed identifiers
+        */
+        union {null, array<string>} references;
+
+        /**
+        Status of the action
+        */
+        union {null, ActionStatus} status;
+
+        /**
+        Flag indicating if the variant is actionable
+        */
+        boolean variantActionable;
+
+        /**
+        Link to original source
+        */
+        union {null, string} url;
+
+        /**
+        Type of evidence
+        */
+        union {null, string} evidenceType;
+
+        /**
+        Source of the information
+        */
+        string source;
+
+    }
+
+
+    /**
+    The role of a given genomic feature in cancer
+
+* `NCIT_C16936`: oncogene. A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* `NCIT_C17362`: tumor_suppressor_gene. A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+    */
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene,
+        both
+    }
+
+    /**
+    A report event holds all the information about why a given variant is relevant to report. This is the report event
+    corresponding to the cancer program
+    */
+    record ReportEventCancer {
+
+        /**
+        Unique identifier for each report event, this is unique across the whole report. A report having more than one
+        report event with the same identifier is invalid. Repeating report event identifiers between different reports
+        is valid. The uniqueness of this field will be checked in report validation
+        */
+        string reportEventId;
+
+        /**
+        The list of genomic features of interest for this report event. Please note that one variant can overlap more
+        that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
+        variant, should be reported in two different ReportEvents
+        */
+        array<GenomicEntity>  genomicEntities;
+
+        /**
+        Sequence Ontology terms for relevant consequence types in tiering
+        */
+        array<VariantConsequence> variantConsequences;
+
+        /**
+        Actions on the variant
+        */
+        union {null, array<Action>} actions;
+
+        /**
+        This value groups variants that together could explain the phenotype according to the mode of inheritance used.
+        (e.g.: compound heterozygous). All the variants in the same report sharing the same value will be considered in
+        the same group (i.e.: reported together). This value is an integer unique in the whole report.
+        These values are only relevant within the same report.
+        */
+        union {null, int} groupOfVariants;
+
+        /**
+        This is the description of why this variant would be reported, for example that it affects the protein in this way
+        and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+        using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+        */
+        union {null, string} eventJustification;
+
+        /**
+        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
+        mode of Inheritance. This may be the result of different scoring systems
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family
+        informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+
+        /**
+        Variant classification
+        */
+        union {null, VariantClassification} variantClassification;
+
+        /**
+        The role of this variant in cancer
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
+
+        /**
+        The tier where this variant has been classified. Tier is a property of the model of inheritance and therefore
+        is subject to change depending on the inheritance assumptions
+        */
+        union {null, Tier} tier;
+
+    }
+
+    enum ClinicalSignificance {
+        benign,
+        likely_benign,
+        VUS,
+        likely_pathogenic,
+        pathogenic,
+        uncertain_significance
+    }
+
+    enum DrugResponseClassification {
+        responsive,
+        resistant,
+        toxicity,
+        indication,
+        contraindication,
+        dosing,
+        increased_monitoring,
+        efficacy
+    }
+
+    enum TraitAssociation {
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        protective
+    }
+
+    enum TumorigenesisClassification {
+        driver,
+        passenger,
+        modifier
+    }
+
+    enum VariantFunctionalEffect {
+        dominant_negative_variant,
+        gain_of_function_variant,
+        lethal_variant,
+        loss_of_function_variant,
+        loss_of_heterozygosity,
+        null_variant
+    }
+
+    /**
+    The variant classification according to different properties.
+    */
+    record VariantClassification {
+        /**
+        The variant's clinical significance.
+        */
+        union{null, ClinicalSignificance} clinicalSignificance;
+        /**
+        The variant's pharmacogenomics classification.
+        */
+        union{null, DrugResponseClassification} drugResponseClassification;
+        /**
+        The variant's trait association.
+        */
+        union{null, TraitAssociation} traitAssociation;
+        /**
+        The variant's tumorigenesis classification.
+        */
+        union{null, TumorigenesisClassification} tumorigenesisClassification;
+        /**
+        The variant functional effect
+        */
+        union {null, VariantFunctionalEffect} functionalEffect;
+    }
+
+
+    /**
+    A reported variant in the cancer program
+    */
+    record ReportedVariantCancer {
+
+        /**
+        The variant coordinates. Chromosome is either 1-22, X, Y, MT or any other contif in the reference genome,
+        no "chr" prefix is expected. Position is 1- based. Reference and alternate should never be empty or any
+        character representing emptiness (e.g.: . or -), a VCF-like indel representation is expected.
+        */
+        VariantCoordinates variantCoordinates;
+
+        /**
+        Variant identifier in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        Variant identifier in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        Variant identifier in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        /**
+        gDNA change, HGVS nomenclature (e.g.: g.476A>T)
+        */
+        union {null, array<string>} genomicChanges;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.: c.76A>T)
+        */
+        union {null, array<string>} cdnaChanges;
+
+        /**
+        Protein change, HGVS nomenclature (e.g.: p.Lys76Asn)
+        */
+        union {null, array<string>} proteinChanges;
+
+        /**
+        List of variant calls across all samples under analysis for this variant
+        */
+        array<VariantCall> variantCalls;
+
+        /**
+        The list of report events for this variant across multiple modes of inheritance
+        */
+        array<ReportEventCancer> reportEvents;
+
+        /**
+        Any additional information in a free text field. For example a quote from a paper
+        */
+        union {null,map<string>} additionalTextualVariantAnnotations;
+
+        /**
+        Additional references for ths variant. For example HGMD ID or Pubmed Id
+        */
+        union {null,map<string>} references;
+
+        /**
+        Additional variant attributes
+        */
+        union {null, VariantAttributes} variantAttributes;
+
+        /**
+        A list of population allele frequencies
+        */
+        union {null, array<AlleleFrequency>} alleleFrequencies;
+
+        /**
+        Additional numeric variant annotations for this variant. For Example (Allele Frequency, sift, polyphen,
+        mutationTaster, CADD. ..)
+        */
+        union {null, map<float>} additionalNumericVariantAnnotations;
+
+        /**
+        Comments
+        */
+        union {null, array<string>} comments;
+
+        /**
+        List of allele origins for this variant in this report
+        */
+        array<AlleleOrigin> alleleOrigins;
+
+    }
+}
+

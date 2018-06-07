@@ -1,0 +1,771 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines common definitions for Genomics England reports models
+*/
+protocol CommonInterpreted {
+
+    import idl "CommonParticipant.avdl";
+
+/**
+   Allele origin.
+
+* `SO_0001781`: de novo variant. http://purl.obolibrary.org/obo/SO_0001781
+* `SO_0001778`: germline variant. http://purl.obolibrary.org/obo/SO_0001778
+* `SO_0001775`: maternal variant. http://purl.obolibrary.org/obo/SO_0001775
+* `SO_0001776`: paternal variant. http://purl.obolibrary.org/obo/SO_0001776
+* `SO_0001779`: pedigree specific variant. http://purl.obolibrary.org/obo/SO_0001779
+* `SO_0001780`: population specific variant. http://purl.obolibrary.org/obo/SO_0001780
+* `SO_0001777`: somatic variant. http://purl.obolibrary.org/obo/SO_0001777
+    */
+    enum AlleleOrigin {
+        de_novo_variant,
+        germline_variant,
+        maternal_variant,
+        paternal_variant,
+        pedigree_specific_variant,
+        population_specific_variant,
+        somatic_variant
+    }
+
+/**
+    An enumeration for the different mode of inheritances:
+
+* `monoallelic_not_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, not imprinted
+* `monoallelic_maternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed)
+* `monoallelic_paternally_imprinted`: MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed)
+* `monoallelic`: MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown
+* `biallelic`: BIALLELIC, autosomal or pseudoautosomal
+* `monoallelic_and_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal
+* `monoallelic_and_more_severe_biallelic`: BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal
+* `xlinked_biallelic`: X-LINKED: hemizygous mutation in males, biallelic mutations in females
+* `xlinked_monoallelic`: X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males)
+* `mitochondrial`: MITOCHONDRIAL
+* `unknown`: Unknown
+    */
+    enum ReportedModeOfInheritance {
+        monoallelic,
+        monoallelic_not_imprinted,
+        monoallelic_maternally_imprinted,
+        monoallelic_paternally_imprinted,
+        biallelic,
+        monoallelic_and_biallelic,
+        monoallelic_and_more_severe_biallelic,
+        xlinked_biallelic,
+        xlinked_monoallelic,
+        mitochondrial,
+        unknown
+    }
+
+    /**
+    It is a representation of the zygosity
+
+* `reference_homozygous`: 0/0, 0|0
+* `heterozygous`: 0/1, 1/0, 1|0, 0|1
+* `alternate_homozygous`: 1/1, 1|1
+* `missing`: ./., .|.
+* `half_missing_reference`: ./0, 0/., 0|., .|0
+* `half_missing_alternate`: ./1, 1/., 1|., .|1
+* `alternate_hemizigous`: 1
+* `reference_hemizigous`: 0
+* `unk`: Anything unexpected
+    */
+    enum Zygosity {
+        reference_homozygous,
+        heterozygous,
+        alternate_homozygous,
+        missing,
+        half_missing_reference,
+        half_missing_alternate,
+        alternate_hemizigous,
+        reference_hemizigous,
+        unk,
+        na
+
+    }
+    enum SupportingReadType {
+        spanning,
+        flanking,
+        inrepeat
+    }
+
+    /**
+    This object holds all the information related to a specific variant observation in a given sample, including
+    zygosity, phase, depth of coverage, variant allele frequency and allele origins.
+    */
+    record VariantCall {
+
+        /**
+        Participant identifier
+        */
+        string participantId;
+
+        /**
+        Sample identifier where the variant was observed
+        */
+        string sampleId;
+
+        /**
+        Zygosity. For somatic variants, or variants without zygosity use `na`
+        */
+        Zygosity zygosity;
+
+        /**
+        Phase set of variants when variants are phased. Two variants with the same value in this field are in phase,
+        if the value is null the variant is unphased. These values are only relevant within the same report.
+        */
+        union {null, int} phaseSet;
+
+        /**
+        Variant Allele Frequency (VAF) as calculated based on the depth of coverage for this variant call
+        */
+        union {null, double} vaf;
+
+        /**
+        Depth of coverage for reference allele
+        */
+        union {null, int} depthReference;
+
+        /**
+        Depth of coverage for alternate allele
+        */
+        union {null, int} depthAlternate;
+
+        /**
+        A list of allele origins for this variant
+        */
+        array<AlleleOrigin> alleleOrigins;
+
+    }
+
+    /**
+    Types of genomic features:
+
+* `regulatory_region`: a regulatory region
+* `gene`: a gene
+* `transcript`: a transcript
+* `intergenic`: an intergenic region
+    */
+    enum GenomicEntityType {
+        regulatory_region,
+        gene,
+        transcript,
+        intergenic,
+        gene_fusion
+    }
+
+    /**
+    The population allele frequency of a given variant in a given study and optionally population
+    */
+    record AlleleFrequency {
+        /**
+        The study from where this data comes from
+        */
+        string study;
+        /**
+        The specific population where this allele frequency belongs
+        */
+        string population;
+        /**
+        The frequency of the alternate allele
+        */
+        float alternateFrequency;
+    }
+
+    /**
+    A genomic feature
+    */
+    record GenomicEntity {
+        /**
+        The type of the genomic entity
+        */
+        GenomicEntityType type;
+
+        /**
+        Ensembl identifier for the feature (e.g, ENST00000544455)
+        */
+        union {null, string} ensemblId;
+
+        /**
+        The HGNC gene symbol. This field is optional, BUT it should be filled if possible
+        */
+        union {null, string} geneSymbol;
+
+        /**
+        Others identifiers for this genomic feature
+        */
+        union {null, map<string>} otherIds;
+    }
+
+    /**
+    A panel of genes
+    */
+    record GenePanel{
+        /**
+        Panel name used from PanelApp
+        */
+        string panelName;
+
+        /**
+        Panel version
+        */
+        union {null, string} panelVersion;
+    }
+
+    /**
+    A variant consequence as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    NOTE: this record is equivalent to OpenCB's `ConsequenceType`, but we want to avoid naming collisions
+    */
+    record VariantConsequence {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        union {null, string} name;
+    }
+
+    record VariantIdentifiers{
+        /**
+        Variant identifier in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        Variant identifier in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        Variant identifier in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        union {null, map<string>} otherIds;
+
+    }
+
+
+    /**
+    Variant tiers as defined by Genomics England
+    */
+    enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
+
+    /**
+    The reference genome assembly
+    */
+    enum Assembly {GRCh38, GRCh37}
+
+    enum ClinicalSignificance {
+        benign,
+        likely_benign,
+        VUS,
+        likely_pathogenic,
+        pathogenic,
+        uncertain_significance
+    }
+
+    enum DrugResponseClassification {
+        responsive,
+        resistant,
+        toxicity,
+        indication,
+        contraindication,
+        dosing,
+        increased_monitoring,
+        efficacy
+    }
+
+    enum TraitAssociation {
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        protective
+    }
+
+    enum TumorigenesisClassification {
+        driver,
+        passenger,
+        modifier
+    }
+
+    enum VariantFunctionalEffect {
+        dominant_negative_variant,
+        gain_of_function_variant,
+        lethal_variant,
+        loss_of_function_variant,
+        loss_of_heterozygosity,
+        null_variant
+    }
+
+    /**
+    The variant classification according to different properties.
+    */
+    record VariantClassification {
+        /**
+        The variant's clinical significance.
+        */
+        union{null, ClinicalSignificance} clinicalSignificance;
+        /**
+        The variant's pharmacogenomics classification.
+        */
+        union{null, DrugResponseClassification} drugResponseClassification;
+        /**
+        The variant's trait association.
+        */
+        union{null, TraitAssociation} traitAssociation;
+        /**
+        The variant's tumorigenesis classification.
+        */
+        union{null, TumorigenesisClassification} tumorigenesisClassification;
+        /**
+        The variant functional effect
+        */
+        union {null, VariantFunctionalEffect} functionalEffect;
+    }
+
+    /**
+    The ontology to which a standard term belongs
+    */
+    record Ontology {
+        string name;
+        string version;
+    }
+
+    /**
+    Standard phenotype term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record StandardPhenotype {
+        string id;
+        union {null, string} name;
+        union {null, string} namespace;
+        union {null, string} definition;
+        union {null, string} comment;
+        union {null, string} alternativeIds;
+        union {null, string} synonyms;
+        union {null, string} isAs;
+        /**
+        The ontology (e.g.: HPO, OMIM, SNOMED CT)
+        */
+        Ontology ontology;
+        /**
+        The match between the non standard phenotype and this term when in silico
+        */
+        union {null, float} matchScore;
+    }
+
+    /**
+    Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record Phenotype {
+        /**
+        The non standardised phenotypes (i.e.: may be free text)
+        */
+        union {null, array<string>} nonStandardPhenotype;
+        /**
+        The standardised phenotypes (i.e.: controlled terminology)
+        */
+        array<StandardPhenotype> standardPhenotypes;
+    }
+
+    /**
+    A report event holds all the information about why a given variant is relevant to report. The same variant may have
+    several report events. For instance, we may have two report events from the tiering process when two panels are
+    analysed, a positive report from a Genomic Medicine Centre (GMC) will correspond to an additional report event.
+    */
+    record ReportEvent {
+
+        /**
+        Unique identifier for each report event, this is unique across the whole report. A report having more than one
+        report event with the same identifier is invalid. Repeating report event identifiers between different reports
+        is valid. The uniqueness of this field will be checked in report validation
+        */
+        string reportEventId;
+
+        /**
+        The list of phenotypes
+        */
+        Phenotype phenotypes;
+
+        /**
+        Sequence Ontology terms for relevant consequence types for this report event
+        */
+        array<VariantConsequence> variantConsequences;
+
+        /**
+        The panel of genes to which this report corresponds
+        */
+        union {null, GenePanel} genePanel;
+
+        /**
+        Mode of inheritance used to analyse the family
+        */
+        ReportedModeOfInheritance modeOfInheritance;
+
+        /**
+        The list of genomic features of interest for this report event. Please note that one variant can overlap more
+        that one gene/transcript. If more than one gene/transcript is considered interesting for this particular
+        variant, should be reported in two different ReportEvents
+        */
+        array<GenomicEntity> genomicEntities;
+
+        /**
+        This is the penetrance assumed for scoring or classifying this variant
+        */
+        union {null, org.gel.models.participant.avro.Penetrance} penetrance;
+
+        /**
+        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
+        mode of Inheritance. This may be the result of different scoring systems
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family
+        informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+        /**
+        Likelihood of being a de novo variant
+        */
+        union {null, float} deNovoQualityScore;
+
+        /**
+        Variant classification
+        */
+        union {null, VariantClassification} variantClassification;
+
+        /**
+        Flag to indicate if this variant using this mode of inheritance can fully explain the phenotype
+        */
+        union {null, boolean} fullyExplainsPhenotype;
+
+        /**
+        This value groups variants that together could explain the phenotype according to the mode of inheritance used.
+        (e.g.: compound heterozygous). All the variants in the same report sharing the same value will be considered in
+        the same group (i.e.: reported together). This value is an integer unique in the whole report.
+        These values are only relevant within the same report.
+        */
+        union {null, int} groupOfVariants;
+
+        /**
+        This is the description of why this variant would be reported, for example that it affects the protein in this way
+        and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs
+        using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included.
+        */
+        union {null, string} eventJustification;
+
+        /**
+        The tier where this variant has been classified. Tier is a property of the model of inheritance and therefore
+        is subject to change depending on the inheritance assumptions
+        */
+        union {null, Tier} tier;
+    }
+
+    /**
+    The variant coordinates representing uniquely a small variant.
+    No multi-allelic variant supported, alternate only represents one alternate allele.
+    */
+    record VariantCoordinates {
+
+        /**
+        Chromosome
+        */
+        string chromosome;
+
+        /**
+        Genomic position
+        */
+        int position;
+
+        /**
+        The reference bases.
+        */
+        string reference;
+
+        /**
+        The alternate bases
+        */
+        string alternate;
+
+        /**
+        The assembly to which this variant corresponds
+        */
+        Assembly assembly;
+    }
+
+    /**
+    Some additional variant attributes
+    */
+    record VariantAttributes {
+
+        /**
+        gDNA change, HGVS nomenclature (e.g.: g.476A>T)
+        */
+        union {null, array<string>} genomicChanges;
+
+        /**
+        cDNA change, HGVS nomenclature (e.g.: c.76A>T)
+        */
+        union {null, array<string>} cdnaChanges;
+
+        /**
+        Protein change, HGVS nomenclature (e.g.: p.Lys76Asn)
+        */
+        union {null, array<string>} proteinChanges;
+
+        /**
+        Any additional information in a free text field. For example a quote from a paper
+        */
+        union {null,map<string>} additionalTextualVariantAnnotations;
+
+        /**
+        Additional references for ths variant. For example HGMD ID or Pubmed Id
+        */
+        union {null,map<string>} references;
+
+        union {null, VariantIdentifiers} variantIdentifiers;
+
+        /**
+        A list of population allele frequencies
+        */
+        union {null, array<AlleleFrequency>} alleleFrequencies;
+
+        /**
+        Additional numeric variant annotations for this variant. For Example (Allele Frequency, sift, polyphen,
+        mutationTaster, CADD. ..)
+        */
+        union {null, map<float>} additionalNumericVariantAnnotations;
+
+        /**
+        Comments
+        */
+        union {null, array<string>} comments;
+
+        /**
+        List of allele origins for this variant in this report
+        */
+        union {null, array<AlleleOrigin>} alleleOrigins;
+
+        /**
+        Largest reference interrupted homopolymer length intersecting with the indel
+        */
+        union {null, int} ihp;
+        /**
+        Flag indicating if the variant is recurrently reported
+        */
+        union {null, boolean} recurrentlyReported;
+        /**
+        Average tier1 number of basecalls filtered from original read depth within 50 bases
+        */
+        union {null, string} fdp50;
+        /**
+        Map of other attributes where keys are the attribute names and values are the attributes
+        */
+        union {null, map<string>} others;
+    }
+
+
+    record PhaseGenotype {
+        array<string> sortedAlleles;
+        int phaseSet;
+    }
+
+    record NumberOfCopies {
+        /**
+        Number of copies given by the caller in one of the allele
+        */
+        int numberOfCopies;
+        union{null, int} confidenceIntervalMaximun;
+        union{null, int} confidenceIntervalMinimun;
+    }
+
+    /**
+    This is intended to hold the genotypes for the family members. This assumes that varinats have been split before.
+    In principle it is a phased zygosity as in VCF spec and called by the analysis provider if further phasing is conducted
+    */
+    record VariantCall {
+
+        /**
+        Participant id of the family member:
+        */
+        string participantId;
+
+        /**
+        LP Number of the family member:
+        */
+        string sampleId;
+
+        /**
+        Zygosity. For somatic variants, or variants without zygosity use `na`
+        */
+        Zygosity zygosity;
+
+        /**
+        phase alleles for those in phase
+        */
+        union {null, PhaseGenotype} phaseGenotype;
+
+        /**
+        Variant Allele Frequency
+        */
+        union {null, double} vaf;
+
+        /**
+        Depth for Reference Allele
+        */
+        union {null, int} depthReference;
+
+        /**
+        Depth for Alternate Allele
+        */
+        union {null, int} depthAlternate;
+
+        /**
+        Alleles for copy number variation - add doc
+        */
+        union {null, array<NumberOfCopies>} numberOfCopies;
+
+        /**
+        Describe whether this is a somatic or Germline variant
+        */
+        array<AlleleOrigin> alleleOrigins;
+
+        union {null, array<SupportingReadType>} supportingReadTypes;
+
+    }
+
+    enum Indel {
+        insertion,
+        deletion
+    }
+
+
+
+    record ConfidenceInterval {
+        int left;
+        int right;
+    }
+
+    record Coordinates{
+        string chromosome;
+        int start;
+        int end;
+        union {null, ConfidenceInterval} ciStart;
+        union {null, ConfidenceInterval} ciEnd;
+    }
+
+
+    enum Orientation {
+        start_start,
+        start_end,
+        end_end
+    }
+
+    enum StructuralVariantType {ins, dup, inv, amplification, deletion, dup_tandem, del_me, ins_me}
+
+    record Rearrangement {
+        Coordinates leftCoordinates;
+        Coordinates rightCoordinates;
+        Orientation orientation;
+        union {null, string} leftInsSeq;
+        union {null, string} rightInsSeq;
+    }
+
+    record BreakPoint{
+        string chromosome;
+        int start;
+        int end;
+        union{null, string} reference;
+        union{null, string} alternate;
+        union{null, map<string>} info;
+    }
+
+    record ShortTandemRepeatReferenceData{
+        string repeatedSequence;
+        int pathogenic_number_of_repeats_threshold;
+        int normal_number_of_repeats_threshold;
+    }
+
+    record ChromosomalRearrangement {
+        /**
+        The assembly to which this variant corresponds
+        */
+        Assembly assembly;
+        union {null, array<BreakPoint>} breakPoints;
+        array<Rearrangement> rearrangements;
+        array<ReportEvent> reportEvents;
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+    }
+
+    record StructuralVariant {
+        /**
+        The assembly to which this variant corresponds
+        */
+        Assembly assembly;
+        /**
+        Structural Variant Type as would appear in VCF
+        */
+        StructuralVariantType variantType;
+        Coordinates coordinates;
+        union {null, string} leftInsSeq;
+        union {null, string} rightInsSeq;
+        array<ReportEvent> reportEvents;
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+
+    }
+
+    record ShortTandemRepeat {
+        /**
+        The assembly to which this variant corresponds
+        */
+        Assembly assembly;
+        Coordinates coordinates;
+        array<ReportEvent> reportEvents;
+        /**
+        array of genotypes for the samples
+        */
+        array<VariantCall> variantCalls;
+        union {null, VariantAttributes} variantAttributes;
+        union {null, ShortTandemRepeatReferenceData} shortTandemRepeatReferenceData;
+
+    }
+
+    /**
+    A reported variant
+    */
+    record SmallVariant {
+
+        /**
+        The variant coordinates. Chromosome is either 1-22, X, Y, MT or any other contif in the reference genome,
+        no "chr" prefix is expected. Position is 1- based. Reference and alternate should never be empty or any
+        character representing emptiness (e.g.: . or -), a VCF-like indel representation is expected.
+        */
+        VariantCoordinates variantCoordinates;
+
+        /**
+        List of variant calls across all samples under analysis for this variant
+        */
+        array<VariantCall> variantCalls;
+
+        /**
+        The list of report events for this variant across multiple modes of inheritance and panels
+        */
+        array<ReportEvent> reportEvents;
+        union {null, VariantAttributes} variantAttributes;
+
+
+
+    }
+
+}
