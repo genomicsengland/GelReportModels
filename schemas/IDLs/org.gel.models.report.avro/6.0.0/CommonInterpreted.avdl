@@ -349,6 +349,7 @@ protocol CommonInterpreted {
         The ontology (e.g.: HPO, OMIM, SNOMED CT)
         */
         Ontology ontology;
+        union {null, string} ontologyVersion;
         /**
         The match between the non standard phenotype and this term when in silico
         */
