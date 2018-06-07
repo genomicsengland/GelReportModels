@@ -1,3 +1,21 @@
+Version 7.0.1 (7th June 2018)
+--------------------------------
+
+#### Minor changes
+
+* Putting back in backawards migration from participants 1.0.3 to 1.0.0
+
+Version 7.0.1 (7th June 2018)
+--------------------------------
+
+#### Major changes
+
+* New version for reports 6.0.0 supporting:
+    - Structural variants in new format
+    - Required for STRs support
+    - Standardised phenotypes
+
+
 Version 6.1.4 (1st June 2018)
 --------------------------------
 
