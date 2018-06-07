@@ -326,6 +326,50 @@ protocol CommonInterpreted {
     }
 
     /**
+    The ontology to which a standard term belongs
+    */
+    record Ontology {
+        string name;
+        string version;
+    }
+
+    /**
+    Standard phenotype term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record StandardPhenotype {
+        string id;
+        union {null, string} name;
+        union {null, string} namespace;
+        union {null, string} definition;
+        union {null, string} comment;
+        union {null, string} alternativeIds;
+        union {null, string} synonyms;
+        union {null, string} isAs;
+        /**
+        The ontology (e.g.: HPO, OMIM, SNOMED CT)
+        */
+        Ontology ontology;
+        /**
+        The match between the non standard phenotype and this term when in silico
+        */
+        union {null, float} matchScore;
+    }
+
+    /**
+    Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
+    */
+    record Phenotype {
+        /**
+        The non standardised phenotypes (i.e.: may be free text)
+        */
+        union {null, array<string>} nonStandardPhenotype;
+        /**
+        The standardised phenotypes (i.e.: controlled terminology)
+        */
+        array<StandardPhenotype> standardPhenotypes;
+    }
+
+    /**
     A report event holds all the information about why a given variant is relevant to report. The same variant may have
     several report events. For instance, we may have two report events from the tiering process when two panels are
     analysed, a positive report from a Genomic Medicine Centre (GMC) will correspond to an additional report event.
@@ -340,9 +384,9 @@ protocol CommonInterpreted {
         string reportEventId;
 
         /**
-        This is the list of phenotypes (usually the HPO term or the disorder name) considered to report this variant
+        The list of phenotypes
         */
-        array<string> phenotypes;
+        Phenotype phenotypes;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
