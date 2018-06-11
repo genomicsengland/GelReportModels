@@ -421,6 +421,75 @@ class ExomeCoverage(ProtocolElement):
             'coverageSummary', None)
 
 
+class File(ProtocolElement):
+    """
+    This defines a file This Record is defined by the sampleID and a
+    URI Currently SampleID can be a single String or an array of
+    strings if multiple samples are associated with the same file *
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "File", "fields": [{"doc":
+"", "type": ["null", "string", {"items": "string", "type": "array"}], "name": "SampleId"}, {"doc":
+"", "type": "string", "name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
+"ANN", "BigWig", "MD5Sum", "ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name":
+"fileType"}, {"type": ["null", "string"], "name": "md5Sum"}], "doc": ""}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "SampleId",
+        "URIFile",
+        "fileType",
+        "md5Sum",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'SampleId', 'URIFile', 'fileType', 'md5Sum'
+    ]
+
+    def __init__(self, **kwargs):
+        self.SampleId = kwargs.get(
+            'SampleId', None)
+        self.URIFile = kwargs.get(
+            'URIFile', None)
+        self.fileType = kwargs.get(
+            'fileType', None)
+        self.md5Sum = kwargs.get(
+            'md5Sum', None)
+
+
+class FileType(object):
+    """
+    No documentation
+    """
+    BAM = "BAM"
+    gVCF = "gVCF"
+    VCF_small = "VCF_small"
+    VCF_somatic_small = "VCF_somatic_small"
+    VCF_CNV = "VCF_CNV"
+    VCF_somatic_CNV = "VCF_somatic_CNV"
+    VCF_SV = "VCF_SV"
+    VCF_somatic_SV = "VCF_somatic_SV"
+    VCF_SV_CNV = "VCF_SV_CNV"
+    SVG = "SVG"
+    ANN = "ANN"
+    BigWig = "BigWig"
+    MD5Sum = "MD5Sum"
+    ROH = "ROH"
+    OTHER = "OTHER"
+
+
 class GelAtGcDrop(ProtocolElement):
     """
     GEL AT/GC dropout calculation
@@ -3755,6 +3824,104 @@ class PlinkSexCheck(ProtocolElement):
             'YCOUNT', None)
 
 
+class RareDiseaseInterpretationStatus(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.metrics.avro", "type": "record", "name":
+"RareDiseaseInterpretationStatus", "fields": [{"type": "string", "name": "groupId"}, {"type":
+"string", "name": "piepelineId"}, {"type": "string", "name": "pipelineMainFolder"}, {"type":
+"string", "name": "cohortName"}, {"type": "string", "name": "startDate"}, {"type": ["null",
+"string"], "name": "lastStepDate"}, {"type": {"values": "string", "type": "map"}, "name":
+"pipelineParameters"}, {"type": "string", "name": "tieringConfigurationFile"}, {"type": ["null",
+{"values": "string", "type": "map"}], "name": "softwareVersions"}, {"type": ["null", {"values":
+"string", "type": "map"}], "name": "dataBaseVersions"}, {"type": ["null", {"items": "string",
+"type": "array"}], "name": "listOfSamples"}, {"type": "boolean", "name": "readyToDispatch"},
+{"type": ["null", {"items": {"fields": [{"type": "string", "name": "stepName"}, {"type": "string",
+"name": "date"}, {"type": {"symbols": ["failed", "ready"], "type": "enum", "name": "StepStatus"},
+"name": "status"}], "type": "record", "name": "Step"}, "type": "array"}], "name": "steps"}, {"type":
+["null", {"items": {"doc": "", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", "string", {"items": "string", "type": "array"}], "name": "SampleId"}, {"doc": "", "type":
+"string", "name": "URIFile"}, {"type": {"symbols": ["BAM", "gVCF", "VCF_small", "VCF_somatic_small",
+"VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG", "ANN", "BigWig",
+"MD5Sum", "ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"type":
+["null", "string"], "name": "md5Sum"}]}, "type": "array"}], "name": "listOfFilesToDispatch"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "cohortName",
+        "dataBaseVersions",
+        "groupId",
+        "lastStepDate",
+        "listOfFilesToDispatch",
+        "listOfSamples",
+        "piepelineId",
+        "pipelineMainFolder",
+        "pipelineParameters",
+        "readyToDispatch",
+        "softwareVersions",
+        "startDate",
+        "steps",
+        "tieringConfigurationFile",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'listOfFilesToDispatch': File,
+            'steps': Step,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'listOfFilesToDispatch': File,
+            'steps': Step,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'cohortName', 'dataBaseVersions', 'groupId', 'lastStepDate',
+        'listOfFilesToDispatch', 'listOfSamples', 'piepelineId',
+        'pipelineMainFolder', 'pipelineParameters', 'readyToDispatch',
+        'softwareVersions', 'startDate', 'steps',
+        'tieringConfigurationFile'
+    ]
+
+    def __init__(self, **kwargs):
+        self.cohortName = kwargs.get(
+            'cohortName', None)
+        self.dataBaseVersions = kwargs.get(
+            'dataBaseVersions', None)
+        self.groupId = kwargs.get(
+            'groupId', None)
+        self.lastStepDate = kwargs.get(
+            'lastStepDate', None)
+        self.listOfFilesToDispatch = kwargs.get(
+            'listOfFilesToDispatch', None)
+        self.listOfSamples = kwargs.get(
+            'listOfSamples', None)
+        self.piepelineId = kwargs.get(
+            'piepelineId', None)
+        self.pipelineMainFolder = kwargs.get(
+            'pipelineMainFolder', None)
+        self.pipelineParameters = kwargs.get(
+            'pipelineParameters', None)
+        self.readyToDispatch = kwargs.get(
+            'readyToDispatch', None)
+        self.softwareVersions = kwargs.get(
+            'softwareVersions', None)
+        self.startDate = kwargs.get(
+            'startDate', None)
+        self.steps = kwargs.get(
+            'steps', None)
+        self.tieringConfigurationFile = kwargs.get(
+            'tieringConfigurationFile', None)
+
+
 class Reason(object):
     """
     No documentation
@@ -4005,6 +4172,54 @@ class State(object):
     hold = "hold"
     fail = "fail"
     caution = "caution"
+
+
+class Step(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "Step", "fields": [{"type":
+"string", "name": "stepName"}, {"type": "string", "name": "date"}, {"type": {"symbols": ["failed",
+"ready"], "type": "enum", "name": "StepStatus"}, "name": "status"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "date",
+        "status",
+        "stepName",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'date', 'status', 'stepName'
+    ]
+
+    def __init__(self, **kwargs):
+        self.date = kwargs.get(
+            'date', None)
+        self.status = kwargs.get(
+            'status', None)
+        self.stepName = kwargs.get(
+            'stepName', None)
+
+
+class StepStatus(object):
+    """
+    No documentation
+    """
+    failed = "failed"
+    ready = "ready"
 
 
 class SupplementaryAnalysisResults(ProtocolElement):

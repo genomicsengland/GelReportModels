@@ -22,6 +22,7 @@ org.gel.models.metrics.avro
 * |orggelmodelsmetricsavro101sampleState|
 * |orggelmodelsmetricsavro101SupplementaryAnalysisResults|
 * |orggelmodelsmetricsavro101GelBamMetrics|
+* |orggelmodelsmetricsavro101RareDiseaseInterpretationPipeline|
 * |orggelmodelsmetricsavro101individualState|
 
 
@@ -724,6 +725,9 @@ org.gel.models.report.avro
 .. |orggelmodelsreportavro400ReportVersionControl| raw:: html
 
     <a href="html_schemas/org.gel.models.report.avro/4.0.0/ReportVersionControl.html" target="_blank">ReportVersionControl</a>
+.. |orggelmodelsmetricsavro101RareDiseaseInterpretationPipeline| raw:: html
+
+    <a href="html_schemas/org.gel.models.metrics.avro/1.0.1/RareDiseaseInterpretationPipeline.html" target="_blank">RareDiseaseInterpretationPipeline</a>
 .. |orgopencbbiodatamodelsvariantavro120read| raw:: html
 
     <a href="html_schemas/org.opencb.biodata.models.variant.avro/1.2.0/read.html" target="_blank">read</a>
