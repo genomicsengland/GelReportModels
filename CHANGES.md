@@ -10,7 +10,7 @@ Version 7.0.1 (7th June 2018)
 
 #### Minor changes
 
-* Putting back in backwards migration from participants 1.0.3 to 1.0.0
+* Putting back in backawards migration from participants 1.0.3 to 1.0.0
 
 Version 7.0.1 (7th June 2018)
 --------------------------------
