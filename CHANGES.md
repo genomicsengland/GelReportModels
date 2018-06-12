@@ -1,3 +1,10 @@
+Version 7.0.2 (11th June 2018)
+--------------------------------
+
+#### Minor changes
+
+* Putting back in `RareDiseaseInterpretationPipeline.avdl`
+
 Version 7.0.1 (7th June 2018)
 --------------------------------
 
