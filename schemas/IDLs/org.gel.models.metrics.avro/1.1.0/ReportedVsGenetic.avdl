@@ -7,13 +7,17 @@ protocol ReportedVsGenetic {
     import idl "CommonParticipant.avdl";
 
     /**
-    Sex
-    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
+    Definitions
+    ========================================
+    */
+    /**
+    Phenotypic sex
     */
     enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
 
     /**
     Kariotypic sex
+    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
     */
     enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
@@ -27,7 +31,17 @@ protocol ReportedVsGenetic {
     */
     enum reportedVsGeneticSummary {familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck}
 
+    /**
+    Supported assemblies
+    */
+    enum SupportedAssembly {GRCh37, GRCh38}
 
+
+    /**
+    ReportedVsGeneticSummary
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    */
     record SamplesInfo {
         /**
         Participant Id: This code should be unique per patient and independent of the sample
@@ -43,11 +57,6 @@ protocol ReportedVsGenetic {
         string deliveryId;
     }
 
-    /**
-    ReportedVsGeneticSummary
-    ========================================
-    General information about the checks, versions, tools, and number of markers
-    */
     record ReportedVsGeneticSummary {
         /**
         Reported vs Genetic checks version. This version should point to specific versions of the RvsG script,
@@ -61,7 +70,7 @@ protocol ReportedVsGenetic {
         /**
         Genome assembly
         */
-        string genomeAssembly;
+        union {null, SupportedAssembly} genomeAssembly;
         /**
         Path to the directory containing the checks for this family
         */
