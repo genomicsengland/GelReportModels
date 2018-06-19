@@ -54,8 +54,8 @@ class AggregatedIndividualMendelErrors(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name":
-"AggregatedIndividualMendelErrors", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": ["null", "double"], "name": "totalnumberOfMendelErrors"}]}
+"AggregatedIndividualMendelErrors", "fields": [{"doc": "", "type": ["null", "string"], "name":
+"sampleId"}, {"doc": "", "type": ["null", "double"], "name": "totalnumberOfMendelErrors"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -694,10 +694,10 @@ class CoverageBasedSex(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "CoverageBasedSex", "fields":
-[{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": ["null", {"symbols":
-["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "",
-"type": "enum", "name": "KaryotypicSex"}], "name": "inferredKaryotype"}, {"doc": "", "type":
-["null", "double"], "name": "ratioChrX"}, {"doc": "", "type": ["null", "double"], "name":
+[{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
+"doc": "", "type": "enum", "name": "KaryotypicSex"}], "name": "inferredKaryotype"}, {"doc": "",
+"type": ["null", "double"], "name": "ratioChrX"}, {"doc": "", "type": ["null", "double"], "name":
 "ratioChrY"}, {"doc": "", "type": ["null", "double"], "name": "avgCnvChrX"}, {"doc": "", "type":
 ["null", "double"], "name": "avgCnvChrY"}], "doc": ""}
 """
@@ -744,20 +744,22 @@ class CoverageBasedSex(ProtocolElement):
 
 class CoverageBasedSexCheck(ProtocolElement):
     """
-    No documentation
+    Evaluation     ========================================
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "CoverageBasedSexCheck",
-"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": ["null",
+"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null",
 {"symbols": ["UNKNOWN", "MALE", "FEMALE", "OTHER"], "doc": "", "type": "enum", "name": "Sex"}],
 "name": "reportedPhenotypicSex"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "XX", "XY",
 "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
 "KaryotypicSex"}], "name": "reportedKaryotypicSex"}, {"doc": "", "type": ["null", "KaryotypicSex"],
-"name": "inferredSexKaryotype"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown"],
-"doc": "", "type": "enum", "name": "Query"}], "name": "sexQuery"}]}
+"name": "inferredSexKaryotype"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown",
+"notTested"], "doc": "", "type": "enum", "name": "Query"}], "name": "sexQuery"}, {"doc": "", "type":
+["null", "string"], "name": "comments"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "comments",
         "inferredSexKaryotype",
         "reportedKaryotypicSex",
         "reportedPhenotypicSex",
@@ -777,11 +779,13 @@ class CoverageBasedSexCheck(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'inferredSexKaryotype', 'reportedKaryotypicSex',
+        'comments', 'inferredSexKaryotype', 'reportedKaryotypicSex',
         'reportedPhenotypicSex', 'sampleId', 'sexQuery'
     ]
 
     def __init__(self, **kwargs):
+        self.comments = kwargs.get(
+            'comments', None)
         self.inferredSexKaryotype = kwargs.get(
             'inferredSexKaryotype', None)
         self.reportedKaryotypicSex = kwargs.get(
@@ -1034,33 +1038,36 @@ class Evaluation(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "Evaluation", "fields":
-[{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "MALE", "FEMALE", "OTHER"], "doc":
-"", "type": "enum", "name": "Sex"}], "name": "reportedPhenotypicSex"}, {"doc": "", "type": ["null",
-{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
-"doc": "", "type": "enum", "name": "KaryotypicSex"}], "name": "reportedKaryotypicSex"}, {"doc": "",
-"type": ["null", "KaryotypicSex"], "name": "inferredSexKaryotype"}, {"doc": "", "type": ["null",
-{"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum", "name": "Query"}], "name":
-"sexQuery"}], "type": "record", "name": "CoverageBasedSexCheck"}, "type": "array"}], "name":
-"coverageBasedSexCheck"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": ["null", "Query"], "name":
+[{"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
+"CoverageBasedSexCheck", "fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"},
+{"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "MALE", "FEMALE", "OTHER"], "doc": "", "type":
+"enum", "name": "Sex"}], "name": "reportedPhenotypicSex"}, {"doc": "", "type": ["null", {"symbols":
+["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "",
+"type": "enum", "name": "KaryotypicSex"}], "name": "reportedKaryotypicSex"}, {"doc": "", "type":
+["null", "KaryotypicSex"], "name": "inferredSexKaryotype"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown", "notTested"], "doc": "", "type": "enum", "name": "Query"}], "name":
+"sexQuery"}, {"doc": "", "type": ["null", "string"], "name": "comments"}]}, "type": "array"}],
+"name": "coverageBasedSexCheck"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null", "Query"], "name":
 "mendelianInconsistenciesQuery"}, {"doc": "", "type": ["null", "string"], "name": "comments"}],
 "type": "record", "name": "MendelianInconsistenciesCheck"}, "type": "array"}], "name":
 "mendelianInconsistenciesCheck"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
-"type": "string", "name": "sampleId1"}, {"doc": "", "type": "string", "name": "sampleId2"}, {"doc":
-"", "type": ["null", {"symbols": ["TwinsMonozygous", "TwinsDizygous", "TwinsUnknown", "FullSibling",
-"FullSiblingF", "FullSiblingM", "Mother", "Father", "Son", "Daughter", "ChildOfUnknownSex",
-"MaternalAunt", "MaternalUncle", "MaternalUncleOrAunt", "PaternalAunt", "PaternalUncle",
-"PaternalUncleOrAunt", "MaternalGrandmother", "PaternalGrandmother", "MaternalGrandfather",
-"PaternalGrandfather", "DoubleFirstCousin", "MaternalCousinSister", "PaternalCousinSister",
-"MaternalCousinBrother", "PaternalCousinBrother", "Cousin", "Spouse", "Other", "RelationIsNotClear",
-"Unknown"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
-"FamiliarRelationship", "doc": ""}], "name": "relationshipFromPedigree"}, {"doc": "", "type":
-["null", "string"], "name": "possibleRelationship"}, {"doc": "", "type": ["null", "Query"], "name":
-"withinFamilyIBDQuery"}], "type": "record", "name": "FamilyRelatednessCheck"}, "type": "array"}],
-"name": "familyRelatednessCheck"}, {"doc": "", "type": ["null", {"symbols":
-["familyPassesGvsRChecks", "familyFailsACheck", "familyMissingACheck"], "doc": "", "type": "enum",
-"name": "reportedVsGeneticSummary"}], "name": "reportedVsGeneticSummary"}], "doc": ""}
+"type": ["null", "string"], "name": "sampleId1"}, {"doc": "", "type": ["null", "string"], "name":
+"sampleId2"}, {"doc": "", "type": ["null", {"symbols": ["TwinsMonozygous", "TwinsDizygous",
+"TwinsUnknown", "FullSibling", "FullSiblingF", "FullSiblingM", "Mother", "Father", "Son",
+"Daughter", "ChildOfUnknownSex", "MaternalAunt", "MaternalUncle", "MaternalUncleOrAunt",
+"PaternalAunt", "PaternalUncle", "PaternalUncleOrAunt", "MaternalGrandmother",
+"PaternalGrandmother", "MaternalGrandfather", "PaternalGrandfather", "DoubleFirstCousin",
+"MaternalCousinSister", "PaternalCousinSister", "MaternalCousinBrother", "PaternalCousinBrother",
+"Cousin", "Spouse", "Other", "RelationIsNotClear", "Unknown"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "FamiliarRelationship", "doc": ""}],
+"name": "relationshipFromPedigree"}, {"doc": "", "type": ["null", "string"], "name":
+"possibleRelationship"}, {"doc": "", "type": ["null", "Query"], "name": "withinFamilyIBDQuery"},
+{"doc": "", "type": ["null", "string"], "name": "comments"}], "type": "record", "name":
+"FamilyRelatednessCheck"}, "type": "array"}], "name": "familyRelatednessCheck"}, {"doc": "", "type":
+["null", {"symbols": ["familyPassesGvsRChecks", "familyFailsACheck", "familyMissingACheck"], "doc":
+"", "type": "enum", "name": "reportedVsGeneticSummary"}], "name": "reportedVsGeneticSummary"}],
+"doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1206,11 +1213,11 @@ class FamilyRelatedness(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "FamilyRelatedness",
 "fields": [{"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
-"RelatednessPair", "fields": [{"doc": "", "type": "string", "name": "sampleId1"}, {"doc": "",
-"type": "string", "name": "sampleId2"}, {"doc": "", "type": ["null", "double"], "name": "ibd0"},
-{"doc": "", "type": ["null", "double"], "name": "ibd1"}, {"doc": "", "type": ["null", "double"],
-"name": "ibd2"}, {"doc": "", "type": ["null", "double"], "name": "piHat"}]}, "type": "array"}],
-"name": "relatedness"}]}
+"RelatednessPair", "fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId1"}, {"doc":
+"", "type": ["null", "string"], "name": "sampleId2"}, {"doc": "", "type": ["null", "double"],
+"name": "ibd0"}, {"doc": "", "type": ["null", "double"], "name": "ibd1"}, {"doc": "", "type":
+["null", "double"], "name": "ibd2"}, {"doc": "", "type": ["null", "double"], "name": "piHat"}]},
+"type": "array"}], "name": "relatedness"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1247,21 +1254,23 @@ class FamilyRelatednessCheck(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "FamilyRelatednessCheck",
-"fields": [{"doc": "", "type": "string", "name": "sampleId1"}, {"doc": "", "type": "string", "name":
-"sampleId2"}, {"doc": "", "type": ["null", {"symbols": ["TwinsMonozygous", "TwinsDizygous",
-"TwinsUnknown", "FullSibling", "FullSiblingF", "FullSiblingM", "Mother", "Father", "Son",
-"Daughter", "ChildOfUnknownSex", "MaternalAunt", "MaternalUncle", "MaternalUncleOrAunt",
-"PaternalAunt", "PaternalUncle", "PaternalUncleOrAunt", "MaternalGrandmother",
-"PaternalGrandmother", "MaternalGrandfather", "PaternalGrandfather", "DoubleFirstCousin",
-"MaternalCousinSister", "PaternalCousinSister", "MaternalCousinBrother", "PaternalCousinBrother",
-"Cousin", "Spouse", "Other", "RelationIsNotClear", "Unknown"], "namespace":
+"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId1"}, {"doc": "", "type":
+["null", "string"], "name": "sampleId2"}, {"doc": "", "type": ["null", {"symbols":
+["TwinsMonozygous", "TwinsDizygous", "TwinsUnknown", "FullSibling", "FullSiblingF", "FullSiblingM",
+"Mother", "Father", "Son", "Daughter", "ChildOfUnknownSex", "MaternalAunt", "MaternalUncle",
+"MaternalUncleOrAunt", "PaternalAunt", "PaternalUncle", "PaternalUncleOrAunt",
+"MaternalGrandmother", "PaternalGrandmother", "MaternalGrandfather", "PaternalGrandfather",
+"DoubleFirstCousin", "MaternalCousinSister", "PaternalCousinSister", "MaternalCousinBrother",
+"PaternalCousinBrother", "Cousin", "Spouse", "Other", "RelationIsNotClear", "Unknown"], "namespace":
 "org.gel.models.participant.avro", "type": "enum", "name": "FamiliarRelationship", "doc": ""}],
 "name": "relationshipFromPedigree"}, {"doc": "", "type": ["null", "string"], "name":
-"possibleRelationship"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown"], "doc":
-"", "type": "enum", "name": "Query"}], "name": "withinFamilyIBDQuery"}]}
+"possibleRelationship"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown",
+"notTested"], "doc": "", "type": "enum", "name": "Query"}], "name": "withinFamilyIBDQuery"}, {"doc":
+"", "type": ["null", "string"], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "comments",
         "possibleRelationship",
         "relationshipFromPedigree",
         "sampleId1",
@@ -1281,11 +1290,14 @@ class FamilyRelatednessCheck(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'possibleRelationship', 'relationshipFromPedigree',
-        'sampleId1', 'sampleId2', 'withinFamilyIBDQuery'
+        'comments', 'possibleRelationship',
+        'relationshipFromPedigree', 'sampleId1', 'sampleId2',
+        'withinFamilyIBDQuery'
     ]
 
     def __init__(self, **kwargs):
+        self.comments = kwargs.get(
+            'comments', None)
         self.possibleRelationship = kwargs.get(
             'possibleRelationship', None)
         self.relationshipFromPedigree = kwargs.get(
@@ -4641,7 +4653,7 @@ class IndividualMendelErrors(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "IndividualMendelErrors",
-"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": ["null",
+"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null",
 "double"], "name": "numberOfMendelErrors"}, {"doc": "", "type": ["null", "double"], "name":
 "rateOfMendelErrors"}]}
 """
@@ -4789,7 +4801,8 @@ class InsertSizeGel(ProtocolElement):
 
 class KaryotypicSex(object):
     """
-    Kariotypic sex
+    Kariotypic sex     TODO: Check if we want to have different
+    karyotype definitions for XO clearcut/doubtful
     """
     UNKNOWN = "UNKNOWN"
     XX = "XX"
@@ -4875,9 +4888,9 @@ class LocusMendelSummary(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "LocusMendelSummary",
-"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": "string", "name":
-"chr"}, {"doc": "", "type": "double", "name": "code"}, {"doc": "", "type": "double", "name":
-"numberOfErrors"}]}
+"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "chr"}, {"doc": "", "type": ["null", "double"], "name": "code"}, {"doc": "",
+"type": ["null", "double"], "name": "numberOfErrors"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -5005,19 +5018,19 @@ class MendelianInconsistencies(ProtocolElement):
 {"doc": "", "type": ["null", "string"], "name": "motherId"}, {"doc": "", "type": ["null", "double"],
 "name": "numberOfOffspring"}, {"doc": "", "type": ["null", "double"], "name":
 "numberOfMendelErrors"}]}, "type": "array"}], "name": "perFamilyMendelErrors"}, {"doc": "", "type":
-["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": ["null", "double"], "name": "numberOfMendelErrors"}, {"doc": "", "type": ["null", "double"],
-"name": "rateOfMendelErrors"}], "type": "record", "name": "IndividualMendelErrors"}, "type":
-"array"}], "name": "individualMendelErrors"}, {"doc": "", "type": ["null", {"fields": [{"doc": "",
-"type": ["null", "double"], "name": "familyMendelErrors"}, {"doc": "", "type": ["null", {"items":
-{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": ["null",
-"double"], "name": "totalnumberOfMendelErrors"}], "type": "record", "name":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc":
+"", "type": ["null", "double"], "name": "numberOfMendelErrors"}, {"doc": "", "type": ["null",
+"double"], "name": "rateOfMendelErrors"}], "type": "record", "name": "IndividualMendelErrors"},
+"type": "array"}], "name": "individualMendelErrors"}, {"doc": "", "type": ["null", {"fields":
+[{"doc": "", "type": ["null", "double"], "name": "familyMendelErrors"}, {"doc": "", "type": ["null",
+{"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "",
+"type": ["null", "double"], "name": "totalnumberOfMendelErrors"}], "type": "record", "name":
 "AggregatedIndividualMendelErrors"}, "type": "array"}], "name": "individualMendelErrors"}], "type":
 "record", "name": "TotalNumberOfMendelErrors"}], "name": "totalNumberOfMendelErrors"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": "string", "name": "chr"}, {"doc": "", "type": "double", "name": "code"}, {"doc": "",
-"type": "double", "name": "numberOfErrors"}], "type": "record", "name": "LocusMendelSummary"},
-"type": "array"}], "name": "locusMendelSummary"}]}
+"type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"},
+{"doc": "", "type": ["null", "string"], "name": "chr"}, {"doc": "", "type": ["null", "double"],
+"name": "code"}, {"doc": "", "type": ["null", "double"], "name": "numberOfErrors"}], "type":
+"record", "name": "LocusMendelSummary"}, "type": "array"}], "name": "locusMendelSummary"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -5070,10 +5083,10 @@ class MendelianInconsistenciesCheck(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name":
-"MendelianInconsistenciesCheck", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown"], "doc": "", "type": "enum",
-"name": "Query"}], "name": "mendelianInconsistenciesQuery"}, {"doc": "", "type": ["null", "string"],
-"name": "comments"}]}
+"MendelianInconsistenciesCheck", "fields": [{"doc": "", "type": ["null", "string"], "name":
+"sampleId"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown", "notTested"], "doc":
+"", "type": "enum", "name": "Query"}], "name": "mendelianInconsistenciesQuery"}, {"doc": "", "type":
+["null", "string"], "name": "comments"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -5739,6 +5752,7 @@ class Query(object):
     yes = "yes"
     no = "no"
     unknown = "unknown"
+    notTested = "notTested"
 
 
 class RDFamilyChange(ProtocolElement):
@@ -6006,21 +6020,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
 
 class RelatednessPair(ProtocolElement):
@@ -6029,10 +6036,10 @@ class RelatednessPair(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "RelatednessPair", "fields":
-[{"doc": "", "type": "string", "name": "sampleId1"}, {"doc": "", "type": "string", "name":
-"sampleId2"}, {"doc": "", "type": ["null", "double"], "name": "ibd0"}, {"doc": "", "type": ["null",
-"double"], "name": "ibd1"}, {"doc": "", "type": ["null", "double"], "name": "ibd2"}, {"doc": "",
-"type": ["null", "double"], "name": "piHat"}], "doc": ""}
+[{"doc": "", "type": ["null", "string"], "name": "sampleId1"}, {"doc": "", "type": ["null",
+"string"], "name": "sampleId2"}, {"doc": "", "type": ["null", "double"], "name": "ibd0"}, {"doc":
+"", "type": ["null", "double"], "name": "ibd1"}, {"doc": "", "type": ["null", "double"], "name":
+"ibd2"}, {"doc": "", "type": ["null", "double"], "name": "piHat"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6081,64 +6088,67 @@ class ReportedVsGeneticChecks(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "ReportedVsGeneticChecks",
-"fields": [{"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"ReportedVsGeneticSummary", "fields": [{"doc": "", "type": "string", "name": "rvsgCheckVersion"},
-{"doc": "", "type": "string", "name": "runDate"}, {"doc": "", "type": "string", "name":
-"pathToDirectory"}, {"doc": "", "type": ["null", "double"], "name": "numberOfMarkers"}, {"doc": "",
-"type": ["null", "double"], "name": "numberOfMarkersLE"}, {"doc": "", "type": "string", "name":
-"mendelErrorsTool"}, {"doc": "", "type": "string", "name": "mendelErrorsToolVersion"}, {"doc": "",
-"type": "string", "name": "relatednessTool"}, {"doc": "", "type": "string", "name":
-"relatednessToolVersion"}, {"doc": "", "type": {"items": {"fields": [{"doc": "", "type": "string",
-"name": "participantId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
-"string", "name": "deliveryId"}], "type": "record", "name": "SamplesInfo"}, "type": "array"},
-"name": "samplesInfo"}]}], "name": "reportedVsGeneticSummary"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "CoverageBasedSex", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "XX", "XY",
-"XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"KaryotypicSex"}], "name": "inferredKaryotype"}, {"doc": "", "type": ["null", "double"], "name":
-"ratioChrX"}, {"doc": "", "type": ["null", "double"], "name": "ratioChrY"}, {"doc": "", "type":
-["null", "double"], "name": "avgCnvChrX"}, {"doc": "", "type": ["null", "double"], "name":
-"avgCnvChrY"}]}, "type": "array"}], "name": "coverageBasedSex"}, {"doc": "", "type": ["null",
-{"fields": [{"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
-"PerFamilyMendelErrors", "fields": [{"doc": "", "type": ["null", "string"], "name": "fatherId"},
-{"doc": "", "type": ["null", "string"], "name": "motherId"}, {"doc": "", "type": ["null", "double"],
-"name": "numberOfOffspring"}, {"doc": "", "type": ["null", "double"], "name":
-"numberOfMendelErrors"}]}, "type": "array"}], "name": "perFamilyMendelErrors"}, {"doc": "", "type":
-["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "",
-"type": ["null", "double"], "name": "numberOfMendelErrors"}, {"doc": "", "type": ["null", "double"],
-"name": "rateOfMendelErrors"}], "type": "record", "name": "IndividualMendelErrors"}, "type":
-"array"}], "name": "individualMendelErrors"}, {"doc": "", "type": ["null", {"fields": [{"doc": "",
-"type": ["null", "double"], "name": "familyMendelErrors"}, {"doc": "", "type": ["null", {"items":
-{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": ["null",
-"double"], "name": "totalnumberOfMendelErrors"}], "type": "record", "name":
-"AggregatedIndividualMendelErrors"}, "type": "array"}], "name": "individualMendelErrors"}], "type":
-"record", "name": "TotalNumberOfMendelErrors"}], "name": "totalNumberOfMendelErrors"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": "string", "name": "chr"}, {"doc": "", "type": "double", "name": "code"}, {"doc": "",
-"type": "double", "name": "numberOfErrors"}], "type": "record", "name": "LocusMendelSummary"},
-"type": "array"}], "name": "locusMendelSummary"}], "type": "record", "name":
-"MendelianInconsistencies"}], "name": "mendelianInconsistencies"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
-"RelatednessPair", "fields": [{"doc": "", "type": "string", "name": "sampleId1"}, {"doc": "",
-"type": "string", "name": "sampleId2"}, {"doc": "", "type": ["null", "double"], "name": "ibd0"},
-{"doc": "", "type": ["null", "double"], "name": "ibd1"}, {"doc": "", "type": ["null", "double"],
-"name": "ibd2"}, {"doc": "", "type": ["null", "double"], "name": "piHat"}]}, "type": "array"}],
-"name": "relatedness"}], "type": "record", "name": "FamilyRelatedness"}, "type": "array"}], "name":
-"familyRelatedness"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"Evaluation", "fields": [{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "MALE",
-"FEMALE", "OTHER"], "doc": "", "type": "enum", "name": "Sex"}], "name": "reportedPhenotypicSex"},
-{"doc": "", "type": ["null", "KaryotypicSex"], "name": "reportedKaryotypicSex"}, {"doc": "", "type":
-["null", "KaryotypicSex"], "name": "inferredSexKaryotype"}, {"doc": "", "type": ["null", {"symbols":
-["yes", "no", "unknown"], "doc": "", "type": "enum", "name": "Query"}], "name": "sexQuery"}],
-"type": "record", "name": "CoverageBasedSexCheck"}, "type": "array"}], "name":
-"coverageBasedSexCheck"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": ["null", "Query"], "name":
-"mendelianInconsistenciesQuery"}, {"doc": "", "type": ["null", "string"], "name": "comments"}],
-"type": "record", "name": "MendelianInconsistenciesCheck"}, "type": "array"}], "name":
-"mendelianInconsistenciesCheck"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
-"type": "string", "name": "sampleId1"}, {"doc": "", "type": "string", "name": "sampleId2"}, {"doc":
-"", "type": ["null", {"symbols": ["TwinsMonozygous", "TwinsDizygous", "TwinsUnknown", "FullSibling",
+"fields": [{"doc": "", "type": ["null", {"fields": [{"doc": "", "type": "string", "name":
+"rvsgCheckVersion"}, {"doc": "", "type": "string", "name": "runDate"}, {"doc": "", "type": ["null",
+{"symbols": ["GRCh37", "GRCh38"], "doc": "", "type": "enum", "name": "SupportedAssembly"}], "name":
+"genomeAssembly"}, {"doc": "", "type": "string", "name": "pathToDirectory"}, {"doc": "", "type":
+["null", "double"], "name": "numberOfMarkers"}, {"doc": "", "type": ["null", "double"], "name":
+"numberOfMarkersLE"}, {"doc": "", "type": "string", "name": "mendelErrorsTool"}, {"doc": "", "type":
+"string", "name": "mendelErrorsToolVersion"}, {"doc": "", "type": "string", "name":
+"relatednessTool"}, {"doc": "", "type": "string", "name": "relatednessToolVersion"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "SamplesInfo", "fields": [{"doc": "",
+"type": "string", "name": "participantId"}, {"doc": "", "type": "string", "name": "sampleId"},
+{"doc": "", "type": "string", "name": "deliveryId"}]}, "type": "array"}, "name": "samplesInfo"}],
+"type": "record", "name": "ReportedVsGeneticSummary"}], "name": "reportedVsGeneticSummary"}, {"doc":
+"", "type": ["null", {"items": {"doc": "", "type": "record", "name": "CoverageBasedSex", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
+"doc": "", "type": "enum", "name": "KaryotypicSex"}], "name": "inferredKaryotype"}, {"doc": "",
+"type": ["null", "double"], "name": "ratioChrX"}, {"doc": "", "type": ["null", "double"], "name":
+"ratioChrY"}, {"doc": "", "type": ["null", "double"], "name": "avgCnvChrX"}, {"doc": "", "type":
+["null", "double"], "name": "avgCnvChrY"}]}, "type": "array"}], "name": "coverageBasedSex"}, {"doc":
+"", "type": ["null", {"fields": [{"doc": "", "type": ["null", {"items": {"doc": "", "type":
+"record", "name": "PerFamilyMendelErrors", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "fatherId"}, {"doc": "", "type": ["null", "string"], "name": "motherId"}, {"doc": "",
+"type": ["null", "double"], "name": "numberOfOffspring"}, {"doc": "", "type": ["null", "double"],
+"name": "numberOfMendelErrors"}]}, "type": "array"}], "name": "perFamilyMendelErrors"}, {"doc": "",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"},
+{"doc": "", "type": ["null", "double"], "name": "numberOfMendelErrors"}, {"doc": "", "type":
+["null", "double"], "name": "rateOfMendelErrors"}], "type": "record", "name":
+"IndividualMendelErrors"}, "type": "array"}], "name": "individualMendelErrors"}, {"doc": "", "type":
+["null", {"fields": [{"doc": "", "type": ["null", "double"], "name": "familyMendelErrors"}, {"doc":
+"", "type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name":
+"sampleId"}, {"doc": "", "type": ["null", "double"], "name": "totalnumberOfMendelErrors"}], "type":
+"record", "name": "AggregatedIndividualMendelErrors"}, "type": "array"}], "name":
+"individualMendelErrors"}], "type": "record", "name": "TotalNumberOfMendelErrors"}], "name":
+"totalNumberOfMendelErrors"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null", "string"], "name": "chr"},
+{"doc": "", "type": ["null", "double"], "name": "code"}, {"doc": "", "type": ["null", "double"],
+"name": "numberOfErrors"}], "type": "record", "name": "LocusMendelSummary"}, "type": "array"}],
+"name": "locusMendelSummary"}], "type": "record", "name": "MendelianInconsistencies"}], "name":
+"mendelianInconsistencies"}, {"doc": "", "type": ["null", {"fields": [{"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name": "RelatednessPair", "fields": [{"doc": "", "type":
+["null", "string"], "name": "sampleId1"}, {"doc": "", "type": ["null", "string"], "name":
+"sampleId2"}, {"doc": "", "type": ["null", "double"], "name": "ibd0"}, {"doc": "", "type": ["null",
+"double"], "name": "ibd1"}, {"doc": "", "type": ["null", "double"], "name": "ibd2"}, {"doc": "",
+"type": ["null", "double"], "name": "piHat"}]}, "type": "array"}], "name": "relatedness"}], "type":
+"record", "name": "FamilyRelatedness"}], "name": "familyRelatedness"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "Evaluation", "fields": [{"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name": "CoverageBasedSexCheck", "fields": [{"doc": "",
+"type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type": ["null", {"symbols":
+["UNKNOWN", "MALE", "FEMALE", "OTHER"], "doc": "", "type": "enum", "name": "Sex"}], "name":
+"reportedPhenotypicSex"}, {"doc": "", "type": ["null", "KaryotypicSex"], "name":
+"reportedKaryotypicSex"}, {"doc": "", "type": ["null", "KaryotypicSex"], "name":
+"inferredSexKaryotype"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown",
+"notTested"], "doc": "", "type": "enum", "name": "Query"}], "name": "sexQuery"}, {"doc": "", "type":
+["null", "string"], "name": "comments"}]}, "type": "array"}], "name": "coverageBasedSexCheck"},
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name":
+"sampleId"}, {"doc": "", "type": ["null", "Query"], "name": "mendelianInconsistenciesQuery"},
+{"doc": "", "type": ["null", "string"], "name": "comments"}], "type": "record", "name":
+"MendelianInconsistenciesCheck"}, "type": "array"}], "name": "mendelianInconsistenciesCheck"},
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name":
+"sampleId1"}, {"doc": "", "type": ["null", "string"], "name": "sampleId2"}, {"doc": "", "type":
+["null", {"symbols": ["TwinsMonozygous", "TwinsDizygous", "TwinsUnknown", "FullSibling",
 "FullSiblingF", "FullSiblingM", "Mother", "Father", "Son", "Daughter", "ChildOfUnknownSex",
 "MaternalAunt", "MaternalUncle", "MaternalUncleOrAunt", "PaternalAunt", "PaternalUncle",
 "PaternalUncleOrAunt", "MaternalGrandmother", "PaternalGrandmother", "MaternalGrandfather",
@@ -6147,11 +6157,11 @@ class ReportedVsGeneticChecks(ProtocolElement):
 "Unknown"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
 "FamiliarRelationship", "doc": ""}], "name": "relationshipFromPedigree"}, {"doc": "", "type":
 ["null", "string"], "name": "possibleRelationship"}, {"doc": "", "type": ["null", "Query"], "name":
-"withinFamilyIBDQuery"}], "type": "record", "name": "FamilyRelatednessCheck"}, "type": "array"}],
-"name": "familyRelatednessCheck"}, {"doc": "", "type": ["null", {"symbols":
-["familyPassesGvsRChecks", "familyFailsACheck", "familyMissingACheck"], "doc": "", "type": "enum",
-"name": "reportedVsGeneticSummary"}], "name": "reportedVsGeneticSummary"}]}], "name":
-"evaluation"}], "doc": ""}
+"withinFamilyIBDQuery"}, {"doc": "", "type": ["null", "string"], "name": "comments"}], "type":
+"record", "name": "FamilyRelatednessCheck"}, "type": "array"}], "name": "familyRelatednessCheck"},
+{"doc": "", "type": ["null", {"symbols": ["familyPassesGvsRChecks", "familyFailsACheck",
+"familyMissingACheck"], "doc": "", "type": "enum", "name": "reportedVsGeneticSummary"}], "name":
+"reportedVsGeneticSummary"}]}], "name": "evaluation"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6205,24 +6215,25 @@ class ReportedVsGeneticChecks(ProtocolElement):
 
 class ReportedVsGeneticSummary(ProtocolElement):
     """
-    ReportedVsGeneticSummary
-    ========================================     General information
-    about the checks, versions, tools, and number of markers
+    No documentation
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "ReportedVsGeneticSummary",
 "fields": [{"doc": "", "type": "string", "name": "rvsgCheckVersion"}, {"doc": "", "type": "string",
-"name": "runDate"}, {"doc": "", "type": "string", "name": "pathToDirectory"}, {"doc": "", "type":
-["null", "double"], "name": "numberOfMarkers"}, {"doc": "", "type": ["null", "double"], "name":
-"numberOfMarkersLE"}, {"doc": "", "type": "string", "name": "mendelErrorsTool"}, {"doc": "", "type":
-"string", "name": "mendelErrorsToolVersion"}, {"doc": "", "type": "string", "name":
-"relatednessTool"}, {"doc": "", "type": "string", "name": "relatednessToolVersion"}, {"doc": "",
-"type": {"items": {"fields": [{"doc": "", "type": "string", "name": "participantId"}, {"doc": "",
-"type": "string", "name": "sampleId"}, {"doc": "", "type": "string", "name": "deliveryId"}], "type":
-"record", "name": "SamplesInfo"}, "type": "array"}, "name": "samplesInfo"}], "doc": ""}
+"name": "runDate"}, {"doc": "", "type": ["null", {"symbols": ["GRCh37", "GRCh38"], "doc": "",
+"type": "enum", "name": "SupportedAssembly"}], "name": "genomeAssembly"}, {"doc": "", "type":
+"string", "name": "pathToDirectory"}, {"doc": "", "type": ["null", "double"], "name":
+"numberOfMarkers"}, {"doc": "", "type": ["null", "double"], "name": "numberOfMarkersLE"}, {"doc":
+"", "type": "string", "name": "mendelErrorsTool"}, {"doc": "", "type": "string", "name":
+"mendelErrorsToolVersion"}, {"doc": "", "type": "string", "name": "relatednessTool"}, {"doc": "",
+"type": "string", "name": "relatednessToolVersion"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "SamplesInfo", "fields": [{"doc": "", "type": "string", "name":
+"participantId"}, {"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "deliveryId"}]}, "type": "array"}, "name": "samplesInfo"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "genomeAssembly",
         "mendelErrorsTool",
         "mendelErrorsToolVersion",
         "numberOfMarkers",
@@ -6251,13 +6262,16 @@ class ReportedVsGeneticSummary(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'mendelErrorsTool', 'mendelErrorsToolVersion',
-        'numberOfMarkers', 'numberOfMarkersLE', 'pathToDirectory',
-        'relatednessTool', 'relatednessToolVersion', 'runDate',
-        'rvsgCheckVersion', 'samplesInfo'
+        'genomeAssembly', 'mendelErrorsTool',
+        'mendelErrorsToolVersion', 'numberOfMarkers',
+        'numberOfMarkersLE', 'pathToDirectory', 'relatednessTool',
+        'relatednessToolVersion', 'runDate', 'rvsgCheckVersion',
+        'samplesInfo'
     ]
 
     def __init__(self, **kwargs):
+        self.genomeAssembly = kwargs.get(
+            'genomeAssembly', None)
         self.mendelErrorsTool = kwargs.get(
             'mendelErrorsTool', None)
         self.mendelErrorsToolVersion = kwargs.get(
@@ -6348,12 +6362,14 @@ class SampleSource(object):
 
 class SamplesInfo(ProtocolElement):
     """
-    No documentation
+    ReportedVsGeneticSummary
+    ========================================     General information
+    about the checks, versions, tools, and number of markers
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "SamplesInfo", "fields":
 [{"doc": "", "type": "string", "name": "participantId"}, {"doc": "", "type": "string", "name":
-"sampleId"}, {"doc": "", "type": "string", "name": "deliveryId"}]}
+"sampleId"}, {"doc": "", "type": "string", "name": "deliveryId"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6706,19 +6722,14 @@ class SpatialPattern(object):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    No documentation
     """
     ready = "ready"
-    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
 
 class Step(ProtocolElement):
@@ -6834,6 +6845,14 @@ class SupplementaryAnalysisResults(ProtocolElement):
             'sNVAlleleFrequencyHistogramCounts', None)
 
 
+class SupportedAssembly(object):
+    """
+    Supported assemblies
+    """
+    GRCh37 = "GRCh37"
+    GRCh38 = "GRCh38"
+
+
 class TernaryOption(object):
     """
     This defines a yes/no/unknown case
@@ -6869,9 +6888,9 @@ class TotalNumberOfMendelErrors(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "TotalNumberOfMendelErrors",
 "fields": [{"doc": "", "type": ["null", "double"], "name": "familyMendelErrors"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc":
-"", "type": ["null", "double"], "name": "totalnumberOfMendelErrors"}], "type": "record", "name":
-"AggregatedIndividualMendelErrors"}, "type": "array"}], "name": "individualMendelErrors"}]}
+"type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "sampleId"},
+{"doc": "", "type": ["null", "double"], "name": "totalnumberOfMendelErrors"}], "type": "record",
+"name": "AggregatedIndividualMendelErrors"}, "type": "array"}], "name": "individualMendelErrors"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
