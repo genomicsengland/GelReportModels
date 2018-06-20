@@ -6367,6 +6367,87 @@ class SampleSource(object):
     TISSUE = "TISSUE"
 
 
+class SampleState(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "SampleState", "fields":
+[{"type": ["null", {"symbols": ["ready", "warning", "pending", "hold", "fail", "caution"], "doc":
+"", "type": "enum", "name": "State"}], "name": "state"}, {"type": {"items": {"symbols":
+["median_coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors", "pedigree_ibd_sharing",
+"contamination", "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip",
+"arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other"], "type": "enum", "name": "Reason"},
+"type": "array"}, "name": "reasons"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "reasons",
+        "state",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'reasons', 'state'
+    ]
+
+    def __init__(self, **kwargs):
+        self.reasons = kwargs.get(
+            'reasons', None)
+        self.state = kwargs.get(
+            'state', None)
+
+
+class SampleTests(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "SampleTests", "fields":
+[{"type": ["null", "boolean"], "name": "verifyBamId"}, {"type": ["null", "boolean"], "name":
+"arrayConcordance"}, {"type": ["null", "boolean"], "name": "contamination"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "arrayConcordance",
+        "contamination",
+        "verifyBamId",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'arrayConcordance', 'contamination', 'verifyBamId'
+    ]
+
+    def __init__(self, **kwargs):
+        self.arrayConcordance = kwargs.get(
+            'arrayConcordance', None)
+        self.contamination = kwargs.get(
+            'contamination', None)
+        self.verifyBamId = kwargs.get(
+            'verifyBamId', None)
+
+
 class SamplesInfo(ProtocolElement):
     """
     ReportedVsGeneticSummary
@@ -6731,10 +6812,11 @@ class State(object):
     """
     This is the master state for this sample, for example
     caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    individual has quality issues.  * ready: sample is ready to be
+    used * pending: sample is in the process of being analysed * hold:
+    sample is on hold pending investigation * fail: sample has failed
+    a QC check * caution: sample is ready but should be used with
+    caution
     """
     ready = "ready"
     warning = "warning"
@@ -7550,84 +7632,3 @@ class reportedVsGeneticSummary(object):
     familyPassesGvsRChecks = "familyPassesGvsRChecks"
     familyFailsACheck = "familyFailsACheck"
     familyMissingACheck = "familyMissingACheck"
-
-
-class sampleState(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "org.gel.models.report.avro", "type": "record", "name": "sampleState", "fields":
-[{"type": ["null", {"symbols": ["ready", "warning", "pending", "hold", "fail", "caution"], "doc":
-"", "type": "enum", "name": "State"}], "name": "state"}, {"type": {"items": {"symbols":
-["median_coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors", "pedigree_ibd_sharing",
-"contamination", "quality", "sex_query", "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip",
-"arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other"], "type": "enum", "name": "Reason"},
-"type": "array"}, "name": "reason"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "reason",
-        "state",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'reason', 'state'
-    ]
-
-    def __init__(self, **kwargs):
-        self.reason = kwargs.get(
-            'reason', None)
-        self.state = kwargs.get(
-            'state', None)
-
-
-class sampleTests(ProtocolElement):
-    """
-    No documentation
-    """
-    _schemaSource = """
-{"namespace": "org.gel.models.report.avro", "type": "record", "name": "sampleTests", "fields":
-[{"type": ["null", "boolean"], "name": "verifybamid"}, {"type": ["null", "boolean"], "name":
-"arrayconcordance"}, {"type": ["null", "boolean"], "name": "contamination"}]}
-"""
-    schema = avro.schema.parse(_schemaSource)
-    requiredFields = {
-        "arrayconcordance",
-        "contamination",
-        "verifybamid",
-    }
-
-    @classmethod
-    def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-        return fieldName in embeddedTypes
-
-    @classmethod
-    def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {}
-
-        return embeddedTypes[fieldName]
-
-    __slots__ = [
-        'arrayconcordance', 'contamination', 'verifybamid'
-    ]
-
-    def __init__(self, **kwargs):
-        self.arrayconcordance = kwargs.get(
-            'arrayconcordance', None)
-        self.contamination = kwargs.get(
-            'contamination', None)
-        self.verifybamid = kwargs.get(
-            'verifybamid', None)
