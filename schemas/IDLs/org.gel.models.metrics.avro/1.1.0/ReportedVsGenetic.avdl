@@ -7,27 +7,41 @@ protocol ReportedVsGenetic {
     import idl "CommonParticipant.avdl";
 
     /**
-    Sex
-    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
+    Definitions
+    ========================================
+    */
+    /**
+    Phenotypic sex
     */
     enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
 
     /**
     Kariotypic sex
+    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
     */
     enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
     /**
     A query
     */
-    enum Query {yes, no, unknown}
+    enum Query {yes, no, unknown, notTested}
 
     /**
     Reported vs Genetic Summary
     */
     enum reportedVsGeneticSummary {familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck}
 
+    /**
+    Supported assemblies
+    */
+    enum SupportedAssembly {GRCh37, GRCh38}
 
+
+    /**
+    ReportedVsGeneticSummary
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    */
     record SamplesInfo {
         /**
         Participant Id: This code should be unique per patient and independent of the sample
@@ -43,11 +57,6 @@ protocol ReportedVsGenetic {
         string deliveryId;
     }
 
-    /**
-    ReportedVsGeneticSummary
-    ========================================
-    General information about the checks, versions, tools, and number of markers
-    */
     record ReportedVsGeneticSummary {
         /**
         Reported vs Genetic checks version. This version should point to specific versions of the RvsG script,
@@ -58,6 +67,10 @@ protocol ReportedVsGenetic {
         In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         string runDate;
+        /**
+        Genome assembly
+        */
+        union {null, SupportedAssembly} genomeAssembly;
         /**
         Path to the directory containing the checks for this family
         */
@@ -103,7 +116,7 @@ protocol ReportedVsGenetic {
         /**
         Sample Id (e.g, LP00012645_5GH))
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
         Inferred karyotype using coverage information
         */
@@ -155,7 +168,7 @@ protocol ReportedVsGenetic {
         /**
         Sample Id
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
         Number of Mendelian errors per sample in a nuclear family
         */
@@ -170,7 +183,7 @@ protocol ReportedVsGenetic {
         /**
         Sample Id
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
         Total number of Mendelian errors per sample considering all nuclear families
         */
@@ -194,19 +207,19 @@ protocol ReportedVsGenetic {
         /**
         Sample Id
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
         Chromosome (1-22, X, Y, XY)
         */
-        string chr;
+        union {null, string} chr;
         /**
         Numeric error code (more information here: http://zzz.bwh.harvard.edu/plink/summary.shtml#mendel)
         */
-        double code;
+        union {null, double} code;
         /**
         Number of errors of the type "code" in that chromosome
         */
-        double numberOfErrors;
+        union {null, double} numberOfErrors;
     }
 
     record MendelianInconsistencies {
@@ -236,11 +249,11 @@ protocol ReportedVsGenetic {
         /**
         Sample Id of one of the samples in the pair
         */
-        string sampleId1;
+        union {null, string} sampleId1;
         /**
         Sample Id of the other sample in the pair
         */
-        string sampleId2;
+        union {null, string} sampleId2;
         /**
         Estimated proportion of autosome with 0 alleles shared
         */
@@ -261,16 +274,19 @@ protocol ReportedVsGenetic {
 
     record FamilyRelatedness {
         /**
-        Pairwise relatedness within the fmaily. One entry per pair of samples
+        Pairwise relatedness within the family. One entry per pair of samples
         */
         union {null, array<RelatednessPair>} relatedness;
     }
 
+    /** Evaluation
+    ========================================
+    */
     record CoverageBasedSexCheck {
         /**
         Sample Id
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
         Reported phenotypic sex
         */
@@ -284,18 +300,22 @@ protocol ReportedVsGenetic {
         */
         union {null, KaryotypicSex} inferredSexKaryotype;
         /**
-        Whether the sample is a sex query (yes, no, unknown)
+        Whether the sample is a sex query (yes, no, unknown, notTested)
         */
         union {null, Query} sexQuery;
+        /**
+        Comments
+        */
+        union {null, string} comments;
     }
 
     record MendelianInconsistenciesCheck {
         /**
         Sample Id
         */
-        string sampleId;
+        union {null, string} sampleId;
         /**
-        Whether the sample is a Mendelian inconsistencies query (yes, no, unknown)
+        Whether the sample is a Mendelian inconsistencies query (yes, no, unknown, notTested)
         */
         union {null, Query} mendelianInconsistenciesQuery;
         /**
@@ -309,11 +329,11 @@ protocol ReportedVsGenetic {
         /**
         Sample Id of one of the samples in the pair
         */
-        string sampleId1;
+        union {null, string} sampleId1;
         /**
         Sample Id of the other sample in the pair
         */
-        string sampleId2;
+        union {null, string} sampleId2;
         /**
         Reported relationship from sampleId1 to sampleId2 according to the pedigree provided
         */
@@ -323,9 +343,13 @@ protocol ReportedVsGenetic {
         */
         union {null, string} possibleRelationship;
         /**
-        Whether the pair of samples are a within-family query (yes, no, unknown)
+        Whether the pair of samples are a within-family query (yes, no, unknown, notTested)
         */
         union {null, Query} withinFamilyIBDQuery;
+        /**
+        Comments
+        */
+        union {null, string} comments;
     }
 
     /** Evaluation
@@ -370,7 +394,7 @@ protocol ReportedVsGenetic {
         /**
         Within-family relatedness
         */
-        union {null, array<FamilyRelatedness>} familyRelatedness;
+        union {null, FamilyRelatedness} familyRelatedness;
         /**
         Evaluation of the reported vs genetic information
         */
