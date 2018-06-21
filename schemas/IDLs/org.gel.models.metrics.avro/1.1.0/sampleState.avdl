@@ -1,32 +1,53 @@
-@namespace("org.gel.models.metrics.avro")
+@namespace("org.gel.models.report.avro")
 /**
 This protocol defines the states a sample can inherit
 */
 protocol SampleState {
 
 /**
-This is the master state for this sample, for example caution,quality could be used to say that a sample under this
+This is the master state for this sample, for example failed,quality could be used to say that a sample under this
 individual has quality issues.
 
-* ready: sample is ready to be used
-* pending: sample is in the process of being analysed
-* hold: sample is on hold pending investigation
-* fail: sample has failed a QC check
-* caution: sample is ready but should be used with caution
+ready: sample is ready to be used
+pending: sample is in the process of being analysed
+blocked: sample is on hold pending investigation
+failed: sample has failed a QC check
+not_sequenced: sample is not sequenced
+
+
 */
-enum State {ready,warning,pending,hold,fail,caution}
-
-enum Reason {median_coverage,in_analysis,duplicate,pedigree_mendelian_errors,pedigree_ibd_sharing,contamination,quality,sex_query,perc_bases_ge_15x_mapQ_ge11,GbQ30NoDupsNoClip,arrayconcordance,high_cnv,in_qc,pass_qc,other}
-
-record SampleState {
-    union {null, State} state ;
-    array<Reason> reasons;
+enum State {
+    ready,
+    warning,
+    pending,
+    blocked,
+    failed,
+    not_sequenced
+}
+enum StateReason {
+    median_coverage,
+    in_analysis,
+    duplicate,
+    pedigree_mendelian_errors,
+    pedigree_ibd_sharing,
+    contamination,quality,
+    sex_query,
+    perc_bases_ge_15x,
+    gb_q30,
+    array_concordance,
+    high_cnv,
+    in_qc,
+    pass_qc,
+    other
 }
 
-record SampleTests {
-    union {null, boolean} verifyBamId;
-    union {null, boolean} arrayConcordance;
-    union {null, boolean} contamination;
+record SampleState {
+
+    union {null, State} state ;
+    union {null, array <StateReason>} reason;
+    union {null, array <string>} otherReasons;
+    union {null, array <string>} issueIdentifier;
+
 }
 
 }
