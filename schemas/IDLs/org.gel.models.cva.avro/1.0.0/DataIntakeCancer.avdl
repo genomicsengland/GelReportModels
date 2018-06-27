@@ -29,6 +29,7 @@ protocol DataIntakeCancerProtocol {
     import idl "InterpretedGenomesCancer.avdl";
     import idl "ClinicalReportCancer.avdl";
     import idl "ExitQuestionnaire.avdl";
+    import idl "CancerParticipant.avdl";
 
    /**
    Record for tiered variant injection as part of the data intake for CVA
@@ -286,5 +287,28 @@ protocol DataIntakeCancerProtocol {
         SV/CNV, mutational signatures, mutational burden
         */
         union {null, string} otherActionableVariants;
+    }
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record ParticipantInjectCancer {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the entity containing this reported variant.
+        */
+        string id;
+        /**
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
+        */
+        int version;
+        /**
+        Rare disease pedigree
+        */
+        org.gel.models.participant.avro.CancerParticipant participant;
     }
 }

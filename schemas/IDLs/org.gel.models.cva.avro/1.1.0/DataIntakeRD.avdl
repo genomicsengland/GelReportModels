@@ -29,6 +29,7 @@ protocol DataIntakeRDProtocol {
     import idl "InterpretedGenomesRD.avdl";
     import idl "ClinicalReportRD.avdl";
     import idl "ExitQuestionnaire.avdl";
+    import idl "RDParticipant.avdl";
 
     /**
     Record for tiered variant injection as part of the data intake for CVA
@@ -251,5 +252,28 @@ protocol DataIntakeRDProtocol {
         Exit questionnaire, having reliable variant coordinates
         */
         ExitQuestionnaireRD exitQuestionnaireRd;
+    }
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record PedigreeInjectRD {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the entity containing this reported variant.
+        */
+        string id;
+        /**
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
+        */
+        int version;
+        /**
+        Rare disease pedigree
+        */
+        org.gel.models.participant.avro.Pedigree pedigree;
     }
 }
