@@ -11449,17 +11449,18 @@ class Transaction(ProtocolElement):
 "", "type": {"symbols": ["PENDING", "BLOCKED", "PROCESSING", "PERSISTING", "DONE", "CANCELLING",
 "CANCELLED", "ERROR", "ROLLBACK_ERROR", "DELETED"], "doc": "", "type": "enum", "name":
 "TransactionStatus"}, "name": "status"}, {"doc": "", "type": ["null", "bytes"], "name":
-"compressedReportEvents"}, {"doc": "", "type": "string", "name": "requestSignature"}, {"doc": "",
-"type": {"values": "string", "type": "map"}, "name": "options"}, {"doc": "", "type": ["null",
-"int"], "name": "processingMilli"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"compressedData"}, {"doc": "", "type": "string", "name": "requestSignature"}, {"doc": "", "type":
+{"values": "string", "type": "map"}, "name": "options"}, {"doc": "", "type": ["null", "int"],
+"name": "processingMilli"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
 "TransactionDetails", "fields": [{"doc": "", "type": "string", "name": "type"}, {"doc": "", "type":
-"int", "name": "numberOfReportedVariants"}, {"doc": "", "type": "string", "name":
-"reportModelVersion"}, {"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": "int",
-"name": "version"}, {"doc": "", "type": "string", "name": "groupId"}, {"doc": "", "type": "string",
-"name": "cohortId"}, {"doc": "", "type": "string", "name": "author"}, {"doc": "", "type": ["null",
-"string"], "name": "authorVersion"}, {"doc": "", "type": {"items": "string", "type": "array"},
-"name": "workspace"}, {"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "namespace":
-"org.gel.models.report.avro", "type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"},
+"int", "name": "numberOfElements"}, {"doc": "", "type": "string", "name": "reportModelVersion"},
+{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": "int", "name": "version"}, {"doc":
+"", "type": "string", "name": "parentId"}, {"doc": "", "type": "int", "name": "parentVersion"},
+{"doc": "", "type": "string", "name": "groupId"}, {"doc": "", "type": "string", "name": "cohortId"},
+{"doc": "", "type": "string", "name": "author"}, {"doc": "", "type": ["null", "string"], "name":
+"authorVersion"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"},
+{"doc": "", "type": ["null", {"symbols": ["GRCh38", "GRCh37"], "namespace":
+"org.gel.models.report.avro", "type": "enum", "name": "Assembly", "doc": ""}], "name": "assembly"},
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "TransactionStatusChange",
 "fields": [{"doc": "", "type": "TransactionStatus", "name": "to"}, {"doc": "", "type": "string",
 "name": "timestamp"}, {"doc": "", "type": ["null", "string"], "name": "message"}, {"doc": "",
@@ -11475,7 +11476,7 @@ class Transaction(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "compressedReportEvents",
+        "compressedData",
         "id",
         "lastModified",
         "options",
@@ -11504,14 +11505,14 @@ class Transaction(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'compressedReportEvents', 'id', 'lastModified', 'options',
+        'compressedData', 'id', 'lastModified', 'options',
         'processingMilli', 'requestDetails', 'requestSignature',
         'status', 'transactionDetails'
     ]
 
     def __init__(self, **kwargs):
-        self.compressedReportEvents = kwargs.get(
-            'compressedReportEvents', None)
+        self.compressedData = kwargs.get(
+            'compressedData', None)
         self.id = kwargs.get(
             'id', None)
         self.lastModified = kwargs.get(
@@ -11537,20 +11538,22 @@ class TransactionDetails(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.cva.avro", "type": "record", "name": "TransactionDetails", "fields":
 [{"doc": "", "type": "string", "name": "type"}, {"doc": "", "type": "int", "name":
-"numberOfReportedVariants"}, {"doc": "", "type": "string", "name": "reportModelVersion"}, {"doc":
-"", "type": "string", "name": "id"}, {"doc": "", "type": "int", "name": "version"}, {"doc": "",
+"numberOfElements"}, {"doc": "", "type": "string", "name": "reportModelVersion"}, {"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "int", "name": "version"}, {"doc": "", "type":
+"string", "name": "parentId"}, {"doc": "", "type": "int", "name": "parentVersion"}, {"doc": "",
 "type": "string", "name": "groupId"}, {"doc": "", "type": "string", "name": "cohortId"}, {"doc": "",
 "type": "string", "name": "author"}, {"doc": "", "type": ["null", "string"], "name":
 "authorVersion"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"},
-{"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "namespace": "org.gel.models.report.avro",
-"type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "TransactionStatusChange", "fields": [{"doc": "", "type":
-{"symbols": ["PENDING", "BLOCKED", "PROCESSING", "PERSISTING", "DONE", "CANCELLING", "CANCELLED",
-"ERROR", "ROLLBACK_ERROR", "DELETED"], "doc": "", "type": "enum", "name": "TransactionStatus"},
-"name": "to"}, {"doc": "", "type": "string", "name": "timestamp"}, {"doc": "", "type": ["null",
-"string"], "name": "message"}, {"doc": "", "type": ["null", "string"], "name": "errorMessage"},
-{"doc": "", "type": ["null", "string"], "name": "stackTrace"}, {"doc": "", "type": ["null",
-"string"], "name": "cvaVersion"}]}, "type": "array"}, "name": "history"}], "doc": ""}
+{"doc": "", "type": ["null", {"symbols": ["GRCh38", "GRCh37"], "namespace":
+"org.gel.models.report.avro", "type": "enum", "name": "Assembly", "doc": ""}], "name": "assembly"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "TransactionStatusChange",
+"fields": [{"doc": "", "type": {"symbols": ["PENDING", "BLOCKED", "PROCESSING", "PERSISTING",
+"DONE", "CANCELLING", "CANCELLED", "ERROR", "ROLLBACK_ERROR", "DELETED"], "doc": "", "type": "enum",
+"name": "TransactionStatus"}, "name": "to"}, {"doc": "", "type": "string", "name": "timestamp"},
+{"doc": "", "type": ["null", "string"], "name": "message"}, {"doc": "", "type": ["null", "string"],
+"name": "errorMessage"}, {"doc": "", "type": ["null", "string"], "name": "stackTrace"}, {"doc": "",
+"type": ["null", "string"], "name": "cvaVersion"}]}, "type": "array"}, "name": "history"}], "doc":
+""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -11561,7 +11564,9 @@ class TransactionDetails(ProtocolElement):
         "groupId",
         "history",
         "id",
-        "numberOfReportedVariants",
+        "numberOfElements",
+        "parentId",
+        "parentVersion",
         "reportModelVersion",
         "type",
         "version",
@@ -11585,8 +11590,9 @@ class TransactionDetails(ProtocolElement):
 
     __slots__ = [
         'assembly', 'author', 'authorVersion', 'cohortId', 'groupId',
-        'history', 'id', 'numberOfReportedVariants',
-        'reportModelVersion', 'type', 'version', 'workspace'
+        'history', 'id', 'numberOfElements', 'parentId',
+        'parentVersion', 'reportModelVersion', 'type', 'version',
+        'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -11604,8 +11610,12 @@ class TransactionDetails(ProtocolElement):
             'history', None)
         self.id = kwargs.get(
             'id', None)
-        self.numberOfReportedVariants = kwargs.get(
-            'numberOfReportedVariants', None)
+        self.numberOfElements = kwargs.get(
+            'numberOfElements', None)
+        self.parentId = kwargs.get(
+            'parentId', None)
+        self.parentVersion = kwargs.get(
+            'parentVersion', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', None)
         self.type = kwargs.get(
