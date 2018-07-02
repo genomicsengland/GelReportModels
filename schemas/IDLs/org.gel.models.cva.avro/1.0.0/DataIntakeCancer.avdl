@@ -73,7 +73,7 @@ protocol DataIntakeCancerProtocol {
         */
         org.gel.models.report.avro.Assembly assembly;
         /**
-        Rare disease Interpreted Genome
+        Cancer Interpreted Genome
         */
         org.gel.models.report.avro.CancerInterpretedGenome interpretedGenome;
     }
@@ -128,7 +128,7 @@ protocol DataIntakeCancerProtocol {
         */
         org.gel.models.report.avro.Assembly assembly;
         /**
-        Rare disease Interpreted Genome
+        Cancer Interpreted Genome
         */
         org.gel.models.report.avro.CancerInterpretedGenome interpretedGenome;
     }
@@ -307,7 +307,7 @@ protocol DataIntakeCancerProtocol {
         */
         int version;
         /**
-        Rare disease pedigree
+        The information on the cancer participant
         */
         org.gel.models.participant.avro.CancerParticipant participant;
     }
