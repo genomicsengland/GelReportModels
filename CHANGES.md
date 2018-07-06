@@ -1,3 +1,17 @@
+Version 7.0.4 (2nd July 2018)
+--------------------------------
+
+#### Major changes
+
+* CVA data intake models for pedigrees and cancer participant
+
+Version 7.0.3
+--------------------------------
+
+#### Major changes
+
+* Reported versus genetic models release
+
 Version 7.0.2 (11th June 2018)
 --------------------------------
 

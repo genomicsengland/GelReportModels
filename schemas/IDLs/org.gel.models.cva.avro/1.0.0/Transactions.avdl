@@ -74,9 +74,9 @@ protocol TransactionProtocol {
         */
         string type;
         /**
-        The number of reported variants contained in the transaction
+        The number of elements contained in the transaction
         */
-        int numberOfReportedVariants;
+        int numberOfElements;
         /**
         Report avro models version
         */
@@ -91,7 +91,16 @@ protocol TransactionProtocol {
         */
         int version;
         /**
-        The participant identifier
+        The identifier for the entity containing this reported variant.
+        */
+        string parentId;
+        /**
+        The version for the entity containing this reported variant. This is a correlative number being the highest
+        value the latest version.
+        */
+        int parentVersion;
+        /**
+        The participant identifier or family identifier
         */
         string groupId;
         /**
@@ -113,7 +122,7 @@ protocol TransactionProtocol {
         /**
         The assembly to which the variant refers
         */
-        org.gel.models.report.avro.Assembly assembly;
+        union {null, org.gel.models.report.avro.Assembly} assembly;
         /**
         Messages
         */
@@ -173,7 +182,7 @@ protocol TransactionProtocol {
         /**
         The data to be ingested in CVA compressed
         */
-        union {null, bytes} compressedReportEvents;
+        union {null, bytes} compressedData;
         /**
         A MD5 hash signature of the transaction used to discard identical requests.
         To have a 50% chance of a collision by the birthday paradox we need 2**64 transactions

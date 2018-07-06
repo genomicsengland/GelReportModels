@@ -6410,9 +6410,7 @@ class SampleState(ProtocolElement):
 
 class SampleTests(ProtocolElement):
     """
-    ReportedVsGeneticSummary
-    ========================================     General information
-    about the checks, versions, tools, and number of markers
+    No documentation
     """
     _schemaSource = """
 {"namespace": "org.gel.models.metrics.avro", "type": "record", "name": "SampleTests", "fields":
