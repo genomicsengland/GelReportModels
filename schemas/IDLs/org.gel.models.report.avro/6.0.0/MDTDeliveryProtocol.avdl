@@ -9,19 +9,34 @@ protocol MDTDelivery {
     import idl "CommonRequest.avdl";
     import idl "CommonInterpreted.avdl";
     import idl "InterpretationRequestRD.avdl";
-    import idl "InterpretedGenomesRD.avdl";
+    import idl "InterpretationRequestCancer.avdl";
+    import idl "InterpretedGenome.avdl";
 
     /**
     Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
 one TieringResult.
 Semantic restrictions (not automatically verifiable):
 
-* All InterpretedGenomesRD in interpretationResults refer to the TieringResult tieringResult.
-* All InterpretedGenomesRD in interpretationResults have passed the QC stage and have been approved by the originating GMCs
+* All InterpretedGenomes in interpretationResults refer to the TieringResult tieringResult.
+* All InterpretedGenomes in interpretationResults have passed the QC stage and have been approved by the originating GMCs
     */
-    record InterpretationData {
+    record InterpretationDataRd {
         InterpretationRequestRD interpretationMetaData;
-        union{null, InterpretedGenomeRD} tieringResult;
-        union{null, array<InterpretedGenomeRD>} otherInterpretationResults;
+        union{null, InterpretedGenome} tieringResult;
+        union{null, array<InterpretedGenome>} otherInterpretationResults;
+    }
+
+    /**
+    Represents the set of all interpretation data (excluding file contents) to be stored in MDT for
+one TieringResult.
+Semantic restrictions (not automatically verifiable):
+
+* All InterpretedGenomes in interpretationResults refer to the TieringResult tieringResult.
+* All InterpretedGenomes in interpretationResults have passed the QC stage and have been approved by the originating GMCs
+    */
+    record InterpretationDataCancer {
+        CancerInterpretationRequest interpretationMetaData;
+        union{null, InterpretedGenome} tieringResult;
+        union{null, array<InterpretedGenome>} otherInterpretationResults;
     }
 }

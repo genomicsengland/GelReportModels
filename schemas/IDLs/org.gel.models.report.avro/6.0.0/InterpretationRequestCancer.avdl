@@ -11,7 +11,7 @@ protocol CancerInterpretationRequests {
 
     import idl "CancerParticipant.avdl";
     import idl "CommonRequest.avdl";
-    import idl "CommonInterpretedCancer.avdl";
+    import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
 
     /**

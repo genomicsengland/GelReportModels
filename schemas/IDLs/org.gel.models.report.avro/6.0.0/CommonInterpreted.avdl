@@ -53,7 +53,8 @@ protocol CommonInterpreted {
         xlinked_biallelic,
         xlinked_monoallelic,
         mitochondrial,
-        unknown
+        unknown,
+        na
     }
 
     /**
@@ -88,162 +89,23 @@ protocol CommonInterpreted {
         inrepeat
     }
 
+
     /**
-    This object holds all the information related to a specific variant observation in a given sample, including
-    zygosity, phase, depth of coverage, variant allele frequency and allele origins.
+    Type of clinical action on a variant
     */
-    record VariantCall {
-
-        /**
-        Participant identifier
-        */
-        string participantId;
-
-        /**
-        Sample identifier where the variant was observed
-        */
-        string sampleId;
-
-        /**
-        Zygosity. For somatic variants, or variants without zygosity use `na`
-        */
-        Zygosity zygosity;
-
-        /**
-        Phase set of variants when variants are phased. Two variants with the same value in this field are in phase,
-        if the value is null the variant is unphased. These values are only relevant within the same report.
-        */
-        union {null, int} phaseSet;
-
-        /**
-        Variant Allele Frequency (VAF) as calculated based on the depth of coverage for this variant call
-        */
-        union {null, double} vaf;
-
-        /**
-        Depth of coverage for reference allele
-        */
-        union {null, int} depthReference;
-
-        /**
-        Depth of coverage for alternate allele
-        */
-        union {null, int} depthAlternate;
-
-        /**
-        A list of allele origins for this variant
-        */
-        array<AlleleOrigin> alleleOrigins;
-
+    enum ActionType {
+        therapy,
+        therapeutic,
+        prognosis,
+        diagnosis
     }
 
     /**
-    Types of genomic features:
-
-* `regulatory_region`: a regulatory region
-* `gene`: a gene
-* `transcript`: a transcript
-* `intergenic`: an intergenic region
+    Clinical status of an action
     */
-    enum GenomicEntityType {
-        regulatory_region,
-        gene,
-        transcript,
-        intergenic,
-        gene_fusion
-    }
-
-    /**
-    The population allele frequency of a given variant in a given study and optionally population
-    */
-    record AlleleFrequency {
-        /**
-        The study from where this data comes from
-        */
-        string study;
-        /**
-        The specific population where this allele frequency belongs
-        */
-        string population;
-        /**
-        The frequency of the alternate allele
-        */
-        float alternateFrequency;
-    }
-
-    /**
-    A genomic feature
-    */
-    record GenomicEntity {
-        /**
-        The type of the genomic entity
-        */
-        GenomicEntityType type;
-
-        /**
-        Ensembl identifier for the feature (e.g, ENST00000544455)
-        */
-        union {null, string} ensemblId;
-
-        /**
-        The HGNC gene symbol. This field is optional, BUT it should be filled if possible
-        */
-        union {null, string} geneSymbol;
-
-        /**
-        Others identifiers for this genomic feature
-        */
-        union {null, map<string>} otherIds;
-    }
-
-    /**
-    A panel of genes
-    */
-    record GenePanel{
-        /**
-        Panel name used from PanelApp
-        */
-        string panelName;
-
-        /**
-        Panel version
-        */
-        union {null, string} panelVersion;
-    }
-
-    /**
-    A variant consequence as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
-    NOTE: this record is equivalent to OpenCB's `ConsequenceType`, but we want to avoid naming collisions
-    */
-    record VariantConsequence {
-        /**
-        The SO term identifier (e.g.: SO:0001816)
-        */
-        string id;
-        /**
-        The SO term name (e.g.: non synonymous)
-        */
-        union {null, string} name;
-    }
-
-    record VariantIdentifiers{
-        /**
-        Variant identifier in dbSNP
-        */
-        union {null, string} dbSnpId;
-
-        /**
-        Variant identifier in Cosmic
-        */
-        union {null, array<string>} cosmicIds;
-
-        /**
-        Variant identifier in ClinVar
-        */
-        union {null, array<string>} clinVarIds;
-
-        union {null, map<string>} otherIds;
-
+    enum ActionStatus {
+        clinical,
+        pre_clinical
     }
 
 
@@ -260,7 +122,6 @@ protocol CommonInterpreted {
     enum ClinicalSignificance {
         benign,
         likely_benign,
-        VUS,
         likely_pathogenic,
         pathogenic,
         uncertain_significance
@@ -297,6 +158,369 @@ protocol CommonInterpreted {
         loss_of_function_variant,
         loss_of_heterozygosity,
         null_variant
+    }
+
+    enum Domain {
+        DOMAIN1, DOMAIN2, DOMAIN3, DOMAIN4, NONE
+    }
+
+    /**
+    The role of a given genomic feature in cancer
+
+* `NCIT_C16936`: oncogene. A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* `NCIT_C17362`: tumor_suppressor_gene. A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+    */
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene,
+        both
+    }
+
+
+    /**
+    Each ACMG cirterion will be classifed as bening or pathogenic
+    */
+    enum AcmgEvidenceType{bening, pathogenic}
+    /**
+    Each ACMG criterion is weighted using the following terms:
+
+* `stand_alone`: `A`, stand-alone applied for benign variant critieria `(BA1)`
+* `supporting`: `P`, supporting applied for benign variant critieria `(BP1-6)` and pathogenic variant criteria `(PP1-5)`
+* `moderate`: `M`, moderate applied for pathogenic variant critieria (PM1-6)
+* `strong`: `S`, strong applied for pathogenic variant critieria (PS1-4)
+* `very_strong`: `S`, Very Stong applied for pathogenic variant critieria (PVS1)
+    */
+    enum AcmgEvidenceStrength{stand_alone, supporting, moderate, strong, very_strong}
+
+    /**
+    Each ACMG criterion is classified in one of these categories
+    */
+    enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, seggregation_data,
+        de_novo_data, allelic_data, other_database, other_data}
+    /**
+    Based on the category and the weight (A-VS-1-7) a criterion is defined this should identified each one of the
+    evidencies present in the guidelines
+    */
+    enum AcmgCriterion{BA1, BS1, BS2, BS3, BS4, BP1, BP2, BP3, BP4, BP5, BP6, BP7, PVS1, PS1, PS2, PS3, PS4, PM1, PM2,
+        PM3, PM4, PM5, PM6, PP1, PP2, PP3, PP4, PP5}
+    /**
+    Type of evidence in tge AMP guideline
+    */
+    enum AmpEvidenceType{mutation_type, therapies, variant_frequencies, potential_germline,
+        population_database_presence, germline_database_presence, somatic_database_presence, impact_predictive_software,
+        pathway_involvement, publications}
+    /**
+    AMP tier:
+* `TierI`: Variants of Strong Clinical Significance
+* `TierII`: Variants of Potential Clinical Significance
+* `TierIII`: Variants of Unknown Clinical Significance
+* `TierIV`: Benign or Likely Benign Variants
+    */
+    enum AmpTier{tierI, tierII, tierIII, tierIV}
+
+    /**
+    Categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
+    */
+    enum AmpClincialOrExperimentalEvidenceCategory {therapeutic, diagnosis, prognosis}
+
+    /**
+    Levels for categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
+    */
+    enum AmpClincialOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
+
+    /**
+    AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
+    An AcmgEvidence, should map with one of the criteria defined, i.e, PVS1, BA1, PM1...
+    */
+    record AcmgEvidence {
+        /**
+        Evidence category as defined in ACMG guidelines
+        */
+        union {null, AcmgEvidenceCategory} category;
+        /**
+        Evidence type: bening or pathogenic
+        */
+        union {null, AcmgEvidenceType} type;
+        /**
+        Weight categories as described in ACMG guideline
+        */
+        union {null, AcmgEvidenceStrength} strength;
+        /**
+        Intensity of the strength, together define the weight of each creteria, i.e the 2 in PM2
+        */
+        union {null, int} level;
+        /**
+        Short name for each the criteria as define in the guidline. This is the only required value, but with it all the
+        others can be populated
+        */
+        AcmgCriterion criterion;
+        /**
+        Description of the evidence
+        */
+        union {null, string} description;
+    }
+
+    /**
+    Full record for the ACMG variant clasiffication, including all selectedd evidences and the final classification.
+    */
+    record AcmgVariantClassification{
+        array<AcmgEvidence> acmgEvidences;
+        ClinicalSignificance clinicalSignificance;
+        union{null, string} assesment;
+    }
+
+    /**
+    Evidences as defined in AMP guidelines, they are composed by a evidence type (first column in the evidence table of
+    the guidlines) and a assesment of the evicence, this last one will define the streght of the evidence, supporting
+    the variant to be classified as TierI-IV
+    */
+    record AmpEvidence {
+        /**
+        AMP evidence type according to Guidlines, i.e germline_database_presence
+        */
+        AmpEvidenceType type;
+        /**
+        Assesment for AMP evidence, i.e Present in ClinVar
+        */
+        string evidenceAssesment;
+    }
+
+    /**
+    Amp Clinical or Experimental Evidence, the level will define the overal clasification of the variant together with
+    the tiering.
+    */
+    record  AmpClincialOrExperimentalEvidence{
+        /**
+        As denined in AMP guidelines: therapeutic, diagnosis or prognosis
+        */
+        AmpClincialOrExperimentalEvidenceCategory category;
+        /**
+        As denined in AMP guidelines: levelA, levelB, levelC, levelD
+        */
+        AmpClincialOrExperimentalEvidenceLevel level;
+        /**
+        Description of the evidence
+        */
+        union {null, string} description;
+    }
+
+    /**
+    Full Variant classification acording to AMP guideline, including all supporting evidences and the final
+    assesment
+    */
+    record AmpVariantClassification{
+        /**
+        List of AMP evidences
+        */
+        array<AmpEvidence> ampEvidences;
+        /**
+        Final Clasification taken in account the evidences
+        */
+        AmpTier ampTier;
+        /**
+        Clinical or Experimental evicence
+        */
+        union{null, array<AmpClincialOrExperimentalEvidence>} ampClincialOrExperimentalEvidence;
+        /**
+        Final Assesment
+        */
+        union{null, string} assesment;
+    }
+
+    /**
+    Variant classification based on guidlines, AMP and ACMG are supported
+    */
+    record GuideLineBasedVariantClassification{
+        union{null, AcmgVariantClassification} acmgVariantClassification;
+        union{null, AmpVariantClassification} ampVariantClassification;
+
+    }
+
+
+    record AlgorithmBasedVariantClassification{
+        /**
+        Name of the applied algorithm
+        */
+        string AlgorithmName;
+        /**
+        classification
+        */
+        string classification;
+        /**
+        rank
+        */
+        union {null, int} rank;
+    }
+
+    /**
+    A clinical action
+    */
+    record Action {
+
+        /**
+        Type of clinical action
+        */
+        union {null, ActionType} actionType;
+
+        /**
+        List of PubMed identifiers
+        */
+        union {null, array<string>} references;
+
+        /**
+        Status of the action
+        */
+        union {null, ActionStatus} status;
+
+        /**
+        Flag indicating if the variant is actionable
+        */
+        boolean variantActionable;
+
+        /**
+        Link to original source
+        */
+        union {null, string} url;
+
+        /**
+        Type of evidence
+        */
+        union {null, string} evidenceType;
+
+        /**
+        Source of the information
+        */
+        string source;
+
+    }
+
+    /**
+    Types of genomic features:
+
+* `regulatory_region`: a regulatory region
+* `gene`: a gene
+* `transcript`: a transcript
+* `intergenic`: an intergenic region
+    */
+    enum GenomicEntityType {
+        regulatory_region,
+        gene,
+        transcript,
+        intergenic,
+        gene_fusion,
+        genomic_region,
+        cytobands
+    }
+
+    /**
+    The population allele frequency of a given variant in a given study and optionally population
+    */
+    record AlleleFrequency {
+        /**
+        The study from where this data comes from
+        */
+        string study;
+        /**
+        The specific population where this allele frequency belongs
+        */
+        string population;
+        /**
+        The frequency of the alternate allele
+        */
+        float alternateFrequency;
+    }
+
+    record Identifier{
+        /**
+        Source i.e, esenmbl
+        */
+        string source;
+        /**
+        identifier
+        */
+        string identifier;
+    }
+
+    /**
+    A genomic feature
+    */
+    record GenomicEntity {
+        /**
+        The type of the genomic entity
+        */
+        GenomicEntityType type;
+
+        /**
+        Ensembl identifier for the feature (e.g, ENST00000544455)
+        */
+        union {null, string} ensemblId;
+
+        /**
+        The HGNC gene symbol. This field is optional, BUT it should be filled if possible
+        */
+        union {null, string} geneSymbol;
+
+        /**
+        Others identifiers for this genomic feature
+        */
+        union {null, array<Identifier>} otherIds;
+    }
+
+    /**
+    A panel of genes
+    */
+    record GenePanel{
+        /**
+        Panel name used
+        */
+        string panelIdentifier;
+
+        /**
+        Panel name used
+        */
+        union {null, string} panelName;
+        /**
+        Panel version
+        */
+        union {null, string} panelVersion;
+        /**
+        source i.e, PanelApp
+        */
+        union {null, string} source;
+    }
+
+    /**
+    A variant consequence as defined by the Sequence Ontology (SO) (e.g.: id = SO:0001816 ; name = non synonymous)
+    NOTE: this record is equivalent to OpenCB's `ConsequenceType`, but we want to avoid naming collisions
+    */
+    record VariantConsequence {
+        /**
+        The SO term identifier (e.g.: SO:0001816)
+        */
+        string id;
+        /**
+        The SO term name (e.g.: non synonymous)
+        */
+        union {null, string} name;
+    }
+
+    record VariantIdentifiers{
+        /**
+        Variant identifier in dbSNP
+        */
+        union {null, string} dbSnpId;
+
+        /**
+        Variant identifier in Cosmic
+        */
+        union {null, array<string>} cosmicIds;
+
+        /**
+        Variant identifier in ClinVar
+        */
+        union {null, array<string>} clinVarIds;
+
+        union {null, array<Identifier>} otherIds;
     }
 
     /**
@@ -358,7 +582,7 @@ protocol CommonInterpreted {
     /**
     Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
     */
-    record Phenotype {
+    record Phenotypes {
         /**
         The non standardised phenotypes (i.e.: may be free text)
         */
@@ -375,7 +599,6 @@ protocol CommonInterpreted {
     analysed, a positive report from a Genomic Medicine Centre (GMC) will correspond to an additional report event.
     */
     record ReportEvent {
-
         /**
         Unique identifier for each report event, this is unique across the whole report. A report having more than one
         report event with the same identifier is invalid. Repeating report event identifiers between different reports
@@ -386,7 +609,7 @@ protocol CommonInterpreted {
         /**
         The list of phenotypes
         */
-        Phenotype phenotypes;
+        Phenotypes phenotypes;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
@@ -415,27 +638,11 @@ protocol CommonInterpreted {
         */
         union {null, org.gel.models.participant.avro.Penetrance} penetrance;
 
-        /**
-        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
-        mode of Inheritance. This may be the result of different scoring systems
-        */
-        union {null, float} score;
-
-        /**
-        Other scores that the interpretation provider may add (for example phenotypically informed or family
-        informed scores)
-        */
-        union {null, map<float>} vendorSpecificScores;
 
         /**
         Likelihood of being a de novo variant
         */
         union {null, float} deNovoQualityScore;
-
-        /**
-        Variant classification
-        */
-        union {null, VariantClassification} variantClassification;
 
         /**
         Flag to indicate if this variant using this mode of inheritance can fully explain the phenotype
@@ -458,10 +665,53 @@ protocol CommonInterpreted {
         union {null, string} eventJustification;
 
         /**
+        The role of this variant in cancer if any
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
+
+        /**
+        Actions can be taken on the variant if any
+        */
+        union {null, array<Action>} actions;
+
+        /**
+        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
+        mode of Inheritance. This may be the result of different scoring systems
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family
+        informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+        /**
+        Variant classification
+        */
+        union {null, VariantClassification} variantClassification;
+
+        /**
+        Guidelines based Variant classification
+        */
+        union {null, GuideLineBasedVariantClassification} guideLineBasedVariantClassification;
+
+        /**
+        Algorithm based variant classifications
+        */
+        union {null, array<AlgorithmBasedVariantClassification>} algorithmBasedVariantClassifications;
+
+        /**
         The tier where this variant has been classified. Tier is a property of the model of inheritance and therefore
         is subject to change depending on the inheritance assumptions
         */
         union {null, Tier} tier;
+
+        /**
+        The Domain where this variant has been classified.
+        */
+        union {null, Domain} domain;
+
     }
 
     /**
@@ -567,7 +817,6 @@ protocol CommonInterpreted {
         union {null, map<string>} others;
     }
 
-
     record PhaseGenotype {
         array<string> sortedAlleles;
         int phaseSet;
@@ -642,8 +891,6 @@ protocol CommonInterpreted {
         deletion
     }
 
-
-
     record ConfidenceInterval {
         int left;
         int right;
@@ -656,7 +903,6 @@ protocol CommonInterpreted {
         union {null, ConfidenceInterval} ciStart;
         union {null, ConfidenceInterval} ciEnd;
     }
-
 
     enum Orientation {
         start_start,
