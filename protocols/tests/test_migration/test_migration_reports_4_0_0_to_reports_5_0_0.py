@@ -410,3 +410,14 @@ class TestMigrateReports4To500(TestCaseMigration):
 
         cir_v4_from_json = CancerInterpretationRequest_4_0_0.fromJsonDict(cir_v4_json)
         cir_v4_from_json.validate(cir_v4_from_json.toJsonDict())
+
+    def test_migrate_rare_disease_exit_questionnaire(self):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=True
+        ).create()
+        self.assertIsInstance(old_instance, self.old_model.RareDiseaseExitQuestionnaire)
+        self._validate(old_instance)
+        old_json = old_instance.toJsonDict()
+        new_instance = self.new_model.RareDiseaseExitQuestionnaire.fromJsonDict(jsonDict=old_json)
+        self.assertIsInstance(new_instance, self.new_model.RareDiseaseExitQuestionnaire)
+        self._validate(new_instance)
