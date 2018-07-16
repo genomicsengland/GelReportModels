@@ -3,7 +3,7 @@
 /**
 Define the report used by Genomics England to get the clinical interpretation companies results for bronze level
 */
-protocol InterpretedGenomesRD {
+protocol InterpretedGenomes {
 
     import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
@@ -12,7 +12,7 @@ protocol InterpretedGenomesRD {
     A interpreted genome for the rare disease program. This holds the list of candidate variants reported by an
     interpretation service together with all the relevant information that identify the case and how these conclusions were reached.
     */
-    record InterpretedGenomeRD {
+    record InterpretedGenome {
 
         /**
         Model version number
