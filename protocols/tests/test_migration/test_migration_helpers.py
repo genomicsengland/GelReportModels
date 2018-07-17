@@ -319,9 +319,9 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_interpreted_genome_rd_500_600_nulls(self):
         self.test_migrate_interpreted_genome_rd_500_600(fill_nullables=True)
 
-    def test_migrate_rd_clinical_report_400_500(self, fill_nullables=True):
+    def test_migrate_rd_clinical_report_400_600(self, fill_nullables=True):
 
-        # tests IG 400 -> 500
+        # tests IG 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.ClinicalReportRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -332,14 +332,15 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_rd_clinical_report_400_500_nulls(self):
-        self.test_migrate_rd_clinical_report_400_500(fill_nullables=False)
+    def test_migrate_rd_clinical_report_400_600_nulls(self):
+        self.test_migrate_rd_clinical_report_400_600(fill_nullables=False)
 
-    def test_migrate_rd_clinical_report_300_500(self, fill_nullables=True):
+    def test_migrate_rd_clinical_report_300_600(self, fill_nullables=True):
 
-        # tests IG 300 -> 500
+        # tests IG 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.ClinicalReportRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -350,14 +351,15 @@ class TestMigrationHelpers(TestCaseMigration):
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38')
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_rd_clinical_report_300_500_nulls(self):
-        self.test_migrate_rd_clinical_report_300_500(fill_nullables=False)
+    def test_migrate_rd_clinical_report_300_600_nulls(self):
+        self.test_migrate_rd_clinical_report_300_600(fill_nullables=False)
 
-    def test_migrate_rd_clinical_report_210_500(self, fill_nullables=True):
+    def test_migrate_rd_clinical_report_210_600(self, fill_nullables=True):
 
-        # tests IG 210 -> 500
+        # tests IG 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.ClinicalReportRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -368,14 +370,15 @@ class TestMigrationHelpers(TestCaseMigration):
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38')
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_rd_clinical_report_210_500_nulls(self):
-        self.test_migrate_rd_clinical_report_210_500(fill_nullables=False)
+    def test_migrate_rd_clinical_report_210_600_nulls(self):
+        self.test_migrate_rd_clinical_report_210_600(fill_nullables=False)
 
-    def test_migrate_rd_clinical_report_500_500(self, fill_nullables=True):
+    def test_migrate_rd_clinical_report_500_600(self, fill_nullables=True):
 
-        # tests IG 500 -> 500
+        # tests IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -383,12 +386,12 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
-        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(
-            old_instance.toJsonDict(), assembly='GRCh38')
+        migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(old_instance.toJsonDict())
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_rd_clinical_report_500_500_nulls(self):
-        self.test_migrate_rd_clinical_report_500_500(fill_nullables=False)
+    def test_migrate_rd_clinical_report_500_600_nulls(self):
+        self.test_migrate_rd_clinical_report_500_600(fill_nullables=False)
 
     def test_migrate_pedigree_300_110(self, fill_nullables=True):
         # tests reports 300 -> participants 103
