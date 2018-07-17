@@ -514,27 +514,33 @@ class MigrationHelpers(object):
         :type sample_id: str
         :type assembly: Assembly
         :type participant_id: str
-        :rtype: ClinicalReportCancer_5_0_0
+        :rtype: ClinicalReport_6_0_0
         """
-        cr_v500 = None
+        cr_v600 = None
 
-        if PayloadValidation(klass=ClinicalReportCancer_5_0_0, payload=json_dict).is_valid:
-            cr_v500 = ClinicalReportCancer_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=ClinicalReport_6_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer clinical report in models reports 6.0.0")
+            cr_v600 = ClinicalReport_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=ClinicalReportCancer_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer clinical report in models reports 5.0.0")
+            cr_v500 = ClinicalReportCancer_5_0_0.fromJsonDict(jsonDict=json_dict)
+            cr_v600 = MigrateReports500To600().migrate_cancer_clinical_report(old_instance=cr_v500)
 
         elif PayloadValidation(klass=ClinicalReportCancer_4_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer clinical report in models reports 4.0.0")
             if not sample_id or not assembly or not participant_id:
                 raise MigrationError("Missing required fields to migrate cancer clinical report from 4.0.0 to 5.0.0")
             cr_v4 = ClinicalReportCancer_4_0_0.fromJsonDict(jsonDict=json_dict)
             cr_v500 = MigrateReports400To500().migrate_cancer_clinical_report(
                 old_instance=cr_v4, assembly=assembly, participant_id=participant_id, sample_id=sample_id
             )
-            logging.info("Cancer clinical report in models reports 4.0.0")
+            cr_v600 = MigrateReports500To600().migrate_cancer_clinical_report(old_instance=cr_v500)
 
-        if cr_v500 is not None:
-            return cr_v500
+        if cr_v600 is not None:
+            return cr_v600
 
-        raise MigrationError("Cancer clinical report is not in versions: [4.0.0, 5.0.0]")
+        raise MigrationError("Cancer clinical report is not in versions: [4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_cancer_participant_to_latest(json_dict):
