@@ -809,3 +809,21 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_cancer_participant_110_110_nulls(self):
         self.test_migrate_cancer_participant_110_110(fill_nullables=False)
+
+    def test_migrate_cancer_exit_questionnaire_to_latest(self, fill_nullables=True):
+        # tests pedigree C EQ 5 -> C EQ 6
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_5_0_0.CancerExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_instance = self.populate_c_eq_variant_level_questions_variant_details(old_c_eq=old_instance)
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.migrate_cancer_exit_questionnaire_to_latest(
+            json_dict=old_instance.toJsonDict(), assembly="GRCh38"
+        )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.CancerExitQuestionnaire)
+        self._validate(migrated_instance)
+
+    def test_migrate_cancer_exit_questionnaire_to_latest_no_nullables(self):
+        self.test_migrate_cancer_exit_questionnaire_to_latest(fill_nullables=False)
