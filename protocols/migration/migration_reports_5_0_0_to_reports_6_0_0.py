@@ -204,3 +204,68 @@ class MigrateReports500To600(BaseMigration):
 
     def migrate_additional_analysis_panels(self, old_panels):
         return [self.migrate_additional_analysis_panel(old_panel=old_panel) for old_panel in old_panels]
+
+    def migrate_rd_exit_questionnaire(self, old_instance, assembly):
+        migrated_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)
+        migrated_instance.variantGroupLevelQuestions = self.migrate_variant_group_level_questions(
+            VGLQs=old_instance.variantGroupLevelQuestions, assembly=assembly
+        )
+        return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.RareDiseaseExitQuestionnaire)
+
+    def migrate_variant_group_level_questions(self, VGLQs, assembly):
+        return [self.migrate_variant_group_level_question(VGLQ=VGLQ, assembly=assembly) for VGLQ in VGLQs]
+
+    def migrate_variant_group_level_question(self, VGLQ, assembly):
+        migrated_vglq = self.convert_class(target_klass=self.new_model.VariantGroupLevelQuestions, instance=VGLQ)
+        migrated_vglq.variantLevelQuestions = self.migrate_variant_level_questions(
+            VLQs=VGLQ.variantLevelQuestions, assembly=assembly
+        )
+
+        return self.validate_object(object_to_validate=migrated_vglq, object_type=self.new_model.VariantGroupLevelQuestions)
+
+    def migrate_variant_level_questions(self, VLQs, assembly):
+        return [self.migrate_variant_level_question(VLQ=VLQ, assembly=assembly) for VLQ in VLQs]
+
+    def migrate_variant_level_question(self, VLQ, assembly):
+        migrated_vlq = self.convert_class(target_klass=self.new_model.VariantLevelQuestions, instance=VLQ)
+
+        migrated_vlq.variantCoordinates = self.migrate_variant_coordinates(
+            variant_details=VLQ.variantDetails, assembly=assembly
+        )
+
+        return self.validate_object(object_to_validate=migrated_vlq, object_type=self.new_model.VariantLevelQuestions)
+
+    def migrate_variant_coordinates(self, variant_details, assembly):
+
+        details = self.extract_variant_details(variant_details=variant_details)
+        variant_coordinates = self.new_model.VariantCoordinates(
+            chromosome=details.get("chromosome"),
+            position=details.get("position"),
+            reference=details.get("reference"),
+            alternate=details.get("alternate"),
+            assembly=assembly,
+        )
+        return self.validate_object(object_to_validate=variant_coordinates, object_type=self.new_model.VariantCoordinates)
+
+    @staticmethod
+    def extract_variant_details(variant_details):
+        """
+        The format of variant_details is "chr:pos:ref:alt"
+        """
+        details = variant_details.split(":")
+        if len(details) != 4:
+            raise MigrationError("Variant details: {variant_details} should be in format chr:pos:ref:alt".format(
+                variant_details=variant_details
+            ))
+        try:
+            details[1] = int(details[1])
+        except ValueError:
+            raise MigrationError("Position {position} is not an integer !".format(
+                position=details[1]
+            ))
+        return {
+            "chromosome": details[0],
+            "position": details[1],
+            "reference": details[2],
+            "alternate": details[3],
+        }

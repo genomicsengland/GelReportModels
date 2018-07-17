@@ -1,6 +1,3 @@
-import factory.fuzzy
-from random import randint
-
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
 from protocols.util.dependency_manager import VERSION_61
@@ -214,3 +211,49 @@ class TestMigrateClinicalReport5To6(TestCaseMigration):
 
     def test_migrate_clinical_report_rd_no_nullables(self):
         self.test_migrate_clinical_report_rd(fill_nullables=False)
+
+
+class TestRareDiseaseExitQuestionnaire5To6(TestCaseMigration):
+
+    old_model = reports_5_0_0
+    new_model = reports_6_0_0
+
+    def test_migrate_rd_exit_questionnaire(self, fill_nullables=True):
+        old_rd_eq = GenericFactoryAvro.get_factory_avro(
+            self.old_model.RareDiseaseExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_rd_eq = self.populate_exit_questionnaire_variant_details(eq=old_rd_eq)
+        new_rd_eq = MigrateReports500To600().migrate_rd_exit_questionnaire(
+            old_instance=old_rd_eq, assembly="GRCh38"
+        )
+        self._validate(new_rd_eq)
+        self.assertIsInstance(new_rd_eq, self.new_model.RareDiseaseExitQuestionnaire)
+
+        self.assertEqual(old_rd_eq.eventDate, new_rd_eq.eventDate)
+        self.assertEqual(old_rd_eq.reporter, new_rd_eq.reporter)
+
+        self.assertIsInstance(
+            new_rd_eq.familyLevelQuestions,
+            self.new_model.FamilyLevelQuestions
+        )
+        attributes = [
+            "caseSolvedFamily", "segregationQuestion", "additionalComments"
+        ]
+        for attribute in attributes:
+            self.assertEqual(
+                getattr(old_rd_eq.familyLevelQuestions, attribute),
+                getattr(new_rd_eq.familyLevelQuestions, attribute),
+            )
+
+        for VGLQ in new_rd_eq.variantGroupLevelQuestions:
+            self.assertIsInstance(
+                VGLQ,
+                self.new_model.VariantGroupLevelQuestions
+            )
+            for VLQ in VGLQ.variantLevelQuestions:
+                self.assertIsInstance(
+                    VLQ,
+                    self.new_model.VariantLevelQuestions
+                )
+
+
