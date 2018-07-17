@@ -10,7 +10,7 @@ from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
 
 
-class TestMigrateReports5To6(TestCaseMigration):
+class TestMigrateInterpretedGenome5To6(TestCaseMigration):
 
     old_model = reports_5_0_0
     new_model = reports_6_0_0
@@ -173,3 +173,48 @@ class TestMigrateReports5To6(TestCaseMigration):
 
     def test_migrate_variant_classification_no_nullables(self):
         self.test_migrate_variant_classification(fill_nullables=False)
+
+
+class TestMigrateClinicalReport5To6(TestCaseMigration):
+
+    old_model = reports_5_0_0
+    new_model = reports_6_0_0
+
+    def test_migrate_clinical_report_rd(self, fill_nullables=True):
+        old_clinical_report_rd = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        new_clinical_report = MigrateReports500To600().migrate_clinical_report_rd(
+            old_instance=old_clinical_report_rd
+        )
+        self._validate(new_clinical_report)
+        self.assertIsInstance(new_clinical_report, self.new_model.ClinicalReport)
+
+        attributes = [
+            "interpretationRequestId", "interpretationRequestVersion", "reportingDate", "user", "genomicInterpretation",
+            "referenceDatabasesVersions", "softwareVersions", "references"
+        ]
+        for attribute in attributes:
+            if getattr(old_clinical_report_rd, attribute) is not None:
+                self.assertEqual(
+                    getattr(old_clinical_report_rd, attribute),
+                    getattr(new_clinical_report, attribute)
+                )
+
+        old_variants = old_clinical_report_rd.variants
+        if old_variants is not None:
+            new_variants = new_clinical_report.variants
+            for old, new in zip(old_variants, new_variants):
+                self.assertIsInstance(new, self.new_model.SmallVariant)
+                self._validate(new)
+                self.assertEqual(
+                    new,
+                    MigrateReports500To600().migrate_variant(old_variant=old)
+                )
+
+        if old_clinical_report_rd.additionalAnalysisPanels is not None:
+            for panel in new_clinical_report.additionalAnalysisPanels:
+                self.assertIsInstance(panel, self.new_model.AdditionalAnalysisPanel)
+
+    def test_migrate_clinical_report_rd_no_nullables(self):
+        self.test_migrate_clinical_report_rd(fill_nullables=False)

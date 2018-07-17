@@ -182,3 +182,11 @@ class MigrateReports500To600(BaseMigration):
         return self.validate_object(
             object_to_validate=identifier, object_type=self.new_model.Identifier,
         )
+
+    def migrate_clinical_report_rd(self, old_instance):
+        migrated_instance = self.convert_class(self.new_model.ClinicalReport, old_instance)
+        migrated_instance.variants = self.migrate_variants(old_variants=old_instance.variants)
+        return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
+
+    def migrate_additional_analysis_panels(self, old_panels):
+        return [self.migrate_additional_analysis_panel(old_panel=old_panel) for old_panel in old_panels]

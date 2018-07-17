@@ -33,8 +33,9 @@ from protocols.reports_5_0_0 import CancerInterpretationRequest as CancerInterpr
 from protocols.reports_5_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_5_0_0
 from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_5_0_0
 
-from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+from protocols.reports_6_0_0 import ClinicalReport as ClinicalReport_6_0_0
 from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
+from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
 
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
@@ -226,26 +227,36 @@ class MigrationHelpers(object):
         raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0, 5.0.0]")
 
     @staticmethod
-    def migrate_clinical_report_rd_to_latest(json_dict, assembly):
+    def migrate_clinical_report_rd_to_latest(json_dict, assembly=None):
         """
         :type json_dict: dict
         :type assembly: Assembly
         :rtype: ClinicalReportRD_5_0_0
         """
-        cr_v500 = None
+        cr_v600 = None
 
-        if PayloadValidation(klass=ClinicalReportRD_5_0_0, payload=json_dict).is_valid:
-            cr_v500 = ClinicalReportRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=ClinicalReport_6_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 6.0.0")
+            cr_v600 = ClinicalReport_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=ClinicalReportRD_5_0_0, payload=json_dict).is_valid:
             logging.info("Case in models reports 5.0.0")
+            cr_v500 = ClinicalReportRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
+
+        elif assembly is None:
+            raise MigrationError("Parameter <assembly> is required to migrate model versions earlier than 5.0.0")
 
         elif PayloadValidation(klass=ClinicalReportRD_4_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 4.0.0")
             cr_v4 = ClinicalReportRD_4_0_0.fromJsonDict(jsonDict=json_dict)
             cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
                 old_instance=cr_v4, assembly=assembly
             )
-            logging.info("Case in models reports 4.0.0")
+            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
 
         elif PayloadValidation(klass=ClinicalReportRD_3_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 3.0.0")
             cr_v3 = ClinicalReportRD_3_0_0.fromJsonDict(jsonDict=json_dict)
             cr_v4 = MigrateReports3To4().migrate_clinical_report_rd(
                 old_clinical_report_rd=cr_v3
@@ -253,9 +264,10 @@ class MigrationHelpers(object):
             cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
                 old_instance=cr_v4, assembly=assembly
             )
-            logging.info("Case in models reports 3.0.0")
+            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
 
         elif PayloadValidation(klass=ClinicalReportRD_2_1_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 2.1.0")
             cr_v2 = ClinicalReportRD_2_1_0.fromJsonDict(jsonDict=json_dict)
             cr_v3 = Migration2_1To3().migrate_clinical_report(clinical_report=cr_v2)
             cr_v4 = MigrateReports3To4().migrate_clinical_report_rd(
@@ -264,10 +276,10 @@ class MigrationHelpers(object):
             cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
                 old_instance=cr_v4, assembly=assembly
             )
-            logging.info("Case in models reports 2.1.0")
+            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
 
-        if cr_v500 is not None:
-            return cr_v500
+        if cr_v600 is not None:
+            return cr_v600
 
         raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
