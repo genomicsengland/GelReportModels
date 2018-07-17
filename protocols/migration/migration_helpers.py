@@ -36,6 +36,7 @@ from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestio
 from protocols.reports_6_0_0 import ClinicalReport as ClinicalReport_6_0_0
 from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
 from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+from protocols.reports_6_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_0
 
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
@@ -284,26 +285,34 @@ class MigrationHelpers(object):
         raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
     @staticmethod
-    def migrate_exit_questionnaire_rd_to_latest(json_dict):
+    def migrate_exit_questionnaire_rd_to_latest(json_dict, assembly):
         """
         There are no changes in exit questionnaires between versions 4 and 5
         :type json_dict: dict
         :rtype: RareDiseaseExitQuestionnaire_5_0_0
         """
-        eq_v500 = None
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required to migrate exit questionnaire to version 6")
+        eq_v600 = None
 
-        if PayloadValidation(klass=RareDiseaseExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
-            eq_v500 = RareDiseaseExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=RareDiseaseExitQuestionnaire_6_0_0, payload=json_dict).is_valid:
+            eq_v600 = RareDiseaseExitQuestionnaire_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=RareDiseaseExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
             logging.info("Exit questionnaire in models reports 5.0.0 or 4.0.0")
+            eq_v500 = RareDiseaseExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
+            eq_v600 = MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=eq_v500, assembly=assembly)
+
         elif PayloadValidation(klass=RareDiseaseExitQuestionnaire_3_0_0, payload=json_dict).is_valid:
+            logging.info("Exit questionnaire in models reports 3.0.0")
             eq_v300 = RareDiseaseExitQuestionnaire_3_0_0.fromJsonDict(jsonDict=json_dict)
             eq_v500 = MigrateReports3To4().migrate_rd_exit_questionnaire(eq_v300)
-            logging.info("Exit questionnaire in models reports 3.0.0")
+            eq_v600 = MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=eq_v500, assembly=assembly)
 
-        if eq_v500 is not None:
-            return eq_v500
+        if eq_v600 is not None:
+            return eq_v600
 
-        raise MigrationError("exit Questionnaire RD is not in versions: [3.0.0, 4.0.0, 5.0.0]")
+        raise MigrationError("exit Questionnaire RD is not in versions: [3.0.0, 4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_pedigree_to_latest(json_dict):
