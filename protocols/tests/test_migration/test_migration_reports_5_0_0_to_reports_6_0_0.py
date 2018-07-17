@@ -301,3 +301,19 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
         )
         self.assertIsInstance(new_re_c, self.new_model.ReportEvent)
         self._validate(new_re_c)
+
+
+class TestCancerClinicalReport5To6(TestCaseMigration):
+
+    old_model = reports_5_0_0
+    new_model = reports_6_0_0
+
+    def test_migrate_cancer_clinical_report(self, fill_nullables=True):
+        old_cr_c = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ClinicalReportCancer, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        new_cr_c = MigrateReports500To600().migrate_cancer_clinical_report(
+            old_instance=old_cr_c,
+        )
+        self.assertIsInstance(new_cr_c, self.new_model.ClinicalReport)
+        self._validate(new_cr_c)
