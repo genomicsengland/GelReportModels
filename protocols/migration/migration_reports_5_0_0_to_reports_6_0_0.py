@@ -269,3 +269,47 @@ class MigrateReports500To600(BaseMigration):
             "reference": details[2],
             "alternate": details[3],
         }
+
+    def migrate_cancer_interpreted_genome(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.InterpretedGenome, instance=old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        new_instance.variants = self.migrate_reported_variants_cancer(variants=old_instance.variants)
+
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome)
+
+    def migrate_reported_variants_cancer(self, variants):
+        return [self.migrate_reported_variant_cancer(variant=variant) for variant in variants]
+
+    def migrate_reported_variant_cancer(self, variant):
+        new_variant = self.convert_class(target_klass=self.new_model.SmallVariant, instance=variant)
+
+        new_variant.variantCoordinates = self.migrate_variant_coordinates_cancer(coordinates=variant.variantCoordinates)
+        new_variant.variantCalls = self.migrate_variant_calls_cancer(variant_calls=variant.variantCalls)
+        new_variant.reportEvents = self.migrate_report_events_cancer(events=variant.reportEvents)
+        new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=variant)
+
+        return self.validate_object(object_to_validate=new_variant, object_type=self.new_model.SmallVariant)
+
+    def migrate_report_events_cancer(self, events):
+        return [self.migrate_report_event_cancer(event=event) for event in events]
+
+    def migrate_report_event_cancer(self, event):
+        new_event = self.convert_class(target_klass=self.new_model.ReportEvent, instance=event)
+
+        new_event.modeOfInheritance = self.new_model.ReportedModeOfInheritance.na
+        new_event.phenotypes = self.new_model.Phenotypes()
+
+        new_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=event.genomicEntities)
+        new_event.variantClassification = self.migrate_variant_classification(classification=event.variantClassification)
+        return self.validate_object(object_to_validate=new_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_variant_coordinates_cancer(self, coordinates):
+        new_coordinates = self.convert_class(target_klass=self.new_model.VariantCoordinates, instance=coordinates)
+        return self.validate_object(object_to_validate=new_coordinates, object_type=self.new_model.VariantCoordinates)
+
+    def migrate_variant_calls_cancer(self, variant_calls):
+        return [self.migrate_variant_call_cancer(call=call) for call in variant_calls]
+
+    def migrate_variant_call_cancer(self, call):
+        new_call = self.convert_class(target_klass=self.new_model.VariantCall, instance=call)
+        return self.validate_object(object_to_validate=new_call, object_type=self.new_model.VariantCall)
