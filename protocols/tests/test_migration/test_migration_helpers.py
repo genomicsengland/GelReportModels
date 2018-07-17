@@ -461,9 +461,9 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_pedigree_110_110_nulls(self):
         self.test_migrate_pedigree_110_110(fill_nullables=False)
 
-    def test_migrate_interpretation_request_cancer_400_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_cancer_400_600(self, fill_nullables=True):
 
-        # tests IR 400 -> 500
+        # tests CIR 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretationRequest, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -476,14 +476,15 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_cancer_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_cancer_400_500_nulls(self):
-        self.test_migrate_interpretation_request_cancer_400_500(fill_nullables=False)
+    def test_migrate_interpretation_request_cancer_400_600_nulls(self):
+        self.test_migrate_interpretation_request_cancer_400_600(fill_nullables=False)
 
-    def test_migrate_interpretation_request_cancer_300_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_cancer_300_600(self, fill_nullables=True):
 
-        # tests IR 300 -> 500
+        # tests CIR 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.CancerInterpretationRequest, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -496,14 +497,15 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_cancer_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_cancer_300_500_nulls(self):
-        self.test_migrate_interpretation_request_cancer_300_500(fill_nullables=False)
+    def test_migrate_interpretation_request_cancer_300_600_nulls(self):
+        self.test_migrate_interpretation_request_cancer_300_600(fill_nullables=False)
 
-    def test_migrate_interpretation_request_cancer_500_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_cancer_500_600(self, fill_nullables=True):
 
-        # tests IG 500 -> 500
+        # tests CIR 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerInterpretationRequest, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -514,10 +516,11 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_cancer_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_cancer_500_500_nulls(self):
-        self.test_migrate_interpretation_request_cancer_500_500(fill_nullables=False)
+    def test_migrate_interpretation_request_cancer_500_600_nulls(self):
+        self.test_migrate_interpretation_request_cancer_500_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_400_500(self, fill_nullables=True):
 

@@ -36,6 +36,7 @@ from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestio
 from protocols.reports_6_0_0 import ClinicalReport as ClinicalReport_6_0_0
 from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
 from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+from protocols.reports_6_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_6_0_0
 from protocols.reports_6_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_0
 
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
@@ -357,29 +358,33 @@ class MigrationHelpers(object):
         :type assembly: Assembly
         :rtype: CancerInterpretationRequest_5_0_0
         """
-        ir_v500 = None
+        ir_v600 = None
 
-        if PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
-            ir_v500 = CancerInterpretationRequest_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=CancerInterpretationRequest_6_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer interpretation request in models reports 6.0.0")
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer interpretation request in models reports 5.0.0")
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=json_dict)
 
         elif PayloadValidation(klass=CancerInterpretationRequest_4_0_0, payload=json_dict).is_valid:
-            ir_v400 = CancerInterpretationRequest_4_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400,
-                                                                                     assembly=assembly)
             logging.info("Cancer interpretation request in models reports 4.0.0")
+            ir_v400 = CancerInterpretationRequest_4_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400, assembly=assembly)
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=ir_v500.toJsonDict())
 
         elif PayloadValidation(klass=CancerInterpretationRequest_3_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer interpretation request in models reports 3.0.0")
             ir_v300 = CancerInterpretationRequest_3_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v400 = MigrateReports3To4().migrate_cancer_interpretation_request(old_interpretation_request=ir_v300)
-            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400,
-                                                                                     assembly=assembly)
-            logging.info("Cancer interpretation request in models reports 3.0.0")
+            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400, assembly=assembly)
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=ir_v500.toJsonDict())
 
-        if ir_v500 is not None:
-            return ir_v500
+        if ir_v600 is not None:
+            return ir_v600
 
-        raise MigrationError("Cancer interpretation request is not in versions: [3.0.0, 4.0.0, 5.0.0]")
+        raise MigrationError("Cancer interpretation request is not in versions: [3.0.0, 4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_interpretation_request_cancer_to_interpreted_genome_latest(
