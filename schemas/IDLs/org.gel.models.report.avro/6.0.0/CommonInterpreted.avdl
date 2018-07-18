@@ -473,7 +473,7 @@ protocol CommonInterpreted {
         /**
         Panel name used
         */
-        string panelIdentifier;
+        union {null, string} panelIdentifier;
 
         /**
         Panel name used
