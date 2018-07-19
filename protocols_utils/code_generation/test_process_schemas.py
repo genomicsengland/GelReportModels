@@ -1,9 +1,9 @@
-import os
-import sys
 import shutil
+import sys
 import os.path
 from unittest import TestCase
-from process_schemas import SchemaProcessor
+from process_schemas import SchemaProcessor, ProtocolGenerator
+import importlib
 
 
 class TestProcessSchema(TestCase):
@@ -11,6 +11,7 @@ class TestProcessSchema(TestCase):
     test_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), './test')
     test_avdl = os.path.join(test_folder, "test.avdl")
     test_python_package = os.path.join(test_folder, 'protocols_test.py')
+    test_import_package = os.path.join(test_folder, 'protocols_import_test')
     BASE_DIR = os.path.dirname(__file__)
     AVRO_TOOLS_JAR = os.path.join(BASE_DIR, "../..", "resources/bin", "avro-tools-1.7.7.jar")
 
@@ -29,9 +30,6 @@ class TestProcessSchema(TestCase):
             'inputSchemasDirectory': self.test_folder
         }
 
-        class DictWithAttrs(object):
-            def __init__(self, d):
-                self.__dict__ = d
         instance = DictWithAttrs(args)
         schema_processor = SchemaProcessor(instance)
         schema_processor.run()
@@ -57,3 +55,21 @@ class TestProcessSchema(TestCase):
         self.assertTrue(a.just_b.string_nullable is None)
         self.assertTrue(a.just_b.string_nullable is None)
         self.assertTrue(a.nullable_b is None)
+
+    def test_generate_protocol(self):
+        shutil.rmtree(self.test_import_package, ignore_errors=True)
+        os.mkdir(self.test_import_package)
+        protocol_generator = ProtocolGenerator('../../builds.json', self.test_import_package, '7.0')
+        protocol_generator.write()
+
+        sys.path.insert(0, self.test_folder)
+        assert importlib.import_module('protocols_import_test')
+        cva_module = importlib.import_module('protocols_import_test.cva')
+        assert cva_module
+        inject_class = getattr(cva_module, 'ReportedVariantInjectCancer')
+        assert inject_class
+
+
+class DictWithAttrs(object):
+    def __init__(self, d):
+        self.__dict__ = d

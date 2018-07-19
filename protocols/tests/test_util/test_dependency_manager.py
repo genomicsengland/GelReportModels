@@ -8,7 +8,7 @@ import protocols.reports_4_0_0
 
 class TestDependencyManager(TestCase):
 
-    def testDependencyManager(self):
+    def test_dependency_manager(self):
         dependency_manager = DependencyManager()
         assert dependency_manager is not None
         latest_dependencies = dependency_manager.get_latest_version_dependencies()
@@ -18,3 +18,9 @@ class TestDependencyManager(TestCase):
         assert isinstance(dependencies_400, dict)
         assert dependencies_400["org.gel.models.report.avro"] == protocols.reports_4_0_0
         assert dependencies_400["org.gel.models.report.avro"] != protocols.reports_4_2_0
+
+    def test_generate_protocol_packageName(self):
+        build = {"version": "7.0"}
+        protocol_name = DependencyManager().get_python_protocol_name(build)
+
+        self.assertEqual(protocol_name, 'protocol_7.0')
