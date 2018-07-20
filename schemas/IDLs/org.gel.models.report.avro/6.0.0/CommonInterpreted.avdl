@@ -6,6 +6,9 @@ protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
 
+
+enum TimeUnit {years, months, weeks, days, hours, minutes, na}
+
 /**
    Allele origin.
 
@@ -91,25 +94,6 @@ protocol CommonInterpreted {
 
 
     /**
-    Type of clinical action on a variant
-    */
-    enum ActionType {
-        therapy,
-        therapeutic,
-        prognosis,
-        diagnosis
-    }
-
-    /**
-    Clinical status of an action
-    */
-    enum ActionStatus {
-        clinical,
-        pre_clinical
-    }
-
-
-    /**
     Variant tiers as defined by Genomics England
     */
     enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
@@ -128,14 +112,29 @@ protocol CommonInterpreted {
     }
 
     enum DrugResponseClassification {
-        responsive,
-        resistant,
-        toxicity,
+        altered_sensitivity,
+        reduced_sensitivity,
+        increased_sensitivity,
+        altered_resistant,
+        increased_resistance,
+        reduce_resistance,
+        increased_toxicity,
+        reduced_toxicity,
+        adverse_drug_reaction,
         indication,
         contraindication,
-        dosing,
+        dosing_alteration,
+        increased_dosing,
+        reduced_dosing,
         increased_monitoring,
-        efficacy
+        increased_efficacy,
+        reduced_efficacy
+    }
+
+    enum PrognosisClassification{
+        altered_prognosis,
+        favorable_prognosis,
+        unfavorable_prognosis
     }
 
     enum TraitAssociation {
@@ -330,7 +329,7 @@ protocol CommonInterpreted {
     /**
     Variant classification based on guidlines, AMP and ACMG are supported
     */
-    record GuideLineBasedVariantClassification{
+    record GuidelineBasedVariantClassification{
         union{null, AcmgVariantClassification} acmgVariantClassification;
         union{null, AmpVariantClassification} ampVariantClassification;
 
@@ -350,48 +349,239 @@ protocol CommonInterpreted {
         rank
         */
         union {null, int} rank;
+        /**
+        Score
+        */
+        union {null, int} score;
     }
 
     /**
-    A clinical action
+    For each intervention studied in the clinical study, the general type of intervention
+
+* `drug`: Including placebo
+* `device`: Including sham
+* `biological`: Vaccine
+* `procedure`: Surgery
+* `radiation`
+* `behavioral`: For example, psychotherapy, lifestyle counseling
+* `genetic`: Including gene transfer, stem cell and recombinant DNA
+* `dietary_supplement`: For example, vitamins, minerals
+* `combination_product`: Combining a drug and device, a biological product and device; a drug and biological product; or a drug, biological product, and device
+* `diagnostic_test`: For example, imaging, in-vitro
+* `other`
+
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.htm
+
     */
-    record Action {
+    enum InterventionType {drug, device, procedure, biological, radiation, behavioral, genetic, dietary_supplement,
+        combination_product, diagnostic_test, other}
 
+    /**
+    Treatment: One or more interventions are being evaluated for treating a disease, syndrome, or condition.
+    Prevention: One or more interventions are being assessed for preventing the development of a specific disease or health condition.
+    Diagnostic: One or more interventions are being evaluated for identifying a disease or health condition.
+    Supportive Care: One or more interventions are evaluated for maximizing comfort, minimizing side effects, or mitigating against a decline in the participant's health or function.
+    Screening: One or more interventions are assessed or examined for identifying a condition, or risk factors for a condition, in people who are not yet known to have the condition or risk factor.
+    Health Services Research: One or more interventions for evaluating the delivery, processes, management, organization, or financing of healthcare.
+    Basic Science: One or more interventions for examining the basic mechanism of action (for example, physiology or biomechanics of an intervention).
+    Device Feasibility: An intervention of a device product is being evaluated in a small clinical trial (generally fewer than 10 participants) to determine the feasibility of the product; or a clinical trial to test a prototype device for feasibility and not health outcomes. Such studies are conducted to confirm the design and operating specifications of a device before beginning a full clinical trial.
+    Other: None of the other options applies.
+
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.htm
+    */
+    enum PrimaryPurpose {treatment, prevention, diagnostic, supportive_care, screening, health_services_research,
+        basic_science, device_feasibility, other}
+
+    /**
+    N/A: Trials without phases (for example, studies of devices or behavioral interventions).
+    Early Phase 1 (Formerly listed as "Phase 0"): Exploratory trials, involving very limited human exposure, with no therapeutic or diagnostic intent (e.g., screening studies, microdose studies). See FDA guidance on exploratory IND studies for more information.
+    Phase 1: Includes initial studies to determine the metabolism and pharmacologic actions of drugs in humans, the side effects associated with increasing doses, and to gain early evidence of effectiveness; may include healthy participants and/or patients.
+    Phase 1/Phase 2: Trials that are a combination of phases 1 and 2.
+    Phase 2: Includes controlled clinical studies conducted to evaluate the effectiveness of the drug for a particular indication or indications in participants with the disease or condition under study and to determine the common short-term side effects and risks.
+    Phase 2/Phase 3: Trials that are a combination of phases 2 and 3.
+    Phase 3: Includes trials conducted after preliminary evidence suggesting effectiveness of the drug has been obtained, and are intended to gather additional information to evaluate the overall benefit-risk relationship of the drug.
+    Phase 4: Studies of FDA-approved drugs to delineate additional information including the drug's risks, benefits, and optimal use.
+    */
+    enum StudyPhase {na, early_phase1, phase1, phase2, phase3, phase4}
+
+    /**
+* `Interventional (clinical trial)`: Participants are assigned prospectively to an intervention or interventions
+according to a protocol to evaluate the effect of the intervention(s) on biomedical or other health related outcomes.
+* `Observational`: Studies in human beings in which biomedical and/or health outcomes are assessed in pre-defined groups
+of individuals. Participants in the study may receive diagnostic, therapeutic, or other interventions, but the
+investigator does not assign specific interventions to the study participants. This includes when participants
+receive interventions as part of routine medical care, and a researcher studies the effect of the intervention.
+* `Expanded Access`: An investigational drug product (including biological product)
+available through expanded access for patients who do not qualify for enrollment in a clinical trial.
+Expanded Access includes all expanded access types under section 561 of the Federal Food, Drug, and
+Cosmetic Act: (1) for individual patients, including emergency use; (2) for intermediate-size patient populations;
+and (3) under a treatment IND or treatment protocol. (For more information on data requirements for this Study Type,
+see Expanded Access Data Element Definitions).
+    */
+    enum StudyType {interventional, observational, patient_registry, expanded_access}
+
+    /**
+    A process or action that is the focus of a clinical study.
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.html
+    */
+    record Intervention{
         /**
-        Type of clinical action
+        Intervention type, i.e drug
         */
-        union {null, ActionType} actionType;
-
+        InterventionType interventionType;
         /**
-        List of PubMed identifiers
+        Intervention name: Placebo
         */
-        union {null, array<string>} references;
+        string interventionName;
+    }
 
+    record AgeRange{
+        int minimumAge;
+        int maximumAge;
+        TimeUnit timeunit;
+    }
+
+    record TrialLocation{
+        union {null, string} name;
+        union {null, string} city;
+        union {null, string} country;
+        union {null, string} zip;
+    }
+
+    record DemographicElegibilityCriteria{
+        org.gel.models.participant.avro.Sex sex;
+        union {null, AgeRange} ageRange;
+    }
+
+    record Trial {
         /**
-        Status of the action
+        URL where reference information for this trail can be found
         */
-        union {null, ActionStatus} status;
-
+        string studyUrl;
         /**
-        Flag indicating if the variant is actionable
+        Trail/Study indetifier
+        */
+        string studyIdientifier;
+        /**
+        Start date of the study
+        */
+        union {null, string} startDate;
+        /**
+        Completion date of the study
+        */
+        union {null, string} estimateCompletionDate;
+        /**
+        Title of the study
+        */
+        union {null, string} title;
+        /**
+        Study Phase
+        */
+        union {null, StudyPhase} phase;
+        /**
+        Interventions
+        */
+        union {null, array<Intervention>} interventions;
+        /**
+        Conditions
+        */
+        union {null, array<string>} conditions;
+        /**
+        Primary Purpose of the study
+        */
+        union {null, PrimaryPurpose} primaryPurpose;
+        /**
+        Study Type
+        */
+        union {null, StudyType} studyType;
+        /**
+        Elegigility Criteria based on Age and Sex
+        */
+        union {null, DemographicElegibilityCriteria} demogrphicElegibilityCriteria;
+        /**
+        List with all of the locations where participant can enrolle
+        */
+        union {null, array<TrialLocation>} locations;
+        /**
+        If true, the association was made using the variant information,
+        if not the association was made at Genomic Entity level
         */
         boolean variantActionable;
+    }
 
+    record DrugResponse{
         /**
-        Link to original source
+        Treatment agent
         */
-        union {null, string} url;
-
+        string TreatmentAgent;
         /**
-        Type of evidence
+        associated effect of the drug
         */
-        union {null, string} evidenceType;
+        DrugResponseClassification drugResponseClassification;
+    }
 
+    record Therapy{
         /**
-        Source of the information
+        URL where reference information for this therapy association can be found
         */
-        string source;
+        string rferenceUrl;
+        /**
+        Source
+        */
+        union {null, string} source;
+        /**
+        References
+        */
+        union {null, array<string>} references;
+        /**
+        Drug responses
+        */
+        union {null, array<DrugResponse>} drugResponse;
+        /**
+        Any other clinical intervention
+        */
+        union {null, array<Intervention>} otherInterventions;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
 
+    record Prognosis{
+        /**
+        URL where reference information for this prognosis can be found
+        */
+        string rferenceUrl;
+        /**
+        Prognosis classification (defined as favourable or unfavorable) in case the direction of the prognosis is not known but
+        altered_prognosis should be used
+        */
+        union{null, PrognosisClassification} prognosis;
+        /**
+        Source if known
+        */
+        union {null, string} source;
+        /**
+        References
+        */
+        union {null, array<string>} references;
+        /**
+        Full description of the associated prognosis
+        */
+        union {null, string} description;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+    /**
+    Clinical actions
+    */
+    record Actions {
+        union {null, array<Trial>} trials;
+        union {null, array<Prognosis>} prognosis;
+        union {null, array<Therapy>} therapies;
     }
 
     /**
@@ -672,7 +862,7 @@ protocol CommonInterpreted {
         /**
         Actions can be taken on the variant if any
         */
-        union {null, array<Action>} actions;
+        union {null, Actions} actions;
 
         /**
         This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
@@ -694,7 +884,7 @@ protocol CommonInterpreted {
         /**
         Guidelines based Variant classification
         */
-        union {null, GuideLineBasedVariantClassification} guideLineBasedVariantClassification;
+        union {null, GuidelineBasedVariantClassification} guidelineBasedVariantClassification;
 
         /**
         Algorithm based variant classifications
@@ -858,9 +1048,9 @@ protocol CommonInterpreted {
         union {null, PhaseGenotype} phaseGenotype;
 
         /**
-        Variant Allele Frequency
+        Sample Variant Allele Frequency
         */
-        union {null, double} vaf;
+        union {null, double} sampleVariantAlleleFrequency;
 
         /**
         Depth for Reference Allele
