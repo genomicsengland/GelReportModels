@@ -68,6 +68,11 @@ class DependencyManager:
         return package_name
 
     @staticmethod
+    def get_python_protocol_name(build):
+        version = build['version']
+        return "protocol_{}".format(version.replace(".", "_").replace("-SNAPSHOT", ""))
+
+    @staticmethod
     def get_python_module(package):
         package_name = DependencyManager.get_python_package_name(package)
         _module = importlib.import_module("protocols.{}".format(package_name))
