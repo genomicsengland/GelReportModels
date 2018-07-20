@@ -780,7 +780,7 @@ see Expanded Access Data Element Definitions).
         /**
         The standardised phenotypes (i.e.: controlled terminology)
         */
-        array<StandardPhenotype> standardPhenotypes;
+        union {null, array<StandardPhenotype>} standardPhenotypes;
     }
 
     /**
@@ -1017,8 +1017,8 @@ see Expanded Access Data Element Definitions).
         Number of copies given by the caller in one of the allele
         */
         int numberOfCopies;
-        union{null, int} confidenceIntervalMaximun;
-        union{null, int} confidenceIntervalMinimun;
+        union{null, int} confidenceIntervalMaximum;
+        union{null, int} confidenceIntervalMinimum;
     }
 
     /**
@@ -1070,7 +1070,7 @@ see Expanded Access Data Element Definitions).
         /**
         Describe whether this is a somatic or Germline variant
         */
-        array<AlleleOrigin> alleleOrigins;
+        union {null, array<AlleleOrigin>} alleleOrigins;
 
         union {null, array<SupportingReadType>} supportingReadTypes;
 
