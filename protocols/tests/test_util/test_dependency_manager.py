@@ -23,4 +23,4 @@ class TestDependencyManager(TestCase):
         build = {"version": "7.0"}
         protocol_name = DependencyManager().get_python_protocol_name(build)
 
-        self.assertEqual(protocol_name, 'protocol_7.0')
+        self.assertEqual(protocol_name, 'protocol_7_0')
