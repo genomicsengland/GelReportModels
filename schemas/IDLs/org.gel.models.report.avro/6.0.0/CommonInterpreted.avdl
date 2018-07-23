@@ -663,7 +663,7 @@ see Expanded Access Data Element Definitions).
         /**
         Panel name used
         */
-        string panelIdentifier;
+        union {null, string} panelIdentifier;
 
         /**
         Panel name used
