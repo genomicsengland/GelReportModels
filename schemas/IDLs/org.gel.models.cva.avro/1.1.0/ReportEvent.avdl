@@ -183,10 +183,6 @@ Duplication of the prior fields is not be supported.
         */
         union {null, ReportEventQuestionnaireRD} reportEventQuestionnaire;
         /**
-        The report event for the cancer program
-        */
-        union {null, org.gel.models.report.avro.ReportEvent} reportEventCancer;
-        /**
         The report event for the questionnaire reports in the cancer program
         */
         union {null, ReportEventQuestionnaireCancer} reportEventQuestionnaireCancer;
