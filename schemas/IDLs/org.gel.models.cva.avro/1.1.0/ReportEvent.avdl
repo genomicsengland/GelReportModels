@@ -8,7 +8,6 @@ protocol ReportEventProtocol {
     // Report models references
     import idl "CommonInterpreted.avdl";
     import idl "CommonRequest.avdl";
-    import idl "CommonInterpretedCancer.avdl";
     import idl "ExitQuestionnaire.avdl";
     import idl "evidence.avdl";
 
@@ -186,7 +185,7 @@ Duplication of the prior fields is not be supported.
         /**
         The report event for the cancer program
         */
-        union {null, org.gel.models.report.avro.ReportEventCancer} reportEventCancer;
+        union {null, org.gel.models.report.avro.ReportEvent} reportEventCancer;
         /**
         The report event for the questionnaire reports in the cancer program
         */
