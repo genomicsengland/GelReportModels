@@ -26,8 +26,8 @@ protocol DataIntakeRDProtocol {
     import idl "EvidenceSet.avdl";
     //
     import idl "InterpretationRequestRD.avdl";
-    import idl "InterpretedGenomesRD.avdl";
-    import idl "ClinicalReportRD.avdl";
+    import idl "InterpretedGenome.avdl";
+    import idl "ClinicalReport.avdl";
     import idl "ExitQuestionnaire.avdl";
     import idl "RDParticipant.avdl";
 
@@ -75,7 +75,7 @@ protocol DataIntakeRDProtocol {
         /**
         Rare disease Interpreted Genome
         */
-        org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
+        org.gel.models.report.avro.InterpretedGenome interpretedGenome;
     }
 
     /**
@@ -130,7 +130,7 @@ protocol DataIntakeRDProtocol {
         /**
         Rare disease Interpreted Genome
         */
-        org.gel.models.report.avro.InterpretedGenomeRD interpretedGenome;
+        org.gel.models.report.avro.InterpretedGenome interpretedGenome;
     }
 
     /**
@@ -185,7 +185,7 @@ protocol DataIntakeRDProtocol {
         /**
         Information that Genomics England needs to generate a clinical report
         */
-        org.gel.models.report.avro.ClinicalReportRD clinicalReport;
+        org.gel.models.report.avro.ClinicalReport clinicalReport;
     }
 
     /**
