@@ -498,12 +498,12 @@ protocol CommonInterpreted {
         /**
         Any additional information in a free text field. For example a quote from a paper
         */
-        union {null,map<string>} additionalTextualVariantAnnotations;
+        union {null, map<string>} additionalTextualVariantAnnotations;
 
         /**
         Additional references for ths variant. For example HGMD ID or Pubmed Id
         */
-        union {null,map<string>} references;
+        union {null, map<string>} references;
 
         /**
         Additional variant attributes

@@ -265,12 +265,12 @@ record ReportedVariant {
     /**
     For example a quote from a paper
     */
-    union {null,map<string>} additionalTextualVariantAnnotations;
+    union {null, map<string>} additionalTextualVariantAnnotations;
 
     /**
     For example HGMD ID, dbSNP ID or Pubmed Id
     */
-    union {null,map<string>} evidenceIds;
+    union {null, map<string>} evidenceIds;
 
 
 
@@ -334,13 +334,13 @@ record ReportedStructuralVariant {
     /**
     For example HGMD ID)
     */
-    union {null,map<string>} additionalTextualVariantAnnotations;
+    union {null, map<string>} additionalTextualVariantAnnotations;
 
 
     /**
     For example HGMD ID, dbSNP ID or Pubmed Id
     */
-    union {null,map<string>} evidenceIds;
+    union {null, map<string>} evidenceIds;
 
 
     /**
