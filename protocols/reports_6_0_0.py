@@ -333,10 +333,10 @@ class AdditionalAnalysisPanel(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AdditionalAnalysisPanel",
 "fields": [{"type": "string", "name": "specificDisease"}, {"type": {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}, "name":
-"panel"}], "doc": ""}
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]},
+"name": "panel"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1337,10 +1337,11 @@ class CancerInterpretationRequest(ProtocolElement):
 "string", "name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
 "IIP", "MAIN", "EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
-"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC",
-"HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
-"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS",
-"UPPER_GASTROINTESTINAL", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOCRINE", "ENDOMETRIAL_CARCINOMA",
+"HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL",
+"ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL", "OTHER",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
 "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type": "enum", "name":
 "diseaseType"}], "name": "diseaseType"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubType"}, {"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"},
@@ -1356,43 +1357,43 @@ class CancerInterpretationRequest(ProtocolElement):
 "CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
 "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY", "LAPAROSCOPIC_EXCISION",
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
-"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
-"tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}], "name":
-"cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"}, {"doc": "", "type":
-["null", {"values": {"values": {"values": "float", "type": "map"}, "type": "map"}, "type": "map"}],
-"name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
-"name": "InterpretationFlag", "fields": [{"doc": "", "type": {"symbols": ["mixed_chemistries",
-"mixedLab_preparation", "low_tumour_purity", "uniparental_isodisomy", "uniparental_heterodisomy",
-"unusual_karyotype", "high_cnv_count", "high_estimate_human_contamination_fraction",
-"mixed_recruiting_gmc", "suspected_mosaicism", "low_quality_sample", "ffpe_tumour_sample",
-"ff_nano_tumour_sample", "missing_values_for_proband_in_reported_variant", "reissued",
-"supplementary_report_errors", "internal_use_only", "high_priority", "other"], "doc": "", "type":
-"enum", "name": "InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null",
-"string"], "name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}],
-"doc": ""}
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"},
+{"doc": "", "type": ["null", {"values": {"values": {"values": "float", "type": "map"}, "type":
+"map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc": "", "type":
+{"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
+"uniparental_isodisomy", "uniparental_heterodisomy", "unusual_karyotype", "high_cnv_count",
+"high_estimate_human_contamination_fraction", "mixed_recruiting_gmc", "suspected_mosaicism",
+"low_quality_sample", "ffpe_tumour_sample", "ff_nano_tumour_sample",
+"missing_values_for_proband_in_reported_variant", "reissued", "supplementary_report_errors",
+"internal_use_only", "high_priority", "other"], "doc": "", "type": "enum", "name":
+"InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null", "string"],
+"name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1515,10 +1516,11 @@ class CancerParticipant(ProtocolElement):
 "string", "name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
 "IIP", "MAIN", "EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
-"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC",
-"HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
-"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS",
-"UPPER_GASTROINTESTINAL", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOCRINE", "ENDOMETRIAL_CARCINOMA",
+"HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL",
+"ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL", "OTHER",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
 "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type": "enum", "name":
 "diseaseType"}], "name": "diseaseType"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubType"}, {"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"},
@@ -1534,27 +1536,28 @@ class CancerParticipant(ProtocolElement):
 "CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
 "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY", "LAPAROSCOPIC_EXCISION",
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
-"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
-"tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1858,10 +1861,10 @@ class ChromosomalRearrangement(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -2128,10 +2131,10 @@ class ClinicalReport(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -2932,9 +2935,9 @@ class GenePanel(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "GenePanel", "fields":
-[{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"],
-"name": "panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "",
-"type": ["null", "string"], "name": "source"}], "doc": ""}
+[{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"},
+{"doc": "", "type": ["null", "string"], "name": "source"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3436,10 +3439,11 @@ class InterpretationDataCancer(ProtocolElement):
 "string", "name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL",
 "IIP", "MAIN", "EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"},
 {"doc": "", "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST",
-"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC",
-"HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
-"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS",
-"UPPER_GASTROINTESTINAL", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
+"CARCINOMA_OF_UNKNOWN_PRIMARY", "CHILDHOOD", "COLORECTAL", "ENDOCRINE", "ENDOMETRIAL_CARCINOMA",
+"HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL",
+"ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL",
+"TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL", "OTHER",
+"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
 "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type": "enum", "name":
 "diseaseType"}], "name": "diseaseType"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubType"}, {"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"},
@@ -3455,43 +3459,44 @@ class InterpretationDataCancer(ProtocolElement):
 "CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
 "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY", "LAPAROSCOPIC_EXCISION",
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
-"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
-"tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}], "name":
-"cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"}, {"doc": "", "type":
-["null", {"values": {"values": {"values": "float", "type": "map"}, "type": "map"}, "type": "map"}],
-"name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
-"name": "InterpretationFlag", "fields": [{"doc": "", "type": {"symbols": ["mixed_chemistries",
-"mixedLab_preparation", "low_tumour_purity", "uniparental_isodisomy", "uniparental_heterodisomy",
-"unusual_karyotype", "high_cnv_count", "high_estimate_human_contamination_fraction",
-"mixed_recruiting_gmc", "suspected_mosaicism", "low_quality_sample", "ffpe_tumour_sample",
-"ff_nano_tumour_sample", "missing_values_for_proband_in_reported_variant", "reissued",
-"supplementary_report_errors", "internal_use_only", "high_priority", "other"], "doc": "", "type":
-"enum", "name": "InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null",
-"string"], "name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}]},
-"name": "interpretationMetaData"}, {"type": ["null", {"doc": "", "type": "record", "name":
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"},
+{"doc": "", "type": ["null", {"values": {"values": {"values": "float", "type": "map"}, "type":
+"map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc": "", "type":
+{"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
+"uniparental_isodisomy", "uniparental_heterodisomy", "unusual_karyotype", "high_cnv_count",
+"high_estimate_human_contamination_fraction", "mixed_recruiting_gmc", "suspected_mosaicism",
+"low_quality_sample", "ffpe_tumour_sample", "ff_nano_tumour_sample",
+"missing_values_for_proband_in_reported_variant", "reissued", "supplementary_report_errors",
+"internal_use_only", "high_priority", "other"], "doc": "", "type": "enum", "name":
+"InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null", "string"],
+"name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}]}, "name":
+"interpretationMetaData"}, {"type": ["null", {"doc": "", "type": "record", "name":
 "InterpretedGenome", "fields": [{"doc": "", "type": "ReportVersionControl", "name":
 "versionControl"}, {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "",
 "type": "int", "name": "interpretationRequestVersion"}, {"doc": "", "type": "string", "name":
@@ -3535,10 +3540,10 @@ class InterpretationDataCancer(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -3941,10 +3946,10 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -4517,10 +4522,10 @@ class InterpretedGenome(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -6044,10 +6049,10 @@ class ReportEvent(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -6580,10 +6585,10 @@ class ShortTandemRepeat(ProtocolElement):
 {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
 "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
 "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "",
-"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name":
-"panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name": "genePanel"},
-{"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -6891,10 +6896,10 @@ class SmallVariant(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -7196,10 +7201,10 @@ class StructuralVariant(ProtocolElement):
 {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
 "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
 "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "",
-"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name":
-"panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name": "genePanel"},
-{"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -7627,6 +7632,7 @@ class TissueSource(object):
     STEREOTACTICALLY_GUIDED_BIOPSY = "STEREOTACTICALLY_GUIDED_BIOPSY"
     USS_GUIDED_BIOPSY = "USS_GUIDED_BIOPSY"
     NON_STANDARD_BIOPSY = "NON_STANDARD_BIOPSY"
+    NOT_SPECIFIED = "NOT_SPECIFIED"
 
 
 class TraitAssociation(object):
@@ -7817,12 +7823,12 @@ class TumourSample(ProtocolElement):
 "name": "tumourId"}, {"doc": "", "type": ["null", {"symbols": ["CRUK", "OXFORD", "CLL", "IIP",
 "MAIN", "EXPT"], "type": "enum", "name": "ProgrammePhase"}], "name": "programmePhase"}, {"doc": "",
 "type": ["null", {"symbols": ["ADULT_GLIOMA", "BLADDER", "BREAST", "CARCINOMA_OF_UNKNOWN_PRIMARY",
-"CHILDHOOD", "COLORECTAL", "ENDOMETRIAL_CARCINOMA", "HAEMONC", "HEPATOPANCREATOBILIARY", "LUNG",
-"MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL", "OVARIAN", "PROSTATE", "RENAL",
-"SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS", "UPPER_GASTROINTESTINAL",
-"NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", "CLASSICAL_HODGKINS",
-"NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type": "enum", "name":
-"diseaseType"}], "name": "diseaseType"}, {"doc": "", "type": ["null", "string"], "name":
+"CHILDHOOD", "COLORECTAL", "ENDOCRINE", "ENDOMETRIAL_CARCINOMA", "HAEMONC",
+"HEPATOPANCREATOBILIARY", "LUNG", "MALIGNANT_MELANOMA", "NASOPHARYNGEAL", "ORAL_OROPHARYNGEAL",
+"OVARIAN", "PROSTATE", "RENAL", "SARCOMA", "SINONASAL", "TESTICULAR_GERM_CELL_TUMOURS",
+"UPPER_GASTROINTESTINAL", "OTHER", "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE",
+"CLASSICAL_HODGKINS", "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", "T_CELL_LYMPHOMA"], "type": "enum",
+"name": "diseaseType"}], "name": "diseaseType"}, {"doc": "", "type": ["null", "string"], "name":
 "diseaseSubType"}, {"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"},
 {"doc": "", "type": ["null", {"symbols": ["PRIMARY", "METASTATIC_RECURRENCE",
 "RECURRENCE_OF_PRIMARY_TUMOUR", "METASTASES"], "type": "enum", "name": "TumourType"}], "name":
@@ -7836,15 +7842,15 @@ class TumourSample(ProtocolElement):
 "CT_GUIDED_BIOPSY", "ENDOSCOPIC_BIOPSY", "ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY",
 "ENDOSCOPIC_ULTRASOUND_GUIDED_FNA", "LAPAROSCOPIC_BIOPSY", "LAPAROSCOPIC_EXCISION",
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
-"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
-"tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}], "doc": ""}
+"USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
+"TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -8771,6 +8777,7 @@ class diseaseType(object):
     CARCINOMA_OF_UNKNOWN_PRIMARY = "CARCINOMA_OF_UNKNOWN_PRIMARY"
     CHILDHOOD = "CHILDHOOD"
     COLORECTAL = "COLORECTAL"
+    ENDOCRINE = "ENDOCRINE"
     ENDOMETRIAL_CARCINOMA = "ENDOMETRIAL_CARCINOMA"
     HAEMONC = "HAEMONC"
     HEPATOPANCREATOBILIARY = "HEPATOPANCREATOBILIARY"
@@ -8785,6 +8792,7 @@ class diseaseType(object):
     SINONASAL = "SINONASAL"
     TESTICULAR_GERM_CELL_TUMOURS = "TESTICULAR_GERM_CELL_TUMOURS"
     UPPER_GASTROINTESTINAL = "UPPER_GASTROINTESTINAL"
+    OTHER = "OTHER"
     NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE = "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE"
     CLASSICAL_HODGKINS = "CLASSICAL_HODGKINS"
     NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS = "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS"
