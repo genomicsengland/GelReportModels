@@ -333,10 +333,10 @@ class AdditionalAnalysisPanel(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AdditionalAnalysisPanel",
 "fields": [{"type": "string", "name": "specificDisease"}, {"type": {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}, "name":
-"panel"}], "doc": ""}
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]},
+"name": "panel"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -1858,10 +1858,10 @@ class ChromosomalRearrangement(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -2128,10 +2128,10 @@ class ClinicalReport(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -2932,9 +2932,9 @@ class GenePanel(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "GenePanel", "fields":
-[{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"],
-"name": "panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "",
-"type": ["null", "string"], "name": "source"}], "doc": ""}
+[{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc": "", "type": ["null",
+"string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"},
+{"doc": "", "type": ["null", "string"], "name": "source"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -3535,10 +3535,10 @@ class InterpretationDataCancer(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -3941,10 +3941,10 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -4517,10 +4517,10 @@ class InterpretedGenome(ProtocolElement):
 {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
 "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": "string", "name":
-"panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "",
-"type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name":
-"source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
@@ -6044,10 +6044,10 @@ class ReportEvent(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -6580,10 +6580,10 @@ class ShortTandemRepeat(ProtocolElement):
 {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
 "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
 "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "",
-"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name":
-"panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name": "genePanel"},
-{"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -6891,10 +6891,10 @@ class SmallVariant(ProtocolElement):
 {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type":
 "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type":
 "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
-"name": "GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null",
+"string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}],
+"name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
@@ -7196,10 +7196,10 @@ class StructuralVariant(ProtocolElement):
 {"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
 "name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
 "variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"GenePanel", "fields": [{"doc": "", "type": "string", "name": "panelIdentifier"}, {"doc": "",
-"type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"], "name":
-"panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name": "genePanel"},
-{"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
 "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
 "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
 "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
