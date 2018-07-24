@@ -189,19 +189,13 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 * `strong`: `S`, strong applied for pathogenic variant critieria (PS1-4)
 * `very_strong`: `S`, Very Stong applied for pathogenic variant critieria (PVS1)
     */
-    enum AcmgEvidenceStrength{stand_alone, supporting, moderate, strong, very_strong}
+    enum AcmgEvidenceWeight{stand_alone, supporting, moderate, strong, very_strong}
 
     /**
     Each ACMG criterion is classified in one of these categories
     */
     enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, seggregation_data,
         de_novo_data, allelic_data, other_database, other_data}
-    /**
-    Based on the category and the weight (A-VS-1-7) a criterion is defined this should identified each one of the
-    evidencies present in the guidelines
-    */
-    enum AcmgCriterion{BA1, BS1, BS2, BS3, BS4, BP1, BP2, BP3, BP4, BP5, BP6, BP7, PVS1, PS1, PS2, PS3, PS4, PM1, PM2,
-        PM3, PM4, PM5, PM6, PP1, PP2, PP3, PP4, PP5}
     /**
     Type of evidence in tge AMP guideline
     */
@@ -220,12 +214,12 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     /**
     Categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
     */
-    enum AmpClincialOrExperimentalEvidenceCategory {therapeutic, diagnosis, prognosis}
+    enum AmpClinicalOrExperimentalEvidenceCategory {therapeutic, diagnosis, prognosis}
 
     /**
     Levels for categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
     */
-    enum AmpClincialOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
+    enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
 
     /**
     AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
@@ -235,24 +229,19 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         Evidence category as defined in ACMG guidelines
         */
-        union {null, AcmgEvidenceCategory} category;
+        AcmgEvidenceCategory category;
         /**
         Evidence type: bening or pathogenic
         */
-        union {null, AcmgEvidenceType} type;
+        AcmgEvidenceType type;
         /**
         Weight categories as described in ACMG guideline
         */
-        union {null, AcmgEvidenceStrength} strength;
+        AcmgEvidenceWeight weight;
         /**
-        Intensity of the strength, together define the weight of each creteria, i.e the 2 in PM2
+        modifier of the strength, together define each creteria, i.e the 2 in PM2
         */
-        union {null, int} level;
-        /**
-        Short name for each the criteria as define in the guidline. This is the only required value, but with it all the
-        others can be populated
-        */
-        AcmgCriterion criterion;
+        int modifier;
         /**
         Description of the evidence
         */
@@ -292,11 +281,11 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         As denined in AMP guidelines: therapeutic, diagnosis or prognosis
         */
-        AmpClincialOrExperimentalEvidenceCategory category;
+        AmpClinicalOrExperimentalEvidenceCategory category;
         /**
         As denined in AMP guidelines: levelA, levelB, levelC, levelD
         */
-        AmpClincialOrExperimentalEvidenceLevel level;
+        AmpClinicalOrExperimentalEvidenceLevel level;
         /**
         Description of the evidence
         */
