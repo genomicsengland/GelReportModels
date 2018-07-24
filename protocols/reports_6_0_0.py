@@ -26,42 +26,6 @@ class ACMGClassification(object):
     not_assessed = "not_assessed"
 
 
-class AcmgCriterion(object):
-    """
-    Based on the category and the weight (A-VS-1-7) a criterion is
-    defined this should identified each one of the     evidencies
-    present in the guidelines
-    """
-    BA1 = "BA1"
-    BS1 = "BS1"
-    BS2 = "BS2"
-    BS3 = "BS3"
-    BS4 = "BS4"
-    BP1 = "BP1"
-    BP2 = "BP2"
-    BP3 = "BP3"
-    BP4 = "BP4"
-    BP5 = "BP5"
-    BP6 = "BP6"
-    BP7 = "BP7"
-    PVS1 = "PVS1"
-    PS1 = "PS1"
-    PS2 = "PS2"
-    PS3 = "PS3"
-    PS4 = "PS4"
-    PM1 = "PM1"
-    PM2 = "PM2"
-    PM3 = "PM3"
-    PM4 = "PM4"
-    PM5 = "PM5"
-    PM6 = "PM6"
-    PP1 = "PP1"
-    PP2 = "PP2"
-    PP3 = "PP3"
-    PP4 = "PP4"
-    PP5 = "PP5"
-
-
 class AcmgEvidence(ProtocolElement):
     """
     AcmgEvidence. This should be buit for each one of the evidences
@@ -71,26 +35,22 @@ class AcmgEvidence(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AcmgEvidence", "fields":
-[{"doc": "", "type": ["null", {"symbols": ["population_data", "computational_and_predictive_data",
+[{"doc": "", "type": {"symbols": ["population_data", "computational_and_predictive_data",
 "functional_data", "seggregation_data", "de_novo_data", "allelic_data", "other_database",
-"other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}], "name": "category"},
-{"doc": "", "type": ["null", {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum",
-"name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "", "type": ["null", {"symbols":
-["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "", "type": "enum",
-"name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "", "type": ["null", "int"], "name":
-"level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2", "BS3", "BS4", "BP1", "BP2", "BP3",
-"BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4", "PM1", "PM2", "PM3", "PM4", "PM5",
-"PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type": "enum", "name": "AcmgCriterion"},
-"name": "criterion"}, {"doc": "", "type": ["null", "string"], "name": "description"}], "doc": ""}
+"other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}, "name": "category"},
+{"doc": "", "type": {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum", "name":
+"AcmgEvidenceType"}, "name": "type"}, {"doc": "", "type": {"symbols": ["stand_alone", "supporting",
+"moderate", "strong", "very_strong"], "doc": "", "type": "enum", "name": "AcmgEvidenceWeight"},
+"name": "weight"}, {"doc": "", "type": "int", "name": "modifier"}, {"doc": "", "type": ["null",
+"string"], "name": "description"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "category",
-        "criterion",
         "description",
-        "level",
-        "strength",
+        "modifier",
         "type",
+        "weight",
     }
 
     @classmethod
@@ -105,23 +65,20 @@ class AcmgEvidence(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'category', 'criterion', 'description', 'level', 'strength',
-        'type'
+        'category', 'description', 'modifier', 'type', 'weight'
     ]
 
     def __init__(self, **kwargs):
         self.category = kwargs.get(
             'category', None)
-        self.criterion = kwargs.get(
-            'criterion', None)
         self.description = kwargs.get(
             'description', None)
-        self.level = kwargs.get(
-            'level', None)
-        self.strength = kwargs.get(
-            'strength', None)
+        self.modifier = kwargs.get(
+            'modifier', None)
         self.type = kwargs.get(
             'type', None)
+        self.weight = kwargs.get(
+            'weight', None)
 
 
 class AcmgEvidenceCategory(object):
@@ -138,7 +95,15 @@ class AcmgEvidenceCategory(object):
     other_data = "other_data"
 
 
-class AcmgEvidenceStrength(object):
+class AcmgEvidenceType(object):
+    """
+    Each ACMG cirterion will be classifed as bening or pathogenic
+    """
+    bening = "bening"
+    pathogenic = "pathogenic"
+
+
+class AcmgEvidenceWeight(object):
     """
     Each ACMG criterion is weighted using the following terms:  *
     `stand_alone`: `A`, stand-alone applied for benign variant
@@ -156,14 +121,6 @@ class AcmgEvidenceStrength(object):
     very_strong = "very_strong"
 
 
-class AcmgEvidenceType(object):
-    """
-    Each ACMG cirterion will be classifed as bening or pathogenic
-    """
-    bening = "bening"
-    pathogenic = "pathogenic"
-
-
 class AcmgVariantClassification(ProtocolElement):
     """
     Full record for the ACMG variant clasiffication, including all
@@ -172,21 +129,17 @@ class AcmgVariantClassification(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AcmgVariantClassification",
 "fields": [{"type": {"items": {"doc": "", "type": "record", "name": "AcmgEvidence", "fields":
-[{"doc": "", "type": ["null", {"symbols": ["population_data", "computational_and_predictive_data",
+[{"doc": "", "type": {"symbols": ["population_data", "computational_and_predictive_data",
 "functional_data", "seggregation_data", "de_novo_data", "allelic_data", "other_database",
-"other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}], "name": "category"},
-{"doc": "", "type": ["null", {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum",
-"name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "", "type": ["null", {"symbols":
-["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "", "type": "enum",
-"name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "", "type": ["null", "int"], "name":
-"level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2", "BS3", "BS4", "BP1", "BP2", "BP3",
-"BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4", "PM1", "PM2", "PM3", "PM4", "PM5",
-"PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type": "enum", "name": "AcmgCriterion"},
-"name": "criterion"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type":
-"array"}, "name": "acmgEvidences"}, {"type": {"symbols": ["benign", "likely_benign",
-"likely_pathogenic", "pathogenic", "uncertain_significance"], "type": "enum", "name":
-"ClinicalSignificance"}, "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}], "doc": ""}
+"other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}, "name": "category"},
+{"doc": "", "type": {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum", "name":
+"AcmgEvidenceType"}, "name": "type"}, {"doc": "", "type": {"symbols": ["stand_alone", "supporting",
+"moderate", "strong", "very_strong"], "doc": "", "type": "enum", "name": "AcmgEvidenceWeight"},
+"name": "weight"}, {"doc": "", "type": "int", "name": "modifier"}, {"doc": "", "type": ["null",
+"string"], "name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
+{"symbols": ["benign", "likely_benign", "likely_pathogenic", "pathogenic",
+"uncertain_significance"], "type": "enum", "name": "ClinicalSignificance"}, "name":
+"clinicalSignificance"}, {"type": ["null", "string"], "name": "assesment"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -629,9 +582,9 @@ class AmpClincialOrExperimentalEvidence(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -665,7 +618,7 @@ class AmpClincialOrExperimentalEvidence(ProtocolElement):
             'level', None)
 
 
-class AmpClincialOrExperimentalEvidenceCategory(object):
+class AmpClinicalOrExperimentalEvidenceCategory(object):
     """
     Categories of Clinical and/or Experimental Evidence as defined in
     AMP guidelines
@@ -675,7 +628,7 @@ class AmpClincialOrExperimentalEvidenceCategory(object):
     prognosis = "prognosis"
 
 
-class AmpClincialOrExperimentalEvidenceLevel(object):
+class AmpClinicalOrExperimentalEvidenceLevel(object):
     """
     Levels for categories of Clinical and/or Experimental Evidence as
     defined in AMP guidelines
@@ -776,9 +729,9 @@ class AmpVariantClassification(ProtocolElement):
 "AmpTier"}, "name": "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
 "name": "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols":
 ["therapeutic", "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}], "doc": ""}
 """
@@ -1948,23 +1901,19 @@ class ChromosomalRearrangement(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -1973,9 +1922,9 @@ class ChromosomalRearrangement(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -2218,23 +2167,19 @@ class ClinicalReport(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -2243,9 +2188,9 @@ class ClinicalReport(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -3115,35 +3060,31 @@ class GuidelineBasedVariantClassification(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type": {"symbols":
-["benign", "likely_benign", "likely_pathogenic", "pathogenic", "uncertain_significance"], "type":
-"enum", "name": "ClinicalSignificance"}, "name": "clinicalSignificance"}, {"type": ["null",
-"string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc":
-"", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
-"population_database_presence", "germline_database_presence", "somatic_database_presence",
-"impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
-"name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
-"evidenceAssesment"}]}, "type": "array"}, "name": "ampEvidences"}, {"doc": "", "type": {"symbols":
-["tierI", "tierII", "tierIII", "tierIV"], "doc": "", "type": "enum", "name": "AmpTier"}, "name":
-"ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
-"AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
-"diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
-["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": {"symbols": ["benign", "likely_benign", "likely_pathogenic",
+"pathogenic", "uncertain_significance"], "type": "enum", "name": "ClinicalSignificance"}, "name":
+"clinicalSignificance"}, {"type": ["null", "string"], "name": "assesment"}]}], "name":
+"acmgVariantClassification"}, {"type": ["null", {"doc": "", "type": "record", "name":
+"AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "", "type": "record",
+"name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols": ["mutation_type", "therapies",
+"variant_frequencies", "potential_germline", "population_database_presence",
+"germline_database_presence", "somatic_database_presence", "impact_predictive_software",
+"pathway_involvement", "publications"], "doc": "", "type": "enum", "name": "AmpEvidenceType"},
+"name": "type"}, {"doc": "", "type": "string", "name": "evidenceAssesment"}]}, "type": "array"},
+"name": "ampEvidences"}, {"doc": "", "type": {"symbols": ["tierI", "tierII", "tierIII", "tierIV"],
+"doc": "", "type": "enum", "name": "AmpTier"}, "name": "ampTier"}, {"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name": "AmpClincialOrExperimentalEvidence", "fields":
+[{"doc": "", "type": {"symbols": ["therapeutic", "diagnosis", "prognosis"], "doc": "", "type":
+"enum", "name": "AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "",
+"type": {"symbols": ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}],
 "doc": ""}
@@ -3626,23 +3567,19 @@ class InterpretationDataCancer(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -3651,9 +3588,9 @@ class InterpretationDataCancer(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -4031,23 +3968,19 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -4056,9 +3989,9 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -4609,23 +4542,19 @@ class InterpretedGenome(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -4634,9 +4563,9 @@ class InterpretedGenome(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -6136,23 +6065,19 @@ class ReportEvent(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -6161,9 +6086,9 @@ class ReportEvent(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -6672,23 +6597,19 @@ class ShortTandemRepeat(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -6697,9 +6618,9 @@ class ShortTandemRepeat(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -6983,23 +6904,19 @@ class SmallVariant(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -7008,9 +6925,9 @@ class SmallVariant(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -7288,23 +7205,19 @@ class StructuralVariant(ProtocolElement):
 {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type":
-"ClinicalSignificance", "name": "clinicalSignificance"}, {"type": ["null", "string"], "name":
-"assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc": "", "type":
-"record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": "ClinicalSignificance", "name": "clinicalSignificance"}, {"type":
+["null", "string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null",
+{"doc": "", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type":
+{"symbols": ["mutation_type", "therapies", "variant_frequencies", "potential_germline",
 "population_database_presence", "germline_database_presence", "somatic_database_presence",
 "impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
 "name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
@@ -7313,9 +7226,9 @@ class StructuralVariant(ProtocolElement):
 "ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
 "diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
+"AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
 ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
@@ -8505,35 +8418,31 @@ class VariantInterpretationLog(ProtocolElement):
 "string", "type": "array"}], "name": "comments"}, {"type": {"doc": "", "type": "record", "name":
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
-"name": "AcmgEvidence", "fields": [{"doc": "", "type": ["null", {"symbols": ["population_data",
+"name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
 "computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
-"AcmgEvidenceCategory"}], "name": "category"}, {"doc": "", "type": ["null", {"symbols": ["bening",
-"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}], "name": "type"}, {"doc": "",
-"type": ["null", {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"],
-"doc": "", "type": "enum", "name": "AcmgEvidenceStrength"}], "name": "strength"}, {"doc": "",
-"type": ["null", "int"], "name": "level"}, {"doc": "", "type": {"symbols": ["BA1", "BS1", "BS2",
-"BS3", "BS4", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "PVS1", "PS1", "PS2", "PS3", "PS4",
-"PM1", "PM2", "PM3", "PM4", "PM5", "PM6", "PP1", "PP2", "PP3", "PP4", "PP5"], "doc": "", "type":
-"enum", "name": "AcmgCriterion"}, "name": "criterion"}, {"doc": "", "type": ["null", "string"],
-"name": "description"}]}, "type": "array"}, "name": "acmgEvidences"}, {"type": {"symbols":
-["benign", "likely_benign", "likely_pathogenic", "pathogenic", "uncertain_significance"], "type":
-"enum", "name": "ClinicalSignificance"}, "name": "clinicalSignificance"}, {"type": ["null",
-"string"], "name": "assesment"}]}], "name": "acmgVariantClassification"}, {"type": ["null", {"doc":
-"", "type": "record", "name": "AmpVariantClassification", "fields": [{"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols":
-["mutation_type", "therapies", "variant_frequencies", "potential_germline",
-"population_database_presence", "germline_database_presence", "somatic_database_presence",
-"impact_predictive_software", "pathway_involvement", "publications"], "doc": "", "type": "enum",
-"name": "AmpEvidenceType"}, "name": "type"}, {"doc": "", "type": "string", "name":
-"evidenceAssesment"}]}, "type": "array"}, "name": "ampEvidences"}, {"doc": "", "type": {"symbols":
-["tierI", "tierII", "tierIII", "tierIV"], "doc": "", "type": "enum", "name": "AmpTier"}, "name":
-"ampTier"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
-"AmpClincialOrExperimentalEvidence", "fields": [{"doc": "", "type": {"symbols": ["therapeutic",
-"diagnosis", "prognosis"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols":
-["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
-"AmpClincialOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
+"AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
+"pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
+"type": {"symbols": ["stand_alone", "supporting", "moderate", "strong", "very_strong"], "doc": "",
+"type": "enum", "name": "AcmgEvidenceWeight"}, "name": "weight"}, {"doc": "", "type": "int", "name":
+"modifier"}, {"doc": "", "type": ["null", "string"], "name": "description"}]}, "type": "array"},
+"name": "acmgEvidences"}, {"type": {"symbols": ["benign", "likely_benign", "likely_pathogenic",
+"pathogenic", "uncertain_significance"], "type": "enum", "name": "ClinicalSignificance"}, "name":
+"clinicalSignificance"}, {"type": ["null", "string"], "name": "assesment"}]}], "name":
+"acmgVariantClassification"}, {"type": ["null", {"doc": "", "type": "record", "name":
+"AmpVariantClassification", "fields": [{"doc": "", "type": {"items": {"doc": "", "type": "record",
+"name": "AmpEvidence", "fields": [{"doc": "", "type": {"symbols": ["mutation_type", "therapies",
+"variant_frequencies", "potential_germline", "population_database_presence",
+"germline_database_presence", "somatic_database_presence", "impact_predictive_software",
+"pathway_involvement", "publications"], "doc": "", "type": "enum", "name": "AmpEvidenceType"},
+"name": "type"}, {"doc": "", "type": "string", "name": "evidenceAssesment"}]}, "type": "array"},
+"name": "ampEvidences"}, {"doc": "", "type": {"symbols": ["tierI", "tierII", "tierIII", "tierIV"],
+"doc": "", "type": "enum", "name": "AmpTier"}, "name": "ampTier"}, {"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name": "AmpClincialOrExperimentalEvidence", "fields":
+[{"doc": "", "type": {"symbols": ["therapeutic", "diagnosis", "prognosis"], "doc": "", "type":
+"enum", "name": "AmpClinicalOrExperimentalEvidenceCategory"}, "name": "category"}, {"doc": "",
+"type": {"symbols": ["levelA", "levelB", "levelC", "levelD"], "doc": "", "type": "enum", "name":
+"AmpClinicalOrExperimentalEvidenceLevel"}, "name": "level"}, {"doc": "", "type": ["null", "string"],
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assesment"}]}], "name": "ampVariantClassification"}]},
 "name": "variantClassification"}, {"type": ["null", "VariantValidation"], "name":
