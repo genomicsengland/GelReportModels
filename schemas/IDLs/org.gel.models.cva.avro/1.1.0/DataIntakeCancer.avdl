@@ -278,6 +278,10 @@ protocol DataIntakeCancerProtocol {
         */
         array<CancerGermlineVariantLevelQuestionnaire> cancerGermlineExitQuestionnaires;
         /**
+        Cancer exit questionnaire
+        */
+        union {null, org.gel.models.report.avro.CancerExitQuestionnaire} cancerExitQuestionnaire;
+        /**
         Please enter any additional comments you may have about the case here.
         */
         union {null, string} additionalComments;
