@@ -7,6 +7,22 @@ protocol CommonInterpreted {
     import idl "CommonParticipant.avdl";
 
 
+enum SegregationPattern {
+    UniparentalIsodisomy,
+    SimpleRecessive,
+    CompoundHeterozygous,
+    deNovo,
+    InheritedAutosomalDominant,
+    InheritedAutosomalDominantMaternallyImprinted,
+    InheritedAutosomalDominantPaternallyImprinted,
+    XLinkedCompoundHeterozygous,
+    XLinkedSimpleRecessive,
+    XLinkedMonoallelic,
+    MitochondrialGenome
+}
+
+
+
 enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
 /**
@@ -45,7 +61,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 * `mitochondrial`: MITOCHONDRIAL
 * `unknown`: Unknown
     */
-    enum ReportedModeOfInheritance {
+    enum ModeOfInheritance {
         monoallelic,
         monoallelic_not_imprinted,
         monoallelic_maternally_imprinted,
@@ -115,26 +131,28 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         altered_sensitivity,
         reduced_sensitivity,
         increased_sensitivity,
-        altered_resistant,
+        altered_resistance,
         increased_resistance,
-        reduce_resistance,
-        increased_toxicity,
-        reduced_toxicity,
+        reduced_resistance,
+        increased_risk_of_toxicity,
+        reduced_risk_of_toxicity,
+        altered_toxicity,
         adverse_drug_reaction,
         indication,
         contraindication,
         dosing_alteration,
-        increased_dosing,
-        reduced_dosing,
+        increased_dose,
+        reduced_dose,
         increased_monitoring,
         increased_efficacy,
-        reduced_efficacy
+        reduced_efficacy,
+        altered_efficacy
     }
 
     enum PrognosisClassification{
         altered_prognosis,
-        favorable_prognosis,
-        unfavorable_prognosis
+        favourable_prognosis,
+        unfavourable_prognosis
     }
 
     enum TraitAssociation {
@@ -352,7 +370,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 * `biological`: Vaccine
 * `procedure`: Surgery
 * `radiation`
-* `behavioral`: For example, psychotherapy, lifestyle counseling
+* `behavioral`: For example, psychotherapy, lifestyle counselling
 * `genetic`: Including gene transfer, stem cell and recombinant DNA
 * `dietary_supplement`: For example, vitamins, minerals
 * `combination_product`: Combining a drug and device, a biological product and device; a drug and biological product; or a drug, biological product, and device
@@ -382,7 +400,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         basic_science, device_feasibility, other}
 
     /**
-    N/A: Trials without phases (for example, studies of devices or behavioral interventions).
+    N/A: Trials without phases (for example, studies of devices or behavioural interventions).
     Early Phase 1 (Formerly listed as "Phase 0"): Exploratory trials, involving very limited human exposure, with no therapeutic or diagnostic intent (e.g., screening studies, microdose studies). See FDA guidance on exploratory IND studies for more information.
     Phase 1: Includes initial studies to determine the metabolism and pharmacologic actions of drugs in humans, the side effects associated with increasing doses, and to gain early evidence of effectiveness; may include healthy participants and/or patients.
     Phase 1/Phase 2: Trials that are a combination of phases 1 and 2.
@@ -391,7 +409,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     Phase 3: Includes trials conducted after preliminary evidence suggesting effectiveness of the drug has been obtained, and are intended to gather additional information to evaluate the overall benefit-risk relationship of the drug.
     Phase 4: Studies of FDA-approved drugs to delineate additional information including the drug's risks, benefits, and optimal use.
     */
-    enum StudyPhase {na, early_phase1, phase1, phase2, phase3, phase4}
+    enum StudyPhase {na, early_phase1, phase1, phase1_phase2, phase2, phase2_phase3, phase3, phase4}
 
     /**
 * `Interventional (clinical trial)`: Participants are assigned prospectively to an intervention or interventions
@@ -542,8 +560,8 @@ see Expanded Access Data Element Definitions).
         */
         string rferenceUrl;
         /**
-        Prognosis classification (defined as favourable or unfavorable) in case the direction of the prognosis is not known but
-        altered_prognosis should be used
+        Prognosis classification (defined as favourable or unfavourable),
+        in the case that the direction of the prognosis is not known altered_prognosis should be used
         */
         union{null, PrognosisClassification} prognosis;
         /**
@@ -747,7 +765,7 @@ see Expanded Access Data Element Definitions).
         union {null, string} comment;
         union {null, string} alternativeIds;
         union {null, string} synonyms;
-        union {null, string} isAs;
+        union {null, string} isA;
         /**
         The ontology (e.g.: HPO, OMIM, SNOMED CT)
         */
@@ -803,7 +821,7 @@ see Expanded Access Data Element Definitions).
         /**
         Mode of inheritance used to analyse the family
         */
-        ReportedModeOfInheritance modeOfInheritance;
+        ModeOfInheritance modeOfInheritance;
 
         /**
         The list of genomic features of interest for this report event. Please note that one variant can overlap more
@@ -811,6 +829,8 @@ see Expanded Access Data Element Definitions).
         variant, should be reported in two different ReportEvents
         */
         array<GenomicEntity> genomicEntities;
+
+        union {null, SegregationPattern} segregationPattern;
 
         /**
         This is the penetrance assumed for scoring or classifying this variant
@@ -1188,8 +1208,6 @@ see Expanded Access Data Element Definitions).
         */
         array<ReportEvent> reportEvents;
         union {null, VariantAttributes} variantAttributes;
-
-
 
     }
 
