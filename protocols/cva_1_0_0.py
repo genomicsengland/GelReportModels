@@ -2590,7 +2590,7 @@ class ClinicalSignificance(object):
     for the interpretation of sequence variants: a joint consensus
     recommendation of the American College         of Medical Genetics
     and Genomics and the Association for Molecular Pathology. Genetics
-    in Medicine, 17(5),         405 423.
+    in Medicine, 17(5),         405?423.
     https://doi.org/10.1038/gim.2015.30.      Classification for
     pharmacogenomic variants, variants associated to     disease and
     somatic variants based on the ACMG recommendations and ClinVar
@@ -4047,9 +4047,9 @@ class EvidenceImpact(object):
     interpretation     of sequence variants: a joint consensus
     recommendation of the American College of Medical Genetics and
     Genomics and     the Association for Molecular Pathology. Genetics
-    in Medicine, 17(5), 405 423. https://doi.org/10.1038/gim.2015.30
+    in Medicine, 17(5), 405?423. https://doi.org/10.1038/gim.2015.30
     Evidence of pathogenicity: * `very_strong`:     - PVS1 null
-    variant (nonsense, frameshift, canonical  1 or 2 splice sites,
+    variant (nonsense, frameshift, canonical ?1 or 2 splice sites,
     initiation codon, single or multiexon     deletion) in a gene
     where LOF is a known mechanism of disease * `strong`:     - PS1
     Same amino acid change as a previously established pathogenic
@@ -4079,7 +4079,7 @@ class EvidenceImpact(object):
     mechanism of disease     - PP3 Multiple lines of computational
     evidence support a deleterious effect on the gene or gene product
     (conservation, evolutionary, splicing impact, etc.)     - PP4
-    Patient s phenotype or family history is highly specific for a
+    Patient?s phenotype or family history is highly specific for a
     disease with a single genetic etiology     - PP5 Reputable source
     recently reports variant as pathogenic, but the evidence is not
     available to the laboratory     to perform an independent
@@ -4826,14 +4826,14 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
 "type": "string", "name": "author"}, {"doc": "", "type": ["null", "string"], "name":
 "authorVersion"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"},
 {"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "namespace": "org.gel.models.report.avro",
-"type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"}, {"doc": "", "type": {"doc": "",
-"type": "record", "name": "ExitQuestionnaireRD", "fields": [{"doc": "", "type": {"items": {"doc":
-"", "type": "record", "name": "ReportedVariantQuestionnaireRD", "fields": [{"doc": "", "type":
-{"namespace": "org.gel.models.report.avro", "type": "record", "name": "VariantCoordinates",
-"fields": [{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
-"position"}, {"doc": "", "type": "string", "name": "reference"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"doc": "", "type": "Assembly", "name": "assembly"}], "doc": ""}, "name":
-"variantCoordinates"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "ExitQuestionnaireRD", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "ReportedVariantQuestionnaireRD", "fields": [{"doc":
+"", "type": {"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VariantCoordinates", "fields": [{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
+"type": "int", "name": "position"}, {"doc": "", "type": "string", "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"doc": "", "type": "Assembly", "name": "assembly"}], "doc":
+""}, "name": "variantCoordinates"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
 "ReportEventQuestionnaireRD", "fields": [{"doc": "", "type": ["null", "int"], "name":
 "groupOfVariants"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
 "record", "name": "VariantLevelQuestions", "fields": [{"doc": "", "type": "string", "name":
@@ -4862,8 +4862,13 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
 "CaseSolvedFamily"}, "name": "caseSolvedFamily"}, {"doc": "", "type": {"symbols": ["yes", "no"],
 "type": "enum", "name": "SegregationQuestion"}, "name": "segregationQuestion"}, {"doc": "", "type":
 "string", "name": "additionalComments"}], "doc": ""}, "name": "familyLevelQuestions"}]}, "name":
-"reportEvent"}]}, "type": "array"}, "name": "variants"}]}, "name": "exitQuestionnaireRd"}], "doc":
-""}
+"reportEvent"}]}, "type": "array"}, "name": "variants"}]}], "name": "exitQuestionnaireRd"}, {"doc":
+"", "type": ["null", {"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"RareDiseaseExitQuestionnaire", "fields": [{"doc": "", "type": "string", "name": "eventDate"},
+{"doc": "", "type": "string", "name": "reporter"}, {"doc": "", "type": "FamilyLevelQuestions",
+"name": "familyLevelQuestions"}, {"doc": "", "type": {"items": "VariantGroupLevelQuestions", "type":
+"array"}, "name": "variantGroupLevelQuestions"}], "doc": ""}], "name":
+"rareDiseaseExitQuestionnaire"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4876,6 +4881,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
         "id",
         "parentId",
         "parentVersion",
+        "rareDiseaseExitQuestionnaire",
         "reportModelVersion",
         "version",
         "workspace",
@@ -4885,6 +4891,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'exitQuestionnaireRd': ExitQuestionnaireRD,
+            'rareDiseaseExitQuestionnaire': RareDiseaseExitQuestionnaire,
         }
         return fieldName in embeddedTypes
 
@@ -4892,6 +4899,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'exitQuestionnaireRd': ExitQuestionnaireRD,
+            'rareDiseaseExitQuestionnaire': RareDiseaseExitQuestionnaire,
         }
 
         return embeddedTypes[fieldName]
@@ -4899,7 +4907,8 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     __slots__ = [
         'assembly', 'author', 'authorVersion', 'cohortId',
         'exitQuestionnaireRd', 'groupId', 'id', 'parentId',
-        'parentVersion', 'reportModelVersion', 'version', 'workspace'
+        'parentVersion', 'rareDiseaseExitQuestionnaire',
+        'reportModelVersion', 'version', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -4912,7 +4921,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
         self.cohortId = kwargs.get(
             'cohortId', None)
         self.exitQuestionnaireRd = kwargs.get(
-            'exitQuestionnaireRd', ExitQuestionnaireRD())
+            'exitQuestionnaireRd', None)
         self.groupId = kwargs.get(
             'groupId', None)
         self.id = kwargs.get(
@@ -4921,6 +4930,8 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
             'parentId', None)
         self.parentVersion = kwargs.get(
             'parentVersion', None)
+        self.rareDiseaseExitQuestionnaire = kwargs.get(
+            'rareDiseaseExitQuestionnaire', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', None)
         self.version = kwargs.get(
