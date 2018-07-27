@@ -212,7 +212,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     /**
     Each ACMG criterion is classified in one of these categories
     */
-    enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, seggregation_data,
+    enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, segregation_data,
         de_novo_data, allelic_data, other_database, other_data}
     /**
     Type of evidence in tge AMP guideline
@@ -830,6 +830,9 @@ see Expanded Access Data Element Definitions).
         */
         array<GenomicEntity> genomicEntities;
 
+        /**
+        Segregation patter if any calculated using the genotypes information of a family
+        */
         union {null, SegregationPattern} segregationPattern;
 
         /**
