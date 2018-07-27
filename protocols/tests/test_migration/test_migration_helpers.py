@@ -1,12 +1,26 @@
-from protocols.migration.base_migration import MigrationError
-from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 import factory.fuzzy
-from protocols import reports_2_1_0, reports_3_0_0, reports_4_0_0, reports_5_0_0, participant_1_0_0, participant_1_0_3
-from protocols.util.dependency_manager import VERSION_210, VERSION_300, VERSION_400, VERSION_500, VERSION_61
-from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.util.factories.avro_factory import FactoryAvro
 
+from protocols import (
+    reports_2_1_0,
+    reports_3_0_0,
+    reports_4_0_0,
+    reports_5_0_0,
+    reports_6_0_0,
+    participant_1_0_0,
+    participant_1_0_3,
+)
+from protocols.util.dependency_manager import (
+    VERSION_210,
+    VERSION_300,
+    VERSION_400,
+    VERSION_500,
+    VERSION_61,
+)
+from protocols.migration.base_migration import MigrationError
+from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
+from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 
 
 class ActionFactory400(FactoryAvro):
@@ -88,71 +102,81 @@ class TestMigrationHelpers(TestCaseMigration):
         GenericFactoryAvro.register_factory(
             reports_2_1_0.File, FileFactory210, VERSION_210, fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_400_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_400_600(self, fill_nullables=True):
 
-        # tests IR 400 -> 500
+        # tests IR RD 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.InterpretationRequestRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
+        self.assertIsInstance(old_instance, reports_4_0_0.InterpretationRequestRD)
 
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_rd_400_500_nulls(self):
-        self.test_migrate_interpretation_request_rd_400_500(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_400_600_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_400_600(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_300_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_300_600(self, fill_nullables=True):
 
-        # tests IR 300 -> 500
+        # tests IR RD 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
+        self.assertIsInstance(old_instance, reports_3_0_0.InterpretationRequestRD)
 
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_rd_300_500_null(self):
-        self.test_migrate_interpretation_request_rd_300_500(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_300_600_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_300_600(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_210_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_210_600(self, fill_nullables=True):
 
-        # tests IR 210 -> 500
+        # tests IR RD 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.InterpretationRequestRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        self.assertIsInstance(old_instance, reports_2_1_0.InterpretationRequestRD)
 
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_rd_210_500_nulls(self):
-        self.test_migrate_interpretation_request_rd_210_500(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_210_600_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_210_600(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_500_500(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_500_600(self, fill_nullables=True):
 
-        # tests IG 500 -> 500
+        # tests IR RD 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
+        self.assertIsInstance(old_instance, reports_5_0_0.InterpretationRequestRD)
         self._validate(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
-            old_instance.toJsonDict(), assembly='GRCh38'
+            json_dict=old_instance.toJsonDict()
         )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
 
-    def test_migrate_interpretation_request_rd_500_500_null(self):
-        self.test_migrate_interpretation_request_rd_500_500(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_500_600_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_500_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_400_500(self, fill_nullables=True):
 

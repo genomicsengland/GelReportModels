@@ -33,6 +33,8 @@ from protocols.reports_5_0_0 import CancerInterpretationRequest as CancerInterpr
 from protocols.reports_5_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_5_0_0
 from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_5_0_0
 
+from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
 from protocols.participant_1_0_0 import Pedigree as Pedigree_1_0_0
@@ -47,6 +49,7 @@ from protocols.migration.model_validator import PayloadValidation
 from protocols.migration.migration import Migration2_1To3
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
+from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
 from protocols.migration import (
     MigrateReports500To400,
     MigrateReports400To300,
@@ -62,41 +65,55 @@ from protocols.reports_5_0_0 import Assembly
 class MigrationHelpers(object):
 
     @staticmethod
-    def migrate_interpretation_request_rd_to_latest(json_dict, assembly):
+    def migrate_interpretation_request_rd_to_latest(json_dict, assembly=None):
         """
         :type json_dict: dict
         :type assembly: Assembly
         :rtype: InterpretationRequestRD_5_0_0
         """
-        ir_v500 = None
+        ir_v600 = None
 
-        if PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
-            ir_v500 = InterpretedGenomeRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=InterpretationRequestRD_6_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 6.0.0")
+            ir_v600 = InterpretationRequestRD_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
             logging.info("Case in models reports 5.0.0")
+            ir_v500 = InterpretationRequestRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
+
+        elif assembly is None:
+            raise MigrationError("Parameter <assembly> is required if version is older than 5.0.0")
 
         elif PayloadValidation(klass=InterpretationRequestRD_4_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 4.0.0")
             ir_v400 = InterpretationRequestRD_4_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly)
-            logging.info("Case in models reports 4.0.0")
+                old_instance=ir_v400, assembly=assembly,
+            )
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
 
         elif PayloadValidation(klass=InterpretationRequestRD_3_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 3.0.0")
             ir_v3 = InterpretationRequestRD_3_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
             ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly)
-            logging.info("Case in models reports 3.0.0")
+                old_instance=ir_v400, assembly=assembly,
+            )
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
 
         elif PayloadValidation(klass=InterpretationRequestRD_2_1_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 2.1.0")
             ir_v2 = InterpretationRequestRD_2_1_0.fromJsonDict(jsonDict=json_dict)
             ir_v3 = Migration2_1To3().migrate_interpretation_request(interpretation_request=ir_v2)
             ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
             ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly)
-            logging.info("Case in models reports 2.1.0")
+                old_instance=ir_v400, assembly=assembly,
+            )
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
 
-        if ir_v500 is not None:
-            return ir_v500
+        if ir_v600 is not None:
+            return ir_v600
 
         raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
