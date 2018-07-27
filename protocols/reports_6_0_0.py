@@ -36,7 +36,7 @@ class AcmgEvidence(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AcmgEvidence", "fields":
 [{"doc": "", "type": {"symbols": ["population_data", "computational_and_predictive_data",
-"functional_data", "seggregation_data", "de_novo_data", "allelic_data", "other_database",
+"functional_data", "segregation_data", "de_novo_data", "allelic_data", "other_database",
 "other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}, "name": "category"},
 {"doc": "", "type": {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceType"}, "name": "type"}, {"doc": "", "type": {"symbols": ["stand_alone", "supporting",
@@ -88,7 +88,7 @@ class AcmgEvidenceCategory(object):
     population_data = "population_data"
     computational_and_predictive_data = "computational_and_predictive_data"
     functional_data = "functional_data"
-    seggregation_data = "seggregation_data"
+    segregation_data = "segregation_data"
     de_novo_data = "de_novo_data"
     allelic_data = "allelic_data"
     other_database = "other_database"
@@ -130,7 +130,7 @@ class AcmgVariantClassification(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "AcmgVariantClassification",
 "fields": [{"type": {"items": {"doc": "", "type": "record", "name": "AcmgEvidence", "fields":
 [{"doc": "", "type": {"symbols": ["population_data", "computational_and_predictive_data",
-"functional_data", "seggregation_data", "de_novo_data", "allelic_data", "other_database",
+"functional_data", "segregation_data", "de_novo_data", "allelic_data", "other_database",
 "other_data"], "doc": "", "type": "enum", "name": "AcmgEvidenceCategory"}, "name": "category"},
 {"doc": "", "type": {"symbols": ["bening", "pathogenic"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceType"}, "name": "type"}, {"doc": "", "type": {"symbols": ["stand_alone", "supporting",
@@ -1830,8 +1830,8 @@ class ChromosomalRearrangement(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -1909,7 +1909,7 @@ class ChromosomalRearrangement(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -2102,8 +2102,8 @@ class ClinicalReport(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -2181,7 +2181,7 @@ class ClinicalReport(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -3077,7 +3077,7 @@ class GuidelineBasedVariantClassification(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -3512,8 +3512,8 @@ class InterpretationDataCancer(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -3590,7 +3590,7 @@ class InterpretationDataCancer(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -3920,8 +3920,8 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -3997,7 +3997,7 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -4498,8 +4498,8 @@ class InterpretedGenome(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -4577,7 +4577,7 @@ class InterpretedGenome(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -6063,8 +6063,8 @@ class ReportEvent(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -6142,7 +6142,7 @@ class ReportEvent(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -6585,8 +6585,8 @@ class ShortTandemRepeat(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -6664,7 +6664,7 @@ class ShortTandemRepeat(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -6898,8 +6898,8 @@ class SmallVariant(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -6977,7 +6977,7 @@ class SmallVariant(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -7205,8 +7205,8 @@ class StructuralVariant(ProtocolElement):
 "geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
 "Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
-"genomicEntities"}, {"type": ["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive",
-"CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
 "InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
 "XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
 "MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
@@ -7284,7 +7284,7 @@ class StructuralVariant(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
@@ -8500,7 +8500,7 @@ class VariantInterpretationLog(ProtocolElement):
 "GuidelineBasedVariantClassification", "fields": [{"type": ["null", {"doc": "", "type": "record",
 "name": "AcmgVariantClassification", "fields": [{"type": {"items": {"doc": "", "type": "record",
 "name": "AcmgEvidence", "fields": [{"doc": "", "type": {"symbols": ["population_data",
-"computational_and_predictive_data", "functional_data", "seggregation_data", "de_novo_data",
+"computational_and_predictive_data", "functional_data", "segregation_data", "de_novo_data",
 "allelic_data", "other_database", "other_data"], "doc": "", "type": "enum", "name":
 "AcmgEvidenceCategory"}, "name": "category"}, {"doc": "", "type": {"symbols": ["bening",
 "pathogenic"], "doc": "", "type": "enum", "name": "AcmgEvidenceType"}, "name": "type"}, {"doc": "",
