@@ -6870,14 +6870,19 @@ class SpatialPattern(object):
 
 class State(object):
     """
-    No documentation
+    This is the master state for this sample, for example
+    failed,quality could be used to say that a sample under this
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed blocked:
+    sample is on hold pending investigation failed: sample has failed
+    a QC check not_sequenced: sample is not sequenced
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
-    hold = "hold"
-    fail = "fail"
-    caution = "caution"
     blocked = "blocked"
+    failed = "failed"
+    not_sequenced = "not_sequenced"
 
 
 class StateReason(object):
