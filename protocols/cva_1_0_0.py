@@ -4826,14 +4826,14 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
 "type": "string", "name": "author"}, {"doc": "", "type": ["null", "string"], "name":
 "authorVersion"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"},
 {"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "namespace": "org.gel.models.report.avro",
-"type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"}, {"doc": "", "type": {"doc": "",
-"type": "record", "name": "ExitQuestionnaireRD", "fields": [{"doc": "", "type": {"items": {"doc":
-"", "type": "record", "name": "ReportedVariantQuestionnaireRD", "fields": [{"doc": "", "type":
-{"namespace": "org.gel.models.report.avro", "type": "record", "name": "VariantCoordinates",
-"fields": [{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "", "type": "int", "name":
-"position"}, {"doc": "", "type": "string", "name": "reference"}, {"doc": "", "type": "string",
-"name": "alternate"}, {"doc": "", "type": "Assembly", "name": "assembly"}], "doc": ""}, "name":
-"variantCoordinates"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"type": "enum", "name": "Assembly", "doc": ""}, "name": "assembly"}, {"doc": "", "type": ["null",
+{"doc": "", "type": "record", "name": "ExitQuestionnaireRD", "fields": [{"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "ReportedVariantQuestionnaireRD", "fields": [{"doc":
+"", "type": {"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"VariantCoordinates", "fields": [{"doc": "", "type": "string", "name": "chromosome"}, {"doc": "",
+"type": "int", "name": "position"}, {"doc": "", "type": "string", "name": "reference"}, {"doc": "",
+"type": "string", "name": "alternate"}, {"doc": "", "type": "Assembly", "name": "assembly"}], "doc":
+""}, "name": "variantCoordinates"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
 "ReportEventQuestionnaireRD", "fields": [{"doc": "", "type": ["null", "int"], "name":
 "groupOfVariants"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
 "record", "name": "VariantLevelQuestions", "fields": [{"doc": "", "type": "string", "name":
@@ -4862,8 +4862,13 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
 "CaseSolvedFamily"}, "name": "caseSolvedFamily"}, {"doc": "", "type": {"symbols": ["yes", "no"],
 "type": "enum", "name": "SegregationQuestion"}, "name": "segregationQuestion"}, {"doc": "", "type":
 "string", "name": "additionalComments"}], "doc": ""}, "name": "familyLevelQuestions"}]}, "name":
-"reportEvent"}]}, "type": "array"}, "name": "variants"}]}, "name": "exitQuestionnaireRd"}], "doc":
-""}
+"reportEvent"}]}, "type": "array"}, "name": "variants"}]}], "name": "exitQuestionnaireRd"}, {"doc":
+"", "type": ["null", {"namespace": "org.gel.models.report.avro", "type": "record", "name":
+"RareDiseaseExitQuestionnaire", "fields": [{"doc": "", "type": "string", "name": "eventDate"},
+{"doc": "", "type": "string", "name": "reporter"}, {"doc": "", "type": "FamilyLevelQuestions",
+"name": "familyLevelQuestions"}, {"doc": "", "type": {"items": "VariantGroupLevelQuestions", "type":
+"array"}, "name": "variantGroupLevelQuestions"}], "doc": ""}], "name":
+"rareDiseaseExitQuestionnaire"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -4876,6 +4881,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
         "id",
         "parentId",
         "parentVersion",
+        "rareDiseaseExitQuestionnaire",
         "reportModelVersion",
         "version",
         "workspace",
@@ -4885,6 +4891,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'exitQuestionnaireRd': ExitQuestionnaireRD,
+            'rareDiseaseExitQuestionnaire': RareDiseaseExitQuestionnaire,
         }
         return fieldName in embeddedTypes
 
@@ -4892,6 +4899,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'exitQuestionnaireRd': ExitQuestionnaireRD,
+            'rareDiseaseExitQuestionnaire': RareDiseaseExitQuestionnaire,
         }
 
         return embeddedTypes[fieldName]
@@ -4899,7 +4907,8 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
     __slots__ = [
         'assembly', 'author', 'authorVersion', 'cohortId',
         'exitQuestionnaireRd', 'groupId', 'id', 'parentId',
-        'parentVersion', 'reportModelVersion', 'version', 'workspace'
+        'parentVersion', 'rareDiseaseExitQuestionnaire',
+        'reportModelVersion', 'version', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -4912,7 +4921,7 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
         self.cohortId = kwargs.get(
             'cohortId', None)
         self.exitQuestionnaireRd = kwargs.get(
-            'exitQuestionnaireRd', ExitQuestionnaireRD())
+            'exitQuestionnaireRd', None)
         self.groupId = kwargs.get(
             'groupId', None)
         self.id = kwargs.get(
@@ -4921,6 +4930,8 @@ class ExitQuestionnaireInjectRD(ProtocolElement):
             'parentId', None)
         self.parentVersion = kwargs.get(
             'parentVersion', None)
+        self.rareDiseaseExitQuestionnaire = kwargs.get(
+            'rareDiseaseExitQuestionnaire', None)
         self.reportModelVersion = kwargs.get(
             'reportModelVersion', None)
         self.version = kwargs.get(
