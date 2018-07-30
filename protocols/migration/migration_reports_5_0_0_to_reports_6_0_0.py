@@ -143,7 +143,9 @@ class MigrateReports500To600(BaseMigration):
         if classification is None:
             return None
         new_variant_classification = self.convert_class(self.new_model.VariantClassification, classification)
-        new_variant_classification.clinicalSignificance = self.migrate_clinical_significance(old_significance=classification.clinicalSignificance)
+        new_variant_classification.clinicalSignificance = self.migrate_clinical_significance(
+            old_significance=classification.clinicalSignificance)
+        new_variant_classification.drugResponseClassification = None
         return self.validate_object(object_to_validate=new_variant_classification, object_type=self.new_model.VariantClassification)
 
     def migrate_clinical_significance(self, old_significance):
