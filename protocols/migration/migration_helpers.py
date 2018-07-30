@@ -34,6 +34,7 @@ from protocols.reports_5_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseE
 from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_5_0_0
 
 from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
 
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
@@ -163,47 +164,66 @@ class MigrationHelpers(object):
         raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
 
     @staticmethod
-    def migrate_interpreted_genome_rd_to_latest(json_dict, assembly, interpretation_request_version):
+    def migrate_interpreted_genome_rd_to_latest(
+            json_dict, assembly=None, interpretation_request_version=None, panel_source='panelapp'):
         """
         :type json_dict: dict
         :type assembly: Assembly
         :type interpretation_request_version: int
+        :type panel_source: str
         :rtype: InterpretedGenomeRD_5_0_0
         """
-        ig_v500 = None
+        ig_v600 = None
 
-        if PayloadValidation(klass=InterpretedGenomeRD_5_0_0, payload=json_dict).is_valid:
-            ig_v500 = InterpretedGenomeRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=InterpretedGenome_6_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 6.0.0")
+            ig_v600 = InterpretedGenome_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=InterpretedGenomeRD_5_0_0, payload=json_dict).is_valid:
             logging.info("Case in models reports 5.0.0")
+            ig_v500 = InterpretedGenomeRD_5_0_0.fromJsonDict(jsonDict=json_dict)
+            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
+                old_instance=ig_v500, panel_source=panel_source)
 
-        if PayloadValidation(klass=InterpretedGenomeRD_4_0_0, payload=json_dict).is_valid:
+        elif assembly is None or interpretation_request_version is None:
+            raise MigrationError(
+                "Parameters <assembly> and <interpretation_request_version> are required for models earlier than 5.0.0"
+            )
+
+        elif PayloadValidation(klass=InterpretedGenomeRD_4_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 4.0.0")
             ig_v400 = InterpretedGenomeRD_4_0_0.fromJsonDict(jsonDict=json_dict)
             ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
                 old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
             )
-            logging.info("Case in models reports 4.0.0")
+            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
+                old_instance=ig_v500, panel_source=panel_source)
 
         elif PayloadValidation(klass=InterpretedGenomeRD_3_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 3.0.0")
             ig_v3 = InterpretedGenomeRD_3_0_0.fromJsonDict(jsonDict=json_dict)
             ig_v400 = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=ig_v3)
             ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
                 old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
             )
-            logging.info("Case in models reports 3.0.0")
+            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
+                old_instance=ig_v500, panel_source=panel_source)
 
         elif PayloadValidation(klass=InterpretedGenomeRD_2_1_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 2.1.0")
             ig_v2 = InterpretedGenomeRD_2_1_0.fromJsonDict(jsonDict=json_dict)
             ig_v3 = Migration2_1To3().migrate_interpreted_genome(interpreted_genome=ig_v2)
             ig_v400 = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=ig_v3)
             ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
                 old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
             )
-            logging.info("Case in models reports 2.1.0")
+            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
+                old_instance=ig_v500, panel_source=panel_source)
 
-        if ig_v500 is not None:
-            return ig_v500
+        if ig_v600 is not None:
+            return ig_v600
 
-        raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0]")
+        raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0, 5.0.0]")
 
     @staticmethod
     def migrate_clinical_report_rd_to_latest(json_dict, assembly):
