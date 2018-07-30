@@ -296,7 +296,7 @@ class MigrateReports500To600(BaseMigration):
     def migrate_report_event_cancer(self, event):
         new_event = self.convert_class(target_klass=self.new_model.ReportEvent, instance=event)
 
-        new_event.modeOfInheritance = self.new_model.ReportedModeOfInheritance.na
+        new_event.modeOfInheritance = self.new_model.ModeOfInheritance.na
         new_event.phenotypes = self.new_model.Phenotypes()
 
         new_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=event.genomicEntities)
