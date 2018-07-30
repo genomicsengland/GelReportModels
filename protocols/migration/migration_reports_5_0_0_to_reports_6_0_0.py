@@ -41,6 +41,8 @@ class MigrateReports500To600(BaseMigration):
         )
 
     def migrate_variants(self, old_variants, panel_source='panelapp'):
+        if old_variants is None:
+            return None
         return [self.migrate_variant(old_variant=old_variant, panel_source=panel_source) for old_variant in old_variants]
 
     def migrate_variant(self, old_variant, panel_source='panelapp'):
