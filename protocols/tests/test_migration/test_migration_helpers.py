@@ -581,14 +581,12 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
-        try:
+        with self.assertRaises(MigrationError):
             MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
                 old_instance.toJsonDict(), assembly='GRCh38', interpretation_service='testing',
                 reference_database_versions={'thisdb': 'thatversion'}, software_versions={'testing': '1.2'},
                 report_url='fake.url', comments=['blah', 'blah!', 'blah?'])
             self.assertTrue(False)
-        except MigrationError:
-            self.assertTrue(True)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_500_500_nulls(self):
         self.test_migrate_interpretation_request_cancer_to_interpreted_genome_500_500(fill_nullables=False)
@@ -621,13 +619,11 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance, exclusions=["md5Sum"])
 
-        try:
+        with self.assertRaises(MigrationError):
             MigrationHelpers().migrate_interpreted_genome_cancer_to_latest(
                 old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_id='456',
                 interpretation_request_version=5, interpretation_service='congenica')
             self.assertTrue(False)
-        except MigrationError:
-            self.assertTrue(True)
 
     def test_migrate_interpreted_genome_cancer_300_500_nulls(self):
         self.test_migrate_interpreted_genome_cancer_300_500(fill_nullables=False)
@@ -651,9 +647,9 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_interpreted_genome_cancer_500_600_nulls(self):
         self.test_migrate_interpreted_genome_cancer_500_600(fill_nullables=False)
 
-    def test_migrate_clinical_report_cancer_400_500(self, fill_nullables=True):
+    def test_migrate_clinical_report_cancer_400_600(self, fill_nullables=True):
 
-        # tests IR 400 -> 500
+        # tests IR 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.ClinicalReportCancer, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -663,15 +659,17 @@ class TestMigrationHelpers(TestCaseMigration):
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_cancer_to_latest(
-            old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456')
+            old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456'
+        )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_clinical_report_cancer_400_500_nulls(self):
-        self.test_migrate_clinical_report_cancer_400_500(fill_nullables=False)
+    def test_migrate_clinical_report_cancer_400_600_nulls(self):
+        self.test_migrate_clinical_report_cancer_400_600(fill_nullables=False)
 
-    def test_migrate_clinical_report_cancer_300_500(self, fill_nullables=True):
+    def test_migrate_clinical_report_cancer_300_600(self, fill_nullables=True):
 
-        # tests IR 300 -> 500
+        # tests IR 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.ClinicalReportCancer, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -679,19 +677,17 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance, exclusions=["md5Sum"])
 
-        try:
+        with self.assertRaises(MigrationError):
             MigrationHelpers.migrate_clinical_report_cancer_to_latest(
-                old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456')
-            self.assertTrue(False)
-        except MigrationError:
-            self.assertTrue(True)
+                json_dict=old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456'
+            )
 
-    def test_migrate_clinical_report_cancer_300_500_nulls(self):
-        self.test_migrate_clinical_report_cancer_300_500(fill_nullables=False)
+    def test_migrate_clinical_report_cancer_300_600_nulls(self):
+        self.test_migrate_clinical_report_cancer_300_600(fill_nullables=False)
 
-    def test_migrate_clinical_report_cancer_500_500(self, fill_nullables=True):
+    def test_migrate_clinical_report_cancer_500_600(self, fill_nullables=True):
 
-        # tests IG 500 -> 500
+        # tests IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.ClinicalReportCancer, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -700,11 +696,13 @@ class TestMigrationHelpers(TestCaseMigration):
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_cancer_to_latest(
-            old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456')
+            json_dict=old_instance.toJsonDict(),
+        )
+        self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
 
-    def test_migrate_clinical_report_cancer_500_500_nulls(self):
-        self.test_migrate_clinical_report_cancer_500_500(fill_nullables=False)
+    def test_migrate_clinical_report_cancer_500_600_nulls(self):
+        self.test_migrate_clinical_report_cancer_500_600(fill_nullables=False)
 
     def test_migrate_questionnaire_rd_300_600(self, fill_nullables=True):
 

@@ -266,6 +266,8 @@ class MigrateReports500To600(BaseMigration):
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome)
 
     def migrate_reported_variants_cancer(self, variants):
+        if variants is None:
+            return None
         return [self.migrate_reported_variant_cancer(variant=variant) for variant in variants]
 
     def migrate_reported_variant_cancer(self, variant):
@@ -301,3 +303,8 @@ class MigrateReports500To600(BaseMigration):
     def migrate_variant_call_cancer(self, call):
         new_call = self.convert_class(target_klass=self.new_model.VariantCall, instance=call)
         return self.validate_object(object_to_validate=new_call, object_type=self.new_model.VariantCall)
+
+    def migrate_cancer_clinical_report(self, old_instance):
+        new_ccr = self.convert_class(target_klass=self.new_model.ClinicalReport, instance=old_instance)
+        new_ccr.variants = self.migrate_reported_variants_cancer(variants=old_instance.variants)
+        return self.validate_object(object_to_validate=new_ccr, object_type=self.new_model.ClinicalReport)
