@@ -76,7 +76,7 @@ class MigrateReports500To600(BaseMigration):
         new_variant_attributes.references = old_variant.references
         new_variant_attributes.additionalNumericVariantAnnotations = old_variant.additionalNumericVariantAnnotations
         new_variant_attributes.comments = old_variant.comments
-        new_variant_attributes.alleleOrigins = self.migrate_allele_origins(old_origins=old_variant.alleleOrigins)
+        new_variant_attributes.alleleOrigins = old_variant.alleleOrigins
         new_variant_attributes.alleleFrequencies = self.migrate_allele_frequencies(old_frequencies=old_variant.alleleFrequencies)
         variant_identifiers = self.new_model.VariantIdentifiers(
             dbSnpId=old_variant.dbSnpId,
@@ -95,21 +95,6 @@ class MigrateReports500To600(BaseMigration):
     def migrate_allele_frequency(self, old_frequency):
         new_frequency = self.convert_class(self.new_model.AlleleFrequency, old_frequency)
         return self.validate_object(object_to_validate=new_frequency, object_type=self.new_model.AlleleFrequency)
-
-    def migrate_allele_origins(self, old_origins):
-        return [self.migrate_allele_origin(origin=origin) for origin in old_origins]
-
-    def migrate_allele_origin(self, origin):
-        origin_map = {
-            self.old_model.AlleleOrigin.de_novo_variant: self.new_model.AlleleOrigin.de_novo_variant,
-            self.old_model.AlleleOrigin.germline_variant: self.new_model.AlleleOrigin.germline_variant,
-            self.old_model.AlleleOrigin.maternal_variant: self.new_model.AlleleOrigin.maternal_variant,
-            self.old_model.AlleleOrigin.paternal_variant: self.new_model.AlleleOrigin.paternal_variant,
-            self.old_model.AlleleOrigin.pedigree_specific_variant: self.new_model.AlleleOrigin.pedigree_specific_variant,
-            self.old_model.AlleleOrigin.population_specific_variant: self.new_model.AlleleOrigin.population_specific_variant,
-            self.old_model.AlleleOrigin.somatic_variant: self.new_model.AlleleOrigin.somatic_variant,
-        }
-        return origin_map.get(origin)
 
     def migrate_variant_calls(self, variant_calls):
         return [self.migrate_variant_call(variant_call=variant_call) for variant_call in variant_calls]
