@@ -257,3 +257,47 @@ class TestRareDiseaseExitQuestionnaire5To6(TestCaseMigration):
                 )
 
 
+class TestCancerInterpretedGenome5To6(TestCaseMigration):
+
+    old_model = reports_5_0_0
+    new_model = reports_6_0_0
+
+    def test_migrate_cancer_interpreted_genome(self, fill_nullables=True):
+        old_c_ig = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerInterpretedGenome, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        new_c_ig = MigrateReports500To600().migrate_cancer_interpreted_genome(
+            old_instance=old_c_ig,
+        )
+        self.assertIsInstance(new_c_ig, self.new_model.InterpretedGenome)
+        self._validate(new_c_ig)
+        attributes = [
+            "interpretationRequestId", "interpretationRequestVersion", "interpretationService", "reportUrl",
+            "referenceDatabasesVersions", "softwareVersions", "comments",
+        ]
+        for attribute in attributes:
+            if getattr(old_c_ig, attribute) is not None:
+                self.assertEqual(getattr(new_c_ig, attribute), getattr(old_c_ig, attribute))
+        self.assertEqual(new_c_ig.versionControl.gitVersionControl, "6.0.0")
+
+        old_variants = old_c_ig.variants
+        new_variants = new_c_ig.variants
+        for old, new in zip(old_variants, new_variants):
+            self.assertIsInstance(new, self.new_model.SmallVariant)
+            self.assertEqual(
+                new,
+                MigrateReports500To600().migrate_reported_variant_cancer(variant=old)
+            )
+
+    def test_migrate_cancer_interpreted_genome_no_nullables(self):
+        self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
+
+    def test_migrate_report_event_cancer(self, fill_nullables=True):
+        old_re_c = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ReportEventCancer, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        new_re_c = MigrateReports500To600().migrate_report_event_cancer(
+            event=old_re_c,
+        )
+        self.assertIsInstance(new_re_c, self.new_model.ReportEvent)
+        self._validate(new_re_c)
