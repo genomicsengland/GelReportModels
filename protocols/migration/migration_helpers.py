@@ -36,6 +36,7 @@ from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestio
 from protocols.reports_6_0_0 import ClinicalReport as ClinicalReport_6_0_0
 from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
 from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
+from protocols.reports_6_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_6_0_0
 from protocols.reports_6_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_0
 
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
@@ -363,29 +364,33 @@ class MigrationHelpers(object):
         :type assembly: Assembly
         :rtype: CancerInterpretationRequest_5_0_0
         """
-        ir_v500 = None
+        ir_v600 = None
 
-        if PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
-            ir_v500 = CancerInterpretationRequest_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=CancerInterpretationRequest_6_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer interpretation request in models reports 6.0.0")
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer interpretation request in models reports 5.0.0")
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=json_dict)
 
         elif PayloadValidation(klass=CancerInterpretationRequest_4_0_0, payload=json_dict).is_valid:
-            ir_v400 = CancerInterpretationRequest_4_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400,
-                                                                                     assembly=assembly)
             logging.info("Cancer interpretation request in models reports 4.0.0")
+            ir_v400 = CancerInterpretationRequest_4_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400, assembly=assembly)
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=ir_v500.toJsonDict())
 
         elif PayloadValidation(klass=CancerInterpretationRequest_3_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer interpretation request in models reports 3.0.0")
             ir_v300 = CancerInterpretationRequest_3_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v400 = MigrateReports3To4().migrate_cancer_interpretation_request(old_interpretation_request=ir_v300)
-            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400,
-                                                                                     assembly=assembly)
-            logging.info("Cancer interpretation request in models reports 3.0.0")
+            ir_v500 = MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=ir_v400, assembly=assembly)
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=ir_v500.toJsonDict())
 
-        if ir_v500 is not None:
-            return ir_v500
+        if ir_v600 is not None:
+            return ir_v600
 
-        raise MigrationError("Cancer interpretation request is not in versions: [3.0.0, 4.0.0, 5.0.0]")
+        raise MigrationError("Cancer interpretation request is not in versions: [3.0.0, 4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_interpretation_request_cancer_to_interpreted_genome_latest(
@@ -429,43 +434,83 @@ class MigrationHelpers(object):
 
         raise MigrationError("Cancer interpretation request is not in versions: [3.0.0, 4.0.0]")
 
-    @staticmethod
-    def migrate_interpreted_genome_cancer_to_latest(json_dict, assembly=None, participant_id=None,
+    def migrate_interpreted_genome_cancer_to_latest(self, json_dict, assembly=None, participant_id=None,
                                                     sample_id=None, interpretation_request_version=None,
                                                     interpretation_service=None):
         """
-        Migration from reports 3.0.0 is not supported as we ave no data in that version
+        Migration from reports 3.0.0 is not supported as we have no data in that version
         :type json_dict: dict
         :type assembly: Assembly
         :type participant_id: str
         :type sample_id: str
         :type interpretation_request_version: str
         :type interpretation_service: str
-        :rtype: CancerInterpretedGenome_5_0_0
+        :rtype: CancerInterpretedGenome_6_0_0
         """
-        ig_v500 = None
+        ig_v600 = None
 
-        if PayloadValidation(klass=CancerInterpretedGenome_5_0_0, payload=json_dict).is_valid:
-            ig_v500 = CancerInterpretedGenome_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=InterpretedGenome_6_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer interpreted genome in models reports 6.0.0")
+            ig_v600 = InterpretedGenome_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=CancerInterpretedGenome_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer interpreted genome in models reports 5.0.0")
+            ig_v500 = CancerInterpretedGenome_5_0_0.fromJsonDict(jsonDict=json_dict)
+            ig_v600 = MigrateReports500To600().migrate_cancer_interpreted_genome(old_instance=ig_v500)
 
         elif PayloadValidation(klass=CancerInterpretedGenome_4_0_0, payload=json_dict).is_valid:
-            if not assembly or not participant_id or not sample_id or not interpretation_request_version \
-                    or not interpretation_service:
-                raise MigrationError(
-                    "Missing required fields to migrate a cancer interpreted genome from 4.0.0 to 5.0.0")
+            logging.info("Cancer interpreted genome in models reports 4.0.0")
+            self.check_required_parameters(
+                assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+                interpretation_request_version=interpretation_request_version,
+                interpretation_service=interpretation_service
+            )
             ig_v400 = CancerInterpretedGenome_4_0_0.fromJsonDict(jsonDict=json_dict)
             ig_v500 = MigrateReports400To500().migrate_cancer_interpreted_genome(
                 old_instance=ig_v400, assembly=assembly, participant_id=participant_id, sample_id=sample_id,
                 interpretation_request_version=interpretation_request_version,
                 interpretation_service=interpretation_service
             )
-            logging.info("Cancer interpreted genome in models reports 4.0.0")
+            ig_v600 = MigrateReports500To600().migrate_cancer_interpreted_genome(old_instance=ig_v500)
 
-        if ig_v500 is not None:
-            return ig_v500
+        if ig_v600 is not None:
+            return ig_v600
 
-        raise MigrationError("Cancer interpreted genome is not in versions: [4.0.0, 5.0.0]")
+        raise MigrationError("Cancer interpreted genome is not in versions: [4.0.0, 5.0.0, 6.0.0]")
+
+    @staticmethod
+    def check_required_parameters(assembly=None, participant_id=None, sample_id=None,
+                                  interpretation_request_version=None, interpretation_service=None):
+        if not assembly:
+            raise MigrationError(
+                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                    "assembly"
+                )
+            )
+        if not participant_id:
+            raise MigrationError(
+                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                    "participant_id"
+                )
+            )
+        if not sample_id:
+            raise MigrationError(
+                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                    "sample_id"
+                )
+            )
+        if not interpretation_request_version:
+            raise MigrationError(
+                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                    "interpretation_request_version"
+                )
+            )
+        if not interpretation_service:
+            raise MigrationError(
+                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                    "interpretation_service"
+                )
+            )
 
     @staticmethod
     def migrate_clinical_report_cancer_to_latest(json_dict, sample_id=None, assembly=None, participant_id=None):
@@ -475,27 +520,33 @@ class MigrationHelpers(object):
         :type sample_id: str
         :type assembly: Assembly
         :type participant_id: str
-        :rtype: ClinicalReportCancer_5_0_0
+        :rtype: ClinicalReport_6_0_0
         """
-        cr_v500 = None
+        cr_v600 = None
 
-        if PayloadValidation(klass=ClinicalReportCancer_5_0_0, payload=json_dict).is_valid:
-            cr_v500 = ClinicalReportCancer_5_0_0.fromJsonDict(jsonDict=json_dict)
+        if PayloadValidation(klass=ClinicalReport_6_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer clinical report in models reports 6.0.0")
+            cr_v600 = ClinicalReport_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=ClinicalReportCancer_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer clinical report in models reports 5.0.0")
+            cr_v500 = ClinicalReportCancer_5_0_0.fromJsonDict(jsonDict=json_dict)
+            cr_v600 = MigrateReports500To600().migrate_cancer_clinical_report(old_instance=cr_v500)
 
         elif PayloadValidation(klass=ClinicalReportCancer_4_0_0, payload=json_dict).is_valid:
+            logging.info("Cancer clinical report in models reports 4.0.0")
             if not sample_id or not assembly or not participant_id:
                 raise MigrationError("Missing required fields to migrate cancer clinical report from 4.0.0 to 5.0.0")
             cr_v4 = ClinicalReportCancer_4_0_0.fromJsonDict(jsonDict=json_dict)
             cr_v500 = MigrateReports400To500().migrate_cancer_clinical_report(
                 old_instance=cr_v4, assembly=assembly, participant_id=participant_id, sample_id=sample_id
             )
-            logging.info("Cancer clinical report in models reports 4.0.0")
+            cr_v600 = MigrateReports500To600().migrate_cancer_clinical_report(old_instance=cr_v500)
 
-        if cr_v500 is not None:
-            return cr_v500
+        if cr_v600 is not None:
+            return cr_v600
 
-        raise MigrationError("Cancer clinical report is not in versions: [4.0.0, 5.0.0]")
+        raise MigrationError("Cancer clinical report is not in versions: [4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_cancer_participant_to_latest(json_dict):
