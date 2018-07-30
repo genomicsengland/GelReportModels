@@ -41,6 +41,10 @@ class TestMigrateReports5To6(TestCaseMigration):
                 new,
                 MigrateReports500To600().migrate_variant(old_variant=old)
             )
+        for v in new_variants:
+            for re in v.reportEvents:
+                if re.genePanel is not None:
+                    self.assertTrue(re.genePanel.source == 'panelapp')
 
     def test_migrate_interpreted_genome_rd_no_nullables(self):
         self.test_migrate_interpreted_genome_rd(fill_nullables=False)
