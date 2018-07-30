@@ -36,7 +36,6 @@ class MigrateReports500To600(BaseMigration):
         new_instance = self.convert_class(self.new_model.InterpretedGenome, old_instance)
 
         new_instance.variants = self.migrate_variants(old_variants=old_instance.variants, panel_source=panel_source)
-
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome
         )
