@@ -308,3 +308,53 @@ class MigrateReports500To600(BaseMigration):
         new_ccr = self.convert_class(target_klass=self.new_model.ClinicalReport, instance=old_instance)
         new_ccr.variants = self.migrate_reported_variants_cancer(variants=old_instance.variants)
         return self.validate_object(object_to_validate=new_ccr, object_type=self.new_model.ClinicalReport)
+
+    def migrate_cancer_exit_questionnaire(self, old_instance, assembly):
+        new_c_eq = self.convert_class(target_klass=self.new_model.CancerExitQuestionnaire, instance=old_instance)
+        new_c_eq.somaticVariantLevelQuestions = self.migrate_somatic_variant_level_questions(
+            old_questions=old_instance.somaticVariantLevelQuestions, assembly=assembly
+        )
+        new_c_eq.germlineVariantLevelQuestions = self.migrate_germline_variant_level_questions(
+            old_questions=old_instance.germlineVariantLevelQuestions, assembly=assembly
+        )
+        new_c_eq.otherActionableVariants = self.migrate_other_actionable_variants(
+            old_variants=old_instance.otherActionableVariants, assembly=assembly
+        )
+        return self.validate_object(object_to_validate=new_c_eq, object_type=self.new_model.CancerExitQuestionnaire)
+
+    def migrate_other_actionable_variants(self, old_variants, assembly):
+        if old_variants is None:
+            return None
+        return [self.migrate_other_actionable_variant(old_variant=old_variant, assembly=assembly) for old_variant in old_variants]
+
+    def migrate_somatic_variant_level_questions(self, old_questions, assembly):
+        if old_questions is None:
+            return None
+        return [self.migrate_somatic_variant_level_question(question=question, assembly=assembly) for question in old_questions]
+
+    def migrate_germline_variant_level_questions(self, old_questions, assembly):
+        if old_questions is None:
+            return None
+        return [self.migrate_germline_variant_level_question(question=question, assembly=assembly) for question in old_questions]
+
+    def migrate_somatic_variant_level_question(self, question, assembly):
+        new_question = self.convert_class(target_klass=self.new_model.CancerSomaticVariantLevelQuestions, instance=question)
+        new_question.variantCoordinates = self.migrate_variant_coordinates(
+            variant_details=question.variantDetails, assembly=assembly
+        )
+        return self.validate_object(object_to_validate=new_question, object_type=self.new_model.CancerSomaticVariantLevelQuestions)
+
+    def migrate_germline_variant_level_question(self, question, assembly):
+        new_question = self.convert_class(target_klass=self.new_model.CancerGermlineVariantLevelQuestions, instance=question)
+        new_question.variantCoordinates = self.migrate_variant_coordinates(
+            variant_details=question.variantDetails, assembly=assembly
+        )
+        return self.validate_object(object_to_validate=new_question, object_type=self.new_model.CancerGermlineVariantLevelQuestions)
+
+    def migrate_other_actionable_variant(self, old_variant, assembly):
+        new_question = self.convert_class(target_klass=self.new_model.AdditionalVariantsQuestions, instance=old_variant)
+        new_question.variantCoordinates = self.migrate_variant_coordinates(
+            variant_details=old_variant.variantDetails, assembly=assembly
+        )
+        return self.validate_object(object_to_validate=new_question, object_type=self.new_model.AdditionalVariantsQuestions)
+

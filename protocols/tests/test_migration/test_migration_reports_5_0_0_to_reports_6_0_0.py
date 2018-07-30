@@ -321,3 +321,48 @@ class TestCancerClinicalReport5To6(TestCaseMigration):
         )
         self.assertIsInstance(new_cr_c, self.new_model.ClinicalReport)
         self._validate(new_cr_c)
+
+    def test_migrate_cancer_clinical_report_no_nullables(self):
+        self.test_migrate_cancer_clinical_report(fill_nullables=True)
+
+
+class TestCancerExitQuestionnaire5To6(TestCaseMigration):
+
+    old_model = reports_5_0_0
+    new_model = reports_6_0_0
+
+    def test_migrate_cancer_exit_questionnaire(self, fill_nullables=True):
+        old_c_eq = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_c_eq = self.populate_c_eq_variant_level_questions_variant_details(old_c_eq=old_c_eq)
+        new_c_eq = MigrateReports500To600().migrate_cancer_exit_questionnaire(
+            old_instance=old_c_eq, assembly="GRCh38",
+        )
+        self.assertIsInstance(new_c_eq, self.new_model.CancerExitQuestionnaire)
+        self._validate(new_c_eq)
+
+    def test_migrate_cancer_exit_questionnaire_no_nullables(self):
+        self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)
+
+    def test_migrate_somatic_variant_level_questions(self, fill_nullables=True):
+        old_q = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerSomaticVariantLevelQuestions, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_q = self.populate_variant_level_questions_variant_details(q=old_q)
+        new_q = MigrateReports500To600().migrate_somatic_variant_level_question(
+            question=old_q, assembly="GRCh38"
+        )
+        self.assertIsInstance(new_q, self.new_model.CancerSomaticVariantLevelQuestions)
+        self._validate(new_q)
+
+    def test_migrate_germline_variant_level_questions(self, fill_nullables=True):
+        old_q = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerGermlineVariantLevelQuestions, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_q = self.populate_variant_level_questions_variant_details(q=old_q)
+        new_q = MigrateReports500To600().migrate_germline_variant_level_question(
+            question=old_q, assembly="GRCh38"
+        )
+        self.assertIsInstance(new_q, self.new_model.CancerGermlineVariantLevelQuestions)
+        self._validate(new_q)
