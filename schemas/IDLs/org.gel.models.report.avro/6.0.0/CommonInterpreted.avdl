@@ -1012,7 +1012,7 @@ see Expanded Access Data Element Definitions).
         /**
         Average tier1 number of basecalls filtered from original read depth within 50 bases
         */
-        union {null, string} fdp50;
+        union {null, float} fdp50;
         /**
         Map of other attributes where keys are the attribute names and values are the attributes
         */

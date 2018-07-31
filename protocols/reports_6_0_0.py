@@ -1981,7 +1981,7 @@ class ChromosomalRearrangement(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -2234,7 +2234,7 @@ class ClinicalReport(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
 {"doc": "", "type": "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null",
 {"items": {"doc": "", "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type":
@@ -3643,7 +3643,7 @@ class InterpretationDataCancer(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
 {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
 "assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
@@ -4050,7 +4050,7 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
 {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
 "assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
@@ -4630,7 +4630,7 @@ class InterpretedGenome(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
 {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
 "assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
@@ -6736,7 +6736,7 @@ class ShortTandemRepeat(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string",
 "name": "repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"},
 {"type": "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
@@ -7030,7 +7030,7 @@ class SmallVariant(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -7356,7 +7356,7 @@ class StructuralVariant(ProtocolElement):
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
-"string"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
+"float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}
 """
     schema = avro.schema.parse(_schemaSource)
@@ -8023,8 +8023,8 @@ class VariantAttributes(ProtocolElement):
 "pedigree_specific_variant", "population_specific_variant", "somatic_variant"], "doc": "", "type":
 "enum", "name": "AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"doc": "", "type":
 ["null", "int"], "name": "ihp"}, {"doc": "", "type": ["null", "boolean"], "name":
-"recurrentlyReported"}, {"doc": "", "type": ["null", "string"], "name": "fdp50"}, {"doc": "",
-"type": ["null", {"values": "string", "type": "map"}], "name": "others"}], "doc": ""}
+"recurrentlyReported"}, {"doc": "", "type": ["null", "float"], "name": "fdp50"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "others"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
