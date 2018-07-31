@@ -22,6 +22,19 @@ class MigrateReports500To600(BaseMigration):
         :rtype: reports_6_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance.versionControl.gitVersionControl = '6.0.0'
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
+        )
+
+    def migrate_interpretation_request_cancer(self, old_instance):
+        """
+        Migrates a reports_5_0_0.CancerInterpretationRequest into a reports_6_0_0.CancerInterpretationRequest
+        :type old_instance: reports_5_0_0.CancerInterpretationRequest
+        :rtype: reports_6_0_0.CancerInterpretationRequest
+        """
+        new_instance = self.convert_class(self.new_model.CancerInterpretationRequest, old_instance)
+        new_instance.versionControl.gitVersionControl = '6.0.0'
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
         )
