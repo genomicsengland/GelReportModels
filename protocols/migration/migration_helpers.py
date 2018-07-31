@@ -27,15 +27,15 @@ from protocols.reports_5_0_0 import Assembly as Assembly_5_0_0
 from protocols.reports_5_0_0 import ClinicalReportRD as ClinicalReportRD_5_0_0
 from protocols.reports_5_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_5_0_0
 from protocols.reports_5_0_0 import ClinicalReportCancer as ClinicalReportCancer_5_0_0
+from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_5_0_0
 from protocols.reports_5_0_0 import InterpretationRequestRD as InterpretationRequestRD_5_0_0
 from protocols.reports_5_0_0 import CancerInterpretedGenome as CancerInterpretedGenome_5_0_0
 from protocols.reports_5_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_5_0_0
 from protocols.reports_5_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_5_0_0
-from protocols.reports_5_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_5_0_0
 
-from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
 from protocols.reports_6_0_0 import ClinicalReport as ClinicalReport_6_0_0
 from protocols.reports_6_0_0 import InterpretedGenome as InterpretedGenome_6_0_0
+from protocols.reports_6_0_0 import CancerExitQuestionnaire as CancerExitQuestionnaire_6_0_0
 from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationRequestRD_6_0_0
 from protocols.reports_6_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_6_0_0
 from protocols.reports_6_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_0
@@ -321,6 +321,32 @@ class MigrationHelpers(object):
             return eq_v600
 
         raise MigrationError("exit Questionnaire RD is not in versions: [3.0.0, 4.0.0, 5.0.0, 6.0.0]")
+
+    @staticmethod
+    def migrate_cancer_exit_questionnaire_to_latest(json_dict, assembly):
+        """
+        No data exists for Cancer Exit Questionnaires in v4.2.0 of the models
+        :type json_dict: dict
+        :rtype: CancerExitQuestionnaire_6_0_0
+        """
+        if assembly is None:
+            raise MigrationError(
+                "Parameter <assembly> is required to migrate cancer exit questionnaire to version 6")
+        ceq_v600 = None
+
+        if PayloadValidation(klass=CancerExitQuestionnaire_6_0_0, payload=json_dict).is_valid:
+            ceq_v600 = CancerExitQuestionnaire_6_0_0.fromJsonDict(jsonDict=json_dict)
+
+        elif PayloadValidation(klass=CancerExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
+            logging.info("Exit questionnaire in models reports 5.0.0 or 4.0.0")
+            ceq_v500 = CancerExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
+            ceq_v600 = MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=ceq_v500,
+                                                                                  assembly=assembly)
+
+        if ceq_v600 is not None:
+            return ceq_v600
+
+        raise MigrationError("Cancer Exit Questionnaire is not in versions: [5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_pedigree_to_latest(json_dict):
