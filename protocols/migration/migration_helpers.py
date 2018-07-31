@@ -77,7 +77,14 @@ class MigrationHelpers(object):
         :rtype: InterpretationRequestRD_5_0_0
         """
         ir_v600 = None
-        if PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
+
+        if PayloadValidation(klass=InterpretationRequestRD_6_0_0, payload=json_dict).is_valid:
+            logging.info("Case in models reports 6.0.0")
+            # v6 and v5 are the same so the migration needs to take place here
+            ir_v600 = InterpretationRequestRD_6_0_0.fromJsonDict(jsonDict=json_dict)
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v600)
+
+        elif PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
             logging.info("Case in models reports 5.0.0")
             ir_v500 = InterpretationRequestRD_5_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
