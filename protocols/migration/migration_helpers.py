@@ -122,7 +122,7 @@ class MigrationHelpers(object):
         if ir_v600 is not None:
             return ir_v600
 
-        raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
+        raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_interpretation_request_rd_to_interpreted_genome_latest(json_dict, assembly):
@@ -228,7 +228,7 @@ class MigrationHelpers(object):
         if ig_v600 is not None:
             return ig_v600
 
-        raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0, 5.0.0]")
+        raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_clinical_report_rd_to_latest(json_dict, assembly=None):
@@ -285,7 +285,7 @@ class MigrationHelpers(object):
         if cr_v600 is not None:
             return cr_v600
 
-        raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0]")
+        raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
     def migrate_exit_questionnaire_rd_to_latest(json_dict, assembly):
@@ -371,12 +371,12 @@ class MigrationHelpers(object):
             ped_v100 = MigrationReportsToParticipants1().migrate_pedigree(ped_v300)
             ped_v103 = MigrationParticipants100To103().migrate_pedigree(ped_v100)
             ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
-            logging.info("Pedigree in models reports 3.1.0")
+            logging.info("Pedigree in models reports 3.0.0")
 
         if ped_v110 is not None:
             return ped_v110
 
-        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 2.1.0]")
+        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 3.0.0]")
 
     @staticmethod
     def migrate_interpretation_request_cancer_to_latest(json_dict, assembly):
@@ -387,7 +387,12 @@ class MigrationHelpers(object):
         """
         ir_v600 = None
 
-        if PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
+        if PayloadValidation(klass=CancerInterpretationRequest_6_0_0, payload=json_dict).is_valid:
+            ir_v600 = CancerInterpretationRequest_6_0_0.fromJsonDict(jsonDict=json_dict)
+            # v5 and v6 are the same so the migration needs to happen here, e.g. for things like version control
+            ir_v600 = MigrateReports500To600().migrate_interpretation_request_cancer(old_instance=ir_v600)
+
+        elif PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid:
             logging.info("Cancer interpretation request in models reports 5.0.0")
             ir_v500 = CancerInterpretationRequest_5_0_0.fromJsonDict(jsonDict=json_dict)
             ir_v600 = MigrateReports500To600().migrate_interpretation_request_cancer(old_instance=ir_v500)
@@ -497,38 +502,25 @@ class MigrationHelpers(object):
         raise MigrationError("Cancer interpreted genome is not in versions: [4.0.0, 5.0.0, 6.0.0]")
 
     @staticmethod
-    def check_required_parameters(assembly=None, participant_id=None, sample_id=None,
+    def raise_migration_error_for_parameter(parameter):
+        raise MigrationError(
+            "Missing required field {parameter} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                parameter=parameter
+            )
+        )
+
+    def check_required_parameters(self, assembly=None, participant_id=None, sample_id=None,
                                   interpretation_request_version=None, interpretation_service=None):
         if not assembly:
-            raise MigrationError(
-                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
-                    "assembly"
-                )
-            )
+            self.raise_migration_error_for_parameter(parameter='assembly')
         if not participant_id:
-            raise MigrationError(
-                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
-                    "participant_id"
-                )
-            )
+            self.raise_migration_error_for_parameter(parameter='participant_id')
         if not sample_id:
-            raise MigrationError(
-                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
-                    "sample_id"
-                )
-            )
+            self.raise_migration_error_for_parameter(parameter='sample_id')
         if not interpretation_request_version:
-            raise MigrationError(
-                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
-                    "interpretation_request_version"
-                )
-            )
+            self.raise_migration_error_for_parameter(parameter='interpretation_request_version')
         if not interpretation_service:
-            raise MigrationError(
-                "Missing required field {} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
-                    "interpretation_service"
-                )
-            )
+            self.raise_migration_error_for_parameter(parameter='interpretation_request_version')
 
     @staticmethod
     def migrate_clinical_report_cancer_to_latest(json_dict, sample_id=None, assembly=None, participant_id=None):
@@ -591,11 +583,6 @@ class MigrationHelpers(object):
 
         elif PayloadValidation(klass=CancerParticipant_reports_3_0_0, payload=json_dict).is_valid:
             raise NotImplemented
-            # cp_v300 = CancerParticipant_reports_3_0_0.fromJsonDict(jsonDict=json_dict)
-            # cp_v100 = MigrationReportsToParticipants1().cuaucuacua(cp_v300)
-            # cp_v103 = MigrationParticipants100To103().migrate_cancer_participant(cp_v100)
-            # cp_v110 = MigrationParticipants103To110().migrate_cancer_participant(cp_v103)
-            # logging.info("CancerParticipant in models reports 3.1.0")
 
         if cp_v110 is not None:
             return cp_v110

@@ -118,7 +118,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_rd_400_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_400_600(fill_nullables=False)
@@ -137,7 +137,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_rd_300_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_300_600(fill_nullables=False)
@@ -158,7 +158,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_rd_210_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_210_600(fill_nullables=False)
@@ -465,7 +465,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_cancer_400_600_nulls(self):
         self.test_migrate_interpretation_request_cancer_400_600(fill_nullables=False)
@@ -487,7 +487,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_cancer_300_600_nulls(self):
         self.test_migrate_interpretation_request_cancer_300_600(fill_nullables=False)
@@ -507,7 +507,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_cancer_500_600_nulls(self):
         self.test_migrate_interpretation_request_cancer_500_600(fill_nullables=False)
