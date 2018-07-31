@@ -831,7 +831,7 @@ see Expanded Access Data Element Definitions).
         array<GenomicEntity> genomicEntities;
 
         /**
-        Segregation patter if any calculated using the genotypes information of a family
+        Segregation pattern if any calculated using the genotypes information of a family
         */
         union {null, SegregationPattern} segregationPattern;
 
