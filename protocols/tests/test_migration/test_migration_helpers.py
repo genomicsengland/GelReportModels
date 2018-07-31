@@ -1,4 +1,5 @@
 import factory.fuzzy
+from random import uniform
 
 from protocols import (
     reports_2_1_0,
@@ -373,13 +374,25 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
+
         self._validate(old_instance)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
+            # Create a float_list of 5 floats and after casting to string assign to the fdp50 values of the old instance
+            # IF THE fdp50 VALUE HAS MORE THAN 11 DECIMAL PLACES THEN THE CONVERSION TO FLOAT WILL FAIL
+            float_list = [round(uniform(1.0, 10.0), 11) for _ in range(5)]
+
+            for index_value, variant in enumerate(old_instance.variants):
+                variant.variantAttributes.fdp50 = str(float_list[index_value])
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(old_instance.toJsonDict())
         self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
+
+        if fill_nullables:
+            # Check that the fdp50 values have been correctly converted from string to float
+            for index_value, variant in enumerate(migrated_instance.variants):
+                self.assertEqual(variant.variantAttributes.fdp50, float_list[index_value])
 
     def test_migrate_rd_clinical_report_500_600_nulls(self):
         self.test_migrate_rd_clinical_report_500_600(fill_nullables=False)

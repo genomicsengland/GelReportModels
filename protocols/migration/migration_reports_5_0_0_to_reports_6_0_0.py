@@ -81,6 +81,8 @@ class MigrateReports500To600(BaseMigration):
         # so this is done to make sure we don't lose the alleleOrigins
         if old_variant.variantAttributes is not None:
             new_variant_attributes = self.convert_class(self.new_model.VariantAttributes, old_variant.variantAttributes)
+            if old_variant.variantAttributes.fdp50 is not None:
+                new_variant_attributes.fdp50 = self.migrate_fdp50(fdp50=old_variant.variantAttributes.fdp50)
         else:
             new_variant_attributes = self.new_model.VariantAttributes()
 
@@ -101,6 +103,14 @@ class MigrateReports500To600(BaseMigration):
         variant_identifiers = self.validate_object(object_to_validate=variant_identifiers, object_type=self.new_model.VariantIdentifiers)
         new_variant_attributes.variantIdentifiers = variant_identifiers
         return self.validate_object(object_to_validate=new_variant_attributes, object_type=self.new_model.VariantAttributes)
+
+    @staticmethod
+    def migrate_fdp50(fdp50):
+        try:
+            return float(fdp50)
+        except ValueError:
+            logging.warning("Losing fdp50 value: {fdp50} as it can not be converted to a float".format(fdp50=fdp50))
+            return None
 
     def migrate_allele_frequencies(self, old_frequencies):
         if old_frequencies is None:
