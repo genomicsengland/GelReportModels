@@ -6,6 +6,25 @@ protocol CommonInterpreted {
 
     import idl "CommonParticipant.avdl";
 
+
+enum SegregationPattern {
+    UniparentalIsodisomy,
+    SimpleRecessive,
+    CompoundHeterozygous,
+    deNovo,
+    InheritedAutosomalDominant,
+    InheritedAutosomalDominantMaternallyImprinted,
+    InheritedAutosomalDominantPaternallyImprinted,
+    XLinkedCompoundHeterozygous,
+    XLinkedSimpleRecessive,
+    XLinkedMonoallelic,
+    MitochondrialGenome
+}
+
+
+
+enum TimeUnit {years, months, weeks, days, hours, minutes, na}
+
 /**
    Allele origin.
 
@@ -42,7 +61,7 @@ protocol CommonInterpreted {
 * `mitochondrial`: MITOCHONDRIAL
 * `unknown`: Unknown
     */
-    enum ReportedModeOfInheritance {
+    enum ModeOfInheritance {
         monoallelic,
         monoallelic_not_imprinted,
         monoallelic_maternally_imprinted,
@@ -53,7 +72,8 @@ protocol CommonInterpreted {
         xlinked_biallelic,
         xlinked_monoallelic,
         mitochondrial,
-        unknown
+        unknown,
+        na
     }
 
     /**
@@ -88,53 +108,487 @@ protocol CommonInterpreted {
         inrepeat
     }
 
+
     /**
-    This object holds all the information related to a specific variant observation in a given sample, including
-    zygosity, phase, depth of coverage, variant allele frequency and allele origins.
+    Variant tiers as defined by Genomics England
     */
-    record VariantCall {
+    enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
 
+    /**
+    The reference genome assembly
+    */
+    enum Assembly {GRCh38, GRCh37}
+
+    enum ClinicalSignificance {
+        benign,
+        likely_benign,
+        likely_pathogenic,
+        pathogenic,
+        uncertain_significance
+    }
+
+    enum DrugResponseClassification {
+        altered_sensitivity,
+        reduced_sensitivity,
+        increased_sensitivity,
+        altered_resistance,
+        increased_resistance,
+        reduced_resistance,
+        increased_risk_of_toxicity,
+        reduced_risk_of_toxicity,
+        altered_toxicity,
+        adverse_drug_reaction,
+        indication,
+        contraindication,
+        dosing_alteration,
+        increased_dose,
+        reduced_dose,
+        increased_monitoring,
+        increased_efficacy,
+        reduced_efficacy,
+        altered_efficacy
+    }
+
+    enum PrognosisClassification{
+        altered_prognosis,
+        favourable_prognosis,
+        unfavourable_prognosis
+    }
+
+    enum TraitAssociation {
+        established_risk_allele,
+        likely_risk_allele,
+        uncertain_risk_allele,
+        protective
+    }
+
+    enum TumorigenesisClassification {
+        driver,
+        passenger,
+        modifier
+    }
+
+    enum VariantFunctionalEffect {
+        dominant_negative_variant,
+        gain_of_function_variant,
+        lethal_variant,
+        loss_of_function_variant,
+        loss_of_heterozygosity,
+        null_variant
+    }
+
+    enum Domain {
+        DOMAIN1, DOMAIN2, DOMAIN3, DOMAIN4, NONE
+    }
+
+    /**
+    The role of a given genomic feature in cancer
+
+* `NCIT_C16936`: oncogene. A gene that is a mutated (changed) form of a gene involved in normal cell growth. Oncogenes may cause the growth of cancer cells. Mutations in genes that become oncogenes can be inherited or caused by being exposed to substances in the environment that cause cancer. http://purl.obolibrary.org/obo/NCIT_C16936
+* `NCIT_C17362`: tumor_suppressor_gene. A type of gene that makes a protein called a tumor suppressor protein that helps control cell growth. Mutations (changes in DNA) in antioncogenes may lead to cancer. http://purl.obolibrary.org/obo/NCIT_C17362
+    */
+    enum RoleInCancer {
+        oncogene,
+        tumor_suppressor_gene,
+        both
+    }
+
+
+    /**
+    Each ACMG cirterion will be classifed as bening or pathogenic
+    */
+    enum AcmgEvidenceType{bening, pathogenic}
+    /**
+    Each ACMG criterion is weighted using the following terms:
+
+* `stand_alone`: `A`, stand-alone applied for benign variant critieria `(BA1)`
+* `supporting`: `P`, supporting applied for benign variant critieria `(BP1-6)` and pathogenic variant criteria `(PP1-5)`
+* `moderate`: `M`, moderate applied for pathogenic variant critieria (PM1-6)
+* `strong`: `S`, strong applied for pathogenic variant critieria (PS1-4)
+* `very_strong`: `S`, Very Stong applied for pathogenic variant critieria (PVS1)
+    */
+    enum AcmgEvidenceWeight{stand_alone, supporting, moderate, strong, very_strong}
+
+    /**
+    Each ACMG criterion is classified in one of these categories
+    */
+    enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, segregation_data,
+        de_novo_data, allelic_data, other_database, other_data}
+    /**
+    Type of evidence in tge AMP guideline
+    */
+    enum AmpEvidenceType{mutation_type, therapies, variant_frequencies, potential_germline,
+        population_database_presence, germline_database_presence, somatic_database_presence, impact_predictive_software,
+        pathway_involvement, publications}
+    /**
+    AMP tier:
+* `TierI`: Variants of Strong Clinical Significance
+* `TierII`: Variants of Potential Clinical Significance
+* `TierIII`: Variants of Unknown Clinical Significance
+* `TierIV`: Benign or Likely Benign Variants
+    */
+    enum AmpTier{tierI, tierII, tierIII, tierIV}
+
+    /**
+    Categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
+    */
+    enum AmpClinicalOrExperimentalEvidenceCategory {therapeutic, diagnosis, prognosis}
+
+    /**
+    Levels for categories of Clinical and/or Experimental Evidence as defined in AMP guidelines
+    */
+    enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
+
+    /**
+    AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
+    An AcmgEvidence, should map with one of the criteria defined, i.e, PVS1, BA1, PM1...
+    */
+    record AcmgEvidence {
         /**
-        Participant identifier
+        Evidence category as defined in ACMG guidelines
         */
-        string participantId;
-
+        AcmgEvidenceCategory category;
         /**
-        Sample identifier where the variant was observed
+        Evidence type: bening or pathogenic
         */
-        string sampleId;
-
+        AcmgEvidenceType type;
         /**
-        Zygosity. For somatic variants, or variants without zygosity use `na`
+        Weight categories as described in ACMG guideline
         */
-        Zygosity zygosity;
-
+        AcmgEvidenceWeight weight;
         /**
-        Phase set of variants when variants are phased. Two variants with the same value in this field are in phase,
-        if the value is null the variant is unphased. These values are only relevant within the same report.
+        modifier of the strength, together define each creteria, i.e the 2 in PM2
         */
-        union {null, int} phaseSet;
-
+        int modifier;
         /**
-        Variant Allele Frequency (VAF) as calculated based on the depth of coverage for this variant call
+        Description of the evidence
         */
-        union {null, double} vaf;
+        union {null, string} description;
+    }
 
+    /**
+    Full record for the ACMG variant clasiffication, including all selectedd evidences and the final classification.
+    */
+    record AcmgVariantClassification{
+        array<AcmgEvidence> acmgEvidences;
+        ClinicalSignificance clinicalSignificance;
+        union{null, string} assesment;
+    }
+
+    /**
+    Evidences as defined in AMP guidelines, they are composed by a evidence type (first column in the evidence table of
+    the guidlines) and a assesment of the evicence, this last one will define the streght of the evidence, supporting
+    the variant to be classified as TierI-IV
+    */
+    record AmpEvidence {
         /**
-        Depth of coverage for reference allele
+        AMP evidence type according to Guidlines, i.e germline_database_presence
         */
-        union {null, int} depthReference;
-
+        AmpEvidenceType type;
         /**
-        Depth of coverage for alternate allele
+        Assesment for AMP evidence, i.e Present in ClinVar
         */
-        union {null, int} depthAlternate;
+        string evidenceAssesment;
+    }
 
+    /**
+    Amp Clinical or Experimental Evidence, the level will define the overal clasification of the variant together with
+    the tiering.
+    */
+    record  AmpClincialOrExperimentalEvidence{
         /**
-        A list of allele origins for this variant
+        As denined in AMP guidelines: therapeutic, diagnosis or prognosis
         */
-        array<AlleleOrigin> alleleOrigins;
+        AmpClinicalOrExperimentalEvidenceCategory category;
+        /**
+        As denined in AMP guidelines: levelA, levelB, levelC, levelD
+        */
+        AmpClinicalOrExperimentalEvidenceLevel level;
+        /**
+        Description of the evidence
+        */
+        union {null, string} description;
+    }
 
+    /**
+    Full Variant classification acording to AMP guideline, including all supporting evidences and the final
+    assesment
+    */
+    record AmpVariantClassification{
+        /**
+        List of AMP evidences
+        */
+        array<AmpEvidence> ampEvidences;
+        /**
+        Final Clasification taken in account the evidences
+        */
+        AmpTier ampTier;
+        /**
+        Clinical or Experimental evicence
+        */
+        union{null, array<AmpClincialOrExperimentalEvidence>} ampClincialOrExperimentalEvidence;
+        /**
+        Final Assesment
+        */
+        union{null, string} assesment;
+    }
+
+    /**
+    Variant classification based on guidlines, AMP and ACMG are supported
+    */
+    record GuidelineBasedVariantClassification{
+        union{null, AcmgVariantClassification} acmgVariantClassification;
+        union{null, AmpVariantClassification} ampVariantClassification;
+
+    }
+
+
+    record AlgorithmBasedVariantClassification{
+        /**
+        Name of the applied algorithm
+        */
+        string AlgorithmName;
+        /**
+        classification
+        */
+        string classification;
+        /**
+        rank
+        */
+        union {null, int} rank;
+        /**
+        Score
+        */
+        union {null, int} score;
+    }
+
+    /**
+    For each intervention studied in the clinical study, the general type of intervention
+
+* `drug`: Including placebo
+* `device`: Including sham
+* `biological`: Vaccine
+* `procedure`: Surgery
+* `radiation`
+* `behavioral`: For example, psychotherapy, lifestyle counselling
+* `genetic`: Including gene transfer, stem cell and recombinant DNA
+* `dietary_supplement`: For example, vitamins, minerals
+* `combination_product`: Combining a drug and device, a biological product and device; a drug and biological product; or a drug, biological product, and device
+* `diagnostic_test`: For example, imaging, in-vitro
+* `other`
+
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.htm
+
+    */
+    enum InterventionType {drug, device, procedure, biological, radiation, behavioral, genetic, dietary_supplement,
+        combination_product, diagnostic_test, other}
+
+    /**
+    Treatment: One or more interventions are being evaluated for treating a disease, syndrome, or condition.
+    Prevention: One or more interventions are being assessed for preventing the development of a specific disease or health condition.
+    Diagnostic: One or more interventions are being evaluated for identifying a disease or health condition.
+    Supportive Care: One or more interventions are evaluated for maximizing comfort, minimizing side effects, or mitigating against a decline in the participant's health or function.
+    Screening: One or more interventions are assessed or examined for identifying a condition, or risk factors for a condition, in people who are not yet known to have the condition or risk factor.
+    Health Services Research: One or more interventions for evaluating the delivery, processes, management, organization, or financing of healthcare.
+    Basic Science: One or more interventions for examining the basic mechanism of action (for example, physiology or biomechanics of an intervention).
+    Device Feasibility: An intervention of a device product is being evaluated in a small clinical trial (generally fewer than 10 participants) to determine the feasibility of the product; or a clinical trial to test a prototype device for feasibility and not health outcomes. Such studies are conducted to confirm the design and operating specifications of a device before beginning a full clinical trial.
+    Other: None of the other options applies.
+
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.htm
+    */
+    enum PrimaryPurpose {treatment, prevention, diagnostic, supportive_care, screening, health_services_research,
+        basic_science, device_feasibility, other}
+
+    /**
+    N/A: Trials without phases (for example, studies of devices or behavioural interventions).
+    Early Phase 1 (Formerly listed as "Phase 0"): Exploratory trials, involving very limited human exposure, with no therapeutic or diagnostic intent (e.g., screening studies, microdose studies). See FDA guidance on exploratory IND studies for more information.
+    Phase 1: Includes initial studies to determine the metabolism and pharmacologic actions of drugs in humans, the side effects associated with increasing doses, and to gain early evidence of effectiveness; may include healthy participants and/or patients.
+    Phase 1/Phase 2: Trials that are a combination of phases 1 and 2.
+    Phase 2: Includes controlled clinical studies conducted to evaluate the effectiveness of the drug for a particular indication or indications in participants with the disease or condition under study and to determine the common short-term side effects and risks.
+    Phase 2/Phase 3: Trials that are a combination of phases 2 and 3.
+    Phase 3: Includes trials conducted after preliminary evidence suggesting effectiveness of the drug has been obtained, and are intended to gather additional information to evaluate the overall benefit-risk relationship of the drug.
+    Phase 4: Studies of FDA-approved drugs to delineate additional information including the drug's risks, benefits, and optimal use.
+    */
+    enum StudyPhase {na, early_phase1, phase1, phase1_phase2, phase2, phase2_phase3, phase3, phase4}
+
+    /**
+* `Interventional (clinical trial)`: Participants are assigned prospectively to an intervention or interventions
+according to a protocol to evaluate the effect of the intervention(s) on biomedical or other health related outcomes.
+* `Observational`: Studies in human beings in which biomedical and/or health outcomes are assessed in pre-defined groups
+of individuals. Participants in the study may receive diagnostic, therapeutic, or other interventions, but the
+investigator does not assign specific interventions to the study participants. This includes when participants
+receive interventions as part of routine medical care, and a researcher studies the effect of the intervention.
+* `Expanded Access`: An investigational drug product (including biological product)
+available through expanded access for patients who do not qualify for enrollment in a clinical trial.
+Expanded Access includes all expanded access types under section 561 of the Federal Food, Drug, and
+Cosmetic Act: (1) for individual patients, including emergency use; (2) for intermediate-size patient populations;
+and (3) under a treatment IND or treatment protocol. (For more information on data requirements for this Study Type,
+see Expanded Access Data Element Definitions).
+    */
+    enum StudyType {interventional, observational, patient_registry, expanded_access}
+
+    /**
+    A process or action that is the focus of a clinical study.
+    Ref. https://prsinfo.clinicaltrials.gov/definitions.html
+    */
+    record Intervention{
+        /**
+        Intervention type, i.e drug
+        */
+        InterventionType interventionType;
+        /**
+        Intervention name: Placebo
+        */
+        string interventionName;
+    }
+
+    record AgeRange{
+        int minimumAge;
+        int maximumAge;
+        TimeUnit timeunit;
+    }
+
+    record TrialLocation{
+        union {null, string} name;
+        union {null, string} city;
+        union {null, string} country;
+        union {null, string} zip;
+    }
+
+    record DemographicElegibilityCriteria{
+        org.gel.models.participant.avro.Sex sex;
+        union {null, AgeRange} ageRange;
+    }
+
+    record Trial {
+        /**
+        URL where reference information for this trail can be found
+        */
+        string studyUrl;
+        /**
+        Trail/Study indetifier
+        */
+        string studyIdientifier;
+        /**
+        Start date of the study
+        */
+        union {null, string} startDate;
+        /**
+        Completion date of the study
+        */
+        union {null, string} estimateCompletionDate;
+        /**
+        Title of the study
+        */
+        union {null, string} title;
+        /**
+        Study Phase
+        */
+        union {null, StudyPhase} phase;
+        /**
+        Interventions
+        */
+        union {null, array<Intervention>} interventions;
+        /**
+        Conditions
+        */
+        union {null, array<string>} conditions;
+        /**
+        Primary Purpose of the study
+        */
+        union {null, PrimaryPurpose} primaryPurpose;
+        /**
+        Study Type
+        */
+        union {null, StudyType} studyType;
+        /**
+        Elegigility Criteria based on Age and Sex
+        */
+        union {null, DemographicElegibilityCriteria} demogrphicElegibilityCriteria;
+        /**
+        List with all of the locations where participant can enrolle
+        */
+        union {null, array<TrialLocation>} locations;
+        /**
+        If true, the association was made using the variant information,
+        if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+    record DrugResponse{
+        /**
+        Treatment agent
+        */
+        string TreatmentAgent;
+        /**
+        associated effect of the drug
+        */
+        DrugResponseClassification drugResponseClassification;
+    }
+
+    record Therapy{
+        /**
+        URL where reference information for this therapy association can be found
+        */
+        string rferenceUrl;
+        /**
+        Source
+        */
+        union {null, string} source;
+        /**
+        References
+        */
+        union {null, array<string>} references;
+        /**
+        Drug responses
+        */
+        union {null, array<DrugResponse>} drugResponse;
+        /**
+        Any other clinical intervention
+        */
+        union {null, array<Intervention>} otherInterventions;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+    record Prognosis{
+        /**
+        URL where reference information for this prognosis can be found
+        */
+        string rferenceUrl;
+        /**
+        Prognosis classification (defined as favourable or unfavourable),
+        in the case that the direction of the prognosis is not known altered_prognosis should be used
+        */
+        union{null, PrognosisClassification} prognosis;
+        /**
+        Source if known
+        */
+        union {null, string} source;
+        /**
+        References
+        */
+        union {null, array<string>} references;
+        /**
+        Full description of the associated prognosis
+        */
+        union {null, string} description;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+    /**
+    Clinical actions
+    */
+    record Actions {
+        union {null, array<Trial>} trials;
+        union {null, array<Prognosis>} prognosis;
+        union {null, array<Therapy>} therapies;
     }
 
     /**
@@ -150,7 +604,9 @@ protocol CommonInterpreted {
         gene,
         transcript,
         intergenic,
-        gene_fusion
+        gene_fusion,
+        genomic_region,
+        cytobands
     }
 
     /**
@@ -169,6 +625,17 @@ protocol CommonInterpreted {
         The frequency of the alternate allele
         */
         float alternateFrequency;
+    }
+
+    record Identifier{
+        /**
+        Source i.e, esenmbl
+        */
+        string source;
+        /**
+        identifier
+        */
+        string identifier;
     }
 
     /**
@@ -193,7 +660,7 @@ protocol CommonInterpreted {
         /**
         Others identifiers for this genomic feature
         */
-        union {null, map<string>} otherIds;
+        union {null, array<Identifier>} otherIds;
     }
 
     /**
@@ -201,14 +668,22 @@ protocol CommonInterpreted {
     */
     record GenePanel{
         /**
-        Panel name used from PanelApp
+        Panel name used
         */
-        string panelName;
+        union {null, string} panelIdentifier;
 
+        /**
+        Panel name used
+        */
+        union {null, string} panelName;
         /**
         Panel version
         */
         union {null, string} panelVersion;
+        /**
+        source i.e, PanelApp
+        */
+        union {null, string} source;
     }
 
     /**
@@ -242,61 +717,7 @@ protocol CommonInterpreted {
         */
         union {null, array<string>} clinVarIds;
 
-        union {null, map<string>} otherIds;
-
-    }
-
-
-    /**
-    Variant tiers as defined by Genomics England
-    */
-    enum Tier {NONE, TIER1, TIER2, TIER3, TIER4, TIER5}
-
-    /**
-    The reference genome assembly
-    */
-    enum Assembly {GRCh38, GRCh37}
-
-    enum ClinicalSignificance {
-        benign,
-        likely_benign,
-        VUS,
-        likely_pathogenic,
-        pathogenic,
-        uncertain_significance
-    }
-
-    enum DrugResponseClassification {
-        responsive,
-        resistant,
-        toxicity,
-        indication,
-        contraindication,
-        dosing,
-        increased_monitoring,
-        efficacy
-    }
-
-    enum TraitAssociation {
-        established_risk_allele,
-        likely_risk_allele,
-        uncertain_risk_allele,
-        protective
-    }
-
-    enum TumorigenesisClassification {
-        driver,
-        passenger,
-        modifier
-    }
-
-    enum VariantFunctionalEffect {
-        dominant_negative_variant,
-        gain_of_function_variant,
-        lethal_variant,
-        loss_of_function_variant,
-        loss_of_heterozygosity,
-        null_variant
+        union {null, array<Identifier>} otherIds;
     }
 
     /**
@@ -344,7 +765,7 @@ protocol CommonInterpreted {
         union {null, string} comment;
         union {null, string} alternativeIds;
         union {null, string} synonyms;
-        union {null, string} isAs;
+        union {null, string} isA;
         /**
         The ontology (e.g.: HPO, OMIM, SNOMED CT)
         */
@@ -358,7 +779,7 @@ protocol CommonInterpreted {
     /**
     Oontology term based on the OBO format (see an example here http://snapshot.geneontology.org/ontology/go-basic.obo)
     */
-    record Phenotype {
+    record Phenotypes {
         /**
         The non standardised phenotypes (i.e.: may be free text)
         */
@@ -366,7 +787,7 @@ protocol CommonInterpreted {
         /**
         The standardised phenotypes (i.e.: controlled terminology)
         */
-        array<StandardPhenotype> standardPhenotypes;
+        union {null, array<StandardPhenotype>} standardPhenotypes;
     }
 
     /**
@@ -375,7 +796,6 @@ protocol CommonInterpreted {
     analysed, a positive report from a Genomic Medicine Centre (GMC) will correspond to an additional report event.
     */
     record ReportEvent {
-
         /**
         Unique identifier for each report event, this is unique across the whole report. A report having more than one
         report event with the same identifier is invalid. Repeating report event identifiers between different reports
@@ -386,7 +806,7 @@ protocol CommonInterpreted {
         /**
         The list of phenotypes
         */
-        Phenotype phenotypes;
+        Phenotypes phenotypes;
 
         /**
         Sequence Ontology terms for relevant consequence types for this report event
@@ -401,7 +821,7 @@ protocol CommonInterpreted {
         /**
         Mode of inheritance used to analyse the family
         */
-        ReportedModeOfInheritance modeOfInheritance;
+        ModeOfInheritance modeOfInheritance;
 
         /**
         The list of genomic features of interest for this report event. Please note that one variant can overlap more
@@ -411,31 +831,20 @@ protocol CommonInterpreted {
         array<GenomicEntity> genomicEntities;
 
         /**
+        Segregation pattern if any calculated using the genotypes information of a family
+        */
+        union {null, SegregationPattern} segregationPattern;
+
+        /**
         This is the penetrance assumed for scoring or classifying this variant
         */
         union {null, org.gel.models.participant.avro.Penetrance} penetrance;
 
-        /**
-        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
-        mode of Inheritance. This may be the result of different scoring systems
-        */
-        union {null, float} score;
-
-        /**
-        Other scores that the interpretation provider may add (for example phenotypically informed or family
-        informed scores)
-        */
-        union {null, map<float>} vendorSpecificScores;
 
         /**
         Likelihood of being a de novo variant
         */
         union {null, float} deNovoQualityScore;
-
-        /**
-        Variant classification
-        */
-        union {null, VariantClassification} variantClassification;
 
         /**
         Flag to indicate if this variant using this mode of inheritance can fully explain the phenotype
@@ -458,10 +867,53 @@ protocol CommonInterpreted {
         union {null, string} eventJustification;
 
         /**
+        The role of this variant in cancer if any
+        */
+        union {null, array<RoleInCancer>} roleInCancer;
+
+        /**
+        Actions can be taken on the variant if any
+        */
+        union {null, Actions} actions;
+
+        /**
+        This is the score provided to reflect a variant's likelihood of explaining the phenotype using a specific
+        mode of Inheritance. This may be the result of different scoring systems
+        */
+        union {null, float} score;
+
+        /**
+        Other scores that the interpretation provider may add (for example phenotypically informed or family
+        informed scores)
+        */
+        union {null, map<float>} vendorSpecificScores;
+
+        /**
+        Variant classification
+        */
+        union {null, VariantClassification} variantClassification;
+
+        /**
+        Guidelines based Variant classification
+        */
+        union {null, GuidelineBasedVariantClassification} guidelineBasedVariantClassification;
+
+        /**
+        Algorithm based variant classifications
+        */
+        union {null, array<AlgorithmBasedVariantClassification>} algorithmBasedVariantClassifications;
+
+        /**
         The tier where this variant has been classified. Tier is a property of the model of inheritance and therefore
         is subject to change depending on the inheritance assumptions
         */
         union {null, Tier} tier;
+
+        /**
+        The Domain where this variant has been classified.
+        */
+        union {null, Domain} domain;
+
     }
 
     /**
@@ -519,12 +971,12 @@ protocol CommonInterpreted {
         /**
         Any additional information in a free text field. For example a quote from a paper
         */
-        union {null,map<string>} additionalTextualVariantAnnotations;
+        union {null, map<string>} additionalTextualVariantAnnotations;
 
         /**
         Additional references for ths variant. For example HGMD ID or Pubmed Id
         */
-        union {null,map<string>} references;
+        union {null, map<string>} references;
 
         union {null, VariantIdentifiers} variantIdentifiers;
 
@@ -560,13 +1012,12 @@ protocol CommonInterpreted {
         /**
         Average tier1 number of basecalls filtered from original read depth within 50 bases
         */
-        union {null, string} fdp50;
+        union {null, float} fdp50;
         /**
         Map of other attributes where keys are the attribute names and values are the attributes
         */
         union {null, map<string>} others;
     }
-
 
     record PhaseGenotype {
         array<string> sortedAlleles;
@@ -578,8 +1029,8 @@ protocol CommonInterpreted {
         Number of copies given by the caller in one of the allele
         */
         int numberOfCopies;
-        union{null, int} confidenceIntervalMaximun;
-        union{null, int} confidenceIntervalMinimun;
+        union{null, int} confidenceIntervalMaximum;
+        union{null, int} confidenceIntervalMinimum;
     }
 
     /**
@@ -609,9 +1060,9 @@ protocol CommonInterpreted {
         union {null, PhaseGenotype} phaseGenotype;
 
         /**
-        Variant Allele Frequency
+        Sample Variant Allele Frequency
         */
-        union {null, double} vaf;
+        union {null, double} sampleVariantAlleleFrequency;
 
         /**
         Depth for Reference Allele
@@ -631,7 +1082,7 @@ protocol CommonInterpreted {
         /**
         Describe whether this is a somatic or Germline variant
         */
-        array<AlleleOrigin> alleleOrigins;
+        union {null, array<AlleleOrigin>} alleleOrigins;
 
         union {null, array<SupportingReadType>} supportingReadTypes;
 
@@ -641,8 +1092,6 @@ protocol CommonInterpreted {
         insertion,
         deletion
     }
-
-
 
     record ConfidenceInterval {
         int left;
@@ -656,7 +1105,6 @@ protocol CommonInterpreted {
         union {null, ConfidenceInterval} ciStart;
         union {null, ConfidenceInterval} ciEnd;
     }
-
 
     enum Orientation {
         start_start,
@@ -763,8 +1211,6 @@ protocol CommonInterpreted {
         */
         array<ReportEvent> reportEvents;
         union {null, VariantAttributes} variantAttributes;
-
-
 
     }
 

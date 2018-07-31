@@ -12,7 +12,6 @@ protocol InterpretationRequestsRD {
     import idl "ReportVersionControl.avdl";
     import idl "CommonInterpreted.avdl";
     import idl "RDParticipant.avdl";
-    import idl "CancerParticipant.avdl";
 
     /**
     This record represents basic information for this report

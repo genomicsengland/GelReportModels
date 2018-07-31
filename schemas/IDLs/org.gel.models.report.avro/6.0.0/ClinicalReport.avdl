@@ -1,10 +1,6 @@
 @namespace("org.gel.models.report.avro")
-/**
-This protocol defines the minimum information that Genomics England needs to generate a report given a set of variants
-define by a Genomic Medicine Centre (GMC) in a Clinical Interpretation Partner (CIP) environment. Notice that most of
-the information needed is already collected in the interpretation request or interpreted genome.
-*/
-protocol ClinicalReportsRD {
+
+protocol ClinicalReports {
 
     import idl "CommonInterpreted.avdl";
     import idl "ReportVersionControl.avdl";
@@ -24,11 +20,10 @@ protocol ClinicalReportsRD {
     }
 
     /**
-    A clinical report for the rare disease program. This holds the list of reported variants by a GMC together with all
+    A clinical report. This holds the list of reported variants by an expert together with all
     the relevant information that identify the case and how these conclusions were reached.
     */
-    record ClinicalReportRD {
-
+    record ClinicalReport {
         /**
         This is the interpretation request identifier (i.e.: first number in XXX-123-1)
         */
@@ -50,9 +45,24 @@ protocol ClinicalReportsRD {
         string user;
 
         /**
-        List of reported variants
+        List of small reported variants
         */
         union {null, array<SmallVariant>} variants;
+
+        /**
+        List of simple structural reported variants (duplications, deletions, insertions, inversions, CNVs)
+        */
+        union {null, array<StructuralVariant>} structuralVariants;
+
+        /**
+        List of complex structural reported variants (chomosomal rearrangement)
+        */
+        union {null, array<ChromosomalRearrangement>} chromosomalRearrangements;
+
+        /**
+        List of short tandem repeat variants
+        */
+        union {null, array<ShortTandemRepeat>} shortTandemRepeats;
 
         /**
         Summary of the interpretation, this should reflect the positive conclusions of this interpretation
