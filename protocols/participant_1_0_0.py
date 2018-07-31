@@ -1474,10 +1474,10 @@ class SensitiveInformation(ProtocolElement):
 
 class Sex(object):
     """
-    No documentation
+    Sex
     """
-    FEMALE = "FEMALE"
     MALE = "MALE"
+    FEMALE = "FEMALE"
     UNKNOWN = "UNKNOWN"
 
 
