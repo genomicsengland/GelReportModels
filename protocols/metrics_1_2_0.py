@@ -6466,13 +6466,13 @@ class SampleState(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "SampleState", "fields":
 [{"type": ["null", {"symbols": ["ready", "warning", "pending", "blocked", "failed",
-"not_sequenced"], "doc": "", "type": "enum", "name": "State"}], "name": "state"}, {"type": ["null",
-{"items": {"symbols": ["median_coverage", "in_analysis", "duplicate", "pedigree_mendelian_errors",
-"pedigree_ibd_sharing", "contamination", "quality", "sex_query", "perc_bases_ge_15x", "gb_q30",
-"array_concordance", "high_cnv", "in_qc", "pass_qc", "other"], "type": "enum", "name":
-"StateReason"}, "type": "array"}], "name": "reason"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "otherReasons"}, {"type": ["null", {"items": "string", "type": "array"}], "name":
-"issueIdentifier"}]}
+"not_sequenced"], "doc": "", "type": "enum", "name": "SampleStates"}], "name": "state"}, {"type":
+["null", {"items": {"symbols": ["median_coverage", "in_analysis", "duplicate",
+"pedigree_mendelian_errors", "pedigree_ibd_sharing", "contamination", "quality", "sex_query",
+"perc_bases_ge_15x", "gb_q30", "array_concordance", "high_cnv", "in_qc", "pass_qc", "other"],
+"type": "enum", "name": "StateReason"}, "type": "array"}], "name": "reason"}, {"type": ["null",
+{"items": "string", "type": "array"}], "name": "otherReasons"}, {"type": ["null", {"items":
+"string", "type": "array"}], "name": "issueIdentifier"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6506,6 +6506,23 @@ class SampleState(ProtocolElement):
             'reason', None)
         self.state = kwargs.get(
             'state', None)
+
+
+class SampleStates(object):
+    """
+    This is the master state for this sample, for example
+    failed,quality could be used to say that a sample under this
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed blocked:
+    sample is on hold pending investigation failed: sample has failed
+    a QC check not_sequenced: sample is not sequenced
+    """
+    ready = "ready"
+    warning = "warning"
+    pending = "pending"
+    blocked = "blocked"
+    failed = "failed"
+    not_sequenced = "not_sequenced"
 
 
 class SamplesInfo(ProtocolElement):
@@ -6870,19 +6887,14 @@ class SpatialPattern(object):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    failed,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed blocked:
-    sample is on hold pending investigation failed: sample has failed
-    a QC check not_sequenced: sample is not sequenced
+    No documentation
     """
     ready = "ready"
-    warning = "warning"
     pending = "pending"
+    hold = "hold"
+    fail = "fail"
+    caution = "caution"
     blocked = "blocked"
-    failed = "failed"
-    not_sequenced = "not_sequenced"
 
 
 class StateReason(object):

@@ -3235,24 +3235,62 @@ class ClinicalReport(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type":
-"string", "name": "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}],
-"name": "additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
+{"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
+"ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
+"name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+"string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
+"type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
+"additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "referenceDatabasesVersions"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "softwareVersions"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "additionalAnalysisPanels",
+        "chromosomalRearrangements",
         "genomicInterpretation",
         "interpretationRequestId",
         "interpretationRequestVersion",
         "referenceDatabasesVersions",
         "references",
         "reportingDate",
+        "shortTandemRepeats",
         "softwareVersions",
+        "structuralVariants",
         "user",
         "variants",
     }
@@ -3261,6 +3299,9 @@ class ClinicalReport(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'additionalAnalysisPanels': AdditionalAnalysisPanel,
+            'chromosomalRearrangements': ChromosomalRearrangement,
+            'shortTandemRepeats': ShortTandemRepeat,
+            'structuralVariants': StructuralVariant,
             'variants': SmallVariant,
         }
         return fieldName in embeddedTypes
@@ -3269,21 +3310,27 @@ class ClinicalReport(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'additionalAnalysisPanels': AdditionalAnalysisPanel,
+            'chromosomalRearrangements': ChromosomalRearrangement,
+            'shortTandemRepeats': ShortTandemRepeat,
+            'structuralVariants': StructuralVariant,
             'variants': SmallVariant,
         }
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'additionalAnalysisPanels', 'genomicInterpretation',
-        'interpretationRequestId', 'interpretationRequestVersion',
-        'referenceDatabasesVersions', 'references', 'reportingDate',
-        'softwareVersions', 'user', 'variants'
+        'additionalAnalysisPanels', 'chromosomalRearrangements',
+        'genomicInterpretation', 'interpretationRequestId',
+        'interpretationRequestVersion', 'referenceDatabasesVersions',
+        'references', 'reportingDate', 'shortTandemRepeats',
+        'softwareVersions', 'structuralVariants', 'user', 'variants'
     ]
 
     def __init__(self, **kwargs):
         self.additionalAnalysisPanels = kwargs.get(
             'additionalAnalysisPanels', None)
+        self.chromosomalRearrangements = kwargs.get(
+            'chromosomalRearrangements', None)
         self.genomicInterpretation = kwargs.get(
             'genomicInterpretation', None)
         self.interpretationRequestId = kwargs.get(
@@ -3296,8 +3343,12 @@ class ClinicalReport(ProtocolElement):
             'references', None)
         self.reportingDate = kwargs.get(
             'reportingDate', None)
+        self.shortTandemRepeats = kwargs.get(
+            'shortTandemRepeats', None)
         self.softwareVersions = kwargs.get(
             'softwareVersions', None)
+        self.structuralVariants = kwargs.get(
+            'structuralVariants', None)
         self.user = kwargs.get(
             'user', None)
         self.variants = kwargs.get(
@@ -12015,11 +12066,46 @@ class ReportedVariantInjectCancer(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type":
-"string", "name": "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}],
-"name": "additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
+{"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
+"ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
+"name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+"string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
+"type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
+"additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "referenceDatabasesVersions"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "softwareVersions"}], "doc": ""}, "name": "clinicalReport"}], "doc": ""}
 """
@@ -12294,11 +12380,46 @@ class ReportedVariantInjectRD(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null",
-{"items": {"doc": "", "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type":
-"string", "name": "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}],
-"name": "additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
+{"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
+"ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
+"name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+"string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
+"type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
+"specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
+"additionalAnalysisPanels"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "references"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "referenceDatabasesVersions"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "softwareVersions"}], "doc": ""}, "name": "clinicalReport"}], "doc": ""}
 """

@@ -16,7 +16,7 @@ not_sequenced: sample is not sequenced
 
 
 */
-enum State {
+enum SampleStates {
     ready,
     warning,
     pending,
@@ -43,7 +43,7 @@ enum StateReason {
 
 record SampleState {
 
-    union {null, State} state ;
+    union {null, SampleStates} state ;
     union {null, array <StateReason>} reason;
     union {null, array <string>} otherReasons;
     union {null, array <string>} issueIdentifier;

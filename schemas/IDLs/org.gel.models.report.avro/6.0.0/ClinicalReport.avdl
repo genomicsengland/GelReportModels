@@ -45,9 +45,24 @@ protocol ClinicalReports {
         string user;
 
         /**
-        List of reported variants
+        List of small reported variants
         */
         union {null, array<SmallVariant>} variants;
+
+        /**
+        List of simple structural reported variants (duplications, deletions, insertions, inversions, CNVs)
+        */
+        union {null, array<StructuralVariant>} structuralVariants;
+
+        /**
+        List of complex structural reported variants (chomosomal rearrangement)
+        */
+        union {null, array<ChromosomalRearrangement>} chromosomalRearrangements;
+
+        /**
+        List of short tandem repeat variants
+        */
+        union {null, array<ShortTandemRepeat>} shortTandemRepeats;
 
         /**
         Summary of the interpretation, this should reflect the positive conclusions of this interpretation
