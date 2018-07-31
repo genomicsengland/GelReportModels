@@ -22,7 +22,7 @@ class MigrateReports500To600(BaseMigration):
         :rtype: reports_6_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
-        new_instance.versionControl.gitVersionControl = '6.0.0'
+        new_instance.versionControl = self.new_model.ReportVersionControl()
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
         )
@@ -34,7 +34,7 @@ class MigrateReports500To600(BaseMigration):
         :rtype: reports_6_0_0.CancerInterpretationRequest
         """
         new_instance = self.convert_class(self.new_model.CancerInterpretationRequest, old_instance)
-        new_instance.versionControl.gitVersionControl = '6.0.0'
+        new_instance.versionControl = self.new_model.ReportVersionControl()
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
         )
@@ -47,7 +47,7 @@ class MigrateReports500To600(BaseMigration):
         :rtype: reports_6_0_0.InterpretedGenome
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenome, old_instance)
-
+        new_instance.versionControl = self.new_model.ReportVersionControl()
         new_instance.variants = self.migrate_variants(old_variants=old_instance.variants, panel_source=panel_source)
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome

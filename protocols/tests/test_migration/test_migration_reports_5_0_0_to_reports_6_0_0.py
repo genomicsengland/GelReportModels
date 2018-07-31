@@ -19,8 +19,8 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         new_ig_rd = MigrateReports500To600().migrate_interpreted_genome_rd(old_instance=old_ig_rd)
         self._validate(new_ig_rd)
         self.assertIsInstance(new_ig_rd, self.new_model.InterpretedGenome)
-
         self.assertIsInstance(new_ig_rd.versionControl, self.new_model.ReportVersionControl)
+        self.assertTrue(new_ig_rd.versionControl.gitVersionControl == '6.0.0')
 
         attributes = [
             "interpretationRequestId", "interpretationRequestVersion", "interpretationService", "reportUrl",
@@ -275,6 +275,7 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
         )
         self.assertIsInstance(new_c_ig, self.new_model.InterpretedGenome)
         self._validate(new_c_ig)
+        self.assertTrue(new_c_ig.versionControl.gitVersionControl == '6.0.0')
         attributes = [
             "interpretationRequestId", "interpretationRequestVersion", "interpretationService", "reportUrl",
             "referenceDatabasesVersions", "softwareVersions", "comments",
