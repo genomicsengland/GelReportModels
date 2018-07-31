@@ -177,7 +177,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_rd_500_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_500_600(fill_nullables=False)
@@ -234,23 +234,6 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_210_600_nulls(self):
         self.test_migrate_interpretation_request_rd_to_interpreted_genome_210_600(fill_nullables=False)
-
-    def test_migrate_interpretation_request_rd_to_interpreted_genome_500_600(self, fill_nullables=True):
-
-        # tests IG 500 -> 600
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
-        ).create()
-        self._validate(old_instance)
-
-        migrated_instance = MigrationHelpers().migrate_interpretation_request_rd_to_interpreted_genome_latest(
-            old_instance.toJsonDict(), assembly='GRCh38'
-        )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretedGenome)
-        self._validate(migrated_instance)
-
-    def test_migrate_interpretation_request_rd_to_interpreted_genome_500_600_null(self):
-        self.test_migrate_interpretation_request_rd_to_interpreted_genome_500_600(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_400_600(self, fill_nullables=True):
 
