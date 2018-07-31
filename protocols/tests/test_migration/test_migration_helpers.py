@@ -177,7 +177,7 @@ class TestMigrationHelpers(TestCaseMigration):
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertTrue(migrated_instance.versionControl.gitVersionControl == '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
 
     def test_migrate_interpretation_request_rd_500_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_500_600(fill_nullables=False)
