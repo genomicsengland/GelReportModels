@@ -26,8 +26,8 @@ protocol DataIntakeCancerProtocol {
     import idl "EvidenceSet.avdl";
 
     import idl "InterpretationRequestCancer.avdl";
-    import idl "InterpretedGenomesCancer.avdl";
-    import idl "ClinicalReportCancer.avdl";
+    import idl "InterpretedGenome.avdl";
+    import idl "ClinicalReport.avdl";
     import idl "ExitQuestionnaire.avdl";
     import idl "CancerParticipant.avdl";
 
@@ -75,7 +75,7 @@ protocol DataIntakeCancerProtocol {
         /**
         Cancer Interpreted Genome
         */
-        org.gel.models.report.avro.CancerInterpretedGenome interpretedGenome;
+        org.gel.models.report.avro.InterpretedGenome interpretedGenome;
     }
 
     /**
@@ -130,7 +130,7 @@ protocol DataIntakeCancerProtocol {
         /**
         Cancer Interpreted Genome
         */
-        org.gel.models.report.avro.CancerInterpretedGenome interpretedGenome;
+        org.gel.models.report.avro.InterpretedGenome interpretedGenome;
     }
 
     /**
@@ -185,7 +185,7 @@ protocol DataIntakeCancerProtocol {
         /**
         Information that Genomics England needs to generate a clinical report
         */
-        org.gel.models.report.avro.ClinicalReportCancer clinicalReport;
+        org.gel.models.report.avro.ClinicalReport clinicalReport;
     }
 
     /**
