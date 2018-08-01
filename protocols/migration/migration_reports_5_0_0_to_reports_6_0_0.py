@@ -126,7 +126,12 @@ class MigrateReports500To600(BaseMigration):
 
     def migrate_variant_call(self, variant_call):
         new_variant_call = self.convert_class(self.new_model.VariantCall, variant_call)
-
+        if variant_call.phaseSet:
+            new_variant_call.phaseGenotype = self.new_model.PhaseGenotype()
+            new_variant_call.phaseGenotype.phaseSet = variant_call.phaseSet
+            # TODO: build this list or change the model or ...?
+            new_variant_call.phaseGenotype.sortedAlleles = []
+        new_variant_call.sampleVariantAlleleFrequency = variant_call.vaf
         return self.validate_object(
             object_to_validate=new_variant_call, object_type=self.new_model.VariantCall
         )
