@@ -4,6 +4,8 @@ This protocol defines ExitQuestionnaires
 */
 protocol ExitQuestionnaires {
 
+    import idl "CommonInterpreted.avdl";
+
     enum CaseSolvedFamily {yes, no, partially, unknown}
     enum PhenotypesSolved {yes, no, partially, unknown}
     enum SegregationQuestion {yes, no}
@@ -39,10 +41,9 @@ protocol ExitQuestionnaires {
     */
     record VariantLevelQuestions{
         /**
-        Variant coordinates following format `chromosome:position:reference:alternate`
+        Variant coordinates
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
-        string variantDetails;
+        VariantCoordinates variantCoordinates;
         /**
         Did you carry out technical confirmation of this variant via an alternative test?
         */
@@ -283,8 +284,7 @@ protocol ExitQuestionnaires {
         /**
         Variant coordinates following format `chromosome:position:reference:alternate`
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
-        string variantDetails;
+        VariantCoordinates variantCoordinates;
 
         /**
         Type of potential actionability:
@@ -312,7 +312,7 @@ protocol ExitQuestionnaires {
         /**
         Chr: Pos Ref > Alt
         */
-        string variantDetails;
+        VariantCoordinates variantCoordinates;
 
         /**
         Type of potential actionability:
@@ -343,8 +343,7 @@ protocol ExitQuestionnaires {
         /**
         Variant coordinates following format `chromosome:position:reference:alternate`
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
-        string variantDetails;
+        VariantCoordinates variantCoordinates;
 
         /**
         Type of potential actionability:

@@ -6,7 +6,6 @@ protocol ObservedVariantProtocol {
     import idl "Variant.avdl";
     // Report models references
     import idl "CommonInterpreted.avdl";
-    import idl "CommonInterpretedCancer.avdl";
     import idl "CommonParticipant.avdl";
     // OpenCB references
     import idl "variant.avdl";

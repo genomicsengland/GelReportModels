@@ -8,8 +8,7 @@ import sys
 import subprocess
 import logging
 import errno
-from protocols_utils.code_generation.process_schemas import SchemaGenerator
-
+from protocols_utils.code_generation.process_schemas import SchemaGenerator, ProtocolGenerator
 
 logging.basicConfig(level=logging.DEBUG)
 BASE_DIR = os.path.dirname(__file__)
@@ -64,7 +63,7 @@ class ConversionTools(object):
             usage='''conversion_tools.py <command> [<args>]''')
         parser.add_argument(
             'command',
-            help='Subcommand to run (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index)'
+            help='Subcommand to run (idl2json|idl2avpr|json2java|idl2python|json2python|avpr2html|update_docs_index|buildVersionPackage)'
         )
         # parse_args defaults to [1:] for args, but you need to
         # exclude the rest of the args too, or validation will fail
@@ -151,7 +150,6 @@ class ConversionTools(object):
             logging.info("Running: [%s]" % idl2avpr_command)
             run_command(idl2avpr_command)
 
-
     def idl2python(self):
         """
         Transforms all IDL Avro schemas in a given folder to Python source code.
@@ -172,8 +170,8 @@ class ConversionTools(object):
         logging.info("Running: [%s]" % idl2python_command)
         run_command(idl2python_command)
 
-
-    def json2python(self):
+    @staticmethod
+    def json2python():
         """
         Transforms all IDL JSON schemas in a given folder to Python source code.
         :return:
@@ -186,12 +184,31 @@ class ConversionTools(object):
         parser.add_argument('--version', help='Python package version')
         args = parser.parse_args(sys.argv[2:])
         logging.info('json2python')
+        logging.info(args)
         makedir(os.path.dirname(args.output_file))
         sg = SchemaGenerator(args.version, args.input, args.output_file, True)
         sg.write()
 
+    @staticmethod
+    def buildVersionPackage():
+        parser = argparse.ArgumentParser(
+            description='Generates Python source code from Avro JSON schemas')
+        # NOT prefixing the argument with -- means it's not optional
+        parser.add_argument('--builds-file', help='Input folder containing *.avsc files')
+        parser.add_argument('--output-dir', help='Output file for the Python source code (e.g.: protocol_7.1.py)')
+        parser.add_argument('--version', help='Build package version')
+        args = parser.parse_args(sys.argv[2:])
 
-    def avpr2html(self):
+        logging.info('build protocol')
+        logging.info(args)
+
+        makedir(args.output_dir)
+
+        pg = ProtocolGenerator(args.builds_file, args.output_dir, args.version)
+        pg.write()
+
+    @staticmethod
+    def avpr2html():
         """
         Transforms all AVPR schemas in a given folder to HTML documentation.
         :return:
@@ -209,7 +226,8 @@ class ConversionTools(object):
         logging.info("Running: [%s]" % avrodoc_command)
         run_command(avrodoc_command)
 
-    def update_docs_index(self):
+    @staticmethod
+    def update_docs_index():
         """
         Transforms all AVPR schemas in a given folder to HTML documentation.
         :return:

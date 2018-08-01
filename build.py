@@ -139,6 +139,19 @@ def __avpr2html(input, output):
     ConversionTools()
 
 
+def __build_version_package(builds_file, output, version):
+    args = [
+        'resources/GelModelsTools/gel_models_tools.py',
+        'buildVersionPackage',
+        '--builds-file', builds_file,
+        '--output-dir', output,
+        '--version', version
+    ]
+    original_args = sys.argv
+    sys.argv = args
+    ConversionTools()
+
+
 def __get_build_by_version(builds, version):
     build = None
     for _build in builds:
@@ -255,6 +268,9 @@ def run_build(build, skip_docs=False, skip_java=False):
             conversion_tools.makedir(docs_folder)
             for avpr in os.listdir(avpr_build_folder):
                 __avpr2html(os.path.join(avpr_build_folder, avpr), docs_folder)
+
+    protocol_output_dir_name = DependencyManager.get_python_protocol_name(build)
+    __build_version_package(BUILDS_FILE, os.path.join(PYTHON_FOLDER, protocol_output_dir_name), version)
 
 
 RESOURCES_FOLDER = "protocols/resources"

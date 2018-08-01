@@ -223,7 +223,7 @@ record ReportedVariantCancer {
     /**
     For example HGMD ID)
     */
-    union {null,map<string>} additionalTextualVariantAnnotations;
+    union {null, map<string>} additionalTextualVariantAnnotations;
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
@@ -277,7 +277,7 @@ record ReportedStructuralVariantCancer {
     /**
     For example HGMD ID)
     */
-    union {null,map<string>} additionalTextualVariantAnnotations;
+    union {null, map<string>} additionalTextualVariantAnnotations;
 
     /**
     For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..)
