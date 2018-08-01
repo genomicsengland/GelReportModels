@@ -8,6 +8,7 @@ from protocols.migration.base_migration import (
     MigrationError,
 )
 import itertools
+import re
 
 
 class MigrateReports500To600(BaseMigration):
@@ -142,11 +143,37 @@ class MigrateReports500To600(BaseMigration):
     def migrate_report_event(self, report_event, panel_source='panelapp'):
         new_report_event = self.convert_class(self.new_model.ReportEvent, report_event)
         new_report_event.phenotypes = self.migrate_phenotypes(phenotypes=report_event.phenotypes)
-        new_report_event.variantConsequences = self.migrate_variant_conseuqences(variant_consequences=report_event.variantConsequences)
         new_report_event.genePanel = self.migrate_gene_panel(gene_panel=report_event.genePanel, panel_source=panel_source)
         new_report_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=report_event.genomicEntities)
         new_report_event.variantClassification = self.migrate_variant_classification(classification=report_event.variantClassification)
+        if report_event.eventJustification:
+            new_report_event.segregationPattern = self.migrate_segregation_pattern(event_justification=report_event.eventJustification)
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_segregation_pattern(self, event_justification):
+        if re.search(self.new_model.SegregationPattern.UniparentalIsodisomy, event_justification):
+            return self.new_model.SegregationPattern.UniparentalIsodisomy
+        if re.search(self.new_model.SegregationPattern.SimpleRecessive, event_justification):
+            return self.new_model.SegregationPattern.SimpleRecessive
+        if re.search(self.new_model.SegregationPattern.CompoundHeterozygous, event_justification):
+            return self.new_model.SegregationPattern.CompoundHeterozygous
+        if re.search(self.new_model.SegregationPattern.deNovo, event_justification):
+            return self.new_model.SegregationPattern.deNovo
+        if re.search(self.new_model.SegregationPattern.InheritedAutosomalDominant, event_justification):
+            return self.new_model.SegregationPattern.InheritedAutosomalDominant
+        if re.search(self.new_model.SegregationPattern.InheritedAutosomalDominantMaternallyImprinted, event_justification):
+            return self.new_model.SegregationPattern.InheritedAutosomalDominantMaternallyImprinted
+        if re.search(self.new_model.SegregationPattern.InheritedAutosomalDominantPaternallyImprinted, event_justification):
+            return self.new_model.SegregationPattern.InheritedAutosomalDominantPaternallyImprinted
+        if re.search(self.new_model.SegregationPattern.XLinkedCompoundHeterozygous, event_justification):
+            return self.new_model.SegregationPattern.XLinkedCompoundHeterozygous
+        if re.search(self.new_model.SegregationPattern.XLinkedSimpleRecessive, event_justification):
+            return self.new_model.SegregationPattern.XLinkedSimpleRecessive
+        if re.search(self.new_model.SegregationPattern.XLinkedMonoallelic, event_justification):
+            return self.new_model.SegregationPattern.XLinkedMonoallelic
+        if re.search(self.new_model.SegregationPattern.MitochondrialGenome, event_justification):
+            return self.new_model.SegregationPattern.MitochondrialGenome
+        return None
 
     def migrate_gene_panel(self, gene_panel, panel_source='panelapp'):
         if gene_panel is None:
@@ -174,13 +201,6 @@ class MigrateReports500To600(BaseMigration):
             self.old_model.ClinicalSignificance.VUS: self.new_model.ClinicalSignificance.uncertain_significance,
         }
         return clinical_signicance_map.get(old_significance)
-
-    def migrate_variant_conseuqences(self, variant_consequences):
-        return [self.migrate_variant_consequence(variant_consequence=variant_consequence) for variant_consequence in variant_consequences]
-
-    def migrate_variant_consequence(self, variant_consequence):
-        new_variant_consequence = self.convert_class(self.new_model.VariantConsequence, variant_consequence)
-        return self.validate_object(object_to_validate=new_variant_consequence, object_type=self.new_model.VariantConsequence)
 
     def migrate_phenotypes(self, phenotypes):
         new_phenotype = self.new_model.Phenotypes(
