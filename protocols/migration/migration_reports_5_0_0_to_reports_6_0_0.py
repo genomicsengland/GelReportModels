@@ -2,12 +2,10 @@ import logging
 
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
-from protocols import opencb_1_3_0
 from protocols.migration.base_migration import (
     BaseMigration,
     MigrationError,
 )
-import itertools
 import re
 
 
