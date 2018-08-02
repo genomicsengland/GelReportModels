@@ -238,9 +238,6 @@ class MigrateReports500To600(BaseMigration):
         migrated_instance.variants = self.migrate_variants(old_variants=old_instance.variants)
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
 
-    def migrate_additional_analysis_panels(self, old_panels):
-        return [self.migrate_additional_analysis_panel(old_panel=old_panel) for old_panel in old_panels]
-
     def migrate_rd_exit_questionnaire(self, old_instance, assembly):
         migrated_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)
         migrated_instance.variantGroupLevelQuestions = self.migrate_variant_group_level_questions(
@@ -404,4 +401,3 @@ class MigrateReports500To600(BaseMigration):
             variant_details=old_variant.variantDetails, assembly=assembly
         )
         return self.validate_object(object_to_validate=new_question, object_type=self.new_model.AdditionalVariantsQuestions)
-
