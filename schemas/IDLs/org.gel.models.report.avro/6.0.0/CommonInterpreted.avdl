@@ -286,9 +286,9 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         AmpEvidenceType type;
         /**
-        Assesment for AMP evidence, i.e Present in ClinVar
+        Assessment for AMP evidence, i.e Present in ClinVar
         */
-        string evidenceAssesment;
+        string evidenceAssessment;
     }
 
     /**
@@ -328,7 +328,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         union{null, array<AmpClincialOrExperimentalEvidence>} ampClincialOrExperimentalEvidence;
         /**
-        Final Assesment
+        Final Assessment
         */
         union{null, string} assessment;
     }
