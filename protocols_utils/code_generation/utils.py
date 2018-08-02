@@ -198,7 +198,7 @@ class AlignmentFileTool(object):
         outputFilePath = outputFile.filename
         log("Creating alignment file '{}'".format(outputFilePath))
         # write new file
-        for _ in xrange(self.args.numLines):
+        for _ in range(self.args.numLines):
             alignedSegment = inputFile.next()
             outputFile.write(alignedSegment)
         # clean up

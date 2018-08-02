@@ -229,7 +229,7 @@ class SchemaValidator(AvroTypeSwitch):
             return self.sinkValue
 
     def handleString(self, datum):
-        if not isinstance(datum, basestring):
+        if self.notString(datum):
             return datum
         else:
             return self.sinkValue
@@ -294,7 +294,7 @@ class SchemaValidator(AvroTypeSwitch):
             return datum
         dic = {}
         for key, value in datum.items():
-            if not isinstance(key, basestring):
+            if self.notString(key):
                 dic[key] = value
             result = self.handleSchema(schema.values, value)
             if result != self.sinkValue:
@@ -351,6 +351,9 @@ class SchemaValidator(AvroTypeSwitch):
 
     def handleRequest(self, schema, datum):
         return self.handleRecord(schema, datum)
+
+    def notString(self, datum):
+        return not hasattr(datum, 'decode') or not isinstance(datum.decode(), unicode)
 
 
 class RandomInstanceCreator(AvroTypeSwitch):

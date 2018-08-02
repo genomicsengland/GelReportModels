@@ -99,7 +99,7 @@ class MigrateReports400To500(BaseMigration):
         try:
             new_instance.interpretationRequestVersion = self.convert_string_to_integer(
                 old_instance.interpretationRequestVersion)
-        except MigrationError, ex:
+        except MigrationError as ex:
             logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
                 old_instance.interpretationRequestVersion))
             raise ex
@@ -245,7 +245,7 @@ class MigrateReports400To500(BaseMigration):
         try:
             new_instance.interpretationRequestVersion = self.convert_string_to_integer(
                 old_instance.interpretationRequestVersion)
-        except MigrationError, ex:
+        except MigrationError as ex:
             logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
                 old_instance.interpretationRequestVersion))
             raise ex
