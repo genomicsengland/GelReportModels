@@ -323,7 +323,7 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
             self.assertIsInstance(new, self.new_model.SmallVariant)
             self.assertEqual(
                 new,
-                MigrateReports500To600().migrate_reported_variant_cancer(variant=old)
+                MigrateReports500To600().migrate_variant_cancer(variant=old)
             )
 
     def test_migrate_cancer_interpreted_genome_no_nullables(self):

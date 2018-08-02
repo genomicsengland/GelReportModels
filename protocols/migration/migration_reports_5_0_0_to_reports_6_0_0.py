@@ -62,12 +62,12 @@ class MigrateReports500To600(BaseMigration):
     def migrate_variant(self, old_variant, panel_source='panelapp'):
         """
         Migrates a reports_5_0_0.ReportedVariant to a reports_6_0_0.SmallVariant
-        :param old_variant: reports_5_0_0.ReportedVariant
-        :return: reports_6_0_0.SmallVariant
+        :type old_variant: reports_5_0_0.ReportedVariant
+        :type panel_source: str
+        :rtype: reports_6_0_0.SmallVariant
         """
 
         new_variant = self.convert_class(self.new_model.SmallVariant, old_variant)
-        new_variant.variantCoordinates = self.convert_class(self.new_model.VariantCoordinates, old_variant.variantCoordinates)
         new_variant.variantCalls = self.migrate_variant_calls(variant_calls=old_variant.variantCalls)
         new_variant.reportEvents = self.migrate_report_events(report_events=old_variant.reportEvents, panel_source=panel_source)
         new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=old_variant)
@@ -309,20 +309,18 @@ class MigrateReports500To600(BaseMigration):
     def migrate_cancer_interpreted_genome(self, old_instance):
         new_instance = self.convert_class(target_klass=self.new_model.InterpretedGenome, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.migrate_reported_variants_cancer(variants=old_instance.variants)
+        new_instance.variants = self.migrate_variants_cancer(variants=old_instance.variants)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome)
 
-    def migrate_reported_variants_cancer(self, variants):
+    def migrate_variants_cancer(self, variants):
         if variants is None:
             return None
-        return [self.migrate_reported_variant_cancer(variant=variant) for variant in variants]
+        return [self.migrate_variant_cancer(variant=variant) for variant in variants]
 
-    def migrate_reported_variant_cancer(self, variant):
+    def migrate_variant_cancer(self, variant):
         new_variant = self.convert_class(target_klass=self.new_model.SmallVariant, instance=variant)
-
-        new_variant.variantCoordinates = self.migrate_variant_coordinates_cancer(coordinates=variant.variantCoordinates)
-        new_variant.variantCalls = self.migrate_variant_calls_cancer(variant_calls=variant.variantCalls)
+        new_variant.variantCalls = self.migrate_variant_calls(variant_calls=variant.variantCalls)
         new_variant.reportEvents = self.migrate_report_events_cancer(events=variant.reportEvents)
         new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=variant)
 
@@ -336,25 +334,26 @@ class MigrateReports500To600(BaseMigration):
 
         new_event.modeOfInheritance = self.new_model.ModeOfInheritance.na
         new_event.phenotypes = self.new_model.Phenotypes()
-
         new_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=event.genomicEntities)
-        new_event.variantClassification = self.migrate_variant_classification(classification=event.variantClassification)
+        new_event.variantClassification = self.migrate_variant_classification(
+            classification=event.variantClassification)
+        # migrate tier to domain
+        new_event.tier = None
+        tier_domain_map = {
+            self.old_model.Tier.TIER1: self.new_model.Domain.DOMAIN1,
+            self.old_model.Tier.TIER2: self.new_model.Domain.DOMAIN2,
+            self.old_model.Tier.TIER3: self.new_model.Domain.DOMAIN3,
+            self.old_model.Tier.TIER4: self.new_model.Domain.DOMAIN4,
+            self.old_model.Tier.TIER5: self.new_model.Domain.NONE,
+            self.old_model.Tier.NONE: self.new_model.Domain.NONE
+        }
+        if event.tier:
+            new_event.domain = tier_domain_map[event.tier]
         return self.validate_object(object_to_validate=new_event, object_type=self.new_model.ReportEvent)
-
-    def migrate_variant_coordinates_cancer(self, coordinates):
-        new_coordinates = self.convert_class(target_klass=self.new_model.VariantCoordinates, instance=coordinates)
-        return self.validate_object(object_to_validate=new_coordinates, object_type=self.new_model.VariantCoordinates)
-
-    def migrate_variant_calls_cancer(self, variant_calls):
-        return [self.migrate_variant_call_cancer(call=call) for call in variant_calls]
-
-    def migrate_variant_call_cancer(self, call):
-        new_call = self.convert_class(target_klass=self.new_model.VariantCall, instance=call)
-        return self.validate_object(object_to_validate=new_call, object_type=self.new_model.VariantCall)
 
     def migrate_cancer_clinical_report(self, old_instance):
         new_ccr = self.convert_class(target_klass=self.new_model.ClinicalReport, instance=old_instance)
-        new_ccr.variants = self.migrate_reported_variants_cancer(variants=old_instance.variants)
+        new_ccr.variants = self.migrate_variants_cancer(variants=old_instance.variants)
         return self.validate_object(object_to_validate=new_ccr, object_type=self.new_model.ClinicalReport)
 
     def migrate_cancer_exit_questionnaire(self, old_instance, assembly):
