@@ -339,6 +339,42 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
         self.assertIsInstance(new_re_c, self.new_model.ReportEvent)
         self._validate(new_re_c)
 
+    def test_migrate_actions(self):
+
+        action1 = self.old_model.Action()
+        action1.evidenceType = "Trial (glioma)"
+        action1.variantActionable = True
+        action1.url = "https://clinicaltrials.gov/ct2/show/NCT02639546"
+
+        action2 = self.old_model.Action()
+        action2.evidenceType = "Trial (endometrial ca)"
+        action2.variantActionable = False
+        action2.url = "https://clinicaltrials.gov/ct2/show/NCT02583542"
+
+        action3 = self.old_model.Action()
+        action3.evidenceType = "Therapeutic (breast ca)"
+        action3.variantActionable = False
+        action3.url = "https://www.mycancergenome.org/content/disease/breast-cancer/esr1"
+
+        action4 = self.old_model.Action()
+        action4.evidenceType = "Prognostic (MDS)"
+        action4.variantActionable = False
+        action4.url = "https://www.mycancergenome.org/content/disease/myelodysplastic-syndromes/tp53"
+
+        action5 = self.old_model.Action()
+        action5.evidenceType = "Other (MDS)"
+        action5.variantActionable = False
+        action5.url = "https://www.mycancergenome.org/content/disease/myelodysplastic-syndromes/tp53"
+
+        new_actions = MigrateReports500To600().migrate_actions([action1, action2, action3, action4])
+        self.assertIsInstance(new_actions, self.new_model.Actions)
+        self._validate(new_actions)
+        self.assertTrue(len(new_actions.trials) == 2)
+        self.assertTrue(len(new_actions.therapies) == 1)
+        self.assertTrue(len(new_actions.prognosis) == 1)
+
+
+
 
 class TestCancerClinicalReport5To6(TestCaseMigration):
 

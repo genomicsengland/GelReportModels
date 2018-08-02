@@ -346,7 +346,47 @@ class MigrateReports500To600(BaseMigration):
         }
         if event.tier:
             new_event.domain = tier_domain_map[event.tier]
+        if event.actions:
+            new_event.actions = self.migrate_actions(event.actions)
         return self.validate_object(object_to_validate=new_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_actions(self, actions):
+
+        def extract_evidence_type(evidence_type):
+            # conditions are extracted from the text between brackets in evidence type
+            return map(lambda x: x.strip(), re.search(".*\((.*)\)", evidence_type).group(1).split(','))
+
+        new_actions = self.new_model.Actions()
+        for action in actions:
+            # map to either entity by the content of field evidence type
+            if "Trial" in action.evidenceType:
+                if action.url:  # NOTE: we need the url to extract the study identifier
+                    trial = self.new_model.Trial()
+                    trial.studyUrl = action.url
+                    # extract id of study from the last component of URL
+                    trial.studyIdentifier = action.url.strip('/').split('/')[-1]
+                    trial.variantActionable = action.variantActionable
+                    trial.conditions = extract_evidence_type(action.evidenceType)
+                    if not new_actions.trials:
+                        new_actions.trials = []
+                    new_actions.trials.append(trial)
+            elif "Prognostic" in action.evidenceType:
+                prognosis = self.new_model.Prognosis()
+                prognosis.referenceUrl = action.url
+                prognosis.variantActionable = action.variantActionable
+                prognosis.conditions = extract_evidence_type(action.evidenceType)
+                if not new_actions.prognosis:
+                    new_actions.prognosis = []
+                new_actions.prognosis.append(prognosis)
+            elif "Therapeutic" in action.evidenceType:
+                therapy = self.new_model.Therapy()
+                therapy.referenceUrl = action.url
+                therapy.variantActionable = action.variantActionable
+                therapy.conditions = extract_evidence_type(action.evidenceType)
+                if not new_actions.therapies:
+                    new_actions.therapies = []
+                new_actions.therapies.append(therapy)
+        return new_actions
 
     def migrate_cancer_clinical_report(self, old_instance):
         new_ccr = self.convert_class(target_klass=self.new_model.ClinicalReport, instance=old_instance)
