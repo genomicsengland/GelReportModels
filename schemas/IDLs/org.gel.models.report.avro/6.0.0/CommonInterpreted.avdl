@@ -272,12 +272,12 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     record AcmgVariantClassification{
         array<AcmgEvidence> acmgEvidences;
         ClinicalSignificance clinicalSignificance;
-        union{null, string} assesment;
+        union{null, string} assessment;
     }
 
     /**
     Evidences as defined in AMP guidelines, they are composed by a evidence type (first column in the evidence table of
-    the guidlines) and a assesment of the evicence, this last one will define the streght of the evidence, supporting
+    the guidlines) and a assessment of the evicence, this last one will define the streght of the evidence, supporting
     the variant to be classified as TierI-IV
     */
     record AmpEvidence {
@@ -312,7 +312,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
     /**
     Full Variant classification acording to AMP guideline, including all supporting evidences and the final
-    assesment
+    assessment
     */
     record AmpVariantClassification{
         /**
@@ -330,7 +330,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         Final Assesment
         */
-        union{null, string} assesment;
+        union{null, string} assessment;
     }
 
     /**
