@@ -57,6 +57,9 @@ class Aggregation(object):
     EVS = "EVS"
     EXAC = "EXAC"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AlleleOrigin(object):
     """
@@ -79,6 +82,9 @@ class AlleleOrigin(object):
     population_specific_variant = "population_specific_variant"
     somatic_variant = "somatic_variant"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AllelesCode(object):
     """
@@ -88,6 +94,9 @@ class AllelesCode(object):
     ALLELES_MISSING = "ALLELES_MISSING"
     MULTIPLE_ALTERNATES = "MULTIPLE_ALTERNATES"
     HAPLOID = "HAPLOID"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AlternateCoordinate(ProtocolElement):
@@ -223,6 +232,9 @@ class ClinicalSignificance(object):
     pathogenic = "pathogenic"
     uncertain_significance = "uncertain_significance"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Confidence(object):
     """
@@ -238,6 +250,9 @@ class Confidence(object):
     medium_confidence_level = "medium_confidence_level"
     high_confidence_level = "high_confidence_level"
     rejected = "rejected"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ConsequenceType(ProtocolElement):
@@ -359,6 +374,9 @@ class ConsistencyStatus(object):
     conflict = "conflict"
     weakly_conflicting = "weakly_conflicting"
     strongly_conflicting = "strongly_conflicting"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Cosmic(ProtocolElement):
@@ -493,6 +511,9 @@ class DrugResponseClassification(object):
     increased_monitoring = "increased_monitoring"
     efficacy = "efficacy"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class EthnicCategory(object):
     """
@@ -525,6 +546,9 @@ class EthnicCategory(object):
     S = "S"
     R = "R"
     Z = "Z"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class EvidenceEntry(ProtocolElement):
@@ -764,6 +788,9 @@ class EvidenceImpact(object):
     supporting = "supporting"
     stand_alone = "stand_alone"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class EvidenceSource(ProtocolElement):
     """
@@ -951,6 +978,9 @@ class ExpressionCall(object):
     UP = "UP"
     DOWN = "DOWN"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class FeatureTypes(object):
     """
@@ -960,6 +990,9 @@ class FeatureTypes(object):
     Gene = "Gene"
     Transcript = "Transcript"
     Protein = "Protein"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class FileEntry(ProtocolElement):
@@ -1316,6 +1349,9 @@ class ModeOfInheritance(object):
     unknown = "unknown"
     NA = "NA"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Penetrance(object):
     """
@@ -1323,6 +1359,9 @@ class Penetrance(object):
     """
     complete = "complete"
     incomplete = "incomplete"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PopulationFrequency(ProtocolElement):
@@ -1800,6 +1839,9 @@ class StructuralVariantType(object):
     COPY_NUMBER_LOSS = "COPY_NUMBER_LOSS"
     TANDEM_DUPLICATION = "TANDEM_DUPLICATION"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class StructuralVariation(ProtocolElement):
     """
@@ -2003,6 +2045,9 @@ class TraitAssociation(object):
     uncertain_risk_allele = "uncertain_risk_allele"
     protective = "protective"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class TumorigenesisClassification(object):
     """
@@ -2013,6 +2058,9 @@ class TumorigenesisClassification(object):
     driver = "driver"
     passenger = "passenger"
     modifier = "modifier"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VariantAnnotation(ProtocolElement):
@@ -2719,6 +2767,9 @@ class VariantFunctionalEffect(object):
     loss_of_heterozygosity = "loss_of_heterozygosity"
     null_variant = "null_variant"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class VariantGlobalStats(ProtocolElement):
     """
@@ -3073,6 +3124,9 @@ class VariantType(object):
     NO_VARIATION = "NO_VARIATION"
     SYMBOLIC = "SYMBOLIC"
     MIXED = "MIXED"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VcfHeader(ProtocolElement):

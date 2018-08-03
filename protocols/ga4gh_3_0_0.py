@@ -171,6 +171,9 @@ class CigarOperation(object):
     SEQUENCE_MATCH = "SEQUENCE_MATCH"
     SEQUENCE_MISMATCH = "SEQUENCE_MISMATCH"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class CigarUnit(ProtocolElement):
     """
@@ -1903,6 +1906,9 @@ class Strand(object):
     """
     NEG_STRAND = "NEG_STRAND"
     POS_STRAND = "POS_STRAND"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Variant(ProtocolElement):

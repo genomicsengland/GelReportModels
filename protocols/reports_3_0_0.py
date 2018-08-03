@@ -25,6 +25,9 @@ class ACMGClassification(object):
     benign_variant = "benign_variant"
     not_assessed = "not_assessed"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ActionType(object):
     """
@@ -35,6 +38,9 @@ class ActionType(object):
     Prognosis = "Prognosis"
     Diagnosis = "Diagnosis"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Actionability(object):
     """
@@ -44,6 +50,9 @@ class Actionability(object):
     no = "no"
     not_yet = "not_yet"
     na = "na"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Actions(ProtocolElement):
@@ -158,6 +167,9 @@ class AdoptedStatus(object):
     adoptedin = "adoptedin"
     adoptedout = "adoptedout"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AffectionStatus(object):
     """
@@ -166,6 +178,9 @@ class AffectionStatus(object):
     unaffected = "unaffected"
     affected = "affected"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AnalysisPanel(ProtocolElement):
@@ -1319,6 +1334,9 @@ class CaseSolvedFamily(object):
     partially = "partially"
     unknown = "unknown"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
     """
@@ -1679,6 +1697,9 @@ class ClinicalUtility(object):
     unknown = "unknown"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Code(object):
     """
@@ -1708,6 +1729,9 @@ class Code(object):
     C6 = "C6"
     C7 = "C7"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ComplexGeneticPhenomena(object):
     """
@@ -1720,6 +1744,9 @@ class ComplexGeneticPhenomena(object):
     trisomy = "trisomy"
     other_aneuploidy = "other_aneuploidy"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ConfirmationDecision(object):
     """
@@ -1729,6 +1756,9 @@ class ConfirmationDecision(object):
     no = "no"
     na = "na"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ConfirmationOutcome(object):
     """
@@ -1737,6 +1767,9 @@ class ConfirmationOutcome(object):
     yes = "yes"
     no = "no"
     na = "na"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ConsentStatus(ProtocolElement):
@@ -2017,6 +2050,9 @@ class EthnicCategory(object):
     R = "R"
     Z = "Z"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ExomeCoverage(ProtocolElement):
     """
@@ -2114,6 +2150,9 @@ class FeatureTypes(object):
     Gene = "Gene"
     Transcript = "Transcript"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class File(ProtocolElement):
     """
@@ -2186,6 +2225,9 @@ class FileType(object):
     MD5Sum = "MD5Sum"
     ROH = "ROH"
     OTHER = "OTHER"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class GelAtGcDrop(ProtocolElement):
@@ -2300,6 +2342,9 @@ class GelPhase(object):
     IIP = "IIP"
     MAIN = "MAIN"
     EXPT = "EXPT"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class GenomicFeature(ProtocolElement):
@@ -5296,6 +5341,9 @@ class IlluminaVersion(object):
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
     IlluminaSummaryCancerV4 = "IlluminaSummaryCancerV4"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class InbreedingCoefficient(ProtocolElement):
     """
@@ -6114,6 +6162,9 @@ class KGPopCategory(object):
     TSI = "TSI"
     YRI = "YRI"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class KGSuperPopCategory(object):
     """
@@ -6124,6 +6175,9 @@ class KGSuperPopCategory(object):
     EAS = "EAS"
     EUR = "EUR"
     SAS = "SAS"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class LifeStatus(object):
@@ -6136,6 +6190,9 @@ class LifeStatus(object):
     unborn = "unborn"
     stillborn = "stillborn"
     miscarriage = "miscarriage"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Machine(ProtocolElement):
@@ -6226,6 +6283,9 @@ class Method(object):
     RESECTION = "RESECTION"
     BIOPSY = "BIOPSY"
     BLOOD = "BLOOD"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ModifiedVariant(ProtocolElement):
@@ -6513,6 +6573,9 @@ class Penetrance(object):
     complete = "complete"
     incomplete = "incomplete"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class PersonKaryotipicSex(object):
     """
@@ -6530,6 +6593,9 @@ class PersonKaryotipicSex(object):
     XYY = "XYY"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Phase(object):
     """
@@ -6538,6 +6604,9 @@ class Phase(object):
     PRIMARY = "PRIMARY"
     METASTATIC = "METASTATIC"
     RECURRENCE = "RECURRENCE"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PhenotypesSolved(object):
@@ -6548,6 +6617,9 @@ class PhenotypesSolved(object):
     no = "no"
     partially = "partially"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PlinkROH(ProtocolElement):
@@ -6664,6 +6736,9 @@ class PreservationMethod(object):
     GL = "GL"
     SALIVA = "SALIVA"
     LEUK = "LEUK"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class RDFamilyChange(ProtocolElement):
@@ -6804,6 +6879,9 @@ class RDFamilyChangeCode(object):
     PanelAssignmentChanged = "PanelAssignmentChanged"
     SexChanged = "SexChanged"
     SampleChanged = "SampleChanged"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class RDParticipant(ProtocolElement):
@@ -7085,6 +7163,9 @@ class Reason(object):
     pass_qc = "pass_qc"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ReportEvent(ProtocolElement):
     """
@@ -7290,6 +7371,9 @@ class ReportedModeOfInheritance(object):
     xlinked_monoallelic = "xlinked_monoallelic"
     mitochondrial = "mitochondrial"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ReportedSomaticStructuralVariants(ProtocolElement):
@@ -7829,6 +7913,9 @@ class ReportingQuestion(object):
     no = "no"
     na = "na"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SampleType(object):
     """
@@ -7837,6 +7924,9 @@ class SampleType(object):
     germline = "germline"
     tumor = "tumor"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SamtoolsScope(object):
     """
@@ -7844,6 +7934,9 @@ class SamtoolsScope(object):
     """
     all = "all"
     filtered = "filtered"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsStats(ProtocolElement):
@@ -8018,6 +8111,9 @@ class SegregationQuestion(object):
     yes = "yes"
     no = "no"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SensitiveInformation(ProtocolElement):
     """
@@ -8102,6 +8198,9 @@ class Sex(object):
     unknown = "unknown"
     undetermined = "undetermined"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SomaticOrGermline(object):
     """
@@ -8111,6 +8210,9 @@ class SomaticOrGermline(object):
     unknown = "unknown"
     somatic = "somatic"
     germline = "germline"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class State(object):
@@ -8128,6 +8230,9 @@ class State(object):
     hold = "hold"
     fail = "fail"
     caution = "caution"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -8240,6 +8345,9 @@ class TernaryOption(object):
     no = "no"
     unknown = "unknown"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Tier(object):
     """
@@ -8249,6 +8357,9 @@ class Tier(object):
     TIER1 = "TIER1"
     TIER2 = "TIER2"
     TIER3 = "TIER3"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class TieringResult(ProtocolElement):
@@ -8553,6 +8664,9 @@ class VariantClassification(object):
     VUS = "VUS"
     LIKELY_PATHOGENIC = "LIKELY_PATHOGENIC"
     PATHOGENIC = "PATHOGENIC"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VariantGroupLevelQuestions(ProtocolElement):
@@ -9031,6 +9145,9 @@ class Zygosity(object):
     alternate_hemizigous = "alternate_hemizigous"
     reference_hemizigous = "reference_hemizigous"
     unk = "unk"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class sampleState(ProtocolElement):
