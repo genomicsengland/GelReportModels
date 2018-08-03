@@ -67,7 +67,12 @@ class MigrateReports500To600(BaseMigration):
 
         new_variant = self.convert_class(self.new_model.SmallVariant, old_variant)
         new_variant.variantCalls = self.migrate_variant_calls(variant_calls=old_variant.variantCalls)
-        new_variant.reportEvents = self.migrate_report_events(report_events=old_variant.reportEvents, panel_source=panel_source)
+        consequence_types = []
+        if old_variant.additionalTextualVariantAnnotations:
+            consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
+        new_variant.reportEvents = self.migrate_report_events(
+            report_events=old_variant.reportEvents, panel_source=panel_source,
+            consequence_types=consequence_types)
         new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=old_variant)
         return self.validate_object(
             object_to_validate=new_variant, object_type=self.new_model.SmallVariant
@@ -135,10 +140,59 @@ class MigrateReports500To600(BaseMigration):
             object_to_validate=new_variant_call, object_type=self.new_model.VariantCall
         )
 
-    def migrate_report_events(self, report_events, panel_source='panelapp'):
-        return [self.migrate_report_event(report_event=report_event, panel_source=panel_source) for report_event in report_events]
+    def migrate_report_events(self, report_events, panel_source='panelapp', consequence_types=[]):
+        return [self.migrate_report_event(report_event=report_event, panel_source=panel_source,
+                                          consequence_types=consequence_types) for report_event in report_events]
 
-    def migrate_report_event(self, report_event, panel_source='panelapp'):
+    tier1_consequence_types = [
+        'transcript_ablation', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'frameshift_variant',
+        'stop_lost', 'initiator_codon_variant']
+
+    tier2_consequence_types = [
+        'transcript_amplification', 'inframe_insertion', 'inframe_deletion', 'missense_variant',
+        'splice_region_variant', 'incomplete_terminal_codon_variant']
+
+    map_variant_consequences = {
+        '3_prime_UTR_variant': 'SO:0001624',
+        'splice_acceptor_variant': 'SO:0001574',
+        'intergenic_variant': 'SO:0001628',
+        'inframe_deletion': 'SO:0001822',
+        'downstream_gene_variant': 'SO:0001632',
+        'regulatory_region_amplification': 'SO:0001891',
+        'initiator_codon_variant': 'SO:0001582',
+        'TF_binding_site_variant': 'SO:0001782',
+        '5_prime_UTR_variant': 'SO:0001623',
+        'transcript_ablation': 'SO:0001893',
+        'synonymous_variant': 'SO:0001819',
+        'transcript_amplification': 'SO:0001889',
+        'stop_retained_variant': 'SO:0001567',
+        'protein_altering_variant': 'SO:0001818',
+        'splice_donor_variant': 'SO:0001575',
+        'inframe_insertion': 'SO:0001821',
+        'stop_lost': 'SO:0001578',
+        'feature_truncation': 'SO:0001906',
+        'non_coding_transcript_variant': 'SO:0001619',
+        'incomplete_terminal_codon_variant': 'SO:0001626',
+        'inframe_variant': 'SO:0001650',
+        'NMD_transcript_variant': 'SO:0001621',
+        'non_coding_transcript_exon_variant': 'SO:0001792',
+        'splice_region_variant': 'SO:0001630',
+        'TFBS_ablation': 'SO:0001895',
+        'stop_gained': 'SO:0001587',
+        'coding_sequence_variant': 'SO:0001580',
+        'upstream_gene_variant': 'SO:0001631',
+        'regulatory_region_ablation': 'SO:0001894',
+        'TFBS_amplification': 'SO:0001892',
+        'start_lost': 'SO:0002012',
+        'frameshift_variant': 'SO:0001589',
+        'regulatory_region_variant': 'SO:0001566',
+        'feature_elongation': 'SO:0001907',
+        'missense_variant': 'SO:0001583',
+        'mature_miRNA_variant': 'SO:0001620',
+        'intron_variant': 'SO:0001627'
+    }
+
+    def migrate_report_event(self, report_event, panel_source='panelapp', consequence_types=[]):
         new_report_event = self.convert_class(self.new_model.ReportEvent, report_event)
         new_report_event.phenotypes = self.migrate_phenotypes(phenotypes=report_event.phenotypes)
         new_report_event.genePanel = self.migrate_gene_panel(gene_panel=report_event.genePanel, panel_source=panel_source)
@@ -146,6 +200,17 @@ class MigrateReports500To600(BaseMigration):
         new_report_event.variantClassification = self.migrate_variant_classification(classification=report_event.variantClassification)
         if report_event.eventJustification:
             new_report_event.segregationPattern = self.migrate_segregation_pattern(event_justification=report_event.eventJustification)
+        if consequence_types is None:
+            consequence_types = []
+        tier = new_report_event.tier
+        is_tier1 = tier == self.new_model.Tier.TIER1
+        is_tier2 = tier == self.new_model.Tier.TIER2
+        is_tier3 = tier == self.new_model.Tier.TIER3
+        new_report_event.variantConsequences = map(
+            lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), filter(
+                lambda c: (is_tier1 and c in self.tier1_consequence_types) or \
+                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types))
+
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
     def migrate_segregation_pattern(self, event_justification):
