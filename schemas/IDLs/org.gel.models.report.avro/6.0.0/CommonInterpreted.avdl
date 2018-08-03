@@ -531,7 +531,7 @@ see Expanded Access Data Element Definitions).
         /**
         URL where reference information for this therapy association can be found
         */
-        string rferenceUrl;
+        string referenceUrl;
         /**
         Source
         */
@@ -540,6 +540,10 @@ see Expanded Access Data Element Definitions).
         References
         */
         union {null, array<string>} references;
+        /**
+        Conditions
+        */
+        union {null, array<string>} conditions;
         /**
         Drug responses
         */
@@ -558,7 +562,7 @@ see Expanded Access Data Element Definitions).
         /**
         URL where reference information for this prognosis can be found
         */
-        string rferenceUrl;
+        string referenceUrl;
         /**
         Prognosis classification (defined as favourable or unfavourable),
         in the case that the direction of the prognosis is not known altered_prognosis should be used
@@ -572,6 +576,10 @@ see Expanded Access Data Element Definitions).
         References
         */
         union {null, array<string>} references;
+        /**
+        Conditions
+        */
+        union {null, array<string>} conditions;
         /**
         Full description of the associated prognosis
         */
