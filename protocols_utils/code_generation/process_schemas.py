@@ -268,6 +268,11 @@ class SchemaClass(object):
                 string = '{0} = "{0}"'.format(symbol, symbol)
                 self._writeWithIndent(string, outputFile)
 
+            self._writeNewline(outputFile)
+
+            self._writeWithIndent("def __hash__(self):", outputFile, indentLevel=1)
+            self._writeWithIndent("return str(self).__hash__()", outputFile, indentLevel=2)
+
     def _writeWithIndent(self, string_, outputFile, indentLevel=1):
         indent = " " * (indentLevel * 4)
         toWrite = "{}{}".format(indent, string_)

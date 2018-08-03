@@ -242,21 +242,21 @@ class SchemaValidator(AvroTypeSwitch):
             return self.sinkValue
 
     def handleInt(self, datum):
-        if not ((isinstance(datum, int) or isinstance(datum, long)) and
+        if not ((isinstance(datum, int)) and
                 INT_MIN_VALUE <= datum <= INT_MAX_VALUE):
             return datum
         else:
             return self.sinkValue
 
     def handleLong(self, datum):
-        if not ((isinstance(datum, int) or isinstance(datum, long)) and
+        if not ((isinstance(datum, int)) and
                 LONG_MIN_VALUE <= datum <= LONG_MAX_VALUE):
             return datum
         else:
             return self.sinkValue
 
     def handleFloat(self, datum):
-        if not (isinstance(datum, int) or isinstance(datum, long) or
+        if not (isinstance(datum, int) or
                 isinstance(datum, float)):
             return datum
         else:

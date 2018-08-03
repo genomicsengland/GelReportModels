@@ -88,7 +88,7 @@ class CancerReportedVariantsFactory(FactoryAvro):
 
     _version = VERSION_300
 
-    chromosome = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23)) + ['X', 'Y', 'MT']))
+    chromosome = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23))) + ['X', 'Y', 'MT'])
     position = factory.fuzzy.FuzzyInteger(1, 10000000)
     depthReference = factory.fuzzy.FuzzyInteger(1, 20)
     depthAlternate = factory.fuzzy.FuzzyInteger(1, 20)
