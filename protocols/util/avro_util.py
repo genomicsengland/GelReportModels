@@ -45,7 +45,7 @@ def handle_avro_errors(avro_output):
         return None
     if isinstance(avro_output, dict):
         result = {}
-        for key, value in avro_output.iteritems():
+        for key, value in avro_output.items():
             handled_value = handle_avro_errors(value)
             if handled_value:
                 result[key] = handled_value
