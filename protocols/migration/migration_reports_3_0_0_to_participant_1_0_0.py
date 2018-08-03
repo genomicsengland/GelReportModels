@@ -1,5 +1,7 @@
 import logging
 
+from past.builtins import basestring
+
 from protocols import participant_1_0_0
 from protocols import reports_3_0_0
 from protocols.util import handle_avro_errors

@@ -182,11 +182,11 @@ class FuzzyList(factory.fuzzy.BaseFuzzyAttribute):
 
     def fuzz(self):
         if isinstance(self.values_factory, factory.fuzzy.BaseFuzzyAttribute):
-            values = [self.values_factory.fuzz() for _ in xrange(self.length)]
+            values = [self.values_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.values_factory, factory.declarations.LazyFunction):
-            values = [self.values_factory.function() for _ in xrange(self.length)]
+            values = [self.values_factory.function() for _ in range(self.length)]
         else:
-            values = [self.values_factory for _ in xrange(self.length)]
+            values = [self.values_factory for _ in range(self.length)]
         return values
 
 
@@ -206,17 +206,17 @@ class FuzzyMap(factory.fuzzy.BaseFuzzyAttribute):
 
     def fuzz(self):
         if isinstance(self.values_factory, factory.fuzzy.BaseFuzzyAttribute):
-            values = [self.values_factory.fuzz() for _ in xrange(self.length)]
+            values = [self.values_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.values_factory, factory.declarations.LazyFunction):
-            values = [self.values_factory.function() for _ in xrange(self.length)]
+            values = [self.values_factory.function() for _ in range(self.length)]
         else:
-            values = [self.values_factory for _ in xrange(self.length)]
+            values = [self.values_factory for _ in range(self.length)]
         if isinstance(self.keys_factory, factory.fuzzy.BaseFuzzyAttribute):
-            keys = [self.keys_factory.fuzz() for _ in xrange(self.length)]
+            keys = [self.keys_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.keys_factory, factory.declarations.LazyFunction):
-            keys = [self.keys_factory.function() for _ in xrange(self.length)]
+            keys = [self.keys_factory.function() for _ in range(self.length)]
         else:
-            keys = [self.keys_factory for _ in xrange(self.length)]
+            keys = [self.keys_factory for _ in range(self.length)]
         return dict(zip(keys, values))
 
 

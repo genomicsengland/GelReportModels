@@ -4,6 +4,7 @@ Definitions of the GA4GH protocol types.
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+from past.builtins import basestring
 
 import sys
 import json
@@ -336,14 +337,14 @@ class ProtocolElement(object):
             if isinstance(field.type.schemas[1], ArraySchema):
                 return list(embeddedType.fromJsonDict(elem) for elem in val)
             elif isinstance(field.type.schemas[1], avro.schema.MapSchema):
-                return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.iteritems()}
+                return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.items()}
             else:
                 return embeddedType.fromJsonDict(val)
 
         elif isinstance(field.type, avro.schema.ArraySchema):
             return list(embeddedType.fromJsonDict(elem) for elem in val)
         elif isinstance(field.type, avro.schema.MapSchema):
-            return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.iteritems()}
+            return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.items()}
         else:
             return embeddedType.fromJsonDict(val)
 
