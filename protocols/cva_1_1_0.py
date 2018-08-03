@@ -1058,6 +1058,63 @@ class Ancestries(ProtocolElement):
             'mothersOtherRelevantAncestry', None)
 
 
+class Aneuploidy(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "Aneuploidy", "fields":
+[{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name":
+"assembly"}, {"doc": "", "type": "string", "name": "chromosome"}, {"doc": "", "type": "boolean",
+"name": "complete"}, {"doc": "", "type": ["null", {"fields": [{"type": "string", "name":
+"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
+{"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record",
+"name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
+"int", "name": "numberOfCopies"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "assembly",
+        "chromosome",
+        "complete",
+        "coordinates",
+        "numberOfCopies",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coordinates': Coordinates,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coordinates': Coordinates,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'assembly', 'chromosome', 'complete', 'coordinates',
+        'numberOfCopies'
+    ]
+
+    def __init__(self, **kwargs):
+        self.assembly = kwargs.get(
+            'assembly', None)
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.complete = kwargs.get(
+            'complete', None)
+        self.coordinates = kwargs.get(
+            'coordinates', None)
+        self.numberOfCopies = kwargs.get(
+            'numberOfCopies', None)
+
+
 class Assembly(object):
     """
     The reference genome assembly
@@ -2259,6 +2316,31 @@ class CandidateVariantInjectCancer(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "doc": ""}, "name":
@@ -2574,6 +2656,31 @@ class CandidateVariantInjectRD(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "doc": ""}, "name":
@@ -3280,6 +3387,31 @@ class ClinicalReport(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
 "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
@@ -3295,12 +3427,14 @@ class ClinicalReport(ProtocolElement):
         "genomicInterpretation",
         "interpretationRequestId",
         "interpretationRequestVersion",
+        "karyotypes",
         "referenceDatabasesVersions",
         "references",
         "reportingDate",
         "shortTandemRepeats",
         "softwareVersions",
         "structuralVariants",
+        "uniparentalDisomies",
         "user",
         "variants",
     }
@@ -3310,8 +3444,10 @@ class ClinicalReport(ProtocolElement):
         embeddedTypes = {
             'additionalAnalysisPanels': AdditionalAnalysisPanel,
             'chromosomalRearrangements': ChromosomalRearrangement,
+            'karyotypes': Karyotype,
             'shortTandemRepeats': ShortTandemRepeat,
             'structuralVariants': StructuralVariant,
+            'uniparentalDisomies': UniparentalDisomy,
             'variants': SmallVariant,
         }
         return fieldName in embeddedTypes
@@ -3321,8 +3457,10 @@ class ClinicalReport(ProtocolElement):
         embeddedTypes = {
             'additionalAnalysisPanels': AdditionalAnalysisPanel,
             'chromosomalRearrangements': ChromosomalRearrangement,
+            'karyotypes': Karyotype,
             'shortTandemRepeats': ShortTandemRepeat,
             'structuralVariants': StructuralVariant,
+            'uniparentalDisomies': UniparentalDisomy,
             'variants': SmallVariant,
         }
 
@@ -3331,9 +3469,11 @@ class ClinicalReport(ProtocolElement):
     __slots__ = [
         'additionalAnalysisPanels', 'chromosomalRearrangements',
         'genomicInterpretation', 'interpretationRequestId',
-        'interpretationRequestVersion', 'referenceDatabasesVersions',
-        'references', 'reportingDate', 'shortTandemRepeats',
-        'softwareVersions', 'structuralVariants', 'user', 'variants'
+        'interpretationRequestVersion', 'karyotypes',
+        'referenceDatabasesVersions', 'references', 'reportingDate',
+        'shortTandemRepeats', 'softwareVersions',
+        'structuralVariants', 'uniparentalDisomies', 'user',
+        'variants'
     ]
 
     def __init__(self, **kwargs):
@@ -3347,6 +3487,8 @@ class ClinicalReport(ProtocolElement):
             'interpretationRequestId', None)
         self.interpretationRequestVersion = kwargs.get(
             'interpretationRequestVersion', None)
+        self.karyotypes = kwargs.get(
+            'karyotypes', None)
         self.referenceDatabasesVersions = kwargs.get(
             'referenceDatabasesVersions', None)
         self.references = kwargs.get(
@@ -3359,6 +3501,8 @@ class ClinicalReport(ProtocolElement):
             'softwareVersions', None)
         self.structuralVariants = kwargs.get(
             'structuralVariants', None)
+        self.uniparentalDisomies = kwargs.get(
+            'uniparentalDisomies', None)
         self.user = kwargs.get(
             'user', None)
         self.variants = kwargs.get(
@@ -7100,6 +7244,52 @@ class Identifier(ProtocolElement):
             'source', None)
 
 
+class IdentityByDescent(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "IdentityByDescent", "fields":
+[{"type": "string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float",
+"name": "ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ibd0",
+        "ibd1",
+        "ibd2",
+        "pihat",
+        "relatedSample",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ibd0', 'ibd1', 'ibd2', 'pihat', 'relatedSample'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ibd0 = kwargs.get(
+            'ibd0', None)
+        self.ibd1 = kwargs.get(
+            'ibd1', None)
+        self.ibd2 = kwargs.get(
+            'ibd2', None)
+        self.pihat = kwargs.get(
+            'pihat', None)
+        self.relatedSample = kwargs.get(
+            'relatedSample', None)
+
+
 class InbreedingCoefficient(ProtocolElement):
     """
     Inbreeding coefficient
@@ -7552,6 +7742,31 @@ class InterpretationDataCancer(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}]}], "name": "tieringResult"}, {"type":
@@ -7961,11 +8176,34 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
-{"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
-{"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "comments"}]}], "name": "tieringResult"}, {"type":
-["null", {"items": "InterpretedGenome", "type": "array"}], "name": "otherInterpretationResults"}],
-"doc": ""}
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type":
+"org.gel.models.participant.avro.PersonKaryotipicSex", "name": "personKaryotipicSex"}, {"doc": "",
+"type": "string", "name": "participantId"}], "type": "record", "name": "Karyotype"}, "type":
+"array"}], "name": "karyotypes"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
+"referenceDatabasesVersions"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
+"softwareVersions"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"comments"}]}], "name": "tieringResult"}, {"type": ["null", {"items": "InterpretedGenome", "type":
+"array"}], "name": "otherInterpretationResults"}], "doc": ""}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -8543,6 +8781,31 @@ class InterpretedGenome(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "doc": ""}
@@ -8554,11 +8817,13 @@ class InterpretedGenome(ProtocolElement):
         "interpretationRequestId",
         "interpretationRequestVersion",
         "interpretationService",
+        "karyotypes",
         "referenceDatabasesVersions",
         "reportUrl",
         "shortTandemRepeats",
         "softwareVersions",
         "structuralVariants",
+        "uniparentalDisomies",
         "variants",
         "versionControl",
     }
@@ -8567,8 +8832,10 @@ class InterpretedGenome(ProtocolElement):
     def isEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'chromosomalRearrangements': ChromosomalRearrangement,
+            'karyotypes': Karyotype,
             'shortTandemRepeats': ShortTandemRepeat,
             'structuralVariants': StructuralVariant,
+            'uniparentalDisomies': UniparentalDisomy,
             'variants': SmallVariant,
             'versionControl': ReportVersionControl,
         }
@@ -8578,8 +8845,10 @@ class InterpretedGenome(ProtocolElement):
     def getEmbeddedType(cls, fieldName):
         embeddedTypes = {
             'chromosomalRearrangements': ChromosomalRearrangement,
+            'karyotypes': Karyotype,
             'shortTandemRepeats': ShortTandemRepeat,
             'structuralVariants': StructuralVariant,
+            'uniparentalDisomies': UniparentalDisomy,
             'variants': SmallVariant,
             'versionControl': ReportVersionControl,
         }
@@ -8589,9 +8858,11 @@ class InterpretedGenome(ProtocolElement):
     __slots__ = [
         'chromosomalRearrangements', 'comments',
         'interpretationRequestId', 'interpretationRequestVersion',
-        'interpretationService', 'referenceDatabasesVersions',
-        'reportUrl', 'shortTandemRepeats', 'softwareVersions',
-        'structuralVariants', 'variants', 'versionControl'
+        'interpretationService', 'karyotypes',
+        'referenceDatabasesVersions', 'reportUrl',
+        'shortTandemRepeats', 'softwareVersions',
+        'structuralVariants', 'uniparentalDisomies', 'variants',
+        'versionControl'
     ]
 
     def __init__(self, **kwargs):
@@ -8605,6 +8876,8 @@ class InterpretedGenome(ProtocolElement):
             'interpretationRequestVersion', None)
         self.interpretationService = kwargs.get(
             'interpretationService', None)
+        self.karyotypes = kwargs.get(
+            'karyotypes', None)
         self.referenceDatabasesVersions = kwargs.get(
             'referenceDatabasesVersions', None)
         self.reportUrl = kwargs.get(
@@ -8615,6 +8888,8 @@ class InterpretedGenome(ProtocolElement):
             'softwareVersions', None)
         self.structuralVariants = kwargs.get(
             'structuralVariants', None)
+        self.uniparentalDisomies = kwargs.get(
+            'uniparentalDisomies', None)
         self.variants = kwargs.get(
             'variants', None)
         self.versionControl = kwargs.get(
@@ -8686,6 +8961,72 @@ class InterventionType(object):
     combination_product = "combination_product"
     diagnostic_test = "diagnostic_test"
     other = "other"
+
+
+class Karyotype(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "Karyotype", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "", "type": ["null", "string"],
+"name": "description"}, {"doc": "", "type": ["null", {"items": {"fields": [{"type": {"symbols":
+["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "assembly"}, {"doc":
+"", "type": "string", "name": "chromosome"}, {"doc": "", "type": "boolean", "name": "complete"},
+{"doc": "", "type": ["null", {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
+"int", "name": "numberOfCopies"}], "type": "record", "name": "Aneuploidy"}, "type": "array"}],
+"name": "aneuploidies"}, {"doc": "", "type": "int", "name": "numberOfChromosomes"}, {"type":
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
+"namespace": "org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex",
+"doc": ""}, "name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "aneuploidies",
+        "description",
+        "iscn",
+        "numberOfChromosomes",
+        "participantId",
+        "personKaryotipicSex",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'aneuploidies': Aneuploidy,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'aneuploidies': Aneuploidy,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'aneuploidies', 'description', 'iscn', 'numberOfChromosomes',
+        'participantId', 'personKaryotipicSex'
+    ]
+
+    def __init__(self, **kwargs):
+        self.aneuploidies = kwargs.get(
+            'aneuploidies', None)
+        self.description = kwargs.get(
+            'description', None)
+        self.iscn = kwargs.get(
+            'iscn', None)
+        self.numberOfChromosomes = kwargs.get(
+            'numberOfChromosomes', None)
+        self.participantId = kwargs.get(
+            'participantId', None)
+        self.personKaryotipicSex = kwargs.get(
+            'personKaryotipicSex', None)
 
 
 class KgPopCategory(object):
@@ -12129,6 +12470,31 @@ class ReportedVariantInjectCancer(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
 "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
@@ -12445,6 +12811,31 @@ class ReportedVariantInjectRD(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 "string", "name": "genomicInterpretation"}, {"doc": "", "type": ["null", {"items": {"doc": "",
 "type": "record", "name": "AdditionalAnalysisPanel", "fields": [{"type": "string", "name":
 "specificDisease"}, {"type": "GenePanel", "name": "panel"}]}, "type": "array"}], "name":
@@ -14572,6 +14963,31 @@ class TieredVariantInjectCancer(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "doc": ""}, "name":
@@ -14880,6 +15296,31 @@ class TieredVariantInjectRD(ProtocolElement):
 "int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type":
+"string", "name": "chromosome"}, {"doc": "", "type": ["null", "boolean"], "name": "complete"},
+{"doc": "", "type": {"symbols": ["paternal", "maternal"], "type": "enum", "name":
+"UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null", {"items": {"fields":
+[{"doc": "", "type": ["null", "Coordinates"], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}], "type": "record", "name":
+"UniparentalDisomy"}, "type": "array"}], "name": "uniparentalDisomies"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "",
+"type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"type": "Assembly", "name": "assembly"}, {"doc": "", "type": "string", "name":
+"chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
+"Coordinates"], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO",
+"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}], "type":
+"record", "name": "Karyotype"}, "type": "array"}], "name": "karyotypes"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "referenceDatabasesVersions"}, {"doc": "", "type":
 {"values": "string", "type": "map"}, "name": "softwareVersions"}, {"doc": "", "type": ["null",
 {"items": "string", "type": "array"}], "name": "comments"}], "doc": ""}, "name":
@@ -15567,6 +16008,184 @@ class TumourType(object):
     METASTATIC_RECURRENCE = "METASTATIC_RECURRENCE"
     RECURRENCE_OF_PRIMARY_TUMOUR = "RECURRENCE_OF_PRIMARY_TUMOUR"
     METASTASES = "METASTASES"
+
+
+class UniparentalDisomy(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "UniparentalDisomy", "fields":
+[{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name":
+"assembly"}, {"doc": "", "type": "string", "name": "chromosome"}, {"doc": "", "type": ["null",
+"boolean"], "name": "complete"}, {"doc": "", "type": {"symbols": ["paternal", "maternal"], "type":
+"enum", "name": "UniparentalDisomyOrigin"}, "name": "origin"}, {"doc": "", "type": ["null",
+{"items": {"fields": [{"doc": "", "type": ["null", {"fields": [{"type": "string", "name":
+"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
+{"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record",
+"name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
+"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
+"participantId"}, {"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float", "name":
+"ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type": "record",
+"name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record", "name":
+"UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "assembly",
+        "chromosome",
+        "complete",
+        "origin",
+        "participantId",
+        "uniparentalDisomyEvidences",
+        "uniparentalDisomyFragments",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'uniparentalDisomyEvidences': UniparentalDisomyEvidences,
+            'uniparentalDisomyFragments': UniparentalDisomyFragment,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'uniparentalDisomyEvidences': UniparentalDisomyEvidences,
+            'uniparentalDisomyFragments': UniparentalDisomyFragment,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'assembly', 'chromosome', 'complete', 'origin',
+        'participantId', 'uniparentalDisomyEvidences',
+        'uniparentalDisomyFragments'
+    ]
+
+    def __init__(self, **kwargs):
+        self.assembly = kwargs.get(
+            'assembly', None)
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.complete = kwargs.get(
+            'complete', None)
+        self.origin = kwargs.get(
+            'origin', None)
+        self.participantId = kwargs.get(
+            'participantId', None)
+        self.uniparentalDisomyEvidences = kwargs.get(
+            'uniparentalDisomyEvidences', None)
+        self.uniparentalDisomyFragments = kwargs.get(
+            'uniparentalDisomyFragments', None)
+
+
+class UniparentalDisomyEvidences(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "UniparentalDisomyEvidences",
+"fields": [{"type": ["null", {"items": {"fields": [{"type": "string", "name": "relatedSample"},
+{"type": "float", "name": "ibd0"}, {"type": "float", "name": "ibd1"}, {"type": "float", "name":
+"ibd2"}, {"type": "float", "name": "pihat"}], "type": "record", "name": "IdentityByDescent"},
+"type": "array"}], "name": "ibds"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "ibds",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'ibds': IdentityByDescent,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'ibds': IdentityByDescent,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'ibds'
+    ]
+
+    def __init__(self, **kwargs):
+        self.ibds = kwargs.get(
+            'ibds', None)
+
+
+class UniparentalDisomyFragment(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.gel.models.report.avro", "type": "record", "name": "UniparentalDisomyFragment",
+"fields": [{"doc": "", "type": ["null", {"fields": [{"type": "string", "name": "chromosome"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields":
+[{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
+{"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
+"name": "uniparentalDisomyType"}]}
+"""
+    schema = avro.schema.parse(_schemaSource)
+    requiredFields = {
+        "coordinates",
+        "uniparentalDisomyType",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coordinates': Coordinates,
+        }
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {
+            'coordinates': Coordinates,
+        }
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'coordinates', 'uniparentalDisomyType'
+    ]
+
+    def __init__(self, **kwargs):
+        self.coordinates = kwargs.get(
+            'coordinates', None)
+        self.uniparentalDisomyType = kwargs.get(
+            'uniparentalDisomyType', None)
+
+
+class UniparentalDisomyOrigin(object):
+    """
+    No documentation
+    """
+    paternal = "paternal"
+    maternal = "maternal"
+
+
+class UniparentalDisomyType(object):
+    """
+    No documentation
+    """
+    isodisomy = "isodisomy"
+    heterodisomy = "heterodisomy"
+    both = "both"
 
 
 class User(ProtocolElement):
