@@ -71,6 +71,9 @@ class APIType(object):
     MONGODB = "MONGODB"
     OTHER = "OTHER"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class DataStore(ProtocolElement):
     """
@@ -240,3 +243,6 @@ class Status(object):
     """
     OK = "OK"
     DOWN = "DOWN"
+
+    def __hash__(self):
+        return str(self).__hash__()

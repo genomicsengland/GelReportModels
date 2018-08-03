@@ -23,6 +23,9 @@ class AdoptedStatus(object):
     adoptedin = "adoptedin"
     adoptedout = "adoptedout"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AffectionStatus(object):
     """
@@ -31,6 +34,9 @@ class AffectionStatus(object):
     UNAFFECTED = "UNAFFECTED"
     AFFECTED = "AFFECTED"
     UNCERTAIN = "UNCERTAIN"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AgeOfOnset(object):
@@ -46,6 +52,9 @@ class AgeOfOnset(object):
     YOUNG_ADULT_ONSET = "YOUNG_ADULT_ONSET"
     LATE_ONSET = "LATE_ONSET"
     MIDDLE_AGE_ONSET = "MIDDLE_AGE_ONSET"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AggregatedIndividualMendelErrors(ProtocolElement):
@@ -1028,6 +1037,9 @@ class EthnicCategory(object):
     R = "R"
     Z = "Z"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Evaluation(ProtocolElement):
     """
@@ -1191,6 +1203,9 @@ class FamiliarRelationship(object):
     RelationIsNotClear = "RelationIsNotClear"
     Unknown = "Unknown"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class FamilyQCState(object):
     """
@@ -1202,6 +1217,9 @@ class FamilyQCState(object):
     queryToGel = "queryToGel"
     queryToGMC = "queryToGMC"
     failed = "failed"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class FamilyRelatedness(ProtocolElement):
@@ -1375,6 +1393,9 @@ class FileType(object):
     MD5Sum = "MD5Sum"
     ROH = "ROH"
     OTHER = "OTHER"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class GelAtGcDrop(ProtocolElement):
@@ -4540,6 +4561,9 @@ class IlluminaVersion(object):
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
     IlluminaSummaryCancerV4 = "IlluminaSummaryCancerV4"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class InbreedingCoefficient(ProtocolElement):
     """
@@ -4812,6 +4836,9 @@ class KaryotypicSex(object):
     XYY = "XYY"
     OTHER = "OTHER"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class KgPopCategory(object):
     """
@@ -4844,6 +4871,9 @@ class KgPopCategory(object):
     TSI = "TSI"
     YRI = "YRI"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class KgSuperPopCategory(object):
     """
@@ -4855,6 +4885,9 @@ class KgSuperPopCategory(object):
     EUR = "EUR"
     SAS = "SAS"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Laterality(object):
     """
@@ -4864,6 +4897,9 @@ class Laterality(object):
     UNILATERAL = "UNILATERAL"
     BILATERAL = "BILATERAL"
     LEFT = "LEFT"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class LifeStatus(object):
@@ -4876,6 +4912,9 @@ class LifeStatus(object):
     UNBORN = "UNBORN"
     STILLBORN = "STILLBORN"
     MISCARRIAGE = "MISCARRIAGE"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class LocusMendelSummary(ProtocolElement):
@@ -5124,6 +5163,9 @@ class Method(object):
     BIOPSY = "BIOPSY"
     BLOOD = "BLOOD"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class MutationalSignatureContribution(ProtocolElement):
     """
@@ -5172,6 +5214,9 @@ class ParticipantQCState(object):
     queryToGel = "queryToGel"
     queryToGMC = "queryToGMC"
     failed = "failed"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Pedigree(ProtocolElement):
@@ -5533,6 +5578,9 @@ class Penetrance(object):
     complete = "complete"
     incomplete = "incomplete"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class PerFamilyMendelErrors(ProtocolElement):
     """
@@ -5597,6 +5645,9 @@ class PersonKaryotipicSex(object):
     XXXX = "XXXX"
     XYY = "XYY"
     OTHER = "OTHER"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PlinkROH(ProtocolElement):
@@ -5713,6 +5764,9 @@ class PreparationMethod(object):
     CD128_SORTED_CELLS = "CD128_SORTED_CELLS"
     ASPIRATE = "ASPIRATE"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Product(object):
     """
@@ -5720,6 +5774,9 @@ class Product(object):
     """
     DNA = "DNA"
     RNA = "RNA"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ProgrammePhase(object):
@@ -5733,6 +5790,9 @@ class ProgrammePhase(object):
     MAIN = "MAIN"
     EXPT = "EXPT"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Progression(object):
     """
@@ -5740,6 +5800,9 @@ class Progression(object):
     """
     PROGRESSIVE = "PROGRESSIVE"
     NONPROGRESSIVE = "NONPROGRESSIVE"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Query(object):
@@ -5750,6 +5813,9 @@ class Query(object):
     no = "no"
     unknown = "unknown"
     notTested = "notTested"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class RDFamilyChange(ProtocolElement):
@@ -5914,6 +5980,9 @@ class RDFamilyChangeCode(object):
     SexChanged = "SexChanged"
     SampleChanged = "SampleChanged"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class RareDiseaseInterpretationStatus(ProtocolElement):
     """
@@ -6032,6 +6101,9 @@ class Reason(object):
     in_qc = "in_qc"
     pass_qc = "pass_qc"
     other = "other"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class RelatednessPair(ProtocolElement):
@@ -6363,6 +6435,9 @@ class SampleSource(object):
     FIBROBLAST = "FIBROBLAST"
     TISSUE = "TISSUE"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SampleState(ProtocolElement):
     """
@@ -6493,6 +6568,9 @@ class SamtoolsScope(object):
     """
     all = "all"
     filtered = "filtered"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsStats(ProtocolElement):
@@ -6787,6 +6865,9 @@ class Severity(object):
     SEVERE = "SEVERE"
     PROFOUND = "PROFOUND"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Sex(object):
     """
@@ -6797,6 +6878,9 @@ class Sex(object):
     FEMALE = "FEMALE"
     OTHER = "OTHER"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SpatialPattern(object):
     """
@@ -6806,6 +6890,9 @@ class SpatialPattern(object):
     GENERALIZED = "GENERALIZED"
     LOCALIZED = "LOCALIZED"
     PROXIMAL = "PROXIMAL"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class State(object):
@@ -6824,6 +6911,9 @@ class State(object):
     hold = "hold"
     fail = "fail"
     caution = "caution"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Step(ProtocolElement):
@@ -6872,6 +6962,9 @@ class StepStatus(object):
     """
     failed = "failed"
     ready = "ready"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -6946,6 +7039,9 @@ class SupportedAssembly(object):
     GRCh37 = "GRCh37"
     GRCh38 = "GRCh38"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class TernaryOption(object):
     """
@@ -6954,6 +7050,9 @@ class TernaryOption(object):
     yes = "yes"
     no = "no"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class TissueSource(object):
@@ -6973,6 +7072,9 @@ class TissueSource(object):
     STEREOTACTICALLY_GUIDED_BIOPSY = "STEREOTACTICALLY_GUIDED_BIOPSY"
     USS_GUIDED_BIOPSY = "USS_GUIDED_BIOPSY"
     NON_STANDARD_BIOPSY = "NON_STANDARD_BIOPSY"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class TotalNumberOfMendelErrors(ProtocolElement):
@@ -7084,6 +7186,9 @@ class TumourContent(object):
     High = "High"
     Medium = "Medium"
     Low = "Low"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class TumourSample(ProtocolElement):
@@ -7222,6 +7327,9 @@ class TumourType(object):
     METASTATIC_RECURRENCE = "METASTATIC_RECURRENCE"
     RECURRENCE_OF_PRIMARY_TUMOUR = "RECURRENCE_OF_PRIMARY_TUMOUR"
     METASTASES = "METASTASES"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VariantsCoverage(ProtocolElement):
@@ -7624,3 +7732,6 @@ class diseaseType(object):
     CLASSICAL_HODGKINS = "CLASSICAL_HODGKINS"
     NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS = "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS"
     T_CELL_LYMPHOMA = "T_CELL_LYMPHOMA"
+
+    def __hash__(self):
+        return str(self).__hash__()

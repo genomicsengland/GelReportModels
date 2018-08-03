@@ -148,14 +148,14 @@ class ProtocolElement(object):
                     out[field.name] = False
                     for sc in field.type.schemas:
                         if isinstance(sc, ArraySchema):
-                            out[field.name] = list(avro.io.validate(sc.items, el) for el in val)
+                            out[field.name] = list(avro.io.Validate(sc.items, el) for el in val)
                 else:
                     if isinstance(field.type, ArraySchema):
-                        out[field.name] = list(avro.io.validate(field.type.items, el) for el in val)
+                        out[field.name] = list(avro.io.Validate(field.type.items, el) for el in val)
                     else:
                         out[field.name] = False
             else:
-                out[field.name] = avro.io.validate(field.type, val)
+                out[field.name] = avro.io.Validate(field.type, val)
 
         return out
 
@@ -176,7 +176,7 @@ class ProtocolElement(object):
         if verbose:
             validation_result = ValidationResult()
             return cls.validate_debug(jsonDict=jsonDict, validation_result=validation_result)
-        return avro.io.validate(expected_schema=cls.schema, datum=jsonDict)
+        return avro.io.Validate(expected_schema=cls.schema, datum=jsonDict)
 
     @classmethod
     def validate_debug(cls, jsonDict, validation_result, expected_schema=None):
@@ -205,21 +205,21 @@ class ProtocolElement(object):
             if not isinstance(datum, str):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
         elif schema_type == 'int':
-            if not ((isinstance(datum, int) or isinstance(datum, long)) and INT_MIN_VALUE <= datum <= INT_MAX_VALUE):
+            if not ((isinstance(datum, int)) and INT_MIN_VALUE <= datum <= INT_MAX_VALUE):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
                 custom_message = "{INT_MIN_VALUE} <= {datum} <= {INT_MAX_VALUE}".format(
                     INT_MIN_VALUE=INT_MIN_VALUE, datum=datum, INT_MAX_VALUE=INT_MAX_VALUE,
                 )
                 validation_result.update_custom(custom_message=custom_message)
         elif schema_type == 'long':
-            if not ((isinstance(datum, int) or isinstance(datum, long)) and LONG_MIN_VALUE <= datum <= LONG_MAX_VALUE):
+            if not ((isinstance(datum, int)) and LONG_MIN_VALUE <= datum <= LONG_MAX_VALUE):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
                 custom_message = "{LONG_MIN_VALUE} <= {datum} <= {LONG_MAX_VALUE}".format(
                     LONG_MIN_VALUE=LONG_MIN_VALUE, datum=datum, LONG_MAX_VALUE=LONG_MAX_VALUE,
                 )
                 validation_result.update_custom(custom_message=custom_message)
         elif schema_type in ['float', 'double']:
-            if not (isinstance(datum, int) or isinstance(datum, long) or isinstance(datum, float)):
+            if not (isinstance(datum, int) or isinstance(datum, float)):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
         elif schema_type == 'fixed':
             if not (isinstance(datum, str) and len(datum) == expected_schema.size):
@@ -241,7 +241,7 @@ class ProtocolElement(object):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
             elif isinstance(datum, list):
                 for data in datum:
-                    if not avro.io.validate(expected_schema=expected_schema.items, datum=data):
+                    if not avro.io.Validate(expected_schema=expected_schema.items, datum=data):
                         validation_result.update_simple(
                             expected_schema=expected_schema.items, schema_type=expected_schema.items.type, datum=data
                         )
@@ -256,14 +256,14 @@ class ProtocolElement(object):
                         )
                         validation_result.update_custom(custom_message=custom_message)
                 for value in datum.values():
-                    if not avro.io.validate(expected_schema=expected_schema.values, datum=value):
+                    if not avro.io.Validate(expected_schema=expected_schema.values, datum=value):
                         validation_result.update_simple(
                             expected_schema=expected_schema.values, schema_type=expected_schema.values.type, datum=value
                         )
         elif schema_type in ['union', 'error_union']:
-            if not any([avro.io.validate(s, datum) for s in expected_schema.schemas]):
+            if not any([avro.io.Validate(s, datum) for s in expected_schema.schemas]):
                 for expected_schema in expected_schema.schemas:
-                    if not avro.io.validate(expected_schema=expected_schema, datum=datum):
+                    if not avro.io.Validate(expected_schema=expected_schema, datum=datum):
                         if hasattr(expected_schema, 'values'):
                             validation_result.update_simple(
                                 expected_schema=expected_schema.values,
@@ -279,7 +279,7 @@ class ProtocolElement(object):
         elif schema_type in ['record', 'error', 'request']:
             if isinstance(datum, dict):
                 for f in expected_schema.fields:
-                    if not avro.io.validate(expected_schema=f.type, datum=datum.get(f.name)):
+                    if not avro.io.Validate(expected_schema=f.type, datum=datum.get(f.name)):
                         cls.validate_debug(
                             jsonDict=datum.get(f.name),
                             validation_result=validation_result,
@@ -317,7 +317,10 @@ class ProtocolElement(object):
 
         instance = cls()
         for field in cls.schema.fields:
-            instanceVal = field.default
+            if field.has_default:
+                instanceVal = field.default
+            else:
+                instanceVal = None
             if field.name in jsonDict:
                 val = jsonDict[field.name]
                 if cls.isEmbeddedType(field.name):

@@ -489,6 +489,9 @@ class FileType(object):
     ROH = "ROH"
     OTHER = "OTHER"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class GelAtGcDrop(ProtocolElement):
     """
@@ -3478,6 +3481,9 @@ class IlluminaVersion(object):
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
     IlluminaSummaryCancerV4 = "IlluminaSummaryCancerV4"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class InbreedingCoefficientEstimates(ProtocolElement):
     """
@@ -3941,6 +3947,9 @@ class Reason(object):
     pass_qc = "pass_qc"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SamtoolsScope(object):
     """
@@ -3948,6 +3957,9 @@ class SamtoolsScope(object):
     """
     all = "all"
     filtered = "filtered"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsStats(ProtocolElement):
@@ -4174,6 +4186,9 @@ class State(object):
     fail = "fail"
     caution = "caution"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Step(ProtocolElement):
     """
@@ -4221,6 +4236,9 @@ class StepStatus(object):
     """
     failed = "failed"
     ready = "ready"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SupplementaryAnalysisResults(ProtocolElement):

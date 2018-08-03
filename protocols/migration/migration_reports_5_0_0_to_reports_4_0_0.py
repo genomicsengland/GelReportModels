@@ -126,9 +126,10 @@ class MigrateReports500To400(BaseMigration):
             self.old_model.ClinicalSignificance.likely_pathogenic: self.new_model.VariantClassification.likely_pathogenic_variant,
             self.old_model.ClinicalSignificance.pathogenic: self.new_model.VariantClassification.pathogenic_variant,
         }
+        default = self.new_model.VariantClassification.not_assessed
         new_report_event.variantClassification = variant_classification_map.get(
             old_report_event.variantClassification,
-            self.new_model.VariantClassification.not_assessed
+            default
         )
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)

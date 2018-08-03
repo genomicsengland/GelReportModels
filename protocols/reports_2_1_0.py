@@ -22,6 +22,9 @@ class ActionType(object):
     Prognosis = "Prognosis"
     Diagnosis = "Diagnosis"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Actions(ProtocolElement):
     """
@@ -93,6 +96,9 @@ class AdoptedStatus(object):
     adoptedin = "adoptedin"
     adoptedout = "adoptedout"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AffectionStatus(object):
     """
@@ -101,6 +107,9 @@ class AffectionStatus(object):
     unaffected = "unaffected"
     affected = "affected"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AnalysisPanel(ProtocolElement):
@@ -1277,6 +1286,9 @@ class ComplexGeneticPhenomena(object):
     trisomy = "trisomy"
     other_aneuploidy = "other_aneuploidy"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ConsentStatus(ProtocolElement):
     """
@@ -1463,6 +1475,9 @@ class EthnicCategory(object):
     R = "R"
     Z = "Z"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ExonCoverage(ProtocolElement):
     """
@@ -1512,6 +1527,9 @@ class FeatureTypes(object):
     RegulatoryRegion = "RegulatoryRegion"
     Gene = "Gene"
     Transcript = "Transcript"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class File(ProtocolElement):
@@ -1572,6 +1590,9 @@ class FileType(object):
     TIER = "TIER"
     ANN = "ANN"
     BigWig = "BigWig"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class GelAtGcDrop(ProtocolElement):
@@ -1686,6 +1707,9 @@ class GelPhase(object):
     IIP = "IIP"
     MAIN = "MAIN"
     EXPT = "EXPT"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class GenomicFeature(ProtocolElement):
@@ -2903,6 +2927,9 @@ class IlluminaVersion(object):
     IlluminaSummaryV2 = "IlluminaSummaryV2"
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class InbreedingCoefficient(ProtocolElement):
     """
@@ -3439,6 +3466,9 @@ class KGPopCategory(object):
     TSI = "TSI"
     YRI = "YRI"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class KGSuperPopCategory(object):
     """
@@ -3449,6 +3479,9 @@ class KGSuperPopCategory(object):
     EAS = "EAS"
     EUR = "EUR"
     SAS = "SAS"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class LifeStatus(object):
@@ -3461,6 +3494,9 @@ class LifeStatus(object):
     unborn = "unborn"
     stillborn = "stillborn"
     miscarriage = "miscarriage"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Machine(ProtocolElement):
@@ -3552,6 +3588,9 @@ class Method(object):
     BIOPSY = "BIOPSY"
     BLOOD = "BLOOD"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ModeOfInheritance(object):
     """
@@ -3586,6 +3625,9 @@ class ModeOfInheritance(object):
     xlinked_monoallelic = "xlinked_monoallelic"
     mitochondrial = "mitochondrial"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class OtherFamilyHistory(ProtocolElement):
@@ -3746,6 +3788,9 @@ class Penetrance(object):
     complete = "complete"
     incomplete = "incomplete"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class PersonKaryotipicSex(object):
     """
@@ -3763,6 +3808,9 @@ class PersonKaryotipicSex(object):
     XYY = "XYY"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Phase(object):
     """
@@ -3771,6 +3819,9 @@ class Phase(object):
     PRIMARY = "PRIMARY"
     METASTATIC = "METASTATIC"
     RECURRENCE = "RECURRENCE"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PlinkROH(ProtocolElement):
@@ -3887,6 +3938,9 @@ class PreservationMethod(object):
     GL = "GL"
     SALIVA = "SALIVA"
     LEUK = "LEUK"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class RDParticipant(ProtocolElement):
@@ -4095,6 +4149,9 @@ class Reason(object):
     pass_qc = "pass_qc"
     other = "other"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ReportEvent(ProtocolElement):
     """
@@ -4299,6 +4356,9 @@ class ReportedModeOfInheritance(object):
     xlinked_monoallelic = "xlinked_monoallelic"
     mitochondrial = "mitochondrial"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class ReportedSomaticStructuralVariants(ProtocolElement):
@@ -4864,6 +4924,9 @@ class SampleType(object):
     germline = "germline"
     tumor = "tumor"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SamtoolsScope(object):
     """
@@ -4871,6 +4934,9 @@ class SamtoolsScope(object):
     """
     all = "all"
     filtered = "filtered"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsStats(ProtocolElement):
@@ -5120,6 +5186,9 @@ class Sex(object):
     unknown = "unknown"
     undetermined = "undetermined"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class SomaticOrGermline(object):
     """
@@ -5129,6 +5198,9 @@ class SomaticOrGermline(object):
     unknown = "unknown"
     somatic = "somatic"
     germline = "germline"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class State(object):
@@ -5146,6 +5218,9 @@ class State(object):
     fail = "fail"
     caution = "caution"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class TernaryOption(object):
     """
@@ -5154,6 +5229,9 @@ class TernaryOption(object):
     yes = "yes"
     no = "no"
     unknown = "unknown"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Tier(object):
@@ -5164,6 +5242,9 @@ class Tier(object):
     TIER1 = "TIER1"
     TIER2 = "TIER2"
     TIER3 = "TIER3"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class TumorChecks(ProtocolElement):
@@ -5234,6 +5315,9 @@ class VariantClassification(object):
     VUS = "VUS"
     LIKELY_PATHOGENIC = "LIKELY_PATHOGENIC"
     PATHOGENIC = "PATHOGENIC"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VcfMetrics(ProtocolElement):
