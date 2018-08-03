@@ -25,12 +25,12 @@ protocol ClinicalReports {
     */
     record ClinicalReport {
         /**
-        This is the interpretation request identifier (i.e.: first number in XXX-123-1)
+        This is the interpretation request identifier (i.e.: first number in 123-1)
         */
         string interpretationRequestId;
 
         /**
-        This is the version of the interpretation request identifier (i.e.: second number in XXX-123-2)
+        This is the version of the interpretation request identifier (i.e.: second number in 123-1)
         */
         int interpretationRequestVersion;
 

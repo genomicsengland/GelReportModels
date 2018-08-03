@@ -220,18 +220,20 @@ class Actions(ProtocolElement):
 ["null", "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}],
 "name": "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type":
 "record", "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items":
-{"fields": [{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null",
+{"fields": [{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null",
 {"symbols": ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum",
 "name": "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"],
 "name": "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -1872,18 +1874,20 @@ class ChromosomalRearrangement(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -2144,18 +2148,20 @@ class ClinicalReport(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -3604,18 +3610,20 @@ class InterpretationDataCancer(ProtocolElement):
 ["null", "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}],
 "name": "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type":
 "record", "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items":
-{"fields": [{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null",
+{"fields": [{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null",
 {"symbols": ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum",
 "name": "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"],
 "name": "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -4011,18 +4019,20 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 ["null", "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}],
 "name": "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type":
 "record", "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items":
-{"fields": [{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null",
+{"fields": [{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null",
 {"symbols": ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum",
 "name": "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"],
 "name": "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -4591,18 +4601,20 @@ class InterpretedGenome(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -5688,19 +5700,21 @@ class Prognosis(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Prognosis", "fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "conditions",
         "description",
         "prognosis",
+        "referenceUrl",
         "references",
-        "rferenceUrl",
         "source",
         "variantActionable",
     }
@@ -5717,19 +5731,21 @@ class Prognosis(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'description', 'prognosis', 'references', 'rferenceUrl',
-        'source', 'variantActionable'
+        'conditions', 'description', 'prognosis', 'referenceUrl',
+        'references', 'source', 'variantActionable'
     ]
 
     def __init__(self, **kwargs):
+        self.conditions = kwargs.get(
+            'conditions', None)
         self.description = kwargs.get(
             'description', None)
         self.prognosis = kwargs.get(
             'prognosis', None)
+        self.referenceUrl = kwargs.get(
+            'referenceUrl', None)
         self.references = kwargs.get(
             'references', None)
-        self.rferenceUrl = kwargs.get(
-            'rferenceUrl', None)
         self.source = kwargs.get(
             'source', None)
         self.variantActionable = kwargs.get(
@@ -6156,18 +6172,20 @@ class ReportEvent(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -6678,18 +6696,20 @@ class ShortTandemRepeat(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -6991,18 +7011,20 @@ class SmallVariant(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -7298,18 +7320,20 @@ class StructuralVariant(ProtocolElement):
 "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
 "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}], "type": "record",
 "name": "Trial"}, "type": "array"}], "name": "trials"}, {"type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", {"symbols":
+[{"doc": "", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", {"symbols":
 ["altered_prognosis", "favourable_prognosis", "unfavourable_prognosis"], "type": "enum", "name":
 "PrognosisClassification"}], "name": "prognosis"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
 "boolean", "name": "variantActionable"}], "type": "record", "name": "Prognosis"}, "type": "array"}],
 "name": "prognosis"}, {"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name":
-"rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
+"referenceUrl"}, {"doc": "", "type": ["null", "string"], "name": "source"}, {"doc": "", "type":
 ["null", {"items": "string", "type": "array"}], "name": "references"}, {"doc": "", "type": ["null",
-{"items": {"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type":
-{"symbols": ["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity",
-"altered_resistance", "increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
+{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null", {"items":
+{"fields": [{"doc": "", "type": "string", "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols":
+["altered_sensitivity", "reduced_sensitivity", "increased_sensitivity", "altered_resistance",
+"increased_resistance", "reduced_resistance", "increased_risk_of_toxicity",
 "reduced_risk_of_toxicity", "altered_toxicity", "adverse_drug_reaction", "indication",
 "contraindication", "dosing_alteration", "increased_dose", "reduced_dose", "increased_monitoring",
 "increased_efficacy", "reduced_efficacy", "altered_efficacy"], "type": "enum", "name":
@@ -7570,9 +7594,10 @@ class Therapy(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Therapy", "fields": [{"doc":
-"", "type": "string", "name": "rferenceUrl"}, {"doc": "", "type": ["null", "string"], "name":
+"", "type": "string", "name": "referenceUrl"}, {"doc": "", "type": ["null", "string"], "name":
 "source"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"references"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"references"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"conditions"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
 "name": "TreatmentAgent"}, {"doc": "", "type": {"symbols": ["altered_sensitivity",
 "reduced_sensitivity", "increased_sensitivity", "altered_resistance", "increased_resistance",
 "reduced_resistance", "increased_risk_of_toxicity", "reduced_risk_of_toxicity", "altered_toxicity",
@@ -7589,10 +7614,11 @@ class Therapy(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "conditions",
         "drugResponse",
         "otherInterventions",
+        "referenceUrl",
         "references",
-        "rferenceUrl",
         "source",
         "variantActionable",
     }
@@ -7615,19 +7641,21 @@ class Therapy(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'drugResponse', 'otherInterventions', 'references',
-        'rferenceUrl', 'source', 'variantActionable'
+        'conditions', 'drugResponse', 'otherInterventions',
+        'referenceUrl', 'references', 'source', 'variantActionable'
     ]
 
     def __init__(self, **kwargs):
+        self.conditions = kwargs.get(
+            'conditions', None)
         self.drugResponse = kwargs.get(
             'drugResponse', None)
         self.otherInterventions = kwargs.get(
             'otherInterventions', None)
+        self.referenceUrl = kwargs.get(
+            'referenceUrl', None)
         self.references = kwargs.get(
             'references', None)
-        self.rferenceUrl = kwargs.get(
-            'rferenceUrl', None)
         self.source = kwargs.get(
             'source', None)
         self.variantActionable = kwargs.get(
