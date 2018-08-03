@@ -4,6 +4,7 @@ Provides additional functionality based on avro
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+from past.builtins import basestring
 
 import random
 import string
@@ -229,7 +230,7 @@ class SchemaValidator(AvroTypeSwitch):
             return self.sinkValue
 
     def handleString(self, datum):
-        if self.notString(datum):
+        if not isinstance(datum, basestring):
             return datum
         else:
             return self.sinkValue
@@ -351,9 +352,6 @@ class SchemaValidator(AvroTypeSwitch):
 
     def handleRequest(self, schema, datum):
         return self.handleRecord(schema, datum)
-
-    def notString(self, datum):
-        return not hasattr(datum, 'decode') or not isinstance(datum.decode(), unicode)
 
 
 class RandomInstanceCreator(AvroTypeSwitch):

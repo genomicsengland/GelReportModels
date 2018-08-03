@@ -31,7 +31,7 @@ class Call(ProtocolElement):
 "name": "genotypeLikelihood"}, {"default": {}, "doc": "", "type": {"values": {"items": "string",
 "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -80,7 +80,7 @@ class CallSet(ProtocolElement):
 "name": "updated"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type":
 "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
         "sampleId",
@@ -183,7 +183,7 @@ class CigarUnit(ProtocolElement):
 "name": "operation"}, {"doc": "", "type": "long", "name": "operationLength"}, {"default": null,
 "doc": "", "type": ["null", "string"], "name": "referenceSequence"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "operation",
         "operationLength",
@@ -231,7 +231,7 @@ class Dataset(ProtocolElement):
 "type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "description"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -278,7 +278,7 @@ null, "doc": "", "type": ["null", "string"], "name": "instrumentDataFile"}, {"do
 "string"], "name": "platformUnit"}, {"default": {}, "doc": "", "type": {"values": {"items":
 "string", "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
         "instrumentModel",
@@ -350,7 +350,7 @@ class ExternalIdentifier(ProtocolElement):
 "", "type": "string", "name": "database"}, {"doc": "", "type": "string", "name": "identifier"},
 {"doc": "", "type": "string", "name": "version"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "database",
         "identifier",
@@ -391,7 +391,7 @@ class Fragment(ProtocolElement):
 {"namespace": "org.ga4gh.models", "type": "record", "name": "Fragment", "fields": [{"doc": "",
 "type": "string", "name": "id"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -425,7 +425,7 @@ class GAException(ProtocolElement):
 "type": "string", "name": "message"}, {"default": -1, "doc": "", "type": "int", "name":
 "errorCode"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "message",
     }
@@ -469,7 +469,7 @@ class LinearAlignment(ProtocolElement):
 "long", "name": "operationLength"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "referenceSequence"}]}, "type": "array"}, "name": "cigar"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "position",
     }
@@ -516,7 +516,7 @@ class ListReferenceBasesRequest(ProtocolElement):
 ["null", "long"], "name": "end"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -553,7 +553,7 @@ class ListReferenceBasesResponse(ProtocolElement):
 "sequence"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}],
 "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "sequence",
     }
@@ -594,7 +594,7 @@ class Position(ProtocolElement):
 "", "type": {"symbols": ["NEG_STRAND", "POS_STRAND"], "doc": "", "type": "enum", "name": "Strand"},
 "name": "strand"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "position",
         "referenceName",
@@ -636,7 +636,7 @@ class Program(ProtocolElement):
 "name"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"},
 {"default": null, "doc": "", "type": ["null", "string"], "name": "version"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -701,7 +701,7 @@ null, "doc": "", "type": ["null", "boolean"], "name": "secondaryAlignment"}, {"d
 ["null", "Position"], "name": "nextMatePosition"}, {"default": {}, "doc": "", "type": {"values":
 {"items": "string", "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "fragmentId",
         "fragmentName",
@@ -811,7 +811,7 @@ null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default": null, 
 {"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"},
 "name": "info"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "experiment",
         "id",
@@ -915,7 +915,7 @@ null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"}, {"default
 "array"}, "type": "map"}, "name": "info"}], "type": "record", "name": "ReadGroup"}, "type":
 "array"}, "name": "readGroups"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -964,7 +964,7 @@ null, "doc": "", "type": ["null", "long"], "name": "alignedReadCount"}, {"defaul
 "type": ["null", "long"], "name": "unalignedReadCount"}, {"default": null, "doc": "", "type":
 ["null", "long"], "name": "baseCount"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1008,7 +1008,7 @@ class Reference(ProtocolElement):
 "sourceDivergence"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "ncbiTaxonId"}],
 "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
         "length",
@@ -1071,7 +1071,7 @@ null, "doc": "", "type": ["null", "int"], "name": "ncbiTaxonId"}, {"default": nu
 "sourceURI"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "sourceAccessions"},
 {"default": false, "doc": "", "type": "boolean", "name": "isDerived"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "id",
         "md5checksum",
@@ -1124,7 +1124,7 @@ class SearchCallSetsRequest(SearchRequest):
 "pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc":
 ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "variantSetId",
     }
@@ -1172,7 +1172,7 @@ class SearchCallSetsResponse(SearchResponse):
 "doc": ""}, "type": "array"}, "name": "callSets"}, {"default": null, "doc": "", "type": ["null",
 "string"], "name": "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "callSets"
 
@@ -1211,7 +1211,7 @@ class SearchDatasetsRequest(SearchRequest):
 [{"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc":
 "", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1249,7 +1249,7 @@ class SearchDatasetsResponse(SearchResponse):
 "datasets"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}],
 "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "datasets"
 
@@ -1291,7 +1291,7 @@ class SearchReadGroupSetsRequest(SearchRequest):
 "pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc":
 ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "datasetId",
     }
@@ -1369,7 +1369,7 @@ null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"}, {"default
 "array"}, "name": "readGroups"}]}, "type": "array"}, "name": "readGroupSets"}, {"default": null,
 "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "readGroupSets"
 
@@ -1415,7 +1415,7 @@ null, "doc": "", "type": ["null", "string"], "name": "referenceId"}, {"default":
 "name": "end"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"},
 {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "readGroupIds",
     }
@@ -1486,7 +1486,7 @@ null, "doc": "", "type": ["null", "boolean"], "name": "secondaryAlignment"}, {"d
 "array"}, "name": "alignments"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "alignments"
 
@@ -1529,7 +1529,7 @@ class SearchReferenceSetsRequest(SearchRequest):
 "doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc": "", "type":
 ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1578,7 +1578,7 @@ class SearchReferenceSetsResponse(SearchResponse):
 "type": "boolean", "name": "isDerived"}], "doc": ""}, "type": "array"}, "name": "referenceSets"},
 {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "referenceSets"
 
@@ -1621,7 +1621,7 @@ class SearchReferencesRequest(SearchRequest):
 "doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc": "", "type":
 ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1670,7 +1670,7 @@ class SearchReferencesResponse(SearchResponse):
 ["null", "int"], "name": "ncbiTaxonId"}], "doc": ""}, "type": "array"}, "name": "references"},
 {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "references"
 
@@ -1711,7 +1711,7 @@ class SearchVariantSetsRequest(SearchRequest):
 "int"], "name": "pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "datasetId",
     }
@@ -1759,7 +1759,7 @@ class SearchVariantSetsResponse(SearchResponse):
 "array"}, "name": "variantSets"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
 "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "variantSets"
 
@@ -1801,7 +1801,7 @@ class SearchVariantsRequest(SearchRequest):
 "name": "end"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"},
 {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "end",
         "referenceName",
@@ -1868,7 +1868,7 @@ class SearchVariantsResponse(SearchResponse):
 "array"}, "name": "calls"}], "doc": ""}, "type": "array"}, "name": "variants"}, {"default": null,
 "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {}
     _valueListName = "variants"
 
@@ -1933,7 +1933,7 @@ class Variant(ProtocolElement):
 "name": "genotypeLikelihood"}, {"default": {}, "doc": "", "type": {"values": {"items": "string",
 "type": "array"}, "type": "map"}, "name": "info"}]}, "type": "array"}, "name": "calls"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "end",
         "id",
@@ -2008,7 +2008,7 @@ class VariantSet(ProtocolElement):
 {"items": "string", "type": "array"}, "type": "map"}, "name": "info"}]}, "type": "array"}, "name":
 "metadata"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "datasetId",
         "id",
@@ -2057,7 +2057,7 @@ class VariantSetMetadata(ProtocolElement):
 "doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"}, "name":
 "info"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro.schema.Parse(_schemaSource)
     requiredFields = {
         "description",
         "id",

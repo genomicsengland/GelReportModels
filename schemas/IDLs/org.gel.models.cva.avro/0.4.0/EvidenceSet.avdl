@@ -5,7 +5,7 @@ protocol EvidencesSetProtocol {
     // CVA references
     import idl "Comment.avdl";
     import idl "ReportEvent.avdl";
-    import idl "Variant.avdl";
+    import idl "CvaVariant.avdl";
     // OpenCB references
     import idl "variant.avdl";
     import idl "evidence.avdl";

@@ -2,7 +2,7 @@ import shutil
 import sys
 import os.path
 from unittest import TestCase
-from process_schemas import SchemaProcessor, ProtocolGenerator
+from protocols_utils.code_generation.process_schemas import SchemaProcessor, ProtocolGenerator
 import importlib
 
 

@@ -107,7 +107,7 @@ def mock_complex_type(field, field_type, dependencies, version, fill_nullables):
     """
     value = None
     if field_type == 'record':
-        if isinstance(field.type, unicode):
+        if isinstance(field.type, str):
             # in some cases field types are just a string
             class_name = field.name
             namespace = field.namespace

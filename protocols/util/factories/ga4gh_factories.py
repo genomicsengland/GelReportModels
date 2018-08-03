@@ -20,7 +20,7 @@ class GA4GHVariantFactory(FactoryAvro):
     referenceBases = factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G'])
     alternateBases = factory.LazyAttribute(lambda x: [factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G']).fuzz()])
     qual = factory.fuzzy.FuzzyInteger(1, 600)
-    referenceName = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23)) + ['X', 'Y', 'MT']))
+    referenceName = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23))) + ['X', 'Y', 'MT'])
 
     @factory.post_generation
     def calls(self, create, extacted, **kwargs):
