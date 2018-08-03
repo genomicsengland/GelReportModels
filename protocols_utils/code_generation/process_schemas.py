@@ -17,8 +17,7 @@ import tarfile
 import textwrap
 
 import avro.schema
-
-import utils
+from . import utils
 from protocols.util.dependency_manager import DependencyManager
 
 HEADER_COMMENT = """
@@ -39,7 +38,7 @@ class SchemaClass(object):
         self.sourceFile = sourceFile
         with open(sourceFile) as sf:
             self.schemaSource = sf.read()
-            self.schema = avro.schema.parse(self.schemaSource)
+            self.schema = avro.schema.Parse(self.schemaSource)
         self.name = self.schema.name
 
     def getFields(self):
@@ -133,7 +132,7 @@ class SchemaClass(object):
         jsonData = json.dumps(schema)
         # TODO(Greg): Find a long-term solution for making sure the end of the line
         # TODO(Greg): in a schema string is not a - character (dash)
-        output = "\n".join(textwrap.wrap(text=jsonData, width=100)) + "\n"
+        output = "\n".join(textwrap.wrap(text=jsonData, width=100, break_long_words=False, break_on_hyphens=False)) + "\n"
         return output
 
     def writeRequiredFields(self, outputFile):
@@ -171,17 +170,20 @@ class SchemaClass(object):
 
             # This was added by antonior to fix the problem with default strings
             if str(field.type) == '"string"':
-                if field.default is not None:
+                if field.has_default and field.default is not None:
                     string_ = "'{}', '{}')".format(field.name, field.default)
                 else:
-                    string_ = "'{}', {})".format(field.name, field.default)
+                    string_ = "'{}', {})".format(field.name, None)
                 self._writeWithIndent(string_, outputFile, 3)
             # This was added by priesgo to cascade default values initialisation
             elif type(field.type) == avro.schema.RecordSchema and field.type.type == 'record':
                 string_ = "'{}', {}())".format(field.name, field.type.name)
                 self._writeWithIndent(string_, outputFile, 3)
             else:
-                string_ = "'{}', {})".format(field.name, field.default)
+                if field.has_default and field.default is not None:
+                    string_ = "'{}', {})".format(field.name, field.default)
+                else:
+                    string_ = "'{}', {})".format(field.name, None)
                 self._writeWithIndent(string_, outputFile, 3)
 
         # for field in self.getFields():
@@ -250,7 +252,7 @@ class SchemaClass(object):
             string = '_schemaSource = """\n{0}"""'.format(
                 self.formatSchema())
             self._writeWithIndent(string, outputFile)
-            string = 'schema = avro.schema.parse(_schemaSource)'
+            string = 'schema = avro.schema.Parse(_schemaSource)'
             self._writeWithIndent(string, outputFile)
             self.writeRequiredFields(outputFile)
             if self.isSearchResponse():
@@ -273,9 +275,10 @@ class SchemaClass(object):
 
     def _writeWrappedWithIndent(self, string_, outputFile, indentLevel=1):
         indent = " " * (indentLevel * 4)
-        toWrite = textwrap.fill(
-            string_, initial_indent=indent, subsequent_indent=indent)
-        print(toWrite.encode('utf-8'), file=outputFile)
+        toWrite = textwrap.fill(string_,
+                                initial_indent=indent, subsequent_indent=indent,
+                                break_long_words=False, break_on_hyphens=False)
+        print(toWrite, file=outputFile)
 
     def _writeNewline(self, outputFile, numNewlines=1):
         toWrite = "\n" * (numNewlines - 1)
