@@ -8,6 +8,7 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
@@ -26,7 +27,7 @@ class API(ProtocolElement):
 "symbols": ["OK", "DOWN"]}}, {"name": "additionalProperties", "type": ["null", {"type": "map",
 "values": "string"}]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalProperties",
         "description",
@@ -87,7 +88,7 @@ class DataStore(ProtocolElement):
 "name": "Status", "doc": "", "symbols": ["OK", "DOWN"]}}, {"name": "additionalProperties", "type":
 ["null", {"type": "map", "values": "string"}]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalProperties",
         "description",
@@ -141,7 +142,7 @@ class Dependencies(ProtocolElement):
 "string"}}, {"name": "status", "type": "Status"}, {"name": "additionalProperties", "type": ["null",
 {"type": "map", "values": "string"}]}]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "apis",
         "datastores",
@@ -195,7 +196,7 @@ class ServiceHealth(ProtocolElement):
 "Status"}, {"name": "additionalProperties", "type": ["null", {"type": "map", "values":
 "string"}]}]}}}]}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "datetime",
         "dependencies",

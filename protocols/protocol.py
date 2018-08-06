@@ -14,6 +14,7 @@ import dictdiffer
 import logging
 
 import avro.io
+import avro.schema
 from avro.schema import UnionSchema, ArraySchema
 
 
@@ -148,14 +149,14 @@ class ProtocolElement(object):
                     out[field.name] = False
                     for sc in field.type.schemas:
                         if isinstance(sc, ArraySchema):
-                            out[field.name] = list(avro.io.Validate(sc.items, el) for el in val)
+                            out[field.name] = list(avro_validate(sc.items, el) for el in val)
                 else:
                     if isinstance(field.type, ArraySchema):
-                        out[field.name] = list(avro.io.Validate(field.type.items, el) for el in val)
+                        out[field.name] = list(avro_validate(field.type.items, el) for el in val)
                     else:
                         out[field.name] = False
             else:
-                out[field.name] = avro.io.Validate(field.type, val)
+                out[field.name] = avro_validate(field.type, val)
 
         return out
 
@@ -176,7 +177,7 @@ class ProtocolElement(object):
         if verbose:
             validation_result = ValidationResult()
             return cls.validate_debug(jsonDict=jsonDict, validation_result=validation_result)
-        return avro.io.Validate(expected_schema=cls.schema, datum=jsonDict)
+        return avro_validate(expected_schema=cls.schema, datum=jsonDict)
 
     @classmethod
     def validate_debug(cls, jsonDict, validation_result, expected_schema=None):
@@ -241,7 +242,7 @@ class ProtocolElement(object):
                 validation_result.update_simple(expected_schema=expected_schema, schema_type=schema_type, datum=datum)
             elif isinstance(datum, list):
                 for data in datum:
-                    if not avro.io.Validate(expected_schema=expected_schema.items, datum=data):
+                    if not avro_validate(expected_schema=expected_schema.items, datum=data):
                         validation_result.update_simple(
                             expected_schema=expected_schema.items, schema_type=expected_schema.items.type, datum=data
                         )
@@ -256,14 +257,14 @@ class ProtocolElement(object):
                         )
                         validation_result.update_custom(custom_message=custom_message)
                 for value in datum.values():
-                    if not avro.io.Validate(expected_schema=expected_schema.values, datum=value):
+                    if not avro_validate(expected_schema=expected_schema.values, datum=value):
                         validation_result.update_simple(
                             expected_schema=expected_schema.values, schema_type=expected_schema.values.type, datum=value
                         )
         elif schema_type in ['union', 'error_union']:
-            if not any([avro.io.Validate(s, datum) for s in expected_schema.schemas]):
+            if not any([avro_validate(s, datum) for s in expected_schema.schemas]):
                 for expected_schema in expected_schema.schemas:
-                    if not avro.io.Validate(expected_schema=expected_schema, datum=datum):
+                    if not avro_validate(expected_schema=expected_schema, datum=datum):
                         if hasattr(expected_schema, 'values'):
                             validation_result.update_simple(
                                 expected_schema=expected_schema.values,
@@ -279,7 +280,7 @@ class ProtocolElement(object):
         elif schema_type in ['record', 'error', 'request']:
             if isinstance(datum, dict):
                 for f in expected_schema.fields:
-                    if not avro.io.Validate(expected_schema=f.type, datum=datum.get(f.name)):
+                    if not avro_validate(expected_schema=f.type, datum=datum.get(f.name)):
                         cls.validate_debug(
                             jsonDict=datum.get(f.name),
                             validation_result=validation_result,
@@ -391,3 +392,21 @@ def getProtocolClasses(superclass=ProtocolElement):
                 class_ not in superclasses)):
             subclasses.append(class_)
     return subclasses
+
+
+def avro_parse(schema):
+    if sys.version_info.major > 2:
+        # python 3 version
+        return avro.schema.Parse(schema)
+    else:
+        # python 2 version
+        return avro.schema.parse(schema)
+
+
+def avro_validate(expected_schema, datum):
+    if sys.version_info.major > 2:
+        # python 3 version
+        return avro.io.Validate(expected_schema=expected_schema, datum=datum)
+    else:
+        # python 2 version
+        return avro.io.validate(expected_schema=expected_schema, datum=datum)

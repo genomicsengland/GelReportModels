@@ -8,6 +8,7 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
@@ -40,7 +41,7 @@ class Actions(ProtocolElement):
 "evidenceType", "type": ["null", "string"], "doc": ""}, {"name": "source", "type": "string", "doc":
 ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "actionType",
         "comments",
@@ -122,7 +123,7 @@ class AnalysisPanel(ProtocolElement):
 "panelVersion", "type": ["null", "string"]}, {"name": "review_outcome", "type": "string"}, {"name":
 "multiple_genetic_origins", "type": "string"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "multiple_genetic_origins",
         "panelName",
@@ -180,7 +181,7 @@ class Ancestries(ProtocolElement):
 "PUR", "STU", "TSI", "YRI"]}], "doc": ""}, {"name": "chiSquare", "type": "float", "doc": ""}]}}],
 "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chiSquare1KGenomesPhase3Pop",
         "fathersEthnicOrigin",
@@ -234,7 +235,7 @@ class ArrayConcordance(ProtocolElement):
 "fields": [{"name": "numberOfSites", "type": "double"}, {"name": "numberOfDiscordantSites", "type":
 "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "numberOfDiscordantSites",
         "numberOfSites",
@@ -273,7 +274,7 @@ class ArrayGenotypingRate(ProtocolElement):
 "fields": [{"name": "IID", "type": "string"}, {"name": "number_missing_genotypes", "type":
 "double"}, {"name": "number_total_genotypes", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "IID",
         "number_missing_genotypes",
@@ -314,7 +315,7 @@ class BamHeaderMachine(ProtocolElement):
 [{"name": "DATE", "type": "double"}, {"name": "MACHINE", "type": "string"}, {"name": "FLOWCELL",
 "type": "string"}, {"name": "RUN", "type": "string"}]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "machines",
     }
@@ -351,7 +352,7 @@ class BamHeaderOther(ProtocolElement):
 {"type": "record", "name": "BamHeaderOther", "namespace": "Gel_BioInf_Models", "fields": [{"name":
 "PIPELINE_ID", "type": "string"}, {"name": "PIPELINE_VERSION", "type": "string"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "PIPELINE_ID",
         "PIPELINE_VERSION",
@@ -393,7 +394,7 @@ class CalledGenotype(ProtocolElement):
 "depthAlternate", "type": ["null", "int"], "doc": ""}, {"name": "copyNumber", "type": ["null",
 "int"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "copyNumber",
         "depthAlternate",
@@ -457,7 +458,7 @@ class CancerDemographics(ProtocolElement):
 "sampleId", "type": ["null", {"type": "array", "items": "string"}], "doc": ""}, {"name":
 "assignedICD10", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalInformation",
         "assignedICD10",
@@ -573,7 +574,7 @@ class CancerInterpretationRequest(ProtocolElement):
 "doc": ""}, {"name": "additionalInfo", "type": ["null", {"type": "map", "values": "string"}], "doc":
 ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BAMs",
         "VCFs",
@@ -708,7 +709,7 @@ class CancerInterpretedGenome(ProtocolElement):
 "doc": ""}]}, "doc": ""}, {"name": "somaticOrGermline", "type": "SomaticOrGermline", "doc": ""}]}}},
 {"name": "comments", "type": ["null", {"type": "array", "items": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "analysisId",
         "comments",
@@ -803,7 +804,7 @@ class CancerParticipant(ProtocolElement):
 "MatchedSamples", "doc": "", "fields": [{"name": "germlineSampleId", "type": ["null", "string"],
 "doc": ""}, {"name": "tumorSampleId", "type": ["null", "string"], "doc": ""}]}}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cancerDemographics",
         "cancerSamples",
@@ -869,7 +870,7 @@ class CancerSample(ProtocolElement):
 "type": ["null", "string"], "doc": ""}, {"name": "tnm_stage_version", "type": ["null", "string"],
 "doc": ""}, {"name": "tmn_stage_grouping", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cellularity",
         "gelPhase",
@@ -953,7 +954,7 @@ class ChiSquare1KGenomesPhase3Pop(ProtocolElement):
 "KHV", "LWK", "MSL", "MXL", "PEL", "PJL", "PUR", "STU", "TSI", "YRI"]}], "doc": ""}, {"name":
 "chiSquare", "type": "float", "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chiSquare",
         "kGPopCategory",
@@ -1079,7 +1080,7 @@ class ClinicalReportCancer(ProtocolElement):
 "MatchedSamples", "doc": "", "fields": [{"name": "germlineSampleId", "type": ["null", "string"],
 "doc": ""}, {"name": "tumorSampleId", "type": ["null", "string"], "doc": ""}]}}, "doc": ""}]}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cancerParticipant",
         "candidateStructuralVariants",
@@ -1209,7 +1210,7 @@ class ClinicalReportRD(ProtocolElement):
 "referenceDatabasesVersions", "type": {"type": "map", "values": "string"}, "doc": ""}, {"name":
 "softwareVersions", "type": {"type": "map", "values": "string"}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "candidateStructuralVariants",
         "candidateVariants",
@@ -1301,7 +1302,7 @@ class ConsentStatus(ProtocolElement):
 "secondaryFindingConsent", "type": "boolean", "doc": "", "default": false}, {"name":
 "carrierStatusConsent", "type": "boolean", "doc": "", "default": false}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1342,7 +1343,7 @@ class CoverageSummary(ProtocolElement):
 "double"}, {"name": "pct75", "type": "double"}, {"name": "scope", "type": "string"}, {"name":
 "localRMSD", "type": "double"}, {"name": "COSMIC30Xcov", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "COSMIC30Xcov",
         "localRMSD",
@@ -1408,7 +1409,7 @@ class Disorder(ProtocolElement):
 "type": ["null", "string"], "doc": ""}, {"name": "specificDisease", "type": ["null", "string"],
 "doc": ""}, {"name": "ageOfOnset", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ageOfOnset",
         "diseaseGroup",
@@ -1491,7 +1492,7 @@ class ExonCoverage(ProtocolElement):
 "median", "type": "double"}, {"name": "pct75", "type": "double"}, {"name": "scope", "type":
 "string"}, {"name": "localRMSD", "type": "double"}, {"name": "COSMIC30Xcov", "type": "double"}]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coverageSummary",
     }
@@ -1543,7 +1544,7 @@ class File(ProtocolElement):
 "doc": "", "symbols": ["BAM", "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER",
 "ANN", "BigWig"]}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "SampleId",
         "URIFile",
@@ -1603,7 +1604,7 @@ class GelAtGcDrop(ProtocolElement):
 {"type": "record", "name": "GelAtGcDrop", "namespace": "Gel_BioInf_Models", "doc": "", "fields":
 [{"name": "at_drop", "type": "double"}, {"name": "gc_drop", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "at_drop",
         "gc_drop",
@@ -1649,7 +1650,7 @@ class GelMetrics(ProtocolElement):
 "DirectoryType", "type": "string"}, {"name": "nBases_samtools", "type": "double"}, {"name":
 "FileRelativePath", "type": "string"}, {"name": "md5checksum", "type": "string"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BaseDir",
         "DirectoryType",
@@ -1722,7 +1723,7 @@ class GenomicFeature(ProtocolElement):
 "Gene", "Transcript"]}, "doc": ""}, {"name": "ensemblId", "type": "string", "doc": ""}, {"name":
 "ids", "type": {"type": "map", "values": "string"}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ensemblId",
         "featureType",
@@ -1765,7 +1766,7 @@ class GenomicFeatureCancer(ProtocolElement):
 "type": "string", "doc": ""}, {"name": "geneName", "type": "string", "doc": ""}, {"name":
 "roleInCancer", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ensemblId",
         "featureType",
@@ -1817,7 +1818,7 @@ class HpoTerm(ProtocolElement):
 "boolean"], "doc": ""}, {"name": "modifiers", "type": ["null", {"type": "map", "values": "string"}],
 "doc": ""}, {"name": "ageOfOnset", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ageOfOnset",
         "modifiers",
@@ -1906,7 +1907,7 @@ class IlluminaSummaryCancerV2(ProtocolElement):
 {"name": "SVSTATS_INVERSION_NUMBER_IN_GENES", "type": "double"}, {"name": "TUMOR_ID", "type":
 "string"}, {"name": "SVSTATS_INSERTION_TOTAL", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER",
         "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30",
@@ -2204,7 +2205,7 @@ class IlluminaSummaryV1(ProtocolElement):
 "type": "double"}, {"name": "STOPLOSTINS", "type": "double"}, {"name": "INSERTIONCOUNT", "type":
 "double"}, {"name": "PERCENT_DUPLICATE_PAIRED_READS", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "CALLABLE_AUTOSOMAL_FRACTION",
         "CNVCOUNT",
@@ -2576,7 +2577,7 @@ class IlluminaSummaryV2(ProtocolElement):
 {"name": "DELETIONS_IN_UTR_REGIONS", "type": "double"}, {"name": "INSERTIONS_IN_EXONS", "type":
 "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "CNV",
         "CNV_IN_GENES",
@@ -2942,7 +2943,7 @@ class InbreedingCoefficient(ProtocolElement):
 "string", "doc": ""}, {"name": "coefficient", "type": "double", "doc": ""}, {"name":
 "standardError", "type": ["null", "double"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coefficient",
         "estimationMethod",
@@ -2993,7 +2994,7 @@ class InbreedingCoefficientEstimates(ProtocolElement):
 "O_HOM", "type": "double"}, {"name": "E_HOM", "type": "double"}, {"name": "N_NM", "type": "double"},
 {"name": "F", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "E_HOM",
         "F",
@@ -3041,7 +3042,7 @@ class InsertSizeGel(ProtocolElement):
 {"type": "record", "name": "InsertSizeGel", "namespace": "Gel_BioInf_Models", "doc": "", "fields":
 [{"name": "median_inward", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "median_inward",
     }
@@ -3203,7 +3204,7 @@ false}, {"name": "carrierStatusConsent", "type": "boolean", "doc": "", "default"
 "doc": "", "default": "1"}, {"name": "additionalInfo", "type": ["null", {"type": "map", "values":
 "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BAMs",
         "InterpretationRequestID",
@@ -3375,7 +3376,7 @@ class InterpretedGenomeRD(ProtocolElement):
 ["null", {"type": "array", "items": "string"}], "doc": ""}]}}], "doc": ""}, {"name": "comments",
 "type": ["null", {"type": "array", "items": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "InterpretationRequestID",
         "analysisId",
@@ -3508,7 +3509,7 @@ class Machine(ProtocolElement):
 "type": "double"}, {"name": "MACHINE", "type": "string"}, {"name": "FLOWCELL", "type": "string"},
 {"name": "RUN", "type": "string"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "DATE",
         "FLOWCELL",
@@ -3552,7 +3553,7 @@ class MatchedSamples(ProtocolElement):
 [{"name": "germlineSampleId", "type": ["null", "string"], "doc": ""}, {"name": "tumorSampleId",
 "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "germlineSampleId",
         "tumorSampleId",
@@ -3641,7 +3642,7 @@ class OtherFamilyHistory(ProtocolElement):
 "doc": ""}, {"name": "paternalFamilyHistory", "type": ["null", {"type": "array", "items":
 "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "maternalFamilyHistory",
         "paternalFamilyHistory",
@@ -3738,7 +3739,7 @@ class Pedigree(ProtocolElement):
 "type": "string"}, {"name": "panelVersion", "type": ["null", "string"]}, {"name": "review_outcome",
 "type": "string"}, {"name": "multiple_genetic_origins", "type": "string"}]}}]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "analysisPanels",
         "gelFamilyId",
@@ -3834,7 +3835,7 @@ class PlinkROH(ProtocolElement):
 "double"}, {"name": "NSEG", "type": "double"}, {"name": "KB", "type": "double"}, {"name": "KBAVG",
 "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "FID",
         "IID",
@@ -3884,7 +3885,7 @@ class PlinkSexCheck(ProtocolElement):
 "double"}, {"name": "YCOUNT", "type": "double"}, {"name": "STATUS", "type": "string"}, {"name":
 "SNPSEX", "type": "double"}, {"name": "PEDSEX", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "F",
         "FID",
@@ -4005,7 +4006,7 @@ class RDParticipant(ProtocolElement):
 "standardError", "type": ["null", "double"], "doc": ""}]}], "doc": ""}, {"name":
 "additionalInformation", "type": ["null", {"type": "map", "values": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalInformation",
         "adoptedStatus",
@@ -4180,7 +4181,7 @@ class ReportEvent(ProtocolElement):
 {"type": "enum", "name": "Tier", "doc": "", "symbols": ["NONE", "TIER1", "TIER2", "TIER3"]}], "doc":
 ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "eventJustification",
         "fullyExplainsPhenotype",
@@ -4276,7 +4277,7 @@ class ReportEventCancer(ProtocolElement):
 {"type": "enum", "name": "Tier", "doc": "", "symbols": ["NONE", "TIER1", "TIER2", "TIER3"]}], "doc":
 ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "actions",
         "genomicFeatureCancer",
@@ -4406,7 +4407,7 @@ class ReportedSomaticStructuralVariants(ProtocolElement):
 "doc": ""}]}, "doc": ""}, {"name": "somaticOrGermline", "type": {"type": "enum", "name":
 "SomaticOrGermline", "doc": "", "symbols": ["unknown", "somatic", "germline"]}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reportedStructuralVariant",
         "somaticOrGermline",
@@ -4483,7 +4484,7 @@ class ReportedSomaticVariants(ProtocolElement):
 {"type": "enum", "name": "SomaticOrGermline", "doc": "", "symbols": ["unknown", "somatic",
 "germline"]}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reportedVariant",
         "somaticOrGermline",
@@ -4557,7 +4558,7 @@ class ReportedStructuralVariant(ProtocolElement):
 {"type": "map", "values": "float"}], "doc": ""}, {"name": "comments", "type": ["null", {"type":
 "array", "items": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
@@ -4640,7 +4641,7 @@ class ReportedStructuralVariantCancer(ProtocolElement):
 {"type": "map", "values": "float"}], "doc": ""}, {"name": "comments", "type": ["null", {"type":
 "array", "items": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
@@ -4733,7 +4734,7 @@ class ReportedVariant(ProtocolElement):
 {"type": "map", "values": "float"}], "doc": ""}, {"name": "comments", "type": ["null", {"type":
 "array", "items": "string"}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "additionalNumericVariantAnnotations",
         "additionalTextualVariantAnnotations",
@@ -4835,7 +4836,7 @@ class ReportedVariantCancer(ProtocolElement):
 ""}]}}, "doc": ""}, {"name": "tier", "type": ["null", {"type": "enum", "name": "Tier", "doc": "",
 "symbols": ["NONE", "TIER1", "TIER2", "TIER3"]}], "doc": ""}]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "CosmicId",
         "CosmicLink",
@@ -4968,7 +4969,7 @@ class SamtoolsStats(ProtocolElement):
 "double"}, {"name": "SAMTOOLS_SEQUENCES", "type": "double"}, {"name": "SAMTOOLS_TOTAL_LENGTH",
 "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "SAMTOOLS_1ST_FRAGMENTS",
         "SAMTOOLS_AVERAGE_LENGTH",
@@ -5118,7 +5119,7 @@ class SensitiveInformation(ProtocolElement):
 {"name": "centerSampleId", "type": ["null", "string"]}, {"name": "originatingCenter", "type":
 ["null", "string"]}, {"name": "centerPatientId", "type": ["null", "string"]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "centerPatientId",
         "centerSampleId",
@@ -5267,7 +5268,7 @@ class TumorChecks(ProtocolElement):
 {"name": "num_variants_lt_filter", "type": "double"}, {"name": "perc_variants_gt_filter", "type":
 "double"}, {"name": "TumorContaminationContEst", "type": "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "TumorContaminationContEst",
         "num_variants_gt_filter",
@@ -5332,7 +5333,7 @@ class VcfMetrics(ProtocolElement):
 {"name": "NUMBER_OF_OTHERS", "type": "double"}, {"name": "NUMBER_OF_MULTIALLELIC_SITES", "type":
 "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "NUMBER_OF_INDELS",
         "NUMBER_OF_MNPS",
@@ -5391,7 +5392,7 @@ class VcfTSTV(ProtocolElement):
 "TS_TV", "type": "double"}, {"name": "TV_1", "type": "double"}, {"name": "TS_TV_1", "type":
 "double"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "TS",
         "TS_1",
@@ -5449,7 +5450,7 @@ class VerifyBamId(ProtocolElement):
 "type": "string"}, {"name": "CHIP_RA", "type": "string"}, {"name": "DPREF", "type": "string"},
 {"name": "RDPHET", "type": "string"}, {"name": "RDPALT", "type": "string"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "AVG_DP",
         "CHIPLK0",
@@ -5533,7 +5534,7 @@ class VersionControl(ProtocolElement):
 {"type": "record", "name": "VersionControl", "namespace": "Gel_BioInf_Models", "fields": [{"name":
 "GitVersionControl", "type": "string", "doc": "", "default": "2.1.0"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -5573,7 +5574,7 @@ class VirtualPanel(ProtocolElement):
 "gVCF", "VCF_small", "VCF_CNV", "VCF_SV", "VCF_SV_CNV", "SVG", "TIER", "ANN", "BigWig"]}}]}], "doc":
 ""}, {"name": "clinicalRelevantVariants", "type": ["null", "File"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "Transcripts",
         "clinicalRelevantVariants",
@@ -5639,7 +5640,7 @@ class WholeGenomeCoverage(ProtocolElement):
 "scope", "type": "string"}, {"name": "localRMSD", "type": "double"}, {"name": "COSMIC30Xcov",
 "type": "double"}]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coverageSummary",
     }
@@ -5679,7 +5680,7 @@ class individualState(ProtocolElement):
 "name": "Reason", "symbols": ["duplicate", "consent", "pedigree", "contamination", "quality",
 "plinksex", "inbreedingcoefficient", "in_qc"]}]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reason",
         "state",
@@ -5715,7 +5716,7 @@ class individualTests(ProtocolElement):
 {"type": "record", "name": "individualTests", "namespace": "Gel_BioInf_Models", "fields": [{"name":
 "plinksex", "type": "boolean"}, {"name": "inbreedingcoefficient", "type": "boolean"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "inbreedingcoefficient",
         "plinksex",
@@ -5756,7 +5757,7 @@ class sampleState(ProtocolElement):
 "perc_bases_ge_15x_mapQ_ge11", "GbQ30NoDupsNoClip", "arrayconcordance", "high_cnv", "in_qc",
 "pass_qc", "other"]}}}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reason",
         "state",
@@ -5793,7 +5794,7 @@ class sampleTests(ProtocolElement):
 "verifybamid", "type": ["null", "boolean"]}, {"name": "arrayconcordance", "type": ["null",
 "boolean"]}, {"name": "contamination", "type": ["null", "boolean"]}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "arrayconcordance",
         "contamination",

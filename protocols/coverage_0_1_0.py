@@ -8,6 +8,7 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
@@ -35,7 +36,7 @@ class AnalysisParameters(ProtocolElement):
 "string", "doc": ""}, {"name": "configuration_file", "type": "string", "doc": ""}, {"name":
 "wg_regions", "type": ["null", "string"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cellbase_host",
         "cellbase_version",
@@ -185,7 +186,7 @@ class AnalysisResults(ProtocolElement):
 "string", "doc": ""}, {"name": "configuration_file", "type": "string", "doc": ""}, {"name":
 "wg_regions", "type": ["null", "string"], "doc": ""}]}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "parameters",
         "results",
@@ -233,7 +234,7 @@ class Chromosome(ProtocolElement):
 "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
 "rmsd", "type": ["null", "float"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "avg",
         "bases",
@@ -320,7 +321,7 @@ class CodingRegion(ProtocolElement):
 "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
 "rmsd", "type": ["null", "float"], "doc": ""}]}}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chrs",
         "stats",
@@ -399,7 +400,7 @@ class CoverageAnalysisResults(ProtocolElement):
 "string", "doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "s", "type": ["null",
 "int"], "doc": ""}, {"name": "e", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coding_region",
         "genes",
@@ -458,7 +459,7 @@ class CoverageGap(ProtocolElement):
 "fields": [{"name": "s", "type": "int", "doc": ""}, {"name": "e", "type": "int", "doc": ""},
 {"name": "l", "type": ["null", "int"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "e",
         "l",
@@ -512,7 +513,7 @@ class Exon(ProtocolElement):
 {"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc":
 ""}]}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "e",
         "exon",
@@ -592,7 +593,7 @@ class Gene(ProtocolElement):
 {"name": "union_tr", "type": "Transcript", "doc": ""}, {"name": "name", "type": "string", "doc":
 ""}, {"name": "chr", "type": "string", "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chr",
         "name",
@@ -648,7 +649,7 @@ class RegionStatistics(ProtocolElement):
 "float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type":
 "float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "avg",
         "bases",
@@ -745,7 +746,7 @@ class Transcript(ProtocolElement):
 {"name": "e", "type": "int", "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""}]}},
 "doc": ""}, {"name": "stats", "type": "RegionStatistics", "doc": ""}]}}], "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "exons",
         "id",
@@ -794,7 +795,7 @@ class UncoveredGene(ProtocolElement):
 ""}, {"name": "s", "type": ["null", "int"], "doc": ""}, {"name": "e", "type": ["null", "int"],
 "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chr",
         "e",
@@ -853,7 +854,7 @@ class WholeGenome(ProtocolElement):
 "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type":
 ["null", "float"], "doc": ""}]}}, "doc": ""}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chrs",
         "stats",

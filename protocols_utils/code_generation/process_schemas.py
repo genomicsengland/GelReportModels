@@ -38,7 +38,10 @@ class SchemaClass(object):
         self.sourceFile = sourceFile
         with open(sourceFile) as sf:
             self.schemaSource = sf.read()
-            self.schema = avro.schema.Parse(self.schemaSource)
+            if sys.version_info.major > 2:
+                self.schema = avro.schema.Parse(self.schemaSource)
+            else:
+                self.schema = avro.schema.parse(self.schemaSource)
         self.name = self.schema.name
 
     def getFields(self):
@@ -252,7 +255,7 @@ class SchemaClass(object):
             string = '_schemaSource = """\n{0}"""'.format(
                 self.formatSchema())
             self._writeWithIndent(string, outputFile)
-            string = 'schema = avro.schema.Parse(_schemaSource)'
+            string = 'schema = avro_parse(_schemaSource)'
             self._writeWithIndent(string, outputFile)
             self.writeRequiredFields(outputFile)
             if self.isSearchResponse():
@@ -323,6 +326,8 @@ class SchemaGenerator(object):
         print("from protocols.protocol import ProtocolElement", file=outputFile)
         print("from protocols.protocol import SearchRequest", file=outputFile)
         print("from protocols.protocol import SearchResponse", file=outputFile)
+        print("from protocols.protocol import avro_parse", file=outputFile)
+
         print(file=outputFile)
         print("import avro.schema", file=outputFile)
         print(file=outputFile)
