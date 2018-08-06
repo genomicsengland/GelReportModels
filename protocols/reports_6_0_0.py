@@ -1317,25 +1317,26 @@ class CancerInterpretationRequest(ProtocolElement):
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
-"", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"},
-"name": "genomeAssembly"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"workspace"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "File",
-"fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": "string", "name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF",
-"VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV",
-"VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES",
-"COVERAGE"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null",
-"string"], "name": "md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null",
-{"items": "File", "type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File",
-"type": "array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name":
-"annotationFile"}, {"doc": "", "type": ["null", {"values": "File", "type": "map"}], "name":
-"otherFiles"}, {"doc": "", "type": ["null", {"namespace": "org.gel.models.participant.avro", "type":
-"record", "name": "CancerParticipant", "fields": [{"doc": "", "type": ["null", "int"], "name":
-"yearOfBirth"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"morphology"}, {"doc": "", "type": "boolean", "name": "readyForAnalysis"}, {"doc": "", "type":
-["null", {"doc": "", "type": "record", "name": "ConsentStatus", "fields": [{"default": false, "doc":
-"", "type": "boolean", "name": "programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
+"", "type": ["null", "string"], "name": "participantInternalId"}, {"doc": "", "type": {"symbols":
+["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "genomeAssembly"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+["null", {"items": {"doc": "", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
+"ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES", "COVERAGE"], "type":
+"enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null", "string"], "name":
+"md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null", {"items": "File",
+"type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File", "type":
+"array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"},
+{"doc": "", "type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "",
+"type": ["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name":
+"CancerParticipant", "fields": [{"doc": "", "type": ["null", "int"], "name": "yearOfBirth"}, {"doc":
+"", "type": ["null", {"items": "string", "type": "array"}], "name": "morphology"}, {"doc": "",
+"type": "boolean", "name": "readyForAnalysis"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "ConsentStatus", "fields": [{"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
 "secondaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}], "name": "consentStatus"}, {"doc": "", "type": ["null", "string"],
 "name": "center"}, {"doc": "", "type": "string", "name": "individualId"}, {"doc": "", "type":
@@ -1423,6 +1424,7 @@ class CancerInterpretationRequest(ProtocolElement):
         "interpretationRequestVersion",
         "otherFamilyHistory",
         "otherFiles",
+        "participantInternalId",
         "vcfs",
         "versionControl",
         "workspace",
@@ -1464,8 +1466,8 @@ class CancerInterpretationRequest(ProtocolElement):
         'cancerParticipant', 'genePanelsCoverage', 'genomeAssembly',
         'internalStudyId', 'interpretationFlags',
         'interpretationRequestId', 'interpretationRequestVersion',
-        'otherFamilyHistory', 'otherFiles', 'vcfs', 'versionControl',
-        'workspace'
+        'otherFamilyHistory', 'otherFiles', 'participantInternalId',
+        'vcfs', 'versionControl', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -1495,6 +1497,8 @@ class CancerInterpretationRequest(ProtocolElement):
             'otherFamilyHistory', None)
         self.otherFiles = kwargs.get(
             'otherFiles', None)
+        self.participantInternalId = kwargs.get(
+            'participantInternalId', None)
         self.vcfs = kwargs.get(
             'vcfs', None)
         self.versionControl = kwargs.get(
@@ -3560,25 +3564,26 @@ class InterpretationDataCancer(ProtocolElement):
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
-"", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"},
-"name": "genomeAssembly"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"workspace"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "File",
-"fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": "string", "name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF",
-"VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV",
-"VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES",
-"COVERAGE"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null",
-"string"], "name": "md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null",
-{"items": "File", "type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File",
-"type": "array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name":
-"annotationFile"}, {"doc": "", "type": ["null", {"values": "File", "type": "map"}], "name":
-"otherFiles"}, {"doc": "", "type": ["null", {"namespace": "org.gel.models.participant.avro", "type":
-"record", "name": "CancerParticipant", "fields": [{"doc": "", "type": ["null", "int"], "name":
-"yearOfBirth"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"morphology"}, {"doc": "", "type": "boolean", "name": "readyForAnalysis"}, {"doc": "", "type":
-["null", {"doc": "", "type": "record", "name": "ConsentStatus", "fields": [{"default": false, "doc":
-"", "type": "boolean", "name": "programmeConsent"}, {"default": false, "doc": "", "type": "boolean",
-"name": "primaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
+"", "type": ["null", "string"], "name": "participantInternalId"}, {"doc": "", "type": {"symbols":
+["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "genomeAssembly"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+["null", {"items": {"doc": "", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
+"ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES", "COVERAGE"], "type":
+"enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null", "string"], "name":
+"md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null", {"items": "File",
+"type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File", "type":
+"array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"},
+{"doc": "", "type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "",
+"type": ["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name":
+"CancerParticipant", "fields": [{"doc": "", "type": ["null", "int"], "name": "yearOfBirth"}, {"doc":
+"", "type": ["null", {"items": "string", "type": "array"}], "name": "morphology"}, {"doc": "",
+"type": "boolean", "name": "readyForAnalysis"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "ConsentStatus", "fields": [{"default": false, "doc": "", "type": "boolean",
+"name": "programmeConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
+"primaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
 "secondaryFindingConsent"}, {"default": false, "doc": "", "type": "boolean", "name":
 "carrierStatusConsent"}]}], "name": "consentStatus"}, {"doc": "", "type": ["null", "string"],
 "name": "center"}, {"doc": "", "type": "string", "name": "individualId"}, {"doc": "", "type":
@@ -3967,43 +3972,43 @@ class InterpretationDataRd(ProtocolElement):
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
-"", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"},
-"name": "genomeAssembly"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"workspace"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "File",
-"fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": "string", "name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF",
-"VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV",
-"VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES",
-"COVERAGE"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null",
-"string"], "name": "md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null",
-{"items": "File", "type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File",
-"type": "array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name":
-"pedigreeDiagram"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "",
-"type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type":
-["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree",
-"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}, {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type":
-"string", "name": "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"PedigreeMember", "fields": [{"doc": "", "type": ["null", "int"], "name": "pedigreeId"}, {"doc": "",
-"type": ["null", "boolean"], "name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"participantId"}, {"doc": "", "type": ["null", {"symbols": ["noState",
-"passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation",
-"queryToGel", "queryToGMC", "failed"], "doc": "", "type": "enum", "name": "ParticipantQCState"}],
-"name": "participantQCState"}, {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "XX", "XY", "XO",
-"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "", "type": ["null", "int"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
-"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"], "name":
-"superFatherId"}, {"doc": "", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
-["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
-"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc":
-"", "type": ["null", {"symbols": ["notadopted", "adoptedin", "adoptedout"], "doc": "", "type":
-"enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type": ["null",
-{"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "",
-"type": "enum", "name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"", "type": ["null", "string"], "name": "familyInternalId"}, {"doc": "", "type": {"symbols":
+["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "genomeAssembly"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+["null", {"items": {"doc": "", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
+"ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES", "COVERAGE"], "type":
+"enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null", "string"], "name":
+"md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null", {"items": "File",
+"type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File", "type":
+"array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name": "pedigreeDiagram"},
+{"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "", "type": ["null",
+{"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type": ["null",
+{"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree", "fields":
+[{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"},
+{"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
+"familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "PedigreeMember",
+"fields": [{"doc": "", "type": ["null", "int"], "name": "pedigreeId"}, {"doc": "", "type": ["null",
+"boolean"], "name": "isProband"}, {"doc": "", "type": ["null", "string"], "name": "participantId"},
+{"doc": "", "type": ["null", {"symbols": ["noState", "passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed"], "doc": "",
+"type": "enum", "name": "ParticipantQCState"}], "name": "participantQCState"}, {"doc": "", "type":
+["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "", "type": {"symbols": ["MALE", "FEMALE",
+"UNKNOWN"], "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
+"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc":
+"", "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
+"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name": "superMotherId"},
+{"doc": "", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}], "name":
+"monozygotic"}, {"doc": "", "type": ["null", {"symbols": ["notadopted", "adoptedin", "adoptedout"],
+"doc": "", "type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
+["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc":
+"", "type": "enum", "name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
 "TernaryOption"], "name": "consanguineousParents"}, {"doc": "", "type": ["null", {"symbols":
 ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "", "type": "enum", "name": "AffectionStatus"}],
 "name": "affectionStatus"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
@@ -4460,43 +4465,43 @@ class InterpretationRequestRD(ProtocolElement):
 "gitVersionControl"}], "type": "record", "name": "ReportVersionControl"}, "name": "versionControl"},
 {"doc": "", "type": "string", "name": "interpretationRequestId"}, {"doc": "", "type": "int", "name":
 "interpretationRequestVersion"}, {"doc": "", "type": "string", "name": "internalStudyId"}, {"doc":
-"", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"},
-"name": "genomeAssembly"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name":
-"workspace"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "File",
-"fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name": "sampleId"},
-{"doc": "", "type": "string", "name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF",
-"VCF_small", "VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV",
-"VCF_SV_CNV", "SVG", "ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES",
-"COVERAGE"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null",
-"string"], "name": "md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null",
-{"items": "File", "type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File",
-"type": "array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name":
-"pedigreeDiagram"}, {"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "",
-"type": ["null", {"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type":
-["null", {"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree",
-"fields": [{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}, {"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type":
-"string", "name": "familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"PedigreeMember", "fields": [{"doc": "", "type": ["null", "int"], "name": "pedigreeId"}, {"doc": "",
-"type": ["null", "boolean"], "name": "isProband"}, {"doc": "", "type": ["null", "string"], "name":
-"participantId"}, {"doc": "", "type": ["null", {"symbols": ["noState",
-"passedMedicalReviewReadyForInterpretation", "passedMedicalReviewNotReadyForInterpretation",
-"queryToGel", "queryToGMC", "failed"], "doc": "", "type": "enum", "name": "ParticipantQCState"}],
-"name": "participantQCState"}, {"doc": "", "type": ["null", "string"], "name": "gelSuperFamilyId"},
-{"doc": "", "type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "doc": "", "type": "enum", "name":
-"Sex"}, "name": "sex"}, {"doc": "", "type": ["null", {"symbols": ["UNKNOWN", "XX", "XY", "XO",
-"XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "doc": "", "type": "enum", "name":
-"PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc": "", "type": ["null", "int"],
-"name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name": "fatherId"}, {"doc": "",
-"type": ["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null", "int"], "name":
-"superFatherId"}, {"doc": "", "type": ["null", "int"], "name": "superMotherId"}, {"doc": "", "type":
-["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no",
-"unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}], "name": "monozygotic"}, {"doc":
-"", "type": ["null", {"symbols": ["notadopted", "adoptedin", "adoptedout"], "doc": "", "type":
-"enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type": ["null",
-{"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc": "",
-"type": "enum", "name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
+"", "type": ["null", "string"], "name": "familyInternalId"}, {"doc": "", "type": {"symbols":
+["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "genomeAssembly"},
+{"doc": "", "type": {"items": "string", "type": "array"}, "name": "workspace"}, {"doc": "", "type":
+["null", {"items": {"doc": "", "type": "record", "name": "File", "fields": [{"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "sampleId"}, {"doc": "", "type": "string",
+"name": "uriFile"}, {"doc": "", "type": {"symbols": ["BAM", "gVCF", "VCF_small",
+"VCF_somatic_small", "VCF_CNV", "VCF_somatic_CNV", "VCF_SV", "VCF_somatic_SV", "VCF_SV_CNV", "SVG",
+"ANN", "BigWig", "MD5Sum", "ROH", "OTHER", "PARTITION", "VARIANT_FREQUENCIES", "COVERAGE"], "type":
+"enum", "name": "FileType"}, "name": "fileType"}, {"doc": "", "type": ["null", "string"], "name":
+"md5Sum"}]}, "type": "array"}], "name": "bams"}, {"doc": "", "type": ["null", {"items": "File",
+"type": "array"}], "name": "vcfs"}, {"doc": "", "type": ["null", {"items": "File", "type":
+"array"}], "name": "bigWigs"}, {"doc": "", "type": ["null", "File"], "name": "pedigreeDiagram"},
+{"doc": "", "type": ["null", "File"], "name": "annotationFile"}, {"doc": "", "type": ["null",
+{"values": "File", "type": "map"}], "name": "otherFiles"}, {"doc": "", "type": ["null",
+{"namespace": "org.gel.models.participant.avro", "type": "record", "name": "Pedigree", "fields":
+[{"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"},
+{"doc": "", "type": ["null", "string"], "name": "LDPCode"}, {"doc": "", "type": "string", "name":
+"familyId"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "PedigreeMember",
+"fields": [{"doc": "", "type": ["null", "int"], "name": "pedigreeId"}, {"doc": "", "type": ["null",
+"boolean"], "name": "isProband"}, {"doc": "", "type": ["null", "string"], "name": "participantId"},
+{"doc": "", "type": ["null", {"symbols": ["noState", "passedMedicalReviewReadyForInterpretation",
+"passedMedicalReviewNotReadyForInterpretation", "queryToGel", "queryToGMC", "failed"], "doc": "",
+"type": "enum", "name": "ParticipantQCState"}], "name": "participantQCState"}, {"doc": "", "type":
+["null", "string"], "name": "gelSuperFamilyId"}, {"doc": "", "type": {"symbols": ["MALE", "FEMALE",
+"UNKNOWN"], "doc": "", "type": "enum", "name": "Sex"}, "name": "sex"}, {"doc": "", "type": ["null",
+{"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"],
+"doc": "", "type": "enum", "name": "PersonKaryotipicSex"}], "name": "personKaryotypicSex"}, {"doc":
+"", "type": ["null", "int"], "name": "yearOfBirth"}, {"doc": "", "type": ["null", "int"], "name":
+"fatherId"}, {"doc": "", "type": ["null", "int"], "name": "motherId"}, {"doc": "", "type": ["null",
+"int"], "name": "superFatherId"}, {"doc": "", "type": ["null", "int"], "name": "superMotherId"},
+{"doc": "", "type": ["null", "int"], "name": "twinGroup"}, {"doc": "", "type": ["null", {"symbols":
+["yes", "no", "unknown"], "doc": "", "type": "enum", "name": "TernaryOption"}], "name":
+"monozygotic"}, {"doc": "", "type": ["null", {"symbols": ["notadopted", "adoptedin", "adoptedout"],
+"doc": "", "type": "enum", "name": "AdoptedStatus"}], "name": "adoptedStatus"}, {"doc": "", "type":
+["null", {"symbols": ["ALIVE", "ABORTED", "DECEASED", "UNBORN", "STILLBORN", "MISCARRIAGE"], "doc":
+"", "type": "enum", "name": "LifeStatus"}], "name": "lifeStatus"}, {"doc": "", "type": ["null",
 "TernaryOption"], "name": "consanguineousParents"}, {"doc": "", "type": ["null", {"symbols":
 ["UNAFFECTED", "AFFECTED", "UNCERTAIN"], "doc": "", "type": "enum", "name": "AffectionStatus"}],
 "name": "affectionStatus"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
@@ -4585,6 +4590,7 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
         "annotationFile",
         "bams",
         "bigWigs",
+        "familyInternalId",
         "genePanelsCoverage",
         "genomeAssembly",
         "internalStudyId",
@@ -4635,11 +4641,11 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 
     __slots__ = [
         'additionalInfo', 'annotationFile', 'bams', 'bigWigs',
-        'genePanelsCoverage', 'genomeAssembly', 'internalStudyId',
-        'interpretationFlags', 'interpretationRequestId',
-        'interpretationRequestVersion', 'otherFamilyHistory',
-        'otherFiles', 'pedigree', 'pedigreeDiagram', 'vcfs',
-        'versionControl', 'workspace'
+        'familyInternalId', 'genePanelsCoverage', 'genomeAssembly',
+        'internalStudyId', 'interpretationFlags',
+        'interpretationRequestId', 'interpretationRequestVersion',
+        'otherFamilyHistory', 'otherFiles', 'pedigree',
+        'pedigreeDiagram', 'vcfs', 'versionControl', 'workspace'
     ]
 
     def __init__(self, **kwargs):
@@ -4651,6 +4657,8 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
             'bams', None)
         self.bigWigs = kwargs.get(
             'bigWigs', None)
+        self.familyInternalId = kwargs.get(
+            'familyInternalId', None)
         self.genePanelsCoverage = kwargs.get(
             'genePanelsCoverage', None)
         self.genomeAssembly = kwargs.get(
