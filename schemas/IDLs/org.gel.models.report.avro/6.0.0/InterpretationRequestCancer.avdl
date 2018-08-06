@@ -39,6 +39,11 @@ protocol CancerInterpretationRequests {
         string internalStudyId;
 
         /**
+        Participant internal identifier
+        */
+        union {null, string} participantInternalId;
+
+        /**
         This is the version of the assembly used to align the reads
         */
         Assembly genomeAssembly;
