@@ -469,7 +469,7 @@ see Expanded Access Data Element Definitions).
         /**
         Trail/Study indetifier
         */
-        string studyIdientifier;
+        string studyIdentifier;
         /**
         Start date of the study
         */

@@ -193,7 +193,7 @@ class Actions(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Actions", "fields": [{"type":
 ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "studyUrl"}, {"doc": "",
-"type": "string", "name": "studyIdientifier"}, {"doc": "", "type": ["null", "string"], "name":
+"type": "string", "name": "studyIdentifier"}, {"doc": "", "type": ["null", "string"], "name":
 "startDate"}, {"doc": "", "type": ["null", "string"], "name": "estimateCompletionDate"}, {"doc": "",
 "type": ["null", "string"], "name": "title"}, {"doc": "", "type": ["null", {"symbols": ["na",
 "early_phase1", "phase1", "phase1_phase2", "phase2", "phase2_phase3", "phase3", "phase4"], "doc":
@@ -900,12 +900,12 @@ class Aneuploidy(ProtocolElement):
 [{"doc": "", "type": ["null", "string"], "name": "iscn"}, {"doc": "", "type": {"symbols": ["GRCh38",
 "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "assembly"}, {"doc": "", "type":
 "string", "name": "chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "",
-"type": ["null", {"fields": [{"type": "Assembly", "name": "assembly"}, {"type": "string", "name":
-"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
-{"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record",
-"name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
-"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
-"int", "name": "numberOfCopies"}]}
+"type": ["null", {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int", "name":
+"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
+"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
+"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
+"name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type": "int", "name":
+"numberOfCopies"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -966,51 +966,48 @@ class BreakPoint(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "BreakPoint", "fields":
-[{"type": {"fields": [{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
-"Assembly"}, "name": "assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name":
-"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
-"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
-"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
-"name": "Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "reference"},
-{"type": ["null", "string"], "name": "alternate"}, {"type": ["null", {"values": "string", "type":
-"map"}], "name": "info"}]}
+[{"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name":
+"end"}, {"type": ["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name":
+"alternate"}, {"type": ["null", {"values": "string", "type": "map"}], "name": "info"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
         "alternate",
-        "coordinates",
+        "chromosome",
+        "end",
         "info",
         "reference",
+        "start",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'coordinates': Coordinates,
-        }
+        embeddedTypes = {}
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'coordinates': Coordinates,
-        }
+        embeddedTypes = {}
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'alternate', 'coordinates', 'info', 'reference'
+        'alternate', 'chromosome', 'end', 'info', 'reference', 'start'
     ]
 
     def __init__(self, **kwargs):
         self.alternate = kwargs.get(
             'alternate', None)
-        self.coordinates = kwargs.get(
-            'coordinates', Coordinates())
+        self.chromosome = kwargs.get(
+            'chromosome', None)
+        self.end = kwargs.get(
+            'end', None)
         self.info = kwargs.get(
             'info', None)
         self.reference = kwargs.get(
             'reference', None)
+        self.start = kwargs.get(
+            'start', None)
 
 
 class CancerActionability(object):
@@ -1856,44 +1853,44 @@ class ChromosomalRearrangement(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "ChromosomalRearrangement",
-"fields": [{"type": ["null", {"items": {"fields": [{"type": {"fields": [{"type": {"symbols":
-["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "assembly"}, {"type":
-"string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"},
-{"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}],
-"type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null",
-"ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name": "Coordinates"}, "name":
-"coordinates"}, {"type": ["null", "string"], "name": "reference"}, {"type": ["null", "string"],
-"name": "alternate"}, {"type": ["null", {"values": "string", "type": "map"}], "name": "info"}],
-"type": "record", "name": "BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type":
-{"items": {"fields": [{"type": "Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates",
-"name": "rightCoordinates"}, {"type": {"symbols": ["start_start", "start_end", "end_end"], "type":
-"enum", "name": "Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name":
-"leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}], "type": "record", "name":
-"Rearrangement"}, "type": "array"}, "name": "rearrangements"}, {"type": {"items": {"doc": "",
-"type": "record", "name": "ReportEvent", "fields": [{"doc": "", "type": "string", "name":
-"reportEventId"}, {"doc": "", "type": {"doc": "", "type": "record", "name": "Phenotypes", "fields":
-[{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"nonStandardPhenotype"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
-"name": "StandardPhenotype", "fields": [{"type": "string", "name": "id"}, {"type": ["null",
-"string"], "name": "name"}, {"type": ["null", "string"], "name": "namespace"}, {"type": ["null",
-"string"], "name": "definition"}, {"type": ["null", "string"], "name": "comment"}, {"type": ["null",
-"string"], "name": "alternativeIds"}, {"type": ["null", "string"], "name": "synonyms"}, {"type":
-["null", "string"], "name": "isA"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
-"Ontology", "fields": [{"type": "string", "name": "name"}, {"type": "string", "name": "version"}]},
-"name": "ontology"}, {"doc": "", "type": ["null", "float"], "name": "matchScore"}]}, "type":
-"array"}], "name": "standardPhenotypes"}]}, "name": "phenotypes"}, {"doc": "", "type": {"items":
-{"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
-"name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
-"variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
-"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
-"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
-"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
-"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
-"xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
-"ModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc": "", "type": {"items": {"doc": "",
-"type": "record", "name": "GenomicEntity", "fields": [{"doc": "", "type": {"symbols":
+"fields": [{"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
+"Assembly"}, "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
+"string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"}, {"type":
+["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+{"fields": [{"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
+"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
+"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
+{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
+"Coordinates"}, "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": {"doc": "", "type": "record", "name":
+"ReportEvent", "fields": [{"doc": "", "type": "string", "name": "reportEventId"}, {"doc": "",
+"type": {"doc": "", "type": "record", "name": "Phenotypes", "fields": [{"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "nonStandardPhenotype"}, {"doc": "", "type": ["null",
+{"items": {"doc": "", "type": "record", "name": "StandardPhenotype", "fields": [{"type": "string",
+"name": "id"}, {"type": ["null", "string"], "name": "name"}, {"type": ["null", "string"], "name":
+"namespace"}, {"type": ["null", "string"], "name": "definition"}, {"type": ["null", "string"],
+"name": "comment"}, {"type": ["null", "string"], "name": "alternativeIds"}, {"type": ["null",
+"string"], "name": "synonyms"}, {"type": ["null", "string"], "name": "isA"}, {"doc": "", "type":
+{"doc": "", "type": "record", "name": "Ontology", "fields": [{"type": "string", "name": "name"},
+{"type": "string", "name": "version"}]}, "name": "ontology"}, {"doc": "", "type": ["null", "float"],
+"name": "matchScore"}]}, "type": "array"}], "name": "standardPhenotypes"}]}, "name": "phenotypes"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantConsequence", "fields":
+[{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": ["null", "string"], "name":
+"name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "", "type": ["null", {"doc":
+"", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name": "panelName"}, {"doc":
+"", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type": ["null", "string"],
+"name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic",
+"monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
+"biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
+"xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type":
+"enum", "name": "ModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "GenomicEntity", "fields": [{"doc": "", "type": {"symbols":
 ["regulatory_region", "gene", "transcript", "intergenic", "gene_fusion", "genomic_region",
 "cytobands"], "doc": "", "type": "enum", "name": "GenomicEntityType"}, "name": "type"}, {"doc": "",
 "type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
@@ -1914,7 +1911,7 @@ class ChromosomalRearrangement(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -2058,6 +2055,7 @@ class ChromosomalRearrangement(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "assembly",
         "breakPoints",
         "rearrangements",
         "reportEvents",
@@ -2089,11 +2087,13 @@ class ChromosomalRearrangement(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'breakPoints', 'rearrangements', 'reportEvents',
+        'assembly', 'breakPoints', 'rearrangements', 'reportEvents',
         'variantAttributes', 'variantCalls'
     ]
 
     def __init__(self, **kwargs):
+        self.assembly = kwargs.get(
+            'assembly', None)
         self.breakPoints = kwargs.get(
             'breakPoints', None)
         self.rearrangements = kwargs.get(
@@ -2185,7 +2185,7 @@ class ClinicalReport(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -2307,37 +2307,39 @@ class ClinicalReport(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": {"symbols": ["ins", "dup",
-"inv", "amplification", "deletion", "dup_tandem", "del_me", "ins_me"], "type": "enum", "name":
-"StructuralVariantType"}, "name": "variantType"}, {"type": {"fields": [{"type": "Assembly", "name":
-"assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
-"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
-{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
-"Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
-["null", "string"], "name": "rightInsSeq"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
-"record", "name": "StructuralVariant"}, "type": "array"}], "name": "structuralVariants"}, {"doc":
-"", "type": ["null", {"items": {"fields": [{"type": ["null", {"items": {"fields": [{"type":
-"Coordinates", "name": "coordinates"}, {"type": ["null", "string"], "name": "reference"}, {"type":
-["null", "string"], "name": "alternate"}, {"type": ["null", {"values": "string", "type": "map"}],
-"name": "info"}], "type": "record", "name": "BreakPoint"}, "type": "array"}], "name":
-"breakPoints"}, {"type": {"items": {"fields": [{"type": "Coordinates", "name": "leftCoordinates"},
-{"type": "Coordinates", "name": "rightCoordinates"}, {"type": {"symbols": ["start_start",
-"start_end", "end_end"], "type": "enum", "name": "Orientation"}, "name": "orientation"}, {"type":
-["null", "string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}],
-"type": "record", "name": "Rearrangement"}, "type": "array"}, "name": "rearrangements"}, {"type":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
 {"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
 "VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
-"name": "variantAttributes"}], "type": "record", "name": "ChromosomalRearrangement"}, "type":
-"array"}], "name": "chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"type": "Coordinates", "name": "coordinates"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}, {"type":
-["null", {"fields": [{"type": "string", "name": "repeatedSequence"}, {"type": "int", "name":
-"pathogenic_number_of_repeats_threshold"}, {"type": "int", "name":
-"normal_number_of_repeats_threshold"}], "type": "record", "name":
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
 ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name": "assembly"}, {"doc": "",
@@ -2588,15 +2590,13 @@ class Coordinates(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Coordinates", "fields":
-[{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name":
-"assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
-"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
-{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}]}
+[{"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name":
+"end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type": "int", "name":
+"right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null",
+"ConfidenceInterval"], "name": "ciEnd"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
-        "assembly",
         "chromosome",
         "ciEnd",
         "ciStart",
@@ -2622,12 +2622,10 @@ class Coordinates(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'assembly', 'chromosome', 'ciEnd', 'ciStart', 'end', 'start'
+        'chromosome', 'ciEnd', 'ciStart', 'end', 'start'
     ]
 
     def __init__(self, **kwargs):
-        self.assembly = kwargs.get(
-            'assembly', None)
         self.chromosome = kwargs.get(
             'chromosome', None)
         self.ciEnd = kwargs.get(
@@ -3734,7 +3732,7 @@ class InterpretationDataCancer(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -3855,37 +3853,39 @@ class InterpretationDataCancer(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": {"symbols": ["ins", "dup",
-"inv", "amplification", "deletion", "dup_tandem", "del_me", "ins_me"], "type": "enum", "name":
-"StructuralVariantType"}, "name": "variantType"}, {"type": {"fields": [{"type": "Assembly", "name":
-"assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
-"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
-{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
-"Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
-["null", "string"], "name": "rightInsSeq"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
-"record", "name": "StructuralVariant"}, "type": "array"}], "name": "structuralVariants"}, {"doc":
-"", "type": ["null", {"items": {"fields": [{"type": ["null", {"items": {"fields": [{"type":
-"Coordinates", "name": "coordinates"}, {"type": ["null", "string"], "name": "reference"}, {"type":
-["null", "string"], "name": "alternate"}, {"type": ["null", {"values": "string", "type": "map"}],
-"name": "info"}], "type": "record", "name": "BreakPoint"}, "type": "array"}], "name":
-"breakPoints"}, {"type": {"items": {"fields": [{"type": "Coordinates", "name": "leftCoordinates"},
-{"type": "Coordinates", "name": "rightCoordinates"}, {"type": {"symbols": ["start_start",
-"start_end", "end_end"], "type": "enum", "name": "Orientation"}, "name": "orientation"}, {"type":
-["null", "string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}],
-"type": "record", "name": "Rearrangement"}, "type": "array"}, "name": "rearrangements"}, {"type":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
 {"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
 "VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
-"name": "variantAttributes"}], "type": "record", "name": "ChromosomalRearrangement"}, "type":
-"array"}], "name": "chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"type": "Coordinates", "name": "coordinates"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}, {"type":
-["null", {"fields": [{"type": "string", "name": "repeatedSequence"}, {"type": "int", "name":
-"pathogenic_number_of_repeats_threshold"}, {"type": "int", "name":
-"normal_number_of_repeats_threshold"}], "type": "record", "name":
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
 ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name": "assembly"}, {"doc": "",
@@ -4166,7 +4166,7 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -4287,37 +4287,39 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": {"symbols": ["ins", "dup",
-"inv", "amplification", "deletion", "dup_tandem", "del_me", "ins_me"], "type": "enum", "name":
-"StructuralVariantType"}, "name": "variantType"}, {"type": {"fields": [{"type": "Assembly", "name":
-"assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
-"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
-{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
-"Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
-["null", "string"], "name": "rightInsSeq"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
-"record", "name": "StructuralVariant"}, "type": "array"}], "name": "structuralVariants"}, {"doc":
-"", "type": ["null", {"items": {"fields": [{"type": ["null", {"items": {"fields": [{"type":
-"Coordinates", "name": "coordinates"}, {"type": ["null", "string"], "name": "reference"}, {"type":
-["null", "string"], "name": "alternate"}, {"type": ["null", {"values": "string", "type": "map"}],
-"name": "info"}], "type": "record", "name": "BreakPoint"}, "type": "array"}], "name":
-"breakPoints"}, {"type": {"items": {"fields": [{"type": "Coordinates", "name": "leftCoordinates"},
-{"type": "Coordinates", "name": "rightCoordinates"}, {"type": {"symbols": ["start_start",
-"start_end", "end_end"], "type": "enum", "name": "Orientation"}, "name": "orientation"}, {"type":
-["null", "string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}],
-"type": "record", "name": "Rearrangement"}, "type": "array"}, "name": "rearrangements"}, {"type":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
 {"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
 "VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
-"name": "variantAttributes"}], "type": "record", "name": "ChromosomalRearrangement"}, "type":
-"array"}], "name": "chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"type": "Coordinates", "name": "coordinates"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}, {"type":
-["null", {"fields": [{"type": "string", "name": "repeatedSequence"}, {"type": "int", "name":
-"pathogenic_number_of_repeats_threshold"}, {"type": "int", "name":
-"normal_number_of_repeats_threshold"}], "type": "record", "name":
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
 ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name": "assembly"}, {"doc": "",
@@ -4772,7 +4774,7 @@ class InterpretedGenome(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -4894,37 +4896,39 @@ class InterpretedGenome(ProtocolElement):
 "", "type": ["null", "boolean"], "name": "recurrentlyReported"}, {"doc": "", "type": ["null",
 "float"], "name": "fdp50"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
 "name": "others"}]}], "name": "variantAttributes"}]}, "type": "array"}], "name": "variants"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": {"symbols": ["ins", "dup",
-"inv", "amplification", "deletion", "dup_tandem", "del_me", "ins_me"], "type": "enum", "name":
-"StructuralVariantType"}, "name": "variantType"}, {"type": {"fields": [{"type": "Assembly", "name":
-"assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
-"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
-"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
-{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
-"Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
-["null", "string"], "name": "rightInsSeq"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
-"record", "name": "StructuralVariant"}, "type": "array"}], "name": "structuralVariants"}, {"doc":
-"", "type": ["null", {"items": {"fields": [{"type": ["null", {"items": {"fields": [{"type":
-"Coordinates", "name": "coordinates"}, {"type": ["null", "string"], "name": "reference"}, {"type":
-["null", "string"], "name": "alternate"}, {"type": ["null", {"values": "string", "type": "map"}],
-"name": "info"}], "type": "record", "name": "BreakPoint"}, "type": "array"}], "name":
-"breakPoints"}, {"type": {"items": {"fields": [{"type": "Coordinates", "name": "leftCoordinates"},
-{"type": "Coordinates", "name": "rightCoordinates"}, {"type": {"symbols": ["start_start",
-"start_end", "end_end"], "type": "enum", "name": "Orientation"}, "name": "orientation"}, {"type":
-["null", "string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}],
-"type": "record", "name": "Rearrangement"}, "type": "array"}, "name": "rearrangements"}, {"type":
+{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name":
+"assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion",
+"dup_tandem", "del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name":
+"variantType"}, {"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int",
+"name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int",
+"name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
 {"items": "ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
 "VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
-"name": "variantAttributes"}], "type": "record", "name": "ChromosomalRearrangement"}, "type":
-"array"}], "name": "chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"type": "Coordinates", "name": "coordinates"}, {"type": {"items": "ReportEvent", "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
-"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}, {"type":
-["null", {"fields": [{"type": "string", "name": "repeatedSequence"}, {"type": "int", "name":
-"pathogenic_number_of_repeats_threshold"}, {"type": "int", "name":
-"normal_number_of_repeats_threshold"}], "type": "record", "name":
+"name": "variantAttributes"}], "type": "record", "name": "StructuralVariant"}, "type": "array"}],
+"name": "structuralVariants"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "",
+"type": "Assembly", "name": "assembly"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type":
+["null", "string"], "name": "reference"}, {"type": ["null", "string"], "name": "alternate"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "info"}], "type": "record", "name":
+"BreakPoint"}, "type": "array"}], "name": "breakPoints"}, {"type": {"items": {"fields": [{"type":
+"Coordinates", "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}], "type": "record", "name": "Rearrangement"}, "type":
+"array"}, "name": "rearrangements"}, {"type": {"items": "ReportEvent", "type": "array"}, "name":
+"reportEvents"}, {"doc": "", "type": {"items": "VariantCall", "type": "array"}, "name":
+"variantCalls"}, {"type": ["null", "VariantAttributes"], "name": "variantAttributes"}], "type":
+"record", "name": "ChromosomalRearrangement"}, "type": "array"}], "name":
+"chromosomalRearrangements"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type":
+"Assembly", "name": "assembly"}, {"type": "Coordinates", "name": "coordinates"}, {"type": {"items":
+"ReportEvent", "type": "array"}, "name": "reportEvents"}, {"doc": "", "type": {"items":
+"VariantCall", "type": "array"}, "name": "variantCalls"}, {"type": ["null", "VariantAttributes"],
+"name": "variantAttributes"}, {"type": ["null", {"fields": [{"type": "string", "name":
+"repeatedSequence"}, {"type": "int", "name": "pathogenic_number_of_repeats_threshold"}, {"type":
+"int", "name": "normal_number_of_repeats_threshold"}], "type": "record", "name":
 "ShortTandemRepeatReferenceData"}], "name": "shortTandemRepeatReferenceData"}], "type": "record",
 "name": "ShortTandemRepeat"}, "type": "array"}], "name": "shortTandemRepeats"}, {"doc": "", "type":
 ["null", {"items": {"fields": [{"doc": "", "type": "Assembly", "name": "assembly"}, {"doc": "",
@@ -5121,17 +5125,16 @@ class Karyotype(ProtocolElement):
 ["null", "string"], "name": "iscn"}, {"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "doc":
 "", "type": "enum", "name": "Assembly"}, "name": "assembly"}, {"doc": "", "type": "string", "name":
 "chromosome"}, {"doc": "", "type": "boolean", "name": "complete"}, {"doc": "", "type": ["null",
-{"fields": [{"type": "Assembly", "name": "assembly"}, {"type": "string", "name": "chromosome"},
-{"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields":
-[{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
-"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
-"ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
-"int", "name": "numberOfCopies"}], "type": "record", "name": "Aneuploidy"}, "type": "array"}],
-"name": "aneuploidies"}, {"doc": "", "type": "int", "name": "numberOfChromosomes"}, {"doc": "",
-"type": {"symbols": ["UNKNOWN", "XX", "XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY",
-"OTHER"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
-"PersonKaryotipicSex", "doc": ""}, "name": "personKaryotipicSex"}, {"doc": "", "type": "string",
-"name": "participantId"}]}
+{"fields": [{"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type":
+"int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type":
+"int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"},
+{"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
+"Coordinates"}], "name": "coordinates"}, {"doc": "", "type": "int", "name": "numberOfCopies"}],
+"type": "record", "name": "Aneuploidy"}, "type": "array"}], "name": "aneuploidies"}, {"doc": "",
+"type": "int", "name": "numberOfChromosomes"}, {"doc": "", "type": {"symbols": ["UNKNOWN", "XX",
+"XY", "XO", "XXY", "XXX", "XXYY", "XXXY", "XXXX", "XYY", "OTHER"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "PersonKaryotipicSex", "doc": ""},
+"name": "personKaryotipicSex"}, {"doc": "", "type": "string", "name": "participantId"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6340,15 +6343,14 @@ class Rearrangement(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Rearrangement", "fields":
-[{"type": {"fields": [{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
-"Assembly"}, "name": "assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name":
-"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
-"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
-"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
-"name": "Coordinates"}, "name": "leftCoordinates"}, {"type": "Coordinates", "name":
-"rightCoordinates"}, {"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum",
-"name": "Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"},
-{"type": ["null", "string"], "name": "rightInsSeq"}]}
+[{"type": {"fields": [{"type": "string", "name": "chromosome"}, {"type": "int", "name": "start"},
+{"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name": "left"},
+{"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}], "name":
+"ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name":
+"Coordinates"}, "name": "leftCoordinates"}, {"type": "Coordinates", "name": "rightCoordinates"},
+{"type": {"symbols": ["start_start", "start_end", "end_end"], "type": "enum", "name":
+"Orientation"}, "name": "orientation"}, {"type": ["null", "string"], "name": "leftInsSeq"}, {"type":
+["null", "string"], "name": "rightInsSeq"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -6448,7 +6450,7 @@ class ReportEvent(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -6922,59 +6924,60 @@ class ShortTandemRepeat(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "ShortTandemRepeat", "fields":
-[{"type": {"fields": [{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
-"Assembly"}, "name": "assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name":
-"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
-"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
-"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
-"name": "Coordinates"}, "name": "coordinates"}, {"type": {"items": {"doc": "", "type": "record",
-"name": "ReportEvent", "fields": [{"doc": "", "type": "string", "name": "reportEventId"}, {"doc":
-"", "type": {"doc": "", "type": "record", "name": "Phenotypes", "fields": [{"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "nonStandardPhenotype"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "StandardPhenotype", "fields": [{"type":
-"string", "name": "id"}, {"type": ["null", "string"], "name": "name"}, {"type": ["null", "string"],
-"name": "namespace"}, {"type": ["null", "string"], "name": "definition"}, {"type": ["null",
-"string"], "name": "comment"}, {"type": ["null", "string"], "name": "alternativeIds"}, {"type":
-["null", "string"], "name": "synonyms"}, {"type": ["null", "string"], "name": "isA"}, {"doc": "",
-"type": {"doc": "", "type": "record", "name": "Ontology", "fields": [{"type": "string", "name":
-"name"}, {"type": "string", "name": "version"}]}, "name": "ontology"}, {"doc": "", "type": ["null",
-"float"], "name": "matchScore"}]}, "type": "array"}], "name": "standardPhenotypes"}]}, "name":
-"phenotypes"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"VariantConsequence", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type":
-["null", "string"], "name": "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "",
-"type": ["null", {"doc": "", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type":
-["null", "string"], "name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name":
-"panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
-["null", "string"], "name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
-"monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
-"monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
-"mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
-"modeOfInheritance"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"GenomicEntity", "fields": [{"doc": "", "type": {"symbols": ["regulatory_region", "gene",
-"transcript", "intergenic", "gene_fusion", "genomic_region", "cytobands"], "doc": "", "type":
-"enum", "name": "GenomicEntityType"}, "name": "type"}, {"doc": "", "type": ["null", "string"],
-"name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name": "geneSymbol"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "source"}, {"doc": "",
-"type": "string", "name": "identifier"}], "type": "record", "name": "Identifier"}, "type":
-"array"}], "name": "otherIds"}]}, "type": "array"}, "name": "genomicEntities"}, {"doc": "", "type":
-["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive", "CompoundHeterozygous", "deNovo",
-"InheritedAutosomalDominant", "InheritedAutosomalDominantMaternallyImprinted",
-"InheritedAutosomalDominantPaternallyImprinted", "XLinkedCompoundHeterozygous",
-"XLinkedSimpleRecessive", "XLinkedMonoallelic", "MitochondrialGenome"], "type": "enum", "name":
-"SegregationPattern"}], "name": "segregationPattern"}, {"doc": "", "type": ["null", {"symbols":
-["complete", "incomplete"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
-"Penetrance", "doc": ""}], "name": "penetrance"}, {"doc": "", "type": ["null", "float"], "name":
-"deNovoQualityScore"}, {"doc": "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
-{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "", "type": ["null",
-"string"], "name": "eventJustification"}, {"doc": "", "type": ["null", {"items": {"symbols":
-["oncogene", "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"},
-"type": "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type":
-"string", "name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc":
-"", "type": ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"],
-"name": "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc":
-"", "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
+[{"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
+"Assembly"}, "name": "assembly"}, {"type": {"fields": [{"type": "string", "name": "chromosome"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields":
+[{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": {"items":
+{"doc": "", "type": "record", "name": "ReportEvent", "fields": [{"doc": "", "type": "string",
+"name": "reportEventId"}, {"doc": "", "type": {"doc": "", "type": "record", "name": "Phenotypes",
+"fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"nonStandardPhenotype"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
+"name": "StandardPhenotype", "fields": [{"type": "string", "name": "id"}, {"type": ["null",
+"string"], "name": "name"}, {"type": ["null", "string"], "name": "namespace"}, {"type": ["null",
+"string"], "name": "definition"}, {"type": ["null", "string"], "name": "comment"}, {"type": ["null",
+"string"], "name": "alternativeIds"}, {"type": ["null", "string"], "name": "synonyms"}, {"type":
+["null", "string"], "name": "isA"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"Ontology", "fields": [{"type": "string", "name": "name"}, {"type": "string", "name": "version"}]},
+"name": "ontology"}, {"doc": "", "type": ["null", "float"], "name": "matchScore"}]}, "type":
+"array"}], "name": "standardPhenotypes"}]}, "name": "phenotypes"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
+"name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
+"variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
+"xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
+"ModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "GenomicEntity", "fields": [{"doc": "", "type": {"symbols":
+["regulatory_region", "gene", "transcript", "intergenic", "gene_fusion", "genomic_region",
+"cytobands"], "doc": "", "type": "enum", "name": "GenomicEntityType"}, "name": "type"}, {"doc": "",
+"type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
+"geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
+"Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
+"XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
+"MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
+"segregationPattern"}, {"doc": "", "type": ["null", {"symbols": ["complete", "incomplete"],
+"namespace": "org.gel.models.participant.avro", "type": "enum", "name": "Penetrance", "doc": ""}],
+"name": "penetrance"}, {"doc": "", "type": ["null", "float"], "name": "deNovoQualityScore"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
+"int"], "name": "groupOfVariants"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"items": {"symbols": ["oncogene",
+"tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
+"array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
+"name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
+["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
+"estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
+"type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
 "phase2_phase3", "phase3", "phase4"], "doc": "", "type": "enum", "name": "StudyPhase"}], "name":
 "phase"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "Intervention", "fields": [{"doc": "", "type": {"symbols": ["drug", "device", "procedure",
@@ -7118,6 +7121,7 @@ class ShortTandemRepeat(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "assembly",
         "coordinates",
         "reportEvents",
         "shortTandemRepeatReferenceData",
@@ -7149,12 +7153,14 @@ class ShortTandemRepeat(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'coordinates', 'reportEvents',
+        'assembly', 'coordinates', 'reportEvents',
         'shortTandemRepeatReferenceData', 'variantAttributes',
         'variantCalls'
     ]
 
     def __init__(self, **kwargs):
+        self.assembly = kwargs.get(
+            'assembly', None)
         self.coordinates = kwargs.get(
             'coordinates', Coordinates())
         self.reportEvents = kwargs.get(
@@ -7283,7 +7289,7 @@ class SmallVariant(ProtocolElement):
 "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
 "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
 "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
-"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc": "", "type":
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
 ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
 "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
 "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
@@ -7539,62 +7545,63 @@ class StructuralVariant(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "StructuralVariant", "fields":
-[{"doc": "", "type": {"symbols": ["ins", "dup", "inv", "amplification", "deletion", "dup_tandem",
-"del_me", "ins_me"], "type": "enum", "name": "StructuralVariantType"}, "name": "variantType"},
-{"type": {"fields": [{"type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
-"Assembly"}, "name": "assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name":
-"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
-"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
-"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
-"name": "Coordinates"}, "name": "coordinates"}, {"type": ["null", "string"], "name": "leftInsSeq"},
-{"type": ["null", "string"], "name": "rightInsSeq"}, {"type": {"items": {"doc": "", "type":
-"record", "name": "ReportEvent", "fields": [{"doc": "", "type": "string", "name": "reportEventId"},
-{"doc": "", "type": {"doc": "", "type": "record", "name": "Phenotypes", "fields": [{"doc": "",
-"type": ["null", {"items": "string", "type": "array"}], "name": "nonStandardPhenotype"}, {"doc": "",
-"type": ["null", {"items": {"doc": "", "type": "record", "name": "StandardPhenotype", "fields":
-[{"type": "string", "name": "id"}, {"type": ["null", "string"], "name": "name"}, {"type": ["null",
-"string"], "name": "namespace"}, {"type": ["null", "string"], "name": "definition"}, {"type":
-["null", "string"], "name": "comment"}, {"type": ["null", "string"], "name": "alternativeIds"},
-{"type": ["null", "string"], "name": "synonyms"}, {"type": ["null", "string"], "name": "isA"},
-{"doc": "", "type": {"doc": "", "type": "record", "name": "Ontology", "fields": [{"type": "string",
-"name": "name"}, {"type": "string", "name": "version"}]}, "name": "ontology"}, {"doc": "", "type":
-["null", "float"], "name": "matchScore"}]}, "type": "array"}], "name": "standardPhenotypes"}]},
-"name": "phenotypes"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"VariantConsequence", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type":
-["null", "string"], "name": "name"}]}, "type": "array"}, "name": "variantConsequences"}, {"doc": "",
-"type": ["null", {"doc": "", "type": "record", "name": "GenePanel", "fields": [{"doc": "", "type":
-["null", "string"], "name": "panelIdentifier"}, {"doc": "", "type": ["null", "string"], "name":
-"panelName"}, {"doc": "", "type": ["null", "string"], "name": "panelVersion"}, {"doc": "", "type":
-["null", "string"], "name": "source"}]}], "name": "genePanel"}, {"doc": "", "type": {"symbols":
-["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
-"monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
-"monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
-"mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
-"modeOfInheritance"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"GenomicEntity", "fields": [{"doc": "", "type": {"symbols": ["regulatory_region", "gene",
-"transcript", "intergenic", "gene_fusion", "genomic_region", "cytobands"], "doc": "", "type":
-"enum", "name": "GenomicEntityType"}, "name": "type"}, {"doc": "", "type": ["null", "string"],
-"name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name": "geneSymbol"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"doc": "", "type": "string", "name": "source"}, {"doc": "",
-"type": "string", "name": "identifier"}], "type": "record", "name": "Identifier"}, "type":
-"array"}], "name": "otherIds"}]}, "type": "array"}, "name": "genomicEntities"}, {"doc": "", "type":
-["null", {"symbols": ["UniparentalIsodisomy", "SimpleRecessive", "CompoundHeterozygous", "deNovo",
-"InheritedAutosomalDominant", "InheritedAutosomalDominantMaternallyImprinted",
-"InheritedAutosomalDominantPaternallyImprinted", "XLinkedCompoundHeterozygous",
-"XLinkedSimpleRecessive", "XLinkedMonoallelic", "MitochondrialGenome"], "type": "enum", "name":
-"SegregationPattern"}], "name": "segregationPattern"}, {"doc": "", "type": ["null", {"symbols":
-["complete", "incomplete"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
-"Penetrance", "doc": ""}], "name": "penetrance"}, {"doc": "", "type": ["null", "float"], "name":
-"deNovoQualityScore"}, {"doc": "", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"},
-{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "", "type": ["null",
-"string"], "name": "eventJustification"}, {"doc": "", "type": ["null", {"items": {"symbols":
-["oncogene", "tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"},
-"type": "array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type":
-"record", "name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type":
-"string", "name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdientifier"}, {"doc":
-"", "type": ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"],
-"name": "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc":
-"", "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
+[{"doc": "", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name":
+"Assembly"}, "name": "assembly"}, {"doc": "", "type": {"symbols": ["ins", "dup", "inv",
+"amplification", "deletion", "dup_tandem", "del_me", "ins_me"], "type": "enum", "name":
+"StructuralVariantType"}, "name": "variantType"}, {"type": {"fields": [{"type": "string", "name":
+"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
+{"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record",
+"name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"ciEnd"}], "type": "record", "name": "Coordinates"}, "name": "coordinates"}, {"type": ["null",
+"string"], "name": "leftInsSeq"}, {"type": ["null", "string"], "name": "rightInsSeq"}, {"type":
+{"items": {"doc": "", "type": "record", "name": "ReportEvent", "fields": [{"doc": "", "type":
+"string", "name": "reportEventId"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"Phenotypes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"nonStandardPhenotype"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
+"name": "StandardPhenotype", "fields": [{"type": "string", "name": "id"}, {"type": ["null",
+"string"], "name": "name"}, {"type": ["null", "string"], "name": "namespace"}, {"type": ["null",
+"string"], "name": "definition"}, {"type": ["null", "string"], "name": "comment"}, {"type": ["null",
+"string"], "name": "alternativeIds"}, {"type": ["null", "string"], "name": "synonyms"}, {"type":
+["null", "string"], "name": "isA"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"Ontology", "fields": [{"type": "string", "name": "name"}, {"type": "string", "name": "version"}]},
+"name": "ontology"}, {"doc": "", "type": ["null", "float"], "name": "matchScore"}]}, "type":
+"array"}], "name": "standardPhenotypes"}]}, "name": "phenotypes"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "VariantConsequence", "fields": [{"doc": "", "type": "string",
+"name": "id"}, {"doc": "", "type": ["null", "string"], "name": "name"}]}, "type": "array"}, "name":
+"variantConsequences"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
+"GenePanel", "fields": [{"doc": "", "type": ["null", "string"], "name": "panelIdentifier"}, {"doc":
+"", "type": ["null", "string"], "name": "panelName"}, {"doc": "", "type": ["null", "string"],
+"name": "panelVersion"}, {"doc": "", "type": ["null", "string"], "name": "source"}]}], "name":
+"genePanel"}, {"doc": "", "type": {"symbols": ["monoallelic", "monoallelic_not_imprinted",
+"monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
+"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
+"xlinked_monoallelic", "mitochondrial", "unknown", "na"], "doc": "", "type": "enum", "name":
+"ModeOfInheritance"}, "name": "modeOfInheritance"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "GenomicEntity", "fields": [{"doc": "", "type": {"symbols":
+["regulatory_region", "gene", "transcript", "intergenic", "gene_fusion", "genomic_region",
+"cytobands"], "doc": "", "type": "enum", "name": "GenomicEntityType"}, "name": "type"}, {"doc": "",
+"type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", "string"], "name":
+"geneSymbol"}, {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "source"}, {"doc": "", "type": "string", "name": "identifier"}], "type": "record", "name":
+"Identifier"}, "type": "array"}], "name": "otherIds"}]}, "type": "array"}, "name":
+"genomicEntities"}, {"doc": "", "type": ["null", {"symbols": ["UniparentalIsodisomy",
+"SimpleRecessive", "CompoundHeterozygous", "deNovo", "InheritedAutosomalDominant",
+"InheritedAutosomalDominantMaternallyImprinted", "InheritedAutosomalDominantPaternallyImprinted",
+"XLinkedCompoundHeterozygous", "XLinkedSimpleRecessive", "XLinkedMonoallelic",
+"MitochondrialGenome"], "type": "enum", "name": "SegregationPattern"}], "name":
+"segregationPattern"}, {"doc": "", "type": ["null", {"symbols": ["complete", "incomplete"],
+"namespace": "org.gel.models.participant.avro", "type": "enum", "name": "Penetrance", "doc": ""}],
+"name": "penetrance"}, {"doc": "", "type": ["null", "float"], "name": "deNovoQualityScore"}, {"doc":
+"", "type": ["null", "boolean"], "name": "fullyExplainsPhenotype"}, {"doc": "", "type": ["null",
+"int"], "name": "groupOfVariants"}, {"doc": "", "type": ["null", "string"], "name":
+"eventJustification"}, {"doc": "", "type": ["null", {"items": {"symbols": ["oncogene",
+"tumor_suppressor_gene", "both"], "doc": "", "type": "enum", "name": "RoleInCancer"}, "type":
+"array"}], "name": "roleInCancer"}, {"doc": "", "type": ["null", {"doc": "", "type": "record",
+"name": "Actions", "fields": [{"type": ["null", {"items": {"fields": [{"doc": "", "type": "string",
+"name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"}, {"doc": "", "type":
+["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null", "string"], "name":
+"estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name": "title"}, {"doc": "",
+"type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2", "phase2",
 "phase2_phase3", "phase3", "phase4"], "doc": "", "type": "enum", "name": "StudyPhase"}], "name":
 "phase"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
 "Intervention", "fields": [{"doc": "", "type": {"symbols": ["drug", "device", "procedure",
@@ -7735,6 +7742,7 @@ class StructuralVariant(ProtocolElement):
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
+        "assembly",
         "coordinates",
         "leftInsSeq",
         "reportEvents",
@@ -7766,11 +7774,14 @@ class StructuralVariant(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'coordinates', 'leftInsSeq', 'reportEvents', 'rightInsSeq',
-        'variantAttributes', 'variantCalls', 'variantType'
+        'assembly', 'coordinates', 'leftInsSeq', 'reportEvents',
+        'rightInsSeq', 'variantAttributes', 'variantCalls',
+        'variantType'
     ]
 
     def __init__(self, **kwargs):
+        self.assembly = kwargs.get(
+            'assembly', None)
         self.coordinates = kwargs.get(
             'coordinates', Coordinates())
         self.leftInsSeq = kwargs.get(
@@ -8018,33 +8029,33 @@ class Trial(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "Trial", "fields": [{"doc":
-"", "type": "string", "name": "studyUrl"}, {"doc": "", "type": "string", "name":
-"studyIdientifier"}, {"doc": "", "type": ["null", "string"], "name": "startDate"}, {"doc": "",
-"type": ["null", "string"], "name": "estimateCompletionDate"}, {"doc": "", "type": ["null",
-"string"], "name": "title"}, {"doc": "", "type": ["null", {"symbols": ["na", "early_phase1",
-"phase1", "phase1_phase2", "phase2", "phase2_phase3", "phase3", "phase4"], "doc": "", "type":
-"enum", "name": "StudyPhase"}], "name": "phase"}, {"doc": "", "type": ["null", {"items": {"doc": "",
-"type": "record", "name": "Intervention", "fields": [{"doc": "", "type": {"symbols": ["drug",
-"device", "procedure", "biological", "radiation", "behavioral", "genetic", "dietary_supplement",
-"combination_product", "diagnostic_test", "other"], "doc": "", "type": "enum", "name":
-"InterventionType"}, "name": "interventionType"}, {"doc": "", "type": "string", "name":
-"interventionName"}]}, "type": "array"}], "name": "interventions"}, {"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "conditions"}, {"doc": "", "type": ["null",
-{"symbols": ["treatment", "prevention", "diagnostic", "supportive_care", "screening",
-"health_services_research", "basic_science", "device_feasibility", "other"], "doc": "", "type":
-"enum", "name": "PrimaryPurpose"}], "name": "primaryPurpose"}, {"doc": "", "type": ["null",
-{"symbols": ["interventional", "observational", "patient_registry", "expanded_access"], "doc": "",
-"type": "enum", "name": "StudyType"}], "name": "studyType"}, {"doc": "", "type": ["null", {"fields":
-[{"type": {"symbols": ["MALE", "FEMALE", "UNKNOWN"], "namespace": "org.gel.models.participant.avro",
-"type": "enum", "name": "Sex", "doc": ""}, "name": "sex"}, {"type": ["null", {"fields": [{"type":
-"int", "name": "minimumAge"}, {"type": "int", "name": "maximumAge"}, {"type": {"symbols": ["years",
-"months", "weeks", "days", "hours", "minutes", "na"], "type": "enum", "name": "TimeUnit"}, "name":
-"timeunit"}], "type": "record", "name": "AgeRange"}], "name": "ageRange"}], "type": "record",
-"name": "DemographicElegibilityCriteria"}], "name": "demogrphicElegibilityCriteria"}, {"doc": "",
-"type": ["null", {"items": {"fields": [{"type": ["null", "string"], "name": "name"}, {"type":
-["null", "string"], "name": "city"}, {"type": ["null", "string"], "name": "country"}, {"type":
-["null", "string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}],
-"name": "locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}]}
+"", "type": "string", "name": "studyUrl"}, {"doc": "", "type": "string", "name": "studyIdentifier"},
+{"doc": "", "type": ["null", "string"], "name": "startDate"}, {"doc": "", "type": ["null",
+"string"], "name": "estimateCompletionDate"}, {"doc": "", "type": ["null", "string"], "name":
+"title"}, {"doc": "", "type": ["null", {"symbols": ["na", "early_phase1", "phase1", "phase1_phase2",
+"phase2", "phase2_phase3", "phase3", "phase4"], "doc": "", "type": "enum", "name": "StudyPhase"}],
+"name": "phase"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name":
+"Intervention", "fields": [{"doc": "", "type": {"symbols": ["drug", "device", "procedure",
+"biological", "radiation", "behavioral", "genetic", "dietary_supplement", "combination_product",
+"diagnostic_test", "other"], "doc": "", "type": "enum", "name": "InterventionType"}, "name":
+"interventionType"}, {"doc": "", "type": "string", "name": "interventionName"}]}, "type": "array"}],
+"name": "interventions"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "conditions"}, {"doc": "", "type": ["null", {"symbols": ["treatment", "prevention",
+"diagnostic", "supportive_care", "screening", "health_services_research", "basic_science",
+"device_feasibility", "other"], "doc": "", "type": "enum", "name": "PrimaryPurpose"}], "name":
+"primaryPurpose"}, {"doc": "", "type": ["null", {"symbols": ["interventional", "observational",
+"patient_registry", "expanded_access"], "doc": "", "type": "enum", "name": "StudyType"}], "name":
+"studyType"}, {"doc": "", "type": ["null", {"fields": [{"type": {"symbols": ["MALE", "FEMALE",
+"UNKNOWN"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name": "Sex", "doc":
+""}, "name": "sex"}, {"type": ["null", {"fields": [{"type": "int", "name": "minimumAge"}, {"type":
+"int", "name": "maximumAge"}, {"type": {"symbols": ["years", "months", "weeks", "days", "hours",
+"minutes", "na"], "type": "enum", "name": "TimeUnit"}, "name": "timeunit"}], "type": "record",
+"name": "AgeRange"}], "name": "ageRange"}], "type": "record", "name":
+"DemographicElegibilityCriteria"}], "name": "demogrphicElegibilityCriteria"}, {"doc": "", "type":
+["null", {"items": {"fields": [{"type": ["null", "string"], "name": "name"}, {"type": ["null",
+"string"], "name": "city"}, {"type": ["null", "string"], "name": "country"}, {"type": ["null",
+"string"], "name": "zip"}], "type": "record", "name": "TrialLocation"}, "type": "array"}], "name":
+"locations"}, {"doc": "", "type": "boolean", "name": "variantActionable"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -8056,7 +8067,7 @@ class Trial(ProtocolElement):
         "phase",
         "primaryPurpose",
         "startDate",
-        "studyIdientifier",
+        "studyIdentifier",
         "studyType",
         "studyUrl",
         "title",
@@ -8085,7 +8096,7 @@ class Trial(ProtocolElement):
     __slots__ = [
         'conditions', 'demogrphicElegibilityCriteria',
         'estimateCompletionDate', 'interventions', 'locations',
-        'phase', 'primaryPurpose', 'startDate', 'studyIdientifier',
+        'phase', 'primaryPurpose', 'startDate', 'studyIdentifier',
         'studyType', 'studyUrl', 'title', 'variantActionable'
     ]
 
@@ -8106,8 +8117,8 @@ class Trial(ProtocolElement):
             'primaryPurpose', None)
         self.startDate = kwargs.get(
             'startDate', None)
-        self.studyIdientifier = kwargs.get(
-            'studyIdientifier', None)
+        self.studyIdentifier = kwargs.get(
+            'studyIdentifier', None)
         self.studyType = kwargs.get(
             'studyType', None)
         self.studyUrl = kwargs.get(
@@ -8328,19 +8339,19 @@ class UniparentalDisomy(ProtocolElement):
 "type": ["null", "boolean"], "name": "complete"}, {"doc": "", "type": {"symbols": ["paternal",
 "maternal", "unknown"], "type": "enum", "name": "UniparentalDisomyOrigin"}, "name": "origin"},
 {"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": ["null", {"fields": [{"type":
-"Assembly", "name": "assembly"}, {"type": "string", "name": "chromosome"}, {"type": "int", "name":
-"start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields": [{"type": "int", "name":
-"left"}, {"type": "int", "name": "right"}], "type": "record", "name": "ConfidenceInterval"}],
-"name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name": "ciEnd"}], "type": "record",
-"name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type": {"symbols": ["isodisomy",
-"heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"}, "name":
-"uniparentalDisomyType"}], "type": "record", "name": "UniparentalDisomyFragment"}, "type":
-"array"}], "name": "uniparentalDisomyFragments"}, {"doc": "", "type": "string", "name":
-"participantId"}, {"doc": "", "type": ["null", {"fields": [{"type": ["null", {"items": {"fields":
-[{"type": "string", "name": "relatedSample"}, {"type": "float", "name": "ibd0"}, {"type": "float",
-"name": "ibd1"}, {"type": "float", "name": "ibd2"}, {"type": "float", "name": "pihat"}], "type":
-"record", "name": "IdentityByDescent"}, "type": "array"}], "name": "ibds"}], "type": "record",
-"name": "UniparentalDisomyEvidences"}], "name": "uniparentalDisomyEvidences"}]}
+"string", "name": "chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"},
+{"type": ["null", {"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}],
+"type": "record", "name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null",
+"ConfidenceInterval"], "name": "ciEnd"}], "type": "record", "name": "Coordinates"}], "name":
+"coordinates"}, {"doc": "", "type": {"symbols": ["isodisomy", "heterodisomy", "both"], "type":
+"enum", "name": "UniparentalDisomyType"}, "name": "uniparentalDisomyType"}], "type": "record",
+"name": "UniparentalDisomyFragment"}, "type": "array"}], "name": "uniparentalDisomyFragments"},
+{"doc": "", "type": "string", "name": "participantId"}, {"doc": "", "type": ["null", {"fields":
+[{"type": ["null", {"items": {"fields": [{"type": "string", "name": "relatedSample"}, {"type":
+"float", "name": "ibd0"}, {"type": "float", "name": "ibd1"}, {"type": "float", "name": "ibd2"},
+{"type": "float", "name": "pihat"}], "type": "record", "name": "IdentityByDescent"}, "type":
+"array"}], "name": "ibds"}], "type": "record", "name": "UniparentalDisomyEvidences"}], "name":
+"uniparentalDisomyEvidences"}]}
 """
     schema = avro.schema.parse(_schemaSource)
     requiredFields = {
@@ -8439,11 +8450,10 @@ class UniparentalDisomyFragment(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "UniparentalDisomyFragment",
-"fields": [{"doc": "", "type": ["null", {"fields": [{"type": {"symbols": ["GRCh38", "GRCh37"],
-"doc": "", "type": "enum", "name": "Assembly"}, "name": "assembly"}, {"type": "string", "name":
-"chromosome"}, {"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null",
-{"fields": [{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record",
-"name": "ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
+"fields": [{"doc": "", "type": ["null", {"fields": [{"type": "string", "name": "chromosome"},
+{"type": "int", "name": "start"}, {"type": "int", "name": "end"}, {"type": ["null", {"fields":
+[{"type": "int", "name": "left"}, {"type": "int", "name": "right"}], "type": "record", "name":
+"ConfidenceInterval"}], "name": "ciStart"}, {"type": ["null", "ConfidenceInterval"], "name":
 "ciEnd"}], "type": "record", "name": "Coordinates"}], "name": "coordinates"}, {"doc": "", "type":
 {"symbols": ["isodisomy", "heterodisomy", "both"], "type": "enum", "name": "UniparentalDisomyType"},
 "name": "uniparentalDisomyType"}]}
