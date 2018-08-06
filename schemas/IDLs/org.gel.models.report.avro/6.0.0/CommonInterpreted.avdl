@@ -1108,6 +1108,7 @@ see Expanded Access Data Element Definitions).
     }
 
     record Coordinates{
+        Assembly assembly;
         string chromosome;
         int start;
         int end;
@@ -1132,9 +1133,7 @@ see Expanded Access Data Element Definitions).
     }
 
     record BreakPoint{
-        string chromosome;
-        int start;
-        int end;
+        Coordinates coordinates;
         union{null, string} reference;
         union{null, string} alternate;
         union{null, map<string>} info;
@@ -1147,10 +1146,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record ChromosomalRearrangement {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         union {null, array<BreakPoint>} breakPoints;
         array<Rearrangement> rearrangements;
         array<ReportEvent> reportEvents;
@@ -1162,10 +1157,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record StructuralVariant {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         /**
         Structural Variant Type as would appear in VCF
         */
@@ -1183,10 +1174,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record ShortTandemRepeat {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         Coordinates coordinates;
         array<ReportEvent> reportEvents;
         /**
@@ -1281,7 +1268,7 @@ see Expanded Access Data Element Definitions).
     record Aneuploidy {
 
         /**
-        International System for Human Cytogenetic Nomenclature (i.e 46,XY)
+        International System for Human Cytogenetic Nomenclature (.e.g: "+14p+", "+t(13q21 q)")
         */
         union {null, string} iscn;
         /**
@@ -1309,7 +1296,7 @@ see Expanded Access Data Element Definitions).
     record Karyotype {
 
         /**
-        International System for Human Cytogenetic Nomenclature (i.e 46,XY)
+        International System for Human Cytogenetic Nomenclature (e.g.: "46,XY", "46,XY,-5,-12,+t(5pl2p),+t(5ql2q)")
         */
         union {null, string} iscn;
         /**
