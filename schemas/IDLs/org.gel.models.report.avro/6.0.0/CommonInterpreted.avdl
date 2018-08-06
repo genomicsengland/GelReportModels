@@ -21,7 +21,8 @@ enum SegregationPattern {
     MitochondrialGenome
 }
 
-
+enum UniparentalDisomyType {isodisomy, heterodisomy, both}
+enum UniparentalDisomyOrigin {paternal, maternal, unknown}
 
 enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
@@ -468,7 +469,7 @@ see Expanded Access Data Element Definitions).
         /**
         Trail/Study indetifier
         */
-        string studyIdientifier;
+        string studyIdentifier;
         /**
         Start date of the study
         */
@@ -1048,12 +1049,12 @@ see Expanded Access Data Element Definitions).
     record VariantCall {
 
         /**
-        Participant id of the family member:
+        Participant id
         */
         string participantId;
 
         /**
-        LP Number of the family member:
+        Sample Id
         */
         string sampleId;
 
@@ -1107,6 +1108,7 @@ see Expanded Access Data Element Definitions).
     }
 
     record Coordinates{
+        Assembly assembly;
         string chromosome;
         int start;
         int end;
@@ -1131,9 +1133,7 @@ see Expanded Access Data Element Definitions).
     }
 
     record BreakPoint{
-        string chromosome;
-        int start;
-        int end;
+        Coordinates coordinates;
         union{null, string} reference;
         union{null, string} alternate;
         union{null, map<string>} info;
@@ -1146,10 +1146,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record ChromosomalRearrangement {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         union {null, array<BreakPoint>} breakPoints;
         array<Rearrangement> rearrangements;
         array<ReportEvent> reportEvents;
@@ -1161,10 +1157,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record StructuralVariant {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         /**
         Structural Variant Type as would appear in VCF
         */
@@ -1182,10 +1174,6 @@ see Expanded Access Data Element Definitions).
     }
 
     record ShortTandemRepeat {
-        /**
-        The assembly to which this variant corresponds
-        */
-        Assembly assembly;
         Coordinates coordinates;
         array<ReportEvent> reportEvents;
         /**
@@ -1221,5 +1209,118 @@ see Expanded Access Data Element Definitions).
         union {null, VariantAttributes} variantAttributes;
 
     }
+
+    record IdentityByDescent {
+        string relatedSample;
+        float ibd0;
+        float ibd1;
+        float ibd2;
+        float pihat;
+    }
+
+    record UniparentalDisomyEvidences {
+        union {null, array<IdentityByDescent>} ibds;
+    }
+
+    record UniparentalDisomyFragment {
+        /**
+        Coordinates can be specified to indicate the part of the chromosome affected
+        */
+        union {null, Coordinates} coordinates;
+        /**
+        indicates whether the UPD event involves `isodisomy`, `heterodisomy` or `both`
+        */
+        UniparentalDisomyType uniparentalDisomyType;
+
+    }
+
+    record UniparentalDisomy {
+        /**
+        The assembly
+        */
+        Assembly assembly;
+        /**
+        Chromosome where two homologues were inherited from one parent
+        */
+        string chromosome;
+        /**
+        indicates Whether the UPD event involves an entire chromosome or part of a chromosome
+        */
+        union {null, boolean} complete;
+        /**
+        The parent who contributed two chromosomes was the mother (maternal) or the father (paternal)
+        */
+        UniparentalDisomyOrigin origin;
+        /**
+        List of all of the UPD fragments for this UPD event
+        */
+        union {null, array<UniparentalDisomyFragment>} uniparentalDisomyFragments;
+        /**
+        Participant affected by this UPD
+        */
+        string participantId;
+        /**
+        Evidences for the UPD call
+        */
+        union {null, UniparentalDisomyEvidences} uniparentalDisomyEvidences;
+    }
+
+    record Aneuploidy {
+
+        /**
+        International System for Human Cytogenetic Nomenclature (.e.g: "+14p+", "+t(13q21 q)")
+        */
+        union {null, string} iscn;
+        /**
+        The assembly
+        */
+        Assembly assembly;
+        /**
+        Chromosome involved in the aneuploidy
+        */
+        string chromosome;
+        /**
+        Wheter the aneuploidy is for the whole chromosme or just a fragment
+        */
+        boolean complete;
+        /**
+        Coordinates can be specified to indicate the part of the chromosome affected
+        */
+        union {null, Coordinates} coordinates;
+        /**
+        Number of copies
+        */
+        int numberOfCopies;
+    }
+
+    record Karyotype {
+
+        /**
+        International System for Human Cytogenetic Nomenclature (e.g.: "46,XY", "46,XY,-5,-12,+t(5pl2p),+t(5ql2q)")
+        */
+        union {null, string} iscn;
+        /**
+        Full description of the karyotype
+        */
+        union {null, string} description;
+        /**
+        List of aneuploidies
+        */
+        union {null, array<Aneuploidy>} aneuploidies;
+        /**
+        Total number of chromosomes
+        */
+        int numberOfChromosomes;
+        /**
+        Kariotypic sex
+        */
+        org.gel.models.participant.avro.PersonKaryotipicSex personKaryotipicSex;
+        /**
+        Participant identifier
+        */
+        string participantId;
+    }
+
+
 
 }

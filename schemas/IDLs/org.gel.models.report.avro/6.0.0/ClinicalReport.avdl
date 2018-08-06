@@ -65,6 +65,16 @@ protocol ClinicalReports {
         union {null, array<ShortTandemRepeat>} shortTandemRepeats;
 
         /**
+        List of uniparental disomies across all the individuals in this report
+        */
+        union {null, array<UniparentalDisomy>} uniparentalDisomies;
+
+        /**
+        List of inferred karyotypes across all the individuals in this report
+        */
+        union {null, array<Karyotype>} karyotypes;
+
+        /**
         Summary of the interpretation, this should reflect the positive conclusions of this interpretation
         */
         string genomicInterpretation;

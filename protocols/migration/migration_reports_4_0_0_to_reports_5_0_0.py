@@ -258,7 +258,7 @@ class MigrateReports400To500(BaseMigration):
             object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer
         )
 
-    def migrate_reported_variant(self, old_instance, assembly):
+    def migrate_reported_variant(self, old_instance, assembly, migrate_frequencies=False):
         """
         NOTE: some fields cannot be filled: alleleFrequencies, genomicChanges, proteinChanges, cdnaChanges,
         dbSnpId, cosmicIds, clinVarIds, variantAttributes, alleleFrequencies
@@ -298,6 +298,10 @@ class MigrateReports400To500(BaseMigration):
 
         # hardcodes allele origin to germline as this is a variant from rare disease program
         new_instance.alleleOrigins = [reports_5_0_0.AlleleOrigin.germline_variant]
+
+        if migrate_frequencies:
+            new_instance.alleleFrequencies = self.migrate_allele_frequencies(
+                old_instance.additionalNumericVariantAnnotations)
 
         # TODO: fields that are not filled: variantAttributes, alleleFrequencies,
         # TODO: dbSnpId, cosmicIds, clinVarIds, genomicChange, cdnaChanges, proteinChanges
@@ -764,3 +768,19 @@ class MigrateReports400To500(BaseMigration):
     def migrate_other_files(self, other_files):
         if isinstance(other_files, dict):
             return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
+
+    def migrate_allele_frequencies(self, additionalNumericVariantAnnotations):
+        """
+        NOTE: This is assuming all values in `additionalNumericVariantAnnotations` are frequencies
+
+        :param additionalNumericVariantAnnotations:
+        :return:
+        """
+        frequencies = []
+        for pop in additionalNumericVariantAnnotations:
+            frequencies.append(reports_5_0_0.AlleleFrequency(
+                alternateFrequency=additionalNumericVariantAnnotations[pop],
+                population=pop.split('_')[-1],
+                study='_'.join(pop.split('_')[:-1])
+            ))
+        return frequencies
