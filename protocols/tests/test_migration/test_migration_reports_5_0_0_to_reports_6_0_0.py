@@ -138,6 +138,22 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
             MigrateReports500To600().migrate_variant_attributes(old_variant=old_reported_variant)
         )
 
+    def test_migrate_reported_variant_with_consequence(self, fill_nullables=True):
+        old_reported_variant = GenericFactoryAvro.get_factory_avro(
+            self.old_model.ReportedVariant, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        old_reported_variant.additionalTextualVariantAnnotations = {
+            'ConsequenceType': "initiator_codon_variant,incomplete_terminal_codon_variant"}
+        old_reported_variant.reportEvents[0].tier = self.old_model.Tier.TIER1
+        old_reported_variant.reportEvents[1].tier = self.old_model.Tier.TIER2
+        new_small_variant = MigrateReports500To600().migrate_variant(old_variant=old_reported_variant)
+        self._validate(new_small_variant)
+        self.assertIsInstance(new_small_variant, self.new_model.SmallVariant)
+        self.assertTrue(len(new_small_variant.reportEvents[0].variantConsequences) == 1)
+        self.assertTrue(new_small_variant.reportEvents[0].variantConsequences[0].name == 'initiator_codon_variant')
+        self.assertTrue(len(new_small_variant.reportEvents[1].variantConsequences) == 1)
+        self.assertTrue(new_small_variant.reportEvents[1].variantConsequences[0].name == 'incomplete_terminal_codon_variant')
+
     def test_migrate_variant_call(self, fill_nullables=True):
         old_variant_call = GenericFactoryAvro.get_factory_avro(
             self.old_model.VariantCall, VERSION_61, fill_nullables=fill_nullables
