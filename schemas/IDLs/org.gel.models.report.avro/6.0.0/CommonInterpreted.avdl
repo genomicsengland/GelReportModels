@@ -22,7 +22,7 @@ enum SegregationPattern {
 }
 
 enum UniparentalDisomyType {isodisomy, heterodisomy, both}
-enum UniparentalDisomyOrigin {paternal, maternal}
+enum UniparentalDisomyOrigin {paternal, maternal, unknown}
 
 enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
@@ -1248,6 +1248,9 @@ see Expanded Access Data Element Definitions).
     }
 
     record UniparentalDisomy {
+        /**
+        The assembly
+        */
         Assembly assembly;
         /**
         Chromosome where two homologues were inherited from one parent
@@ -1266,15 +1269,24 @@ see Expanded Access Data Element Definitions).
         */
         union {null, array<UniparentalDisomyFragment>} uniparentalDisomyFragments;
         /**
-        Particiapant affected by this UPD
+        Participant affected by this UPD
         */
         string participantId;
-
+        /**
+        Evidences for the UPD call
+        */
         union {null, UniparentalDisomyEvidences} uniparentalDisomyEvidences;
     }
 
     record Aneuploidy {
 
+        /**
+        International System for Human Cytogenetic Nomenclature (i.e 46,XY)
+        */
+        union {null, string} iscn;
+        /**
+        The assembly
+        */
         Assembly assembly;
         /**
         Chromosome involved in the aneuploidy
@@ -1312,13 +1324,14 @@ see Expanded Access Data Element Definitions).
         Total number of chromosomes
         */
         int numberOfChromosomes;
-
+        /**
+        Kariotypic sex
+        */
         org.gel.models.participant.avro.PersonKaryotipicSex personKaryotipicSex;
         /**
-        Particiapant Id
+        Participant identifier
         */
         string participantId;
-
     }
 
 
