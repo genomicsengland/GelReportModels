@@ -5,6 +5,8 @@ from factory import CREATE_STRATEGY
 from factory.base import FactoryMetaClass, BaseFactory, BaseMeta
 from protocols.util.dependency_manager import DependencyManager
 
+from past.builtins import basestring
+
 BASIC_TYPES = ['null', 'boolean', 'string', 'bytes', 'int', 'long', 'float', 'double', 'enum']
 COMPLEX_TYPES = ['record', 'array', 'map']
 UNION_TYPE = 'union'
@@ -107,7 +109,7 @@ def mock_complex_type(field, field_type, dependencies, version, fill_nullables):
     """
     value = None
     if field_type == 'record':
-        if isinstance(field.type, str):
+        if isinstance(field.type, str) or isinstance(field.type, basestring):
             # in some cases field types are just a string
             class_name = field.name
             namespace = field.namespace
