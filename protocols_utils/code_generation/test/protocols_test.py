@@ -8,6 +8,7 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
@@ -27,7 +28,7 @@ class A(ProtocolElement):
 "float_with_default", "type": "float", "default": 0.5}, {"name": "float_without_default", "type":
 "float"}]}]}, {"name": "just_b", "type": "B"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "just_b",
         "nullable_b",
@@ -73,7 +74,7 @@ class B(ProtocolElement):
 "float_with_default", "type": "float", "default": 0.5}, {"name": "float_without_default", "type":
 "float"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "float_without_default",
         "integer_without_default",
