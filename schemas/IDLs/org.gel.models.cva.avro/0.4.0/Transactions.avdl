@@ -3,7 +3,7 @@
 protocol TransactionProtocol {
 
     // CVA references
-    import idl "Variant.avdl";
+    import idl "CvaVariant.avdl";
 
     /**
     The transaction status:

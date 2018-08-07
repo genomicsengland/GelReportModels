@@ -3,7 +3,7 @@
 protocol ObservedVariantProtocol {
 
     // CVA references
-    import idl "Variant.avdl";
+    import idl "CvaVariant.avdl";
     // Report models references
     import idl "CommonInterpreted.avdl";
     import idl "CommonInterpretedCancer.avdl";
