@@ -70,6 +70,7 @@ class MigrateReports500To600(BaseMigration):
         consequence_types = []
         if old_variant.additionalTextualVariantAnnotations:
             consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
+            consequence_types = [c for c in consequence_types if c]
         new_variant.reportEvents = self.migrate_report_events(
             report_events=old_variant.reportEvents, panel_source=panel_source,
             consequence_types=consequence_types)
