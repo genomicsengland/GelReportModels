@@ -130,7 +130,7 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         new_events = new_small_variant.reportEvents
         for old, new in zip(old_events, new_events):
             self.assertIsInstance(new, self.new_model.ReportEvent)
-            self.assertEqual(new, MigrateReports500To600().migrate_report_event(report_event=old))
+            self.assertEqual(new.toJsonDict(), MigrateReports500To600().migrate_report_event(report_event=old).toJsonDict())
 
         self.assertIsInstance(new_small_variant.variantAttributes, self.new_model.VariantAttributes)
         self.assertEqual(
