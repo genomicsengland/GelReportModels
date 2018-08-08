@@ -9,7 +9,6 @@ from past.builtins import basestring
 import sys
 import json
 import inspect
-import itertools
 import dictdiffer
 import logging
 
@@ -81,7 +80,7 @@ class ProtocolElement(object):
         if type(other) != type(self):
             return False
 
-        fieldNames = itertools.imap(lambda f: f.name, self.schema.fields)
+        fieldNames = map(lambda f: f.name, self.schema.fields)
         return all(getattr(self, k) == getattr(other, k) for k in fieldNames)
 
     def __ne__(self, other):
