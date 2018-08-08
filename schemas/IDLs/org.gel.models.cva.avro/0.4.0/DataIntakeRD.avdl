@@ -22,7 +22,7 @@ Any duplication of a ReportedVariant will be rejected.
 protocol DataIntakeRDProtocol {
 
     // CVA references
-    import idl "Variant.avdl";
+    import idl "CvaVariant.avdl";
     //
     import idl "InterpretationRequestRD.avdl";
     import idl "InterpretedGenomesRD.avdl";
