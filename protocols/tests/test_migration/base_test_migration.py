@@ -6,7 +6,7 @@ from protocols.reports_3_0_0 import RareDiseaseExitQuestionnaire as RD_EQ_3
 class TestCaseMigration(TestCase):
 
     bases = ["A", "C", "G", "T"]
-    chromosomes = range(1, 23) + ["X"] + ["Y"]
+    chromosomes = list(range(1, 23)) + ["X"] + ["Y"]
 
     def _check_non_empty_fields(self, instance, exclusions=[]):
         """
