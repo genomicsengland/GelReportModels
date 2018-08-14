@@ -8,10 +8,11 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
-version = '1_0_0'
+version = '1.0.0'
 
 
 class ArrayConcordance(ProtocolElement):
@@ -25,7 +26,7 @@ class ArrayConcordance(ProtocolElement):
 [{"type": "double", "name": "numberOfSites"}, {"type": "double", "name":
 "numberOfDiscordantSites"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "numberOfDiscordantSites",
         "numberOfSites",
@@ -64,7 +65,7 @@ class ArrayGenotypingRate(ProtocolElement):
 "fields": [{"type": "string", "name": "IID"}, {"type": "double", "name":
 "number_missing_genotypes"}, {"type": "double", "name": "number_total_genotypes"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "IID",
         "number_missing_genotypes",
@@ -88,7 +89,7 @@ class ArrayGenotypingRate(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.IID = kwargs.get(
-            'IID', 'None')
+            'IID', None)
         self.number_missing_genotypes = kwargs.get(
             'number_missing_genotypes', None)
         self.number_total_genotypes = kwargs.get(
@@ -105,7 +106,7 @@ class BamHeaderMachine(ProtocolElement):
 "MACHINE"}, {"type": "string", "name": "FLOWCELL"}, {"type": "string", "name": "RUN"}], "type":
 "record", "name": "Machine"}, "type": "array"}, "name": "machines"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "machines",
     }
@@ -142,7 +143,7 @@ class BamHeaderOther(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "BamHeaderOther", "fields":
 [{"type": "string", "name": "PIPELINE_ID"}, {"type": "string", "name": "PIPELINE_VERSION"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "PIPELINE_ID",
         "PIPELINE_VERSION",
@@ -165,9 +166,9 @@ class BamHeaderOther(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.PIPELINE_ID = kwargs.get(
-            'PIPELINE_ID', 'None')
+            'PIPELINE_ID', None)
         self.PIPELINE_VERSION = kwargs.get(
-            'PIPELINE_VERSION', 'None')
+            'PIPELINE_VERSION', None)
 
 
 class CancerSummaryMetrics(ProtocolElement):
@@ -188,7 +189,7 @@ class CancerSummaryMetrics(ProtocolElement):
 "mean_normal"}, {"type": "double", "name": "local_rmsd_normal"}, {"type": "double", "name":
 "local_rmsd"}, {"type": "double", "name": "cosmic_30x_cov"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cosmic_30x_cov",
         "local_rmsd",
@@ -255,9 +256,9 @@ class CancerSummaryMetrics(ProtocolElement):
         self.samtools_reads_mapped_normal = kwargs.get(
             'samtools_reads_mapped_normal', None)
         self.tumor_contamination_con_pair = kwargs.get(
-            'tumor_contamination_con_pair', 'None')
+            'tumor_contamination_con_pair', None)
         self.tumor_contamination_cont_est = kwargs.get(
-            'tumor_contamination_cont_est', 'None')
+            'tumor_contamination_cont_est', None)
         self.variantstats_total_indels = kwargs.get(
             'variantstats_total_indels', None)
         self.variantstats_total_snvs = kwargs.get(
@@ -280,7 +281,7 @@ class CoverageSummary(ProtocolElement):
 {"doc": "", "type": ["null", "double"], "name": "sd"}, {"doc": "", "type": ["null", "double"],
 "name": "localRMSD"}, {"doc": "", "type": "string", "name": "scope"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "avg",
         "bases",
@@ -334,7 +335,7 @@ class CoverageSummary(ProtocolElement):
         self.pct75 = kwargs.get(
             'pct75', None)
         self.scope = kwargs.get(
-            'scope', 'None')
+            'scope', None)
         self.sd = kwargs.get(
             'sd', None)
 
@@ -355,7 +356,7 @@ class ExomeCoverage(ProtocolElement):
 "scope"}], "type": "record", "name": "CoverageSummary"}, "type": "array"}, "name":
 "coverageSummary"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coverageSummary",
     }
@@ -398,7 +399,7 @@ class File(ProtocolElement):
 "ANN", "BigWig", "MD5Sum", "ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name":
 "fileType"}, {"type": ["null", "string"], "name": "md5Sum"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "SampleId",
         "URIFile",
@@ -425,7 +426,7 @@ class File(ProtocolElement):
         self.SampleId = kwargs.get(
             'SampleId', None)
         self.URIFile = kwargs.get(
-            'URIFile', 'None')
+            'URIFile', None)
         self.fileType = kwargs.get(
             'fileType', None)
         self.md5Sum = kwargs.get(
@@ -452,6 +453,9 @@ class FileType(object):
     ROH = "ROH"
     OTHER = "OTHER"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class GelAtGcDrop(ProtocolElement):
     """
@@ -461,7 +465,7 @@ class GelAtGcDrop(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "GelAtGcDrop", "fields":
 [{"type": "double", "name": "at_drop"}, {"type": "double", "name": "gc_drop"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "at_drop",
         "gc_drop",
@@ -507,7 +511,7 @@ class GelMetrics(ProtocolElement):
 "string", "name": "DirectoryType"}, {"type": "double", "name": "nBases_samtools"}, {"type":
 "string", "name": "FileRelativePath"}, {"type": "string", "name": "md5checksum"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BaseDir",
         "DirectoryType",
@@ -538,17 +542,17 @@ class GelMetrics(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.BaseDir = kwargs.get(
-            'BaseDir', 'None')
+            'BaseDir', None)
         self.DirectoryType = kwargs.get(
-            'DirectoryType', 'None')
+            'DirectoryType', None)
         self.FileRelativePath = kwargs.get(
-            'FileRelativePath', 'None')
+            'FileRelativePath', None)
         self.GbQ30NoDupsNoClip = kwargs.get(
             'GbQ30NoDupsNoClip', None)
         self.InputDir = kwargs.get(
-            'InputDir', 'None')
+            'InputDir', None)
         self.md5checksum = kwargs.get(
-            'md5checksum', 'None')
+            'md5checksum', None)
         self.nBases_samtools = kwargs.get(
             'nBases_samtools', None)
         self.perc_bases_ge_15x_mapQ_ge11 = kwargs.get(
@@ -610,7 +614,7 @@ class IlluminaSummaryCancerV2(ProtocolElement):
 "name": "SVSTATS_INVERSION_NUMBER_IN_GENES"}, {"type": "string", "name": "TUMOR_ID"}, {"type":
 "double", "name": "SVSTATS_INSERTION_TOTAL"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "BAMSTATS_NORMAL_GIGABASES_PASSING_FILTER",
         "BAMSTATS_NORMAL_PERCENT_BASES_GE_Q30",
@@ -746,7 +750,7 @@ class IlluminaSummaryCancerV2(ProtocolElement):
         self.BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30 = kwargs.get(
             'BAMSTATS_TUMOR_PERCENT_BASES_GE_Q30', None)
         self.NORMAL_ID = kwargs.get(
-            'NORMAL_ID', 'None')
+            'NORMAL_ID', None)
         self.PURITY_TUMOR_PLOIDY = kwargs.get(
             'PURITY_TUMOR_PLOIDY', None)
         self.PURITY_TUMOR_PURITY = kwargs.get(
@@ -774,7 +778,7 @@ class IlluminaSummaryCancerV2(ProtocolElement):
         self.SVSTATS_TRANSLOCATION_BREAKEND_TOTAL = kwargs.get(
             'SVSTATS_TRANSLOCATION_BREAKEND_TOTAL', None)
         self.TUMOR_ID = kwargs.get(
-            'TUMOR_ID', 'None')
+            'TUMOR_ID', None)
         self.VARIANTSTATS_DBSNP_DELETIONS = kwargs.get(
             'VARIANTSTATS_DBSNP_DELETIONS', None)
         self.VARIANTSTATS_DBSNP_INSERTIONS = kwargs.get(
@@ -983,7 +987,7 @@ class IlluminaSummaryCancerV4(ProtocolElement):
 "double", "name": "MEDIAN_SOMATIC_SNV_DISTANCE"}, {"type": "long", "name":
 "NORMAL_TOTAL_DUPLICATE_ALIGNED_READS"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ESTIMATED_CHROMOSOME_COUNT",
         "ESTIMATED_PURITY",
@@ -1327,11 +1331,11 @@ class IlluminaSummaryCancerV4(ProtocolElement):
         self.NORMAL_MEAN_COVERAGE = kwargs.get(
             'NORMAL_MEAN_COVERAGE', None)
         self.NORMAL_MEDIAN_READ_LENGTH = kwargs.get(
-            'NORMAL_MEDIAN_READ_LENGTH', 'None')
+            'NORMAL_MEDIAN_READ_LENGTH', None)
         self.NORMAL_MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
-            'NORMAL_MEDIAN_READ_LENGTH_READ_1', 'None')
+            'NORMAL_MEDIAN_READ_LENGTH_READ_1', None)
         self.NORMAL_MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
-            'NORMAL_MEDIAN_READ_LENGTH_READ_2', 'None')
+            'NORMAL_MEDIAN_READ_LENGTH_READ_2', None)
         self.NORMAL_MISMATCH_RATE = kwargs.get(
             'NORMAL_MISMATCH_RATE', None)
         self.NORMAL_MISMATCH_RATE_READ_1 = kwargs.get(
@@ -1381,9 +1385,9 @@ class IlluminaSummaryCancerV4(ProtocolElement):
         self.NORMAL_READ_ENRICHMENT_AT_80_GC = kwargs.get(
             'NORMAL_READ_ENRICHMENT_AT_80_GC', None)
         self.NORMAL_SAMPLE_ID = kwargs.get(
-            'NORMAL_SAMPLE_ID', 'None')
+            'NORMAL_SAMPLE_ID', None)
         self.NORMAL_SAMPLE_NAME = kwargs.get(
-            'NORMAL_SAMPLE_NAME', 'None')
+            'NORMAL_SAMPLE_NAME', None)
         self.NORMAL_TOTAL_ALIGNED_BASES = kwargs.get(
             'NORMAL_TOTAL_ALIGNED_BASES', None)
         self.NORMAL_TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
@@ -1555,11 +1559,11 @@ class IlluminaSummaryCancerV4(ProtocolElement):
         self.TUMOR_MEAN_COVERAGE = kwargs.get(
             'TUMOR_MEAN_COVERAGE', None)
         self.TUMOR_MEDIAN_READ_LENGTH = kwargs.get(
-            'TUMOR_MEDIAN_READ_LENGTH', 'None')
+            'TUMOR_MEDIAN_READ_LENGTH', None)
         self.TUMOR_MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
-            'TUMOR_MEDIAN_READ_LENGTH_READ_1', 'None')
+            'TUMOR_MEDIAN_READ_LENGTH_READ_1', None)
         self.TUMOR_MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
-            'TUMOR_MEDIAN_READ_LENGTH_READ_2', 'None')
+            'TUMOR_MEDIAN_READ_LENGTH_READ_2', None)
         self.TUMOR_MISMATCH_RATE = kwargs.get(
             'TUMOR_MISMATCH_RATE', None)
         self.TUMOR_MISMATCH_RATE_READ_1 = kwargs.get(
@@ -1609,9 +1613,9 @@ class IlluminaSummaryCancerV4(ProtocolElement):
         self.TUMOR_READ_ENRICHMENT_AT_80_GC = kwargs.get(
             'TUMOR_READ_ENRICHMENT_AT_80_GC', None)
         self.TUMOR_SAMPLE_ID = kwargs.get(
-            'TUMOR_SAMPLE_ID', 'None')
+            'TUMOR_SAMPLE_ID', None)
         self.TUMOR_SAMPLE_NAME = kwargs.get(
-            'TUMOR_SAMPLE_NAME', 'None')
+            'TUMOR_SAMPLE_NAME', None)
         self.TUMOR_TOTAL_ALIGNED_BASES = kwargs.get(
             'TUMOR_TOTAL_ALIGNED_BASES', None)
         self.TUMOR_TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
@@ -1704,7 +1708,7 @@ class IlluminaSummaryCancerV4_CancerStats(ProtocolElement):
 "FRAGMENT_LENGTH_MAX"}, {"type": "long", "name": "FRAGMENT_LENGTH_SD"}, {"type": "double", "name":
 "PERCENT_OVERLAPPING_BASES"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "AUTOSOME_COVERAGE_AT_10X",
         "AUTOSOME_COVERAGE_AT_15X",
@@ -1875,15 +1879,15 @@ class IlluminaSummaryCancerV4_CancerStats(ProtocolElement):
         self.MEAN_COVERAGE = kwargs.get(
             'MEAN_COVERAGE', None)
         self.MEDIAN_READ_LENGTH = kwargs.get(
-            'MEDIAN_READ_LENGTH', 'None')
+            'MEDIAN_READ_LENGTH', None)
         self.MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
-            'MEDIAN_READ_LENGTH_READ_1', 'None')
+            'MEDIAN_READ_LENGTH_READ_1', None)
         self.MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
-            'MEDIAN_READ_LENGTH_READ_2', 'None')
+            'MEDIAN_READ_LENGTH_READ_2', None)
         self.METRICS_DELIVERABLE = kwargs.get(
-            'METRICS_DELIVERABLE', 'None')
+            'METRICS_DELIVERABLE', None)
         self.METRICS_VERSION = kwargs.get(
-            'METRICS_VERSION', 'None')
+            'METRICS_VERSION', None)
         self.MISMATCH_RATE = kwargs.get(
             'MISMATCH_RATE', None)
         self.MISMATCH_RATE_READ_1 = kwargs.get(
@@ -1937,13 +1941,13 @@ class IlluminaSummaryCancerV4_CancerStats(ProtocolElement):
         self.READ_ENRICHMENT_AT_80_GC = kwargs.get(
             'READ_ENRICHMENT_AT_80_GC', None)
         self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
+            'REFERENCE_GENOME', None)
         self.RUN_FOLDER = kwargs.get(
-            'RUN_FOLDER', 'None')
+            'RUN_FOLDER', None)
         self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
+            'SAMPLE_ID', None)
         self.SAMPLE_NAME = kwargs.get(
-            'SAMPLE_NAME', 'None')
+            'SAMPLE_NAME', None)
         self.TOTAL_ALIGNED_BASES = kwargs.get(
             'TOTAL_ALIGNED_BASES', None)
         self.TOTAL_ALIGNED_BASES_READ_1 = kwargs.get(
@@ -2036,7 +2040,7 @@ class IlluminaSummaryV1(ProtocolElement):
 {"type": "double", "name": "STOPLOSTINS"}, {"type": "double", "name": "INSERTIONCOUNT"}, {"type":
 "double", "name": "PERCENT_DUPLICATE_PAIRED_READS"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "CALLABLE_AUTOSOMAL_FRACTION",
         "CNVCOUNT",
@@ -2183,7 +2187,7 @@ class IlluminaSummaryV1(ProtocolElement):
         self.CNVPERCENTINGENES = kwargs.get(
             'CNVPERCENTINGENES', None)
         self.CNVSTATISTICSFLAG = kwargs.get(
-            'CNVSTATISTICSFLAG', 'None')
+            'CNVSTATISTICSFLAG', None)
         self.DELETIONCOUNT = kwargs.get(
             'DELETIONCOUNT', None)
         self.DELETIONNUMBERINGENES = kwargs.get(
@@ -2269,7 +2273,7 @@ class IlluminaSummaryV1(ProtocolElement):
         self.NUMSNVSINGENES = kwargs.get(
             'NUMSNVSINGENES', None)
         self.PAIRED_END = kwargs.get(
-            'PAIRED_END', 'None')
+            'PAIRED_END', None)
         self.PERCENT_ALIGNED_R1 = kwargs.get(
             'PERCENT_ALIGNED_R1', None)
         self.PERCENT_ALIGNED_R2 = kwargs.get(
@@ -2281,13 +2285,13 @@ class IlluminaSummaryV1(ProtocolElement):
         self.PERCENT_Q30_R2 = kwargs.get(
             'PERCENT_Q30_R2', None)
         self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
+            'REFERENCE_GENOME', None)
         self.RUNFOLDER = kwargs.get(
-            'RUNFOLDER', 'None')
+            'RUNFOLDER', None)
         self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
+            'SAMPLE_ID', None)
         self.SMALLVARIANTSTATISTICSFLAG = kwargs.get(
-            'SMALLVARIANTSTATISTICSFLAG', 'None')
+            'SMALLVARIANTSTATISTICSFLAG', None)
         self.SNVS = kwargs.get(
             'SNVS', None)
         self.SNVS_ALL = kwargs.get(
@@ -2317,7 +2321,7 @@ class IlluminaSummaryV1(ProtocolElement):
         self.STOPLOSTSNVS = kwargs.get(
             'STOPLOSTSNVS', None)
         self.SVSTATISTICSFLAG = kwargs.get(
-            'SVSTATISTICSFLAG', 'None')
+            'SVSTATISTICSFLAG', None)
         self.SYNONYMOUSDEL = kwargs.get(
             'SYNONYMOUSDEL', None)
         self.SYNONYMOUSINS = kwargs.get(
@@ -2406,7 +2410,7 @@ class IlluminaSummaryV2(ProtocolElement):
 {"type": "long", "name": "DELETIONS_IN_UTR_REGIONS"}, {"type": "long", "name":
 "INSERTIONS_IN_EXONS"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "CNV",
         "CNV_IN_GENES",
@@ -2662,13 +2666,13 @@ class IlluminaSummaryV2(ProtocolElement):
         self.PERCENT_Q30_BASES_READ_2 = kwargs.get(
             'PERCENT_Q30_BASES_READ_2', None)
         self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
+            'REFERENCE_GENOME', None)
         self.RUNFOLDER = kwargs.get(
-            'RUNFOLDER', 'None')
+            'RUNFOLDER', None)
         self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
+            'SAMPLE_ID', None)
         self.SAMPLE_NAME = kwargs.get(
-            'SAMPLE_NAME', 'None')
+            'SAMPLE_NAME', None)
         self.SNVS = kwargs.get(
             'SNVS', None)
         self.SNVS_ALL = kwargs.get(
@@ -2845,7 +2849,7 @@ class IlluminaSummaryV4(ProtocolElement):
 "long", "name": "TOTAL_PF_READ_1"}, {"type": "long", "name": "TOTAL_PF_READ_2"}, {"type": "long",
 "name": "TOTAL_PROPER_READ_PAIRS"}, {"type": "long", "name": "UNIQUE_ALIGNED_READS"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ARRAY_CONCORDANCE",
         "ARRAY_CONCORDANCE_USAGE",
@@ -3204,15 +3208,15 @@ class IlluminaSummaryV4(ProtocolElement):
         self.MEAN_COVERAGE = kwargs.get(
             'MEAN_COVERAGE', None)
         self.MEDIAN_READ_LENGTH = kwargs.get(
-            'MEDIAN_READ_LENGTH', 'None')
+            'MEDIAN_READ_LENGTH', None)
         self.MEDIAN_READ_LENGTH_READ_1 = kwargs.get(
-            'MEDIAN_READ_LENGTH_READ_1', 'None')
+            'MEDIAN_READ_LENGTH_READ_1', None)
         self.MEDIAN_READ_LENGTH_READ_2 = kwargs.get(
-            'MEDIAN_READ_LENGTH_READ_2', 'None')
+            'MEDIAN_READ_LENGTH_READ_2', None)
         self.METRICS_DELIVERABLE = kwargs.get(
-            'METRICS_DELIVERABLE', 'None')
+            'METRICS_DELIVERABLE', None)
         self.METRICS_VERSION = kwargs.get(
-            'METRICS_VERSION', 'None')
+            'METRICS_VERSION', None)
         self.MISMATCH_RATE = kwargs.get(
             'MISMATCH_RATE', None)
         self.MISMATCH_RATE_READ_1 = kwargs.get(
@@ -3274,13 +3278,13 @@ class IlluminaSummaryV4(ProtocolElement):
         self.READ_ENRICHMENT_AT_80_GC = kwargs.get(
             'READ_ENRICHMENT_AT_80_GC', None)
         self.REFERENCE_GENOME = kwargs.get(
-            'REFERENCE_GENOME', 'None')
+            'REFERENCE_GENOME', None)
         self.RUN_FOLDER = kwargs.get(
-            'RUN_FOLDER', 'None')
+            'RUN_FOLDER', None)
         self.SAMPLE_ID = kwargs.get(
-            'SAMPLE_ID', 'None')
+            'SAMPLE_ID', None)
         self.SAMPLE_NAME = kwargs.get(
-            'SAMPLE_NAME', 'None')
+            'SAMPLE_NAME', None)
         self.SNVS = kwargs.get(
             'SNVS', None)
         self.SNVS_ALL = kwargs.get(
@@ -3407,6 +3411,9 @@ class IlluminaVersion(object):
     IlluminaSummaryCancerV2 = "IlluminaSummaryCancerV2"
     IlluminaSummaryCancerV4 = "IlluminaSummaryCancerV4"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class InbreedingCoefficientEstimates(ProtocolElement):
     """
@@ -3418,7 +3425,7 @@ class InbreedingCoefficientEstimates(ProtocolElement):
 "name": "IID"}, {"type": "double", "name": "O_HOM"}, {"type": "double", "name": "E_HOM"}, {"type":
 "double", "name": "N_NM"}, {"type": "double", "name": "F"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "E_HOM",
         "F",
@@ -3449,9 +3456,9 @@ class InbreedingCoefficientEstimates(ProtocolElement):
         self.F = kwargs.get(
             'F', None)
         self.FID = kwargs.get(
-            'FID', 'None')
+            'FID', None)
         self.IID = kwargs.get(
-            'IID', 'None')
+            'IID', None)
         self.N_NM = kwargs.get(
             'N_NM', None)
         self.O_HOM = kwargs.get(
@@ -3469,7 +3476,7 @@ class IndividualState(ProtocolElement):
 "pedigree", "contamination", "quality", "plinksex", "inbreedingcoefficient", "in_qc"], "type":
 "enum", "name": "Reason"}], "name": "reason"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reason",
         "state",
@@ -3508,7 +3515,7 @@ class IndividualTests(ProtocolElement):
 [{"type": "boolean", "name": "plinksex"}, {"type": "boolean", "name": "inbreedingcoefficient"}],
 "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "inbreedingcoefficient",
         "plinksex",
@@ -3544,7 +3551,7 @@ class InsertSizeGel(ProtocolElement):
 {"namespace": "org.gel.models.report.avro", "type": "record", "name": "InsertSizeGel", "fields":
 [{"type": "double", "name": "median_inward"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "median_inward",
     }
@@ -3578,7 +3585,7 @@ class Machine(ProtocolElement):
 "double", "name": "DATE"}, {"type": "string", "name": "MACHINE"}, {"type": "string", "name":
 "FLOWCELL"}, {"type": "string", "name": "RUN"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "DATE",
         "FLOWCELL",
@@ -3605,11 +3612,11 @@ class Machine(ProtocolElement):
         self.DATE = kwargs.get(
             'DATE', None)
         self.FLOWCELL = kwargs.get(
-            'FLOWCELL', 'None')
+            'FLOWCELL', None)
         self.MACHINE = kwargs.get(
-            'MACHINE', 'None')
+            'MACHINE', None)
         self.RUN = kwargs.get(
-            'RUN', 'None')
+            'RUN', None)
 
 
 class MutationalSignatureContribution(ProtocolElement):
@@ -3621,7 +3628,7 @@ class MutationalSignatureContribution(ProtocolElement):
 "MutationalSignatureContribution", "fields": [{"doc": "", "type": {"values": "double", "type":
 "map"}, "name": "coefficients"}, {"doc": "", "type": "double", "name": "rss"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coefficients",
         "rss",
@@ -3659,7 +3666,7 @@ class PlinkROH(ProtocolElement):
 "PHE"}, {"type": "double", "name": "NSEG"}, {"type": "double", "name": "KB"}, {"type": "double",
 "name": "KBAVG"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "FID",
         "IID",
@@ -3686,9 +3693,9 @@ class PlinkROH(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.FID = kwargs.get(
-            'FID', 'None')
+            'FID', None)
         self.IID = kwargs.get(
-            'IID', 'None')
+            'IID', None)
         self.KB = kwargs.get(
             'KB', None)
         self.KBAVG = kwargs.get(
@@ -3709,7 +3716,7 @@ class PlinkSexCheck(ProtocolElement):
 "F"}, {"type": "double", "name": "YCOUNT"}, {"type": "string", "name": "STATUS"}, {"type": "double",
 "name": "SNPSEX"}, {"type": "double", "name": "PEDSEX"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "F",
         "FID",
@@ -3739,15 +3746,15 @@ class PlinkSexCheck(ProtocolElement):
         self.F = kwargs.get(
             'F', None)
         self.FID = kwargs.get(
-            'FID', 'None')
+            'FID', None)
         self.IID = kwargs.get(
-            'IID', 'None')
+            'IID', None)
         self.PEDSEX = kwargs.get(
             'PEDSEX', None)
         self.SNPSEX = kwargs.get(
             'SNPSEX', None)
         self.STATUS = kwargs.get(
-            'STATUS', 'None')
+            'STATUS', None)
         self.YCOUNT = kwargs.get(
             'YCOUNT', None)
 
@@ -3776,7 +3783,7 @@ class RareDiseaseInterpretationStatus(ProtocolElement):
 "MD5Sum", "ROH", "OTHER"], "type": "enum", "name": "FileType"}, "name": "fileType"}, {"type":
 ["null", "string"], "name": "md5Sum"}]}, "type": "array"}], "name": "listOfFilesToDispatch"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "cohortName",
         "dataBaseVersions",
@@ -3821,11 +3828,11 @@ class RareDiseaseInterpretationStatus(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.cohortName = kwargs.get(
-            'cohortName', 'None')
+            'cohortName', None)
         self.dataBaseVersions = kwargs.get(
             'dataBaseVersions', None)
         self.groupId = kwargs.get(
-            'groupId', 'None')
+            'groupId', None)
         self.lastStepDate = kwargs.get(
             'lastStepDate', None)
         self.listOfFilesToDispatch = kwargs.get(
@@ -3833,9 +3840,9 @@ class RareDiseaseInterpretationStatus(ProtocolElement):
         self.listOfSamples = kwargs.get(
             'listOfSamples', None)
         self.piepelineId = kwargs.get(
-            'piepelineId', 'None')
+            'piepelineId', None)
         self.pipelineMainFolder = kwargs.get(
-            'pipelineMainFolder', 'None')
+            'pipelineMainFolder', None)
         self.pipelineParameters = kwargs.get(
             'pipelineParameters', None)
         self.readyToDispatch = kwargs.get(
@@ -3843,25 +3850,35 @@ class RareDiseaseInterpretationStatus(ProtocolElement):
         self.softwareVersions = kwargs.get(
             'softwareVersions', None)
         self.startDate = kwargs.get(
-            'startDate', 'None')
+            'startDate', None)
         self.steps = kwargs.get(
             'steps', None)
         self.tieringConfigurationFile = kwargs.get(
-            'tieringConfigurationFile', 'None')
+            'tieringConfigurationFile', None)
 
 
 class Reason(object):
     """
     No documentation
     """
+    median_coverage = "median_coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    consent = "consent"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
+    arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsScope(object):
@@ -3870,6 +3887,9 @@ class SamtoolsScope(object):
     """
     all = "all"
     filtered = "filtered"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SamtoolsStats(ProtocolElement):
@@ -3900,7 +3920,7 @@ class SamtoolsStats(ProtocolElement):
 "double", "name": "SAMTOOLS_READS_UNMAPPED"}, {"type": "double", "name": "SAMTOOLS_SEQUENCES"},
 {"type": "double", "name": "SAMTOOLS_TOTAL_LENGTH"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "SAMTOOLS_1ST_FRAGMENTS",
         "SAMTOOLS_AVERAGE_LENGTH",
@@ -4037,14 +4057,22 @@ class SamtoolsStats(ProtocolElement):
 
 class State(object):
     """
-    No documentation
+    This is the master state for this sample, for example
+    caution,quality could be used to say that a sample under this
+    individual has quality issues.  ready: sample is ready to be used
+    pending: sample is in the process of being analysed hold: sample
+    is on hold pending investigation fail: sample has failed a QC
+    check caution: sample is ready but should be used with caution
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class Step(ProtocolElement):
@@ -4056,7 +4084,7 @@ class Step(ProtocolElement):
 "string", "name": "stepName"}, {"type": "string", "name": "date"}, {"type": {"symbols": ["failed",
 "ready"], "type": "enum", "name": "StepStatus"}, "name": "status"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "date",
         "status",
@@ -4080,11 +4108,11 @@ class Step(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.date = kwargs.get(
-            'date', 'None')
+            'date', None)
         self.status = kwargs.get(
             'status', None)
         self.stepName = kwargs.get(
-            'stepName', 'None')
+            'stepName', None)
 
 
 class StepStatus(object):
@@ -4093,6 +4121,9 @@ class StepStatus(object):
     """
     failed = "failed"
     ready = "ready"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class SupplementaryAnalysisResults(ProtocolElement):
@@ -4111,7 +4142,7 @@ class SupplementaryAnalysisResults(ProtocolElement):
 "IndelAlleleFrequencyHistogramCounts"}, {"type": {"values": "int", "type": "map"}, "name":
 "IndelLengthHistogramCounts"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ContextualAnalysisSubstitutionsCounts",
         "GenomicRegionsOfHypermutation",
@@ -4187,7 +4218,7 @@ class TumorChecks(ProtocolElement):
 {"type": "double", "name": "num_variants_lt_filter"}, {"type": "double", "name":
 "perc_variants_gt_filter"}, {"type": "double", "name": "TumorContaminationContEst"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "TumorContaminationContEst",
         "num_variants_gt_filter",
@@ -4222,7 +4253,7 @@ class TumorChecks(ProtocolElement):
         self.perc_variants_gt_filter = kwargs.get(
             'perc_variants_gt_filter', None)
         self.well_id = kwargs.get(
-            'well_id', 'None')
+            'well_id', None)
 
 
 class VariantsCoverage(ProtocolElement):
@@ -4241,7 +4272,7 @@ class VariantsCoverage(ProtocolElement):
 "type": "string", "name": "scope"}], "type": "record", "name": "CoverageSummary"}, "type": "array"},
 "name": "coverageSummary"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "bedName",
         "coverageSummary",
@@ -4268,7 +4299,7 @@ class VariantsCoverage(ProtocolElement):
 
     def __init__(self, **kwargs):
         self.bedName = kwargs.get(
-            'bedName', 'None')
+            'bedName', None)
         self.coverageSummary = kwargs.get(
             'coverageSummary', None)
 
@@ -4285,7 +4316,7 @@ class VcfMetrics(ProtocolElement):
 "double", "name": "NUMBER_OF_RECORDS"}, {"type": "double", "name": "NUMBER_OF_OTHERS"}, {"type":
 "double", "name": "NUMBER_OF_MULTIALLELIC_SITES"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "NUMBER_OF_INDELS",
         "NUMBER_OF_MNPS",
@@ -4344,7 +4375,7 @@ class VcfTSTV(ProtocolElement):
 {"type": "double", "name": "TS_TV"}, {"type": "double", "name": "TV_1"}, {"type": "double", "name":
 "TS_TV_1"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "TS",
         "TS_1",
@@ -4402,7 +4433,7 @@ class VerifyBamId(ProtocolElement):
 "CHIPLK0"}, {"type": "string", "name": "CHIP_RA"}, {"type": "string", "name": "DPREF"}, {"type":
 "string", "name": "RDPHET"}, {"type": "string", "name": "RDPALT"}], "doc": ""}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "AVG_DP",
         "CHIPLK0",
@@ -4445,17 +4476,17 @@ class VerifyBamId(ProtocolElement):
         self.AVG_DP = kwargs.get(
             'AVG_DP', None)
         self.CHIPLK0 = kwargs.get(
-            'CHIPLK0', 'None')
+            'CHIPLK0', None)
         self.CHIPLK1 = kwargs.get(
-            'CHIPLK1', 'None')
+            'CHIPLK1', None)
         self.CHIPMIX = kwargs.get(
-            'CHIPMIX', 'None')
+            'CHIPMIX', None)
         self.CHIP_ID = kwargs.get(
-            'CHIP_ID', 'None')
+            'CHIP_ID', None)
         self.CHIP_RA = kwargs.get(
-            'CHIP_RA', 'None')
+            'CHIP_RA', None)
         self.DPREF = kwargs.get(
-            'DPREF', 'None')
+            'DPREF', None)
         self.FREELK0 = kwargs.get(
             'FREELK0', None)
         self.FREELK1 = kwargs.get(
@@ -4463,17 +4494,17 @@ class VerifyBamId(ProtocolElement):
         self.FREEMIX = kwargs.get(
             'FREEMIX', None)
         self.FREE_RA = kwargs.get(
-            'FREE_RA', 'None')
+            'FREE_RA', None)
         self.FREE_RH = kwargs.get(
-            'FREE_RH', 'None')
+            'FREE_RH', None)
         self.RDPALT = kwargs.get(
-            'RDPALT', 'None')
+            'RDPALT', None)
         self.RDPHET = kwargs.get(
-            'RDPHET', 'None')
+            'RDPHET', None)
         self.READS = kwargs.get(
             'READS', None)
         self.SEQ_ID = kwargs.get(
-            'SEQ_ID', 'None')
+            'SEQ_ID', None)
         self.SNPS = kwargs.get(
             'SNPS', None)
 
@@ -4494,7 +4525,7 @@ class WholeGenomeCoverage(ProtocolElement):
 "name": "scope"}], "type": "record", "name": "CoverageSummary"}, "type": "array"}, "name":
 "coverageSummary"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "coverageSummary",
     }
@@ -4536,7 +4567,7 @@ class sampleState(ProtocolElement):
 "arrayconcordance", "high_cnv", "in_qc", "pass_qc", "other"], "type": "enum", "name": "Reason"},
 "type": "array"}, "name": "reason"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reason",
         "state",
@@ -4573,7 +4604,7 @@ class sampleTests(ProtocolElement):
 [{"type": ["null", "boolean"], "name": "verifybamid"}, {"type": ["null", "boolean"], "name":
 "arrayconcordance"}, {"type": ["null", "boolean"], "name": "contamination"}]}
 """
-    schema = avro.schema.Parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "arrayconcordance",
         "contamination",

@@ -20,21 +20,21 @@ class AnalysisParameters(ProtocolElement):
     The configuration parameters used for the analysis
     """
     _schemaSource = """
-{"type": "record", "name": "AnalysisParameters", "namespace": "org.gel.models.coverage.avro", "doc":
-"", "fields": [{"name": "coding_region_stats_enabled", "type": "boolean", "doc": ""}, {"name":
-"exon_stats_enabled", "type": "boolean", "doc": ""}, {"name": "wg_stats_enabled", "type": "boolean",
-"doc": ""}, {"name": "gene_list", "type": ["null", {"type": "array", "items": "string"}], "doc":
-""}, {"name": "panel", "type": ["null", "string"], "doc": ""}, {"name": "panel_version", "type":
-["null", "string"], "doc": ""}, {"name": "panelapp_host", "type": ["null", "string"], "doc": ""},
-{"name": "panelapp_gene_confidence", "type": ["null", "string"], "doc": ""}, {"name":
-"transcript_filtering_biotypes", "type": "string", "doc": ""}, {"name":
-"transcript_filtering_flags", "type": "string", "doc": ""}, {"name": "cellbase_host", "type":
-"string", "doc": ""}, {"name": "cellbase_version", "type": "string", "doc": ""}, {"name": "grch37",
-"type": "string", "doc": ""}, {"name": "species", "type": "string", "doc": ""}, {"name":
-"exon_padding", "type": "int", "doc": ""}, {"name": "gap_coverage_threshold", "type": "int", "doc":
-""}, {"name": "gap_length_threshold", "type": "int", "doc": ""}, {"name": "input_file", "type":
-"string", "doc": ""}, {"name": "configuration_file", "type": "string", "doc": ""}, {"name":
-"wg_regions", "type": ["null", "string"], "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "AnalysisParameters",
+"fields": [{"doc": "", "type": "boolean", "name": "coding_region_stats_enabled"}, {"doc": "",
+"type": "boolean", "name": "exon_stats_enabled"}, {"doc": "", "type": "boolean", "name":
+"wg_stats_enabled"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
+"gene_list"}, {"doc": "", "type": ["null", "string"], "name": "panel"}, {"doc": "", "type": ["null",
+"string"], "name": "panel_version"}, {"doc": "", "type": ["null", "string"], "name":
+"panelapp_host"}, {"doc": "", "type": ["null", "string"], "name": "panelapp_gene_confidence"},
+{"doc": "", "type": "string", "name": "transcript_filtering_biotypes"}, {"doc": "", "type":
+"string", "name": "transcript_filtering_flags"}, {"doc": "", "type": "string", "name":
+"cellbase_host"}, {"doc": "", "type": "string", "name": "cellbase_version"}, {"doc": "", "type":
+"string", "name": "grch37"}, {"doc": "", "type": "string", "name": "species"}, {"doc": "", "type":
+"int", "name": "exon_padding"}, {"doc": "", "type": "int", "name": "gap_coverage_threshold"},
+{"doc": "", "type": "int", "name": "gap_length_threshold"}, {"doc": "", "type": "string", "name":
+"input_file"}, {"doc": "", "type": "string", "name": "configuration_file"}, {"doc": "", "type":
+["null", "string"], "name": "wg_regions"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -130,61 +130,61 @@ class AnalysisResults(ProtocolElement):
     The output of a coverage analysis
     """
     _schemaSource = """
-{"type": "record", "name": "AnalysisResults", "namespace": "org.gel.models.coverage.avro", "doc":
-"", "fields": [{"name": "results", "type": {"type": "record", "name": "CoverageAnalysisResults",
-"doc": "", "fields": [{"name": "genes", "type": {"type": "array", "items": {"type": "record",
-"name": "Gene", "doc": "", "fields": [{"name": "trs", "type": {"type": "array", "items": {"type":
-"record", "name": "Transcript", "doc": "", "fields": [{"name": "id", "type": "string", "doc": ""},
-{"name": "stats", "type": {"type": "record", "name": "RegionStatistics", "doc": "", "fields":
-[{"name": "avg", "type": "float", "doc": ""}, {"name": "sd", "type": "float", "doc": ""}, {"name":
-"med", "type": "float", "doc": ""}, {"name": "gc", "type": ["null", "float"], "doc": ""}, {"name":
-"pct75", "type": "float", "doc": ""}, {"name": "pct25", "type": "float", "doc": ""}, {"name":
-"bases", "type": ["null", "int"], "doc": ""}, {"name": "bases_lt_15x", "type": ["null", "int"],
-"doc": ""}, {"name": "bases_gte_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_30x",
-"type": ["null", "int"], "doc": ""}, {"name": "bases_gte_50x", "type": ["null", "int"], "doc": ""},
-{"name": "gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""},
-{"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""},
-{"name": "rmsd", "type": ["null", "float"], "doc": ""}]}, "doc": ""}, {"name": "exons", "type":
-["null", {"type": "array", "items": {"type": "record", "name": "Exon", "doc": "", "fields":
-[{"name": "exon", "type": "string", "doc": ""}, {"name": "s", "type": "int", "doc": ""}, {"name":
-"padded_s", "type": ["null", "int"], "doc": ""}, {"name": "e", "type": "int", "doc": ""}, {"name":
-"padded_e", "type": ["null", "int"], "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""},
-{"name": "gaps", "type": {"type": "array", "items": {"type": "record", "name": "CoverageGap", "doc":
-"", "fields": [{"name": "s", "type": "int", "doc": ""}, {"name": "e", "type": "int", "doc": ""},
-{"name": "l", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}, {"name": "stats", "type":
-"RegionStatistics", "doc": ""}]}}], "doc": ""}]}}, "doc": ""}, {"name": "union_tr", "type":
-"Transcript", "doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "chr", "type":
-"string", "doc": ""}]}}, "doc": ""}, {"name": "coding_region", "type": ["null", {"type": "record",
-"name": "CodingRegion", "doc": "", "fields": [{"name": "stats", "type": "RegionStatistics", "doc":
-""}, {"name": "chrs", "type": {"type": "array", "items": {"type": "record", "name": "Chromosome",
-"doc": "", "fields": [{"name": "chr", "type": "string", "doc": ""}, {"name": "avg", "type": "float",
-"doc": ""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": "int", "doc": ""}, {"name":
-"gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name":
-"gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
-"rmsd", "type": ["null", "float"], "doc": ""}]}}, "doc": ""}]}], "doc": ""}, {"name":
-"whole_genome", "type": ["null", {"type": "record", "name": "WholeGenome", "fields": [{"name":
-"stats", "type": "RegionStatistics", "doc": ""}, {"name": "chrs", "type": {"type": "array", "items":
-"Chromosome"}, "doc": ""}]}], "doc": ""}, {"name": "uncovered_genes", "type": {"type": "array",
-"items": {"type": "record", "name": "UncoveredGene", "doc": "", "fields": [{"name": "chr", "type":
-"string", "doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "s", "type": ["null",
-"int"], "doc": ""}, {"name": "e", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}]}, "doc": ""},
-{"name": "parameters", "type": {"type": "record", "name": "AnalysisParameters", "doc": "", "fields":
-[{"name": "coding_region_stats_enabled", "type": "boolean", "doc": ""}, {"name":
-"exon_stats_enabled", "type": "boolean", "doc": ""}, {"name": "wg_stats_enabled", "type": "boolean",
-"doc": ""}, {"name": "gene_list", "type": ["null", {"type": "array", "items": "string"}], "doc":
-""}, {"name": "panel", "type": ["null", "string"], "doc": ""}, {"name": "panel_version", "type":
-["null", "string"], "doc": ""}, {"name": "panelapp_host", "type": ["null", "string"], "doc": ""},
-{"name": "panelapp_gene_confidence", "type": ["null", "string"], "doc": ""}, {"name":
-"transcript_filtering_biotypes", "type": "string", "doc": ""}, {"name":
-"transcript_filtering_flags", "type": "string", "doc": ""}, {"name": "cellbase_host", "type":
-"string", "doc": ""}, {"name": "cellbase_version", "type": "string", "doc": ""}, {"name": "grch37",
-"type": "string", "doc": ""}, {"name": "species", "type": "string", "doc": ""}, {"name":
-"exon_padding", "type": "int", "doc": ""}, {"name": "gap_coverage_threshold", "type": "int", "doc":
-""}, {"name": "gap_length_threshold", "type": "int", "doc": ""}, {"name": "input_file", "type":
-"string", "doc": ""}, {"name": "configuration_file", "type": "string", "doc": ""}, {"name":
-"wg_regions", "type": ["null", "string"], "doc": ""}]}, "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "AnalysisResults", "fields":
+[{"doc": "", "type": {"doc": "", "type": "record", "name": "CoverageAnalysisResults", "fields":
+[{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "Gene", "fields": [{"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "Transcript", "fields": [{"doc": "", "type":
+"string", "name": "id"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"RegionStatistics", "fields": [{"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type":
+"float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "", "type": ["null",
+"float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type": "float",
+"name": "pct25"}, {"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc": "", "type":
+["null", "int"], "name": "bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "name":
+"stats"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "Exon",
+"fields": [{"doc": "", "type": "string", "name": "exon"}, {"doc": "", "type": "int", "name": "s"},
+{"doc": "", "type": ["null", "int"], "name": "padded_s"}, {"doc": "", "type": "int", "name": "e"},
+{"doc": "", "type": ["null", "int"], "name": "padded_e"}, {"doc": "", "type": ["null", "int"],
+"name": "l"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "CoverageGap",
+"fields": [{"doc": "", "type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc":
+"", "type": ["null", "int"], "name": "l"}]}, "type": "array"}, "name": "gaps"}, {"doc": "", "type":
+"RegionStatistics", "name": "stats"}]}, "type": "array"}], "name": "exons"}]}, "type": "array"},
+"name": "trs"}, {"doc": "", "type": "Transcript", "name": "union_tr"}, {"doc": "", "type": "string",
+"name": "name"}, {"doc": "", "type": "string", "name": "chr"}]}, "type": "array"}, "name": "genes"},
+{"doc": "", "type": ["null", {"doc": "", "type": "record", "name": "CodingRegion", "fields":
+[{"doc": "", "type": "RegionStatistics", "name": "stats"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "Chromosome", "fields": [{"doc": "", "type": "string", "name": "chr"},
+{"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"}, {"doc": "",
+"type": "float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"}, {"doc": "",
+"type": "float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"}, {"doc": "",
+"type": "int", "name": "bases"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc": "", "type":
+"float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "", "type":
+"float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "type":
+"array"}, "name": "chrs"}]}], "name": "coding_region"}, {"doc": "", "type": ["null", {"fields":
+[{"doc": "", "type": "RegionStatistics", "name": "stats"}, {"doc": "", "type": {"items":
+"Chromosome", "type": "array"}, "name": "chrs"}], "type": "record", "name": "WholeGenome"}], "name":
+"whole_genome"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"UncoveredGene", "fields": [{"doc": "", "type": "string", "name": "chr"}, {"doc": "", "type":
+"string", "name": "name"}, {"doc": "", "type": ["null", "int"], "name": "s"}, {"doc": "", "type":
+["null", "int"], "name": "e"}]}, "type": "array"}, "name": "uncovered_genes"}]}, "name": "results"},
+{"doc": "", "type": {"doc": "", "type": "record", "name": "AnalysisParameters", "fields": [{"doc":
+"", "type": "boolean", "name": "coding_region_stats_enabled"}, {"doc": "", "type": "boolean",
+"name": "exon_stats_enabled"}, {"doc": "", "type": "boolean", "name": "wg_stats_enabled"}, {"doc":
+"", "type": ["null", {"items": "string", "type": "array"}], "name": "gene_list"}, {"doc": "",
+"type": ["null", "string"], "name": "panel"}, {"doc": "", "type": ["null", "string"], "name":
+"panel_version"}, {"doc": "", "type": ["null", "string"], "name": "panelapp_host"}, {"doc": "",
+"type": ["null", "string"], "name": "panelapp_gene_confidence"}, {"doc": "", "type": "string",
+"name": "transcript_filtering_biotypes"}, {"doc": "", "type": "string", "name":
+"transcript_filtering_flags"}, {"doc": "", "type": "string", "name": "cellbase_host"}, {"doc": "",
+"type": "string", "name": "cellbase_version"}, {"doc": "", "type": "string", "name": "grch37"},
+{"doc": "", "type": "string", "name": "species"}, {"doc": "", "type": "int", "name":
+"exon_padding"}, {"doc": "", "type": "int", "name": "gap_coverage_threshold"}, {"doc": "", "type":
+"int", "name": "gap_length_threshold"}, {"doc": "", "type": "string", "name": "input_file"}, {"doc":
+"", "type": "string", "name": "configuration_file"}, {"doc": "", "type": ["null", "string"], "name":
+"wg_regions"}]}, "name": "parameters"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -225,14 +225,14 @@ class Chromosome(ProtocolElement):
     All coverage information about a given chromosome
     """
     _schemaSource = """
-{"type": "record", "name": "Chromosome", "namespace": "org.gel.models.coverage.avro", "doc": "",
-"fields": [{"name": "chr", "type": "string", "doc": ""}, {"name": "avg", "type": "float", "doc":
-""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": "int", "doc": ""}, {"name":
-"gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name":
-"gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
-"rmsd", "type": ["null", "float"], "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "Chromosome", "fields":
+[{"doc": "", "type": "string", "name": "chr"}, {"doc": "", "type": "float", "name": "avg"}, {"doc":
+"", "type": "float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "", "type":
+["null", "float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type":
+"float", "name": "pct25"}, {"doc": "", "type": "int", "name": "bases"}, {"doc": "", "type": "float",
+"name": "gte50x"}, {"doc": "", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float",
+"name": "gte15x"}, {"doc": "", "type": "float", "name": "lt15x"}, {"doc": "", "type": ["null",
+"float"], "name": "rmsd"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -301,25 +301,25 @@ class CodingRegion(ProtocolElement):
     All coverage information about the coding region
     """
     _schemaSource = """
-{"type": "record", "name": "CodingRegion", "namespace": "org.gel.models.coverage.avro", "doc": "",
-"fields": [{"name": "stats", "type": {"type": "record", "name": "RegionStatistics", "doc": "",
-"fields": [{"name": "avg", "type": "float", "doc": ""}, {"name": "sd", "type": "float", "doc": ""},
-{"name": "med", "type": "float", "doc": ""}, {"name": "gc", "type": ["null", "float"], "doc": ""},
-{"name": "pct75", "type": "float", "doc": ""}, {"name": "pct25", "type": "float", "doc": ""},
-{"name": "bases", "type": ["null", "int"], "doc": ""}, {"name": "bases_lt_15x", "type": ["null",
-"int"], "doc": ""}, {"name": "bases_gte_15x", "type": ["null", "int"], "doc": ""}, {"name":
-"bases_gte_30x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_50x", "type": ["null",
-"int"], "doc": ""}, {"name": "gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type":
-"float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type":
-"float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc": ""}]}, "doc": ""}, {"name":
-"chrs", "type": {"type": "array", "items": {"type": "record", "name": "Chromosome", "doc": "",
-"fields": [{"name": "chr", "type": "string", "doc": ""}, {"name": "avg", "type": "float", "doc":
-""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": "int", "doc": ""}, {"name":
-"gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name":
-"gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
-"rmsd", "type": ["null", "float"], "doc": ""}]}}, "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "CodingRegion", "fields":
+[{"doc": "", "type": {"doc": "", "type": "record", "name": "RegionStatistics", "fields": [{"doc":
+"", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"}, {"doc": "", "type":
+"float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"}, {"doc": "", "type":
+"float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"}, {"doc": "", "type":
+["null", "int"], "name": "bases"}, {"doc": "", "type": ["null", "int"], "name": "bases_lt_15x"},
+{"doc": "", "type": ["null", "int"], "name": "bases_gte_15x"}, {"doc": "", "type": ["null", "int"],
+"name": "bases_gte_30x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_50x"}, {"doc": "",
+"type": "float", "name": "gte50x"}, {"doc": "", "type": "float", "name": "gte30x"}, {"doc": "",
+"type": "float", "name": "gte15x"}, {"doc": "", "type": "float", "name": "lt15x"}, {"doc": "",
+"type": ["null", "float"], "name": "rmsd"}]}, "name": "stats"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "Chromosome", "fields": [{"doc": "", "type": "string", "name":
+"chr"}, {"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"},
+{"doc": "", "type": "float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"},
+{"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"},
+{"doc": "", "type": "int", "name": "bases"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "type":
+"array"}, "name": "chrs"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -360,45 +360,45 @@ class CoverageAnalysisResults(ProtocolElement):
     Coverage analysis results
     """
     _schemaSource = """
-{"type": "record", "name": "CoverageAnalysisResults", "namespace": "org.gel.models.coverage.avro",
-"doc": "", "fields": [{"name": "genes", "type": {"type": "array", "items": {"type": "record",
-"name": "Gene", "doc": "", "fields": [{"name": "trs", "type": {"type": "array", "items": {"type":
-"record", "name": "Transcript", "doc": "", "fields": [{"name": "id", "type": "string", "doc": ""},
-{"name": "stats", "type": {"type": "record", "name": "RegionStatistics", "doc": "", "fields":
-[{"name": "avg", "type": "float", "doc": ""}, {"name": "sd", "type": "float", "doc": ""}, {"name":
-"med", "type": "float", "doc": ""}, {"name": "gc", "type": ["null", "float"], "doc": ""}, {"name":
-"pct75", "type": "float", "doc": ""}, {"name": "pct25", "type": "float", "doc": ""}, {"name":
-"bases", "type": ["null", "int"], "doc": ""}, {"name": "bases_lt_15x", "type": ["null", "int"],
-"doc": ""}, {"name": "bases_gte_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_30x",
-"type": ["null", "int"], "doc": ""}, {"name": "bases_gte_50x", "type": ["null", "int"], "doc": ""},
-{"name": "gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""},
-{"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""},
-{"name": "rmsd", "type": ["null", "float"], "doc": ""}]}, "doc": ""}, {"name": "exons", "type":
-["null", {"type": "array", "items": {"type": "record", "name": "Exon", "doc": "", "fields":
-[{"name": "exon", "type": "string", "doc": ""}, {"name": "s", "type": "int", "doc": ""}, {"name":
-"padded_s", "type": ["null", "int"], "doc": ""}, {"name": "e", "type": "int", "doc": ""}, {"name":
-"padded_e", "type": ["null", "int"], "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""},
-{"name": "gaps", "type": {"type": "array", "items": {"type": "record", "name": "CoverageGap", "doc":
-"", "fields": [{"name": "s", "type": "int", "doc": ""}, {"name": "e", "type": "int", "doc": ""},
-{"name": "l", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}, {"name": "stats", "type":
-"RegionStatistics", "doc": ""}]}}], "doc": ""}]}}, "doc": ""}, {"name": "union_tr", "type":
-"Transcript", "doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "chr", "type":
-"string", "doc": ""}]}}, "doc": ""}, {"name": "coding_region", "type": ["null", {"type": "record",
-"name": "CodingRegion", "doc": "", "fields": [{"name": "stats", "type": "RegionStatistics", "doc":
-""}, {"name": "chrs", "type": {"type": "array", "items": {"type": "record", "name": "Chromosome",
-"doc": "", "fields": [{"name": "chr", "type": "string", "doc": ""}, {"name": "avg", "type": "float",
-"doc": ""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": "int", "doc": ""}, {"name":
-"gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name":
-"gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name":
-"rmsd", "type": ["null", "float"], "doc": ""}]}}, "doc": ""}]}], "doc": ""}, {"name":
-"whole_genome", "type": ["null", {"type": "record", "name": "WholeGenome", "fields": [{"name":
-"stats", "type": "RegionStatistics", "doc": ""}, {"name": "chrs", "type": {"type": "array", "items":
-"Chromosome"}, "doc": ""}]}], "doc": ""}, {"name": "uncovered_genes", "type": {"type": "array",
-"items": {"type": "record", "name": "UncoveredGene", "doc": "", "fields": [{"name": "chr", "type":
-"string", "doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "s", "type": ["null",
-"int"], "doc": ""}, {"name": "e", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "CoverageAnalysisResults",
+"fields": [{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "Gene", "fields":
+[{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "Transcript", "fields":
+[{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "RegionStatistics", "fields": [{"doc": "", "type": "float", "name": "avg"}, {"doc": "",
+"type": "float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "", "type":
+["null", "float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type":
+"float", "name": "pct25"}, {"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc": "",
+"type": ["null", "int"], "name": "bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "name":
+"stats"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "Exon",
+"fields": [{"doc": "", "type": "string", "name": "exon"}, {"doc": "", "type": "int", "name": "s"},
+{"doc": "", "type": ["null", "int"], "name": "padded_s"}, {"doc": "", "type": "int", "name": "e"},
+{"doc": "", "type": ["null", "int"], "name": "padded_e"}, {"doc": "", "type": ["null", "int"],
+"name": "l"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "CoverageGap",
+"fields": [{"doc": "", "type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc":
+"", "type": ["null", "int"], "name": "l"}]}, "type": "array"}, "name": "gaps"}, {"doc": "", "type":
+"RegionStatistics", "name": "stats"}]}, "type": "array"}], "name": "exons"}]}, "type": "array"},
+"name": "trs"}, {"doc": "", "type": "Transcript", "name": "union_tr"}, {"doc": "", "type": "string",
+"name": "name"}, {"doc": "", "type": "string", "name": "chr"}]}, "type": "array"}, "name": "genes"},
+{"doc": "", "type": ["null", {"doc": "", "type": "record", "name": "CodingRegion", "fields":
+[{"doc": "", "type": "RegionStatistics", "name": "stats"}, {"doc": "", "type": {"items": {"doc": "",
+"type": "record", "name": "Chromosome", "fields": [{"doc": "", "type": "string", "name": "chr"},
+{"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"}, {"doc": "",
+"type": "float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"}, {"doc": "",
+"type": "float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"}, {"doc": "",
+"type": "int", "name": "bases"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc": "", "type":
+"float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "", "type":
+"float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "type":
+"array"}, "name": "chrs"}]}], "name": "coding_region"}, {"doc": "", "type": ["null", {"fields":
+[{"doc": "", "type": "RegionStatistics", "name": "stats"}, {"doc": "", "type": {"items":
+"Chromosome", "type": "array"}, "name": "chrs"}], "type": "record", "name": "WholeGenome"}], "name":
+"whole_genome"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"UncoveredGene", "fields": [{"doc": "", "type": "string", "name": "chr"}, {"doc": "", "type":
+"string", "name": "name"}, {"doc": "", "type": ["null", "int"], "name": "s"}, {"doc": "", "type":
+["null", "int"], "name": "e"}]}, "type": "array"}, "name": "uncovered_genes"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -455,9 +455,9 @@ class CoverageGap(ProtocolElement):
     15x
     """
     _schemaSource = """
-{"type": "record", "name": "CoverageGap", "namespace": "org.gel.models.coverage.avro", "doc": "",
-"fields": [{"name": "s", "type": "int", "doc": ""}, {"name": "e", "type": "int", "doc": ""},
-{"name": "l", "type": ["null", "int"], "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "CoverageGap", "fields":
+[{"doc": "", "type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc": "",
+"type": ["null", "int"], "name": "l"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -495,23 +495,23 @@ class Exon(ProtocolElement):
     All coverage information about a given exon
     """
     _schemaSource = """
-{"type": "record", "name": "Exon", "namespace": "org.gel.models.coverage.avro", "doc": "", "fields":
-[{"name": "exon", "type": "string", "doc": ""}, {"name": "s", "type": "int", "doc": ""}, {"name":
-"padded_s", "type": ["null", "int"], "doc": ""}, {"name": "e", "type": "int", "doc": ""}, {"name":
-"padded_e", "type": ["null", "int"], "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""},
-{"name": "gaps", "type": {"type": "array", "items": {"type": "record", "name": "CoverageGap", "doc":
-"", "fields": [{"name": "s", "type": "int", "doc": ""}, {"name": "e", "type": "int", "doc": ""},
-{"name": "l", "type": ["null", "int"], "doc": ""}]}}, "doc": ""}, {"name": "stats", "type": {"type":
-"record", "name": "RegionStatistics", "doc": "", "fields": [{"name": "avg", "type": "float", "doc":
-""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": ["null", "int"], "doc":
-""}, {"name": "bases_lt_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_15x", "type":
-["null", "int"], "doc": ""}, {"name": "bases_gte_30x", "type": ["null", "int"], "doc": ""}, {"name":
-"bases_gte_50x", "type": ["null", "int"], "doc": ""}, {"name": "gte50x", "type": "float", "doc":
-""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""},
-{"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc":
-""}]}, "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "Exon", "fields": [{"doc":
+"", "type": "string", "name": "exon"}, {"doc": "", "type": "int", "name": "s"}, {"doc": "", "type":
+["null", "int"], "name": "padded_s"}, {"doc": "", "type": "int", "name": "e"}, {"doc": "", "type":
+["null", "int"], "name": "padded_e"}, {"doc": "", "type": ["null", "int"], "name": "l"}, {"doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "CoverageGap", "fields": [{"doc": "",
+"type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc": "", "type": ["null",
+"int"], "name": "l"}]}, "type": "array"}, "name": "gaps"}, {"doc": "", "type": {"doc": "", "type":
+"record", "name": "RegionStatistics", "fields": [{"doc": "", "type": "float", "name": "avg"},
+{"doc": "", "type": "float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "",
+"type": ["null", "float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "",
+"type": "float", "name": "pct25"}, {"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc":
+"", "type": ["null", "int"], "name": "bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "name":
+"stats"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -570,28 +570,28 @@ class Gene(ProtocolElement):
     All coverage information about a given gene
     """
     _schemaSource = """
-{"type": "record", "name": "Gene", "namespace": "org.gel.models.coverage.avro", "doc": "", "fields":
-[{"name": "trs", "type": {"type": "array", "items": {"type": "record", "name": "Transcript", "doc":
-"", "fields": [{"name": "id", "type": "string", "doc": ""}, {"name": "stats", "type": {"type":
-"record", "name": "RegionStatistics", "doc": "", "fields": [{"name": "avg", "type": "float", "doc":
-""}, {"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""},
-{"name": "gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""},
-{"name": "pct25", "type": "float", "doc": ""}, {"name": "bases", "type": ["null", "int"], "doc":
-""}, {"name": "bases_lt_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_15x", "type":
-["null", "int"], "doc": ""}, {"name": "bases_gte_30x", "type": ["null", "int"], "doc": ""}, {"name":
-"bases_gte_50x", "type": ["null", "int"], "doc": ""}, {"name": "gte50x", "type": "float", "doc":
-""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""},
-{"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc":
-""}]}, "doc": ""}, {"name": "exons", "type": ["null", {"type": "array", "items": {"type": "record",
-"name": "Exon", "doc": "", "fields": [{"name": "exon", "type": "string", "doc": ""}, {"name": "s",
-"type": "int", "doc": ""}, {"name": "padded_s", "type": ["null", "int"], "doc": ""}, {"name": "e",
-"type": "int", "doc": ""}, {"name": "padded_e", "type": ["null", "int"], "doc": ""}, {"name": "l",
-"type": ["null", "int"], "doc": ""}, {"name": "gaps", "type": {"type": "array", "items": {"type":
-"record", "name": "CoverageGap", "doc": "", "fields": [{"name": "s", "type": "int", "doc": ""},
-{"name": "e", "type": "int", "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""}]}},
-"doc": ""}, {"name": "stats", "type": "RegionStatistics", "doc": ""}]}}], "doc": ""}]}}, "doc": ""},
-{"name": "union_tr", "type": "Transcript", "doc": ""}, {"name": "name", "type": "string", "doc":
-""}, {"name": "chr", "type": "string", "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "Gene", "fields": [{"doc":
+"", "type": {"items": {"doc": "", "type": "record", "name": "Transcript", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": {"doc": "", "type": "record", "name":
+"RegionStatistics", "fields": [{"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type":
+"float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "", "type": ["null",
+"float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type": "float",
+"name": "pct25"}, {"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc": "", "type":
+["null", "int"], "name": "bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "name":
+"stats"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "Exon",
+"fields": [{"doc": "", "type": "string", "name": "exon"}, {"doc": "", "type": "int", "name": "s"},
+{"doc": "", "type": ["null", "int"], "name": "padded_s"}, {"doc": "", "type": "int", "name": "e"},
+{"doc": "", "type": ["null", "int"], "name": "padded_e"}, {"doc": "", "type": ["null", "int"],
+"name": "l"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "CoverageGap",
+"fields": [{"doc": "", "type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc":
+"", "type": ["null", "int"], "name": "l"}]}, "type": "array"}, "name": "gaps"}, {"doc": "", "type":
+"RegionStatistics", "name": "stats"}]}, "type": "array"}], "name": "exons"}]}, "type": "array"},
+"name": "trs"}, {"doc": "", "type": "Transcript", "name": "union_tr"}, {"doc": "", "type": "string",
+"name": "name"}, {"doc": "", "type": "string", "name": "chr"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -638,16 +638,16 @@ class RegionStatistics(ProtocolElement):
     Represents a group of coverage statistics over a genomic region
     """
     _schemaSource = """
-{"type": "record", "name": "RegionStatistics", "namespace": "org.gel.models.coverage.avro", "doc":
-"", "fields": [{"name": "avg", "type": "float", "doc": ""}, {"name": "sd", "type": "float", "doc":
-""}, {"name": "med", "type": "float", "doc": ""}, {"name": "gc", "type": ["null", "float"], "doc":
-""}, {"name": "pct75", "type": "float", "doc": ""}, {"name": "pct25", "type": "float", "doc": ""},
-{"name": "bases", "type": ["null", "int"], "doc": ""}, {"name": "bases_lt_15x", "type": ["null",
-"int"], "doc": ""}, {"name": "bases_gte_15x", "type": ["null", "int"], "doc": ""}, {"name":
-"bases_gte_30x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_50x", "type": ["null",
-"int"], "doc": ""}, {"name": "gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type":
-"float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type":
-"float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "RegionStatistics",
+"fields": [{"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"},
+{"doc": "", "type": "float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"},
+{"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"},
+{"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_15x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc": "", "type": "float",
+"name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "", "type": "float",
+"name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -726,25 +726,25 @@ class Transcript(ProtocolElement):
     All coverage information about a given transcript
     """
     _schemaSource = """
-{"type": "record", "name": "Transcript", "namespace": "org.gel.models.coverage.avro", "doc": "",
-"fields": [{"name": "id", "type": "string", "doc": ""}, {"name": "stats", "type": {"type": "record",
-"name": "RegionStatistics", "doc": "", "fields": [{"name": "avg", "type": "float", "doc": ""},
-{"name": "sd", "type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""}, {"name":
-"gc", "type": ["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""}, {"name":
-"pct25", "type": "float", "doc": ""}, {"name": "bases", "type": ["null", "int"], "doc": ""},
-{"name": "bases_lt_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_15x", "type":
-["null", "int"], "doc": ""}, {"name": "bases_gte_30x", "type": ["null", "int"], "doc": ""}, {"name":
-"bases_gte_50x", "type": ["null", "int"], "doc": ""}, {"name": "gte50x", "type": "float", "doc":
-""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name": "gte15x", "type": "float", "doc": ""},
-{"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type": ["null", "float"], "doc":
-""}]}, "doc": ""}, {"name": "exons", "type": ["null", {"type": "array", "items": {"type": "record",
-"name": "Exon", "doc": "", "fields": [{"name": "exon", "type": "string", "doc": ""}, {"name": "s",
-"type": "int", "doc": ""}, {"name": "padded_s", "type": ["null", "int"], "doc": ""}, {"name": "e",
-"type": "int", "doc": ""}, {"name": "padded_e", "type": ["null", "int"], "doc": ""}, {"name": "l",
-"type": ["null", "int"], "doc": ""}, {"name": "gaps", "type": {"type": "array", "items": {"type":
-"record", "name": "CoverageGap", "doc": "", "fields": [{"name": "s", "type": "int", "doc": ""},
-{"name": "e", "type": "int", "doc": ""}, {"name": "l", "type": ["null", "int"], "doc": ""}]}},
-"doc": ""}, {"name": "stats", "type": "RegionStatistics", "doc": ""}]}}], "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "Transcript", "fields":
+[{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": {"doc": "", "type": "record",
+"name": "RegionStatistics", "fields": [{"doc": "", "type": "float", "name": "avg"}, {"doc": "",
+"type": "float", "name": "sd"}, {"doc": "", "type": "float", "name": "med"}, {"doc": "", "type":
+["null", "float"], "name": "gc"}, {"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type":
+"float", "name": "pct25"}, {"doc": "", "type": ["null", "int"], "name": "bases"}, {"doc": "",
+"type": ["null", "int"], "name": "bases_lt_15x"}, {"doc": "", "type": ["null", "int"], "name":
+"bases_gte_15x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_30x"}, {"doc": "", "type":
+["null", "int"], "name": "bases_gte_50x"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "name":
+"stats"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record", "name": "Exon",
+"fields": [{"doc": "", "type": "string", "name": "exon"}, {"doc": "", "type": "int", "name": "s"},
+{"doc": "", "type": ["null", "int"], "name": "padded_s"}, {"doc": "", "type": "int", "name": "e"},
+{"doc": "", "type": ["null", "int"], "name": "padded_e"}, {"doc": "", "type": ["null", "int"],
+"name": "l"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "CoverageGap",
+"fields": [{"doc": "", "type": "int", "name": "s"}, {"doc": "", "type": "int", "name": "e"}, {"doc":
+"", "type": ["null", "int"], "name": "l"}]}, "type": "array"}, "name": "gaps"}, {"doc": "", "type":
+"RegionStatistics", "name": "stats"}]}, "type": "array"}], "name": "exons"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -790,10 +790,10 @@ class UncoveredGene(ProtocolElement):
     for which there is no coverage data.
     """
     _schemaSource = """
-{"type": "record", "name": "UncoveredGene", "namespace": "org.gel.models.coverage.avro", "doc": "",
-"fields": [{"name": "chr", "type": "string", "doc": ""}, {"name": "name", "type": "string", "doc":
-""}, {"name": "s", "type": ["null", "int"], "doc": ""}, {"name": "e", "type": ["null", "int"],
-"doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "UncoveredGene", "fields":
+[{"doc": "", "type": "string", "name": "chr"}, {"doc": "", "type": "string", "name": "name"},
+{"doc": "", "type": ["null", "int"], "name": "s"}, {"doc": "", "type": ["null", "int"], "name":
+"e"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -834,25 +834,25 @@ class WholeGenome(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "WholeGenome", "namespace": "org.gel.models.coverage.avro", "fields":
-[{"name": "stats", "type": {"type": "record", "name": "RegionStatistics", "doc": "", "fields":
-[{"name": "avg", "type": "float", "doc": ""}, {"name": "sd", "type": "float", "doc": ""}, {"name":
-"med", "type": "float", "doc": ""}, {"name": "gc", "type": ["null", "float"], "doc": ""}, {"name":
-"pct75", "type": "float", "doc": ""}, {"name": "pct25", "type": "float", "doc": ""}, {"name":
-"bases", "type": ["null", "int"], "doc": ""}, {"name": "bases_lt_15x", "type": ["null", "int"],
-"doc": ""}, {"name": "bases_gte_15x", "type": ["null", "int"], "doc": ""}, {"name": "bases_gte_30x",
-"type": ["null", "int"], "doc": ""}, {"name": "bases_gte_50x", "type": ["null", "int"], "doc": ""},
-{"name": "gte50x", "type": "float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""},
-{"name": "gte15x", "type": "float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""},
-{"name": "rmsd", "type": ["null", "float"], "doc": ""}]}, "doc": ""}, {"name": "chrs", "type":
-{"type": "array", "items": {"type": "record", "name": "Chromosome", "doc": "", "fields": [{"name":
-"chr", "type": "string", "doc": ""}, {"name": "avg", "type": "float", "doc": ""}, {"name": "sd",
-"type": "float", "doc": ""}, {"name": "med", "type": "float", "doc": ""}, {"name": "gc", "type":
-["null", "float"], "doc": ""}, {"name": "pct75", "type": "float", "doc": ""}, {"name": "pct25",
-"type": "float", "doc": ""}, {"name": "bases", "type": "int", "doc": ""}, {"name": "gte50x", "type":
-"float", "doc": ""}, {"name": "gte30x", "type": "float", "doc": ""}, {"name": "gte15x", "type":
-"float", "doc": ""}, {"name": "lt15x", "type": "float", "doc": ""}, {"name": "rmsd", "type":
-["null", "float"], "doc": ""}]}}, "doc": ""}]}
+{"namespace": "org.gel.models.coverage.avro", "type": "record", "name": "WholeGenome", "fields":
+[{"doc": "", "type": {"doc": "", "type": "record", "name": "RegionStatistics", "fields": [{"doc":
+"", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"}, {"doc": "", "type":
+"float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"}, {"doc": "", "type":
+"float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"}, {"doc": "", "type":
+["null", "int"], "name": "bases"}, {"doc": "", "type": ["null", "int"], "name": "bases_lt_15x"},
+{"doc": "", "type": ["null", "int"], "name": "bases_gte_15x"}, {"doc": "", "type": ["null", "int"],
+"name": "bases_gte_30x"}, {"doc": "", "type": ["null", "int"], "name": "bases_gte_50x"}, {"doc": "",
+"type": "float", "name": "gte50x"}, {"doc": "", "type": "float", "name": "gte30x"}, {"doc": "",
+"type": "float", "name": "gte15x"}, {"doc": "", "type": "float", "name": "lt15x"}, {"doc": "",
+"type": ["null", "float"], "name": "rmsd"}]}, "name": "stats"}, {"doc": "", "type": {"items":
+{"doc": "", "type": "record", "name": "Chromosome", "fields": [{"doc": "", "type": "string", "name":
+"chr"}, {"doc": "", "type": "float", "name": "avg"}, {"doc": "", "type": "float", "name": "sd"},
+{"doc": "", "type": "float", "name": "med"}, {"doc": "", "type": ["null", "float"], "name": "gc"},
+{"doc": "", "type": "float", "name": "pct75"}, {"doc": "", "type": "float", "name": "pct25"},
+{"doc": "", "type": "int", "name": "bases"}, {"doc": "", "type": "float", "name": "gte50x"}, {"doc":
+"", "type": "float", "name": "gte30x"}, {"doc": "", "type": "float", "name": "gte15x"}, {"doc": "",
+"type": "float", "name": "lt15x"}, {"doc": "", "type": ["null", "float"], "name": "rmsd"}]}, "type":
+"array"}, "name": "chrs"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
