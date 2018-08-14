@@ -38,4 +38,3 @@ setup(
     author_email='antonio.rueda-martin@genomicsengland.co.uk',
     description='Bioinformatics team model definitions',
     install_requires=reqs
-)
