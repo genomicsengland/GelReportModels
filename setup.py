@@ -16,7 +16,7 @@ reqs = [
 ]
 
 enforced_version = os.environ.get("GEL_REPORT_MODELS_PYTHON_VERSION", None)
-interpreter_version = sys.version_info[0]
+interpreter_version = str(sys.version_info[0])
 target_version = enforced_version if enforced_version else interpreter_version
 if target_version == '2':
     reqs += ["avro==1.7.7"]
