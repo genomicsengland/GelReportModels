@@ -1,4 +1,5 @@
 import os
+import sys
 from setuptools import find_packages, setup
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -14,11 +15,15 @@ reqs = [
     "future==0.16.0"
 ]
 
-if os.environ["GEL_REPORT_MODELS_PYTHON_VERSION"] == '2':
+enforced_version = os.environ.get("GEL_REPORT_MODELS_PYTHON_VERSION", None)
+interpreter_version = sys.version_info[0]
+target_version = enforced_version if enforced_version else interpreter_version
+if target_version == '2':
     reqs += ["avro==1.7.7"]
-else:
+elif target_version == '3':
     reqs += ["avro-python3==1.8.2"]
-
+else:
+    raise ValueError("Not supported python version {}".format(target_version))
 
 VERSION = "7.1.4"
 setup(
