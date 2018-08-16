@@ -71,7 +71,7 @@ protocol TransactionProtocol {
     */
     record TransactionDetails {
         /**
-        The type of the transaction (e.g.: org.gel.models.cva.avro.TieredVariantInject)
+        The type of the transaction (e.g.: org.gel.models.cva.avro.InterpretedGenomeInject)
         */
         string type;
         /**
