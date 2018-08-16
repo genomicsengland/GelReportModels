@@ -97,7 +97,7 @@ class TestMigrateReports600To500(TestCaseMigration):
             for ge in re.genomicEntities:
                 ge.type = old_model.GenomicEntityType.intergenic
         return small_variant
-    
+
     def test_migration_of_new_enum_values_get_set_to_none(self):
         ir_6 = self.get_valid_object(object_type=old_model.CancerInterpretationRequest, version=self.version_7_0)
         samples = ir_6.cancerParticipant.tumourSamples
