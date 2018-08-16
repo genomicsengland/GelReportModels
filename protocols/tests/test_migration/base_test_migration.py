@@ -1,12 +1,22 @@
-from unittest import TestCase
 from random import randint
+from unittest import TestCase
+
+from protocols.util import dependency_manager
+from protocols.util import handle_avro_errors
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.reports_3_0_0 import RareDiseaseExitQuestionnaire as RD_EQ_3
 
 
 class TestCaseMigration(TestCase):
 
     bases = ["A", "C", "G", "T"]
-    chromosomes = list(range(1, 23)) + ["X"] + ["Y"]
+    chromosomes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, "X", "Y"]
+    version_2_1_0 = dependency_manager.VERSION_210
+    version_3_0_0 = dependency_manager.VERSION_300
+    version_4_0_0 = dependency_manager.VERSION_400
+    version_5_0_0 = dependency_manager.VERSION_500
+    version_6_1 = dependency_manager.VERSION_61
+    version_7_0 = dependency_manager.VERSION_70
 
     def _check_non_empty_fields(self, instance, exclusions=[]):
         """
@@ -76,3 +86,20 @@ class TestCaseMigration(TestCase):
         )
         q.variantDetails = variant_details
         return q
+
+    @staticmethod
+    def get_valid_object(object_type, version, fill_nullables=True):
+        valid_object = GenericFactoryAvro.get_factory_avro(
+            clazz=object_type,
+            version=version,
+            fill_nullables=fill_nullables,
+        ).create()
+
+        if not valid_object.validate(valid_object.toJsonDict()):
+            raise ValueError(
+                "Object of type: {object_type} is not valid: {results}".format(
+                    object_type=object_type,
+                    results=handle_avro_errors(valid_object.validate_parts()),
+                )
+            )
+        return valid_object
