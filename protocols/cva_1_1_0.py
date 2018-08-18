@@ -6394,6 +6394,7 @@ class FamiliarRelationship(object):
     Spouse = "Spouse"
     Other = "Other"
     RelationIsNotClear = "RelationIsNotClear"
+    Unrelated = "Unrelated"
     Unknown = "Unknown"
 
 
