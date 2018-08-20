@@ -357,4 +357,4 @@ class MigrateReports3To4(BaseMigration):
             return None if old_files is None else [self.migrate_file(old_file=old_file) for old_file in old_files]
         elif isinstance(old_files, dict):
             return None if old_files is None else \
-                {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.iteritems()}
+                {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.items()}

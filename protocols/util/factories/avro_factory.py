@@ -5,6 +5,8 @@ from factory import CREATE_STRATEGY
 from factory.base import FactoryMetaClass, BaseFactory, BaseMeta
 from protocols.util.dependency_manager import DependencyManager
 
+from past.builtins import basestring
+
 BASIC_TYPES = ['null', 'boolean', 'string', 'bytes', 'int', 'long', 'float', 'double', 'enum']
 COMPLEX_TYPES = ['record', 'array', 'map']
 UNION_TYPE = 'union'
@@ -107,7 +109,7 @@ def mock_complex_type(field, field_type, dependencies, version, fill_nullables):
     """
     value = None
     if field_type == 'record':
-        if isinstance(field.type, unicode):
+        if isinstance(field.type, str) or isinstance(field.type, basestring):
             # in some cases field types are just a string
             class_name = field.name
             namespace = field.namespace
@@ -182,11 +184,11 @@ class FuzzyList(factory.fuzzy.BaseFuzzyAttribute):
 
     def fuzz(self):
         if isinstance(self.values_factory, factory.fuzzy.BaseFuzzyAttribute):
-            values = [self.values_factory.fuzz() for _ in xrange(self.length)]
+            values = [self.values_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.values_factory, factory.declarations.LazyFunction):
-            values = [self.values_factory.function() for _ in xrange(self.length)]
+            values = [self.values_factory.function() for _ in range(self.length)]
         else:
-            values = [self.values_factory for _ in xrange(self.length)]
+            values = [self.values_factory for _ in range(self.length)]
         return values
 
 
@@ -206,17 +208,17 @@ class FuzzyMap(factory.fuzzy.BaseFuzzyAttribute):
 
     def fuzz(self):
         if isinstance(self.values_factory, factory.fuzzy.BaseFuzzyAttribute):
-            values = [self.values_factory.fuzz() for _ in xrange(self.length)]
+            values = [self.values_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.values_factory, factory.declarations.LazyFunction):
-            values = [self.values_factory.function() for _ in xrange(self.length)]
+            values = [self.values_factory.function() for _ in range(self.length)]
         else:
-            values = [self.values_factory for _ in xrange(self.length)]
+            values = [self.values_factory for _ in range(self.length)]
         if isinstance(self.keys_factory, factory.fuzzy.BaseFuzzyAttribute):
-            keys = [self.keys_factory.fuzz() for _ in xrange(self.length)]
+            keys = [self.keys_factory.fuzz() for _ in range(self.length)]
         elif isinstance(self.keys_factory, factory.declarations.LazyFunction):
-            keys = [self.keys_factory.function() for _ in xrange(self.length)]
+            keys = [self.keys_factory.function() for _ in range(self.length)]
         else:
-            keys = [self.keys_factory for _ in xrange(self.length)]
+            keys = [self.keys_factory for _ in range(self.length)]
         return dict(zip(keys, values))
 
 

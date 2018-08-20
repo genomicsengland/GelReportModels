@@ -1,3 +1,4 @@
+from __future__ import print_function
 import logging
 
 
@@ -25,8 +26,8 @@ class BaseMigration(object):
             pprint(handle_avro_errors(object_to_validate.validate_parts()))
 
             for message in object_to_validate.validate(object_to_validate.toJsonDict(), verbose=True).messages:
-                print "---------------"
-                print message
+                print("---------------")
+                print(message)
 
             raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
 

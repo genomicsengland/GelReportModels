@@ -4,6 +4,8 @@ Provides additional functionality based on avro
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+from past.builtins import basestring
+from builtins import int
 
 import random
 import string
@@ -241,21 +243,21 @@ class SchemaValidator(AvroTypeSwitch):
             return self.sinkValue
 
     def handleInt(self, datum):
-        if not ((isinstance(datum, int) or isinstance(datum, long)) and
+        if not ((isinstance(datum, int)) and
                 INT_MIN_VALUE <= datum <= INT_MAX_VALUE):
             return datum
         else:
             return self.sinkValue
 
     def handleLong(self, datum):
-        if not ((isinstance(datum, int) or isinstance(datum, long)) and
+        if not ((isinstance(datum, int)) and
                 LONG_MIN_VALUE <= datum <= LONG_MAX_VALUE):
             return datum
         else:
             return self.sinkValue
 
     def handleFloat(self, datum):
-        if not (isinstance(datum, int) or isinstance(datum, long) or
+        if not (isinstance(datum, int) or
                 isinstance(datum, float)):
             return datum
         else:
@@ -294,7 +296,7 @@ class SchemaValidator(AvroTypeSwitch):
             return datum
         dic = {}
         for key, value in datum.items():
-            if not isinstance(key, basestring):
+            if self.notString(key):
                 dic[key] = value
             result = self.handleSchema(schema.values, value)
             if result != self.sinkValue:
