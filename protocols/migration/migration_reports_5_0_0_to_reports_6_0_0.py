@@ -70,6 +70,7 @@ class MigrateReports500To600(BaseMigration):
         consequence_types = []
         if old_variant.additionalTextualVariantAnnotations:
             consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
+            consequence_types = [c for c in consequence_types if c]
         new_variant.reportEvents = self.migrate_report_events(
             report_events=old_variant.reportEvents, panel_source=panel_source,
             consequence_types=consequence_types)
@@ -206,10 +207,10 @@ class MigrateReports500To600(BaseMigration):
         is_tier1 = tier == self.new_model.Tier.TIER1
         is_tier2 = tier == self.new_model.Tier.TIER2
         is_tier3 = tier == self.new_model.Tier.TIER3
-        new_report_event.variantConsequences = map(
+        new_report_event.variantConsequences = list(map(
             lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), filter(
                 lambda c: (is_tier1 and c in self.tier1_consequence_types) or \
-                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types))
+                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types)))
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
