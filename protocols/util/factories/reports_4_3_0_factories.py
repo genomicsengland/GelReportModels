@@ -11,7 +11,7 @@ from protocols.util.factories.avro_factory import FactoryAvro
 
 
 def aux_ramdom_variant_method():
-    chr = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23)) + ['X', 'Y', 'MT'])).fuzz()
+    chr = factory.fuzzy.FuzzyChoice(list(map(str, range(1, 23))) + ['X', 'Y', 'MT']).fuzz()
     position = factory.fuzzy.FuzzyInteger(1, 10000000).fuzz()
     reference = factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G']).fuzz()
     alternate = factory.fuzzy.FuzzyChoice(['A', 'T', 'C', 'G']).fuzz()

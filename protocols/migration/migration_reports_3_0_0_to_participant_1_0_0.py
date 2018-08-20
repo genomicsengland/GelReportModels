@@ -1,5 +1,7 @@
 import logging
 
+from past.builtins import basestring
+
 from protocols import participant_1_0_0
 from protocols import reports_3_0_0
 from protocols.util import handle_avro_errors
@@ -66,7 +68,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_tumour_sample.TNMStageVersion = old_cancer_sample.tmn_stage_grouping
         try:
             new_tumour_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
-        except MigrationError, ex:
+        except MigrationError as ex:
             logging.error("Laboratory identifier in tumour sample cannot be converted to an integer!")
             raise ex
         new_tumour_sample.programmePhase = old_cancer_sample.gelPhase
@@ -122,7 +124,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
         try:
             new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
-        except MigrationError, ex:
+        except MigrationError as ex:
             logging.error("Laboratory identifier in germline sample cannot be converted to an integer!")
             raise ex
 

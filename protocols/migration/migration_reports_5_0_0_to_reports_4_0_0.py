@@ -127,7 +127,7 @@ class MigrateReports500To400(BaseMigration):
             self.old_model.ClinicalSignificance.pathogenic: self.new_model.VariantClassification.pathogenic_variant,
         }
         new_report_event.variantClassification = variant_classification_map.get(
-            old_report_event.variantClassification,
+            old_report_event.variantClassification.clinicalSignificance,
             self.new_model.VariantClassification.not_assessed
         )
 

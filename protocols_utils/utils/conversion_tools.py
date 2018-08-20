@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import argparse
 import fnmatch
-import logging
 import os
 import os.path
 import sys
@@ -69,7 +69,7 @@ class ConversionTools(object):
         # exclude the rest of the args too, or validation will fail
         args = parser.parse_args(sys.argv[1:2])
         if not hasattr(self, args.command):
-            print 'Unrecognized command'
+            print('Unrecognized command')
             parser.print_help()
             exit(1)
         # use dispatch pattern to invoke method with same name

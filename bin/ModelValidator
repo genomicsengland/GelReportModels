@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
+from __future__ import print_function
 import argparse
 import json
 import os
@@ -48,10 +49,10 @@ def validation(json_file, schema, version, package):
             if not obj.validate(obj.toJsonDict()):
                 raise Exception(obj.validate_parts())
             else:
-                print 'true'
+                print('true')
 
         else:
-            print schema + " model is not recognize"
+            print(schema + " model is not recognize")
 
 
 if __name__ == '__main__':
