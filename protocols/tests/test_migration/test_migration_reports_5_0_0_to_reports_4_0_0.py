@@ -3,11 +3,15 @@ from random import randint
 
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
+from protocols import participant_1_0_0
+from protocols import participant_1_1_0
 from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.migration.participants import MigrationParticipants103To100
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration.migration_reports_5_0_0_to_reports_4_0_0 import MigrateReports500To400
+from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
 
 
 class TestMigrateReports5To400(TestCaseMigration):
@@ -186,6 +190,86 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_rd_clinical_report_nullables_false(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_plus_interpreted_genome_rd(self):
+        ir_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretationRequestRD, version=self.version_6_1)
+        ig_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretedGenomeRD, version=self.version_6_1)
+
+        #################################################
+        # TODO(Greg): Remove this when IP-1394 is resolved
+        valid_tiers = ["TIER1", "TIER2", "TIER3", "NONE"]
+        for rv in ig_rd_5.variants:
+            for re in rv.reportEvents:
+                if re.tier not in valid_tiers:
+                    re.tier = valid_tiers[randint(0, len(valid_tiers)-1)]
+        #################################################
+
+        ir_rd_4 = MigrateReports500To400().migrate_interpretation_request_rd_plus_interpreted_genome_rd(
+            old_interpretation_request=ir_rd_5, old_interpreted_genome=ig_rd_5
+        )
+
+        self.assertIsInstance(ir_rd_4, self.new_model.InterpretationRequestRD)
+        self.assertTrue(ir_rd_4.validate(ir_rd_4.toJsonDict()))
+
+    def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self):
+        ir_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest, version=self.version_6_1, fill_nullables=True)
+        ig_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretedGenome, version=self.version_6_1, fill_nullables=True)
+        ir_c_4 = MigrateReports500To400().migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(
+            old_interpretation_request=ir_c_5, old_interpreted_genome=ig_c_5
+        )
+        self.assertIsInstance(ir_c_4, self.new_model.CancerInterpretationRequest)
+        self.assertTrue(ir_c_4.validate(ir_c_4.toJsonDict()))
+
+    def test_migrate_variant(self):
+        rvc_5 = self.get_valid_object(object_type=self.old_model.ReportedVariantCancer, version=self.version_6_1)
+        rsv_4 = MigrateReports500To400().migrate_variant(old_variant=rvc_5)
+        self.assertIsInstance(rsv_4, self.new_model.ReportedSomaticVariants)
+        self.assertTrue(rsv_4.validate(rsv_4.toJsonDict()))
+
+    def test_migrate_reported_variant_cancer(self):
+        rvc_5 = self.get_valid_object(object_type=self.old_model.ReportedVariantCancer, version=self.version_6_1)
+        rvc_4 = MigrateReports500To400().migrate_reported_variant_cancer(old_rvc=rvc_5)
+        self.assertIsInstance(rvc_4, self.new_model.ReportedVariantCancer)
+        self.assertTrue(rvc_4.validate(rvc_4.toJsonDict()))
+
+    def test_migrate_cancer_participant(self):
+        p_110 = self.get_valid_object(object_type=participant_1_1_0.CancerParticipant, version=self.version_6_1)
+        p_103 = MigrateParticipant110To103().migrate_cancer_participant(
+            old_participant=p_110,
+        )
+        p_100 = MigrationParticipants103To100().migrate_cancer_participant(
+            cancer_participant=p_103,
+        )
+        self.assertIsInstance(p_100, participant_1_0_0.CancerParticipant)
+        self.assertTrue(p_100.validate(p_100.toJsonDict()))
+
+    def test_migrate_genomic_entities_to_genomic_feature_cancer(self):
+        ge_5 = self.get_valid_object(object_type=self.old_model.GenomicEntity, version=self.version_6_1)
+        test_ref_seq_transcript_id = "test_refSeqTranscriptId"
+        test_ref_seq_protein_id = "test_refSeqProteinId"
+        ge_5.otherIds["refSeqTranscriptId"] = test_ref_seq_transcript_id
+        ge_5.otherIds["refSeqProteinId"] = test_ref_seq_protein_id
+        gfc_4 = MigrateReports500To400().migrate_genomic_entities_to_genomic_feature_cancer(genomic_entities=[ge_5])
+        self.assertIsInstance(gfc_4, self.new_model.GenomicFeatureCancer)
+        self.assertTrue(gfc_4.validate(gfc_4.toJsonDict()))
+        self.assertEqual(gfc_4.refSeqProteinId, test_ref_seq_protein_id)
+        self.assertEqual(gfc_4.refSeqTranscriptId, test_ref_seq_transcript_id)
+
+    def test_migrate_variant_consequence_to_so_term(self):
+        vc_5 = self.get_valid_object(object_type=self.old_model.VariantConsequence, version=self.version_6_1)
+        so_4 = MigrateReports500To400().migrate_variant_consequence_to_so_term(vc=vc_5)
+        self.assertIsInstance(so_4, self.new_model.SoTerm)
+        self.assertTrue(so_4.validate(so_4.toJsonDict()))
+        self.assertEqual(so_4.name, vc_5.name)
+        self.assertEqual(so_4.id, vc_5.id)
+
+    def test_migrate_report_event_cancer(self):
+        rec_5 = self.get_valid_object(object_type=self.old_model.ReportEventCancer, version=self.version_6_1)
+        rec_4 = MigrateReports500To400().migrate_report_event_cancer(old_rec=rec_5)
+        self.assertIsInstance(rec_4, self.new_model.ReportEventCancer)
+        self.assertTrue(rec_4.validate(rec_4.toJsonDict()))
+        for action in rec_4.actions:
+            self.assertIsInstance(action, self.new_model.Actions)
 
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
