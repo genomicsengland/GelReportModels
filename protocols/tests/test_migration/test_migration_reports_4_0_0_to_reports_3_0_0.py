@@ -8,12 +8,12 @@ from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.migration.participants import MigrationParticipants100ToReports
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration import MigrateReports400To300
+from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
 
 
 class TestMigrateReports4To3(TestCaseMigration):
-
     old_model = reports_4_0_0
     new_model = reports_3_0_0
 
@@ -62,7 +62,7 @@ class TestMigrateReports4To3(TestCaseMigration):
             version=self.version_4_0_0,
             fill_nullables=True
         )
-        pedigree_v3 = MigrationReportsToParticipants1().migrate_pedigree(old_pedigree=pedigree_v4)
+        pedigree_v3 = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=pedigree_v4)
         self.assertIsInstance(pedigree_v3, self.new_model.Pedigree)
         self.assertTrue(pedigree_v3.validate(pedigree_v3.toJsonDict()))
 
@@ -78,7 +78,7 @@ class TestMigrateReports4To3(TestCaseMigration):
         )
         self.assertIsInstance(panel_v4, self.old_model.AnalysisPanel)
         self.assertTrue(panel_v4.validate(panel_v4.toJsonDict()))
-        panel_v3 = MigrateReports400To300().migrate_analysis_panel(old_panel=panel_v4)
+        panel_v3 = MigrationParticipants100ToReports().migrate_analysis_panel(old_panel=panel_v4)
         self.assertIsInstance(panel_v3, self.new_model.AnalysisPanel)
         self.assertTrue(panel_v3.validate(panel_v3.toJsonDict()))
 
@@ -101,7 +101,7 @@ class TestMigrateReports4To3(TestCaseMigration):
             fill_nullables=True,
         )
 
-        participant = MigrateReports400To300().migrate_member_to_participant(
+        participant = MigrationParticipants100ToReports().migrate_member_to_participant(
             old_member=member, family_id='some test family id'
         )
         self.assertIsInstance(participant, self.new_model.RDParticipant)
@@ -112,14 +112,14 @@ class TestMigrateReports4To3(TestCaseMigration):
         self.assertEqual(participant.isProband, member.isProband)
         self.assertEqual(
             participant.sex,
-            MigrateReports400To300().migrate_sex(old_sex=member.sex)
+            MigrationParticipants100ToReports().migrate_sex(old_sex=member.sex)
         )
         for d, h in zip(participant.disorderList, participant.hpoTermList):
             self.assertIsInstance(d, self.new_model.Disorder)
             self.assertIsInstance(h, self.new_model.HpoTerm)
         self.assertEqual(
             participant.personKaryotipicSex,
-            MigrateReports400To300().migrate_person_karyotypic_sex(old_pks=member.personKaryotypicSex)
+            MigrationParticipants100ToReports().migrate_person_karyotypic_sex(old_pks=member.personKaryotypicSex)
         )
         self.assertIsInstance(participant.inbreedingCoefficient, self.new_model.InbreedingCoefficient)
         self.assertIsInstance(participant.ancestries, self.new_model.Ancestries)

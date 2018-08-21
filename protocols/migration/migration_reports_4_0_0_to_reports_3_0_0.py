@@ -4,7 +4,7 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_3_0_0 as reports_3_0_0
 from protocols.migration.base_migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
-from protocols.migration.participants import MigrationReportsToParticipants1
+from protocols.migration.participants import MigrationParticipants100ToReports
 
 
 class MigrateReports400To300(BaseMigration):
@@ -115,7 +115,7 @@ class MigrateReports400To300(BaseMigration):
         new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
         new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
         new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
-        new_instance.pedigree = self.MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_instance.pedigree)
+        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=old_instance.pedigree)
 
         # return new_instance
         return self.validate_object(

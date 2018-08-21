@@ -55,10 +55,8 @@ from protocols.migration.migration import Migration2_1To3
 from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
 from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
-from protocols.migration import (
-    MigrateReports500To400,
-    MigrateReports400To300,
-)
+from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
+from protocols.migration import MigrateReports500To400
 from protocols.migration.participants import (
     MigrationReportsToParticipants1,
     MigrationParticipants100To103,
