@@ -136,6 +136,8 @@ class ProtocolElement(object):
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.validate_parts() for el in val)
+                elif isinstance(val, dict):
+                    out[field.name] = {key: el.validate_parts() for (key, el) in val.items()}
                 elif val is None:
                     if isinstance(field.type, UnionSchema) and 'null' in [t.type for t in field.type.schemas]:
                         out[field.name] = True
