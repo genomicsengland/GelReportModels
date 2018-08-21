@@ -62,7 +62,7 @@ class TestMigrateReports4To3(TestCaseMigration):
             version=self.version_4_0_0,
             fill_nullables=True
         )
-        pedigree_v3 = MigrateReports400To300().migrate_pedigree(old_pedigree=pedigree_v4)
+        pedigree_v3 = MigrationReportsToParticipants1().migrate_pedigree(old_pedigree=pedigree_v4)
         self.assertIsInstance(pedigree_v3, self.new_model.Pedigree)
         self.assertTrue(pedigree_v3.validate(pedigree_v3.toJsonDict()))
 

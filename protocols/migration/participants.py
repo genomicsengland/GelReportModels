@@ -284,7 +284,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
-            raise Exception('This model can not be converted')
+            raise MigrationError('This model can not be converted')
 
     def migrate_disorder(self, disorder):
         new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
