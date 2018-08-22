@@ -403,6 +403,9 @@ class MigrateReports400To500(BaseMigration):
         # NOTE: variant consequences cannot be filled, but it is not nullable so we are creating an empty list
         new_instance.variantConsequences = []
 
+        if new_instance.score == -999.0:    # NOTE: this is a tag value to mark null values in the reverse migration
+            new_instance.score = None
+
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportEvent
         )

@@ -47,6 +47,8 @@ class MigrateReports500To400(BaseMigration):
             ir_id=old_instance.interpretationRequestId,
             ir_version=old_instance.interpretationRequestVersion) if cip else ""
         new_instance.analysisVersion = "1"  # it is always 1, so it can be hard-coded here
+        if not old_instance.pedigree:
+            raise MigrationError("Cannot reverse migrate an Interpretation Request for RD with null pedigree")
         new_instance.pedigree = MigrationParticipants110To100().migrate_pedigree(old_instance.pedigree)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
@@ -108,6 +110,8 @@ class MigrateReports500To400(BaseMigration):
 
     @staticmethod
     def merge_annotations_and_frequencies(numeric_annotations, allele_frequencies):
+        if numeric_annotations is None:
+            numeric_annotations = {}
         if not isinstance(numeric_annotations, dict):
             raise MigrationError("additionalNumericVariantAnnotations should be dict but is: {}".format(numeric_annotations))
         if allele_frequencies is not None:
@@ -172,6 +176,11 @@ class MigrateReports500To400(BaseMigration):
                 old_report_event.variantClassification.clinicalSignificance,
                 self.new_model.VariantClassification.not_assessed
             )
+
+        # NOTE: fields changing their null state
+        new_report_event.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
+        if new_report_event.penetrance is None:
+            new_report_event.penetrance = self.new_model.Penetrance.complete
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 

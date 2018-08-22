@@ -4,8 +4,6 @@ from random import randint
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
 from protocols.util.dependency_manager import VERSION_61
-from protocols.util.dependency_manager import VERSION_500
-from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
@@ -105,6 +103,20 @@ class TestMigrateReports5To400(TestCaseMigration):
             _fill_nullables = False
             zygosity = factory.fuzzy.FuzzyChoice(valid_genotypes)
         GenericFactoryAvro.register_factory(self.old_model.VariantCall, VariantCallFactory, VERSION_61, False)
+
+        # ensures that IR RD always have a pedigree
+        class InterpretationRequestRDFactory(FactoryAvro):
+            def __init__(self, *args, **kwargs):
+                super(InterpretationRequestRDFactory, self).__init__(*args, **kwargs)
+
+            class Meta:
+                model = self.old_model.InterpretationRequestRD
+            _version = VERSION_61
+            _fill_nullables = False
+            pedigree = GenericFactoryAvro.get_factory_avro(
+                self.old_model.Pedigree, VERSION_61, fill_nullables=_fill_nullables).create()
+        GenericFactoryAvro.register_factory(
+            self.old_model.InterpretationRequestRD, InterpretationRequestRDFactory, VERSION_61, False)
 
     def _check_variant_coordinates(self, old_variants, new_variants):
         for new_variant, old_variant in zip(new_variants, old_variants):
