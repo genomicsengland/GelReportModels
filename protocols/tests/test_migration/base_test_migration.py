@@ -10,7 +10,7 @@ from protocols.reports_3_0_0 import RareDiseaseExitQuestionnaire as RD_EQ_3
 class TestCaseMigration(TestCase):
 
     bases = ["A", "C", "G", "T"]
-    chromosomes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, "X", "Y"]
+    chromosomes = list(map(str, range(1, 23))) + ["X"] + ["Y"]
     version_2_1_0 = dependency_manager.VERSION_210
     version_3_0_0 = dependency_manager.VERSION_300
     version_4_0_0 = dependency_manager.VERSION_400
