@@ -188,7 +188,6 @@ class TestMigrateReports5To400(TestCaseMigration):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
-        # creates a random clinical report RD for testing filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create(interpretationRequestVersion=1)

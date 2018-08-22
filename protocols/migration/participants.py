@@ -123,7 +123,7 @@ class MigrationParticipants110To100(BaseMigration):
                                                         for chi in old_instance.chiSquare1KGenomesPhase3Pop]
         return new_instance
 
-    def migrate_chiblahblah(self, old_instance):
+    def migrate_chi(self, old_instance):
         new_instance = self.convert_class(self.new_model.ChiSquare1KGenomesPhase3Pop, old_instance)
         new_instance.kGSuperPopCategory = old_instance.kgSuperPopCategory
         new_instance.kGPopCategory = old_instance.kgPopCategory
