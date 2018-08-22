@@ -119,7 +119,7 @@ class MigrationParticipants110To100(BaseMigration):
     def migrate_ancestries(self, old_instance):
         new_instance = self.convert_class(self.new_model.Ancestries, old_instance)
         if old_instance.chiSquare1KGenomesPhase3Pop is not None:
-            new_instance.chiSquare1KGenomesPhase3Pop = [self.migrate_chiblahblah(chi)
+            new_instance.chiSquare1KGenomesPhase3Pop = [self.migrate_chi(chi)
                                                         for chi in old_instance.chiSquare1KGenomesPhase3Pop]
         return new_instance
 
