@@ -4,12 +4,54 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols.migration.base_migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
+from protocols.migration.participants import MigrationParticipants110To100
 
 
 class MigrateReports500To400(BaseMigration):
 
     old_model = reports_5_0_0
     new_model = reports_4_0_0
+
+    cip_short_codes = {
+        'omicia': 'OPA',
+        'congenica': 'SAP',
+        'nextcode': 'CSA',
+        'illumina': 'ILMN',
+        'genomics_england': 'GEL',
+        'exomiser': 'EXM'
+    }
+
+    def migrate_interpretation_request_rd(self, old_instance, old_ig, cip=None):
+        """
+        Migrates a reports_5_0_0.InterpretationRequestRD into a reports_4_0_0.InterpretationRequestRD
+        :type old_instance: reports_5_0_0.InterpretationRequestRD
+        :type old_ig: reports_5_0_0.InterpretedGenomeRD
+        :param cip: this is used to build the field `analysisReturnUri`, it will be empty if not provided
+        :type cip: str
+        :rtype: reports_4_0_0.InterpretationRequestRD
+        """
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        new_instance.genomeAssemblyVersion = old_instance.genomeAssembly
+        # ensure null lists of files are not passing through
+        if new_instance.bams is None:
+            new_instance.bams = []
+        if new_instance.vcfs is None:
+            new_instance.vcfs = []
+        # grabs the list of variants from the interpreted genome
+        new_instance.tieredVariants = self.migrate_reported_variants(old_reported_variants=old_ig.variants)
+        new_instance.tieringVersion = old_ig.softwareVersions.get("tiering", "")
+        new_instance.complexGeneticPhenomena = None  # cannot fill this one, but it has never been used
+        new_instance.analysisReturnUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
+            cip_short=self.cip_short_codes.get(cip),
+            ir_id=old_instance.interpretationRequestId,
+            ir_version=old_instance.interpretationRequestVersion) if cip else ""
+        new_instance.analysisVersion = "1"  # it is always 1, so it can be hard-coded here
+        if not old_instance.pedigree:
+            raise MigrationError("Cannot reverse migrate an Interpretation Request for RD with null pedigree")
+        new_instance.pedigree = MigrationParticipants110To100().migrate_pedigree(old_instance.pedigree)
+
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
 
     def migrate_clinical_report_rd(self, old_instance):
         """
@@ -22,7 +64,8 @@ class MigrateReports500To400(BaseMigration):
         # references has been renamed to supportingEvidence
         new_instance.supportingEvidence = old_instance.references
         new_instance.candidateVariants = self.migrate_reported_variants(old_reported_variants=old_instance.variants)
-        new_instance.additionalAnalysisPanels = self.migrate_analysis_panels(old_panels=old_instance.additionalAnalysisPanels)
+        new_instance.additionalAnalysisPanels = self.migrate_analysis_panels(
+            old_panels=old_instance.additionalAnalysisPanels)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
@@ -67,6 +110,8 @@ class MigrateReports500To400(BaseMigration):
 
     @staticmethod
     def merge_annotations_and_frequencies(numeric_annotations, allele_frequencies):
+        if numeric_annotations is None:
+            numeric_annotations = {}
         if not isinstance(numeric_annotations, dict):
             raise MigrationError("additionalNumericVariantAnnotations should be dict but is: {}".format(numeric_annotations))
         if allele_frequencies is not None:
@@ -126,10 +171,16 @@ class MigrateReports500To400(BaseMigration):
             self.old_model.ClinicalSignificance.likely_pathogenic: self.new_model.VariantClassification.likely_pathogenic_variant,
             self.old_model.ClinicalSignificance.pathogenic: self.new_model.VariantClassification.pathogenic_variant,
         }
-        new_report_event.variantClassification = variant_classification_map.get(
-            old_report_event.variantClassification.clinicalSignificance,
-            self.new_model.VariantClassification.not_assessed
-        )
+        if old_report_event.variantClassification:
+            new_report_event.variantClassification = variant_classification_map.get(
+                old_report_event.variantClassification.clinicalSignificance,
+                self.new_model.VariantClassification.not_assessed
+            )
+
+        # NOTE: fields changing their null state
+        new_report_event.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
+        if new_report_event.penetrance is None:
+            new_report_event.penetrance = self.new_model.Penetrance.complete
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 

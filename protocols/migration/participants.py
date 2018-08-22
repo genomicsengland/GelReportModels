@@ -72,6 +72,73 @@ class MigrationParticipants103To110(BaseMigration):
         )
 
 
+class MigrationParticipants110To100(BaseMigration):
+    old_model = participant_1_1_0
+    new_model = participant_1_0_0
+
+    def migrate_pedigree(self, old_instance):
+        new_instance = self.convert_class(self.new_model.Pedigree, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.members = [self.migrate_member(member) for member in old_instance.members]
+        if new_instance.validate(new_instance.toJsonDict()):
+            return new_instance
+        else:
+            raise MigrationError(
+                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
+            )
+
+    def migrate_member(self, old_instance):
+        new_instance = self.convert_class(self.new_model.PedigreeMember, old_instance)
+        if old_instance.hpoTermList is not None:
+            new_instance.hpoTermList = [self.migrate_hpo(hpo) for hpo in old_instance.hpoTermList]
+        if old_instance.disorderList is not None:
+            new_instance.disorderList = [self.migrate_disorder(disorder) for disorder in old_instance.disorderList]
+        if old_instance.ancestries is not None:
+            new_instance.ancestries = self.migrate_ancestries(old_instance.ancestries)
+        if old_instance.samples is not None:
+            new_instance.samples= [self.migrate_sample(sample) for sample in old_instance.samples]
+        return new_instance
+
+    def migrate_hpo(self, old_instance):
+        new_instance = self.convert_class(self.new_model.HpoTerm, old_instance)
+        new_instance.modifiers = {}
+        if old_instance.modifiers.laterality is not None:
+            new_instance.modifiers['laterality'] = old_instance.modifiers.laterality
+        if old_instance.modifiers.progression is not None:
+            new_instance.modifiers['progression'] = old_instance.modifiers.progression
+        if old_instance.modifiers.severity is not None:
+            new_instance.modifiers['severity'] = old_instance.modifiers.severity
+        if old_instance.modifiers.spatialPattern is not None:
+            new_instance.modifiers['spatialPattern'] = old_instance.modifiers.spatialPattern
+        return new_instance
+
+    def migrate_disorder(self, old_instance):
+        new_instance = self.convert_class(self.new_model.Disorder, old_instance)
+        new_instance.ageOfOnset = str(old_instance.ageOfOnset)
+        return new_instance
+
+    def migrate_ancestries(self, old_instance):
+        new_instance = self.convert_class(self.new_model.Ancestries, old_instance)
+        if old_instance.chiSquare1KGenomesPhase3Pop is not None:
+            new_instance.chiSquare1KGenomesPhase3Pop = [self.migrate_chi(chi)
+                                                        for chi in old_instance.chiSquare1KGenomesPhase3Pop]
+        return new_instance
+
+    def migrate_chi(self, old_instance):
+        new_instance = self.convert_class(self.new_model.ChiSquare1KGenomesPhase3Pop, old_instance)
+        new_instance.kGSuperPopCategory = old_instance.kgSuperPopCategory
+        new_instance.kGPopCategory = old_instance.kgPopCategory
+        return new_instance
+
+    def migrate_sample(self, old_instance):
+        new_instance = self.convert_class(self.new_model.Sample, old_instance)
+        valid_sources = [self.new_model.RDSampleSource.SALIVA, self.new_model.RDSampleSource.BLOOD,
+                         self.new_model.RDSampleSource.FIBROBLAST, self.new_model.RDSampleSource.TISSUE]
+        if new_instance.source not in valid_sources:
+            new_instance.source = None
+        return new_instance
+
+
 class MigrationParticipants100To103(BaseMigration):
     old_model = participant_1_0_0
     new_model = participant_1_0_3
