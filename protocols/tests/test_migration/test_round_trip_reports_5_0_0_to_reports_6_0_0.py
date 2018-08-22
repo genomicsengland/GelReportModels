@@ -85,7 +85,6 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
 
     def _check_round_trip_migration(self, forward, backward, original_type, new_type,
                                     fill_nullables, expect_equality=True):
-    def _check_round_trip_migration(self, forward, backward, original_type, new_type, fill_nullables):
         original = self.get_valid_object(
             object_type=original_type, version=self.version_6_1, fill_nullables=fill_nullables)
 
