@@ -19,15 +19,15 @@ class TestMigrateReports600To500(TestCaseMigration):
 
         reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
 
-        self.assertEquals(reported_variant.genomicChanges, small_variant.variantAttributes.genomicChanges)
-        self.assertEquals(reported_variant.cdnaChanges, small_variant.variantAttributes.cdnaChanges)
+        self.assertEqual(reported_variant.genomicChanges, small_variant.variantAttributes.genomicChanges)
+        self.assertEqual(reported_variant.cdnaChanges, small_variant.variantAttributes.cdnaChanges)
 
     def test_migrate_variant_identifiers(self):
         small_variant = self.variant_with_type_valid_in_both_models()
 
         reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
 
-        self.assertEquals(reported_variant.dbSnpId, small_variant.variantAttributes.variantIdentifiers.dbSnpId)
+        self.assertEqual(reported_variant.dbSnpId, small_variant.variantAttributes.variantIdentifiers.dbSnpId)
 
     def test_migrate_variant_call(self):
         small_variant = self.variant_with_type_valid_in_both_models()
@@ -38,8 +38,8 @@ class TestMigrateReports600To500(TestCaseMigration):
         new_variant_calls = reported_variant.variantCalls
 
         for original_call, new_call in zip(original_variant_calls, new_variant_calls):
-            self.assertEquals(new_call.phaseSet, original_call.phaseGenotype.phaseSet)
-            self.assertEquals(new_call.vaf, original_call.sampleVariantAlleleFrequency)
+            self.assertEqual(new_call.phaseSet, original_call.phaseGenotype.phaseSet)
+            self.assertEqual(new_call.vaf, original_call.sampleVariantAlleleFrequency)
 
     def test_migrate_report_events(self):
         small_variant = self.variant_with_type_valid_in_both_models()
@@ -50,21 +50,21 @@ class TestMigrateReports600To500(TestCaseMigration):
         new_reports = reported_variant.reportEvents
 
         for original_report, new_report in zip(original_reports, new_reports):
-            self.assertEquals(MigrateReports500To600.tier_domain_map[new_report.tier], original_report.domain)
+            self.assertEqual(MigrateReports500To600.tier_domain_map[new_report.tier], original_report.domain)
 
             actions = original_report.actions
             expected_action_length = sum(map(len, (actions.prognosis, actions.therapies, actions.trials)))
-            self.assertEquals(len(new_report.actions), expected_action_length)
+            self.assertEqual(len(new_report.actions), expected_action_length)
 
             clinical_significance = new_report.variantClassification.clinicalSignificance
-            self.assertEquals(
+            self.assertEqual(
                 BaseMigrateReports500And600.clinical_signicance_map[clinical_significance],
                 original_report.variantClassification.clinicalSignificance
             )
 
             new_types = [ge.type for ge in new_report.genomicEntities]
             old_types = [ge.type for ge in original_report.genomicEntities]
-            self.assertEquals(new_types, old_types)
+            self.assertEqual(new_types, old_types)
 
     def variant_with_type_valid_in_both_models(self):
         small_variant = self.get_valid_object(object_type=old_model.SmallVariant, version=self.version_7_0)
