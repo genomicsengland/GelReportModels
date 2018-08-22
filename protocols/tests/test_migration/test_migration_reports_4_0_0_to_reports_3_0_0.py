@@ -94,13 +94,12 @@ class TestMigrateReports4To3(TestCaseMigration):
         self.assertIsInstance(file_v3, self.new_model.File)
         self.assertTrue(file_v3.validate(file_v3.toJsonDict()))
 
-    def test_migrate_member_to_participant(self):
-        # Can not run with fill_nullables False as the new model has non-nullable fields
-        # when the old model has nullable fields (for the same fields)
+    def test_migrate_member_to_participant(self, fill_nullables=False):
+
         member = self.get_valid_object(
             object_type=self.old_model.PedigreeMember,
             version=self.version_4_0_0,
-            fill_nullables=True,
+            fill_nullables=fill_nullables,
         )
 
         participant = MigrationParticipants100ToReports().migrate_member_to_participant(
@@ -110,8 +109,10 @@ class TestMigrateReports4To3(TestCaseMigration):
         self.assertTrue(participant.validate(participant.toJsonDict()))
 
         # Check individual values
-        self.assertEqual(participant.pedigreeId, member.pedigreeId)
-        self.assertEqual(participant.isProband, member.isProband)
+        if member.pedigreeId:
+            self.assertEqual(participant.pedigreeId, member.pedigreeId)
+        if member.isProband:
+            self.assertEqual(participant.isProband, member.isProband)
         self.assertEqual(
             participant.sex,
             MigrationParticipants100ToReports().migrate_sex(old_sex=member.sex)
@@ -123,6 +124,10 @@ class TestMigrateReports4To3(TestCaseMigration):
             participant.personKaryotipicSex,
             MigrationParticipants100ToReports().migrate_person_karyotypic_sex(old_pks=member.personKaryotypicSex)
         )
-        self.assertIsInstance(participant.inbreedingCoefficient, self.new_model.InbreedingCoefficient)
+        if participant.inbreedingCoefficient:
+            self.assertIsInstance(participant.inbreedingCoefficient, self.new_model.InbreedingCoefficient)
         self.assertIsInstance(participant.ancestries, self.new_model.Ancestries)
         self.assertIsInstance(participant.consentStatus, self.new_model.ConsentStatus)
+
+    def test_migrate_member_to_participant_with_nulls(self):
+        self.test_migrate_member_to_participant(fill_nullables=True)

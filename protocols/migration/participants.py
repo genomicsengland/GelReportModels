@@ -622,14 +622,16 @@ class MigrationParticipants100ToReports(BaseMigration):
         new_participant.samples = self.migrate_samples(old_samples=old_member.samples)
         new_participant.versionControl = self.new_model.VersionControl()
         if old_member.consentStatus is None:
-            new_model.consentStatus = self.new_model.ConsentStatus(
+            new_participant.consentStatus = self.new_model.ConsentStatus(
                 programmeConsent=True, primaryFindingConsent=True, secondaryFindingConsent=True,
                 carrierStatusConsent=True
             )
         if old_member.ancestries is None:
             new_participant.ancestries = self.new_model.Ancestries()
         if old_member.consanguineousParents is None:
-            new_participant.consanguineousParents = self.new_model.TernaryOptions.unknown
+            new_participant.consanguineousParents = self.new_model.TernaryOption.unknown
+        if new_participant.disorderList is None:
+            new_participant.disorderList = []
 
         return self.validate_object(object_to_validate=new_participant, object_type=self.new_model.RDParticipant)
 
@@ -638,7 +640,7 @@ class MigrationParticipants100ToReports(BaseMigration):
         return None if old_samples is None else [old_sample.sampleId for old_sample in old_samples]
 
     def migrate_hpo_term_list(self, old_list):
-        return None if old_list is None else [self.migrate_hpo_term(old_term=old_term) for old_term in old_list]
+        return [] if old_list is None else [self.migrate_hpo_term(old_term=old_term) for old_term in old_list]
 
     def migrate_hpo_term(self, old_term):
         new_term = self.convert_class(target_klass=self.new_model.HpoTerm, instance=old_term)
