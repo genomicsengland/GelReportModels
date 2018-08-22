@@ -31,6 +31,16 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
             expect_equality=False
         )
 
+    def test_migrate_interpretated_genome_cancer(self):
+        self._check_round_trip_migration(
+            MigrateReports500To600().migrate_cancer_interpreted_genome,
+            MigrateReports600To500().migrate_cancer_interpreted_genome,
+            self.old_model.CancerInterpretedGenome,
+            self.new_model.InterpretedGenome,
+            fill_nullables=False,
+            expect_equality=False
+        )
+
     def test_migrate_reported_variant_cancer(self):
         self._check_round_trip_migration(
             MigrateReports500To600().migrate_variant_cancer,
