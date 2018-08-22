@@ -4,6 +4,7 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_3_0_0 as reports_3_0_0
 from protocols.migration.base_migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
+from protocols.migration.participants import MigrationParticipants100ToReports
 
 
 class MigrateReports400To300(BaseMigration):
@@ -63,25 +64,28 @@ class MigrateReports400To300(BaseMigration):
         new_genotype = self.convert_class(self.new_model.CalledGenotype, old_genotype)
         return self.validate_object(object_to_validate=new_genotype, object_type=self.new_model.CalledGenotype)
 
-    def migrate_report_events(self, old_report_events):
-        return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+    def migrate_report_events(self, old_events):
+        if old_events is None:
+            return None
+        return [self.migrate_report_event(old_event=old_event) for old_event in old_events]
 
-    def migrate_report_event(self, old_report_event):
-        new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
-        new_report_event.genomicFeature = self.migrate_genomic_feature(old_report_event.genomicFeature)
-        if old_report_event.variantClassification is not None:
-            new_report_event.variantClassification = self.migrate_variant_classification(old_report_event.variantClassification)
-        return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
+    def migrate_report_event(self, old_event):
+        new_instance = self.convert_class(self.new_model.ReportEvent, old_event)
+        new_instance.variantClassification = self.migrate_variant_classification(old_v_classification=old_event.variantClassification)
+        new_instance.genomicFeature = self.migrate_genomic_feature(old_genomic_feature=old_event.genomicFeature)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEvent)
 
-    def migrate_variant_classification(self, old_classification):
+    def migrate_variant_classification(self, old_v_classification):
+        old_classification = self.old_model.VariantClassification
+        new_classification = self.new_model.VariantClassification
         variant_classification_map = {
-            self.old_model.VariantClassification.benign_variant: self.new_model.VariantClassification.BENIGN,
-            self.old_model.VariantClassification.likely_benign_variant: self.new_model.VariantClassification.LIKELY_BENIGN,
-            self.old_model.VariantClassification.variant_of_unknown_clinical_significance : self.new_model.VariantClassification.VUS,
-            self.old_model.VariantClassification.likely_pathogenic_variant: self.new_model.VariantClassification.LIKELY_PATHOGENIC,
-            self.old_model.VariantClassification.pathogenic_variant: self.new_model.VariantClassification.PATHOGENIC,
+            old_classification.pathogenic_variant: new_classification.PATHOGENIC,
+            old_classification.likely_pathogenic_variant: new_classification.LIKELY_PATHOGENIC,
+            old_classification.variant_of_unknown_clinical_significance: new_classification.VUS,
+            old_classification.likely_benign_variant: new_classification.LIKELY_BENIGN,
+            old_classification.benign_variant: new_classification.BENIGN,
         }
-        return variant_classification_map.get(old_classification)
+        return variant_classification_map.get(old_v_classification)
 
     def migrate_genomic_feature(self, old_genomic_feature):
         new_genomic_feature = self.new_model.GenomicFeature(
@@ -91,3 +95,64 @@ class MigrateReports400To300(BaseMigration):
             other_ids=old_genomic_feature.otherIds,
         )
         return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
+
+    def migrate_interpretation_request_rd(self, old_instance):
+        """
+        Migrates a reports_4_0_0.InterpretationRequestRD into a reports_3_0_0.InterpretationRequestRD
+        :type old_instance: reports_3_0_0.InterpretationRequestRD
+        :rtype: reports_6_0_0.InterpretationRequestRD
+        """
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.InterpretationRequestID = old_instance.interpretationRequestId
+        new_instance.InterpretationRequestVersion = old_instance.interpretationRequestVersion
+        new_instance.TieringVersion = old_instance.tieringVersion
+        new_instance.analysisReturnURI = old_instance.analysisReturnUri
+        new_instance.TieredVariants = self.migrate_reported_variants(old_variants=old_instance.tieredVariants)
+        new_instance.BAMs = self.migrate_files(old_files=old_instance.bams)
+        new_instance.VCFs = self.migrate_files(old_files=old_instance.vcfs)
+        new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
+        new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
+        new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
+        new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
+        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=old_instance.pedigree)
+
+        # return new_instance
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
+        )
+
+    def migrate_files(self, old_files):
+        if old_files is None:
+            return None
+        if isinstance(old_files, list):
+            return [self.migrate_file(old_file=old_file) for old_file in old_files]
+        elif isinstance(old_files, dict):
+            return {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.items()}
+
+    def migrate_file(self, old_file):
+        if old_file is None:
+            return None
+        sample_id = old_file.sampleId
+
+        md5_sum = self.new_model.File(
+            SampleId=None,
+            md5Sum=None,
+            URIFile=old_file.md5Sum,
+            fileType=self.new_model.FileType.MD5Sum
+        )
+
+        invalid_file_types = [
+            self.old_model.FileType.PARTITION,
+            self.old_model.FileType.VARIANT_FREQUENCIES,
+            self.old_model.FileType.COVERAGE,
+        ]
+        file_type = old_file.fileType if old_file.fileType not in invalid_file_types else self.new_model.FileType.OTHER
+
+        new_file = self.new_model.File(
+                fileType=file_type,
+                URIFile=old_file.uriFile,
+                SampleId=sample_id,
+                md5Sum=md5_sum,
+            )
+        return self.validate_object(object_to_validate=new_file, object_type=self.new_model.File)
