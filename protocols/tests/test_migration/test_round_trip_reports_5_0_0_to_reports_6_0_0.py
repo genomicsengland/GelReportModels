@@ -31,7 +31,7 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
             expect_equality=False
         )
 
-    def test_migrate_interpretated_genome_cancer(self):
+    def test_migrate_interpretated_genome_cancer_with_nulls(self):
         self._check_round_trip_migration(
             MigrateReports500To600().migrate_cancer_interpreted_genome,
             MigrateReports600To500().migrate_cancer_interpreted_genome,
@@ -92,7 +92,7 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
 
         migrated = forward(original)
         self.assertIsInstance(migrated, new_type)
-        self.assertTrue(migrated.validate(migrated.toJsonDict()))
+        self.assertValid(migrated.validate(migrated.toJsonDict()))
 
         round_tripped = backward(migrated)
         self.assertIsInstance(round_tripped, original_type)
