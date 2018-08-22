@@ -10,10 +10,10 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
     new_model = reports_6_0_0
 
     def test_migrate_interpretation_request_rd(self):
-        self._check_cancer(fill_nullables=True)
+        self._check_rd(fill_nullables=True)
 
     def test_migrate_interpretation_request_cancer(self):
-        self._check_rd(fill_nullables=True)
+        self._check_cancer(fill_nullables=True)
 
     def test_migrate_interpretation_request_rd_with_nulls(self):
         self._check_rd(fill_nullables=False)
