@@ -16,10 +16,10 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
         self._check_rd(fill_nullables=True)
 
     def test_migrate_interpretation_request_rd_with_nulls(self):
-        self._check_cancer(fill_nullables=False)
+        self._check_rd(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_with_nulls(self):
-        self._check_rd(fill_nullables=False)
+        self._check_cancer(fill_nullables=False)
 
     def _check_cancer(self, fill_nullables):
         self._check_round_trip_migration(

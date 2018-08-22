@@ -33,12 +33,13 @@ class MigrateReports600To500(BaseMigration):
         new_instance = self.convert_class(self.new_model.CancerInterpretationRequest, old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
 
-        samples = new_instance.cancerParticipant.tumourSamples
-        for sample in samples:
-            if sample.diseaseType == diseaseType.ENDOCRINE:
-                sample.diseaseType = None
-            if sample.tissueSource == TissueSource.NOT_SPECIFIED:
-                sample.tissueSource = None
+        if new_instance.cancerParticipant and new_instance.cancerParticipant.tumourSamples:
+            samples = new_instance.cancerParticipant.tumourSamples
+            for sample in samples:
+                if sample.diseaseType == diseaseType.ENDOCRINE:
+                    sample.diseaseType = None
+                if sample.tissueSource == TissueSource.NOT_SPECIFIED:
+                    sample.tissueSource = None
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest
