@@ -63,7 +63,9 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
 
     def _migrate_action(self, action):
         action.evidenceType = 'Trial (with, some, words)'
-        return MigrateReports500To600().migrate_actions([action])
+        actions = MigrateReports500To600().migrate_actions([action])
+        print(actions)
+        return actions
 
     def _check_cancer(self, fill_nullables):
         self._check_round_trip_migration(
@@ -92,7 +94,7 @@ class TestRoundTripMigrateReports500To600(TestCaseMigration):
 
         migrated = forward(original)
         self.assertIsInstance(migrated, new_type)
-        self.assertValid(migrated.validate(migrated.toJsonDict()))
+        self.assertValid(migrated)
 
         round_tripped = backward(migrated)
         self.assertIsInstance(round_tripped, original_type)

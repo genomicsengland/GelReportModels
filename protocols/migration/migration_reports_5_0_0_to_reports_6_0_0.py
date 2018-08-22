@@ -399,7 +399,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
 
         def extract_evidence_type(evidence_type):
             # conditions are extracted from the text between brackets in evidence type
-            return map(lambda x: x.strip(), re.search(".*\((.*)\)", evidence_type).group(1).split(','))
+            return list(map(lambda x: x.strip(), re.search(".*\((.*)\)", evidence_type).group(1).split(',')))
 
         new_actions = self.new_model.Actions()
         for action in actions:
