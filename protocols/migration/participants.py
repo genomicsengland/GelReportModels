@@ -610,7 +610,7 @@ class MigrationParticipants100ToReports(BaseMigration):
     def migrate_member_to_participant(self, old_member, family_id):
         new_participant = self.convert_class(self.new_model.RDParticipant, old_member)
         new_participant.gelFamilyId = family_id
-        new_participant.pedigreeId = old_member.pedigreeId
+        new_participant.pedigreeId = old_member.pedigreeId or 0
         new_participant.isProband = old_member.isProband or False
         new_participant.sex = self.migrate_sex(old_sex=old_member.sex)
         new_participant.personKaryotipicSex = self.migrate_person_karyotypic_sex(old_pks=old_member.personKaryotypicSex)

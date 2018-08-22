@@ -95,6 +95,8 @@ class TestMigrateReports4To3(TestCaseMigration):
         self.assertTrue(file_v3.validate(file_v3.toJsonDict()))
 
     def test_migrate_member_to_participant(self):
+        # Can not run with fill_nullables False as the new model has non-nullable fields
+        # when the odl model has nullable fields (for the same fields)
         member = self.get_valid_object(
             object_type=self.old_model.PedigreeMember,
             version=self.version_4_0_0,
