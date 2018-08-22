@@ -136,6 +136,8 @@ class ProtocolElement(object):
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.validate_parts() for el in val)
+                elif isinstance(val, dict):
+                    out[field.name] = {key: el.validate_parts() for (key, el) in val.items()}
                 elif val is None:
                     if isinstance(field.type, UnionSchema) and 'null' in [t.type for t in field.type.schemas]:
                         out[field.name] = True
@@ -330,6 +332,24 @@ class ProtocolElement(object):
                     instanceVal = val
             setattr(instance, field.name, instanceVal)
         return instance
+
+    def updateWithJsonDict(self, jsonDict):
+        """
+        Updates this object from a dict
+        """
+        if jsonDict is None:
+            raise ValueError("Required values not set in {0}".format(self))
+
+        for field in self.schema.fields:
+            if field.name in jsonDict:
+                val = jsonDict[field.name]
+                if self.isEmbeddedType(field.name):
+                    instanceVal = self._decodeEmbedded(field, val)
+                else:
+                    instanceVal = val
+                if instanceVal is not None:
+                    setattr(self, field.name, instanceVal)
+
 
     @classmethod
     def _decodeEmbedded(cls, field, val):

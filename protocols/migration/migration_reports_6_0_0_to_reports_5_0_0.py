@@ -2,13 +2,12 @@ import logging
 
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
-from protocols.migration.base_migration import (
-    BaseMigration,
-    MigrationError,
-)
+from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
+from protocols.migration.base_migration import MigrationError
+from protocols.reports_6_0_0 import diseaseType, TissueSource
 
 
-class MigrateReports600To500(BaseMigration):
+class MigrateReports600To500(BaseMigrateReports500And600):
 
     old_model = reports_6_0_0
     new_model = reports_5_0_0
@@ -48,7 +47,7 @@ class MigrateReports600To500(BaseMigration):
     def migrate_small_variant_to_reported_variant(self, small_variant):
         """
         Migrates a reports_6_0_0.SmallVariant into a reports_5_0_0.ReportedVariant
-        :type old_instance: reports_6_0_0.SmallVariant
+        :type small_variant: reports_6_0_0.SmallVariant
         :rtype: reports_5_0_0.ReportedVariant
         """
         if small_variant.variantAttributes is None:
@@ -88,7 +87,7 @@ class MigrateReports600To500(BaseMigration):
     def migrate_variant_attributes(self, old_variant_attributes):
         """
         Migrates a reports_6_0_0.VariantAttributes into a reports_5_0_0.VariantAttributes
-        :type old_instance: reports_6_0_0.VariantAttributes
+        :type old_variant_attributes: reports_6_0_0.VariantAttributes
         :rtype: reports_5_0_0.VariantAttributes
         """
         new_instance = self.convert_class(target_klass=self.new_model.VariantAttributes, instance=old_variant_attributes)
@@ -101,7 +100,7 @@ class MigrateReports600To500(BaseMigration):
     def migrate_variant_call(self, old_call):
         """
         Migrates a reports_6_0_0.VariantCall into a reports_5_0_0.VariantCall
-        :type old_instance: reports_6_0_0.VariantCall
+        :type old_call: reports_6_0_0.VariantCall
         :rtype: reports_5_0_0.VariantCall
         """
         if old_call.alleleOrigins is None:
@@ -121,7 +120,7 @@ class MigrateReports600To500(BaseMigration):
     def migrate_report_event(self, old_event):
         """
         Migrates a reports_6_0_0.ReportEvent into a reports_5_0_0.ReportEvent
-        :type old_instance: reports_6_0_0.ReportEvent
+        :type old_event: reports_6_0_0.ReportEvent
         :rtype: reports_5_0_0.ReportEvent
         """
         if old_event.phenotypes.nonStandardPhenotype is None:
@@ -199,3 +198,114 @@ class MigrateReports600To500(BaseMigration):
                 old_type=old_type, default=default
             ))
         return type_map.get(old_type, default)
+
+    def migrate_interpretation_request_cancer(self, old_instance):
+        """
+        Migrates a reports_6_0_0.CancerInterpretationRequest into a reports_5_0_0.CancerInterpretationRequest
+        :type old_instance: reports_6_0_0.CancerInterpretationRequest
+        :rtype: reports_5_0_0.CancerInterpretationRequest
+        """
+        new_instance = self.convert_class(self.new_model.CancerInterpretationRequest, old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+
+        if new_instance.cancerParticipant and new_instance.cancerParticipant.tumourSamples:
+            samples = new_instance.cancerParticipant.tumourSamples
+            for sample in samples:
+                if sample.diseaseType == diseaseType.ENDOCRINE:
+                    sample.diseaseType = None
+                if sample.tissueSource == TissueSource.NOT_SPECIFIED:
+                    sample.tissueSource = None
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest
+        )
+
+    def migrate_cancer_interpreted_genome(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretedGenome, instance=old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        new_instance.variants = self.migrate_variants_cancer(variants=old_instance.variants)
+
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome)
+
+    def migrate_variants_cancer(self, variants):
+        if variants:
+            return [self.migrate_variant_cancer(old_variant) for old_variant in variants]
+
+    def migrate_variant_cancer(self, old_variant):
+        new_variant = self.convert_class(self.new_model.ReportedVariantCancer, old_variant)
+        attributes = old_variant.variantAttributes.toJsonDict()
+        new_variant.updateWithJsonDict(attributes)
+        new_variant.variantAttributes.fdp50 = str(old_variant.variantAttributes.fdp50)
+
+        identifiers = old_variant.variantAttributes.variantIdentifiers.toJsonDict()
+        new_variant.updateWithJsonDict(identifiers)
+
+        new_variant.variantCalls = [self.migrate_variant_call_cancer(call) for call in old_variant.variantCalls]
+        new_variant.reportEvents = [self.migrate_report_event_cancer(reportEvent) for reportEvent in old_variant.reportEvents]
+
+        return new_variant
+
+    def migrate_variant_call_cancer(self, old_variant_call):
+        new_variant_call = self.convert_class(self.new_model.VariantCall, old_variant_call)
+        if old_variant_call.phaseGenotype:
+            new_variant_call.phaseSet = old_variant_call.phaseGenotype.phaseSet
+        new_variant_call.vaf = old_variant_call.sampleVariantAlleleFrequency
+        return self.validate_object(
+            object_to_validate=new_variant_call, object_type=self.new_model.VariantCall
+        )
+
+    def migrate_report_event_cancer(self, old_report_event):
+        new_event = self.convert_class(target_klass=self.new_model.ReportEventCancer, instance=old_report_event)
+
+        new_event.genomicEntities = [self.migrate_genomic_entity(entity) for entity in old_report_event.genomicEntities]
+        new_event.variantClassification = self.migrate_variant_classification(
+            classification=old_report_event.variantClassification)
+
+        if old_report_event.domain:
+            new_event.tier = self.domain_tier_map[old_report_event.domain]
+        new_event.actions = self.migrate_actions(old_report_event.actions)
+
+        return self.validate_object(object_to_validate=new_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_variant_classification(self, classification):
+        if classification is None:
+            return None
+        new_variant_classification = self.convert_class(self.new_model.VariantClassification, classification)
+        new_variant_classification.clinicalSignificance = self.migrate_clinical_significance(
+            old_significance=classification.clinicalSignificance)
+        new_variant_classification.drugResponseClassification = None
+        return self.validate_object(object_to_validate=new_variant_classification, object_type=self.new_model.VariantClassification)
+
+    def migrate_clinical_significance(self, old_significance):
+        return self.clinical_signicance_reverse_map.get(old_significance)
+
+    def migrate_genomic_entity(self, genomic_entity):
+        new_genomic_entity = self.convert_class(self.new_model.GenomicEntity, genomic_entity)
+        if genomic_entity.otherIds is not None:
+            new_genomic_entity.otherIds = \
+                {identifier.source: identifier.identifier for identifier in genomic_entity.otherIds}
+        return self.validate_object(object_to_validate=new_genomic_entity, object_type=self.new_model.GenomicEntity)
+
+    def migrate_actions(self, actions):
+        if not actions:
+            return []
+        evidences = [("Trial", actions.trials), ("Prognostic", actions.prognosis), ("Therapeutic", actions.therapies)]
+        present_evidences = [(typ, evidence) for typ, evidence in evidences if evidence]
+        return [self._make_action_from(e, typ) for typ, evidence in present_evidences for e in evidence]
+
+    def _make_action_from(self, evidence, evidenceType):
+        action = self.new_model.Action()
+        action.evidenceType = evidenceType
+        if hasattr(evidence, 'source'):
+            action.source = evidence.source
+        else:
+            action.source = "None"
+        if hasattr(evidence, 'references'):
+            action.references = evidence.references
+        if hasattr(evidence, 'studyUrl'):
+            action.url = evidence.studyUrl
+        if hasattr(evidence, 'referenceUrl'):
+            action.url = evidence.referenceUrl
+        action.variantActionable = evidence.variantActionable
+        action.evidenceType += ",".join([' ('] + evidence.conditions + [')'])
+        return action
