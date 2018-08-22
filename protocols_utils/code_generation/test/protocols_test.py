@@ -20,13 +20,13 @@ class A(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "A", "namespace": "org.gel.test.avro", "fields": [{"name": "nullable_b",
-"type": ["null", {"type": "record", "name": "B", "fields": [{"name": "integer_with_default", "type":
-"int", "default": 5}, {"name": "integer_without_default", "type": "int"}, {"name":
-"string_with_default", "type": "string", "default": "default_value"}, {"name":
-"string_without_default", "type": "string"}, {"name": "string_nullable", "type": "string"}, {"name":
-"float_with_default", "type": "float", "default": 0.5}, {"name": "float_without_default", "type":
-"float"}]}]}, {"name": "just_b", "type": "B"}]}
+{"namespace": "org.gel.test.avro", "type": "record", "name": "A", "fields": [{"type": ["null",
+{"fields": [{"default": 5, "type": "int", "name": "integer_with_default"}, {"type": "int", "name":
+"integer_without_default"}, {"default": "default_value", "type": "string", "name":
+"string_with_default"}, {"type": "string", "name": "string_without_default"}, {"type": "string",
+"name": "string_nullable"}, {"default": 0.5, "type": "float", "name": "float_with_default"},
+{"type": "float", "name": "float_without_default"}], "type": "record", "name": "B"}], "name":
+"nullable_b"}, {"type": "B", "name": "just_b"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -67,12 +67,11 @@ class B(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "B", "namespace": "org.gel.test.avro", "fields": [{"name":
-"integer_with_default", "type": "int", "default": 5}, {"name": "integer_without_default", "type":
-"int"}, {"name": "string_with_default", "type": "string", "default": "default_value"}, {"name":
-"string_without_default", "type": "string"}, {"name": "string_nullable", "type": "string"}, {"name":
-"float_with_default", "type": "float", "default": 0.5}, {"name": "float_without_default", "type":
-"float"}]}
+{"namespace": "org.gel.test.avro", "type": "record", "name": "B", "fields": [{"default": 5, "type":
+"int", "name": "integer_with_default"}, {"type": "int", "name": "integer_without_default"},
+{"default": "default_value", "type": "string", "name": "string_with_default"}, {"type": "string",
+"name": "string_without_default"}, {"type": "string", "name": "string_nullable"}, {"default": 0.5,
+"type": "float", "name": "float_with_default"}, {"type": "float", "name": "float_without_default"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
