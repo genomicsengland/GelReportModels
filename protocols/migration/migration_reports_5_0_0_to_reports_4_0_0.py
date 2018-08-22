@@ -4,6 +4,7 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols.migration.base_migration import BaseMigration
 from protocols.migration.base_migration import MigrationError
+from protocols.migration.migration_participant_1_1_0_to_participant_1_0_0 import MigrateParticipant110To100
 
 
 class MigrateReports500To400(BaseMigration):
@@ -88,11 +89,11 @@ class MigrateReports500To400(BaseMigration):
             self.old_model.GenomicEntityType.gene: self.new_model.FeatureTypes.Gene,
             self.old_model.GenomicEntityType.transcript: self.new_model.FeatureTypes.Transcript,
         }
-        feature_type = feature_type_map.get(entity.type)
-        if feature_type is None:
-            raise MigrationError(
-                "{} can not be migrated to a feature type, but be one of: {}".format(
-                    entity.type, feature_type_map.keys()
+        feature_type = feature_type_map.get(entity.type, self.new_model.FeatureTypes.Gene)
+        if feature_type != entity.type:
+            logging.warning(
+                "{} can not be migrated to a feature type, as it is not one of: {} so is being migrated to {}".format(
+                    entity.type, feature_type_map.keys(), self.new_model.FeatureTypes.Gene
                 )
             )
         genomic_feature = self.new_model.GenomicFeature(
@@ -158,10 +159,10 @@ class MigrateReports500To400(BaseMigration):
             self.old_model.Zygosity.reference_hemizigous: self.new_model.Zygosity.reference_hemizigous,
             self.old_model.Zygosity.unk: self.new_model.Zygosity.unk,
         }
-        genotype = genotype_map.get(variant_call.zygosity)
-        if genotype is None:
-            raise MigrationError("Can not migrate variant call to genotype when zygosity is: {}".format(
-                variant_call.zygosity
+        genotype = genotype_map.get(variant_call.zygosity, self.new_model.Zygosity.unk)
+        if variant_call.zygosity != genotype:
+            logging.warning("Can not migrate variant call to genotype when zygosity is: {} so migrating to {}".format(
+                variant_call.zygosity, self.new_model.Zygosity.unk,
             ))
 
         new_called_genotype = self.new_model.CalledGenotype(
@@ -173,3 +174,16 @@ class MigrateReports500To400(BaseMigration):
             depthAlternate=variant_call.depthAlternate,
         )
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
+
+    def migrate_interpretation_request_plus_interpreted_genome(self, old_interpretation_request, old_interpreted_genome):
+        new_instance = self.convert_class(target_klass=self.new_model.InterpretationRequestRD, instance=old_interpretation_request)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        new_instance.genomeAssemblyVersion = old_interpretation_request.genomeAssembly
+        new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_pedigree=old_interpretation_request.pedigree)
+        new_instance.cellbaseVersion = ""
+        new_instance.interpretGenome = False
+        new_instance.tieredVariants = self.migrate_reported_variants(old_reported_variants=old_interpreted_genome.variants)
+        new_instance.tieringVersion = ""
+        new_instance.analysisReturnUri = ""
+
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)

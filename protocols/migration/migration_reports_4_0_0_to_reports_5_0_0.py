@@ -721,7 +721,46 @@ class MigrateReports400To500(BaseMigration):
         new_object_type = self.new_model.HpoTerm
         new_hpo_term = self.convert_class(target_klass=new_object_type, instance=old_hpo_term)
         new_hpo_term.ageOfOnset = self.migrate_hpo_term_age_of_onset(old_age_of_onset=old_hpo_term.ageOfOnset)
+        new_hpo_term.modifiers = self.migrate_hpo_term_modifiers(old_modifiers=old_hpo_term.modifiers)
         return self.validate_object(object_to_validate=new_hpo_term, object_type=new_object_type)
+
+    def migrate_hpo_term_modifiers(self, old_modifiers):
+        if old_modifiers is None:
+            return None
+        # TODO(Greg): Check real data for whether these keys are used
+        laterality_enum = [
+            self.new_model.Laterality.RIGHT, self.new_model.Laterality.LEFT, self.new_model.Laterality.UNILATERAL,
+            self.new_model.Laterality.BILATERAL,
+        ]
+        laterality = self.extract_hpo_term_modifier(modifier="laterality", map=old_modifiers, enum=laterality_enum)
+
+        progression_enum = [self.new_model.Progression.PROGRESSIVE, self.new_model.Progression.NONPROGRESSIVE]
+        progression = self.extract_hpo_term_modifier(modifier="progression", map=old_modifiers, enum=progression_enum)
+
+        severity_enum = [
+            self.new_model.Severity.BORDERLINE, self.new_model.Severity.MILD, self.new_model.Severity.MODERATE,
+            self.new_model.Severity.SEVERE, self.new_model.Severity.PROFOUND,
+        ]
+        severity = self.extract_hpo_term_modifier(modifier="severity", map=old_modifiers, enum=severity_enum)
+
+        spatial_enum = [
+            self.new_model.SpatialPattern.DISTAL, self.new_model.SpatialPattern.GENERALIZED,
+            self.new_model.SpatialPattern.LOCALIZED, self.new_model.SpatialPattern.PROXIMAL,
+        ]
+        spatial_pattern = self.extract_hpo_term_modifier(modifier="spatial_pattern", map=old_modifiers, enum=spatial_enum)
+
+        new_modifier = self.new_model.HpoTermModifiers(
+            laterality=laterality,
+            progression=progression,
+            severity=severity,
+            spatialPattern=spatial_pattern,
+        )
+        return self.validate_object(object_to_validate=new_modifier, object_type=self.new_model.HpoTermModifiers)
+
+    @staticmethod
+    def extract_hpo_term_modifier(modifier, map, enum):
+        new_modifier = map.get(modifier, "").upper()
+        return new_modifier if new_modifier in enum else None
 
     def migrate_hpo_term_list(self, old_hpo_term_list):
         new_hpo_term_list = None

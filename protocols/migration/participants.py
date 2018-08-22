@@ -1,6 +1,7 @@
 import logging
 from protocols import reports_3_0_0 as participant_old
 from protocols import participant_1_0_0
+from protocols import participant_1_0_1
 from protocols import participant_1_0_3
 from protocols import participant_1_1_0
 from protocols.util import handle_avro_errors
@@ -261,8 +262,8 @@ class MigrationParticipants100To103(BaseMigration):
 
 
 class MigrationReportsToParticipants1(BaseMigration):
-    new_model = participant_1_0_0
     old_model = participant_old
+    new_model = participant_1_0_0
 
     def migrate_pedigree(self, pedigree, ready_for_analysis=True):
         """
@@ -284,7 +285,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         if new_pedigree.validate(new_pedigree.toJsonDict()):
             return new_pedigree
         else:
-            raise Exception('This model can not be converted')
+            raise MigrationError('This model can not be converted')
 
     def migrate_disorder(self, disorder):
         new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
@@ -377,9 +378,9 @@ class MigrationReportsToParticipants1(BaseMigration):
             raise Exception('This model can not be converted')
 
 
-class MigrationParticipants1ToReports(object):
+class MigrationParticipants101ToReports(object):
+    old_model = participant_1_0_1
     new_model = participant_old
-    old_model = participant_1_0_0
 
     def migrate_pedigree(self, pedigree):
         """
@@ -583,3 +584,158 @@ class MigrationParticipants103To100(BaseMigration):
         return self.validate_object(
             object_to_validate=migrated_tumour_sample, object_type=self.new_model.TumourSample
         )
+
+
+class MigrationParticipants100ToReports(BaseMigration):
+    old_model = participant_1_0_0
+    new_model = participant_old
+
+    def migrate_pedigree(self, old_pedigree):
+        """
+        :param old_pedigree: org.gel.models.participant.avro.Pedigree 1.0.0
+        :return: org.gel.models.report.avro RDParticipant.Pedigree 3.0.0
+        """
+        new_pedigree = self.convert_class(self.new_model.Pedigree, old_pedigree)
+        new_pedigree.versionControl = self.new_model.VersionControl()
+        new_pedigree.gelFamilyId = old_pedigree.familyId
+        new_pedigree.analysisPanels = self.migrate_analysis_panels(old_panels=old_pedigree.analysisPanels)
+        new_pedigree.participants = self.migrate_members_to_participants(old_members=old_pedigree.members,
+                                                                         family_id=old_pedigree.familyId)
+        return self.validate_object(object_to_validate=new_pedigree, object_type=self.new_model.Pedigree)
+
+    def migrate_members_to_participants(self, old_members, family_id):
+        return [self.migrate_member_to_participant(old_member=old_member, family_id=family_id) for old_member in
+                old_members]
+
+    def migrate_member_to_participant(self, old_member, family_id):
+        new_participant = self.convert_class(self.new_model.RDParticipant, old_member)
+        new_participant.gelFamilyId = family_id
+        new_participant.pedigreeId = old_member.pedigreeId
+        new_participant.isProband = old_member.isProband or False
+        new_participant.sex = self.migrate_sex(old_sex=old_member.sex)
+        new_participant.personKaryotipicSex = self.migrate_person_karyotypic_sex(old_pks=old_member.personKaryotypicSex)
+        new_participant.yearOfBirth = str(old_member.yearOfBirth)
+        new_participant.adoptedStatus = self.migrate_adopted_status(old_status=old_member.adoptedStatus)
+        new_participant.lifeStatus = self.migrate_life_status(old_status=old_member.lifeStatus)
+        new_participant.affectionStatus = self.migrate_affection_status(old_status=old_member.affectionStatus)
+        new_participant.hpoTermList = self.migrate_hpo_term_list(old_list=old_member.hpoTermList)
+        new_participant.samples = self.migrate_samples(old_samples=old_member.samples)
+        new_participant.versionControl = self.new_model.VersionControl()
+
+        return self.validate_object(object_to_validate=new_participant, object_type=self.new_model.RDParticipant)
+
+    @staticmethod
+    def migrate_samples(old_samples):
+        return None if old_samples is None else [old_sample.sampleId for old_sample in old_samples]
+
+    def migrate_hpo_term_list(self, old_list):
+        return None if old_list is None else [self.migrate_hpo_term(old_term=old_term) for old_term in old_list]
+
+    def migrate_hpo_term(self, old_term):
+        new_term = self.convert_class(target_klass=self.new_model.HpoTerm, instance=old_term)
+        new_term.termPresence = self.migrate_ternary_option_to_boolean(ternary_option=old_term.termPresence)
+        return self.validate_object(object_to_validate=new_term, object_type=self.new_model.HpoTerm)
+
+    def migrate_ternary_option_to_boolean(self, ternary_option):
+        ternary_map = {
+            self.old_model.TernaryOption.no: False,
+            self.old_model.TernaryOption.yes: True,
+        }
+        return ternary_map.get(ternary_option, False)
+
+    def migrate_affection_status(self, old_status):
+        status_map = {
+            self.old_model.AffectionStatus.AFFECTED: self.new_model.AffectionStatus.affected,
+            self.old_model.AffectionStatus.UNAFFECTED: self.new_model.AffectionStatus.unaffected,
+            self.old_model.AffectionStatus.UNCERTAIN: self.new_model.AffectionStatus.unknown,
+        }
+        return status_map.get(old_status)
+
+    def migrate_life_status(self, old_status):
+        status_map = {
+            self.old_model.LifeStatus.ABORTED: self.new_model.LifeStatus.aborted,
+            self.old_model.LifeStatus.ALIVE: self.new_model.LifeStatus.alive,
+            self.old_model.LifeStatus.DECEASED: self.new_model.LifeStatus.deceased,
+            self.old_model.LifeStatus.UNBORN: self.new_model.LifeStatus.unborn,
+            self.old_model.LifeStatus.STILLBORN: self.new_model.LifeStatus.stillborn,
+            self.old_model.LifeStatus.MISCARRIAGE: self.new_model.LifeStatus.miscarriage,
+        }
+        return status_map.get(old_status)
+
+    def migrate_adopted_status(self, old_status):
+        status_map = {
+            self.old_model.AdoptedStatus.notadopted: self.new_model.AdoptedStatus.not_adopted,
+            self.old_model.AdoptedStatus.adoptedin: self.new_model.AdoptedStatus.adoptedin,
+            self.old_model.AdoptedStatus.adoptedout: self.new_model.AdoptedStatus.adoptedout,
+        }
+        return status_map.get(old_status)
+
+    def migrate_person_karyotypic_sex(self, old_pks):
+        pks_map = {
+            self.old_model.PersonKaryotipicSex.UNKNOWN: self.new_model.PersonKaryotipicSex.unknown,
+            self.old_model.PersonKaryotipicSex.XX: self.new_model.PersonKaryotipicSex.XX,
+            self.old_model.PersonKaryotipicSex.XY: self.new_model.PersonKaryotipicSex.XY,
+            self.old_model.PersonKaryotipicSex.XO: self.new_model.PersonKaryotipicSex.XO,
+            self.old_model.PersonKaryotipicSex.XXY: self.new_model.PersonKaryotipicSex.XXY,
+            self.old_model.PersonKaryotipicSex.XXX: self.new_model.PersonKaryotipicSex.XXX,
+            self.old_model.PersonKaryotipicSex.XXYY: self.new_model.PersonKaryotipicSex.XXYY,
+            self.old_model.PersonKaryotipicSex.XXXY: self.new_model.PersonKaryotipicSex.XXXY,
+            self.old_model.PersonKaryotipicSex.XXXX: self.new_model.PersonKaryotipicSex.XXXX,
+            self.old_model.PersonKaryotipicSex.XYY: self.new_model.PersonKaryotipicSex.XYY,
+            self.old_model.PersonKaryotipicSex.OTHER: self.new_model.PersonKaryotipicSex.other,
+        }
+        return pks_map.get(old_pks)
+
+    def migrate_sex(self, old_sex):
+        sex_map = {
+            self.old_model.Sex.MALE: self.new_model.Sex.male,
+            self.old_model.Sex.FEMALE: self.new_model.Sex.female,
+            self.old_model.Sex.UNKNOWN: self.new_model.Sex.unknown,
+        }
+        return sex_map.get(old_sex, self.new_model.Sex.undetermined)
+
+    def migrate_analysis_panels(self, old_panels):
+        return None if old_panels is None else [self.migrate_analysis_panel(old_panel=old_panel) for old_panel in
+                                                old_panels]
+
+    def migrate_analysis_panel(self, old_panel):
+        new_panel = self.convert_class(self.new_model.AnalysisPanel, old_panel)
+        new_panel.review_outcome = old_panel.reviewOutcome
+        new_panel.multiple_genetic_origins = old_panel.multipleGeneticOrigins
+        return self.validate_object(object_to_validate=new_panel, object_type=self.new_model.AnalysisPanel)
+
+    def migrate_files(self, old_files):
+        if old_files is None:
+            return None
+        if isinstance(old_files, list):
+            return [self.migrate_file(old_file=old_file) for old_file in old_files]
+        elif isinstance(old_files, dict):
+            return {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.items()}
+
+    def migrate_file(self, old_file):
+        if old_file is None:
+            return None
+        sample_id = old_file.sampleId
+
+        md5_sum = self.new_model.File(
+            SampleId=None,
+            md5Sum=None,
+            URIFile=old_file.md5Sum,
+            fileType=self.new_model.FileType.MD5Sum
+        )
+
+        invalid_file_types = [
+            self.old_model.FileType.PARTITION,
+            self.old_model.FileType.VARIANT_FREQUENCIES,
+            self.old_model.FileType.COVERAGE,
+        ]
+        file_type = old_file.fileType if old_file.fileType not in invalid_file_types else self.new_model.FileType.OTHER
+
+        new_file = self.new_model.File(
+            fileType=file_type,
+            URIFile=old_file.uriFile,
+            SampleId=sample_id,
+            md5Sum=md5_sum,
+        )
+
+        return self.validate_object(object_to_validate=new_file, object_type=self.new_model.File)

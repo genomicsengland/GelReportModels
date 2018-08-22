@@ -1,1 +1,1 @@
-docker build -f Dockerfile -t gel . && docker run -it gel
+docker build -f Dockerfile-python2 -t gelreportmodels:python2 . && docker run -it gelreportmodels:python2

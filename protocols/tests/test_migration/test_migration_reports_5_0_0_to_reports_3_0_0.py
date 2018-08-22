@@ -6,13 +6,13 @@ from protocols import reports_4_0_0
 from protocols import reports_5_0_0
 from protocols.migration import MigrationHelpers
 from protocols.migration import MigrateReports500To400
-from protocols.migration import MigrateReports400To300
 from protocols.util.dependency_manager import VERSION_61
 from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
+from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
 
 
 class TestMigrateReports5To300(TestCaseMigration):

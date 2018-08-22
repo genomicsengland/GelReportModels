@@ -201,3 +201,22 @@ class TestMigrateReports5To400(TestCaseMigration):
     def test_migrate_rd_clinical_report_nullables_false(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
+    def test_migrate_interpretation_request_plus_intepreted_genome(self):
+        ir_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretationRequestRD, version=self.version_6_1)
+        ig_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretedGenomeRD, version=self.version_6_1)
+
+        #################################################
+        # TODO(Greg): Remove this when IP-1394 is resolved
+        valid_tiers = ["TIER1", "TIER2", "TIER3", "NONE"]
+        for rv in ig_rd_5.variants:
+            for re in rv.reportEvents:
+                if re.tier not in valid_tiers:
+                    re.tier = valid_tiers[randint(0, len(valid_tiers)-1)]
+        #################################################
+
+        ir_rd_4 = MigrateReports500To400().migrate_interpretation_request_plus_interpreted_genome(
+            old_interpretation_request=ir_rd_5, old_interpreted_genome=ig_rd_5
+        )
+
+        self.assertIsInstance(ir_rd_4, self.new_model.InterpretationRequestRD)
+        self.assertTrue(ir_rd_4.validate(ir_rd_4.toJsonDict()))
