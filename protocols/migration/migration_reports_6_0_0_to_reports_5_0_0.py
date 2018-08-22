@@ -50,36 +50,29 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :type small_variant: reports_6_0_0.SmallVariant
         :rtype: reports_5_0_0.ReportedVariant
         """
-        if small_variant.variantAttributes is None:
-            msg = "Can not reverse migrate a v6 SmallVariant to a v5 ReportedVariant if variantAttributes is None "
-            msg += "as alleleOrigins is a required field in v5 ReportedVariant"
-            raise MigrationError(msg)
-
         new_instance = self.convert_class(target_klass=self.new_model.ReportedVariant, instance=small_variant)
 
-        new_instance.genomicChanges = small_variant.variantAttributes.genomicChanges
-        new_instance.cdnaChanges = small_variant.variantAttributes.cdnaChanges
-        new_instance.proteinChanges = small_variant.variantAttributes.proteinChanges
-        new_instance.additionalTextualVariantAnnotations = small_variant.variantAttributes.additionalTextualVariantAnnotations
-        new_instance.references = small_variant.variantAttributes.references
-        new_instance.additionalNumericVariantAnnotations = small_variant.variantAttributes.additionalNumericVariantAnnotations
-        new_instance.comments = small_variant.variantAttributes.comments
-        new_instance.alleleOrigins = small_variant.variantAttributes.alleleOrigins
-        new_instance.alleleFrequencies = [
-            self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
-            for allele_frequency in small_variant.variantAttributes.alleleFrequencies
-        ]
-        if small_variant.variantAttributes.variantIdentifiers is not None:
-            new_instance.dbSnpId = small_variant.variantAttributes.variantIdentifiers.dbSnpId
-            new_instance.cosmicIds = small_variant.variantAttributes.variantIdentifiers.cosmicIds
-            new_instance.clinVarIds = small_variant.variantAttributes.variantIdentifiers.clinVarIds
-
-        new_instance.variantAttributes = self.migrate_variant_attributes(old_variant_attributes=small_variant.variantAttributes)
+        var_attrs = small_variant.variantAttributes
+        if var_attrs:
+            new_instance.genomicChanges = var_attrs.genomicChanges
+            new_instance.cdnaChanges = var_attrs.cdnaChanges
+            new_instance.proteinChanges = var_attrs.proteinChanges
+            new_instance.additionalTextualVariantAnnotations = var_attrs.additionalTextualVariantAnnotations
+            new_instance.references = var_attrs.references
+            new_instance.additionalNumericVariantAnnotations = var_attrs.additionalNumericVariantAnnotations
+            new_instance.comments = var_attrs.comments
+            new_instance.alleleOrigins = var_attrs.alleleOrigins
+            new_instance.alleleFrequencies = [
+                self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
+                for allele_frequency in var_attrs.alleleFrequencies
+            ]
+            if var_attrs.variantIdentifiers is not None:
+                new_instance.dbSnpId = var_attrs.variantIdentifiers.dbSnpId
+                new_instance.cosmicIds = var_attrs.variantIdentifiers.cosmicIds
+                new_instance.clinVarIds = var_attrs.variantIdentifiers.clinVarIds
+            new_instance.variantAttributes = self.migrate_variant_attributes(old_variant_attributes=var_attrs)
 
         new_instance.variantCalls = self.migrate_variant_calls(old_calls=small_variant.variantCalls)
-        new_instance.variantCoordinates = self.convert_class(
-            target_klass=self.new_model.VariantCoordinates, instance=small_variant.variantCoordinates
-        )
         new_instance.reportEvents = self.migrate_report_events(old_events=small_variant.reportEvents)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedVariant)
@@ -103,12 +96,9 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :type old_call: reports_6_0_0.VariantCall
         :rtype: reports_5_0_0.VariantCall
         """
-        if old_call.alleleOrigins is None:
-            msg = "Can not reverse migrate a v6 VariantCall to a v5 VariantCall if alleleOrigins is None "
-            msg += "as alleleOrigins is a required field in v5 VariantCall"
-            raise MigrationError(msg)
-
         new_instance = self.convert_class(target_klass=self.new_model.VariantCall, instance=old_call)
+        if new_instance.alleleOrigins is None:
+            new_instance.alleleOrigins = []
         new_instance.vaf = old_call.sampleVariantAlleleFrequency
         if old_call.phaseGenotype is not None:
             new_instance.phaseSet = old_call.phaseGenotype.phaseSet
@@ -123,15 +113,13 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :type old_event: reports_6_0_0.ReportEvent
         :rtype: reports_5_0_0.ReportEvent
         """
-        if old_event.phenotypes.nonStandardPhenotype is None:
-            msg = "Can not reverse migrate v6 Report Event if phenotypes does not have nonStandardPhenotype "
-            msg += "populated as v5 phenotypes is required"
-            raise MigrationError(msg)
         new_instance = self.convert_class(target_klass=self.new_model.ReportEvent, instance=old_event)
-
+        if old_event.phenotypes.nonStandardPhenotype is None:
+            new_instance.phenotypes = []
+        else:
+            new_instance.phenotypes = old_event.phenotypes.nonStandardPhenotype
         # v5 phenotypes is copied to v6 phenotypes.nonStandardPhenotype in the forward migration
         # https://github.com/genomicsengland/GelReportModels/blob/v7.1.2/protocols/migration/migration_reports_5_0_0_to_reports_6_0_0.py#L269
-        new_instance.phenotypes = old_event.phenotypes.nonStandardPhenotype
         new_instance.genePanel = self.migrate_gene_panel(old_panel=old_event.genePanel)
         new_instance.modeOfInheritance = self.migrate_mode_of_inheritance(old_moh=old_event.modeOfInheritance)
         new_instance.genomicEntities = self.migrate_genomic_entities(old_entities=old_event.genomicEntities)
