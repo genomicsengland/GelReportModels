@@ -621,6 +621,15 @@ class MigrationParticipants100ToReports(BaseMigration):
         new_participant.hpoTermList = self.migrate_hpo_term_list(old_list=old_member.hpoTermList)
         new_participant.samples = self.migrate_samples(old_samples=old_member.samples)
         new_participant.versionControl = self.new_model.VersionControl()
+        if old_member.consentStatus is None:
+            new_model.consentStatus = self.new_model.ConsentStatus(
+                programmeConsent=True, primaryFindingConsent=True, secondaryFindingConsent=True,
+                carrierStatusConsent=True
+            )
+        if old_member.ancestries is None:
+            new_participant.ancestries = self.new_model.Ancestries()
+        if old_member.consanguineousParents is None:
+            new_participant.consanguineousParents = self.new_model.TernaryOptions.unknown
 
         return self.validate_object(object_to_validate=new_participant, object_type=self.new_model.RDParticipant)
 
@@ -649,7 +658,7 @@ class MigrationParticipants100ToReports(BaseMigration):
             self.old_model.AffectionStatus.UNAFFECTED: self.new_model.AffectionStatus.unaffected,
             self.old_model.AffectionStatus.UNCERTAIN: self.new_model.AffectionStatus.unknown,
         }
-        return status_map.get(old_status)
+        return status_map.get(old_status, self.new_model.AffectionStatus.unknown)
 
     def migrate_life_status(self, old_status):
         status_map = {
@@ -660,7 +669,7 @@ class MigrationParticipants100ToReports(BaseMigration):
             self.old_model.LifeStatus.STILLBORN: self.new_model.LifeStatus.stillborn,
             self.old_model.LifeStatus.MISCARRIAGE: self.new_model.LifeStatus.miscarriage,
         }
-        return status_map.get(old_status)
+        return status_map.get(old_status, self.new_model.LifeStatus.alive)
 
     def migrate_adopted_status(self, old_status):
         status_map = {
@@ -668,7 +677,7 @@ class MigrationParticipants100ToReports(BaseMigration):
             self.old_model.AdoptedStatus.adoptedin: self.new_model.AdoptedStatus.adoptedin,
             self.old_model.AdoptedStatus.adoptedout: self.new_model.AdoptedStatus.adoptedout,
         }
-        return status_map.get(old_status)
+        return status_map.get(old_status, self.new_model.AdoptedStatus.not_adopted)
 
     def migrate_person_karyotypic_sex(self, old_pks):
         pks_map = {
@@ -703,39 +712,3 @@ class MigrationParticipants100ToReports(BaseMigration):
         new_panel.review_outcome = old_panel.reviewOutcome
         new_panel.multiple_genetic_origins = old_panel.multipleGeneticOrigins
         return self.validate_object(object_to_validate=new_panel, object_type=self.new_model.AnalysisPanel)
-
-    def migrate_files(self, old_files):
-        if old_files is None:
-            return None
-        if isinstance(old_files, list):
-            return [self.migrate_file(old_file=old_file) for old_file in old_files]
-        elif isinstance(old_files, dict):
-            return {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.items()}
-
-    def migrate_file(self, old_file):
-        if old_file is None:
-            return None
-        sample_id = old_file.sampleId
-
-        md5_sum = self.new_model.File(
-            SampleId=None,
-            md5Sum=None,
-            URIFile=old_file.md5Sum,
-            fileType=self.new_model.FileType.MD5Sum
-        )
-
-        invalid_file_types = [
-            self.old_model.FileType.PARTITION,
-            self.old_model.FileType.VARIANT_FREQUENCIES,
-            self.old_model.FileType.COVERAGE,
-        ]
-        file_type = old_file.fileType if old_file.fileType not in invalid_file_types else self.new_model.FileType.OTHER
-
-        new_file = self.new_model.File(
-            fileType=file_type,
-            URIFile=old_file.uriFile,
-            SampleId=sample_id,
-            md5Sum=md5_sum,
-        )
-
-        return self.validate_object(object_to_validate=new_file, object_type=self.new_model.File)
