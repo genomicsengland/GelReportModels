@@ -7,7 +7,7 @@ from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import Migrate
 from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
 
 
-class TestMigrateReports600To500(BaseMigrateReports500And600):
+class TestMigrateReports600To500(BaseMigrateReports500And600, TestCaseMigration):
 
     def test_migrate_interpretation_request_rd(self):
         ir_rd_6 = self.get_valid_object(object_type=old_model.InterpretationRequestRD, version=self.version_7_0)
