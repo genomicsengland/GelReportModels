@@ -52,26 +52,9 @@ class MigrateReports3To4(BaseMigration):
         new_reported_somatic_variants = self.new_model.ReportedSomaticVariants()
 
         old_reported_variant_cancer = old_reported_somatic_variants.reportedVariantCancer
-        new_reported_somatic_variants.reportedVariantCancer = self.new_model.ReportedVariantCancer(
-            clinVarIds=[''],
-            additionalNumericVariantAnnotations=old_reported_variant_cancer.additionalNumericVariantAnnotations,
-            additionalTextualVariantAnnotations=old_reported_variant_cancer.additionalTextualVariantAnnotations,
-            vaf=old_reported_variant_cancer.VAF,
-            cosmicIds=old_reported_variant_cancer.CosmicIds,
-            ihp=old_reported_variant_cancer.IHP,
-            alternate=old_reported_variant_cancer.alternate,
-            cDnaChange=old_reported_variant_cancer.cDNAchange,
-            chromosome=old_reported_variant_cancer.chromosome,
-            comments=old_reported_variant_cancer.comments,
-            commonAf=old_reported_variant_cancer.commonAF,
-            dbSnpId=old_reported_variant_cancer.dbSNPid,
-            depthAlternate=old_reported_variant_cancer.depthAlternate,
-            depthReference=old_reported_variant_cancer.depthReference,
-            position=old_reported_variant_cancer.position,
-            proteinChange=old_reported_variant_cancer.proteinChange,
-            reference=old_reported_variant_cancer.reference,
-            reportEvents=old_reported_variant_cancer.reportEvents,
-        )
+        new_reported_somatic_variants.reportedVariantCancer = self.convert_class(
+            self.new_model.ReportedVariantCancer, old_reported_variant_cancer)
+        new_reported_somatic_variants.reportedVariantCancer.clinVarIds = ['']
 
         allele_origins_map = {
             reports_3_0_0.SomaticOrGermline.somatic: reports_4_0_0.AlleleOrigin.somatic_variant,
