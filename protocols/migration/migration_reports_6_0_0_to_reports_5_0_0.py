@@ -37,7 +37,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if new_instance.cancerParticipant and new_instance.cancerParticipant.tumourSamples:
             samples = new_instance.cancerParticipant.tumourSamples
             for sample in samples:
-                if sample.diseaseType == diseaseType.ENDOCRINE:
+                if sample.diseaseType in (diseaseType.ENDOCRINE, diseaseType.OTHER):
                     sample.diseaseType = None
                 if sample.tissueSource == TissueSource.NOT_SPECIFIED:
                     sample.tissueSource = None
