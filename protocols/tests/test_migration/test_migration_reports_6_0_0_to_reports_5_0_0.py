@@ -15,13 +15,23 @@ class TestMigrateReports600To500(BaseMigrateReports500And600):
         self.assertIsInstance(ir_rd_5, new_model.InterpretationRequestRD)
         self.assertTrue(ir_rd_5.validate(ir_rd_5.toJsonDict()))
 
-    def test_migrate_variant_attributes(self):
+    def test_migrate_variant_attributes(self, fill_nullables=True):
         small_variant = self.variant_with_type_valid_in_both_models()
 
         reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
 
         self.assertEqual(reported_variant.genomicChanges, small_variant.variantAttributes.genomicChanges)
         self.assertEqual(reported_variant.cdnaChanges, small_variant.variantAttributes.cdnaChanges)
+
+        va_6 = self.get_valid_object(
+            object_type=self.old_model.VariantAttributes, version=self.version_7_0, fill_nullables=fill_nullables,
+        )
+        va_5 = MigrateReports600To500().migrate_variant_attributes(old_variant_attributes=va_6)
+        self.assertIsInstance(va_5, self.new_model.VariantAttributes)
+        self.assertTrue(va_5.validate(va_5.toJsonDict()))
+
+    def test_migrate_variant_attributes_no_nullables(self):
+        self.test_migrate_variant_attributes(fill_nullables=False)
 
     def test_migrate_variant_identifiers(self):
         small_variant = self.variant_with_type_valid_in_both_models()
@@ -41,6 +51,16 @@ class TestMigrateReports600To500(BaseMigrateReports500And600):
         for original_call, new_call in zip(original_variant_calls, new_variant_calls):
             self.assertEqual(new_call.phaseSet, original_call.phaseGenotype.phaseSet)
             self.assertEqual(new_call.vaf, original_call.sampleVariantAlleleFrequency)
+
+        # AlleleOrigins are required for v5 so v6 can not have any nullables not filled
+        vc_6 = self.get_valid_object(
+            object_type=self.old_model.VariantCall, version=self.version_7_0, fill_nullables=True,
+        )
+        vc_5 = MigrateReports600To500().migrate_variant_call(old_call=vc_6)
+        self.assertIsInstance(vc_5, self.new_model.VariantCall)
+        self.assertTrue(vc_5.validate(vc_5.toJsonDict()))
+        self.assertEqual(vc_5.phaseSet, vc_6.phaseGenotype.phaseSet)
+        self.assertEqual(vc_5.vaf, vc_6.sampleVariantAlleleFrequency)
 
     def test_migrate_report_events(self):
         small_variant = self.variant_with_type_valid_in_both_models()
@@ -113,28 +133,6 @@ class TestMigrateReports600To500(BaseMigrateReports500And600):
 
         for af in rv_5.alleleFrequencies:
             self.assertIsInstance(af, self.new_model.AlleleFrequency)
-
-    def test_migrate_variant_attributes(self, fill_nullables=True):
-        va_6 = self.get_valid_object(
-            object_type=self.old_model.VariantAttributes, version=self.version_7_0, fill_nullables=fill_nullables,
-        )
-        va_5 = MigrateReports600To500().migrate_variant_attributes(old_variant_attributes=va_6)
-        self.assertIsInstance(va_5, self.new_model.VariantAttributes)
-        self.assertTrue(va_5.validate(va_5.toJsonDict()))
-
-    def test_migrate_variant_attributes_no_nullables(self):
-        self.test_migrate_variant_attributes(fill_nullables=False)
-
-    def test_migrate_variant_call(self):
-        # AlleleOrigins are required for v5 so v6 can not have any nullables not filled
-        vc_6 = self.get_valid_object(
-            object_type=self.old_model.VariantCall, version=self.version_7_0, fill_nullables=True,
-        )
-        vc_5 = MigrateReports600To500().migrate_variant_call(old_call=vc_6)
-        self.assertIsInstance(vc_5, self.new_model.VariantCall)
-        self.assertTrue(vc_5.validate(vc_5.toJsonDict()))
-        self.assertEqual(vc_5.phaseSet, vc_6.phaseGenotype.phaseSet)
-        self.assertEqual(vc_5.vaf, vc_6.sampleVariantAlleleFrequency)
 
     def test_migrate_report_event(self):
         # Can not reverse migrate v6 Report Event if phenotypes does not have nonStandardPhenotype populated as v5
