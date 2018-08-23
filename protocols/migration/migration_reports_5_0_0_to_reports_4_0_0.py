@@ -64,6 +64,20 @@ class MigrateReports500To400(BaseMigration):
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
 
+    def migrate_interpreted_genome_rd(self, old_instance):
+        """
+        :type old_instance: reports_5_0_0.InterpretedGenomeRD
+        :rtype: reports_4_0_0.InterpretedGenomeRD
+        """
+        new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)  # :type self.new_model.InterpretedGenomeRD
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        new_instance.analysisId = str(old_instance.interpretationRequestVersion)
+        new_instance.companyName = old_instance.interpretationService
+        if new_instance.reportUrl is None:
+            new_instance.reportUrl = ""
+        new_instance.reportUri = ""
+        new_instance.reportedVariants = self.migrate_reported_variants(old_reported_variants=old_instance.variants)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
     def migrate_clinical_report_rd(self, old_instance):
         """
