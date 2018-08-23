@@ -344,7 +344,7 @@ class ProtocolElement(object):
         """
         like fromJsonDict but applies some fuzzy rules
         """
-        return cls.fromJsonDict(jsonDict, str.lower)
+        return cls.fromJsonDict(jsonDict, lambda s: s.lower())
 
     def updateWithJsonDict(self, jsonDict):
         """
