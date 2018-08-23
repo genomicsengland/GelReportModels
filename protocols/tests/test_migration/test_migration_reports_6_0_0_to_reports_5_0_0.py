@@ -7,7 +7,7 @@ from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import Migrate
 from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
 
 
-class TestMigrateReports600To500(BaseMigrateReports500And600):
+class TestMigrateReports600To500(BaseMigrateReports500And600, TestCaseMigration):
 
     def test_migrate_interpretation_request_rd(self):
         ir_rd_6 = self.get_valid_object(object_type=old_model.InterpretationRequestRD, version=self.version_7_0)
@@ -75,7 +75,7 @@ class TestMigrateReports600To500(BaseMigrateReports500And600):
         return small_variant
     
     def test_migration_of_new_enum_values_get_set_to_none(self):
-        ir_6 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest, version=self.version_7_0)
+        ir_6 = self.get_valid_object(object_type=old_model.CancerInterpretationRequest, version=self.version_7_0)
         samples = ir_6.cancerParticipant.tumourSamples
         for sample in samples:
             sample.diseaseType = diseaseType.ENDOCRINE
@@ -83,7 +83,7 @@ class TestMigrateReports600To500(BaseMigrateReports500And600):
 
         ir_5 = MigrateReports600To500().migrate_interpretation_request_cancer(old_instance=ir_6)
 
-        self.assertIsInstance(ir_5, self.new_model.CancerInterpretationRequest)
+        self.assertIsInstance(ir_5, new_model.CancerInterpretationRequest)
         self.assertTrue(ir_5.validate(ir_5.toJsonDict()))
 
         samples = ir_5.cancerParticipant.tumourSamples
