@@ -443,41 +443,31 @@ class MigrateReports400To500(BaseMigration):
         """
         NOTE: fields that cannot be filled are "genomicChanges", "references"
         :type old_instance: reports_4_0_0.ReportedSomaticVariants
-        :type assembly: reports_5_0_0.Assembly
+        :type assembly: str
         :type participant_id: str
         :type sample_id: str
         :rtype reports_5_0_0.ReportedVariantCancer
         :return:
         """
-        new_instance = self.convert_class(
-            self.new_model.ReportedVariantCancer,
-            old_instance.reportedVariantCancer)  # :type: reports_5_0_0.ReportedVariant
+        reported_variant_cancer = old_instance.reportedVariantCancer
+        new_instance = self.convert_class(self.new_model.ReportedVariantCancer, reported_variant_cancer)  # :type: reports_5_0_0.ReportedVariant
 
         # builds up the variant coordinates
-        new_instance.variantCoordinates = reports_5_0_0.VariantCoordinates(
-            chromosome=old_instance.reportedVariantCancer.chromosome,
-            position=old_instance.reportedVariantCancer.position,
-            reference=old_instance.reportedVariantCancer.reference,
-            alternate=old_instance.reportedVariantCancer.alternate,
-            assembly=self.migrate_assembly(assembly)
-        )
-
-        # field cDnaChange renamed to cdnaChange
-        if old_instance.reportedVariantCancer.cDnaChange:
-            new_instance.cdnaChanges = [old_instance.reportedVariantCancer.cDnaChange]
+        new_instance.variantCoordinates = self.convert_class(reports_5_0_0.VariantCoordinates, reported_variant_cancer)
+        new_instance.variantCoordinates.assembly = self.migrate_assembly(assembly)
 
         # field proteinChange changed to a list
-        if old_instance.reportedVariantCancer.proteinChange:
-            new_instance.proteinChanges = [old_instance.reportedVariantCancer.proteinChange]
+        if reported_variant_cancer.proteinChange:
+            new_instance.proteinChanges = [reported_variant_cancer.proteinChange]
 
         # NOTE: missing fields: genomicChanges
 
         # builds up the VariantCall object
         # NOTE: fields that cannot be filled "phaseSet"
         new_instance.variantCalls = [reports_5_0_0.VariantCall(
-            depthReference=old_instance.reportedVariantCancer.depthReference,
-            depthAlternate=old_instance.reportedVariantCancer.depthAlternate,
-            vaf=old_instance.reportedVariantCancer.vaf,
+            depthReference=reported_variant_cancer.depthReference,
+            depthAlternate=reported_variant_cancer.depthAlternate,
+            vaf=reported_variant_cancer.vaf,
             zygosity=reports_5_0_0.Zygosity.na,
             alleleOrigins=old_instance.alleleOrigins,
             participantId=participant_id,
@@ -485,24 +475,24 @@ class MigrateReports400To500(BaseMigration):
         )]
 
         # builds up an AlleleFrequency object
-        if old_instance.reportedVariantCancer.commonAf is not None:
+        if reported_variant_cancer.commonAf is not None:
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
-                alternateFrequency=self.convert_string_to_float(old_instance.reportedVariantCancer.commonAf)
+                alternateFrequency=self.convert_string_to_float(reported_variant_cancer.commonAf)
             )]
 
         # builds up the VariantAttributes
         # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(
-            ihp=old_instance.reportedVariantCancer.ihp
+            ihp=reported_variant_cancer.ihp
         )
 
         # list of allele origins is flattened and received as a parameter
         new_instance.alleleOrigins = old_instance.alleleOrigins
 
         # migrates cancer report events
-        new_instance.reportEvents = self.migrate_report_events_cancer(old_instance.reportedVariantCancer.reportEvents)
+        new_instance.reportEvents = self.migrate_report_events_cancer(reported_variant_cancer.reportEvents)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer

@@ -224,3 +224,7 @@ class MigrateReports500To400(BaseMigration):
             depthAlternate=variant_call.depthAlternate,
         )
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
+
+    def migrate_cancer_interpreted_genome(self, old_interpreted_genome):
+
+        pass
