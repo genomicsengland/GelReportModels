@@ -271,7 +271,12 @@ class MigrateReports500To400(BaseMigration):
             )
         else:
             # default empty object as it is non nullable
-            new_instance.cancerParticipant = self.new_model.CancerParticipant()
+            new_instance.cancerParticipant = self.new_model.CancerParticipant(
+                readyForAnalysis=True,
+                individualId="",
+                sex=self.new_model.Sex.UNKNOWN,
+                tumourSamples=[],
+                germlineSamples=[])
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
@@ -343,29 +348,36 @@ class MigrateReports500To400(BaseMigration):
         new_instance.genomicFeatureCancer = self.migrate_genomic_entities_to_genomic_feature_cancer(
             genomic_entities=old_rec.genomicEntities,
         )
+        new_instance.actions = self.migrate_actions(old_rec.actions)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer)
 
     def migrate_variant_consequences_to_so_terms(self, old_consequences):
         return [self.migrate_variant_consequence_to_so_term(vc=vc) for vc in old_consequences]
 
     def migrate_variant_consequence_to_so_term(self, vc):
-        so_term = self.new_model.SoTerm(id=vc.id, name=vc.name)
+        so_term = self.new_model.SoTerm(id=vc.id)
+        so_term.name = vc.name if vc.name else ""
         return self.validate_object(object_to_validate=so_term, object_type=self.new_model.ReportEventCancer)
 
     def migrate_genomic_entities_to_genomic_feature_cancer(self, genomic_entities):
-        genomic_entity = next((ge for ge in genomic_entities), None)
-        if genomic_entity is None:
-            return None
+        genomic_entity = next((ge for ge in genomic_entities), self.old_model.GenomicEntity(
+            type=self.old_model.GenomicEntityType.gene, ensemblId=""))
         new_instance = self.convert_class(target_klass=self.new_model.GenomicFeatureCancer, instance=genomic_entity)
         new_instance.featureType = self.migrate_genomic_entity_type_to_feature_type(old_type=genomic_entity.type)
         new_instance.geneName = genomic_entity.geneSymbol
-
-        new_instance.refSeqTranscriptId = genomic_entity.otherIds.get("refSeqTranscriptId", "")
-        if new_instance.refSeqTranscriptId == "":
-            logging.warning(msg="refSeqTranscriptId not contained within otherIds in reverse migration")
-        new_instance.refSeqProteinId = genomic_entity.otherIds.get("refSeqProteinId", "")
-        if new_instance.refSeqProteinId == "":
-            logging.warning(msg="refSeqProteinId not contained within otherIds in reverse migration")
+        if new_instance.geneName is None:
+            new_instance.geneName = ""
+        if genomic_entity.otherIds:
+            new_instance.refSeqTranscriptId = genomic_entity.otherIds.get("refSeqTranscriptId", "")
+            if new_instance.refSeqTranscriptId == "":
+                logging.warning(msg="refSeqTranscriptId not contained within otherIds in reverse migration")
+            new_instance.refSeqProteinId = genomic_entity.otherIds.get("refSeqProteinId", "")
+            if new_instance.refSeqProteinId == "":
+                logging.warning(msg="refSeqProteinId not contained within otherIds in reverse migration")
+        if new_instance.refSeqTranscriptId is None:
+            new_instance.refSeqTranscriptId = ""
+        if new_instance.refSeqProteinId is None:
+            new_instance.refSeqProteinId = ""
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.GenomicFeatureCancer)
 
@@ -381,7 +393,6 @@ class MigrateReports500To400(BaseMigration):
             logging.warning(msg=msg.format(ge_type=old_type, rep=self.new_model.FeatureTypes.Gene))
         return feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
 
-
     def migrate_actions(self, old_actions):
         if old_actions is None:
             return None
@@ -389,4 +400,5 @@ class MigrateReports500To400(BaseMigration):
 
     def migrate_action(self, old_action):
         new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_action)
+        new_instance.evidence = old_action.references
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Actions)
