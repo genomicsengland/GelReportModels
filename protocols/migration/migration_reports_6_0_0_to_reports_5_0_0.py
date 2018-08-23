@@ -62,11 +62,12 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             new_instance.additionalNumericVariantAnnotations = var_attrs.additionalNumericVariantAnnotations
             new_instance.comments = var_attrs.comments
             new_instance.alleleOrigins = var_attrs.alleleOrigins
-            new_instance.alleleFrequencies = [
-                self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
-                for allele_frequency in var_attrs.alleleFrequencies
-            ]
-            if var_attrs.variantIdentifiers is not None:
+            if var_attrs.alleleFrequencies:
+                new_instance.alleleFrequencies = [
+                    self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
+                    for allele_frequency in var_attrs.alleleFrequencies
+                ]
+            if var_attrs.variantIdentifiers:
                 new_instance.dbSnpId = var_attrs.variantIdentifiers.dbSnpId
                 new_instance.cosmicIds = var_attrs.variantIdentifiers.cosmicIds
                 new_instance.clinVarIds = var_attrs.variantIdentifiers.clinVarIds
@@ -153,14 +154,14 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         return moh_map.get(old_moh, new.unknown)
 
     def migrate_genomic_entities(self, old_entities):
-        return [self.migrate_genomic_entity(old_entity=old_entity) for old_entity in old_entities]
+        return [self.migrate_genomic_entity(old_genomic_entity=old_entity) for old_entity in old_entities]
 
-    def migrate_genomic_entity(self, old_entity):
-        new_instance = self.convert_class(target_klass=self.new_model.GenomicEntity, instance=old_entity)
-        if old_entity.ensemblId is None:
+    def migrate_genomic_entity(self, old_genomic_entity):
+        new_instance = self.convert_class(target_klass=self.new_model.GenomicEntity, instance=old_genomic_entity)
+        if old_genomic_entity.ensemblId is None:
             new_instance.ensemblId = ""
-        new_instance.otherIds = self.migrate_genomic_entity_other_ids(old_ids=old_entity.otherIds)
-        new_instance.type = self.migrate_genomic_entity_type(old_type=old_entity.type)
+        new_instance.otherIds = self.migrate_genomic_entity_other_ids(old_ids=old_genomic_entity.otherIds)
+        new_instance.type = self.migrate_genomic_entity_type(old_type=old_genomic_entity.type)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.GenomicEntity)
 
@@ -263,13 +264,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def migrate_clinical_significance(self, old_significance):
         return self.clinical_signicance_reverse_map.get(old_significance)
-
-    def migrate_genomic_entity(self, genomic_entity):
-        new_genomic_entity = self.convert_class(self.new_model.GenomicEntity, genomic_entity)
-        if genomic_entity.otherIds is not None:
-            new_genomic_entity.otherIds = \
-                {identifier.source: identifier.identifier for identifier in genomic_entity.otherIds}
-        return self.validate_object(object_to_validate=new_genomic_entity, object_type=self.new_model.GenomicEntity)
 
     def migrate_actions(self, actions):
         if not actions:
