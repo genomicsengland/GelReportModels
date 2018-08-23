@@ -288,3 +288,25 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         action.variantActionable = evidence.variantActionable
         action.evidenceType += ",".join([' ('] + evidence.conditions + [')'])
         return action
+
+    def migrate_clinical_report_rd(self, old_instance):
+        """
+        Migrates a reports_6_0_0.ClinicalReport to a reports_5_0_0.ClinicalReportRD
+        :type old_instance: reports_6_0_0.ClinicalReport
+        :rtype: reports_5_0_0.ClinicalReportRD
+        """
+        new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
+        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        new_instance.additionalAnalysisPanels = self.migrate_additional_analysis_panels(old_panels=old_instance.additionalAnalysisPanels)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
+
+    def migrate_additional_analysis_panels(self, old_panels):
+        if old_panels is None:
+            return None
+        return [self.migrate_additional_analysis_panel(old_panel=old_panel) for old_panel in old_panels]
+
+    def migrate_additional_analysis_panel(self, old_panel):
+        new_instance = self.convert_class(target_klass=self.new_model.AdditionalAnalysisPanel, instance=old_panel)
+        new_instance.panel = self.migrate_gene_panel(old_panel=old_panel.panel)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
