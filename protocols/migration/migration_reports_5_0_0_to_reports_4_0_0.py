@@ -256,38 +256,39 @@ class MigrateReports500To400(BaseMigration):
         new_instance.reportRequestId = old_interpretation_request.interpretationRequestId
         new_instance.reportVersion = old_interpretation_request.interpretationRequestVersion
         new_instance.interpretGenome = True
-        self.check_files_are_not_none(instance=new_instance)
-        participant_103 = MigrateParticipant110To103().migrate_cancer_participant(
-            old_participant=old_interpretation_request.cancerParticipant,
-        )
-        new_instance.cancerParticipant = MigrationParticipants103To100().migrate_cancer_participant(
-            cancer_participant=participant_103,
-        )
+        if new_instance.bams is None:
+            new_instance.bams = []
+        if new_instance.vcfs is None:
+            new_instance.vcfs = []
+        if new_instance.bigWigs is None:
+            new_instance.bigWigs = []
+        if old_interpretation_request.cancerParticipant:
+            participant_103 = MigrateParticipant110To103().migrate_cancer_participant(
+                old_participant=old_interpretation_request.cancerParticipant
+            )
+            new_instance.cancerParticipant = MigrationParticipants103To100().migrate_cancer_participant(
+                cancer_participant=participant_103
+            )
+        else:
+            # default empty object as it is non nullable
+            new_instance.cancerParticipant = self.new_model.CancerParticipant()
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
-        new_instance.tieringVersion = ""
-        new_instance.tieredVariants = self.migrate_variants(old_variants=old_interpreted_genome.variants)
+        new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
+        new_instance.tieredVariants = self.migrate_reported_variants_cancer(old_variants=old_interpreted_genome.variants)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
 
-    @staticmethod
-    def check_files_are_not_none(instance):
-        for attribute in ["bams", "vcfs", "bigWigs"]:
-            if hasattr(instance, attribute) and getattr(instance, attribute) is None:
-                msg = "Can not reverse migrate cancer interpretation request as {null_files} files are null".format(
-                    null_files=attribute
-                )
-                raise MigrationError(msg)
+    def migrate_reported_variants_cancer(self, old_variants):
+        return [self.migrate_reported_variant_cancer_to_reported_somatic_variant(old_variant=old_variant) for old_variant in old_variants]
 
-    def migrate_variants(self, old_variants):
-        return [self.migrate_variant(old_variant=old_variant) for old_variant in old_variants]
-
-    def migrate_variant(self, old_variant):
+    def migrate_reported_variant_cancer_to_reported_somatic_variant(self, old_variant):
         """
         Migrate 5.0.0 ReportedVariantCancer to 4.0.0 ReportedSomaticVariants
         """
         new_instance = self.convert_class(target_klass=self.new_model.ReportedSomaticVariants, instance=old_variant)
         new_instance.reportedVariantCancer = self.migrate_reported_variant_cancer(old_rvc=old_variant)
+        new_instance.alleleOrigins = old_variant.alleleOrigins
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedSomaticVariants)
 
     def migrate_reported_variant_cancer(self, old_rvc):
@@ -295,13 +296,41 @@ class MigrateReports500To400(BaseMigration):
         Migrate 5.0.0 ReportedVariantCancer to 4.0.0 ReportedVariantCancer
         """
         new_instance = self.convert_class(target_klass=self.new_model.ReportedVariantCancer, instance=old_rvc)
-        new_instance.cDnaChange = next((e for e in old_rvc.cdnaChanges), None)
-        new_instance.proteinChange = next((e for e in old_rvc.proteinChanges), None)
+        if old_rvc.cdnaChanges:
+            new_instance.cDnaChange = next((e for e in old_rvc.cdnaChanges), None)
+        if old_rvc.proteinChanges:
+            new_instance.proteinChange = next((e for e in old_rvc.proteinChanges), None)
         new_instance.reportEvents = self.migrate_report_events_cancer(old_RECs=old_rvc.reportEvents)
         new_instance.chromosome = old_rvc.variantCoordinates.chromosome
         new_instance.position = old_rvc.variantCoordinates.position
         new_instance.reference = old_rvc.variantCoordinates.reference
         new_instance.alternate = old_rvc.variantCoordinates.alternate
+        first_variant_call = old_rvc.variantCalls[0]
+        if first_variant_call:
+            new_instance.depthReference = first_variant_call.depthReference
+            new_instance.depthAlternate = first_variant_call.depthAlternate
+            new_instance.vaf = first_variant_call.vaf
+            new_instance.depthReference = first_variant_call.depthReference
+            if new_instance.additionalTextualVariantAnnotations is None:
+                new_instance.additionalTextualVariantAnnotations = {}
+            new_instance.additionalTextualVariantAnnotations['zygosity'] = first_variant_call.zygosity
+            new_instance.additionalTextualVariantAnnotations['sampleId'] = first_variant_call.sampleId
+            new_instance.additionalTextualVariantAnnotations['participantId'] = first_variant_call.participantId
+            if new_instance.additionalNumericVariantAnnotations is None:
+                new_instance.additionalNumericVariantAnnotations = {}
+            if first_variant_call.phaseSet is not None:
+                new_instance.additionalNumericVariantAnnotations['phaseSet'] = float(first_variant_call.phaseSet)
+        if old_rvc.variantAttributes:
+            new_instance.ihp = old_rvc.variantAttributes.ihp
+            if new_instance.additionalTextualVariantAnnotations is None:
+                new_instance.additionalTextualVariantAnnotations = {}
+            if old_rvc.variantAttributes.recurrentlyReported is not None:
+                new_instance.additionalTextualVariantAnnotations['recurrentlyReported'] = \
+                    str(old_rvc.variantAttributes.recurrentlyReported)
+            if old_rvc.variantAttributes.fdp50 is not None:
+                new_instance.additionalTextualVariantAnnotations['fdp50'] = old_rvc.variantAttributes.fdp50
+            if old_rvc.variantAttributes.others:
+                new_instance.additionalTextualVariantAnnotations.update(old_rvc.variantAttributes.others)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedSomaticVariants)
 
     def migrate_report_events_cancer(self, old_RECs):

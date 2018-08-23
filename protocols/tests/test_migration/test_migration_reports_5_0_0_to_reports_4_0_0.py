@@ -211,18 +211,23 @@ class TestMigrateReports5To400(TestCaseMigration):
         self.assertIsInstance(ir_rd_4, self.new_model.InterpretationRequestRD)
         self.assertTrue(ir_rd_4.validate(ir_rd_4.toJsonDict()))
 
-    def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self):
-        ir_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest, version=self.version_6_1, fill_nullables=True)
-        ig_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretedGenome, version=self.version_6_1, fill_nullables=True)
+    def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, fill_nullables=True):
+        ir_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest,
+                                       version=self.version_6_1, fill_nullables=fill_nullables)
+        ig_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretedGenome,
+                                       version=self.version_6_1, fill_nullables=fill_nullables)
         ir_c_4 = MigrateReports500To400().migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(
             old_interpretation_request=ir_c_5, old_interpreted_genome=ig_c_5
         )
         self.assertIsInstance(ir_c_4, self.new_model.CancerInterpretationRequest)
         self.assertTrue(ir_c_4.validate(ir_c_4.toJsonDict()))
 
+    def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome_nulls(self):
+        self.test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(fill_nullables=False)
+
     def test_migrate_variant(self):
         rvc_5 = self.get_valid_object(object_type=self.old_model.ReportedVariantCancer, version=self.version_6_1)
-        rsv_4 = MigrateReports500To400().migrate_variant(old_variant=rvc_5)
+        rsv_4 = MigrateReports500To400().migrate_reported_variant_cancer_to_reported_somatic_variant(old_variant=rvc_5)
         self.assertIsInstance(rsv_4, self.new_model.ReportedSomaticVariants)
         self.assertTrue(rsv_4.validate(rsv_4.toJsonDict()))
 
