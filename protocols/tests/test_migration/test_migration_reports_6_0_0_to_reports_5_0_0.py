@@ -1,4 +1,4 @@
-from protocols.migration import MigrateReports500To600, BaseMigration
+from protocols.migration import MigrateReports500To600
 from protocols.protocol_6_1 import reports as new_model
 from protocols.protocol_7_0 import reports as old_model
 from protocols.protocol_7_0.reports import diseaseType, TissueSource
