@@ -160,3 +160,12 @@ class TestMigrateReports600To500(TestCaseMigration):
 
     def test_migrate_clinical_report_rd_no_nullables(self):
         self.test_migrate_clinical_report_rd(fill_nullables=False)
+
+    def test_migrate_clinical_report_cancer(self, fill_nullables=True):
+        cr_6 = self.get_valid_object(object_type=old_model.ClinicalReport, version=self.version_7_0, fill_nullables=fill_nullables)
+        cr_c_5 = MigrateReports600To500().migrate_clinical_report_cancer(old_instance=cr_6)
+        self.assertIsInstance(cr_c_5, new_model.ClinicalReportCancer)
+        self.assertTrue(cr_c_5.validate(cr_c_5.toJsonDict()))
+
+    def test_migrate_clinical_report_cancer_no_nullables(self):
+        self.test_migrate_clinical_report_cancer(fill_nullables=False)
