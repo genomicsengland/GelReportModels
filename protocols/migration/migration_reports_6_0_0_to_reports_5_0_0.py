@@ -156,11 +156,9 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         return [self.migrate_genomic_entity(old_entity=old_entity) for old_entity in old_entities]
 
     def migrate_genomic_entity(self, old_entity):
-        if old_entity.ensemblId is None:
-            msg = "Can not reverse migrate v6 GenomicEntity to v5 GenomicEntity as enseblId is None and this is a "
-            msg += "required field for a v5 GenomicEntity"
-            raise MigrationError(msg)
         new_instance = self.convert_class(target_klass=self.new_model.GenomicEntity, instance=old_entity)
+        if old_entity.ensemblId is None:
+            new_instance.ensemblId = ""
         new_instance.otherIds = self.migrate_genomic_entity_other_ids(old_ids=old_entity.otherIds)
         new_instance.type = self.migrate_genomic_entity_type(old_type=old_entity.type)
 
@@ -179,7 +177,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             old.transcript: new.transcript,
             old.intergenic: new.intergenic,
         }
-        # TODO: !?!?!?! IS THIS AN ACCEPTABLE DEFAULT !?!?!?!
         default = new.gene
         if old_type not in type_map.keys():
             logging.warning("Losing old genomic type: {old_type} and replacing with {default}".format(
