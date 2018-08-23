@@ -11,7 +11,7 @@ class BaseMigration(object):
 
     @staticmethod
     def convert_class(target_klass, instance):
-        new_instance = target_klass.fromJsonDict(
+        new_instance = target_klass.migrateFromJsonDict(
             jsonDict=instance.toJsonDict()
         )
         return new_instance
