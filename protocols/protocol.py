@@ -311,12 +311,17 @@ class ProtocolElement(object):
         return cls.fromJsonDict(jsonDict)
 
     @classmethod
-    def fromJsonDict(cls, jsonDict):
+    def fromJsonDict(cls, jsonDict, key_mapper=(lambda x: x)):
         """
         Returns a decoded ProtocolElement from the specified JSON dictionary.
         """
         if jsonDict is None:
             raise ValueError("Required values not set in {0}".format(cls))
+
+        if isinstance(jsonDict, dict):
+            key_mapping = {key_mapper(key): key for key in jsonDict.keys()}
+        else:
+            key_mapping = dict()
 
         instance = cls()
         for field in cls.schema.fields:
@@ -324,14 +329,22 @@ class ProtocolElement(object):
                 instanceVal = field.default
             else:
                 instanceVal = None
-            if field.name in jsonDict:
-                val = jsonDict[field.name]
-                if cls.isEmbeddedType(field.name):
+            if key_mapper(field.name) in key_mapping:
+                mapped_name = key_mapping[key_mapper(field.name)]
+                val = jsonDict[mapped_name]
+                if cls.isEmbeddedType(mapped_name):
                     instanceVal = cls._decodeEmbedded(field, val)
                 else:
                     instanceVal = val
             setattr(instance, field.name, instanceVal)
         return instance
+
+    @classmethod
+    def migrateFromJsonDict(cls, jsonDict):
+        """
+        like fromJsonDict but applies some fuzzy rules
+        """
+        return cls.fromJsonDict(jsonDict, lambda s: s.lower())
 
     def updateWithJsonDict(self, jsonDict):
         """
