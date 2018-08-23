@@ -62,10 +62,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             new_instance.additionalNumericVariantAnnotations = var_attrs.additionalNumericVariantAnnotations
             new_instance.comments = var_attrs.comments
             new_instance.alleleOrigins = var_attrs.alleleOrigins
-            new_instance.alleleFrequencies = [
-                self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
-                for allele_frequency in var_attrs.alleleFrequencies
-            ]
+            new_instance.alleleFrequencies = self.migrate_allele_frequencies(old_frequencies=var_attrs.alleleFrequencies)
             if var_attrs.variantIdentifiers is not None:
                 new_instance.dbSnpId = var_attrs.variantIdentifiers.dbSnpId
                 new_instance.cosmicIds = var_attrs.variantIdentifiers.cosmicIds
@@ -76,6 +73,14 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance.reportEvents = self.migrate_report_events(old_events=small_variant.reportEvents)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedVariant)
+
+    def migrate_allele_frequencies(self, old_frequencies):
+        if old_frequencies is None:
+            return None
+        return [
+            self.convert_class(target_klass=self.new_model.AlleleFrequency, instance=allele_frequency)
+            for allele_frequency in old_frequencies
+        ]
 
     def migrate_variant_attributes(self, old_variant_attributes):
         """
@@ -263,13 +268,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def migrate_clinical_significance(self, old_significance):
         return self.clinical_signicance_reverse_map.get(old_significance)
-
-    def migrate_genomic_entity(self, genomic_entity):
-        new_genomic_entity = self.convert_class(self.new_model.GenomicEntity, genomic_entity)
-        if genomic_entity.otherIds is not None:
-            new_genomic_entity.otherIds = \
-                {identifier.source: identifier.identifier for identifier in genomic_entity.otherIds}
-        return self.validate_object(object_to_validate=new_genomic_entity, object_type=self.new_model.GenomicEntity)
 
     def migrate_actions(self, actions):
         if not actions:
