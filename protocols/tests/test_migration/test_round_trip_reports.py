@@ -150,7 +150,19 @@ class TestRoundTripMigrateReports400To600(BaseTestRoundTrip):
             self.old_model.CancerInterpretedGenome,
             self.new_model.InterpretedGenome,
             fill_nullables=True,
-            original_version=self.version_4_0_0
+            original_version=self.version_4_0_0,
+            expect_equality=False
+        )
+
+    def test_migrate_cancer_interpreted_genome_with_nulls(self):
+        self._check_round_trip_migration(
+            self._migrate_cancer_interpreted_genome_forwards,
+            self._migrate_cancer_interpreted_genome_backwards,
+            self.old_model.CancerInterpretedGenome,
+            self.new_model.InterpretedGenome,
+            fill_nullables=False,
+            original_version=self.version_4_0_0,
+            expect_equality=False
         )
 
     def _migrate_cancer_interpreted_genome_forwards(self, ig):
