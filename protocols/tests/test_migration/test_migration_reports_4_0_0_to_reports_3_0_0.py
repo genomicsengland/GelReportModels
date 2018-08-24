@@ -24,6 +24,28 @@ class TestMigrateReports4To3(TestCaseMigration):
             self.assertEqual(new_variant.position, old_variant.position)
             self.assertEqual(new_variant.chromosome, old_variant.chromosome)
 
+    def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
+        # creates a random interpreted genome RD for testing filling null values
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_400, fill_nullables=fill_nullables
+        ).create(interpretationRequestVersion='1', reportedStructuralVariants=None)  # we need to enforce that it can be cast to int
+
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance, exclusions=['reportedStructuralVariants'])
+
+        new_instance = MigrateReports400To300().migrate_interpreted_genome_rd(old_instance=old_instance)
+        self.assertIsInstance(new_instance, self.new_model.InterpretedGenomeRD)
+        self._validate(new_instance)
+        if fill_nullables:
+            self._check_variant_coordinates(
+                old_variants=old_instance.reportedVariants,
+                new_variants=new_instance.reportedVariants,
+            )
+
+    def test_migrate_rd_interpreted_genome_fill_nullables_false(self):
+        self.test_migrate_rd_interpreted_genome(fill_nullables=False)
+
     def test_migrate_rd_clinical_report(self, fill_nullables=True):
         # creates a random clinical report RD for testing filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(

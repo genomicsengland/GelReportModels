@@ -456,6 +456,10 @@ class MigrateReports400To500(BaseMigration):
         new_instance.variantCoordinates = self.convert_class(reports_5_0_0.VariantCoordinates, reported_variant_cancer)
         new_instance.variantCoordinates.assembly = self.migrate_assembly(assembly)
 
+        # field cDnaChange renamed to cdnaChange
+        if old_instance.reportedVariantCancer.cDnaChange:
+            new_instance.cdnaChanges = [old_instance.reportedVariantCancer.cDnaChange]
+
         # field proteinChange changed to a list
         if reported_variant_cancer.proteinChange:
             new_instance.proteinChanges = [reported_variant_cancer.proteinChange]

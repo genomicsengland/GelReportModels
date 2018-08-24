@@ -151,3 +151,12 @@ class TestMigrateReports600To500(TestCaseMigration):
         for vc in re_5.variantConsequences:
             self.assertIsInstance(vc, new_model.VariantConsequence)
         self.assertIsInstance(re_5.variantClassification, new_model.VariantClassification)
+
+    def test_migrate_clinical_report_rd(self, fill_nullables=True):
+        cr_rd_6 = self.get_valid_object(object_type=old_model.ClinicalReport, version=self.version_7_0, fill_nullables=fill_nullables)
+        cr_rd_5 = MigrateReports600To500().migrate_clinical_report_rd(old_instance=cr_rd_6)
+        self.assertIsInstance(cr_rd_5, new_model.ClinicalReportRD)
+        self.assertTrue(cr_rd_5.validate(cr_rd_5.toJsonDict()))
+
+    def test_migrate_clinical_report_rd_no_nullables(self):
+        self.test_migrate_clinical_report_rd(fill_nullables=False)
