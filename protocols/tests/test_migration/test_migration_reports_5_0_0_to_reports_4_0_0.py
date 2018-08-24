@@ -305,4 +305,3 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_rd_interpretation_request_nulls(self):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
-
