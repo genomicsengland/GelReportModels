@@ -34,6 +34,45 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD)
 
+    def migrate_clinical_report_rd(self, old_instance):
+        """
+        Migrates a reports_6_0_0.ClinicalReport to a reports_5_0_0.ClinicalReportRD
+        :type old_instance: reports_6_0_0.ClinicalReport
+        :rtype: reports_5_0_0.ClinicalReportRD
+        """
+        new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
+        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        new_instance.additionalAnalysisPanels = self.migrate_additional_analysis_panels(old_panels=old_instance.additionalAnalysisPanels)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
+
+    def migrate_exit_questionnaire_rd(self, old_instance):
+        """
+        Migrates a reports_6_0_0.RareDiseaseExitQuestionnaire to a reports_5_0_0.RareDiseaseExitQuestionnaire
+        :type old_instance: reports_6_0_0.RareDiseaseExitQuestionnaire
+        :rtype: reports_5_0_0.RareDiseaseExitQuestionnaire
+        """
+        new_instance = self.convert_class(
+            target_klass=self.new_model.RareDiseaseExitQuestionnaire, instance=old_instance)
+        new_instance.variantGroupLevelQuestions = [self.migrate_variant_group_level_questions(gq)
+                                                   for gq in old_instance.variantGroupLevelQuestions]
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.RareDiseaseExitQuestionnaire)
+
+    def migrate_variant_group_level_questions(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.VariantGroupLevelQuestions, instance=old_instance)
+        new_instance.variantLevelQuestions = [self.migrate_variant_level_questions(vq)
+                                              for vq in old_instance.variantLevelQuestions]
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantGroupLevelQuestions)
+
+    def migrate_variant_level_questions(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.VariantLevelQuestions, instance=old_instance)
+        coords = old_instance.variantCoordinates
+        new_instance.variantDetails = "{chromosome}:{position}:{reference}:{alternate}".format(
+            chromosome=coords.chromosome, position=coords.position, reference=coords.reference,
+            alternate=coords.alternate)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantLevelQuestions)
+
     def migrate_small_variants_to_reported_variants(self, small_variants):
         return [] if small_variants is None else [
             self.migrate_small_variant_to_reported_variant(small_variant=small_variant)
@@ -288,18 +327,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         action.variantActionable = evidence.variantActionable
         action.evidenceType += ",".join([' ('] + evidence.conditions + [')'])
         return action
-
-    def migrate_clinical_report_rd(self, old_instance):
-        """
-        Migrates a reports_6_0_0.ClinicalReport to a reports_5_0_0.ClinicalReportRD
-        :type old_instance: reports_6_0_0.ClinicalReport
-        :rtype: reports_5_0_0.ClinicalReportRD
-        """
-        new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
-        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
-        new_instance.additionalAnalysisPanels = self.migrate_additional_analysis_panels(old_panels=old_instance.additionalAnalysisPanels)
-        new_instance.versionControl = self.new_model.ReportVersionControl()
-        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
     def migrate_additional_analysis_panels(self, old_panels):
         if old_panels is None:
