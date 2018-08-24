@@ -18,6 +18,9 @@ class MigrateReports400To500(BaseMigration):
         :type old_instance: reports_4_0_0.InterpretationRequestRD
         :rtype: reports_5_0_0.InterpretationRequestRD
         """
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required if version is older than 5.0.0")
+
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
         new_instance.pedigree.members = self.migrate_pedigree_members(old_members=old_instance.pedigree.members)

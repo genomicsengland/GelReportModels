@@ -4,13 +4,10 @@ from protocols.migration.base_migration import MigrationError
 
 from protocols.reports_2_1_0 import ClinicalReportRD as ClinicalReportRD_2_1_0
 from protocols.reports_2_1_0 import InterpretedGenomeRD as InterpretedGenomeRD_2_1_0
-from protocols.reports_2_1_0 import ClinicalReportCancer as ClinicalReportCancer_2_1_0
 from protocols.reports_2_1_0 import InterpretationRequestRD as InterpretationRequestRD_2_1_0
-
 
 from protocols.reports_3_0_0 import ClinicalReportRD as ClinicalReportRD_3_0_0
 from protocols.reports_3_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_3_0_0
-from protocols.reports_3_0_0 import ClinicalReportCancer as ClinicalReportCancer_3_0_0
 from protocols.reports_3_0_0 import InterpretationRequestRD as InterpretationRequestRD_3_0_0
 from protocols.reports_3_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_3_0_0
 from protocols.reports_3_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_3_0_0
@@ -21,9 +18,7 @@ from protocols.reports_4_0_0 import InterpretationRequestRD as InterpretationReq
 from protocols.reports_4_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_4_0_0
 from protocols.reports_4_0_0 import CancerInterpretedGenome as CancerInterpretedGenome_4_0_0
 from protocols.reports_4_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_4_0_0
-from protocols.reports_4_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_4_0_0
 
-from protocols.reports_5_0_0 import Assembly as Assembly_5_0_0
 from protocols.reports_5_0_0 import ClinicalReportRD as ClinicalReportRD_5_0_0
 from protocols.reports_5_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_5_0_0
 from protocols.reports_5_0_0 import ClinicalReportCancer as ClinicalReportCancer_5_0_0
@@ -74,53 +69,23 @@ class MigrationHelpers(object):
         :type assembly: Assembly
         :rtype: InterpretationRequestRD_5_0_0
         """
-        ir_v600 = None
+        types = [
+            InterpretationRequestRD_6_0_0,
+            InterpretationRequestRD_5_0_0,
+            InterpretationRequestRD_4_0_0,
+            InterpretationRequestRD_3_0_0,
+            InterpretationRequestRD_2_1_0
+        ]
 
-        if PayloadValidation(klass=InterpretationRequestRD_6_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 6.0.0")
-            # v6 and v5 are the same so the migration needs to take place here
-            ir_v600 = InterpretationRequestRD_6_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v600)
+        migrations = [
+            MigrateReports500To600().migrate_interpretation_request_rd,  # needed to migrate the version sometimes
+            MigrateReports500To600().migrate_interpretation_request_rd,
+            lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
+            MigrateReports3To4().migrate_interpretation_request_rd,
+            Migration2_1To3().migrate_interpretation_request
+        ]
 
-        elif PayloadValidation(klass=InterpretationRequestRD_5_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 5.0.0")
-            ir_v500 = InterpretationRequestRD_5_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
-
-        elif assembly is None:
-            raise MigrationError("Parameter <assembly> is required if version is older than 5.0.0")
-
-        elif PayloadValidation(klass=InterpretationRequestRD_4_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 4.0.0")
-            ir_v400 = InterpretationRequestRD_4_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly,
-            )
-            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
-
-        elif PayloadValidation(klass=InterpretationRequestRD_3_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 3.0.0")
-            ir_v3 = InterpretationRequestRD_3_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
-            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly,
-            )
-            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
-
-        elif PayloadValidation(klass=InterpretationRequestRD_2_1_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 2.1.0")
-            ir_v2 = InterpretationRequestRD_2_1_0.fromJsonDict(jsonDict=json_dict)
-            ir_v3 = Migration2_1To3().migrate_interpretation_request(interpretation_request=ir_v2)
-            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
-            ir_v500 = MigrateReports400To500().migrate_interpretation_request_rd(
-                old_instance=ir_v400, assembly=assembly,
-            )
-            ir_v600 = MigrateReports500To600().migrate_interpretation_request_rd(old_instance=ir_v500)
-
-        if ir_v600 is not None:
-            return ir_v600
-
-        raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_interpretation_request_rd_to_interpreted_genome_latest(json_dict, assembly):
@@ -608,3 +573,15 @@ class MigrationHelpers(object):
             PayloadValidation(klass=ClinicalReportRD_3_0_0, payload=cr_data_v3).validate()
 
         return cr_data_v3
+
+    @staticmethod
+    def migrate(json_dict, types, migrations):
+        for i, typ in enumerate(types):
+            if PayloadValidation(klass=typ, payload=json_dict).is_valid:
+                ir = typ.fromJsonDict(json_dict)
+                migrations_to_apply = migrations[0:i+1]
+                for migration in reversed(migrations_to_apply):
+                    ir = migration(ir)
+                return ir
+
+        raise MigrationError("Interpretation Request RD is not one of: {}".format(types))
