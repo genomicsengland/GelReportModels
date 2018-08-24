@@ -92,8 +92,16 @@ class MigrateReports500To400(BaseMigration):
         new_instance.candidateVariants = self.migrate_reported_variants(old_reported_variants=old_instance.variants)
         new_instance.additionalAnalysisPanels = self.migrate_analysis_panels(
             old_panels=old_instance.additionalAnalysisPanels)
-
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
+
+    def migrate_exit_questionnaire_rd(self, old_instance):
+        """
+        :type old_instance: reports_5_0_0.RareDiseaseExitQuestionnaire
+        :rtype: reports_4_0_0.RareDiseaseExitQuestionnaire
+        """
+        new_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)  # :type self.new_model.RareDiseaseExitQuestionnaire
+        return self.validate_object(object_to_validate=new_instance,
+                                    object_type=self.new_model.RareDiseaseExitQuestionnaire)
 
     def migrate_analysis_panels(self, old_panels):
         if not old_panels:
