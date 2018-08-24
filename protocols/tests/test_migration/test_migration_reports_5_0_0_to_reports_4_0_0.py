@@ -276,6 +276,27 @@ class TestMigrateReports5To400(TestCaseMigration):
         for action in rec_4.actions:
             self.assertIsInstance(action, self.new_model.Actions)
 
+    def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
+        # creates a random clinical report RD for testing filling null values
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
+        ).create(interpretationRequestVersion=1)
+
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        new_instance = MigrateReports500To400().migrate_interpreted_genome_rd(old_instance=old_instance)
+        self.assertTrue(isinstance(new_instance, self.new_model.InterpretedGenomeRD))
+        self._validate(new_instance)
+        if fill_nullables:
+            self._check_variant_coordinates(
+                old_variants=old_instance.variants,
+                new_variants=new_instance.reportedVariants,
+            )
+
+    def test_migrate_rd_interpreted_genome_nullables_false(self):
+        self.test_migrate_rd_interpreted_genome(fill_nullables=False)
+
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
