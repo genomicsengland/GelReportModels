@@ -2,12 +2,12 @@ import logging
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
-from protocols.migration.base_migration import BaseMigration
+from protocols.migration.base_migration import BaseMigrateReports400And500
 from protocols.migration.base_migration import MigrationError
 from protocols.migration.participants import MigrationParticipants110To100
 
 
-class MigrateReports500To400(BaseMigration):
+class MigrateReports500To400(BaseMigrateReports400And500):
 
     old_model = reports_5_0_0
     new_model = reports_4_0_0
@@ -225,6 +225,136 @@ class MigrateReports500To400(BaseMigration):
         )
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
 
-    def migrate_cancer_interpreted_genome(self, old_interpreted_genome):
+    def migrate_cancer_interpreted_genome(self, old_instance):
+        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(jsonDict=old_instance.toJsonDict())
 
-        pass
+        new_instance.reportedVariants = self.migrate_reported_variants_cancer(old_instance.variants)
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
+        )
+
+    def migrate_reported_variants_cancer(self, old_reported_variants):
+        if old_reported_variants is not None:
+            return [
+                self.migrate_reported_variant_cancer(old_reported_variant)
+                for old_reported_variant in old_reported_variants
+            ]
+
+    def migrate_reported_variant_cancer(self, old_instance):
+        """
+        NOTE: fields that cannot be filled are "genomicChanges", "references"
+        :type old_instance: reports_5_0_0.ReportedVariantCancer
+        :rtype reports_5_0_0.ReportedVariantCancer
+        :return:
+        """
+        new_instance = self.convert_class(self.new_model.ReportedSomaticVariants, old_instance) # :type: reports_4_0_0.ReportedSomaticVariants
+        reported = self.convert_class(self.new_model.ReportedVariantCancer, old_instance) # :type: reports_4_0_0.ReportedVariantCancer
+        new_instance.reportedVariantCancer = reported
+
+        reported.updateWithJsonDict(old_instance.variantCoordinates.toJsonDict())
+
+        if old_instance.cdnaChanges:
+            reported.cDnaChange = old_instance.cdnaChanges[0]
+
+        # field proteinChange changed to a list
+        if old_instance.proteinChanges:
+            reported.proteinChange = old_instance.proteinChanges[0]
+
+        reported.updateWithJsonDict(old_instance.variantCalls)
+
+        # builds up an AlleleFrequency object
+        commonAfs = [freq.alternateFrequency for freq in old_instance.alleleFrequencies
+                     if freq.study == 'genomics_england' and freq.population == 'ALL']
+        if commonAfs:
+            new_instance.commonAf = commonAfs[0]
+
+
+        # builds up the VariantAttributes
+        # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
+        new_instance.updateWithJsonDict(old_instance.variantAttributes.toJsonDict())
+
+        # migrates cancer report events
+        reported.reportEvents = self.migrate_report_events_cancer(old_instance.reportEvents)
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.ReportedSomaticVariants
+        )
+
+    def migrate_report_events_cancer(self, old_report_events):
+        if old_report_events is not None:
+            return [self.migrate_report_event_cancer(old_report_event) for old_report_event in old_report_events]
+
+    def migrate_report_event_cancer(self, old_instance):
+        """
+        NOTE: fields that cannot be filled are "groupOfVariants", "score", "vendorSpecificScores", "variantClassification"
+        :type old_instance: reports_5_0_0.ReportEventCancer
+        :rtype reports_5_0_0.ReportEventCancer
+        :return: reports_4_0_0.ReportEventCancer
+        """
+        new_instance = self.convert_class(self.new_model.ReportEventCancer, old_instance)
+        new_instance.genomicFeatureCancer = \
+            [self.migrate_genomic_feature_cancer(e) for e in old_instance.genomicEntities]
+        new_instance.updateWithJsonDict([vc.toJsonDict() for vc in old_instance.variantConsequences])
+
+        # migrates actions
+        new_instance.actions = self.migrate_actions(old_instance.actions)
+
+        # populates the role in cancer with the field inside the genomic feature
+        map_role_in_cancer = {
+            None: None,
+            reports_4_0_0.RoleInCancer.both: [reports_5_0_0.RoleInCancer.both],
+            reports_4_0_0.RoleInCancer.oncogene: [reports_5_0_0.RoleInCancer.oncogene],
+            reports_4_0_0.RoleInCancer.TSG: [reports_5_0_0.RoleInCancer.tumor_suppressor_gene]
+        }
+
+        new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_instance.roleInCancer]
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer
+        )
+
+    def migrate_genomic_feature_cancer(self, old_instance):
+        """
+        NOTE: fields that cannot be filled are "otherIds"
+        :type old_instance: reports_5_0_0.GenomicEntity
+        :rtype reports_4_0_0.GenomicFeatureCancer
+        :return:
+        """
+        new_instance = self.convert_class(self.new_model.GenomicFeatureCancer, old_instance)
+
+        # maps the feature type
+        new_instance.featureType = self.genomic_entity_feature_map[old_instance.type]
+
+        # rename gene name to gene symbol
+        new_instance.geneName = old_instance.geneSymbol
+
+        # NOTE: fields refSeqTranscriptId and refSeqProteinId are lost in the forwards migration
+        new_instance.refSeqTranscriptId = ""
+        new_instance.refSeqProteinId = ""
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.GenomicFeatureCancer
+        )
+
+    def migrate_action(self, old_instance):
+        """
+        :type old_instance: reports_5_0_0.Action
+        :rtype reports_4_0_0.Actions
+        :return:
+        """
+        new_instance = self.convert_class(self.new_model.Actions, old_instance)
+        new_instance.actionType = old_instance.evidenceType
+        new_instance.evidence = old_instance.references
+
+        # maps the action status
+        if old_instance.status is not None:
+            new_instance.status = old_instance.status.lower().replace('_', '-')
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.Actions
+        )
+
+    def migrate_actions(self, old_instances):
+        if old_instances is not None:
+            return [self.migrate_action(old_instance) for old_instance in old_instances]

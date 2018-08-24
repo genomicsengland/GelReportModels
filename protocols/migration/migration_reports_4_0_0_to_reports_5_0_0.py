@@ -3,11 +3,11 @@ import logging
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols import opencb_1_3_0 as opencb_1_3_0
-from protocols.migration.base_migration import BaseMigration, MigrationError
+from protocols.migration.base_migration import MigrationError, BaseMigrateReports400And500
 import itertools
 
 
-class MigrateReports400To500(BaseMigration):
+class MigrateReports400To500(BaseMigrateReports400And500):
 
     old_model = reports_4_0_0
     new_model = reports_5_0_0
@@ -558,12 +558,7 @@ class MigrateReports400To500(BaseMigration):
         new_instance = self.convert_class(self.new_model.GenomicEntity, old_instance)
 
         # maps the feature type
-        map_feature_type = {
-            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.GenomicEntityType.transcript,
-            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.GenomicEntityType.regulatory_region,
-            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.GenomicEntityType.gene
-        }
-        new_instance.type = map_feature_type[old_instance.featureType]
+        new_instance.type = self.feature_genomic_entity_map[old_instance.featureType]
 
         # rename gene name to gene symbol
         new_instance.geneSymbol = old_instance.geneName
