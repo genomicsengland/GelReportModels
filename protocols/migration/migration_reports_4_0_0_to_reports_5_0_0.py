@@ -70,6 +70,11 @@ class MigrateReports400To500(BaseMigration):
         :type interpretation_request_version: int
         :rtype: reports_5_0_0.InterpretedGenomeRD
         """
+        if assembly is None or interpretation_request_version is None:
+            raise MigrationError(
+                "Parameters <assembly> and <interpretation_request_version> are required for models earlier than 5.0.0"
+            )
+
         new_instance = self.convert_class(
             self.new_model.InterpretedGenomeRD, old_instance)  # type:self.new_model.InterpretedGenomeRD
 

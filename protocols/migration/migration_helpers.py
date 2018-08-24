@@ -78,7 +78,7 @@ class MigrationHelpers(object):
         ]
 
         migrations = [
-            MigrateReports500To600().migrate_interpretation_request_rd,  # needed to migrate the version sometimes
+            MigrationHelpers.set_version_to_6_0_0,  # needed because 5 is valid as 6
             MigrateReports500To600().migrate_interpretation_request_rd,
             lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_interpretation_request_rd,
@@ -94,42 +94,26 @@ class MigrationHelpers(object):
         :type assembly: Assembly
         :rtype: InterpretedGenomeRD_5_0_0
         """
-        ig_v600 = None
+        types = [
+            InterpretationRequestRD_6_0_0,
+            InterpretationRequestRD_5_0_0,
+            InterpretationRequestRD_4_0_0,
+            InterpretationRequestRD_3_0_0,
+            InterpretationRequestRD_2_1_0
+        ]
 
-        if PayloadValidation(klass=InterpretationRequestRD_4_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 4.0.0")
-            ir_v400 = InterpretationRequestRD_4_0_0.fromJsonDict(jsonDict=json_dict)
-            ig_v500 = MigrateReports400To500().migrate_interpretation_request_rd_to_interpreted_genome_rd(
-                old_instance=ir_v400, assembly=assembly, interpretation_service="tiering",
+        migrations = [
+            lambda x: x,
+            MigrateReports500To600().migrate_interpreted_genome_rd,
+            lambda x: MigrateReports400To500().migrate_interpretation_request_rd_to_interpreted_genome_rd(
+                old_instance=x, assembly=assembly, interpretation_service="tiering",
                 reference_database_versions={}, software_versions={}
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(old_instance=ig_v500)
+            ),
+            MigrateReports3To4().migrate_interpretation_request_rd,
+            Migration2_1To3().migrate_interpretation_request
+        ]
 
-        elif PayloadValidation(klass=InterpretationRequestRD_3_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 3.0.0")
-            ir_v3 = InterpretationRequestRD_3_0_0.fromJsonDict(jsonDict=json_dict)
-            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
-            ig_v500 = MigrateReports400To500().migrate_interpretation_request_rd_to_interpreted_genome_rd(
-                old_instance=ir_v400, assembly=assembly, interpretation_service="tiering",
-                reference_database_versions={}, software_versions={}
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(old_instance=ig_v500)
-
-        elif PayloadValidation(klass=InterpretationRequestRD_2_1_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 2.1.0")
-            ir_v2 = InterpretationRequestRD_2_1_0.fromJsonDict(jsonDict=json_dict)
-            ir_v3 = Migration2_1To3().migrate_interpretation_request(interpretation_request=ir_v2)
-            ir_v400 = MigrateReports3To4().migrate_interpretation_request_rd(old_instance=ir_v3)
-            ig_v500 = MigrateReports400To500().migrate_interpretation_request_rd_to_interpreted_genome_rd(
-                old_instance=ir_v400, assembly=assembly, interpretation_service="tiering",
-                reference_database_versions={}, software_versions={}
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(old_instance=ig_v500)
-
-        if ig_v600 is not None:
-            return ig_v600
-
-        raise MigrationError("Interpretation Request RD is not in versions: [2.1.0, 3.0.0, 4.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_interpreted_genome_rd_to_latest(
@@ -141,57 +125,24 @@ class MigrationHelpers(object):
         :type panel_source: str
         :rtype: InterpretedGenomeRD_5_0_0
         """
-        ig_v600 = None
+        types = [
+            InterpretedGenome_6_0_0,
+            InterpretedGenomeRD_5_0_0,
+            InterpretedGenomeRD_4_0_0,
+            InterpretedGenomeRD_3_0_0,
+            InterpretedGenomeRD_2_1_0
+        ]
 
-        if PayloadValidation(klass=InterpretedGenome_6_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 6.0.0")
-            ig_v600 = InterpretedGenome_6_0_0.fromJsonDict(jsonDict=json_dict)
+        migrations = [
+            lambda x: x,
+            lambda x: MigrateReports500To600().migrate_interpreted_genome_rd(x, panel_source=panel_source),
+            lambda x: MigrateReports400To500().migrate_interpreted_genome_rd(
+                x, assembly=assembly, interpretation_request_version=interpretation_request_version),
+            MigrateReports3To4().migrate_interpreted_genome_rd,
+            InterpretedGenomeRD_2_1_0.fromJsonDict
+        ]
 
-        elif PayloadValidation(klass=InterpretedGenomeRD_5_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 5.0.0")
-            ig_v500 = InterpretedGenomeRD_5_0_0.fromJsonDict(jsonDict=json_dict)
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
-                old_instance=ig_v500, panel_source=panel_source)
-
-        elif assembly is None or interpretation_request_version is None:
-            raise MigrationError(
-                "Parameters <assembly> and <interpretation_request_version> are required for models earlier than 5.0.0"
-            )
-
-        elif PayloadValidation(klass=InterpretedGenomeRD_4_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 4.0.0")
-            ig_v400 = InterpretedGenomeRD_4_0_0.fromJsonDict(jsonDict=json_dict)
-            ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
-                old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
-                old_instance=ig_v500, panel_source=panel_source)
-
-        elif PayloadValidation(klass=InterpretedGenomeRD_3_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 3.0.0")
-            ig_v3 = InterpretedGenomeRD_3_0_0.fromJsonDict(jsonDict=json_dict)
-            ig_v400 = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=ig_v3)
-            ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
-                old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
-                old_instance=ig_v500, panel_source=panel_source)
-
-        elif PayloadValidation(klass=InterpretedGenomeRD_2_1_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 2.1.0")
-            ig_v2 = InterpretedGenomeRD_2_1_0.fromJsonDict(jsonDict=json_dict)
-            ig_v3 = Migration2_1To3().migrate_interpreted_genome(interpreted_genome=ig_v2)
-            ig_v400 = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=ig_v3)
-            ig_v500 = MigrateReports400To500().migrate_interpreted_genome_rd(
-                old_instance=ig_v400, assembly=assembly, interpretation_request_version=interpretation_request_version
-            )
-            ig_v600 = MigrateReports500To600().migrate_interpreted_genome_rd(
-                old_instance=ig_v500, panel_source=panel_source)
-
-        if ig_v600 is not None:
-            return ig_v600
-
-        raise MigrationError("Interpreted Genome RD is not in versions: [2.1.0, 3.0.0, 4.2.0, 5.0.0, 6.0.0]")
+        MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_clinical_report_rd_to_latest(json_dict, assembly=None):
@@ -585,3 +536,12 @@ class MigrationHelpers(object):
                 return ir
 
         raise MigrationError("Interpretation Request RD is not one of: {}".format(types))
+
+    @staticmethod
+    def set_version_to_6_0_0(interpretation_request):
+        """
+        :param interpretation_request: InterpretationRequestRD_6_0_0
+        :return: InterpretationRequestRD_6_0_0
+        """
+        interpretation_request.versionControl.gitVersionControl = "6.0.0"
+        return interpretation_request
