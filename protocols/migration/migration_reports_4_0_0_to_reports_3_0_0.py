@@ -12,6 +12,32 @@ class MigrateReports400To300(BaseMigration):
     old_model = reports_4_0_0
     new_model = reports_3_0_0
 
+    def migrate_interpretation_request_rd(self, old_instance):
+        """
+        Migrates a reports_4_0_0.InterpretationRequestRD into a reports_3_0_0.InterpretationRequestRD
+        :type old_instance: reports_3_0_0.InterpretationRequestRD
+        :rtype: reports_6_0_0.InterpretationRequestRD
+        """
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.InterpretationRequestID = old_instance.interpretationRequestId
+        new_instance.InterpretationRequestVersion = old_instance.interpretationRequestVersion
+        new_instance.TieringVersion = old_instance.tieringVersion
+        new_instance.analysisReturnURI = old_instance.analysisReturnUri
+        new_instance.TieredVariants = self.migrate_reported_variants(old_variants=old_instance.tieredVariants)
+        new_instance.BAMs = self.migrate_files(old_files=old_instance.bams)
+        new_instance.VCFs = self.migrate_files(old_files=old_instance.vcfs)
+        new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
+        new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
+        new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
+        new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
+        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=old_instance.pedigree)
+
+        # return new_instance
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
+        )
+
     def migrate_interpreted_genome_rd(self, old_instance):
         """
         :type old_instance: reports_4_0_0.InterpretedGenomeRD
@@ -42,6 +68,15 @@ class MigrateReports400To300(BaseMigration):
         new_instance.candidateStructuralVariants = self.migrate_reported_structural_variants(old_structural_variants=old_instance.candidateStructuralVariants)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
+
+    def migrate_exit_questionnaire_rd(self, old_instance):
+        """
+        :type old_instance: reports_4_0_0.RareDiseaseExitQuestionnaire
+        :rtype: reports_3_0_0.RareDiseaseExitQuestionnaire
+        """
+        new_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)
+        return self.validate_object(object_to_validate=new_instance,
+                                    object_type=self.new_model.RareDiseaseExitQuestionnaire)
 
     def migrate_reported_variants(self, old_variants):
         if old_variants is None:
@@ -107,32 +142,6 @@ class MigrateReports400To300(BaseMigration):
             other_ids=old_genomic_feature.otherIds,
         )
         return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
-
-    def migrate_interpretation_request_rd(self, old_instance):
-        """
-        Migrates a reports_4_0_0.InterpretationRequestRD into a reports_3_0_0.InterpretationRequestRD
-        :type old_instance: reports_3_0_0.InterpretationRequestRD
-        :rtype: reports_6_0_0.InterpretationRequestRD
-        """
-        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
-        new_instance.versionControl = self.new_model.VersionControl()
-        new_instance.InterpretationRequestID = old_instance.interpretationRequestId
-        new_instance.InterpretationRequestVersion = old_instance.interpretationRequestVersion
-        new_instance.TieringVersion = old_instance.tieringVersion
-        new_instance.analysisReturnURI = old_instance.analysisReturnUri
-        new_instance.TieredVariants = self.migrate_reported_variants(old_variants=old_instance.tieredVariants)
-        new_instance.BAMs = self.migrate_files(old_files=old_instance.bams)
-        new_instance.VCFs = self.migrate_files(old_files=old_instance.vcfs)
-        new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
-        new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
-        new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
-        new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
-        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=old_instance.pedigree)
-
-        # return new_instance
-        return self.validate_object(
-            object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
-        )
 
     def migrate_files(self, old_files):
         if old_files is None:
