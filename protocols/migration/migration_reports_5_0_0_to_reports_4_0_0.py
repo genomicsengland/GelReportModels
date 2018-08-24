@@ -2,7 +2,7 @@ import logging
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
-from protocols.migration.base_migration import BaseMigration
+from protocols.migration.base_migration import BaseMigrateReports400And500
 from protocols.migration.base_migration import MigrationError
 from protocols.migration.participants import MigrationParticipants103To100
 from protocols.migration.migration_participant_1_1_0_to_participant_1_0_0 import MigrateParticipant110To100
@@ -10,7 +10,7 @@ from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import
 from protocols.migration.participants import MigrationParticipants110To100
 
 
-class MigrateReports500To400(BaseMigration):
+class MigrateReports500To400(BaseMigrateReports400And500):
 
     old_model = reports_5_0_0
     new_model = reports_4_0_0
@@ -258,6 +258,19 @@ class MigrateReports500To400(BaseMigration):
             depthAlternate=variant_call.depthAlternate,
         )
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
+
+    def migrate_cancer_interpreted_genome(self, old_instance):
+        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(jsonDict=old_instance.toJsonDict())
+
+        new_instance.reportedVariants = self.migrate_reported_variants_cancer(old_instance.variants)
+        new_instance.reportRequestId = old_instance.interpretationRequestId
+        new_instance.reportUri = old_instance.reportUrl or ""
+        new_instance.analysisId = ""
+        new_instance.reportedStructuralVariants = []
+
+        return self.validate_object(
+            object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
+        )
 
     def migrate_interpretation_request_rd_plus_interpreted_genome_rd(self, old_interpretation_request, old_interpreted_genome):
         new_instance = self.convert_class(target_klass=self.new_model.InterpretationRequestRD, instance=old_interpretation_request)

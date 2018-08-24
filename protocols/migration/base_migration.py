@@ -1,6 +1,8 @@
 from __future__ import print_function
 import logging
 
+from protocols import reports_5_0_0, reports_6_0_0, reports_4_0_0
+
 
 class MigrationError(Exception):
 
@@ -61,3 +63,46 @@ class BaseMigration(object):
     @staticmethod
     def migrate_list_of_things(things, migrate_function, default=None, **kwargs):
         return default if things is None else [migrate_function(thing, **kwargs) for thing in things]
+
+
+class BaseMigrateReports500And600(BaseMigration):
+    _tier_domain_mapping = [
+        (reports_5_0_0.Tier.TIER1, reports_6_0_0.Domain.DOMAIN1),
+        (reports_5_0_0.Tier.TIER2, reports_6_0_0.Domain.DOMAIN2),
+        (reports_5_0_0.Tier.TIER3, reports_6_0_0.Domain.DOMAIN3),
+        (reports_5_0_0.Tier.TIER4, reports_6_0_0.Domain.DOMAIN4),
+        (reports_5_0_0.Tier.TIER5, reports_6_0_0.Domain.NONE),
+        (reports_5_0_0.Tier.NONE, reports_6_0_0.Domain.NONE)
+    ]
+
+    tier_domain_map = {k: v for k, v in _tier_domain_mapping}
+    domain_tier_map = {v: k for k, v in _tier_domain_mapping}
+
+    _clinical_signicance_mapping = [
+        (reports_5_0_0.ClinicalSignificance.benign, reports_6_0_0.ClinicalSignificance.benign),
+        (reports_5_0_0.ClinicalSignificance.likely_benign, reports_6_0_0.ClinicalSignificance.likely_benign),
+        (reports_5_0_0.ClinicalSignificance.pathogenic, reports_6_0_0.ClinicalSignificance.pathogenic),
+        (reports_5_0_0.ClinicalSignificance.likely_pathogenic, reports_6_0_0.ClinicalSignificance.likely_pathogenic),
+        (reports_5_0_0.ClinicalSignificance.uncertain_significance, reports_6_0_0.ClinicalSignificance.uncertain_significance),
+        (reports_5_0_0.ClinicalSignificance.VUS, reports_6_0_0.ClinicalSignificance.uncertain_significance)
+    ]
+
+    clinical_signicance_map = {k: v for k, v in _clinical_signicance_mapping}
+    clinical_signicance_reverse_map = {v: k for k, v in _clinical_signicance_mapping}
+
+
+class BaseMigrateReports400And500(BaseMigration):
+    _feature_type_mapping = [
+        (reports_4_0_0.FeatureTypes.Transcript, reports_5_0_0.GenomicEntityType.transcript),
+        (reports_4_0_0.FeatureTypes.RegulatoryRegion, reports_5_0_0.GenomicEntityType.regulatory_region),
+        (reports_4_0_0.FeatureTypes.Gene, reports_5_0_0.GenomicEntityType.gene)
+    ]
+    feature_genomic_entity_map = {k: v for k, v in _feature_type_mapping}
+    genomic_entity_feature_map = {v: k for k, v in _feature_type_mapping}
+
+    _role_in_cancer_mapping = [
+        (None, None),
+        (reports_4_0_0.RoleInCancer.both, reports_5_0_0.RoleInCancer.both),
+        (reports_4_0_0.RoleInCancer.oncogene, reports_5_0_0.RoleInCancer.oncogene),
+        (reports_4_0_0.RoleInCancer.TSG, reports_5_0_0.RoleInCancer.tumor_suppressor_gene)
+    ]

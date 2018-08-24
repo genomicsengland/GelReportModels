@@ -341,6 +341,22 @@ class TestMigrateReports5To400(TestCaseMigration):
     def test_migrate_rd_interpretation_request_nulls(self):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
+    def test_migrate_cancer_interpreted_genome(self, fill_nullables=True):
+        # creates a random clinical report RD for testing filling null values
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.CancerInterpretedGenome, VERSION_61, fill_nullables=fill_nullables
+        ).create(interpretationRequestVersion=1)
+
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        new_instance = MigrateReports500To400().migrate_cancer_interpreted_genome(old_instance=old_instance)
+        self.assertTrue(isinstance(new_instance, self.new_model.CancerInterpretedGenome))
+        self._validate(new_instance)
+
+    def test_migrate_cancer_interpreted_genome_nullables_false(self):
+        self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
+
     def test_migrate_cancer_clinical_report(self, fill_nullables=True):
         cr_c_5 = self.get_valid_object(object_type=self.old_model.ClinicalReportCancer, version=self.version_6_1, fill_nullables=fill_nullables)
         cr_c_4 = MigrateReports500To400().migrate_cancer_clinical_report(old_instance=cr_c_5)
@@ -349,3 +365,4 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_cancer_clinical_report_nullables_false(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
+
