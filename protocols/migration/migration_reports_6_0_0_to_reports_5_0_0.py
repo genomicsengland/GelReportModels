@@ -310,3 +310,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance = self.convert_class(target_klass=self.new_model.AdditionalAnalysisPanel, instance=old_panel)
         new_instance.panel = self.migrate_gene_panel(old_panel=old_panel.panel)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
+
+    def migrate_clinical_report_cancer(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
+        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)
