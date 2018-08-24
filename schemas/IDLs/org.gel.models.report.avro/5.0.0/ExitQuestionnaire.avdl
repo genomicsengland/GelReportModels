@@ -283,7 +283,6 @@ protocol ExitQuestionnaires {
         /**
         Variant coordinates following format `chromosome:position:reference:alternate`
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
 
         /**
@@ -310,7 +309,7 @@ protocol ExitQuestionnaires {
 
     record AdditionalVariantsQuestions{
         /**
-        Chr: Pos Ref > Alt
+        Variant coordinates following format `chromosome:position:reference:alternate`
         */
         string variantDetails;
 
@@ -343,7 +342,6 @@ protocol ExitQuestionnaires {
         /**
         Variant coordinates following format `chromosome:position:reference:alternate`
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
 
         /**
@@ -412,5 +410,4 @@ protocol ExitQuestionnaires {
         */
         union {null, array<AdditionalVariantsQuestions>} otherActionableVariants;
     }
-
 }

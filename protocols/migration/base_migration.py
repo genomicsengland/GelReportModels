@@ -57,3 +57,7 @@ class BaseMigration(object):
             else:
                 logging.warning(message)
                 return None
+
+    @staticmethod
+    def migrate_list_of_things(things, migrate_function, default=None, **kwargs):
+        return default if things is None else [migrate_function(thing, **kwargs) for thing in things]

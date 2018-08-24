@@ -175,6 +175,20 @@ class TestMigrateReports600To500(TestCaseMigration):
         ceq_5 = MigrateReports600To500().migrate_cancer_exit_questionnaire(old_instance=ceq_6)
         self.assertIsInstance(ceq_5, new_model.CancerExitQuestionnaire)
         self.assertTrue(ceq_5.validate(ceq_5.toJsonDict()))
+        self._check_variant_details_conversion(ceq_6.somaticVariantLevelQuestions, ceq_5.somaticVariantLevelQuestions)
+        self._check_variant_details_conversion(ceq_6.germlineVariantLevelQuestions, ceq_5.germlineVariantLevelQuestions)
+        self._check_variant_details_conversion(ceq_6.otherActionableVariants, ceq_5.otherActionableVariants)
+
+    def _check_variant_details_conversion(self, things_with_coordinates, things_with_details):
+        if things_with_details and things_with_coordinates:
+            coordinates = [sq.variantCoordinates for sq in things_with_coordinates]
+            details = [sq.variantDetails for sq in things_with_details]
+            for c, d in zip(coordinates, details):
+                d_fields = d.split(":")
+                self.assertEqual(d_fields[0], c.chromosome)
+                self.assertEqual(d_fields[1], str(c.position))
+                self.assertEqual(d_fields[2], c.reference)
+                self.assertEqual(d_fields[3], c.alternate)
 
     def test_migrate_cancer_exit_questionnaire_no_nullables(self):
         self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)

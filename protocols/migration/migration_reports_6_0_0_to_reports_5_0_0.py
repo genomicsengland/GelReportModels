@@ -319,30 +319,28 @@ class MigrateReports600To500(BaseMigrateReports500And600):
     def migrate_cancer_exit_questionnaire(self, old_instance):
         new_object_type = self.new_model.CancerExitQuestionnaire
         new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
-
-        new_instance.somaticVariantLevelQuestions = self.migrate_cancer_somatic_variant_level_questions(
-            old_questions=old_instance.somaticVariantLevelQuestions
+        new_instance.somaticVariantLevelQuestions = self.migrate_list_of_things(
+            things=old_instance.somaticVariantLevelQuestions,
+            migrate_function=self.migrate_only_variant_details,
+            klass=self.new_model.CancerSomaticVariantLevelQuestions
         )
-
-        # TODO: Implement this
-        new_instance.germlineVariantLevelQuestions = self.migrate_cancer_somatic_variant_level_questions(
-            old_questions=old_instance.somaticVariantLevelQuestions
+        new_instance.germlineVariantLevelQuestions = self.migrate_list_of_things(
+            things=old_instance.germlineVariantLevelQuestions,
+            migrate_function=self.migrate_only_variant_details,
+            klass=self.new_model.CancerGermlineVariantLevelQuestions
         )
-
+        new_instance.otherActionableVariants = self.migrate_list_of_things(
+            things=old_instance.otherActionableVariants,
+            migrate_function=self.migrate_only_variant_details,
+            klass=self.new_model.AdditionalVariantsQuestions
+        )
         return self.validate_object(object_to_validate=new_instance, object_type=new_object_type)
 
-    def migrate_cancer_somatic_variant_level_questions(self, old_questions):
-        return None if old_questions is None else [
-            self.migrate_cancer_somatic_variant_level_question(old_instance=old_question)
-            for old_question in old_questions
-        ]
-
-    def migrate_cancer_somatic_variant_level_question(self, old_instance):
-        new_object_type = self.new_model.CancerSomaticVariantLevelQuestions
-        new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
-        new_instance.variantDetails = self.migrate_variant_coordinates_to_variant_details(old_coordinates=old_instance.variantCoordinates)
-
-        return self.validate_object(object_to_validate=new_instance, object_type=new_object_type)
+    def migrate_only_variant_details(self, old_instance, klass):
+        new_instance = self.convert_class(target_klass=klass, instance=old_instance)
+        new_instance.variantDetails = self.migrate_variant_coordinates_to_variant_details(
+            old_coordinates=old_instance.variantCoordinates)
+        return self.validate_object(object_to_validate=new_instance, object_type=klass)
 
     @staticmethod
     def migrate_variant_coordinates_to_variant_details(old_coordinates):
