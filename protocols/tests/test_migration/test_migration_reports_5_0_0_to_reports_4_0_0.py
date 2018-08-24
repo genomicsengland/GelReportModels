@@ -191,6 +191,20 @@ class TestMigrateReports5To400(TestCaseMigration):
     def test_migrate_rd_clinical_report_nullables_false(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
+    def test_migrate_rd_exit_questionnaire(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.RareDiseaseExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        new_instance = MigrateReports500To400().migrate_exit_questionnaire_rd(old_instance=old_instance)
+        self.assertTrue(isinstance(new_instance, self.new_model.RareDiseaseExitQuestionnaire))
+        self._validate(new_instance)
+
+    def test_migrate_rd_exit_questionnaire_nullables_false(self):
+        self.test_migrate_rd_exit_questionnaire(fill_nullables=False)
+
     def test_migrate_interpretation_request_rd_plus_interpreted_genome_rd(self):
         ir_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretationRequestRD, version=self.version_6_1)
         ig_rd_5 = self.get_valid_object(object_type=self.old_model.InterpretedGenomeRD, version=self.version_6_1)
