@@ -437,3 +437,10 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_action)
         new_instance.evidence = old_action.references
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Actions)
+
+    def migrate_cancer_clinical_report(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
+        new_instance.interpretationRequestVersion = str(old_instance.interpretationRequestVersion)
+        new_instance.genePanelsCoverage = {}
+        new_instance.candidateVariants = self.migrate_reported_variants_cancer(old_variants=old_instance.variants)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)
