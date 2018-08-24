@@ -315,3 +315,41 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
         new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)
+
+    def migrate_cancer_exit_questionnaire(self, old_instance):
+        new_object_type = self.new_model.CancerExitQuestionnaire
+        new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
+
+        new_instance.somaticVariantLevelQuestions = self.migrate_cancer_somatic_variant_level_questions(
+            old_questions=old_instance.somaticVariantLevelQuestions
+        )
+
+        # TODO: Implement this
+        new_instance.germlineVariantLevelQuestions = self.migrate_cancer_somatic_variant_level_questions(
+            old_questions=old_instance.somaticVariantLevelQuestions
+        )
+
+        return self.validate_object(object_to_validate=new_instance, object_type=new_object_type)
+
+    def migrate_cancer_somatic_variant_level_questions(self, old_questions):
+        return None if old_questions is None else [
+            self.migrate_cancer_somatic_variant_level_question(old_instance=old_question)
+            for old_question in old_questions
+        ]
+
+    def migrate_cancer_somatic_variant_level_question(self, old_instance):
+        new_object_type = self.new_model.CancerSomaticVariantLevelQuestions
+        new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
+        new_instance.variantDetails = self.migrate_variant_coordinates_to_variant_details(old_coordinates=old_instance.variantCoordinates)
+
+        return self.validate_object(object_to_validate=new_instance, object_type=new_object_type)
+
+    @staticmethod
+    def migrate_variant_coordinates_to_variant_details(old_coordinates):
+        variant_details_template = "{chromosome}:{position}:{reference}:{alternate}"
+        return variant_details_template.format(
+            chromosome=old_coordinates.chromosome,
+            position=old_coordinates.position,
+            reference=old_coordinates.reference,
+            alternate=old_coordinates.alternate,
+        )
