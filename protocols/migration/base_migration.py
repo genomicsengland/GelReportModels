@@ -60,6 +60,10 @@ class BaseMigration(object):
                 logging.warning(message)
                 return None
 
+    @staticmethod
+    def migrate_list_of_things(things, migrate_function, default=None, **kwargs):
+        return default if things is None else [migrate_function(thing, **kwargs) for thing in things]
+
 
 class BaseMigrateReports500And600(BaseMigration):
     _tier_domain_mapping = [

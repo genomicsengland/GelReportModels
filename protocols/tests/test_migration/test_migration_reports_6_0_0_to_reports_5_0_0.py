@@ -176,14 +176,32 @@ class TestMigrateReports600To500(TestCaseMigration):
         eq_rd_5 = MigrateReports600To500().migrate_exit_questionnaire_rd(old_instance=eq_rd_6)
         self.assertIsInstance(eq_rd_5, new_model.RareDiseaseExitQuestionnaire)
         self.assertTrue(eq_rd_5.validate(eq_rd_5.toJsonDict()))
-        coordinates = [vq.variantCoordinates for gq in eq_rd_6.variantGroupLevelQuestions for vq in gq.variantLevelQuestions]
-        details = [vq.variantDetails for gq in eq_rd_5.variantGroupLevelQuestions for vq in gq.variantLevelQuestions]
-        for c, d in zip(coordinates, details):
-            d_fields = d.split(":")
-            self.assertEqual(d_fields[0], c.chromosome)
-            self.assertEqual(d_fields[1], str(c.position))
-            self.assertEqual(d_fields[2], c.reference)
-            self.assertEqual(d_fields[3], c.alternate)
+        self._check_variant_details_conversion(
+            [vq for gq in eq_rd_6.variantGroupLevelQuestions for vq in gq.variantLevelQuestions],
+            [vq for gq in eq_rd_5.variantGroupLevelQuestions for vq in gq.variantLevelQuestions])
 
     def test_migrate_exit_questionnaire_rd_no_nullables(self):
         self.test_migrate_exit_questionnaire_rd(fill_nullables=False)
+
+    def test_migrate_cancer_exit_questionnaire(self, fill_nullables=True):
+        ceq_6 = self.get_valid_object(object_type=old_model.CancerExitQuestionnaire, version=self.version_7_0, fill_nullables=fill_nullables)
+        ceq_5 = MigrateReports600To500().migrate_cancer_exit_questionnaire(old_instance=ceq_6)
+        self.assertIsInstance(ceq_5, new_model.CancerExitQuestionnaire)
+        self.assertTrue(ceq_5.validate(ceq_5.toJsonDict()))
+        self._check_variant_details_conversion(ceq_6.somaticVariantLevelQuestions, ceq_5.somaticVariantLevelQuestions)
+        self._check_variant_details_conversion(ceq_6.germlineVariantLevelQuestions, ceq_5.germlineVariantLevelQuestions)
+        self._check_variant_details_conversion(ceq_6.otherActionableVariants, ceq_5.otherActionableVariants)
+
+    def _check_variant_details_conversion(self, things_with_coordinates, things_with_details):
+        if things_with_details and things_with_coordinates:
+            coordinates = [sq.variantCoordinates for sq in things_with_coordinates]
+            details = [sq.variantDetails for sq in things_with_details]
+            for c, d in zip(coordinates, details):
+                d_fields = d.split(":")
+                self.assertEqual(d_fields[0], c.chromosome)
+                self.assertEqual(d_fields[1], str(c.position))
+                self.assertEqual(d_fields[2], c.reference)
+                self.assertEqual(d_fields[3], c.alternate)
+
+    def test_migrate_cancer_exit_questionnaire_no_nullables(self):
+        self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)

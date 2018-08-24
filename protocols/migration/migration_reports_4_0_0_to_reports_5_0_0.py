@@ -798,7 +798,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         if isinstance(other_files, dict):
             return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
 
-    def migrate_allele_frequencies(self, additionalNumericVariantAnnotations):
+    @staticmethod
+    def migrate_allele_frequencies(additionalNumericVariantAnnotations):
         """
         NOTE: This is assuming all values in `additionalNumericVariantAnnotations` are frequencies
 
