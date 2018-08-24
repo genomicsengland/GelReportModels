@@ -41,7 +41,6 @@ protocol ExitQuestionnaires {
         /**
         Variant coordinates following format `chromosome:position:reference:alternate`
         */
-        // TODO: use VariantCoordinates in CommonInterpreted.avdl
         string variantDetails;
         /**
         Did you carry out technical confirmation of this variant via an alternative test?
