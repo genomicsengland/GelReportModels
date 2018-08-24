@@ -12,6 +12,16 @@ class MigrateReports400To300(BaseMigration):
     old_model = reports_4_0_0
     new_model = reports_3_0_0
 
+    def migrate_interpreted_genome_rd(self, old_instance):
+        """
+        :type old_instance: reports_4_0_0.InterpretedGenomeRD
+        :rtype: reports_3_0_0.InterpretedGenomeRD
+        """
+        new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.reportedVariants = self.migrate_reported_variants(old_variants=old_instance.reportedVariants)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD)
+
     def migrate_clinical_report_rd(self, old_instance):
         """
         :type old_instance: reports_4_0_0.ClinicalReportRD
@@ -73,6 +83,8 @@ class MigrateReports400To300(BaseMigration):
         new_instance = self.convert_class(self.new_model.ReportEvent, old_event)
         new_instance.variantClassification = self.migrate_variant_classification(old_v_classification=old_event.variantClassification)
         new_instance.genomicFeature = self.migrate_genomic_feature(old_genomic_feature=old_event.genomicFeature)
+        if new_instance.eventJustification is None:
+            new_instance.eventJustification = ""
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEvent)
 
     def migrate_variant_classification(self, old_v_classification):
