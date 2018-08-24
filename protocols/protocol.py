@@ -136,6 +136,8 @@ class ProtocolElement(object):
             if self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.validate_parts() for el in val)
+                elif isinstance(val, dict):
+                    out[field.name] = {key: el.validate_parts() for (key, el) in val.items()}
                 elif val is None:
                     if isinstance(field.type, UnionSchema) and 'null' in [t.type for t in field.type.schemas]:
                         out[field.name] = True
@@ -309,12 +311,17 @@ class ProtocolElement(object):
         return cls.fromJsonDict(jsonDict)
 
     @classmethod
-    def fromJsonDict(cls, jsonDict):
+    def fromJsonDict(cls, jsonDict, key_mapper=(lambda x: x)):
         """
         Returns a decoded ProtocolElement from the specified JSON dictionary.
         """
         if jsonDict is None:
             raise ValueError("Required values not set in {0}".format(cls))
+
+        if isinstance(jsonDict, dict):
+            key_mapping = {key_mapper(key): key for key in jsonDict.keys()}
+        else:
+            key_mapping = dict()
 
         instance = cls()
         for field in cls.schema.fields:
@@ -322,35 +329,61 @@ class ProtocolElement(object):
                 instanceVal = field.default
             else:
                 instanceVal = None
-            if field.name in jsonDict:
-                val = jsonDict[field.name]
-                if cls.isEmbeddedType(field.name):
-                    instanceVal = cls._decodeEmbedded(field, val)
+            if key_mapper(field.name) in key_mapping:
+                mapped_name = key_mapping[key_mapper(field.name)]
+                val = jsonDict[mapped_name]
+                if cls.isEmbeddedType(mapped_name):
+                    instanceVal = cls._decodeEmbedded(field, val, key_mapper=key_mapper)
                 else:
                     instanceVal = val
             setattr(instance, field.name, instanceVal)
         return instance
 
     @classmethod
-    def _decodeEmbedded(cls, field, val):
+    def migrateFromJsonDict(cls, jsonDict):
+        """
+        like fromJsonDict but applies some fuzzy rules
+        """
+        return cls.fromJsonDict(jsonDict, lambda s: s.lower().replace("_", ""))
+
+    def updateWithJsonDict(self, jsonDict):
+        """
+        Updates this object from a dict
+        """
+        if jsonDict is None:
+            raise ValueError("Required values not set in {0}".format(self))
+
+        for field in self.schema.fields:
+            if field.name in jsonDict:
+                val = jsonDict[field.name]
+                if self.isEmbeddedType(field.name):
+                    instanceVal = self._decodeEmbedded(field, val)
+                else:
+                    instanceVal = val
+                if instanceVal is not None:
+                    setattr(self, field.name, instanceVal)
+
+
+    @classmethod
+    def _decodeEmbedded(cls, field, val, key_mapper=(lambda x: x)):
         if val is None:
             return None
 
         embeddedType = cls.getEmbeddedType(field.name)
         if isinstance(field.type, UnionSchema):
             if isinstance(field.type.schemas[1], ArraySchema):
-                return list(embeddedType.fromJsonDict(elem) for elem in val)
+                return list(embeddedType.fromJsonDict(elem, key_mapper=key_mapper) for elem in val)
             elif isinstance(field.type.schemas[1], avro.schema.MapSchema):
-                return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.items()}
+                return {key: embeddedType.fromJsonDict(elem, key_mapper=key_mapper) for (key, elem) in val.items()}
             else:
-                return embeddedType.fromJsonDict(val)
+                return embeddedType.fromJsonDict(val, key_mapper=key_mapper)
 
         elif isinstance(field.type, avro.schema.ArraySchema):
-            return list(embeddedType.fromJsonDict(elem) for elem in val)
+            return list(embeddedType.fromJsonDict(elem, key_mapper=key_mapper) for elem in val)
         elif isinstance(field.type, avro.schema.MapSchema):
-            return {key: embeddedType.fromJsonDict(elem) for (key, elem) in val.items()}
+            return {key: embeddedType.fromJsonDict(elem, key_mapper=key_mapper) for (key, elem) in val.items()}
         else:
-            return embeddedType.fromJsonDict(val)
+            return embeddedType.fromJsonDict(val, key_mapper=key_mapper)
 
 
 class SearchRequest(ProtocolElement):

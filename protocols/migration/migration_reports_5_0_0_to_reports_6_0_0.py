@@ -2,14 +2,11 @@ import logging
 
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
-from protocols.migration.base_migration import (
-    BaseMigration,
-    MigrationError,
-)
+from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
 import re
 
 
-class MigrateReports500To600(BaseMigration):
+class MigrateReports500To600(BaseMigrateReports500And600):
 
     old_model = reports_5_0_0
     new_model = reports_6_0_0
@@ -256,15 +253,7 @@ class MigrateReports500To600(BaseMigration):
         return self.validate_object(object_to_validate=new_variant_classification, object_type=self.new_model.VariantClassification)
 
     def migrate_clinical_significance(self, old_significance):
-        clinical_signicance_map = {
-            self.old_model.ClinicalSignificance.benign: self.new_model.ClinicalSignificance.benign,
-            self.old_model.ClinicalSignificance.likely_benign: self.new_model.ClinicalSignificance.likely_benign,
-            self.old_model.ClinicalSignificance.pathogenic: self.new_model.ClinicalSignificance.pathogenic,
-            self.old_model.ClinicalSignificance.likely_pathogenic: self.new_model.ClinicalSignificance.likely_pathogenic,
-            self.old_model.ClinicalSignificance.uncertain_significance: self.new_model.ClinicalSignificance.uncertain_significance,
-            self.old_model.ClinicalSignificance.VUS: self.new_model.ClinicalSignificance.uncertain_significance,
-        }
-        return clinical_signicance_map.get(old_significance)
+        return self.clinical_signicance_map.get(old_significance)
 
     def migrate_phenotypes(self, phenotypes):
         new_phenotype = self.new_model.Phenotypes(
@@ -400,16 +389,8 @@ class MigrateReports500To600(BaseMigration):
             classification=event.variantClassification)
         # migrate tier to domain
         new_event.tier = None
-        tier_domain_map = {
-            self.old_model.Tier.TIER1: self.new_model.Domain.DOMAIN1,
-            self.old_model.Tier.TIER2: self.new_model.Domain.DOMAIN2,
-            self.old_model.Tier.TIER3: self.new_model.Domain.DOMAIN3,
-            self.old_model.Tier.TIER4: self.new_model.Domain.DOMAIN4,
-            self.old_model.Tier.TIER5: self.new_model.Domain.NONE,
-            self.old_model.Tier.NONE: self.new_model.Domain.NONE
-        }
         if event.tier:
-            new_event.domain = tier_domain_map[event.tier]
+            new_event.domain = self.tier_domain_map[event.tier]
         if event.actions:
             new_event.actions = self.migrate_actions(event.actions)
         return self.validate_object(object_to_validate=new_event, object_type=self.new_model.ReportEvent)
@@ -418,7 +399,7 @@ class MigrateReports500To600(BaseMigration):
 
         def extract_evidence_type(evidence_type):
             # conditions are extracted from the text between brackets in evidence type
-            return map(lambda x: x.strip(), re.search(".*\((.*)\)", evidence_type).group(1).split(','))
+            return list(map(lambda x: x.strip(), re.search(".*\((.*)\)", evidence_type).group(1).split(',')))
 
         new_actions = self.new_model.Actions()
         for action in actions:
@@ -426,9 +407,9 @@ class MigrateReports500To600(BaseMigration):
             if "Trial" in action.evidenceType:
                 if action.url:  # NOTE: we need the url to extract the study identifier
                     trial = self.new_model.Trial()
-                    trial.studyUrl = action.url
-                    # extract id of study from the last component of URL
                     trial.studyIdentifier = action.url.strip('/').split('/')[-1]
+                    trial.studyUrl = action.url
+                    trial.references = action.references
                     trial.variantActionable = action.variantActionable
                     trial.conditions = extract_evidence_type(action.evidenceType)
                     if not new_actions.trials:
@@ -437,6 +418,8 @@ class MigrateReports500To600(BaseMigration):
             elif "Prognostic" in action.evidenceType:
                 prognosis = self.new_model.Prognosis()
                 prognosis.referenceUrl = action.url
+                prognosis.source = action.source
+                prognosis.references = action.references
                 prognosis.variantActionable = action.variantActionable
                 prognosis.conditions = extract_evidence_type(action.evidenceType)
                 if not new_actions.prognosis:
@@ -445,6 +428,8 @@ class MigrateReports500To600(BaseMigration):
             elif "Therapeutic" in action.evidenceType:
                 therapy = self.new_model.Therapy()
                 therapy.referenceUrl = action.url
+                therapy.source = action.source
+                therapy.references = action.references
                 therapy.variantActionable = action.variantActionable
                 therapy.conditions = extract_evidence_type(action.evidenceType)
                 if not new_actions.therapies:
