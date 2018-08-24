@@ -68,6 +68,35 @@ class TestMigrateReports4To3(TestCaseMigration):
     def test_migrate_rd_clinical_report_fill_nullables_false(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
+    def test_migrate_rd_exit_questionnaire(self, fill_nullables=True):
+        # creates a random clinical report RD for testing filling null values
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            self.old_model.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=fill_nullables
+        ).create()  # we need to enforce that it can be cast to int
+
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        new_instance = MigrateReports400To300().migrate_exit_questionnaire_rd(old_instance=old_instance)
+        self.assertIsInstance(new_instance, self.new_model.RareDiseaseExitQuestionnaire)
+        self._validate(new_instance)
+
+        camels = [vq.variantDetails for gq in old_instance.variantGroupLevelQuestions for vq in
+                       gq.variantLevelQuestions]
+        snakes = [vq.variant_details for gq in new_instance.variantGroupLevelQuestions for vq in
+                          gq.variantLevelQuestions]
+        for camel, snake in zip(camels, snakes):
+            self.assertEqual(camel, snake)  # !!
+
+        camels = [gq.variantGroup for gq in old_instance.variantGroupLevelQuestions]
+        snakes = [gq.variant_group for gq in new_instance.variantGroupLevelQuestions]
+        for camel, snake in zip(camels, snakes):
+            self.assertEqual(camel, snake)  # !!
+
+    def test_migrate_rd_exit_questionnaire_fill_nullables_false(self):
+        self.test_migrate_rd_exit_questionnaire(fill_nullables=False)
+
     def test_migrate_interpretation_request_rd(self):
         ir_rd_4 = self.get_valid_object(
             object_type=self.old_model.InterpretationRequestRD,

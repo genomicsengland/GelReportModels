@@ -550,7 +550,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
     def migrate_genomic_feature_cancer(self, old_instance):
         """
-        NOTE: fields that cannot be filled are "otherIds"
         :type old_instance: reports_4_0_0.GenomicFeatureCancer
         :rtype reports_5_0_0.GenomicEntity
         :return:
@@ -563,11 +562,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         # rename gene name to gene symbol
         new_instance.geneSymbol = old_instance.geneName
 
-        # NOTE: fields refSeqTranscriptId and refSeqProteinId are lost
-
-        return self.validate_object(
-            object_to_validate=new_instance, object_type=self.new_model.GenomicEntity
+        new_instance.otherIds = dict(
+            refSeqTranscriptId=old_instance.refSeqTranscriptId, refSeqProteinId=old_instance.refSeqProteinId
         )
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.GenomicEntity)
 
     def migrate_action(self, old_instance):
         """
@@ -725,20 +723,22 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             self.new_model.Laterality.BILATERAL,
         ]
         laterality = self.extract_hpo_term_modifier(modifier="laterality", map=old_modifiers, enum=laterality_enum)
-        progression_enum = [self.new_model.Progression.PROGRESSIVE, self.new_model.Progression.NONPROGRESSIVE]
 
+        progression_enum = [self.new_model.Progression.PROGRESSIVE, self.new_model.Progression.NONPROGRESSIVE]
         progression = self.extract_hpo_term_modifier(modifier="progression", map=old_modifiers, enum=progression_enum)
+
         severity_enum = [
             self.new_model.Severity.BORDERLINE, self.new_model.Severity.MILD, self.new_model.Severity.MODERATE,
             self.new_model.Severity.SEVERE, self.new_model.Severity.PROFOUND,
         ]
-
         severity = self.extract_hpo_term_modifier(modifier="severity", map=old_modifiers, enum=severity_enum)
+
         spatial_enum = [
             self.new_model.SpatialPattern.DISTAL, self.new_model.SpatialPattern.GENERALIZED,
             self.new_model.SpatialPattern.LOCALIZED, self.new_model.SpatialPattern.PROXIMAL,
         ]
         spatial_pattern = self.extract_hpo_term_modifier(modifier="spatial_pattern", map=old_modifiers, enum=spatial_enum)
+
         new_modifier = self.new_model.HpoTermModifiers(
             laterality=laterality,
             progression=progression,
