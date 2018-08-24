@@ -169,3 +169,21 @@ class TestMigrateReports600To500(TestCaseMigration):
 
     def test_migrate_clinical_report_cancer_no_nullables(self):
         self.test_migrate_clinical_report_cancer(fill_nullables=False)
+
+    def test_migrate_exit_questionnaire_rd(self, fill_nullables=True):
+        eq_rd_6 = self.get_valid_object(object_type=old_model.RareDiseaseExitQuestionnaire, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        eq_rd_5 = MigrateReports600To500().migrate_exit_questionnaire_rd(old_instance=eq_rd_6)
+        self.assertIsInstance(eq_rd_5, new_model.RareDiseaseExitQuestionnaire)
+        self.assertTrue(eq_rd_5.validate(eq_rd_5.toJsonDict()))
+        coordinates = [vq.variantCoordinates for gq in eq_rd_6.variantGroupLevelQuestions for vq in gq.variantLevelQuestions]
+        details = [vq.variantDetails for gq in eq_rd_5.variantGroupLevelQuestions for vq in gq.variantLevelQuestions]
+        for c, d in zip(coordinates, details):
+            d_fields = d.split(":")
+            self.assertEqual(d_fields[0], c.chromosome)
+            self.assertEqual(d_fields[1], str(c.position))
+            self.assertEqual(d_fields[2], c.reference)
+            self.assertEqual(d_fields[3], c.alternate)
+
+    def test_migrate_exit_questionnaire_rd_no_nullables(self):
+        self.test_migrate_exit_questionnaire_rd(fill_nullables=False)
