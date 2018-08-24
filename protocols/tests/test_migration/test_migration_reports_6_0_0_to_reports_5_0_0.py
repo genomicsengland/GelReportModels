@@ -1,10 +1,10 @@
 from protocols.migration import MigrateReports500To600
+from protocols.migration.base_migration import BaseMigrateReports500And600
 from protocols.protocol_6_1 import reports as new_model
 from protocols.protocol_7_0 import reports as old_model
 from protocols.protocol_7_0.reports import diseaseType, TissueSource
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
-from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
 
 
 class TestMigrateReports600To500(TestCaseMigration):

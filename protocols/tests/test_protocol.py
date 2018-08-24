@@ -2,9 +2,8 @@ from unittest import TestCase
 
 from protocols import reports_3_0_0
 from protocols.reports_6_0_0 import ReportEvent
-
-from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.dependency_manager import VERSION_300
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
 class TestValidate(TestCase):
