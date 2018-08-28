@@ -150,19 +150,30 @@ protocol CancerParticipants {
         union {null, Product} product;
 
         /**
-        One of these morphology fields will be provided
+        Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} morphologyICD;
+        /**
+        Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
         union {null, string} morphologySnomedCT;
+        /**
+        Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
         union {null, string} morphologySnomedRT;
 
         /**
-        One of these topography fields will be provided
+        Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} topographyICD;
+        /**
+        Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
         union {null, string} topographySnomedCT;
+        /**
+        Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
         union {null, string} topographySnomedRT;
-
     }
 
     /**
