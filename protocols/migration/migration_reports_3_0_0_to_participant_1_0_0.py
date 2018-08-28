@@ -35,26 +35,19 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.readyForAnalysis = True
 
         if old_cancer_participant.cancerSamples is not None:
-            germline_samples = [
-                sample for sample in old_cancer_participant.cancerSamples
-                if sample.sampleType == self.old_model.SampleType.germline
-            ]
-
-        if germline_samples is not None:
-            new_cancer_participant.germlineSamples = [
-                self.migrate_germline_sample(sample) for sample in germline_samples]
+            germline_samples = filter(lambda s: s.sampleType == self.old_model.SampleType.germline,
+                                      old_cancer_participant.cancerSamples)
+        new_cancer_participant.germlineSamples = self.convert_collection(
+            germline_samples, self.migrate_germline_sample)
 
         if old_cancer_participant.cancerSamples is not None:
-            tumor_samples = [
-                sample for sample in old_cancer_participant.cancerSamples
-                if sample.sampleType == self.old_model.SampleType.tumor
-            ]
-        if tumor_samples is not None:
-            new_cancer_participant.tumourSamples = [
-                self.migrate_tumor_sample(sample) for sample in tumor_samples]
+            tumor_samples = filter(lambda s: s.sampleType == self.old_model.SampleType.tumor,
+                                   old_cancer_participant.cancerSamples)
+        new_cancer_participant.tumourSamples = self.convert_collection(
+            tumor_samples, self.migrate_tumor_sample)
 
-        new_cancer_participant.matchedSamples = [self.migrate_match_samples(matched_sample) for matched_sample in
-                                                 old_cancer_participant.matchedSamples]
+        new_cancer_participant.matchedSamples = self.convert_collection(
+            old_cancer_participant.matchedSamples, self.migrate_match_samples)
 
         return self.validate_object(
             object_to_validate=new_cancer_participant, object_type=self.new_model.CancerParticipant

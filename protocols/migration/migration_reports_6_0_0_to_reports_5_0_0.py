@@ -345,17 +345,17 @@ class MigrateReports600To500(BaseMigrateReports500And600):
     def migrate_cancer_exit_questionnaire(self, old_instance):
         new_object_type = self.new_model.CancerExitQuestionnaire
         new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
-        new_instance.somaticVariantLevelQuestions = self.migrate_list_of_things(
+        new_instance.somaticVariantLevelQuestions = self.convert_collection(
             things=old_instance.somaticVariantLevelQuestions,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.CancerSomaticVariantLevelQuestions
         )
-        new_instance.germlineVariantLevelQuestions = self.migrate_list_of_things(
+        new_instance.germlineVariantLevelQuestions = self.convert_collection(
             things=old_instance.germlineVariantLevelQuestions,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.CancerGermlineVariantLevelQuestions
         )
-        new_instance.otherActionableVariants = self.migrate_list_of_things(
+        new_instance.otherActionableVariants = self.convert_collection(
             things=old_instance.otherActionableVariants,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.AdditionalVariantsQuestions
