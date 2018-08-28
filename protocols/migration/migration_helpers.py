@@ -88,7 +88,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpretation_request_rd_to_v3(json_dict, old_ig, cip=None):
+    def reverse_migrate_interpretation_request_rd_to_v3(json_dict, old_ig, cip=None):
         types = [
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_4_0_0,
@@ -158,6 +158,28 @@ class MigrationHelpers(object):
                 x, assembly=assembly, interpretation_request_version=interpretation_request_version),
             MigrateReports3To4().migrate_interpreted_genome_rd,
             Migration2_1To3().migrate_interpreted_genome
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
+    def reverse_migrate_interpreted_genome_rd_to_v3(json_dict):
+        """
+        :type json_dict: dict
+        :rtype: InterpretedGenomeRD_3_0_0
+        """
+        types = [
+            InterpretedGenomeRD_3_0_0,
+            InterpretedGenomeRD_4_0_0,
+            InterpretedGenomeRD_5_0_0,
+            InterpretedGenome_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports400To300().migrate_interpreted_genome_rd,
+            MigrateReports500To400().migrate_interpreted_genome_rd,
+            MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
