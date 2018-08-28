@@ -1,18 +1,11 @@
-import factory.fuzzy
 from random import randint
 
 from protocols import reports_3_0_0
-from protocols import reports_4_0_0
 from protocols import reports_5_0_0
 from protocols.migration import MigrationHelpers
-from protocols.migration import MigrateReports500To400
-from protocols.util.dependency_manager import VERSION_61
-from protocols.util.dependency_manager import VERSION_500
-from protocols.util.dependency_manager import VERSION_400
-from protocols.util.factories.avro_factory import FactoryAvro
-from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.migration.model_validator import PayloadValidation
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
+from protocols.util.dependency_manager import VERSION_61
 
 
 class TestMigrateReports5To300(TestCaseMigration):
@@ -36,9 +29,9 @@ class TestMigrateReports5To300(TestCaseMigration):
 
     def test_migrate_rd_clinical_report(self, fill_nullables=True):
         # creates a random clinical report RD for testing filling null values
-        old_instance = GenericFactoryAvro.get_factory_avro(
+        old_instance = self.get_valid_object(
             self.old_model.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
-        ).create(interpretationRequestVersion='1')  # we need to enforce that it can be cast to int
+        )
 
         self._validate(old_instance)
         if fill_nullables:
@@ -80,8 +73,7 @@ class TestMigrateReports5To300(TestCaseMigration):
                     if vc.zygosity not in valid_genotypes:
                         vc.zygosity = valid_genotypes[randint(0, len(valid_genotypes)-1)]
 
-        new_instance_json = MigrationHelpers().reverse_migrate_RD_clinical_report_to_v3(json_dict=old_instance.toJsonDict())
-        new_instance = self.new_model.ClinicalReportRD.fromJsonDict(jsonDict=new_instance_json)
+        new_instance = MigrationHelpers().reverse_migrate_RD_clinical_report_to_v3(json_dict=old_instance.toJsonDict())
 
         self._validate(new_instance)
         if fill_nullables:

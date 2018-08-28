@@ -394,11 +394,11 @@ class MigrationHelpers(object):
     def migrate(json_dict, types, migrations):
         for i, typ in enumerate(types):
             if PayloadValidation(klass=typ, payload=json_dict).is_valid:
-                ir = typ.fromJsonDict(json_dict)
+                migrated = typ.fromJsonDict(json_dict)
                 migrations_to_apply = migrations[0:i+1]
                 for migration in reversed(migrations_to_apply):
-                    ir = migration(ir)
-                return ir
+                    migrated = migration(migrated)
+                return migrated
 
         raise MigrationError("json_dict data is not one of: {}".format(types))
 
