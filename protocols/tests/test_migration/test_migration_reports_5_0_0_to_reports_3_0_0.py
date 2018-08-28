@@ -80,7 +80,7 @@ class TestMigrateReports5To300(TestCaseMigration):
                     if vc.zygosity not in valid_genotypes:
                         vc.zygosity = valid_genotypes[randint(0, len(valid_genotypes)-1)]
 
-        new_instance_json = MigrationHelpers().reverse_migrate_v5_RD_clinical_report_to_v3(json_dict=old_instance.toJsonDict())
+        new_instance_json = MigrationHelpers().reverse_migrate_RD_clinical_report_to_v3(json_dict=old_instance.toJsonDict())
         new_instance = self.new_model.ClinicalReportRD.fromJsonDict(jsonDict=new_instance_json)
 
         self._validate(new_instance)
