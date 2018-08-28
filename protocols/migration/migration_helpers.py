@@ -142,7 +142,7 @@ class MigrationHelpers(object):
             Migration2_1To3().migrate_interpretation_request
         ]
 
-        MigrationHelpers.migrate(json_dict, types, migrations)
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_clinical_report_rd_to_latest(json_dict, assembly=None):
