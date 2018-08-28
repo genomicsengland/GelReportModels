@@ -400,7 +400,7 @@ class MigrationHelpers(object):
                     ir = migration(ir)
                 return ir
 
-        raise MigrationError("Interpretation Request RD is not one of: {}".format(types))
+        raise MigrationError("json_dict data is not one of: {}".format(types))
 
     @staticmethod
     def set_version_to_6_0_0(version_controlled):
