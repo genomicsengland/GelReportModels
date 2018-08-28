@@ -15,8 +15,8 @@ class MigrateReports400To300(BaseMigration):
     def migrate_interpretation_request_rd(self, old_instance):
         """
         Migrates a reports_4_0_0.InterpretationRequestRD into a reports_3_0_0.InterpretationRequestRD
-        :type old_instance: reports_3_0_0.InterpretationRequestRD
-        :rtype: reports_6_0_0.InterpretationRequestRD
+        :type old_instance: reports_4_0_0.InterpretationRequestRD
+        :rtype: reports_3_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.versionControl = self.new_model.VersionControl()
