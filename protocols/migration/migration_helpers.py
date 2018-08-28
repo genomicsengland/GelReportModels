@@ -151,55 +151,23 @@ class MigrationHelpers(object):
         :type assembly: Assembly
         :rtype: ClinicalReportRD_5_0_0
         """
-        cr_v600 = None
+        types = [
+            ClinicalReport_6_0_0,
+            ClinicalReportRD_5_0_0,
+            ClinicalReportRD_4_0_0,
+            ClinicalReportRD_3_0_0,
+            ClinicalReportRD_2_1_0
+        ]
 
-        if PayloadValidation(klass=ClinicalReport_6_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 6.0.0")
-            cr_v600 = ClinicalReport_6_0_0.fromJsonDict(jsonDict=json_dict)
+        migrations = [
+            lambda x: x,
+            MigrateReports500To600().migrate_clinical_report_rd,
+            lambda x: MigrateReports400To500().migrate_clinical_report_rd(old_instance=x, assembly=assembly),
+            MigrateReports3To4().migrate_clinical_report_rd,
+            Migration2_1To3().migrate_clinical_report
+        ]
 
-        elif PayloadValidation(klass=ClinicalReportRD_5_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 5.0.0")
-            cr_v500 = ClinicalReportRD_5_0_0.fromJsonDict(jsonDict=json_dict)
-            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
-
-        elif assembly is None:
-            raise MigrationError("Parameter <assembly> is required to migrate model versions earlier than 5.0.0")
-
-        elif PayloadValidation(klass=ClinicalReportRD_4_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 4.0.0")
-            cr_v4 = ClinicalReportRD_4_0_0.fromJsonDict(jsonDict=json_dict)
-            cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
-                old_instance=cr_v4, assembly=assembly
-            )
-            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
-
-        elif PayloadValidation(klass=ClinicalReportRD_3_0_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 3.0.0")
-            cr_v3 = ClinicalReportRD_3_0_0.fromJsonDict(jsonDict=json_dict)
-            cr_v4 = MigrateReports3To4().migrate_clinical_report_rd(
-                old_clinical_report_rd=cr_v3
-            )
-            cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
-                old_instance=cr_v4, assembly=assembly
-            )
-            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
-
-        elif PayloadValidation(klass=ClinicalReportRD_2_1_0, payload=json_dict).is_valid:
-            logging.info("Case in models reports 2.1.0")
-            cr_v2 = ClinicalReportRD_2_1_0.fromJsonDict(jsonDict=json_dict)
-            cr_v3 = Migration2_1To3().migrate_clinical_report(clinical_report=cr_v2)
-            cr_v4 = MigrateReports3To4().migrate_clinical_report_rd(
-                old_clinical_report_rd=cr_v3
-            )
-            cr_v500 = MigrateReports400To500().migrate_clinical_report_rd(
-                old_instance=cr_v4, assembly=assembly
-            )
-            cr_v600 = MigrateReports500To600().migrate_clinical_report_rd(old_instance=cr_v500)
-
-        if cr_v600 is not None:
-            return cr_v600
-
-        raise MigrationError("Clinical Report RD is not in versions: [2.1.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_exit_questionnaire_rd_to_latest(json_dict, assembly):
@@ -208,28 +176,19 @@ class MigrationHelpers(object):
         :type json_dict: dict
         :rtype: RareDiseaseExitQuestionnaire_5_0_0
         """
-        if assembly is None:
-            raise MigrationError("Parameter <assembly> is required to migrate exit questionnaire to version 6")
-        eq_v600 = None
+        types = [
+            RareDiseaseExitQuestionnaire_6_0_0,
+            RareDiseaseExitQuestionnaire_5_0_0,
+            RareDiseaseExitQuestionnaire_3_0_0
+        ]
 
-        if PayloadValidation(klass=RareDiseaseExitQuestionnaire_6_0_0, payload=json_dict).is_valid:
-            eq_v600 = RareDiseaseExitQuestionnaire_6_0_0.fromJsonDict(jsonDict=json_dict)
+        migrations = [
+            lambda x: x,
+            lambda x: MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=x, assembly=assembly),
+            MigrateReports3To4().migrate_rd_exit_questionnaire
+        ]
 
-        elif PayloadValidation(klass=RareDiseaseExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
-            logging.info("Exit questionnaire in models reports 5.0.0 or 4.0.0")
-            eq_v500 = RareDiseaseExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
-            eq_v600 = MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=eq_v500, assembly=assembly)
-
-        elif PayloadValidation(klass=RareDiseaseExitQuestionnaire_3_0_0, payload=json_dict).is_valid:
-            logging.info("Exit questionnaire in models reports 3.0.0")
-            eq_v300 = RareDiseaseExitQuestionnaire_3_0_0.fromJsonDict(jsonDict=json_dict)
-            eq_v500 = MigrateReports3To4().migrate_rd_exit_questionnaire(eq_v300)
-            eq_v600 = MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=eq_v500, assembly=assembly)
-
-        if eq_v600 is not None:
-            return eq_v600
-
-        raise MigrationError("exit Questionnaire RD is not in versions: [3.0.0, 4.0.0, 5.0.0, 6.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_cancer_exit_questionnaire_to_latest(json_dict, assembly):
@@ -238,24 +197,17 @@ class MigrationHelpers(object):
         :type json_dict: dict
         :rtype: CancerExitQuestionnaire_6_0_0
         """
-        if assembly is None:
-            raise MigrationError(
-                "Parameter <assembly> is required to migrate cancer exit questionnaire to version 6")
-        ceq_v600 = None
+        types = [
+            CancerExitQuestionnaire_6_0_0,
+            CancerExitQuestionnaire_5_0_0
+        ]
 
-        if PayloadValidation(klass=CancerExitQuestionnaire_6_0_0, payload=json_dict).is_valid:
-            ceq_v600 = CancerExitQuestionnaire_6_0_0.fromJsonDict(jsonDict=json_dict)
+        migrations = [
+            lambda x: x,
+            lambda x: MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=x, assembly=assembly)
+        ]
 
-        elif PayloadValidation(klass=CancerExitQuestionnaire_5_0_0, payload=json_dict).is_valid:
-            logging.info("Exit questionnaire in models reports 5.0.0 or 4.0.0")
-            ceq_v500 = CancerExitQuestionnaire_5_0_0.fromJsonDict(jsonDict=json_dict)
-            ceq_v600 = MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=ceq_v500,
-                                                                                  assembly=assembly)
-
-        if ceq_v600 is not None:
-            return ceq_v600
-
-        raise MigrationError("Cancer Exit Questionnaire is not in versions: [5.0.0, 6.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_pedigree_to_latest(json_dict):
@@ -263,34 +215,21 @@ class MigrationHelpers(object):
         :type json_dict: dict
         :rtype: Pedigree_1_1_0
         """
-        ped_v110 = None
+        types = [
+            Pedigree_1_1_0,
+            Pedigree_1_0_3,
+            Pedigree_1_0_0,
+            Pedigree_reports_3_0_0
+        ]
 
-        if PayloadValidation(klass=Pedigree_1_1_0, payload=json_dict).is_valid:
-            ped_v110 = Pedigree_1_1_0.fromJsonDict(jsonDict=json_dict)
-            logging.info("Pedigree in models participants 1.1.0")
+        migrations = [
+            lambda x: x,
+            MigrationParticipants103To110().migrate_pedigree,
+            MigrationParticipants100To103().migrate_pedigree,
+            MigrationReportsToParticipants1().migrate_pedigree
+        ]
 
-        if PayloadValidation(klass=Pedigree_1_0_3, payload=json_dict).is_valid:
-            ped_v103 = Pedigree_1_0_3.fromJsonDict(jsonDict=json_dict)
-            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
-            logging.info("Pedigree in models participants 1.0.3")
-
-        elif PayloadValidation(klass=Pedigree_1_0_0, payload=json_dict).is_valid:
-            ped_v100 = Pedigree_1_0_0.fromJsonDict(jsonDict=json_dict)
-            ped_v103 = MigrationParticipants100To103().migrate_pedigree(ped_v100)
-            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
-            logging.info("Pedigree in models participants 1.0.0")
-
-        elif PayloadValidation(klass=Pedigree_reports_3_0_0, payload=json_dict).is_valid:
-            ped_v300 = Pedigree_reports_3_0_0.fromJsonDict(jsonDict=json_dict)
-            ped_v100 = MigrationReportsToParticipants1().migrate_pedigree(ped_v300)
-            ped_v103 = MigrationParticipants100To103().migrate_pedigree(ped_v100)
-            ped_v110 = MigrationParticipants103To110().migrate_pedigree(ped_v103)
-            logging.info("Pedigree in models reports 3.0.0")
-
-        if ped_v110 is not None:
-            return ped_v110
-
-        raise MigrationError("Pedigree is not in versions: [1.1.0, 1.0.3, 1.0.0, reports 3.0.0]")
+        return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
     def migrate_interpretation_request_cancer_to_latest(json_dict, assembly):

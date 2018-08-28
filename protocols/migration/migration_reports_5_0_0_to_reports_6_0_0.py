@@ -2,6 +2,7 @@ import logging
 
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
+from protocols.migration.base_migration import MigrationError
 from protocols.migration.base_migration_reports_5_0_0_and_reports_6_0_0 import BaseMigrateReports500And600
 import re
 
@@ -292,6 +293,8 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
 
     def migrate_rd_exit_questionnaire(self, old_instance, assembly):
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required to migrate exit questionnaire to version 6")
         migrated_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)
         migrated_instance.variantGroupLevelQuestions = self.migrate_variant_group_level_questions(
             VGLQs=old_instance.variantGroupLevelQuestions, assembly=assembly
@@ -443,6 +446,10 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         return self.validate_object(object_to_validate=new_ccr, object_type=self.new_model.ClinicalReport)
 
     def migrate_cancer_exit_questionnaire(self, old_instance, assembly):
+        if assembly is None:
+            raise MigrationError(
+                "Parameter <assembly> is required to migrate cancer exit questionnaire to version 6")
+
         new_c_eq = self.convert_class(target_klass=self.new_model.CancerExitQuestionnaire, instance=old_instance)
         new_c_eq.somaticVariantLevelQuestions = self.migrate_somatic_variant_level_questions(
             old_questions=old_instance.somaticVariantLevelQuestions, assembly=assembly

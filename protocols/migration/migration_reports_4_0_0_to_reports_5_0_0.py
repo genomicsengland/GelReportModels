@@ -100,6 +100,9 @@ class MigrateReports400To500(BaseMigration):
         :type assembly: reports_5_0_0.Assembly
         :rtype: reports_5_0_0.ClinicalReportRD
         """
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required to migrate model versions earlier than 5.0.0")
+
         new_instance = self.convert_class(
             self.new_model.ClinicalReportRD, old_instance)  # :type self.new_model.ClinicalReportRD
 
