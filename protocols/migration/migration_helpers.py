@@ -373,8 +373,8 @@ class MigrationHelpers(object):
     def reverse_migrate_RD_clinical_report_to_v3(json_dict):
         """
         Whether html or json, the clinical report data needs to be migrated from v5 to v3 for RD
-        :param json_dict: ClinicalReport RD v5 json
-        :return: ClinicalReport model object with cr.clinical_report_data migrated from v5 to v3
+        :param json_dict: ClinicalReport RD v(5,4,3) json
+        :return: ClinicalReport model object with cr.clinical_report_data migrated from v(5,4,3) to v3
         """
         types = [
             ClinicalReportRD_3_0_0,
