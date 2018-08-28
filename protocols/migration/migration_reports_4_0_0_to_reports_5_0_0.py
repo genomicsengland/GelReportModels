@@ -3,11 +3,11 @@ import logging
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols import opencb_1_3_0 as opencb_1_3_0
-from protocols.migration.base_migration import BaseMigration, MigrationError
+from protocols.migration.base_migration import MigrationError, BaseMigrateReports400And500
 import itertools
 
 
-class MigrateReports400To500(BaseMigration):
+class MigrateReports400To500(BaseMigrateReports400And500):
 
     old_model = reports_4_0_0
     new_model = reports_5_0_0
@@ -467,41 +467,35 @@ class MigrateReports400To500(BaseMigration):
         """
         NOTE: fields that cannot be filled are "genomicChanges", "references"
         :type old_instance: reports_4_0_0.ReportedSomaticVariants
-        :type assembly: reports_5_0_0.Assembly
+        :type assembly: str
         :type participant_id: str
         :type sample_id: str
         :rtype reports_5_0_0.ReportedVariantCancer
         :return:
         """
-        new_instance = self.convert_class(
-            self.new_model.ReportedVariantCancer,
-            old_instance.reportedVariantCancer)  # :type: reports_5_0_0.ReportedVariant
+        reported_variant_cancer = old_instance.reportedVariantCancer
+        new_instance = self.convert_class(self.new_model.ReportedVariantCancer, reported_variant_cancer)  # :type: reports_5_0_0.ReportedVariant
 
         # builds up the variant coordinates
-        new_instance.variantCoordinates = reports_5_0_0.VariantCoordinates(
-            chromosome=old_instance.reportedVariantCancer.chromosome,
-            position=old_instance.reportedVariantCancer.position,
-            reference=old_instance.reportedVariantCancer.reference,
-            alternate=old_instance.reportedVariantCancer.alternate,
-            assembly=self.migrate_assembly(assembly)
-        )
+        new_instance.variantCoordinates = self.convert_class(reports_5_0_0.VariantCoordinates, reported_variant_cancer)
+        new_instance.variantCoordinates.assembly = self.migrate_assembly(assembly)
 
         # field cDnaChange renamed to cdnaChange
         if old_instance.reportedVariantCancer.cDnaChange:
             new_instance.cdnaChanges = [old_instance.reportedVariantCancer.cDnaChange]
 
         # field proteinChange changed to a list
-        if old_instance.reportedVariantCancer.proteinChange:
-            new_instance.proteinChanges = [old_instance.reportedVariantCancer.proteinChange]
+        if reported_variant_cancer.proteinChange:
+            new_instance.proteinChanges = [reported_variant_cancer.proteinChange]
 
         # NOTE: missing fields: genomicChanges
 
         # builds up the VariantCall object
         # NOTE: fields that cannot be filled "phaseSet"
         new_instance.variantCalls = [reports_5_0_0.VariantCall(
-            depthReference=old_instance.reportedVariantCancer.depthReference,
-            depthAlternate=old_instance.reportedVariantCancer.depthAlternate,
-            vaf=old_instance.reportedVariantCancer.vaf,
+            depthReference=reported_variant_cancer.depthReference,
+            depthAlternate=reported_variant_cancer.depthAlternate,
+            vaf=reported_variant_cancer.vaf,
             zygosity=reports_5_0_0.Zygosity.na,
             alleleOrigins=old_instance.alleleOrigins,
             participantId=participant_id,
@@ -509,24 +503,24 @@ class MigrateReports400To500(BaseMigration):
         )]
 
         # builds up an AlleleFrequency object
-        if old_instance.reportedVariantCancer.commonAf is not None:
+        if reported_variant_cancer.commonAf is not None:
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
-                alternateFrequency=self.convert_string_to_float(old_instance.reportedVariantCancer.commonAf)
+                alternateFrequency=self.convert_string_to_float(reported_variant_cancer.commonAf)
             )]
 
         # builds up the VariantAttributes
         # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(
-            ihp=old_instance.reportedVariantCancer.ihp
+            ihp=reported_variant_cancer.ihp
         )
 
         # list of allele origins is flattened and received as a parameter
         new_instance.alleleOrigins = old_instance.alleleOrigins
 
         # migrates cancer report events
-        new_instance.reportEvents = self.migrate_report_events_cancer(old_instance.reportedVariantCancer.reportEvents)
+        new_instance.reportEvents = self.migrate_report_events_cancer(reported_variant_cancer.reportEvents)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer
@@ -587,12 +581,7 @@ class MigrateReports400To500(BaseMigration):
         new_instance = self.convert_class(self.new_model.GenomicEntity, old_instance)
 
         # maps the feature type
-        map_feature_type = {
-            reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.GenomicEntityType.transcript,
-            reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.GenomicEntityType.regulatory_region,
-            reports_4_0_0.FeatureTypes.Gene: reports_5_0_0.GenomicEntityType.gene
-        }
-        new_instance.type = map_feature_type[old_instance.featureType]
+        new_instance.type = self.feature_genomic_entity_map[old_instance.featureType]
 
         # rename gene name to gene symbol
         new_instance.geneSymbol = old_instance.geneName
@@ -833,7 +822,8 @@ class MigrateReports400To500(BaseMigration):
         if isinstance(other_files, dict):
             return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
 
-    def migrate_allele_frequencies(self, additionalNumericVariantAnnotations):
+    @staticmethod
+    def migrate_allele_frequencies(additionalNumericVariantAnnotations):
         """
         NOTE: This is assuming all values in `additionalNumericVariantAnnotations` are frequencies
 
