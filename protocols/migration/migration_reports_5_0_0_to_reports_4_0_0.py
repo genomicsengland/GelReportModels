@@ -216,6 +216,8 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if new_report_event.penetrance is None:
             new_report_event.penetrance = self.new_model.Penetrance.complete
 
+        new_report_event.tier = self.tier_map[old_report_event.tier] if old_report_event.tier else self.new_model.Tier.NONE
+
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
     def migrate_report_events(self, old_report_events):

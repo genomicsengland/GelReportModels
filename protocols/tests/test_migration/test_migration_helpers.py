@@ -16,7 +16,7 @@ from protocols.util.dependency_manager import (
     VERSION_400,
     VERSION_500,
     VERSION_61,
-)
+    VERSION_70)
 from protocols.migration.base_migration import MigrationError
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
@@ -123,6 +123,30 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_interpretation_request_rd_400_600_no_nullables(self):
         self.test_migrate_interpretation_request_rd_400_600(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_600_300(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.InterpretationRequestRD, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        # there is an explicit check for pedigree even though it's nullable.
+        old_instance.pedigree = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.Pedigree, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        old_ig = GenericFactoryAvro.get_factory_avro(
+            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        self.assertIsInstance(old_instance, reports_6_0_0.InterpretationRequestRD)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_v3(old_instance.toJsonDict(), old_ig)
+        self.assertIsInstance(migrated_instance, reports_3_0_0.InterpretationRequestRD)
+        self._validate(migrated_instance)
+        self.assertEqual(migrated_instance.versionControl.GitVersionControl, '3.0.0')
+
+    def test_migrate_interpretation_request_rd_600_300_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_600_300(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_300_600(self, fill_nullables=True):
 

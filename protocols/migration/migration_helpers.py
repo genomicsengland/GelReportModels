@@ -1,6 +1,7 @@
 import logging
 
 from protocols.migration.base_migration import MigrationError
+from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
 
 from protocols.reports_2_1_0 import ClinicalReportRD as ClinicalReportRD_2_1_0
 from protocols.reports_2_1_0 import InterpretedGenomeRD as InterpretedGenomeRD_2_1_0
@@ -82,6 +83,24 @@ class MigrationHelpers(object):
             lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_interpretation_request_rd,
             Migration2_1To3().migrate_interpretation_request
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
+    def migrate_interpretation_request_rd_to_v3(json_dict, old_ig, cip=None):
+        types = [
+            InterpretationRequestRD_3_0_0,
+            InterpretationRequestRD_4_0_0,
+            InterpretationRequestRD_5_0_0,
+            InterpretationRequestRD_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports400To300().migrate_interpretation_request_rd,
+            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=old_ig, cip=cip),
+            MigrateReports600To500().migrate_interpretation_request_rd,
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
