@@ -18,6 +18,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type old_instance: reports_4_0_0.InterpretationRequestRD
         :rtype: reports_5_0_0.InterpretationRequestRD
         """
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required if version is older than 5.0.0")
+
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
         new_instance.pedigree.members = self.migrate_pedigree_members(old_members=old_instance.pedigree.members)
@@ -67,6 +70,11 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type interpretation_request_version: int
         :rtype: reports_5_0_0.InterpretedGenomeRD
         """
+        if assembly is None or interpretation_request_version is None:
+            raise MigrationError(
+                "Parameters <assembly> and <interpretation_request_version> are required for models earlier than 5.0.0"
+            )
+
         new_instance = self.convert_class(
             self.new_model.InterpretedGenomeRD, old_instance)  # type:self.new_model.InterpretedGenomeRD
 
@@ -92,6 +100,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type assembly: reports_5_0_0.Assembly
         :rtype: reports_5_0_0.ClinicalReportRD
         """
+        if assembly is None:
+            raise MigrationError("Parameter <assembly> is required to migrate model versions earlier than 5.0.0")
+
         new_instance = self.convert_class(
             self.new_model.ClinicalReportRD, old_instance)  # :type self.new_model.ClinicalReportRD
 
@@ -129,6 +140,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type old_instance: reports_4_0_0.CancerInterpretationRequest
         :rtype: reports_5_0_0.CancerInterpretationRequest
         """
+        if assembly is None:
+            raise MigrationError(
+                "Parameter <assembly> is required to migrate cancer interpretation request to version 5")
+
         new_instance = self.convert_class(
             self.new_model.CancerInterpretationRequest, old_instance
         )  # :type: reports_5_0_0.CancerInterpretationRequest
@@ -203,6 +218,12 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type interpretation_service: str
         :rtype: reports_5_0_0.CancerInterpretedGenome
         """
+        self.check_required_parameters(
+            assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+            interpretation_request_version=interpretation_request_version,
+            interpretation_service=interpretation_service
+        )
+
         new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(
             jsonDict=old_instance.toJsonDict())  # :type: reports_5_0_0.CancerInterpretedGenome
 
@@ -238,6 +259,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type sample_id: str
         :rtype: reports_5_0_0.ClinicalReportCancer
         """
+        if not sample_id or not assembly or not participant_id:
+            raise MigrationError("Missing required fields to migrate cancer clinical report from 4.0.0 to 5.0.0")
+
         new_instance = self.convert_class(
             self.new_model.ClinicalReportCancer, old_instance)  # :type: reports_5_0_0.ClinicalReportCancer
 
@@ -814,3 +838,24 @@ class MigrateReports400To500(BaseMigrateReports400And500):
                 study='_'.join(pop.split('_')[:-1])
             ))
         return frequencies
+
+    @staticmethod
+    def raise_migration_error_for_parameter(parameter):
+        raise MigrationError(
+            "Missing required field {parameter} to migrate a cancer interpreted genome from 4.0.0 to 5.0.0".format(
+                parameter=parameter
+            )
+        )
+
+    def check_required_parameters(self, assembly=None, participant_id=None, sample_id=None,
+                                  interpretation_request_version=None, interpretation_service=None):
+        if not assembly:
+            self.raise_migration_error_for_parameter(parameter='assembly')
+        if not participant_id:
+            self.raise_migration_error_for_parameter(parameter='participant_id')
+        if not sample_id:
+            self.raise_migration_error_for_parameter(parameter='sample_id')
+        if not interpretation_request_version:
+            self.raise_migration_error_for_parameter(parameter='interpretation_request_version')
+        if not interpretation_service:
+            self.raise_migration_error_for_parameter(parameter='interpretation_request_version')
