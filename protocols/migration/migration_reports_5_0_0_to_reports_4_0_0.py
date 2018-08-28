@@ -262,8 +262,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
 
     def migrate_cancer_interpreted_genome(self, old_instance):
-        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(jsonDict=old_instance.toJsonDict())
-
+        new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)
         new_instance.reportedVariants = self.migrate_reported_variants_cancer(old_instance.variants)
         new_instance.reportRequestId = old_instance.interpretationRequestId
         new_instance.reportUri = old_instance.reportUrl or ""

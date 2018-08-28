@@ -224,8 +224,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             interpretation_service=interpretation_service
         )
 
-        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(
-            jsonDict=old_instance.toJsonDict())  # :type: reports_5_0_0.CancerInterpretedGenome
+        new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)  # :type: reports_5_0_0.CancerInterpretedGenome
 
         # reportRequestId are interpretationRequestId
         new_instance.interpretationRequestId = old_instance.reportRequestId

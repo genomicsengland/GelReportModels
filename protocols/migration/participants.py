@@ -14,8 +14,7 @@ class MigrationParticipants103To110(BaseMigration):
     new_model = participant_1_1_0
 
     def migrate_pedigree(self, old_instance):
-        new_instance = self.new_model.Pedigree.fromJsonDict(old_instance.toJsonDict())
-
+        new_instance = self.convert_class(self.new_model.Pedigree, old_instance)
         if new_instance.validate(new_instance.toJsonDict()):
             return new_instance
         else:
@@ -30,8 +29,7 @@ class MigrationParticipants103To110(BaseMigration):
         :type old_instance: participants_1_0_3.CancerParticipant
         :return:
         """
-        new_instance = self.new_model.CancerParticipant.fromJsonDict(
-            old_instance.toJsonDict())   # type: participant_1_1_0.CancerParticipant
+        new_instance = self.convert_class(self.new_model.CancerParticipant, old_instance)   # type: participant_1_1_0.CancerParticipant
 
         if old_instance.tumourSamples is not None:
             new_instance.tumourSamples = [self._migrate_tumour_sample(tumour_sample)
@@ -51,8 +49,7 @@ class MigrationParticipants103To110(BaseMigration):
         :type old_instance: old_model.TumourSample
         :return:
         """
-        new_instance = self.new_model.TumourSample.fromJsonDict(
-            old_instance.toJsonDict())  # type: new_model.TumourSample
+        new_instance = self.convert_class(self.new_model.TumourSample, old_instance)  # type: new_model.TumourSample
 
         if old_instance.morphologyICD is not None:
             new_instance.morphologyICDs = [old_instance.morphologyICD]
@@ -144,7 +141,7 @@ class MigrationParticipants100To103(BaseMigration):
     new_model = participant_1_0_3
 
     def migrate_cancer_participant(self, cancer_participant):
-        migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
+        migrated_participant = self.convert_class(self.new_model.CancerParticipant, cancer_participant)
 
         migrated_participant.versionControl = self.new_model.VersionControl()
 
@@ -180,10 +177,10 @@ class MigrationParticipants100To103(BaseMigration):
         return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
 
     def migrate_matched_sample(self, matched_sample):
-        return self.new_model.MatchedSamples().fromJsonDict(jsonDict=matched_sample.toJsonDict())
+        return self.convert_class(self.new_model.MatchedSamples(), matched_sample)
 
     def migrate_tumour_sample(self, tumour_sample, LDPCode):
-        migrated_tumour_sample = self.new_model.TumourSample.fromJsonDict(tumour_sample.toJsonDict())
+        migrated_tumour_sample = self.convert_class(self.new_model.TumourSample, tumour_sample)
 
         migrated_tumour_sample.LDPCode = LDPCode
         migrated_tumour_sample.tumourId = str(tumour_sample.tumourId)
@@ -201,7 +198,7 @@ class MigrationParticipants100To103(BaseMigration):
         return None
 
     def migrate_germline_sample(self, germline_sample, LDPCode):
-        migrated_germline_sample = self.new_model.GermlineSample.fromJsonDict(germline_sample.toJsonDict())
+        migrated_germline_sample = self.convert_class(self.new_model.GermlineSample, germline_sample)
 
         migrated_germline_sample.LDPCode = LDPCode
 
@@ -215,7 +212,7 @@ class MigrationParticipants100To103(BaseMigration):
         return None
 
     def migrate_pedigree(self, old_pedigree):
-        new_pedigree = self.new_model.Pedigree.fromJsonDict(old_pedigree.toJsonDict())
+        new_pedigree = self.convert_class(self.new_model.Pedigree, old_pedigree)
         new_pedigree.versionControl = self.new_model.VersionControl()
 
         new_pedigree.members = self.migrate_members(old_members=old_pedigree.members)
@@ -246,7 +243,7 @@ class MigrationParticipants100To103(BaseMigration):
         return [self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop) for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pops]
 
     def migrate_ancestries(self, old_ancestries):
-        new_ancestries = self.new_model.Ancestries.fromJsonDict(old_ancestries.toJsonDict())
+        new_ancestries = self.convert_class(self.new_model.Ancestries, old_ancestries)
         new_ancestries.chiSquare1KGenomesPhase3Pop = self.migrate_chiSquare1KGenomesPhase3Pops(old_ancestries.chiSquare1KGenomesPhase3Pop)
 
         if new_ancestries.validate(new_ancestries.toJsonDict()):
@@ -257,7 +254,7 @@ class MigrationParticipants100To103(BaseMigration):
             )
 
     def migrate_member(self, old_member):
-        new_member = self.new_model.PedigreeMember.fromJsonDict(old_member.toJsonDict())
+        new_member = self.convert_class(self.new_model.PedigreeMember, old_member)
         new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
         if old_member.disorderList is not None:
             new_member.disorderList = [self.migrate_disorder(disorder) for disorder in old_member.disorderList]
@@ -271,14 +268,14 @@ class MigrationParticipants100To103(BaseMigration):
             )
 
     def migrate_disorder(self, old_instance):
-        new_instance = self.new_model.Disorder.fromJsonDict(old_instance.toJsonDict())
+        new_instance = self.convert_class(self.new_model.Disorder, old_instance)
         new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset, fail=False)
         return new_instance
 
     def migrate_hpo_term(self, old_instance):
         if old_instance.ageOfOnset:
             old_instance.ageOfOnset = old_instance.ageOfOnset.upper().replace(" ", "_")
-        new_instance = self.new_model.HpoTerm.fromJsonDict(old_instance.toJsonDict())
+        new_instance = self.convert_class(self.new_model.HpoTerm, old_instance)
         values = [
             self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
             self.new_model.AgeOfOnset.FETAL_ONSET,
@@ -338,7 +335,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         :type pedigree: participant_old.Pedigree
         :rtype: participant_1_0_1.Pedigree
         """
-        new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
+        new_pedigree = self.convert_class(self.new_model.Pedigree, pedigree)
         new_pedigree.versionControl = self.new_model.VersionControl()
         if pedigree.participants is not None:
             new_pedigree.members = [self.migrate_pedigree_member(member=member) for member in pedigree.participants]
@@ -355,7 +352,7 @@ class MigrationReportsToParticipants1(BaseMigration):
             raise MigrationError('This model can not be converted')
 
     def migrate_disorder(self, disorder):
-        new_disorder = self.new_model.Disorder().fromJsonDict(disorder.toJsonDict())
+        new_disorder = self.convert_class(self.new_model.Disorder(), disorder)
 
         return self.validate_object(
             object_to_validate=new_disorder,
@@ -368,7 +365,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         :type member: participant_old.RDParticipant
         :rtype: participant_1_0_1.PedigreeMember
         """
-        new_pedigree_member = self.new_model.PedigreeMember.fromJsonDict(member.toJsonDict())
+        new_pedigree_member = self.convert_class(self.new_model.PedigreeMember, member)
         new_pedigree_member.participantId = member.gelId
         new_pedigree_member.sex = self.migrate_enumerations('Sex', member.sex)
         new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
@@ -422,7 +419,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         :type hpo_term: participant_old.HpoTerm
         :rtype: participant_1_0_1.HpoTerm
         """
-        new_hpo = self.new_model.HpoTerm.fromJsonDict(hpo_term.toJsonDict())
+        new_hpo = self.convert_class(self.new_model.HpoTerm, hpo_term)
         new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
         if new_hpo.validate(new_hpo.toJsonDict()):
             return new_hpo
@@ -436,7 +433,7 @@ class MigrationReportsToParticipants1(BaseMigration):
         :rtype: participant_1_0_1.AnalysisPanel
         """
 
-        new_analysis_panel = self.new_model.AnalysisPanel.fromJsonDict(analysis_panel.toJsonDict())
+        new_analysis_panel = self.convert_class(self.new_model.AnalysisPanel, analysis_panel)
         new_analysis_panel.multipleGeneticOrigins = ''
         new_analysis_panel.reviewOutcome = ''
         if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
@@ -455,7 +452,7 @@ class MigrationParticipants101ToReports(object):
         :type pedigree: participant_1_0_1.Pedigree
         :rtype: participant_old.Pedigree
         """
-        new_pedigree = self.new_model.Pedigree.fromJsonDict(pedigree.toJsonDict())
+        new_pedigree = self.convert_class(self.new_model.Pedigree, pedigree)
         new_pedigree.versionControl = self.new_model.VersionControl()
         new_pedigree.analysisPanels = [self.migrate_analysis_panel(analysis_panel=panel) for panel in pedigree.analysisPanels]
         new_pedigree.gelFamilyId = pedigree.familyId
@@ -471,7 +468,7 @@ class MigrationParticipants101ToReports(object):
         :type member: participant_1_0_1.PedigreeMember
         :rtype: participant_old.RDParticipant
         """
-        new_pedigree_member = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
+        new_pedigree_member = self.convert_class(self.new_model.RDParticipant, member)
         new_pedigree_member.versionControl = participant_old.VersionControl()
         new_pedigree_member.gelId = str(member.participantId)
         new_pedigree_member.gelFamilyId = family_id
@@ -527,7 +524,7 @@ class MigrationParticipants101ToReports(object):
         :type hpo_term: participant_1_0_1.HpoTerm
         :rtype: participant_old.HpoTerm
         """
-        new_hpo = self.new_model.HpoTerm.fromJsonDict(hpo_term.toJsonDict())
+        new_hpo = self.convert_class(self.new_model.HpoTerm, hpo_term)
         new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
         if hpo_term.modifiers:
             mod_as_json = hpo_term.modifiers.toJsonDict()
@@ -545,7 +542,7 @@ class MigrationParticipants101ToReports(object):
         :type disorder: participant_1_0_1.Disorder
         :rtype: participant_old.Disorder
         """
-        new_disorder = self.new_model.Disorder.fromJsonDict(disorder.toJsonDict())
+        new_disorder = self.convert_class(self.new_model.Disorder, disorder)
         if disorder.ageOfOnset is not None:
             new_disorder.ageOfOnset = str(disorder.ageOfOnset)
         if new_disorder.validate(new_disorder.toJsonDict()):
@@ -560,7 +557,7 @@ class MigrationParticipants101ToReports(object):
         :rtype: participant_old.AnalysisPanel
         """
 
-        new_analysis_panel = self.new_model.AnalysisPanel.fromJsonDict(analysis_panel.toJsonDict())
+        new_analysis_panel = self.convert_class(self.new_model.AnalysisPanel, analysis_panel)
         new_analysis_panel.multiple_genetic_origins = analysis_panel.multipleGeneticOrigins
         new_analysis_panel.review_outcome = analysis_panel.reviewOutcome
         if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
@@ -574,7 +571,7 @@ class MigrationParticipants103To100(BaseMigration):
     new_model = participant_1_0_0
 
     def migrate_cancer_participant(self, cancer_participant):
-        migrated_participant = self.new_model.CancerParticipant.fromJsonDict(cancer_participant.toJsonDict())
+        migrated_participant = self.convert_class(self.new_model.CancerParticipant, cancer_participant)
 
         if cancer_participant.tumourSamples is not None:
             migrated_participant.LDPCode = next((tumour_sample.LDPCode for tumour_sample in cancer_participant.tumourSamples), None)
@@ -611,7 +608,7 @@ class MigrationParticipants103To100(BaseMigration):
         return [self.migrate_matched_sample(matched_sample=matched_sample) for matched_sample in matched_samples]
 
     def migrate_matched_sample(self, matched_sample):
-        return self.new_model.MatchedSamples().fromJsonDict(matched_sample.toJsonDict())
+        return self.convert_class(self.new_model.MatchedSamples(), matched_sample)
 
     def migrate_germline_samples(self, germline_samples):
         if germline_samples is not None:
@@ -619,7 +616,7 @@ class MigrationParticipants103To100(BaseMigration):
         return None
 
     def migrate_germline_sample(self, germline_sample):
-        return self.new_model.GermlineSample().fromJsonDict(germline_sample.toJsonDict())
+        return self.convert_class(self.new_model.GermlineSample(), germline_sample)
 
     def migrate_tumour_samples(self, tumour_samples):
         if tumour_samples is not None:

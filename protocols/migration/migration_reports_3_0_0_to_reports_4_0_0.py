@@ -77,7 +77,7 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_action(self, action):
-        new_action = self.new_model.Actions().fromJsonDict(jsonDict=action.toJsonDict())
+        new_action = self.convert_class(self.new_model.Actions, action)
         new_action.variantActionable = action.variantActionable or False
         return self.validate_object(
             object_to_validate=new_action, object_type=self.new_model.Actions
@@ -174,7 +174,7 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_reported_variant(self, old_reported_variant):
-        new_tiered_variant = self.new_model.ReportedVariant.fromJsonDict(old_reported_variant.toJsonDict())
+        new_tiered_variant = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
         new_tiered_variant.dbSnpId = old_reported_variant.dbSNPid
         new_tiered_variant.reportEvents = self.migrate_report_events(
             old_report_events=old_reported_variant.reportEvents
@@ -235,7 +235,7 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_report_event(self, old_report_event):
-        new_report_event = self.new_model.ReportEvent.fromJsonDict(old_report_event.toJsonDict())
+        new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
         old_classification = self.old_model.VariantClassification
         new_classification = self.new_model.VariantClassification
         variant_classification_map = {

@@ -21,7 +21,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
         :type old_cancer_participant: reports_3_0_0.CancerParticipant
         :rtype: participant_1_0_0.CancerParticipant
         """
-        new_cancer_participant = self.new_model.CancerParticipant.fromJsonDict(old_cancer_participant.toJsonDict())
+        new_cancer_participant = self.convert_class(self.new_model.CancerParticipant, old_cancer_participant)
 
         new_cancer_participant.versionControl.GitVersionControl = '1.0.0'
         new_cancer_participant.additionalInformation = old_cancer_participant.cancerDemographics.additionalInformation
@@ -62,7 +62,7 @@ class MigrateReports3ToParticipant1(BaseMigration):
 
     def migrate_tumor_sample(self, old_cancer_sample):
 
-        new_tumour_sample = self.new_model.TumourSample.fromJsonDict(old_cancer_sample.toJsonDict())
+        new_tumour_sample = self.convert_class(self.new_model.TumourSample, old_cancer_sample)
 
         new_tumour_sample.TNMStageGrouping = old_cancer_sample.tmn_stage_grouping
         new_tumour_sample.TNMStageVersion = old_cancer_sample.tmn_stage_grouping
@@ -114,13 +114,13 @@ class MigrateReports3ToParticipant1(BaseMigration):
         )
 
     def migrate_match_samples(self, old_match_samples):
-        new_match_sample = self.new_model.MatchedSamples.fromJsonDict(old_match_samples.toJsonDict())
+        new_match_sample = self.convert_class(self.new_model.MatchedSamples, old_match_samples)
         new_match_sample.tumourSampleId = old_match_samples.tumorSampleId
         return new_match_sample
 
     def migrate_germline_sample(self, old_cancer_sample):
 
-        new_germline_sample = self.new_model.GermlineSample.fromJsonDict(old_cancer_sample.toJsonDict())
+        new_germline_sample = self.convert_class(self.new_model.GermlineSample, old_cancer_sample)
 
         try:
             new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
