@@ -411,22 +411,24 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def reverse_migrate_RD_clinical_report_to_v3(json_dict):
+    def reverse_migrate_clinical_report_rd_to_v3(json_dict):
         """
         Whether html or json, the clinical report data needs to be migrated from v5 to v3 for RD
-        :param json_dict: ClinicalReport RD v(5,4,3) json
-        :return: ClinicalReport model object with cr.clinical_report_data migrated from v(5,4,3) to v3
+        :param json_dict: ClinicalReport RD v(6 to 3) json
+        :return: ClinicalReport model object with cr.clinical_report_data migrated to v3
         """
         types = [
             ClinicalReportRD_3_0_0,
             ClinicalReportRD_4_0_0,
-            ClinicalReportRD_5_0_0
+            ClinicalReportRD_5_0_0,
+            ClinicalReport_6_0_0
         ]
 
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_clinical_report_rd,
-            MigrateReports500To400().migrate_clinical_report_rd
+            MigrateReports500To400().migrate_clinical_report_rd,
+            MigrateReports600To500().migrate_clinical_report_rd
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
