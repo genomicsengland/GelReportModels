@@ -139,7 +139,7 @@ class MigrationHelpers(object):
             lambda x: MigrateReports400To500().migrate_interpreted_genome_rd(
                 x, assembly=assembly, interpretation_request_version=interpretation_request_version),
             MigrateReports3To4().migrate_interpreted_genome_rd,
-            Migration2_1To3().migrate_interpretation_request
+            Migration2_1To3().migrate_interpreted_genome
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
