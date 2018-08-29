@@ -265,14 +265,11 @@ class MigrationHelpers(object):
         :param json_dict: dict
         :return: CancerExitQuestionnaire_5_0_0
         """
-        types = [
-            CancerExitQuestionnaire_6_0_0,
-            CancerExitQuestionnaire_5_0_0
-        ]
+        types = [CancerExitQuestionnaire_5_0_0, CancerExitQuestionnaire_6_0_0]
 
         migrations = [
             lambda x: x,
-            lambda x: MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=x, assembly=assembly)
+            MigrateReports600To500().migrate_cancer_exit_questionnaire
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
