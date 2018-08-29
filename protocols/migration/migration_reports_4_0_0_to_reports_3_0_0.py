@@ -20,10 +20,6 @@ class MigrateReports400To300(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.versionControl = self.new_model.VersionControl()
-        new_instance.InterpretationRequestID = old_instance.interpretationRequestId
-        new_instance.InterpretationRequestVersion = old_instance.interpretationRequestVersion
-        new_instance.TieringVersion = old_instance.tieringVersion
-        new_instance.analysisReturnURI = old_instance.analysisReturnUri
         new_instance.TieredVariants = self.convert_collection(
             old_instance.tieredVariants, self.migrate_reported_variant)
         new_instance.BAMs = self.convert_collection(old_instance.bams, self.migrate_file)
@@ -57,9 +53,6 @@ class MigrateReports400To300(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.ClinicalReportRD, old_instance)
 
-        # interpretationRequestId changed to interpretationRequestID
-        new_instance.interpretationRequestID = old_instance.interpretationRequestId
-
         # interpretationRequestAnalysisVersion can be null in version 4
         if hasattr(old_instance, 'interpretationRequestAnalysisVersion') and old_instance.interpretationRequestAnalysisVersion is not None:
             new_instance.interpretationRequestAnalysisVersion = old_instance.interpretationRequestAnalysisVersion
@@ -83,7 +76,6 @@ class MigrateReports400To300(BaseMigration):
 
     def migrate_reported_variant(self, old_reported_variant):
         new_reported_variant = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
-        new_reported_variant.dbSNPid = old_reported_variant.dbSnpId
         new_reported_variant.calledGenotypes = self.convert_collection(
             old_reported_variant.calledGenotypes, self.migrate_called_genotype)
         new_reported_variant.reportEvents = self.convert_collection(
@@ -106,7 +98,6 @@ class MigrateReports400To300(BaseMigration):
     def migrate_report_event(self, old_event):
         new_instance = self.convert_class(self.new_model.ReportEvent, old_event)
         new_instance.variantClassification = self.migrate_variant_classification(old_v_classification=old_event.variantClassification)
-        new_instance.genomicFeature = self.migrate_genomic_feature(old_genomic_feature=old_event.genomicFeature)
         if new_instance.eventJustification is None:
             new_instance.eventJustification = ""
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEvent)
@@ -122,15 +113,6 @@ class MigrateReports400To300(BaseMigration):
             old_classification.benign_variant: new_classification.BENIGN,
         }
         return variant_classification_map.get(old_v_classification)
-
-    def migrate_genomic_feature(self, old_genomic_feature):
-        new_genomic_feature = self.new_model.GenomicFeature(
-            featureType=old_genomic_feature.featureType,
-            ensemblId=old_genomic_feature.ensemblId,
-            HGNC=old_genomic_feature.hgnc,
-            other_ids=old_genomic_feature.otherIds,
-        )
-        return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
 
     def migrate_file(self, old_file):
         if old_file is None:

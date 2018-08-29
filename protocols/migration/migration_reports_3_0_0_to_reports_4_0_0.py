@@ -18,30 +18,6 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(
             self.new_model.RareDiseaseExitQuestionnaire, old_instance) # type: reports_4_0_0.RareDiseaseExitQuestionnaire
-        new_instance.variantGroupLevelQuestions = self.convert_collection(
-            old_instance.variantGroupLevelQuestions, self.migrate_variant_group_questions)
-        return new_instance
-
-    def migrate_variant_group_questions(self, old_instance):
-        """
-        :type old_instance: reports_3_0_0.VariantGroupLevelQuestions
-        :rtype:  reports_4_0_0.VariantGroupLevelQuestions
-        """
-        new_instance = self.convert_class(
-            self.new_model.VariantGroupLevelQuestions, old_instance)  # type: reports_4_0_0.VariantGroupLevelQuestions
-        new_instance.variantGroup = old_instance.variant_group
-        new_instance.variantLevelQuestions = self.convert_collection(
-            old_instance.variantLevelQuestions, self.migrate_variant_questions)
-        return new_instance
-
-    def migrate_variant_questions(self, old_instance):
-        """
-        :type old_instance: reports_3_0_0.VariantLevelQuestions
-        :rtype: reports_4_0_0.VariantLevelQuestions
-        """
-        new_instance = self.convert_class(
-            self.new_model.VariantLevelQuestions, old_instance)  # type: reports_4_0_0.VariantLevelQuestions
-        new_instance.variantDetails = old_instance.variant_details
         return new_instance
 
     def migrate_reported_somatic_variants(self, old_reported_somatic_variants):
@@ -82,6 +58,7 @@ class MigrateReports3To4(BaseMigration):
 
     def migrate_report_event_cancer(self, old_report_event_cancer):
 
+        # TODO: use convert_collection()
         new_report_event_cancer = self.new_model.ReportEventCancer(
             eventJustification='',
             soTerms=[],
@@ -147,7 +124,7 @@ class MigrateReports3To4(BaseMigration):
         :rtype: reports_4_0_0.ClinicalReportRD
         """
         new_clinical_report_rd = self.convert_class(self.new_model.ClinicalReportRD, old_clinical_report_rd)
-        new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
+        # new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
         new_clinical_report_rd.candidateVariants = self.convert_collection(
             old_clinical_report_rd.candidateVariants, self.migrate_reported_variant)
         new_clinical_report_rd.candidateStructuralVariants = self.convert_collection(
@@ -159,7 +136,6 @@ class MigrateReports3To4(BaseMigration):
 
     def migrate_reported_variant(self, old_reported_variant):
         new_tiered_variant = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
-        new_tiered_variant.dbSnpId = old_reported_variant.dbSNPid
         new_tiered_variant.reportEvents = self.convert_collection(
             old_reported_variant.reportEvents, self.migrate_report_event)
         return self.validate_object(object_to_validate=new_tiered_variant, object_type=self.new_model.ReportedVariant)
@@ -208,19 +184,7 @@ class MigrateReports3To4(BaseMigration):
             old_report_event.variantClassification, new_classification.not_assessed
         )
 
-        new_report_event.genomicFeature = self.migrate_genomic_feature(
-            old_genomic_feature=old_report_event.genomicFeature)
-
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
-
-    def migrate_genomic_feature(self, old_genomic_feature):
-        new_genomic_feature = self.new_model.GenomicFeature()
-        new_genomic_feature.featureType = old_genomic_feature.featureType
-        new_genomic_feature.ensemblId = old_genomic_feature.ensemblId
-        new_genomic_feature.hgnc = old_genomic_feature.HGNC
-        new_genomic_feature.otherIds = old_genomic_feature.other_ids
-
-        return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
 
     def migrate_tiered_variant(self, old_instance):
         """
@@ -233,7 +197,6 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(
             self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
-        new_instance.dbSnpId = old_instance.dbSNPid
         new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self.migrate_report_event)
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
@@ -242,8 +205,6 @@ class MigrateReports3To4(BaseMigration):
     def migrate_interpretation_request_rd(self, old_instance):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
 
-        new_instance.interpretationRequestId = old_instance.InterpretationRequestID
-        new_instance.interpretationRequestVersion = old_instance.InterpretationRequestVersion
         new_instance.bams = self.convert_collection(old_instance.BAMs, self.migrate_file)
         new_instance.vcfs = self.convert_collection(old_instance.VCFs, self.migrate_file)
         new_instance.bigWigs = self.convert_collection(old_instance.bigWigs, self.migrate_file)
@@ -252,8 +213,6 @@ class MigrateReports3To4(BaseMigration):
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self.migrate_file)
         new_instance.tieredVariants = self.convert_collection(
             old_instance.TieredVariants, self.migrate_tiered_variant)
-        new_instance.tieringVersion = old_instance.TieringVersion
-        new_instance.analysisReturnUri = old_instance.analysisReturnURI
         new_instance.pedigree = MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_instance.pedigree)
         new_instance.internalStudyId = ''
 
@@ -262,6 +221,7 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_file(self, old_file):
+        # TODO: confirm if we need this migration at all
         if old_file is None:
             return None
         if isinstance(old_file.SampleId, list):

@@ -722,28 +722,11 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_modifier = map.get(modifier, "").upper()
         return new_modifier if new_modifier in enum else None
 
-    def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
-        new_object_type = self.new_model.ChiSquare1KGenomesPhase3Pop
-        new_cs1kgp3p = self.convert_class(target_klass=new_object_type, instance=old_chiSquare1KGenomesPhase3Pop)
-        new_cs1kgp3p.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
-        return self.validate_object(object_to_validate=new_cs1kgp3p, object_type=new_object_type)
-
-    def migrate_ancestries(self, old_ancestries):
-        new_object_type = self.new_model.Ancestries
-        new_ancestries = self.convert_class(target_klass=new_object_type, instance=old_ancestries)
-        new_ancestries.chiSquare1KGenomesPhase3Pop = self.convert_collection(
-            old_ancestries.chiSquare1KGenomesPhase3Pop, self.migrate_chiSquare1KGenomesPhase3Pop)
-        return self.validate_object(object_to_validate=new_ancestries, object_type=new_object_type)
-
     def migrate_pedigree_member(self, old_member):
         new_object_type = self.new_model.PedigreeMember
         new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
         new_member.disorderList = self.convert_collection(old_member.disorderList, self.migrate_disorder)
         new_member.hpoTermList = self.convert_collection(old_member.hpoTermList, self.migrate_hpo_term)
-        if old_member.ancestries is not None:
-            new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
-        else:
-            new_member.ancestries = None
         return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
 
     @staticmethod
