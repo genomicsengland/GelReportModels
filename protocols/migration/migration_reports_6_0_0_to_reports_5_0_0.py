@@ -257,8 +257,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
                 identifiers = old_variant.variantAttributes.variantIdentifiers.toJsonDict()
                 new_variant.updateWithJsonDict(identifiers)
 
-        new_variant.variantCalls = [self.migrate_variant_call_cancer(call) for call in old_variant.variantCalls]
-        new_variant.reportEvents = [self.migrate_report_event_cancer(reportEvent) for reportEvent in old_variant.reportEvents]
+        new_variant.variantCalls = self.convert_collection(old_variant.variantCalls, self.migrate_variant_call_cancer)
+        new_variant.reportEvents = self.convert_collection(old_variant.reportEvents, self.migrate_report_event_cancer)
 
         if new_variant.alleleOrigins is None:
             new_variant.alleleOrigins = []
