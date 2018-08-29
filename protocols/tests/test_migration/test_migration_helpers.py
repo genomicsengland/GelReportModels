@@ -754,6 +754,26 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_questionnaire_rd_300_600_nulls(self):
         self.test_migrate_questionnaire_rd_300_600(fill_nullables=False)
 
+    def test_migrate_questionnaire_rd_600_300(self, fill_nullables=True):
+
+        # tests EQ 300 -> 600
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.RareDiseaseExitQuestionnaire, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        old_instance = self.populate_exit_questionnaire_variant_details(eq=old_instance)
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.reverse_migrate_exit_questionnaire_rd_to_v3(
+            json_dict=old_instance.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_3_0_0.RareDiseaseExitQuestionnaire)
+        self._validate(migrated_instance)
+
+    def test_migrate_questionnaire_rd_600_300_nulls(self):
+        self.test_migrate_questionnaire_rd_600_300(fill_nullables=False)
+
     def test_migrate_questionnaire_rd_400_600(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=fill_nullables
