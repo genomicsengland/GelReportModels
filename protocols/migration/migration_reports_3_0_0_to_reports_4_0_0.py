@@ -16,8 +16,32 @@ class MigrateReports3To4(BaseMigration):
         :type old_instance: reports_3_0_0.RareDiseaseExitQuestionnaire
         :rtype: reports_4_0_0.RareDiseaseExitQuestionnaire
         """
+        new_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire,
+                                          old_instance) # type: reports_4_0_0.RareDiseaseExitQuestionnaire
+        new_instance.variantGroupLevelQuestions = [
+            self.migrate_variant_group_questions(q) for q in old_instance.variantGroupLevelQuestions]
+        return new_instance
+
+    def migrate_variant_group_questions(self, old_instance):
+        """
+        :type old_instance: reports_3_0_0.VariantGroupLevelQuestions
+        :rtype:  reports_4_0_0.VariantGroupLevelQuestions
+        """
         new_instance = self.convert_class(
-            self.new_model.RareDiseaseExitQuestionnaire, old_instance) # type: reports_4_0_0.RareDiseaseExitQuestionnaire
+            self.new_model.VariantGroupLevelQuestions, old_instance)  # type: reports_4_0_0.VariantGroupLevelQuestions
+        new_instance.variantGroup = old_instance.variant_group
+        new_instance.variantLevelQuestions = [
+            self.migrate_variant_questions(q) for q in old_instance.variantLevelQuestions]
+        return new_instance
+
+    def migrate_variant_questions(self, old_instance):
+        """
+        :type old_instance: reports_3_0_0.VariantLevelQuestions
+        :rtype: reports_4_0_0.VariantLevelQuestions
+        """
+        new_instance = self.convert_class(
+            self.new_model.VariantLevelQuestions, old_instance)  # type: reports_4_0_0.VariantLevelQuestions
+        new_instance.variantDetails = old_instance.variant_details
         return new_instance
 
     def migrate_reported_somatic_variants(self, old_reported_somatic_variants):
@@ -42,27 +66,34 @@ class MigrateReports3To4(BaseMigration):
         if new_allele_origin:
             new_reported_somatic_variants.alleleOrigins.append(new_allele_origin)
 
-        new_reported_somatic_variants.reportedVariantCancer.reportEvents = self.convert_collection(
-            old_reported_variant_cancer.reportEvents, self.migrate_report_event_cancer)
+        if old_reported_variant_cancer.reportEvents is not None:
+            new_report_events_cancer = [
+                self.migrate_report_event_cancer(event) for event in old_reported_variant_cancer.reportEvents
+            ]
+        new_reported_somatic_variants.reportedVariantCancer.reportEvents = new_report_events_cancer
 
         return self.validate_object(
             object_to_validate=new_reported_somatic_variants, object_type=self.new_model.ReportedSomaticVariants
         )
 
     def migrate_action(self, action):
-        new_action = self.convert_class(self.new_model.Actions, action)
+        new_action = self.new_model.Actions().fromJsonDict(jsonDict=action.toJsonDict())
         new_action.variantActionable = action.variantActionable or False
         return self.validate_object(
             object_to_validate=new_action, object_type=self.new_model.Actions
         )
 
+    def migrate_actions(self, actions):
+        if actions is not None:
+            return [self.migrate_action(action=action) for action in actions]
+        return None
+
     def migrate_report_event_cancer(self, old_report_event_cancer):
 
-        # TODO: use convert_collection()
         new_report_event_cancer = self.new_model.ReportEventCancer(
             eventJustification='',
             soTerms=[],
-            actions=self.convert_collection(old_report_event_cancer.actions, self.migrate_action),
+            actions=self.migrate_actions(actions=old_report_event_cancer.actions),
             genomicFeatureCancer=old_report_event_cancer.genomicFeatureCancer,
             tier=old_report_event_cancer.tier,
             reportEventId='RE' + str(self.re_counter) if old_report_event_cancer.reportEventId in ['None', '']
@@ -95,18 +126,18 @@ class MigrateReports3To4(BaseMigration):
             analysisUri=old_interpretation_request.analysisURI,
             analysisVersion=old_interpretation_request.analysisVersion,
             annotationFile=self.migrate_file(old_interpretation_request.annotationFile),
-            bams=self.convert_collection(old_interpretation_request.BAMs, self.migrate_file),
-            bigWigs=self.convert_collection(old_interpretation_request.bigWigs, self.migrate_file),
+            bams=self.migrate_files(old_interpretation_request.BAMs),
+            bigWigs=self.migrate_files(old_interpretation_request.bigWigs),
             cancerParticipant=m.migrate_cancer_participant(old_interpretation_request.cancerParticipant),
             internalStudyId="1",
             interpretGenome=old_interpretation_request.interpretGenome,
             reportRequestId=old_interpretation_request.reportRequestId,
             reportVersion=old_interpretation_request.reportVersion,
             structuralTieredVariants=old_interpretation_request.structuralTieredVariants,
-            tieredVariants=self.convert_collection(
-                old_interpretation_request.TieredVariants, self.migrate_reported_somatic_variants),
+            tieredVariants=[
+                self.migrate_reported_somatic_variants(v) for v in old_interpretation_request.TieredVariants],
             tieringVersion=old_interpretation_request.TieringVersion,
-            vcfs=self.convert_collection(old_interpretation_request.VCFs, self.migrate_file),
+            vcfs=self.migrate_files(old_interpretation_request.VCFs),
             workspace=old_interpretation_request.workspace,
         )
         # new_cancer_interpretation_request.bigWigs = []
@@ -124,32 +155,61 @@ class MigrateReports3To4(BaseMigration):
         :rtype: reports_4_0_0.ClinicalReportRD
         """
         new_clinical_report_rd = self.convert_class(self.new_model.ClinicalReportRD, old_clinical_report_rd)
-        # new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
-        new_clinical_report_rd.candidateVariants = self.convert_collection(
-            old_clinical_report_rd.candidateVariants, self.migrate_reported_variant)
-        new_clinical_report_rd.candidateStructuralVariants = self.convert_collection(
-            old_clinical_report_rd.candidateStructuralVariants, self.migrate_reported_structural_variant)
+
+        new_clinical_report_rd.interpretationRequestId = old_clinical_report_rd.interpretationRequestID
+
+        if old_clinical_report_rd.candidateVariants is not None:
+            new_clinical_report_rd.candidateVariants = self.migrate_reported_variants(
+                old_reported_variants=old_clinical_report_rd.candidateVariants
+            )
+        else:
+            new_clinical_report_rd.candidateVariants = None
+
+        new_clinical_report_rd.candidateStructuralVariants = self.migrate_reported_structural_variants(
+            old_reported_structural_variants=old_clinical_report_rd.candidateStructuralVariants
+        )
 
         return self.validate_object(
             object_to_validate=new_clinical_report_rd, object_type=self.new_model.InterpretedGenomeRD
         )
 
     def migrate_reported_variant(self, old_reported_variant):
-        new_tiered_variant = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
-        new_tiered_variant.reportEvents = self.convert_collection(
-            old_reported_variant.reportEvents, self.migrate_report_event)
+        new_tiered_variant = self.new_model.ReportedVariant.fromJsonDict(old_reported_variant.toJsonDict())
+        new_tiered_variant.dbSnpId = old_reported_variant.dbSNPid
+        new_tiered_variant.reportEvents = self.migrate_report_events(
+            old_report_events=old_reported_variant.reportEvents
+        )
         return self.validate_object(object_to_validate=new_tiered_variant, object_type=self.new_model.ReportedVariant)
+
+    def migrate_reported_variants(self, old_reported_variants):
+        if old_reported_variants is not None:
+            return [
+                self.migrate_reported_variant(
+                    old_reported_variant=old_reported_variant
+                ) for old_reported_variant in old_reported_variants
+            ]
+        return None
 
     def migrate_reported_structural_variant(self, old_reported_structural_variant):
         new_reported_structural_variant = self.new_model.ReportedStructuralVariant.fromJsonDict(
             old_reported_structural_variant.toJsonDict()
         )
-        new_reported_structural_variant.reportEvents = self.convert_collection(
-            old_reported_structural_variant.reportEvents, self.migrate_report_event)
+        new_reported_structural_variant.reportEvents = self.migrate_report_events(
+            old_report_events=old_reported_structural_variant.reportEvents
+        )
 
         return self.validate_object(
             object_to_validate=new_reported_structural_variant, object_type=self.new_model.ReportedStructuralVariant
         )
+
+    def migrate_reported_structural_variants(self, old_reported_structural_variants):
+        if old_reported_structural_variants is None:
+            return None
+        return [
+            self.migrate_reported_structural_variant(
+                old_reported_structural_variant=old_reported_structural_variant
+            ) for old_reported_structural_variant in old_reported_structural_variants
+        ]
 
     def migrate_interpreted_genome_rd(self, old_instance):
         """
@@ -161,16 +221,21 @@ class MigrateReports3To4(BaseMigration):
         new_instance.interpretationRequestId = old_instance.InterpretationRequestID
         new_instance.reportUrl = old_instance.reportURL
         new_instance.reportUri = old_instance.reportURI
-        new_instance.reportedVariants = self.convert_collection(
-            old_instance.reportedVariants, self.migrate_reported_variant)
-        new_instance.reportedStructuralVariants = self.convert_collection(
-            old_instance.reportedStructuralVariants, self.migrate_reported_structural_variant)
+
+        new_instance.reportedVariants = self.migrate_reported_variants(
+            old_reported_variants=old_instance.reportedVariants
+        )
+
+        new_instance.reportedStructuralVariants = self.migrate_reported_structural_variants(
+            old_reported_structural_variants=old_instance.reportedStructuralVariants
+        )
+
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD
         )
 
     def migrate_report_event(self, old_report_event):
-        new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
+        new_report_event = self.new_model.ReportEvent.fromJsonDict(old_report_event.toJsonDict())
         old_classification = self.old_model.VariantClassification
         new_classification = self.new_model.VariantClassification
         variant_classification_map = {
@@ -184,7 +249,24 @@ class MigrateReports3To4(BaseMigration):
             old_report_event.variantClassification, new_classification.not_assessed
         )
 
+        new_report_event.genomicFeature = self.migrate_genomic_feature(
+            old_genomic_feature=old_report_event.genomicFeature)
+
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
+
+    def migrate_genomic_feature(self, old_genomic_feature):
+        new_genomic_feature = self.new_model.GenomicFeature()
+        new_genomic_feature.featureType = old_genomic_feature.featureType
+        new_genomic_feature.ensemblId = old_genomic_feature.ensemblId
+        new_genomic_feature.hgnc = old_genomic_feature.HGNC
+        new_genomic_feature.otherIds = old_genomic_feature.other_ids
+
+        return self.validate_object(object_to_validate=new_genomic_feature, object_type=self.new_model.GenomicFeature)
+
+    def migrate_report_events(self, old_report_events):
+        if old_report_events is not None:
+            return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
+        return None
 
     def migrate_tiered_variant(self, old_instance):
         """
@@ -197,22 +279,36 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(
             self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
-        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self.migrate_report_event)
+        new_instance.dbSnpId = old_instance.dbSNPid
+        if old_instance.reportEvents is not None:
+            new_instance.reportEvents = [self.migrate_report_event(x) for x in old_instance.reportEvents]
+
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
         )
 
+    def migrate_tiered_variants(self, old_tiered_variants):
+        if old_tiered_variants is not None:
+            return [
+                self.migrate_tiered_variant(old_instance=old_tiered_variant)
+                for old_tiered_variant in old_tiered_variants
+            ]
+        return None
+
     def migrate_interpretation_request_rd(self, old_instance):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
 
-        new_instance.bams = self.convert_collection(old_instance.BAMs, self.migrate_file)
-        new_instance.vcfs = self.convert_collection(old_instance.VCFs, self.migrate_file)
-        new_instance.bigWigs = self.convert_collection(old_instance.bigWigs, self.migrate_file)
+        new_instance.interpretationRequestId = old_instance.InterpretationRequestID
+        new_instance.interpretationRequestVersion = old_instance.InterpretationRequestVersion
+        new_instance.bams = self.migrate_files(old_files=old_instance.BAMs)
+        new_instance.vcfs = self.migrate_files(old_files=old_instance.VCFs)
+        new_instance.bigWigs = self.migrate_files(old_files=old_instance.bigWigs)
         new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
         new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
-        new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self.migrate_file)
-        new_instance.tieredVariants = self.convert_collection(
-            old_instance.TieredVariants, self.migrate_tiered_variant)
+        new_instance.otherFiles = self.migrate_files(old_files=old_instance.otherFiles)
+        new_instance.tieredVariants = self.migrate_tiered_variants(old_tiered_variants=old_instance.TieredVariants)
+        new_instance.tieringVersion = old_instance.TieringVersion
+        new_instance.analysisReturnUri = old_instance.analysisReturnURI
         new_instance.pedigree = MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_instance.pedigree)
         new_instance.internalStudyId = ''
 
@@ -221,7 +317,6 @@ class MigrateReports3To4(BaseMigration):
         )
 
     def migrate_file(self, old_file):
-        # TODO: confirm if we need this migration at all
         if old_file is None:
             return None
         if isinstance(old_file.SampleId, list):
@@ -239,3 +334,10 @@ class MigrateReports3To4(BaseMigration):
         return self.validate_object(
             object_to_validate=new_file, object_type=self.new_model.File
         )
+
+    def migrate_files(self, old_files):
+        if isinstance(old_files, list):
+            return None if old_files is None else [self.migrate_file(old_file=old_file) for old_file in old_files]
+        elif isinstance(old_files, dict):
+            return None if old_files is None else \
+                {key: self.migrate_file(old_file=old_file) for (key, old_file) in old_files.items()}

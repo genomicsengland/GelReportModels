@@ -1,9 +1,8 @@
 import logging
 from protocols import reports_2_1_0, reports_3_0_0 as reports_3_0_0
-from protocols.migration.base_migration import BaseMigration
 
 
-class Migration2_1To3(BaseMigration):
+class Migration2_1To3(object):
     new_model = reports_3_0_0
     old_model = reports_2_1_0
 
@@ -34,7 +33,7 @@ class Migration2_1To3(BaseMigration):
         :type member: reports_2_1_0.RDParticipant
         :rtype: reports_3_0_0.RDParticipant
         """
-        new_rd_participant = self.convert_class(self.new_model.RDParticipant, member)
+        new_rd_participant = self.new_model.RDParticipant.fromJsonDict(member.toJsonDict())
         new_rd_participant.versionControl = reports_3_0_0.VersionControl()
         if member.additionalInformation:
             if 'yearOfBirth' in member.additionalInformation:
@@ -52,7 +51,7 @@ class Migration2_1To3(BaseMigration):
         :type called_genotype: reports_2_1_0.CalledGenotype
         """
 
-        new_called_genotype = self.convert_class(self.new_model.CalledGenotype, called_genotype)
+        new_called_genotype = self.new_model.CalledGenotype.fromJsonDict(called_genotype.toJsonDict())
         if new_called_genotype.validate(new_called_genotype.toJsonDict()):
             return new_called_genotype
         else:
@@ -89,7 +88,7 @@ class Migration2_1To3(BaseMigration):
         :rtype: reports_3_0_0.ReportEvent
         """
 
-        new_report_event = self.convert_class(self.new_model.ReportEvent, report_event)
+        new_report_event = self.new_model.ReportEvent.fromJsonDict(report_event.toJsonDict())
         new_report_event.genomicFeature = self.migrate_genomic_feature(report_event.genomicFeature)
 
         if new_report_event.validate(new_report_event.toJsonDict()):
@@ -104,7 +103,7 @@ class Migration2_1To3(BaseMigration):
         :rtype: reports_3_0_0.ReportedVariant
         """
 
-        new_reported_variant = self.convert_class(self.new_model.ReportedVariant, reported_variant)
+        new_reported_variant = self.new_model.ReportedVariant.fromJsonDict(reported_variant.toJsonDict())
 
         if reported_variant.calledGenotypes is not None:
             new_reported_variant.calledGenotypes = [
@@ -150,7 +149,7 @@ class Migration2_1To3(BaseMigration):
         :rtype: reports_3_0_0.InterpretedGenomeRD
         """
 
-        new_interpreted_genome = self.convert_class(self.new_model.InterpretedGenomeRD, interpreted_genome)
+        new_interpreted_genome = self.new_model.InterpretedGenomeRD.fromJsonDict(interpreted_genome.toJsonDict())
         if interpreted_genome.reportedVariants is not None:
             new_interpreted_genome.reportedVariants = [
                 self.migrate_reported_variant(reported_variant)
@@ -175,7 +174,7 @@ class Migration2_1To3(BaseMigration):
         :rtype: reports_3_0_0.InterpretationRequestRD
         """
 
-        new_interpretation_request = self.convert_class(self.new_model.InterpretationRequestRD, interpretation_request)
+        new_interpretation_request = self.new_model.InterpretationRequestRD.fromJsonDict(interpretation_request.toJsonDict())
         new_interpretation_request.pedigree = self.migrate_pedigree(interpretation_request.pedigree)
         new_interpretation_request.versionControl = reports_3_0_0.VersionControl()
         if interpretation_request.TieredVariants is not None:
@@ -194,7 +193,7 @@ class Migration2_1To3(BaseMigration):
         :rtype: reports_3_0_0.ClinicalReportRD
         """
 
-        new_clinical_report = self.convert_class(self.new_model.ClinicalReportRD, clinical_report)
+        new_clinical_report = self.new_model.ClinicalReportRD.fromJsonDict(clinical_report.toJsonDict())
 
         if clinical_report.candidateVariants is not None:
             new_clinical_report.candidateVariants = [self.migrate_reported_variant(reported_variant)

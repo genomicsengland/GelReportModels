@@ -31,29 +31,6 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         old_model.Tier.TIER4: new_model.Tier.NONE,
         old_model.Tier.TIER5: new_model.Tier.NONE,
     }
-    genotype_map = {
-        old_model.Zygosity.reference_homozygous: new_model.Zygosity.reference_homozygous,
-        old_model.Zygosity.heterozygous: new_model.Zygosity.heterozygous,
-        old_model.Zygosity.alternate_homozygous: new_model.Zygosity.alternate_homozygous,
-        old_model.Zygosity.missing: new_model.Zygosity.missing,
-        old_model.Zygosity.half_missing_reference: new_model.Zygosity.half_missing_reference,
-        old_model.Zygosity.half_missing_alternate: new_model.Zygosity.half_missing_alternate,
-        old_model.Zygosity.alternate_hemizigous: new_model.Zygosity.alternate_hemizigous,
-        old_model.Zygosity.reference_hemizigous: new_model.Zygosity.reference_hemizigous,
-        old_model.Zygosity.unk: new_model.Zygosity.unk,
-    }
-    feature_type_map = {
-        old_model.GenomicEntityType.transcript: new_model.FeatureTypes.Transcript,
-        old_model.GenomicEntityType.regulatory_region: new_model.FeatureTypes.RegulatoryRegion,
-        old_model.GenomicEntityType.gene: new_model.FeatureTypes.Gene,
-    }
-    variant_classification_map = {
-        old_model.ClinicalSignificance.benign: new_model.VariantClassification.benign_variant,
-        old_model.ClinicalSignificance.likely_benign: new_model.VariantClassification.likely_benign_variant,
-        old_model.ClinicalSignificance.VUS: new_model.VariantClassification.variant_of_unknown_clinical_significance,
-        old_model.ClinicalSignificance.likely_pathogenic: new_model.VariantClassification.likely_pathogenic_variant,
-        old_model.ClinicalSignificance.pathogenic: new_model.VariantClassification.pathogenic_variant,
-    }
 
     def migrate_interpretation_request_rd(self, old_instance, old_ig, cip=None):
         """
@@ -73,7 +50,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if new_instance.vcfs is None:
             new_instance.vcfs = []
         # grabs the list of variants from the interpreted genome
-        new_instance.tieredVariants = self.convert_collection(old_ig.variants, self.migrate_reported_variant)
+        new_instance.tieredVariants = self.migrate_reported_variants(old_reported_variants=old_ig.variants)
         new_instance.tieringVersion = old_ig.softwareVersions.get("tiering", "")
         new_instance.complexGeneticPhenomena = None  # cannot fill this one, but it has never been used
         new_instance.analysisReturnUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
@@ -99,7 +76,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if new_instance.reportUrl is None:
             new_instance.reportUrl = ""
         new_instance.reportUri = ""
-        new_instance.reportedVariants = self.convert_collection(old_instance.variants, self.migrate_reported_variant)
+        new_instance.reportedVariants = self.migrate_reported_variants(old_reported_variants=old_instance.variants)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
     def migrate_clinical_report_rd(self, old_instance):
@@ -112,9 +89,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = str(old_instance.interpretationRequestVersion)
         # references has been renamed to supportingEvidence
         new_instance.supportingEvidence = old_instance.references
-        new_instance.candidateVariants = self.convert_collection(old_instance.variants, self.migrate_reported_variant)
-        new_instance.additionalAnalysisPanels = self.convert_collection(
-            old_instance.additionalAnalysisPanels, self.migrate_analysis_panel)
+        new_instance.candidateVariants = self.migrate_reported_variants(old_reported_variants=old_instance.variants)
+        new_instance.additionalAnalysisPanels = self.migrate_analysis_panels(
+            old_panels=old_instance.additionalAnalysisPanels)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
     def migrate_exit_questionnaire_rd(self, old_instance):
@@ -126,6 +103,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         return self.validate_object(object_to_validate=new_instance,
                                     object_type=self.new_model.RareDiseaseExitQuestionnaire)
 
+    def migrate_analysis_panels(self, old_panels):
+        if not old_panels:
+            return old_panels
+        return [self.migrate_analysis_panel(old_panel=panel) for panel in old_panels]
+
     def migrate_analysis_panel(self, old_panel):
         new_panel = self.new_model.AdditionalAnalysisPanel(
             panelVersion=old_panel.panel.panelVersion,
@@ -133,6 +115,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             specificDisease=old_panel.specificDisease,
         )
         return self.validate_object(object_to_validate=new_panel, object_type=self.new_model.AdditionalAnalysisPanel)
+
+    def migrate_reported_variants(self, old_reported_variants):
+        if old_reported_variants is None:
+            return old_reported_variants
+        return [self.migrate_reported_variant(old_reported_variant=old_variant) for old_variant in old_reported_variants]
 
     def migrate_reported_variant(self, old_reported_variant):
         new_reported_variant = self.new_model.ReportedVariant(
@@ -146,10 +133,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             comments=old_reported_variant.comments,
         )
 
-        new_reported_variant.calledGenotypes = self.convert_collection(
-            old_reported_variant.variantCalls, self.migrate_variant_call_to_called_genotype)
-        new_reported_variant.reportEvents = self.convert_collection(
-            old_reported_variant.reportEvents, self.migrate_report_event)
+        new_reported_variant.calledGenotypes = self.migrate_variant_calls_to_called_genotypes(old_reported_variant.variantCalls)
+
+        new_reported_variant.reportEvents = self.migrate_report_events(old_reported_variant.reportEvents)
 
         new_reported_variant.additionalNumericVariantAnnotations = self.merge_annotations_and_frequencies(
             old_reported_variant.additionalNumericVariantAnnotations, old_reported_variant.alleleFrequencies,
@@ -176,12 +162,16 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         return numeric_annotations
 
     def migrate_genomic_entity_to_feature(self, entity):
-
-        feature_type = self.feature_type_map.get(entity.type, self.new_model.FeatureTypes.Gene)
+        feature_type_map = {
+            self.old_model.GenomicEntityType.regulatory_region: self.new_model.FeatureTypes.RegulatoryRegion,
+            self.old_model.GenomicEntityType.gene: self.new_model.FeatureTypes.Gene,
+            self.old_model.GenomicEntityType.transcript: self.new_model.FeatureTypes.Transcript,
+        }
+        feature_type = feature_type_map.get(entity.type, self.new_model.FeatureTypes.Gene)
         if feature_type != entity.type:
             logging.warning(
                 "{} can not be migrated to a feature type, as it is not one of: {} so is being migrated to {}".format(
-                    entity.type, self.feature_type_map.keys(), self.new_model.FeatureTypes.Gene
+                    entity.type, feature_type_map.keys(), self.new_model.FeatureTypes.Gene
                 )
             )
         genomic_feature = self.new_model.GenomicFeature(
@@ -208,8 +198,15 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 if len(old_report_event.genomicEntities) > 1:
                     logging.warning("{} genomic entities are being lost in the migration".format(len(old_report_event.genomicEntities)-1))
 
+        variant_classification_map = {
+            self.old_model.ClinicalSignificance.benign: self.new_model.VariantClassification.benign_variant,
+            self.old_model.ClinicalSignificance.likely_benign: self.new_model.VariantClassification.likely_benign_variant,
+            self.old_model.ClinicalSignificance.VUS: self.new_model.VariantClassification.variant_of_unknown_clinical_significance,
+            self.old_model.ClinicalSignificance.likely_pathogenic: self.new_model.VariantClassification.likely_pathogenic_variant,
+            self.old_model.ClinicalSignificance.pathogenic: self.new_model.VariantClassification.pathogenic_variant,
+        }
         if old_report_event.variantClassification:
-            new_report_event.variantClassification = self.variant_classification_map.get(
+            new_report_event.variantClassification = variant_classification_map.get(
                 old_report_event.variantClassification.clinicalSignificance,
                 self.new_model.VariantClassification.not_assessed
             )
@@ -223,22 +220,51 @@ class MigrateReports500To400(BaseMigrateReports400And500):
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
+    def migrate_report_events(self, old_report_events):
+        return [
+            self.migrate_report_event(old_report_event=old_report_event)
+            for old_report_event in old_report_events
+        ]
+
+    def migrate_variant_calls_to_called_genotypes(self, old_variant_calls):
+        return [
+            self.migrate_variant_call_to_called_genotype(variant_call=variant_call)
+            for variant_call in old_variant_calls
+        ]
+
     def migrate_variant_call_to_called_genotype(self, variant_call):
 
-        new_called_genotype = self.convert_class(self.new_model.CalledGenotype, variant_call)
-        genotype = self.genotype_map.get(variant_call.zygosity, self.new_model.Zygosity.unk)
+        genotype_map = {
+            self.old_model.Zygosity.reference_homozygous: self.new_model.Zygosity.reference_homozygous,
+            self.old_model.Zygosity.heterozygous: self.new_model.Zygosity.heterozygous,
+            self.old_model.Zygosity.alternate_homozygous: self.new_model.Zygosity.alternate_homozygous,
+            self.old_model.Zygosity.missing: self.new_model.Zygosity.missing,
+            self.old_model.Zygosity.half_missing_reference: self.new_model.Zygosity.half_missing_reference,
+            self.old_model.Zygosity.half_missing_alternate: self.new_model.Zygosity.half_missing_alternate,
+            self.old_model.Zygosity.alternate_hemizigous: self.new_model.Zygosity.alternate_hemizigous,
+            self.old_model.Zygosity.reference_hemizigous: self.new_model.Zygosity.reference_hemizigous,
+            self.old_model.Zygosity.unk: self.new_model.Zygosity.unk,
+        }
+        genotype = genotype_map.get(variant_call.zygosity, self.new_model.Zygosity.unk)
         if variant_call.zygosity != genotype:
             logging.warning("Can not migrate variant call to genotype when zygosity is: {} so migrating to {}".format(
                 variant_call.zygosity, self.new_model.Zygosity.unk,
             ))
-        new_called_genotype.genotype = genotype
-        new_called_genotype.gelId = variant_call.participantId
+
+        new_called_genotype = self.new_model.CalledGenotype(
+            gelId=variant_call.participantId,
+            sampleId=variant_call.sampleId,
+            genotype=genotype,
+            phaseSet=variant_call.phaseSet,
+            depthReference=variant_call.depthReference,
+            depthAlternate=variant_call.depthAlternate,
+        )
         return self.validate_object(object_to_validate=new_called_genotype, object_type=self.new_model.CalledGenotype)
 
     def migrate_cancer_interpreted_genome(self, old_instance):
-        new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)
-        new_instance.reportedVariants = self.convert_collection(
-            old_instance.variants, self.migrate_reported_variant_cancer_to_reported_somatic_variant)
+        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(jsonDict=old_instance.toJsonDict())
+
+        new_instance.reportedVariants = self.migrate_reported_variants_cancer(old_instance.variants)
         new_instance.reportRequestId = old_instance.interpretationRequestId
         new_instance.reportUri = old_instance.reportUrl or ""
         new_instance.analysisId = ""
@@ -255,8 +281,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_pedigree=old_interpretation_request.pedigree)
         new_instance.cellbaseVersion = ""
         new_instance.interpretGenome = False
-        new_instance.tieredVariants = self.convert_collection(
-            old_interpreted_genome.variants, self.migrate_reported_variant)
+        new_instance.tieredVariants = self.migrate_reported_variants(old_reported_variants=old_interpreted_genome.variants)
         new_instance.tieringVersion = ""
         new_instance.analysisReturnUri = ""
 
@@ -293,9 +318,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
         new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
-        new_instance.tieredVariants = self.convert_collection(
-            old_interpreted_genome.variants, self.migrate_reported_variant_cancer_to_reported_somatic_variant)
+        new_instance.tieredVariants = self.migrate_reported_variants_cancer(old_variants=old_interpreted_genome.variants)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest)
+
+    def migrate_reported_variants_cancer(self, old_variants):
+        return [self.migrate_reported_variant_cancer_to_reported_somatic_variant(old_variant=old_variant) for old_variant in old_variants]
 
     def migrate_reported_variant_cancer_to_reported_somatic_variant(self, old_variant):
         """
@@ -303,6 +330,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         """
         new_instance = self.convert_class(target_klass=self.new_model.ReportedSomaticVariants, instance=old_variant)
         new_instance.reportedVariantCancer = self.migrate_reported_variant_cancer(old_rvc=old_variant)
+        new_instance.alleleOrigins = old_variant.alleleOrigins
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedSomaticVariants)
 
     def migrate_reported_variant_cancer(self, old_rvc):
@@ -314,8 +342,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             new_instance.cDnaChange = next((e for e in old_rvc.cdnaChanges), None)
         if old_rvc.proteinChanges:
             new_instance.proteinChange = next((e for e in old_rvc.proteinChanges), None)
-        new_instance.reportEvents = self.convert_collection(
-            old_rvc.reportEvents, self.migrate_report_event_cancer)
+        new_instance.reportEvents = self.migrate_report_events_cancer(old_RECs=old_rvc.reportEvents)
         new_instance.chromosome = old_rvc.variantCoordinates.chromosome
         new_instance.position = old_rvc.variantCoordinates.position
         new_instance.reference = old_rvc.variantCoordinates.reference
@@ -346,19 +373,23 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 new_instance.additionalTextualVariantAnnotations['fdp50'] = old_rvc.variantAttributes.fdp50
             if old_rvc.variantAttributes.others:
                 new_instance.additionalTextualVariantAnnotations.update(old_rvc.variantAttributes.others)
-        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedSomaticVariants)
+
+    def migrate_report_events_cancer(self, old_RECs):
+        return [self.migrate_report_event_cancer(old_rec=old_rec) for old_rec in old_RECs]
 
     def migrate_report_event_cancer(self, old_rec):
         new_instance = self.convert_class(target_klass=self.new_model.ReportEventCancer, instance=old_rec)
         new_instance.tier = self.tier_map.get(old_rec.tier)
-        new_instance.soTerms = self.convert_collection(
-            old_rec.variantConsequences, self.migrate_variant_consequence_to_so_term)
+        new_instance.soTerms = self.migrate_variant_consequences_to_so_terms(old_consequences=old_rec.variantConsequences)
         new_instance.genomicFeatureCancer = self.migrate_genomic_entities_to_genomic_feature_cancer(
             genomic_entities=old_rec.genomicEntities,
         )
-        new_instance.actions = self.convert_collection(
-            old_rec.actions, self.migrate_action)
+        new_instance.actions = self.migrate_actions(old_rec.actions)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer)
+
+    def migrate_variant_consequences_to_so_terms(self, old_consequences):
+        return [self.migrate_variant_consequence_to_so_term(vc=vc) for vc in old_consequences]
 
     def migrate_variant_consequence_to_so_term(self, vc):
         so_term = self.new_model.SoTerm(id=vc.id)
@@ -388,12 +419,21 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.GenomicFeatureCancer)
 
     def migrate_genomic_entity_type_to_feature_type(self, old_type):
-
-        if old_type not in self.feature_type_map.keys():
+        feature_type_map = {
+            self.old_model.GenomicEntityType.transcript: self.new_model.FeatureTypes.Transcript,
+            self.old_model.GenomicEntityType.regulatory_region: self.new_model.FeatureTypes.RegulatoryRegion,
+            self.old_model.GenomicEntityType.gene: self.new_model.FeatureTypes.Gene,
+        }
+        if old_type not in feature_type_map.keys():
             msg = "GenomicEntityType: {ge_type} is being replaced with {rep} as an equivalent does not exist "
             msg += "in reports_4_0_0 FeatureTypes"
             logging.warning(msg=msg.format(ge_type=old_type, rep=self.new_model.FeatureTypes.Gene))
-        return self.feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
+        return feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
+
+    def migrate_actions(self, old_actions):
+        if old_actions is None:
+            return None
+        return [self.migrate_action(old_action=old_action) for old_action in old_actions]
 
     def migrate_action(self, old_action):
         new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_action)
@@ -404,6 +444,5 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
         new_instance.interpretationRequestVersion = str(old_instance.interpretationRequestVersion)
         new_instance.genePanelsCoverage = {}
-        new_instance.candidateVariants = self.convert_collection(
-            old_instance.variants, self.migrate_reported_variant_cancer_to_reported_somatic_variant)
+        new_instance.candidateVariants = self.migrate_reported_variants_cancer(old_variants=old_instance.variants)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)

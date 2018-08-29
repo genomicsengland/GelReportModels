@@ -2,8 +2,6 @@ from __future__ import print_function
 import logging
 
 from protocols import reports_5_0_0, reports_6_0_0, reports_4_0_0
-from protocols.util import handle_avro_errors
-from pprint import pprint
 
 
 class MigrationError(Exception):
@@ -25,10 +23,14 @@ class BaseMigration(object):
         if object_to_validate.validate(jsonDict=object_to_validate.toJsonDict()):
             return object_to_validate
         else:
+            from protocols.util import handle_avro_errors
+            from pprint import pprint
             pprint(handle_avro_errors(object_to_validate.validate_parts()))
+
             for message in object_to_validate.validate(object_to_validate.toJsonDict(), verbose=True).messages:
                 print("---------------")
                 print(message)
+
             raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
 
     @staticmethod
@@ -59,15 +61,8 @@ class BaseMigration(object):
                 return None
 
     @staticmethod
-    def convert_collection(things, migrate_function, default=None, **kwargs):
-        if things is None:
-            return default
-        elif isinstance(things, list):
-            return [migrate_function(thing, **kwargs) for thing in things]
-        elif isinstance(things, dict):
-            return {k: migrate_function(v, **kwargs) for (k, v) in things.items()}
-        else:
-            raise MigrationError("Trying to migrate things of unsupport type {}".format(type(things)))
+    def migrate_list_of_things(things, migrate_function, default=None, **kwargs):
+        return default if things is None else [migrate_function(thing, **kwargs) for thing in things]
 
 
 class BaseMigrateReports500And600(BaseMigration):
