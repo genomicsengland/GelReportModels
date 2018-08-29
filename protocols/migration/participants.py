@@ -91,14 +91,15 @@ class MigrationParticipants110To100(BaseMigration):
     def migrate_hpo(self, old_instance):
         new_instance = self.convert_class(self.new_model.HpoTerm, old_instance)
         new_instance.modifiers = {}
-        if old_instance.modifiers.laterality is not None:
-            new_instance.modifiers['laterality'] = old_instance.modifiers.laterality
-        if old_instance.modifiers.progression is not None:
-            new_instance.modifiers['progression'] = old_instance.modifiers.progression
-        if old_instance.modifiers.severity is not None:
-            new_instance.modifiers['severity'] = old_instance.modifiers.severity
-        if old_instance.modifiers.spatialPattern is not None:
-            new_instance.modifiers['spatialPattern'] = old_instance.modifiers.spatialPattern
+        if old_instance.modifiers is not None:
+            if old_instance.modifiers.laterality is not None:
+                new_instance.modifiers['laterality'] = old_instance.modifiers.laterality
+            if old_instance.modifiers.progression is not None:
+                new_instance.modifiers['progression'] = old_instance.modifiers.progression
+            if old_instance.modifiers.severity is not None:
+                new_instance.modifiers['severity'] = old_instance.modifiers.severity
+            if old_instance.modifiers.spatialPattern is not None:
+                new_instance.modifiers['spatialPattern'] = old_instance.modifiers.spatialPattern
         return new_instance
 
     def migrate_disorder(self, old_instance):
