@@ -35,14 +35,14 @@ class MigrateReports3ToParticipant1(BaseMigration):
         new_cancer_participant.readyForAnalysis = True
 
         if old_cancer_participant.cancerSamples is not None:
-            germline_samples = filter(lambda s: s.sampleType == self.old_model.SampleType.germline,
-                                      old_cancer_participant.cancerSamples)
+            germline_samples = list(filter(lambda s: s.sampleType == self.old_model.SampleType.germline,
+                                      old_cancer_participant.cancerSamples))
         new_cancer_participant.germlineSamples = self.convert_collection(
             germline_samples, self.migrate_germline_sample)
 
         if old_cancer_participant.cancerSamples is not None:
-            tumor_samples = filter(lambda s: s.sampleType == self.old_model.SampleType.tumor,
-                                   old_cancer_participant.cancerSamples)
+            tumor_samples = list(filter(lambda s: s.sampleType == self.old_model.SampleType.tumor,
+                                   old_cancer_participant.cancerSamples))
         new_cancer_participant.tumourSamples = self.convert_collection(
             tumor_samples, self.migrate_tumor_sample)
 

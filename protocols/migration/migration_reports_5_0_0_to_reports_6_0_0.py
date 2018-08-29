@@ -190,9 +190,9 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         is_tier2 = tier == self.new_model.Tier.TIER2
         is_tier3 = tier == self.new_model.Tier.TIER3
         new_report_event.variantConsequences = list(map(
-            lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), filter(
+            lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), list(filter(
                 lambda c: (is_tier1 and c in self.tier1_consequence_types) or \
-                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types)))
+                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types))))
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
