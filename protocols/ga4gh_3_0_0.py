@@ -24,13 +24,13 @@ class Call(ProtocolElement):
     call set with the name NA12345.
     """
     _schemaSource = """
-{"type": "record", "name": "Call", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name":
-"callSetName", "type": ["null", "string"], "doc": "", "default": null}, {"name": "callSetId",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "genotype", "type": {"type":
-"array", "items": "int"}, "doc": "", "default": []}, {"name": "phaseset", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "genotypeLikelihood", "type": {"type": "array",
-"items": "double"}, "doc": "", "default": []}, {"name": "info", "type": {"type": "map", "values":
-{"type": "array", "items": "string"}}, "doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Call", "fields": [{"default": null,
+"doc": "", "type": ["null", "string"], "name": "callSetName"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "callSetId"}, {"default": [], "doc": "", "type": {"items": "int",
+"type": "array"}, "name": "genotype"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "phaseset"}, {"default": [], "doc": "", "type": {"items": "double", "type": "array"},
+"name": "genotypeLikelihood"}, {"default": {}, "doc": "", "type": {"values": {"items": "string",
+"type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -73,13 +73,13 @@ class CallSet(ProtocolElement):
     column in VCF.
     """
     _schemaSource = """
-{"type": "record", "name": "CallSet", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "name", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "sampleId", "type": ["null", "string"], "doc": ""}, {"name":
-"variantSetIds", "type": {"type": "array", "items": "string"}, "doc": "", "default": []}, {"name":
-"created", "type": ["null", "long"], "doc": "", "default": null}, {"name": "updated", "type":
-["null", "long"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map", "values":
-{"type": "array", "items": "string"}}, "doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "CallSet", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"name"}, {"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"default": [], "doc": "",
+"type": {"items": "string", "type": "array"}, "name": "variantSetIds"}, {"default": null, "doc": "",
+"type": ["null", "long"], "name": "created"}, {"default": null, "doc": "", "type": ["null", "long"],
+"name": "updated"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type":
+"array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -181,11 +181,11 @@ class CigarUnit(ProtocolElement):
     A structure for an instance of a CIGAR operation.
     """
     _schemaSource = """
-{"type": "record", "name": "CigarUnit", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "operation", "type": {"type": "enum", "name": "CigarOperation", "doc": "", "symbols":
-["ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH",
-"SEQUENCE_MISMATCH"]}, "doc": ""}, {"name": "operationLength", "type": "long", "doc": ""}, {"name":
-"referenceSequence", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "CigarUnit", "fields": [{"doc": "",
+"type": {"symbols": ["ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD",
+"SEQUENCE_MATCH", "SEQUENCE_MISMATCH"], "doc": "", "type": "enum", "name": "CigarOperation"},
+"name": "operation"}, {"doc": "", "type": "long", "name": "operationLength"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "referenceSequence"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -231,9 +231,9 @@ class Dataset(ProtocolElement):
     with a clinical study.
     """
     _schemaSource = """
-{"type": "record", "name": "Dataset", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "description", "type": ["null", "string"],
-"doc": "", "default": null}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Dataset", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"description"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -267,20 +267,20 @@ class Experiment(ProtocolElement):
     An experimental preparation of a `Sample`.
     """
     _schemaSource = """
-{"type": "record", "name": "Experiment", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "name", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "description", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "recordCreateTime", "type": "string", "doc": ""}, {"name": "recordUpdateTime",
-"type": "string", "doc": ""}, {"name": "runTime", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "molecule", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"strategy", "type": ["null", "string"], "doc": "", "default": null}, {"name": "selection", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "library", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "libraryLayout", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "instrumentModel", "type": ["null", "string"], "doc": ""}, {"name":
-"instrumentDataFile", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"sequencingCenter", "type": ["null", "string"], "doc": ""}, {"name": "platformUnit", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map", "values":
-{"type": "array", "items": "string"}}, "doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Experiment", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"name"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "description"}, {"doc":
+"", "type": "string", "name": "recordCreateTime"}, {"doc": "", "type": "string", "name":
+"recordUpdateTime"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "runTime"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "molecule"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "strategy"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "selection"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "library"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"libraryLayout"}, {"doc": "", "type": ["null", "string"], "name": "instrumentModel"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "instrumentDataFile"}, {"doc": "", "type":
+["null", "string"], "name": "sequencingCenter"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "platformUnit"}, {"default": {}, "doc": "", "type": {"values": {"items":
+"string", "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -350,9 +350,9 @@ class ExternalIdentifier(ProtocolElement):
     Identifier from a public database
     """
     _schemaSource = """
-{"type": "record", "name": "ExternalIdentifier", "namespace": "org.ga4gh.models", "doc": "",
-"fields": [{"name": "database", "type": "string", "doc": ""}, {"name": "identifier", "type":
-"string", "doc": ""}, {"name": "version", "type": "string", "doc": ""}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ExternalIdentifier", "fields": [{"doc":
+"", "type": "string", "name": "database"}, {"doc": "", "type": "string", "name": "identifier"},
+{"doc": "", "type": "string", "name": "version"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -392,8 +392,8 @@ class Fragment(ProtocolElement):
     derive from the same molecule.
     """
     _schemaSource = """
-{"type": "record", "name": "Fragment", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Fragment", "fields": [{"doc": "",
+"type": "string", "name": "id"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -425,9 +425,9 @@ class GAException(ProtocolElement):
     A general exception type.
     """
     _schemaSource = """
-{"type": "error", "name": "GAException", "namespace": "org.ga4gh.methods", "doc": "", "fields":
-[{"name": "message", "type": "string", "doc": ""}, {"name": "errorCode", "type": "int", "doc": "",
-"default": -1}]}
+{"namespace": "org.ga4gh.methods", "type": "error", "name": "GAException", "fields": [{"doc": "",
+"type": "string", "name": "message"}, {"default": -1, "doc": "", "type": "int", "name":
+"errorCode"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -461,17 +461,17 @@ class LinearAlignment(ProtocolElement):
     A linear alignment can be represented by one CIGAR string.
     """
     _schemaSource = """
-{"type": "record", "name": "LinearAlignment", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "position", "type": {"type": "record", "name": "Position", "doc": "", "fields": [{"name":
-"referenceName", "type": "string", "doc": ""}, {"name": "position", "type": "long", "doc": ""},
-{"name": "strand", "type": {"type": "enum", "name": "Strand", "doc": "", "symbols": ["NEG_STRAND",
-"POS_STRAND"]}, "doc": ""}]}, "doc": ""}, {"name": "mappingQuality", "type": ["null", "int"], "doc":
-"", "default": null}, {"name": "cigar", "type": {"type": "array", "items": {"type": "record",
-"name": "CigarUnit", "doc": "", "fields": [{"name": "operation", "type": {"type": "enum", "name":
-"CigarOperation", "doc": "", "symbols": ["ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT",
-"CLIP_HARD", "PAD", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH"]}, "doc": ""}, {"name": "operationLength",
-"type": "long", "doc": ""}, {"name": "referenceSequence", "type": ["null", "string"], "doc": "",
-"default": null}]}}, "doc": "", "default": []}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "LinearAlignment", "fields": [{"doc":
+"", "type": {"doc": "", "type": "record", "name": "Position", "fields": [{"doc": "", "type":
+"string", "name": "referenceName"}, {"doc": "", "type": "long", "name": "position"}, {"doc": "",
+"type": {"symbols": ["NEG_STRAND", "POS_STRAND"], "doc": "", "type": "enum", "name": "Strand"},
+"name": "strand"}]}, "name": "position"}, {"default": null, "doc": "", "type": ["null", "int"],
+"name": "mappingQuality"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "CigarUnit", "fields": [{"doc": "", "type": {"symbols": ["ALIGNMENT_MATCH",
+"INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH"],
+"doc": "", "type": "enum", "name": "CigarOperation"}, "name": "operation"}, {"doc": "", "type":
+"long", "name": "operationLength"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"referenceSequence"}]}, "type": "array"}, "name": "cigar"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -515,10 +515,10 @@ class ListReferenceBasesRequest(ProtocolElement):
     /references/{id}/bases?start=100&end=200`
     """
     _schemaSource = """
-{"type": "record", "name": "ListReferenceBasesRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "start", "type": "long", "doc": "", "default": 0}, {"name": "end", "type":
-["null", "long"], "doc": "", "default": null}, {"name": "pageToken", "type": ["null", "string"],
-"doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "ListReferenceBasesRequest", "fields":
+[{"default": 0, "doc": "", "type": "long", "name": "start"}, {"default": null, "doc": "", "type":
+["null", "long"], "name": "end"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -552,10 +552,10 @@ class ListReferenceBasesResponse(ProtocolElement):
     The response from `GET /references/{id}/bases` expressed as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "ListReferenceBasesResponse", "namespace": "org.ga4gh.methods", "doc":
-"", "fields": [{"name": "offset", "type": "long", "doc": "", "default": 0}, {"name": "sequence",
-"type": "string", "doc": ""}, {"name": "nextPageToken", "type": ["null", "string"], "doc": "",
-"default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "ListReferenceBasesResponse", "fields":
+[{"default": 0, "doc": "", "type": "long", "name": "offset"}, {"doc": "", "type": "string", "name":
+"sequence"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -593,10 +593,10 @@ class Position(ProtocolElement):
     on that `Reference` (0-based).
     """
     _schemaSource = """
-{"type": "record", "name": "Position", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "referenceName", "type": "string", "doc": ""}, {"name": "position", "type": "long", "doc":
-""}, {"name": "strand", "type": {"type": "enum", "name": "Strand", "doc": "", "symbols":
-["NEG_STRAND", "POS_STRAND"]}, "doc": ""}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Position", "fields": [{"doc": "",
+"type": "string", "name": "referenceName"}, {"doc": "", "type": "long", "name": "position"}, {"doc":
+"", "type": {"symbols": ["NEG_STRAND", "POS_STRAND"], "doc": "", "type": "enum", "name": "Strand"},
+"name": "strand"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -634,11 +634,11 @@ class Program(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "Program", "namespace": "org.ga4gh.models", "fields": [{"name":
-"commandLine", "type": ["null", "string"], "doc": "", "default": null}, {"name": "id", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "name", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "prevProgramId", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "version", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Program", "fields": [{"default": null,
+"doc": "", "type": ["null", "string"], "name": "commandLine"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"name"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "version"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -678,32 +678,32 @@ class ReadAlignment(ProtocolElement):
     object is equivalent to a line in a SAM file.
     """
     _schemaSource = """
-{"type": "record", "name": "ReadAlignment", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": ["null", "string"], "doc": ""}, {"name": "readGroupId", "type": "string",
-"doc": ""}, {"name": "fragmentId", "type": "string", "doc": ""}, {"name": "fragmentName", "type":
-"string", "doc": ""}, {"name": "properPlacement", "type": ["null", "boolean"], "doc": "", "default":
-null}, {"name": "duplicateFragment", "type": ["null", "boolean"], "doc": "", "default": null},
-{"name": "numberReads", "type": ["null", "int"], "doc": "", "default": null}, {"name":
-"fragmentLength", "type": ["null", "int"], "doc": "", "default": null}, {"name": "readNumber",
-"type": ["null", "int"], "doc": "", "default": null}, {"name": "failedVendorQualityChecks", "type":
-["null", "boolean"], "doc": "", "default": null}, {"name": "alignment", "type": ["null", {"type":
-"record", "name": "LinearAlignment", "doc": "", "fields": [{"name": "position", "type": {"type":
-"record", "name": "Position", "doc": "", "fields": [{"name": "referenceName", "type": "string",
-"doc": ""}, {"name": "position", "type": "long", "doc": ""}, {"name": "strand", "type": {"type":
-"enum", "name": "Strand", "doc": "", "symbols": ["NEG_STRAND", "POS_STRAND"]}, "doc": ""}]}, "doc":
-""}, {"name": "mappingQuality", "type": ["null", "int"], "doc": "", "default": null}, {"name":
-"cigar", "type": {"type": "array", "items": {"type": "record", "name": "CigarUnit", "doc": "",
-"fields": [{"name": "operation", "type": {"type": "enum", "name": "CigarOperation", "doc": "",
-"symbols": ["ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD",
-"SEQUENCE_MATCH", "SEQUENCE_MISMATCH"]}, "doc": ""}, {"name": "operationLength", "type": "long",
-"doc": ""}, {"name": "referenceSequence", "type": ["null", "string"], "doc": "", "default":
-null}]}}, "doc": "", "default": []}]}], "doc": "", "default": null}, {"name": "secondaryAlignment",
-"type": ["null", "boolean"], "doc": "", "default": null}, {"name": "supplementaryAlignment", "type":
-["null", "boolean"], "doc": "", "default": null}, {"name": "alignedSequence", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "alignedQuality", "type": {"type": "array",
-"items": "int"}, "doc": "", "default": []}, {"name": "nextMatePosition", "type": ["null",
-"Position"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map", "values":
-{"type": "array", "items": "string"}}, "doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ReadAlignment", "fields": [{"doc": "",
+"type": ["null", "string"], "name": "id"}, {"doc": "", "type": "string", "name": "readGroupId"},
+{"doc": "", "type": "string", "name": "fragmentId"}, {"doc": "", "type": "string", "name":
+"fragmentName"}, {"default": null, "doc": "", "type": ["null", "boolean"], "name":
+"properPlacement"}, {"default": null, "doc": "", "type": ["null", "boolean"], "name":
+"duplicateFragment"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "numberReads"},
+{"default": null, "doc": "", "type": ["null", "int"], "name": "fragmentLength"}, {"default": null,
+"doc": "", "type": ["null", "int"], "name": "readNumber"}, {"default": null, "doc": "", "type":
+["null", "boolean"], "name": "failedVendorQualityChecks"}, {"default": null, "doc": "", "type":
+["null", {"doc": "", "type": "record", "name": "LinearAlignment", "fields": [{"doc": "", "type":
+{"doc": "", "type": "record", "name": "Position", "fields": [{"doc": "", "type": "string", "name":
+"referenceName"}, {"doc": "", "type": "long", "name": "position"}, {"doc": "", "type": {"symbols":
+["NEG_STRAND", "POS_STRAND"], "doc": "", "type": "enum", "name": "Strand"}, "name": "strand"}]},
+"name": "position"}, {"default": null, "doc": "", "type": ["null", "int"], "name":
+"mappingQuality"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record",
+"name": "CigarUnit", "fields": [{"doc": "", "type": {"symbols": ["ALIGNMENT_MATCH", "INSERT",
+"DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH"], "doc":
+"", "type": "enum", "name": "CigarOperation"}, "name": "operation"}, {"doc": "", "type": "long",
+"name": "operationLength"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"referenceSequence"}]}, "type": "array"}, "name": "cigar"}]}], "name": "alignment"}, {"default":
+null, "doc": "", "type": ["null", "boolean"], "name": "secondaryAlignment"}, {"default": null,
+"doc": "", "type": ["null", "boolean"], "name": "supplementaryAlignment"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "alignedSequence"}, {"default": [], "doc": "", "type":
+{"items": "int", "type": "array"}, "name": "alignedQuality"}, {"default": null, "doc": "", "type":
+["null", "Position"], "name": "nextMatePosition"}, {"default": {}, "doc": "", "type": {"values":
+{"items": "string", "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -781,38 +781,39 @@ class ReadGroup(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "ReadGroup", "namespace": "org.ga4gh.models", "fields": [{"name": "id",
-"type": "string", "doc": ""}, {"name": "datasetId", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "name", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"description", "type": ["null", "string"], "doc": "", "default": null}, {"name": "sampleId", "type":
-["null", "string"], "doc": ""}, {"name": "experiment", "type": ["null", {"type": "record", "name":
-"Experiment", "doc": "", "fields": [{"name": "id", "type": "string", "doc": ""}, {"name": "name",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "description", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "recordCreateTime", "type": "string", "doc": ""},
-{"name": "recordUpdateTime", "type": "string", "doc": ""}, {"name": "runTime", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "molecule", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "strategy", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "selection", "type": ["null", "string"], "doc": "", "default": null}, {"name": "library",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "libraryLayout", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "instrumentModel", "type": ["null", "string"],
-"doc": ""}, {"name": "instrumentDataFile", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "sequencingCenter", "type": ["null", "string"], "doc": ""}, {"name": "platformUnit",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map",
-"values": {"type": "array", "items": "string"}}, "doc": "", "default": {}}]}], "doc": ""}, {"name":
-"predictedInsertSize", "type": ["null", "int"], "doc": "", "default": null}, {"name": "created",
-"type": ["null", "long"], "doc": "", "default": null}, {"name": "updated", "type": ["null", "long"],
-"doc": "", "default": null}, {"name": "stats", "type": ["null", {"type": "record", "name":
-"ReadStats", "fields": [{"name": "alignedReadCount", "type": ["null", "long"], "doc": "", "default":
-null}, {"name": "unalignedReadCount", "type": ["null", "long"], "doc": "", "default": null},
-{"name": "baseCount", "type": ["null", "long"], "doc": "", "default": null}]}], "doc": "",
-"default": null}, {"name": "programs", "type": {"type": "array", "items": {"type": "record", "name":
-"Program", "fields": [{"name": "commandLine", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "id", "type": ["null", "string"], "doc": "", "default": null}, {"name": "name",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "prevProgramId", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "version", "type": ["null", "string"], "doc": "",
-"default": null}]}}, "doc": "", "default": []}, {"name": "referenceSetId", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map", "values": {"type":
-"array", "items": "string"}}, "doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ReadGroup", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"datasetId"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type": ["null",
+"string"], "name": "sampleId"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
+"Experiment", "fields": [{"doc": "", "type": "string", "name": "id"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "name"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "description"}, {"doc": "", "type": "string", "name": "recordCreateTime"},
+{"doc": "", "type": "string", "name": "recordUpdateTime"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "runTime"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "molecule"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "strategy"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "selection"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "library"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "libraryLayout"}, {"doc": "", "type": ["null", "string"], "name":
+"instrumentModel"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"instrumentDataFile"}, {"doc": "", "type": ["null", "string"], "name": "sequencingCenter"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "platformUnit"}, {"default": {},
+"doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"}, "name":
+"info"}]}], "name": "experiment"}, {"default": null, "doc": "", "type": ["null", "int"], "name":
+"predictedInsertSize"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "created"},
+{"default": null, "doc": "", "type": ["null", "long"], "name": "updated"}, {"default": null, "doc":
+"", "type": ["null", {"fields": [{"default": null, "doc": "", "type": ["null", "long"], "name":
+"alignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"unalignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "baseCount"}],
+"type": "record", "name": "ReadStats"}], "name": "stats"}, {"default": [], "doc": "", "type":
+{"items": {"fields": [{"default": null, "doc": "", "type": ["null", "string"], "name":
+"commandLine"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "id"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "prevProgramId"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "version"}], "type": "record", "name": "Program"}, "type": "array"}, "name":
+"programs"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "referenceSetId"},
+{"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"},
+"name": "info"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -880,43 +881,43 @@ class ReadGroupSet(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "ReadGroupSet", "namespace": "org.ga4gh.models", "fields": [{"name":
-"id", "type": "string", "doc": ""}, {"name": "datasetId", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "name", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"stats", "type": ["null", {"type": "record", "name": "ReadStats", "fields": [{"name":
-"alignedReadCount", "type": ["null", "long"], "doc": "", "default": null}, {"name":
-"unalignedReadCount", "type": ["null", "long"], "doc": "", "default": null}, {"name": "baseCount",
-"type": ["null", "long"], "doc": "", "default": null}]}], "doc": "", "default": null}, {"name":
-"readGroups", "type": {"type": "array", "items": {"type": "record", "name": "ReadGroup", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "datasetId", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "name", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "description", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"sampleId", "type": ["null", "string"], "doc": ""}, {"name": "experiment", "type": ["null", {"type":
-"record", "name": "Experiment", "doc": "", "fields": [{"name": "id", "type": "string", "doc": ""},
-{"name": "name", "type": ["null", "string"], "doc": "", "default": null}, {"name": "description",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "recordCreateTime", "type":
-"string", "doc": ""}, {"name": "recordUpdateTime", "type": "string", "doc": ""}, {"name": "runTime",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "molecule", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "strategy", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "selection", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "library", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"libraryLayout", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"instrumentModel", "type": ["null", "string"], "doc": ""}, {"name": "instrumentDataFile", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "sequencingCenter", "type": ["null",
-"string"], "doc": ""}, {"name": "platformUnit", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items": "string"}},
-"doc": "", "default": {}}]}], "doc": ""}, {"name": "predictedInsertSize", "type": ["null", "int"],
-"doc": "", "default": null}, {"name": "created", "type": ["null", "long"], "doc": "", "default":
-null}, {"name": "updated", "type": ["null", "long"], "doc": "", "default": null}, {"name": "stats",
-"type": ["null", "ReadStats"], "doc": "", "default": null}, {"name": "programs", "type": {"type":
-"array", "items": {"type": "record", "name": "Program", "fields": [{"name": "commandLine", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "id", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "name", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "prevProgramId", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"version", "type": ["null", "string"], "doc": "", "default": null}]}}, "doc": "", "default": []},
-{"name": "referenceSetId", "type": ["null", "string"], "doc": "", "default": null}, {"name": "info",
-"type": {"type": "map", "values": {"type": "array", "items": "string"}}, "doc": "", "default":
-{}}]}}, "doc": "", "default": []}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ReadGroupSet", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"datasetId"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default":
+null, "doc": "", "type": ["null", {"fields": [{"default": null, "doc": "", "type": ["null", "long"],
+"name": "alignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"unalignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "baseCount"}],
+"type": "record", "name": "ReadStats"}], "name": "stats"}, {"default": [], "doc": "", "type":
+{"items": {"fields": [{"doc": "", "type": "string", "name": "id"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "datasetId"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "name"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"description"}, {"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type":
+["null", {"doc": "", "type": "record", "name": "Experiment", "fields": [{"doc": "", "type":
+"string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"string", "name": "recordCreateTime"}, {"doc": "", "type": "string", "name": "recordUpdateTime"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "runTime"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "molecule"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "strategy"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "selection"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "library"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "libraryLayout"}, {"doc": "",
+"type": ["null", "string"], "name": "instrumentModel"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "instrumentDataFile"}, {"doc": "", "type": ["null", "string"], "name":
+"sequencingCenter"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"platformUnit"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"},
+"type": "map"}, "name": "info"}]}], "name": "experiment"}, {"default": null, "doc": "", "type":
+["null", "int"], "name": "predictedInsertSize"}, {"default": null, "doc": "", "type": ["null",
+"long"], "name": "created"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"updated"}, {"default": null, "doc": "", "type": ["null", "ReadStats"], "name": "stats"},
+{"default": [], "doc": "", "type": {"items": {"fields": [{"default": null, "doc": "", "type":
+["null", "string"], "name": "commandLine"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "version"}], "type": "record", "name": "Program"}, "type":
+"array"}, "name": "programs"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"referenceSetId"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type":
+"array"}, "type": "map"}, "name": "info"}], "type": "record", "name": "ReadGroup"}, "type":
+"array"}, "name": "readGroups"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -962,10 +963,10 @@ class ReadStats(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "ReadStats", "namespace": "org.ga4gh.models", "fields": [{"name":
-"alignedReadCount", "type": ["null", "long"], "doc": "", "default": null}, {"name":
-"unalignedReadCount", "type": ["null", "long"], "doc": "", "default": null}, {"name": "baseCount",
-"type": ["null", "long"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ReadStats", "fields": [{"default":
+null, "doc": "", "type": ["null", "long"], "name": "alignedReadCount"}, {"default": null, "doc": "",
+"type": ["null", "long"], "name": "unalignedReadCount"}, {"default": null, "doc": "", "type":
+["null", "long"], "name": "baseCount"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1002,14 +1003,14 @@ class Reference(ProtocolElement):
     instance.  `Reference`s are designed to be immutable.
     """
     _schemaSource = """
-{"type": "record", "name": "Reference", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "length", "type": "long", "doc": ""},
-{"name": "md5checksum", "type": "string", "doc": ""}, {"name": "name", "type": "string", "doc": ""},
-{"name": "sourceURI", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"sourceAccessions", "type": {"type": "array", "items": "string"}, "doc": ""}, {"name": "isDerived",
-"type": "boolean", "doc": "", "default": false}, {"name": "sourceDivergence", "type": ["null",
-"float"], "doc": "", "default": null}, {"name": "ncbiTaxonId", "type": ["null", "int"], "doc": "",
-"default": null}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Reference", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "long", "name": "length"}, {"doc": "", "type":
+"string", "name": "md5checksum"}, {"doc": "", "type": "string", "name": "name"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "sourceURI"}, {"doc": "", "type": {"items": "string",
+"type": "array"}, "name": "sourceAccessions"}, {"default": false, "doc": "", "type": "boolean",
+"name": "isDerived"}, {"default": null, "doc": "", "type": ["null", "float"], "name":
+"sourceDivergence"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "ncbiTaxonId"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1066,14 +1067,13 @@ class ReferenceSet(ProtocolElement):
     experimental data.
     """
     _schemaSource = """
-{"type": "record", "name": "ReferenceSet", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "md5checksum", "type": "string", "doc": ""},
-{"name": "ncbiTaxonId", "type": ["null", "int"], "doc": "", "default": null}, {"name":
-"description", "type": ["null", "string"], "doc": "", "default": null}, {"name": "assemblyId",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "sourceURI", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "sourceAccessions", "type": {"type": "array",
-"items": "string"}, "doc": ""}, {"name": "isDerived", "type": "boolean", "doc": "", "default":
-false}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "ReferenceSet", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "string", "name": "md5checksum"}, {"default":
+null, "doc": "", "type": ["null", "int"], "name": "ncbiTaxonId"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "description"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "assemblyId"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"sourceURI"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "sourceAccessions"},
+{"default": false, "doc": "", "type": "boolean", "name": "isDerived"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1122,10 +1122,11 @@ class SearchCallSetsRequest(SearchRequest):
     This request maps to the body of `POST /callsets/search` as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchCallSetsRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "variantSetId", "type": "string", "doc": ""}, {"name": "name", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "pageSize", "type": ["null", "int"], "doc": "",
-"default": null}, {"name": "pageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchCallSetsRequest", "fields":
+[{"doc": "", "type": "string", "name": "variantSetId"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "name"}, {"default": null, "doc": "", "type": ["null", "int"], "name":
+"pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc":
+""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1164,16 +1165,16 @@ class SearchCallSetsResponse(SearchResponse):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchCallSetsResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "callSets", "type": {"type": "array", "items": {"type": "record", "name":
-"CallSet", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type": "string",
-"doc": ""}, {"name": "name", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"sampleId", "type": ["null", "string"], "doc": ""}, {"name": "variantSetIds", "type": {"type":
-"array", "items": "string"}, "doc": "", "default": []}, {"name": "created", "type": ["null",
-"long"], "doc": "", "default": null}, {"name": "updated", "type": ["null", "long"], "doc": "",
-"default": null}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items":
-"string"}}, "doc": "", "default": {}}]}}, "doc": "", "default": []}, {"name": "nextPageToken",
-"type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchCallSetsResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "CallSet", "fields": [{"doc": "", "type": "string", "name": "id"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "name"}, {"doc": "", "type": ["null", "string"], "name":
+"sampleId"}, {"default": [], "doc": "", "type": {"items": "string", "type": "array"}, "name":
+"variantSetIds"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "created"},
+{"default": null, "doc": "", "type": ["null", "long"], "name": "updated"}, {"default": {}, "doc":
+"", "type": {"values": {"items": "string", "type": "array"}, "type": "map"}, "name": "info"}],
+"doc": ""}, "type": "array"}, "name": "callSets"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1210,9 +1211,9 @@ class SearchDatasetsRequest(SearchRequest):
     This request maps to the body of `POST /datasets/search` as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchDatasetsRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "pageSize", "type": ["null", "int"], "doc": "", "default": null}, {"name":
-"pageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchDatasetsRequest", "fields":
+[{"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1245,12 +1246,12 @@ class SearchDatasetsResponse(SearchResponse):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchDatasetsResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "datasets", "type": {"type": "array", "items": {"type": "record", "name":
-"Dataset", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type": "string",
-"doc": ""}, {"name": "description", "type": ["null", "string"], "doc": "", "default": null}]}},
-"doc": "", "default": []}, {"name": "nextPageToken", "type": ["null", "string"], "doc": "",
-"default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchDatasetsResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "Dataset", "fields": [{"doc": "", "type": "string", "name": "id"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "description"}], "doc": ""}, "type": "array"}, "name":
+"datasets"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1288,10 +1289,11 @@ class SearchReadGroupSetsRequest(SearchRequest):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReadGroupSetsRequest", "namespace": "org.ga4gh.methods", "doc":
-"", "fields": [{"name": "datasetId", "type": "string", "doc": ""}, {"name": "name", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "pageSize", "type": ["null", "int"], "doc": "",
-"default": null}, {"name": "pageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReadGroupSetsRequest", "fields":
+[{"doc": "", "type": "string", "name": "datasetId"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "name"}, {"default": null, "doc": "", "type": ["null", "int"], "name":
+"pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc":
+""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1330,45 +1332,46 @@ class SearchReadGroupSetsResponse(SearchResponse):
     as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReadGroupSetsResponse", "namespace": "org.ga4gh.methods", "doc":
-"", "fields": [{"name": "readGroupSets", "type": {"type": "array", "items": {"type": "record",
-"name": "ReadGroupSet", "namespace": "org.ga4gh.models", "fields": [{"name": "id", "type": "string",
-"doc": ""}, {"name": "datasetId", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"name", "type": ["null", "string"], "doc": "", "default": null}, {"name": "stats", "type": ["null",
-{"type": "record", "name": "ReadStats", "fields": [{"name": "alignedReadCount", "type": ["null",
-"long"], "doc": "", "default": null}, {"name": "unalignedReadCount", "type": ["null", "long"],
-"doc": "", "default": null}, {"name": "baseCount", "type": ["null", "long"], "doc": "", "default":
-null}]}], "doc": "", "default": null}, {"name": "readGroups", "type": {"type": "array", "items":
-{"type": "record", "name": "ReadGroup", "fields": [{"name": "id", "type": "string", "doc": ""},
-{"name": "datasetId", "type": ["null", "string"], "doc": "", "default": null}, {"name": "name",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "description", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "sampleId", "type": ["null", "string"], "doc": ""},
-{"name": "experiment", "type": ["null", {"type": "record", "name": "Experiment", "doc": "",
-"fields": [{"name": "id", "type": "string", "doc": ""}, {"name": "name", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "description", "type": ["null", "string"], "doc": "",
-"default": null}, {"name": "recordCreateTime", "type": "string", "doc": ""}, {"name":
-"recordUpdateTime", "type": "string", "doc": ""}, {"name": "runTime", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "molecule", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "strategy", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"selection", "type": ["null", "string"], "doc": "", "default": null}, {"name": "library", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "libraryLayout", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "instrumentModel", "type": ["null", "string"],
-"doc": ""}, {"name": "instrumentDataFile", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "sequencingCenter", "type": ["null", "string"], "doc": ""}, {"name": "platformUnit",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "info", "type": {"type": "map",
-"values": {"type": "array", "items": "string"}}, "doc": "", "default": {}}]}], "doc": ""}, {"name":
-"predictedInsertSize", "type": ["null", "int"], "doc": "", "default": null}, {"name": "created",
-"type": ["null", "long"], "doc": "", "default": null}, {"name": "updated", "type": ["null", "long"],
-"doc": "", "default": null}, {"name": "stats", "type": ["null", "ReadStats"], "doc": "", "default":
-null}, {"name": "programs", "type": {"type": "array", "items": {"type": "record", "name": "Program",
-"fields": [{"name": "commandLine", "type": ["null", "string"], "doc": "", "default": null}, {"name":
-"id", "type": ["null", "string"], "doc": "", "default": null}, {"name": "name", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "prevProgramId", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "version", "type": ["null", "string"], "doc": "", "default":
-null}]}}, "doc": "", "default": []}, {"name": "referenceSetId", "type": ["null", "string"], "doc":
-"", "default": null}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items":
-"string"}}, "doc": "", "default": {}}]}}, "doc": "", "default": []}]}}, "doc": "", "default": []},
-{"name": "nextPageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReadGroupSetsResponse",
+"fields": [{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type":
+"record", "name": "ReadGroupSet", "fields": [{"doc": "", "type": "string", "name": "id"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "datasetId"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "name"}, {"default": null, "doc": "", "type":
+["null", {"fields": [{"default": null, "doc": "", "type": ["null", "long"], "name":
+"alignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"unalignedReadCount"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "baseCount"}],
+"type": "record", "name": "ReadStats"}], "name": "stats"}, {"default": [], "doc": "", "type":
+{"items": {"fields": [{"doc": "", "type": "string", "name": "id"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "datasetId"}, {"default": null, "doc": "", "type": ["null",
+"string"], "name": "name"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"description"}, {"doc": "", "type": ["null", "string"], "name": "sampleId"}, {"doc": "", "type":
+["null", {"doc": "", "type": "record", "name": "Experiment", "fields": [{"doc": "", "type":
+"string", "name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "description"}, {"doc": "", "type":
+"string", "name": "recordCreateTime"}, {"doc": "", "type": "string", "name": "recordUpdateTime"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "runTime"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "molecule"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "strategy"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "selection"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "library"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "libraryLayout"}, {"doc": "",
+"type": ["null", "string"], "name": "instrumentModel"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "instrumentDataFile"}, {"doc": "", "type": ["null", "string"], "name":
+"sequencingCenter"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"platformUnit"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"},
+"type": "map"}, "name": "info"}]}], "name": "experiment"}, {"default": null, "doc": "", "type":
+["null", "int"], "name": "predictedInsertSize"}, {"default": null, "doc": "", "type": ["null",
+"long"], "name": "created"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"updated"}, {"default": null, "doc": "", "type": ["null", "ReadStats"], "name": "stats"},
+{"default": [], "doc": "", "type": {"items": {"fields": [{"default": null, "doc": "", "type":
+["null", "string"], "name": "commandLine"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "id"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "name"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "prevProgramId"}, {"default": null, "doc": "",
+"type": ["null", "string"], "name": "version"}], "type": "record", "name": "Program"}, "type":
+"array"}, "name": "programs"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"referenceSetId"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type":
+"array"}, "type": "map"}, "name": "info"}], "type": "record", "name": "ReadGroup"}, "type":
+"array"}, "name": "readGroups"}]}, "type": "array"}, "name": "readGroupSets"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1409,12 +1412,12 @@ class SearchReadsRequest(SearchRequest):
     same `ReferenceSet`.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReadsRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "readGroupIds", "type": {"type": "array", "items": "string"}, "doc": ""},
-{"name": "referenceId", "type": ["null", "string"], "doc": "", "default": null}, {"name": "start",
-"type": ["null", "long"], "doc": "", "default": null}, {"name": "end", "type": ["null", "long"],
-"doc": "", "default": null}, {"name": "pageSize", "type": ["null", "int"], "doc": "", "default":
-null}, {"name": "pageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReadsRequest", "fields":
+[{"doc": "", "type": {"items": "string", "type": "array"}, "name": "readGroupIds"}, {"default":
+null, "doc": "", "type": ["null", "string"], "name": "referenceId"}, {"default": null, "doc": "",
+"type": ["null", "long"], "name": "start"}, {"default": null, "doc": "", "type": ["null", "long"],
+"name": "end"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1457,35 +1460,35 @@ class SearchReadsResponse(SearchResponse):
     This is the response from `POST /reads/search` expressed as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReadsResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "alignments", "type": {"type": "array", "items": {"type": "record", "name":
-"ReadAlignment", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type":
-["null", "string"], "doc": ""}, {"name": "readGroupId", "type": "string", "doc": ""}, {"name":
-"fragmentId", "type": "string", "doc": ""}, {"name": "fragmentName", "type": "string", "doc": ""},
-{"name": "properPlacement", "type": ["null", "boolean"], "doc": "", "default": null}, {"name":
-"duplicateFragment", "type": ["null", "boolean"], "doc": "", "default": null}, {"name":
-"numberReads", "type": ["null", "int"], "doc": "", "default": null}, {"name": "fragmentLength",
-"type": ["null", "int"], "doc": "", "default": null}, {"name": "readNumber", "type": ["null",
-"int"], "doc": "", "default": null}, {"name": "failedVendorQualityChecks", "type": ["null",
-"boolean"], "doc": "", "default": null}, {"name": "alignment", "type": ["null", {"type": "record",
-"name": "LinearAlignment", "doc": "", "fields": [{"name": "position", "type": {"type": "record",
-"name": "Position", "doc": "", "fields": [{"name": "referenceName", "type": "string", "doc": ""},
-{"name": "position", "type": "long", "doc": ""}, {"name": "strand", "type": {"type": "enum", "name":
-"Strand", "doc": "", "symbols": ["NEG_STRAND", "POS_STRAND"]}, "doc": ""}]}, "doc": ""}, {"name":
-"mappingQuality", "type": ["null", "int"], "doc": "", "default": null}, {"name": "cigar", "type":
-{"type": "array", "items": {"type": "record", "name": "CigarUnit", "doc": "", "fields": [{"name":
-"operation", "type": {"type": "enum", "name": "CigarOperation", "doc": "", "symbols":
-["ALIGNMENT_MATCH", "INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH",
-"SEQUENCE_MISMATCH"]}, "doc": ""}, {"name": "operationLength", "type": "long", "doc": ""}, {"name":
-"referenceSequence", "type": ["null", "string"], "doc": "", "default": null}]}}, "doc": "",
-"default": []}]}], "doc": "", "default": null}, {"name": "secondaryAlignment", "type": ["null",
-"boolean"], "doc": "", "default": null}, {"name": "supplementaryAlignment", "type": ["null",
-"boolean"], "doc": "", "default": null}, {"name": "alignedSequence", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "alignedQuality", "type": {"type": "array", "items": "int"},
-"doc": "", "default": []}, {"name": "nextMatePosition", "type": ["null", "Position"], "doc": "",
-"default": null}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items":
-"string"}}, "doc": "", "default": {}}]}}, "doc": "", "default": []}, {"name": "nextPageToken",
-"type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReadsResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "ReadAlignment", "fields": [{"doc": "", "type": ["null", "string"], "name": "id"}, {"doc":
+"", "type": "string", "name": "readGroupId"}, {"doc": "", "type": "string", "name": "fragmentId"},
+{"doc": "", "type": "string", "name": "fragmentName"}, {"default": null, "doc": "", "type": ["null",
+"boolean"], "name": "properPlacement"}, {"default": null, "doc": "", "type": ["null", "boolean"],
+"name": "duplicateFragment"}, {"default": null, "doc": "", "type": ["null", "int"], "name":
+"numberReads"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "fragmentLength"},
+{"default": null, "doc": "", "type": ["null", "int"], "name": "readNumber"}, {"default": null,
+"doc": "", "type": ["null", "boolean"], "name": "failedVendorQualityChecks"}, {"default": null,
+"doc": "", "type": ["null", {"doc": "", "type": "record", "name": "LinearAlignment", "fields":
+[{"doc": "", "type": {"doc": "", "type": "record", "name": "Position", "fields": [{"doc": "",
+"type": "string", "name": "referenceName"}, {"doc": "", "type": "long", "name": "position"}, {"doc":
+"", "type": {"symbols": ["NEG_STRAND", "POS_STRAND"], "doc": "", "type": "enum", "name": "Strand"},
+"name": "strand"}]}, "name": "position"}, {"default": null, "doc": "", "type": ["null", "int"],
+"name": "mappingQuality"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type":
+"record", "name": "CigarUnit", "fields": [{"doc": "", "type": {"symbols": ["ALIGNMENT_MATCH",
+"INSERT", "DELETE", "SKIP", "CLIP_SOFT", "CLIP_HARD", "PAD", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH"],
+"doc": "", "type": "enum", "name": "CigarOperation"}, "name": "operation"}, {"doc": "", "type":
+"long", "name": "operationLength"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"referenceSequence"}]}, "type": "array"}, "name": "cigar"}]}], "name": "alignment"}, {"default":
+null, "doc": "", "type": ["null", "boolean"], "name": "secondaryAlignment"}, {"default": null,
+"doc": "", "type": ["null", "boolean"], "name": "supplementaryAlignment"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "alignedSequence"}, {"default": [], "doc": "", "type":
+{"items": "int", "type": "array"}, "name": "alignedQuality"}, {"default": null, "doc": "", "type":
+["null", "Position"], "name": "nextMatePosition"}, {"default": {}, "doc": "", "type": {"values":
+{"items": "string", "type": "array"}, "type": "map"}, "name": "info"}], "doc": ""}, "type":
+"array"}, "name": "alignments"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1523,12 +1526,12 @@ class SearchReferenceSetsRequest(SearchRequest):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReferenceSetsRequest", "namespace": "org.ga4gh.methods", "doc":
-"", "fields": [{"name": "md5checksums", "type": {"type": "array", "items": "string"}, "doc": "",
-"default": []}, {"name": "accessions", "type": {"type": "array", "items": "string"}, "doc": "",
-"default": []}, {"name": "assemblyId", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "pageSize", "type": ["null", "int"], "doc": "", "default": null}, {"name": "pageToken",
-"type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReferenceSetsRequest", "fields":
+[{"default": [], "doc": "", "type": {"items": "string", "type": "array"}, "name": "md5checksums"},
+{"default": [], "doc": "", "type": {"items": "string", "type": "array"}, "name": "accessions"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "assemblyId"}, {"default": null,
+"doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1568,16 +1571,16 @@ class SearchReferenceSetsResponse(SearchResponse):
     as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReferenceSetsResponse", "namespace": "org.ga4gh.methods", "doc":
-"", "fields": [{"name": "referenceSets", "type": {"type": "array", "items": {"type": "record",
-"name": "ReferenceSet", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id",
-"type": "string", "doc": ""}, {"name": "md5checksum", "type": "string", "doc": ""}, {"name":
-"ncbiTaxonId", "type": ["null", "int"], "doc": "", "default": null}, {"name": "description", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "assemblyId", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "sourceURI", "type": ["null", "string"], "doc": "", "default":
-null}, {"name": "sourceAccessions", "type": {"type": "array", "items": "string"}, "doc": ""},
-{"name": "isDerived", "type": "boolean", "doc": "", "default": false}]}}, "doc": "", "default": []},
-{"name": "nextPageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReferenceSetsResponse",
+"fields": [{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type":
+"record", "name": "ReferenceSet", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc":
+"", "type": "string", "name": "md5checksum"}, {"default": null, "doc": "", "type": ["null", "int"],
+"name": "ncbiTaxonId"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"description"}, {"default": null, "doc": "", "type": ["null", "string"], "name": "assemblyId"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "sourceURI"}, {"doc": "", "type":
+{"items": "string", "type": "array"}, "name": "sourceAccessions"}, {"default": false, "doc": "",
+"type": "boolean", "name": "isDerived"}], "doc": ""}, "type": "array"}, "name": "referenceSets"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1615,12 +1618,12 @@ class SearchReferencesRequest(SearchRequest):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReferencesRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "referenceSetId", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "md5checksums", "type": {"type": "array", "items": "string"}, "doc": "", "default": []},
-{"name": "accessions", "type": {"type": "array", "items": "string"}, "doc": "", "default": []},
-{"name": "pageSize", "type": ["null", "int"], "doc": "", "default": null}, {"name": "pageToken",
-"type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReferencesRequest", "fields":
+[{"default": null, "doc": "", "type": ["null", "string"], "name": "referenceSetId"}, {"default": [],
+"doc": "", "type": {"items": "string", "type": "array"}, "name": "md5checksums"}, {"default": [],
+"doc": "", "type": {"items": "string", "type": "array"}, "name": "accessions"}, {"default": null,
+"doc": "", "type": ["null", "int"], "name": "pageSize"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1660,16 +1663,16 @@ class SearchReferencesResponse(SearchResponse):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchReferencesResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "references", "type": {"type": "array", "items": {"type": "record", "name":
-"Reference", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type": "string",
-"doc": ""}, {"name": "length", "type": "long", "doc": ""}, {"name": "md5checksum", "type": "string",
-"doc": ""}, {"name": "name", "type": "string", "doc": ""}, {"name": "sourceURI", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "sourceAccessions", "type": {"type": "array",
-"items": "string"}, "doc": ""}, {"name": "isDerived", "type": "boolean", "doc": "", "default":
-false}, {"name": "sourceDivergence", "type": ["null", "float"], "doc": "", "default": null},
-{"name": "ncbiTaxonId", "type": ["null", "int"], "doc": "", "default": null}]}}, "doc": "",
-"default": []}, {"name": "nextPageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchReferencesResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "Reference", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type":
+"long", "name": "length"}, {"doc": "", "type": "string", "name": "md5checksum"}, {"doc": "", "type":
+"string", "name": "name"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"sourceURI"}, {"doc": "", "type": {"items": "string", "type": "array"}, "name": "sourceAccessions"},
+{"default": false, "doc": "", "type": "boolean", "name": "isDerived"}, {"default": null, "doc": "",
+"type": ["null", "float"], "name": "sourceDivergence"}, {"default": null, "doc": "", "type":
+["null", "int"], "name": "ncbiTaxonId"}], "doc": ""}, "type": "array"}, "name": "references"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1707,10 +1710,10 @@ class SearchVariantSetsRequest(SearchRequest):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchVariantSetsRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "datasetId", "type": "string", "doc": ""}, {"name": "pageSize", "type": ["null",
-"int"], "doc": "", "default": null}, {"name": "pageToken", "type": ["null", "string"], "doc": "",
-"default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchVariantSetsRequest", "fields":
+[{"doc": "", "type": "string", "name": "datasetId"}, {"default": null, "doc": "", "type": ["null",
+"int"], "name": "pageSize"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1747,18 +1750,18 @@ class SearchVariantSetsResponse(SearchResponse):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchVariantSetsResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "variantSets", "type": {"type": "array", "items": {"type": "record", "name":
-"VariantSet", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type":
-"string", "doc": ""}, {"name": "datasetId", "type": "string", "doc": ""}, {"name": "referenceSetId",
-"type": "string", "doc": ""}, {"name": "metadata", "type": {"type": "array", "items": {"type":
-"record", "name": "VariantSetMetadata", "doc": "", "fields": [{"name": "key", "type": "string",
-"doc": ""}, {"name": "value", "type": "string", "doc": ""}, {"name": "id", "type": "string", "doc":
-""}, {"name": "type", "type": "string", "doc": ""}, {"name": "number", "type": "string", "doc": ""},
-{"name": "description", "type": "string", "doc": ""}, {"name": "info", "type": {"type": "map",
-"values": {"type": "array", "items": "string"}}, "doc": "", "default": {}}]}}, "doc": "", "default":
-[]}]}}, "doc": "", "default": []}, {"name": "nextPageToken", "type": ["null", "string"], "doc": "",
-"default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchVariantSetsResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "VariantSet", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type":
+"string", "name": "datasetId"}, {"doc": "", "type": "string", "name": "referenceSetId"}, {"default":
+[], "doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantSetMetadata",
+"fields": [{"doc": "", "type": "string", "name": "key"}, {"doc": "", "type": "string", "name":
+"value"}, {"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": "string", "name":
+"type"}, {"doc": "", "type": "string", "name": "number"}, {"doc": "", "type": "string", "name":
+"description"}, {"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"},
+"type": "map"}, "name": "info"}]}, "type": "array"}, "name": "metadata"}], "doc": ""}, "type":
+"array"}, "name": "variantSets"}, {"default": null, "doc": "", "type": ["null", "string"], "name":
+"nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1795,12 +1798,12 @@ class SearchVariantsRequest(SearchRequest):
     This request maps to the body of `POST /variants/search` as JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchVariantsRequest", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "variantSetId", "type": "string", "doc": ""}, {"name": "callSetIds", "type":
-["null", {"type": "array", "items": "string"}], "doc": "", "default": null}, {"name":
-"referenceName", "type": "string", "doc": ""}, {"name": "start", "type": "long", "doc": ""},
-{"name": "end", "type": "long", "doc": ""}, {"name": "pageSize", "type": ["null", "int"], "doc": "",
-"default": null}, {"name": "pageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchVariantsRequest", "fields":
+[{"doc": "", "type": "string", "name": "variantSetId"}, {"default": null, "doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "callSetIds"}, {"doc": "", "type": "string",
+"name": "referenceName"}, {"doc": "", "type": "long", "name": "start"}, {"doc": "", "type": "long",
+"name": "end"}, {"default": null, "doc": "", "type": ["null", "int"], "name": "pageSize"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "pageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1849,25 +1852,25 @@ class SearchVariantsResponse(SearchResponse):
     JSON.
     """
     _schemaSource = """
-{"type": "record", "name": "SearchVariantsResponse", "namespace": "org.ga4gh.methods", "doc": "",
-"fields": [{"name": "variants", "type": {"type": "array", "items": {"type": "record", "name":
-"Variant", "namespace": "org.ga4gh.models", "doc": "", "fields": [{"name": "id", "type": "string",
-"doc": ""}, {"name": "variantSetId", "type": "string", "doc": ""}, {"name": "names", "type":
-{"type": "array", "items": "string"}, "doc": "", "default": []}, {"name": "created", "type":
-["null", "long"], "doc": "", "default": null}, {"name": "updated", "type": ["null", "long"], "doc":
-"", "default": null}, {"name": "referenceName", "type": "string", "doc": ""}, {"name": "start",
-"type": "long", "doc": ""}, {"name": "end", "type": "long", "doc": ""}, {"name": "referenceBases",
-"type": "string", "doc": ""}, {"name": "alternateBases", "type": {"type": "array", "items":
-"string"}, "doc": "", "default": []}, {"name": "info", "type": {"type": "map", "values": {"type":
-"array", "items": "string"}}, "doc": "", "default": {}}, {"name": "calls", "type": {"type": "array",
-"items": {"type": "record", "name": "Call", "doc": "", "fields": [{"name": "callSetName", "type":
-["null", "string"], "doc": "", "default": null}, {"name": "callSetId", "type": ["null", "string"],
-"doc": "", "default": null}, {"name": "genotype", "type": {"type": "array", "items": "int"}, "doc":
-"", "default": []}, {"name": "phaseset", "type": ["null", "string"], "doc": "", "default": null},
-{"name": "genotypeLikelihood", "type": {"type": "array", "items": "double"}, "doc": "", "default":
-[]}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items": "string"}},
-"doc": "", "default": {}}]}}, "doc": "", "default": []}]}}, "doc": "", "default": []}, {"name":
-"nextPageToken", "type": ["null", "string"], "doc": "", "default": null}]}
+{"namespace": "org.ga4gh.methods", "type": "record", "name": "SearchVariantsResponse", "fields":
+[{"default": [], "doc": "", "type": {"items": {"namespace": "org.ga4gh.models", "type": "record",
+"name": "Variant", "fields": [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type":
+"string", "name": "variantSetId"}, {"default": [], "doc": "", "type": {"items": "string", "type":
+"array"}, "name": "names"}, {"default": null, "doc": "", "type": ["null", "long"], "name":
+"created"}, {"default": null, "doc": "", "type": ["null", "long"], "name": "updated"}, {"doc": "",
+"type": "string", "name": "referenceName"}, {"doc": "", "type": "long", "name": "start"}, {"doc":
+"", "type": "long", "name": "end"}, {"doc": "", "type": "string", "name": "referenceBases"},
+{"default": [], "doc": "", "type": {"items": "string", "type": "array"}, "name": "alternateBases"},
+{"default": {}, "doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"},
+"name": "info"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"Call", "fields": [{"default": null, "doc": "", "type": ["null", "string"], "name": "callSetName"},
+{"default": null, "doc": "", "type": ["null", "string"], "name": "callSetId"}, {"default": [],
+"doc": "", "type": {"items": "int", "type": "array"}, "name": "genotype"}, {"default": null, "doc":
+"", "type": ["null", "string"], "name": "phaseset"}, {"default": [], "doc": "", "type": {"items":
+"double", "type": "array"}, "name": "genotypeLikelihood"}, {"default": {}, "doc": "", "type":
+{"values": {"items": "string", "type": "array"}, "type": "map"}, "name": "info"}]}, "type":
+"array"}, "name": "calls"}], "doc": ""}, "type": "array"}, "name": "variants"}, {"default": null,
+"doc": "", "type": ["null", "string"], "name": "nextPageToken"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {}
@@ -1920,22 +1923,22 @@ class Variant(ProtocolElement):
     to a row in VCF.
     """
     _schemaSource = """
-{"type": "record", "name": "Variant", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "variantSetId", "type": "string", "doc": ""},
-{"name": "names", "type": {"type": "array", "items": "string"}, "doc": "", "default": []}, {"name":
-"created", "type": ["null", "long"], "doc": "", "default": null}, {"name": "updated", "type":
-["null", "long"], "doc": "", "default": null}, {"name": "referenceName", "type": "string", "doc":
-""}, {"name": "start", "type": "long", "doc": ""}, {"name": "end", "type": "long", "doc": ""},
-{"name": "referenceBases", "type": "string", "doc": ""}, {"name": "alternateBases", "type": {"type":
-"array", "items": "string"}, "doc": "", "default": []}, {"name": "info", "type": {"type": "map",
-"values": {"type": "array", "items": "string"}}, "doc": "", "default": {}}, {"name": "calls",
-"type": {"type": "array", "items": {"type": "record", "name": "Call", "doc": "", "fields": [{"name":
-"callSetName", "type": ["null", "string"], "doc": "", "default": null}, {"name": "callSetId",
-"type": ["null", "string"], "doc": "", "default": null}, {"name": "genotype", "type": {"type":
-"array", "items": "int"}, "doc": "", "default": []}, {"name": "phaseset", "type": ["null",
-"string"], "doc": "", "default": null}, {"name": "genotypeLikelihood", "type": {"type": "array",
-"items": "double"}, "doc": "", "default": []}, {"name": "info", "type": {"type": "map", "values":
-{"type": "array", "items": "string"}}, "doc": "", "default": {}}]}}, "doc": "", "default": []}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "Variant", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "string", "name": "variantSetId"}, {"default":
+[], "doc": "", "type": {"items": "string", "type": "array"}, "name": "names"}, {"default": null,
+"doc": "", "type": ["null", "long"], "name": "created"}, {"default": null, "doc": "", "type":
+["null", "long"], "name": "updated"}, {"doc": "", "type": "string", "name": "referenceName"},
+{"doc": "", "type": "long", "name": "start"}, {"doc": "", "type": "long", "name": "end"}, {"doc":
+"", "type": "string", "name": "referenceBases"}, {"default": [], "doc": "", "type": {"items":
+"string", "type": "array"}, "name": "alternateBases"}, {"default": {}, "doc": "", "type": {"values":
+{"items": "string", "type": "array"}, "type": "map"}, "name": "info"}, {"default": [], "doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "Call", "fields": [{"default": null, "doc":
+"", "type": ["null", "string"], "name": "callSetName"}, {"default": null, "doc": "", "type":
+["null", "string"], "name": "callSetId"}, {"default": [], "doc": "", "type": {"items": "int",
+"type": "array"}, "name": "genotype"}, {"default": null, "doc": "", "type": ["null", "string"],
+"name": "phaseset"}, {"default": [], "doc": "", "type": {"items": "double", "type": "array"},
+"name": "genotypeLikelihood"}, {"default": {}, "doc": "", "type": {"values": {"items": "string",
+"type": "array"}, "type": "map"}, "name": "info"}]}, "type": "array"}, "name": "calls"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -2002,15 +2005,15 @@ class VariantSet(ProtocolElement):
     to a VCF file.
     """
     _schemaSource = """
-{"type": "record", "name": "VariantSet", "namespace": "org.ga4gh.models", "doc": "", "fields":
-[{"name": "id", "type": "string", "doc": ""}, {"name": "datasetId", "type": "string", "doc": ""},
-{"name": "referenceSetId", "type": "string", "doc": ""}, {"name": "metadata", "type": {"type":
-"array", "items": {"type": "record", "name": "VariantSetMetadata", "doc": "", "fields": [{"name":
-"key", "type": "string", "doc": ""}, {"name": "value", "type": "string", "doc": ""}, {"name": "id",
-"type": "string", "doc": ""}, {"name": "type", "type": "string", "doc": ""}, {"name": "number",
-"type": "string", "doc": ""}, {"name": "description", "type": "string", "doc": ""}, {"name": "info",
-"type": {"type": "map", "values": {"type": "array", "items": "string"}}, "doc": "", "default":
-{}}]}}, "doc": "", "default": []}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "VariantSet", "fields": [{"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "string", "name": "datasetId"}, {"doc": "",
+"type": "string", "name": "referenceSetId"}, {"default": [], "doc": "", "type": {"items": {"doc":
+"", "type": "record", "name": "VariantSetMetadata", "fields": [{"doc": "", "type": "string", "name":
+"key"}, {"doc": "", "type": "string", "name": "value"}, {"doc": "", "type": "string", "name": "id"},
+{"doc": "", "type": "string", "name": "type"}, {"doc": "", "type": "string", "name": "number"},
+{"doc": "", "type": "string", "name": "description"}, {"default": {}, "doc": "", "type": {"values":
+{"items": "string", "type": "array"}, "type": "map"}, "name": "info"}]}, "type": "array"}, "name":
+"metadata"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -2054,12 +2057,12 @@ class VariantSetMetadata(ProtocolElement):
     This metadata represents VCF header information.
     """
     _schemaSource = """
-{"type": "record", "name": "VariantSetMetadata", "namespace": "org.ga4gh.models", "doc": "",
-"fields": [{"name": "key", "type": "string", "doc": ""}, {"name": "value", "type": "string", "doc":
-""}, {"name": "id", "type": "string", "doc": ""}, {"name": "type", "type": "string", "doc": ""},
-{"name": "number", "type": "string", "doc": ""}, {"name": "description", "type": "string", "doc":
-""}, {"name": "info", "type": {"type": "map", "values": {"type": "array", "items": "string"}},
-"doc": "", "default": {}}]}
+{"namespace": "org.ga4gh.models", "type": "record", "name": "VariantSetMetadata", "fields": [{"doc":
+"", "type": "string", "name": "key"}, {"doc": "", "type": "string", "name": "value"}, {"doc": "",
+"type": "string", "name": "id"}, {"doc": "", "type": "string", "name": "type"}, {"doc": "", "type":
+"string", "name": "number"}, {"doc": "", "type": "string", "name": "description"}, {"default": {},
+"doc": "", "type": {"values": {"items": "string", "type": "array"}, "type": "map"}, "name":
+"info"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {

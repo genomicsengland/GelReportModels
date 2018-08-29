@@ -1,3 +1,13 @@
+Version 7.1.6 (24th August 2018)
+--------------------------------
+
+#### Minor changes
+
+* Cancer participant snomed and ICD terms are not lists anymore
+* `AlgorithmName` set to proper camel case
+* Added `TIERA` and `TIERB`
+
+
 Version 7.0.4 (2nd July 2018)
 --------------------------------
 
