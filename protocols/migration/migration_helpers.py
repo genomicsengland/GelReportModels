@@ -108,7 +108,7 @@ class MigrationHelpers(object):
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpretation_request_rd,
-            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=old_ig, cip=cip),
+            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig, cip=cip),
             MigrateReports600To500().migrate_interpretation_request_rd,
         ]
 

@@ -217,7 +217,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             self.new_model.InterpretationRequestRD,
             expect_equality=True,
             forward_kwargs={'assembly': Assembly.GRCh38},
-            backward_kwargs={'old_ig': ig5})
+            backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 
     def test_migrate_rd_interpretation_request_nulls(self):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
