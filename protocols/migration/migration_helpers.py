@@ -89,6 +89,13 @@ class MigrationHelpers(object):
 
     @staticmethod
     def reverse_migrate_interpretation_request_rd_to_v3(json_dict, old_ig, cip=None):
+        """
+
+        :param json_dict:
+        :param old_ig:
+        :param cip:
+        :return:
+        """
         types = [
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_4_0_0,
