@@ -86,7 +86,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationService = old_instance.companyName
 
         # reportUri has changed to reportUrl
-        new_instance.reportUrl = old_instance.reportUri
+        new_instance.reportUrl = old_instance.reportUrl
 
         # converts all reported variants
         new_instance.variants = self.convert_collection(
@@ -406,14 +406,15 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             map_variant_classification = {
                 old_variant_classification.benign_variant: new_clinical_significance.benign,
                 old_variant_classification.likely_benign_variant: new_clinical_significance.likely_benign,
-                old_variant_classification.variant_of_unknown_clinical_significance: new_clinical_significance.VUS,
+                old_variant_classification.variant_of_unknown_clinical_significance:
+                    new_clinical_significance.uncertain_significance,
                 old_variant_classification.likely_pathogenic_variant: new_clinical_significance.likely_pathogenic,
                 old_variant_classification.pathogenic_variant: new_clinical_significance.pathogenic,
                 old_variant_classification.not_assessed: None
             }
             clinical_significance = map_variant_classification[old_instance.variantClassification]
             if clinical_significance is not None:
-                new_instance.variantClassification = opencb_1_3_0.VariantClassification(
+                new_instance.variantClassification = self.new_model.VariantClassification(
                     clinicalSignificance=map_variant_classification[old_instance.variantClassification]
                 )
 

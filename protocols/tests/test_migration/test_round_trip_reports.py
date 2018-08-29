@@ -10,6 +10,7 @@ from protocols.migration.migration_helpers import MigrationHelpers
 import factory.fuzzy
 from protocols.util import dependency_manager
 import dictdiffer
+import logging
 
 
 class ActionFactory(FactoryAvro):
@@ -32,11 +33,8 @@ class ActionFactory(FactoryAvro):
 class BaseTestRoundTrip(TestCaseMigration):
 
     def _check_round_trip_migration(self, forward, backward, original, new_type,
-                                    expect_equality=True,
+                                    expect_equality=True, ignore_fields=[],
                                     forward_kwargs={}, backward_kwargs={}):
-        # original = self.get_valid_object(
-        #     object_type=original_type, version=original_version, fill_nullables=fill_nullables)
-        # original.versionControl = self.old_model.ReportVersionControl()  # to set the right default
 
         migrated = forward(original.toJsonDict(), **forward_kwargs)
         self.assertIsInstance(migrated, new_type)
@@ -47,12 +45,14 @@ class BaseTestRoundTrip(TestCaseMigration):
         self.assertValid(round_tripped)
 
         differ = False
-        for diff in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
-            print diff
+        ignore_fields = set(ignore_fields)
+        for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
+            if len(ignore_fields.intersection(set(field_path))) > 0:
+                continue
+            logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), values[1], values[0]))
             differ = True
         if expect_equality:
             self.assertFalse(differ)
-
 
     def assertValid(self, instance):
         validation = instance.validate(instance.toJsonDict(), verbose=True)
@@ -223,15 +223,19 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
-        # get original IR in version 3.0.0
+        # get original IG in version 3.0.0
+        # NOTE: we do not want to structural variants and we remove them to avoid noise
         original_ig = self.get_valid_object(
-            object_type=reports_3_0_0.InterpretedGenomeRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
+            object_type=reports_3_0_0.InterpretedGenomeRD, version=self.version_3_0_0, fill_nullables=fill_nullables,
+            reportedStructuralVariants=None, versionControl=reports_3_0_0.VersionControl(), analysisId='1',
+            reportURI=''
+        )
         self._check_round_trip_migration(
             MigrationHelpers.migrate_interpreted_genome_rd_to_latest,
             MigrationHelpers.reverse_migrate_interpreted_genome_rd_to_v3,
             original_ig,
             self.new_model.InterpretedGenome,
-            expect_equality=True,
+            expect_equality=True, ignore_fields=['additionalNumericVariantAnnotations'],
             forward_kwargs={'assembly': Assembly.GRCh38, 'interpretation_request_version': 1})
 
     def test_migrate_rd_interpreted_genome_nulls(self):
@@ -264,6 +268,17 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
                                               reports_3_0_0.FileType.ANN, reports_3_0_0.FileType.VCF_small])
         md5Sum = None
 
+    class CalledGenotypeFactory300(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.CalledGenotype
+
+        _version = dependency_manager.VERSION_300
+        copyNumber = None
+
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.CalledGenotype, self.CalledGenotypeFactory300, self.version_3_0_0, fill_nullables=True)

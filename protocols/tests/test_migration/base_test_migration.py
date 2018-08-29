@@ -88,12 +88,12 @@ class TestCaseMigration(TestCase):
         return q
 
     @staticmethod
-    def get_valid_object(object_type, version, fill_nullables=True):
+    def get_valid_object(object_type, version, fill_nullables=True, **kwargs):
         valid_object = GenericFactoryAvro.get_factory_avro(
             clazz=object_type,
             version=version,
             fill_nullables=fill_nullables,
-        ).create()
+        ).create(**kwargs)
 
         if not valid_object.validate(valid_object.toJsonDict()):
             raise ValueError(
