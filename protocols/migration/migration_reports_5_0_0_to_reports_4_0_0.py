@@ -295,7 +295,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self.migrate_reported_variant_cancer_to_reported_somatic_variant)
-        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest)
 
     def migrate_reported_variant_cancer_to_reported_somatic_variant(self, old_variant):
         """

@@ -243,13 +243,20 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def migrate_variant_cancer(self, old_variant):
         new_variant = self.convert_class(self.new_model.ReportedVariantCancer, old_variant)
-        attributes = old_variant.variantAttributes.toJsonDict()
-        new_variant.updateWithJsonDict(attributes)
-        new_variant.variantAttributes.fdp50 = str(old_variant.variantAttributes.fdp50)
-        new_variant.updateWithJsonDict(old_variant.variantAttributes.variantIdentifiers.toJsonDict())
+        if old_variant.variantAttributes:
+            attributes = old_variant.variantAttributes.toJsonDict()
+            new_variant.updateWithJsonDict(attributes)
+            new_variant.variantAttributes.fdp50 = str(old_variant.variantAttributes.fdp50)
+
+            if old_variant.variantAttributes.variantIdentifiers:
+                identifiers = old_variant.variantAttributes.variantIdentifiers.toJsonDict()
+                new_variant.updateWithJsonDict(identifiers)
+
         new_variant.variantCalls = self.convert_collection(old_variant.variantCalls, self.migrate_variant_call_cancer)
         new_variant.reportEvents = self.convert_collection(old_variant.reportEvents, self.migrate_report_event_cancer)
 
+        if new_variant.alleleOrigins is None:
+            new_variant.alleleOrigins = []
         return new_variant
 
     def migrate_variant_call_cancer(self, old_variant_call):
@@ -257,6 +264,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if old_variant_call.phaseGenotype:
             new_variant_call.phaseSet = old_variant_call.phaseGenotype.phaseSet
         new_variant_call.vaf = old_variant_call.sampleVariantAlleleFrequency
+        if new_variant_call.alleleOrigins is None:
+            new_variant_call.alleleOrigins = []
         return self.validate_object(
             object_to_validate=new_variant_call, object_type=self.new_model.VariantCall
         )
@@ -295,6 +304,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def _make_action_from(self, evidence, evidenceType):
         action = self.new_model.Action()
+        action.actionType = {"Therapeutic": "therapeutic", "Prognostic": "prognosis", "Trial": "therapy"}[evidenceType]
         action.evidenceType = evidenceType
         if hasattr(evidence, 'source'):
             action.source = evidence.source
