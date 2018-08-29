@@ -11,15 +11,4 @@ class MigrateParticipant110To103(BaseMigration):
     def migrate_cancer_participant(self, old_participant):
         new_instance = self.convert_class(target_klass=self.new_model.CancerParticipant, instance=old_participant)
         new_instance.versionControl = self.new_model.VersionControl()
-        new_instance.tumourSamples = self.convert_collection(old_participant.tumourSamples, self.migrate_tumour_sample)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerParticipant)
-
-    def migrate_tumour_sample(self, old_sample):
-        new_instance = self.convert_class(target_klass=self.new_model.TumourSample, instance=old_sample)
-        new_instance.morphologyICD = next((e for e in old_sample.morphologyICDs), "")
-        new_instance.morphologySnomedCT = next((e for e in old_sample.morphologySnomedCTs), "")
-        new_instance.morphologySnomedRT = next((e for e in old_sample.morphologySnomedRTs), "")
-        new_instance.topographyICD = next((e for e in old_sample.topographyICDs), "")
-        new_instance.topographySnomedCT = next((e for e in old_sample.topographySnomedCTs), "")
-        new_instance.topographySnomedRT = next((e for e in old_sample.topographySnomedRTs), "")
-        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.TumourSample)
