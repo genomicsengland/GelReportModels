@@ -173,6 +173,9 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance.genomicEntities = self.convert_collection(old_event.genomicEntities, self.migrate_genomic_entity)
         if new_instance.variantClassification is not None:
             new_instance.variantClassification.drugResponseClassification = None
+
+        if old_event.tier in (self.old_model.Tier.TIERA, self.old_model.Tier.TIERB):
+            new_instance.tier = self.new_model.Tier.NONE
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEvent)
 
     def migrate_gene_panel(self, old_panel):
