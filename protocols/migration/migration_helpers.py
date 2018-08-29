@@ -326,7 +326,6 @@ class MigrationHelpers(object):
         ]
 
         part_migrated_ig = MigrationHelpers.migrate(ig_json_dict, ig_types, ig_migrations)
-        print(type(part_migrated_ig))
 
         types = [
             CancerInterpretationRequest_4_0_0,

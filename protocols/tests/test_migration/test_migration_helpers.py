@@ -583,7 +583,8 @@ class TestMigrationHelpers(TestCaseMigration):
         old_ig = self.get_valid_object(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         )
-
+        small_variant = self.get_valid_object(reports_6_0_0.SmallVariant, VERSION_70, fill_nullables=fill_nullables)
+        old_ig.variants = [small_variant]
         migrated_instance = MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4(
             old_instance.toJsonDict(), old_ig.toJsonDict()
         )
