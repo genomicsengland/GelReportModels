@@ -7,6 +7,7 @@ from protocols import reports_5_0_0
 from protocols.migration.base_migration import MigrationError
 from protocols.migration.base_migration import BaseMigrateReports500And600
 
+
 class MigrateReports500To600(BaseMigrateReports500And600):
 
     old_model = reports_5_0_0
@@ -45,15 +46,11 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenome, old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.migrate_variants(old_variants=old_instance.variants, panel_source=panel_source)
+        new_instance.variants = self.convert_collection(
+            old_instance.variants, self.migrate_variant, panel_source=panel_source)
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome
         )
-
-    def migrate_variants(self, old_variants, panel_source='panelapp'):
-        if old_variants is None:
-            return None
-        return [self.migrate_variant(old_variant=old_variant, panel_source=panel_source) for old_variant in old_variants]
 
     def migrate_variant(self, old_variant, panel_source='panelapp'):
         """
@@ -64,13 +61,14 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         """
 
         new_variant = self.convert_class(self.new_model.SmallVariant, old_variant)
-        new_variant.variantCalls = self.migrate_variant_calls(variant_calls=old_variant.variantCalls)
+        new_variant.variantCalls = self.convert_collection(
+            old_variant.variantCalls, self.migrate_variant_call)
         consequence_types = []
         if old_variant.additionalTextualVariantAnnotations:
             consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
             consequence_types = [c for c in consequence_types if c]
-        new_variant.reportEvents = self.migrate_report_events(
-            report_events=old_variant.reportEvents, panel_source=panel_source,
+        new_variant.reportEvents = self.convert_collection(
+            old_variant.reportEvents, self.migrate_report_event, panel_source=panel_source,
             consequence_types=consequence_types)
         new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=old_variant)
         return self.validate_object(
@@ -84,8 +82,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         # so this is done to make sure we don't lose the alleleOrigins
         if old_variant.variantAttributes is not None:
             new_variant_attributes = self.convert_class(self.new_model.VariantAttributes, old_variant.variantAttributes)
-            if old_variant.variantAttributes.fdp50 is not None:
-                new_variant_attributes.fdp50 = self.migrate_fdp50(fdp50=old_variant.variantAttributes.fdp50)
+            new_variant_attributes.fdp50 = self.convert_string_to_float(old_variant.variantAttributes.fdp50, fail=False)
         else:
             new_variant_attributes = self.new_model.VariantAttributes()
 
@@ -97,7 +94,8 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_variant_attributes.additionalNumericVariantAnnotations = old_variant.additionalNumericVariantAnnotations
         new_variant_attributes.comments = old_variant.comments
         new_variant_attributes.alleleOrigins = old_variant.alleleOrigins
-        new_variant_attributes.alleleFrequencies = self.migrate_allele_frequencies(old_frequencies=old_variant.alleleFrequencies)
+        new_variant_attributes.alleleFrequencies = self.convert_collection(
+            old_variant.alleleFrequencies, self.migrate_allele_frequency)
         variant_identifiers = self.new_model.VariantIdentifiers(
             dbSnpId=old_variant.dbSnpId,
             cosmicIds=old_variant.cosmicIds,
@@ -107,25 +105,10 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_variant_attributes.variantIdentifiers = variant_identifiers
         return self.validate_object(object_to_validate=new_variant_attributes, object_type=self.new_model.VariantAttributes)
 
-    @staticmethod
-    def migrate_fdp50(fdp50):
-        try:
-            return float(fdp50)
-        except ValueError:
-            logging.warning("Losing fdp50 value: {fdp50} as it can not be converted to a float".format(fdp50=fdp50))
-            return None
-
-    def migrate_allele_frequencies(self, old_frequencies):
-        if old_frequencies is None:
-            return None
-        return [self.migrate_allele_frequency(old_frequency=old_frequency) for old_frequency in old_frequencies]
 
     def migrate_allele_frequency(self, old_frequency):
         new_frequency = self.convert_class(self.new_model.AlleleFrequency, old_frequency)
         return self.validate_object(object_to_validate=new_frequency, object_type=self.new_model.AlleleFrequency)
-
-    def migrate_variant_calls(self, variant_calls):
-        return [self.migrate_variant_call(variant_call=variant_call) for variant_call in variant_calls]
 
     def migrate_variant_call(self, variant_call):
         new_variant_call = self.convert_class(self.new_model.VariantCall, variant_call)
@@ -195,7 +178,8 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_report_event = self.convert_class(self.new_model.ReportEvent, report_event)
         new_report_event.phenotypes = self.migrate_phenotypes(phenotypes=report_event.phenotypes)
         new_report_event.genePanel = self.migrate_gene_panel(gene_panel=report_event.genePanel, panel_source=panel_source)
-        new_report_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=report_event.genomicEntities)
+        new_report_event.genomicEntities = self.convert_collection(
+            report_event.genomicEntities, self.migrate_genomic_entity)
         new_report_event.variantClassification = self.migrate_variant_classification(classification=report_event.variantClassification)
         if report_event.eventJustification:
             new_report_event.segregationPattern = self.migrate_segregation_pattern(event_justification=report_event.eventJustification)
@@ -206,9 +190,9 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         is_tier2 = tier == self.new_model.Tier.TIER2
         is_tier3 = tier == self.new_model.Tier.TIER3
         new_report_event.variantConsequences = list(map(
-            lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), filter(
+            lambda f: self.new_model.VariantConsequence(id=self.map_variant_consequences.get(f, ""), name=f), list(filter(
                 lambda c: (is_tier1 and c in self.tier1_consequence_types) or \
-                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types)))
+                          (is_tier2 and c in self.tier2_consequence_types) or is_tier3, consequence_types))))
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 
@@ -264,56 +248,43 @@ class MigrateReports500To600(BaseMigrateReports500And600):
             object_to_validate=new_phenotype, object_type=self.new_model.Phenotypes
         )
 
-    def migrate_genomic_entities(self, genomic_entities):
-        return [self.migrate_genomic_entity(genomic_entity=genomic_entity) for genomic_entity in genomic_entities]
-
     def migrate_genomic_entity(self, genomic_entity):
         new_genomic_entity = self.convert_class(self.new_model.GenomicEntity, genomic_entity)
         if genomic_entity.otherIds is not None and isinstance(genomic_entity.otherIds, dict):
-            new_genomic_entity.otherIds = self.migrate_other_ids(other_ids=genomic_entity.otherIds)
+            new_genomic_entity.otherIds = self.migrate_other_ids(genomic_entity.otherIds)
         return self.validate_object(
             object_to_validate=new_genomic_entity, object_type=self.new_model.GenomicEntity,
         )
 
-    def migrate_other_ids(self, other_ids):
-        return [self.migrate_other_id(source=key, identifier=value) for key, value in other_ids.items()]
-
-    def migrate_other_id(self, source, identifier):
-        identifier = self.new_model.Identifier(
-            source=source,
-            identifier=identifier
-        )
-        return self.validate_object(
-            object_to_validate=identifier, object_type=self.new_model.Identifier,
-        )
+    def migrate_other_ids(self, identifiers):
+        if identifiers is None:
+            return None
+        new_identifiers = []
+        for source, identifier in identifiers.items():
+            new_identifiers.append(self.new_model.Identifier(
+                source=source,
+                identifier=identifier
+            ))
+        return new_identifiers
 
     def migrate_clinical_report_rd(self, old_instance):
         migrated_instance = self.convert_class(self.new_model.ClinicalReport, old_instance)
-        migrated_instance.variants = self.migrate_variants(old_variants=old_instance.variants)
+        migrated_instance.variants = self.convert_collection(old_instance.variants, self.migrate_variant)
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
 
     def migrate_rd_exit_questionnaire(self, old_instance, assembly):
         if assembly is None:
             raise MigrationError("Parameter <assembly> is required to migrate exit questionnaire to version 6")
         migrated_instance = self.convert_class(self.new_model.RareDiseaseExitQuestionnaire, old_instance)
-        migrated_instance.variantGroupLevelQuestions = self.migrate_variant_group_level_questions(
-            VGLQs=old_instance.variantGroupLevelQuestions, assembly=assembly
-        )
+        migrated_instance.variantGroupLevelQuestions = self.convert_collection(
+            old_instance.variantGroupLevelQuestions, self.migrate_variant_group_level_question, assembly=assembly)
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.RareDiseaseExitQuestionnaire)
-
-    def migrate_variant_group_level_questions(self, VGLQs, assembly):
-        return [self.migrate_variant_group_level_question(VGLQ=VGLQ, assembly=assembly) for VGLQ in VGLQs]
 
     def migrate_variant_group_level_question(self, VGLQ, assembly):
         migrated_vglq = self.convert_class(target_klass=self.new_model.VariantGroupLevelQuestions, instance=VGLQ)
-        migrated_vglq.variantLevelQuestions = self.migrate_variant_level_questions(
-            VLQs=VGLQ.variantLevelQuestions, assembly=assembly
-        )
-
+        migrated_vglq.variantLevelQuestions = self.convert_collection(
+            VGLQ.variantLevelQuestions, self.migrate_variant_level_question, assembly=assembly)
         return self.validate_object(object_to_validate=migrated_vglq, object_type=self.new_model.VariantGroupLevelQuestions)
-
-    def migrate_variant_level_questions(self, VLQs, assembly):
-        return [self.migrate_variant_level_question(VLQ=VLQ, assembly=assembly) for VLQ in VLQs]
 
     def migrate_variant_level_question(self, VLQ, assembly):
         migrated_vlq = self.convert_class(target_klass=self.new_model.VariantLevelQuestions, instance=VLQ)
@@ -362,32 +333,25 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def migrate_cancer_interpreted_genome(self, old_instance):
         new_instance = self.convert_class(target_klass=self.new_model.InterpretedGenome, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.migrate_variants_cancer(variants=old_instance.variants)
-
+        new_instance.variants = self.convert_collection(
+            old_instance.variants, self.migrate_variant_cancer)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome)
-
-    def migrate_variants_cancer(self, variants):
-        if variants is None:
-            return None
-        return [self.migrate_variant_cancer(variant=variant) for variant in variants]
 
     def migrate_variant_cancer(self, variant):
         new_variant = self.convert_class(target_klass=self.new_model.SmallVariant, instance=variant)
-        new_variant.variantCalls = self.migrate_variant_calls(variant_calls=variant.variantCalls)
-        new_variant.reportEvents = self.migrate_report_events_cancer(events=variant.reportEvents)
+        new_variant.variantCalls = self.convert_collection(variant.variantCalls, self.migrate_variant_call)
+        new_variant.reportEvents = self.convert_collection(
+            variant.reportEvents, self.migrate_report_event_cancer)
         new_variant.variantAttributes = self.migrate_variant_attributes(old_variant=variant)
-
         return self.validate_object(object_to_validate=new_variant, object_type=self.new_model.SmallVariant)
-
-    def migrate_report_events_cancer(self, events):
-        return [self.migrate_report_event_cancer(event=event) for event in events]
 
     def migrate_report_event_cancer(self, event):
         new_event = self.convert_class(target_klass=self.new_model.ReportEvent, instance=event)
 
         new_event.modeOfInheritance = self.new_model.ModeOfInheritance.na
         new_event.phenotypes = self.new_model.Phenotypes()
-        new_event.genomicEntities = self.migrate_genomic_entities(genomic_entities=event.genomicEntities)
+        new_event.genomicEntities = self.convert_collection(
+            event.genomicEntities, self.migrate_genomic_entity)
         new_event.variantClassification = self.migrate_variant_classification(
             classification=event.variantClassification)
         # migrate tier to domain
@@ -442,7 +406,8 @@ class MigrateReports500To600(BaseMigrateReports500And600):
 
     def migrate_cancer_clinical_report(self, old_instance):
         new_ccr = self.convert_class(target_klass=self.new_model.ClinicalReport, instance=old_instance)
-        new_ccr.variants = self.migrate_variants_cancer(variants=old_instance.variants)
+        new_ccr.variants = self.convert_collection(
+            old_instance.variants, self.migrate_variant_cancer)
         return self.validate_object(object_to_validate=new_ccr, object_type=self.new_model.ClinicalReport)
 
     def migrate_cancer_exit_questionnaire(self, old_instance, assembly):
@@ -451,31 +416,13 @@ class MigrateReports500To600(BaseMigrateReports500And600):
                 "Parameter <assembly> is required to migrate cancer exit questionnaire to version 6")
 
         new_c_eq = self.convert_class(target_klass=self.new_model.CancerExitQuestionnaire, instance=old_instance)
-        new_c_eq.somaticVariantLevelQuestions = self.migrate_somatic_variant_level_questions(
-            old_questions=old_instance.somaticVariantLevelQuestions, assembly=assembly
-        )
-        new_c_eq.germlineVariantLevelQuestions = self.migrate_germline_variant_level_questions(
-            old_questions=old_instance.germlineVariantLevelQuestions, assembly=assembly
-        )
-        new_c_eq.otherActionableVariants = self.migrate_other_actionable_variants(
-            old_variants=old_instance.otherActionableVariants, assembly=assembly
-        )
+        new_c_eq.somaticVariantLevelQuestions = self.convert_collection(
+            old_instance.somaticVariantLevelQuestions, self.migrate_somatic_variant_level_question, assembly=assembly)
+        new_c_eq.germlineVariantLevelQuestions = self.convert_collection(
+            old_instance.germlineVariantLevelQuestions, self.migrate_germline_variant_level_question, assembly=assembly)
+        new_c_eq.otherActionableVariants = self.convert_collection(
+            old_instance.otherActionableVariants, self.migrate_other_actionable_variant, assembly=assembly)
         return self.validate_object(object_to_validate=new_c_eq, object_type=self.new_model.CancerExitQuestionnaire)
-
-    def migrate_other_actionable_variants(self, old_variants, assembly):
-        if old_variants is None:
-            return None
-        return [self.migrate_other_actionable_variant(old_variant=old_variant, assembly=assembly) for old_variant in old_variants]
-
-    def migrate_somatic_variant_level_questions(self, old_questions, assembly):
-        if old_questions is None:
-            return None
-        return [self.migrate_somatic_variant_level_question(question=question, assembly=assembly) for question in old_questions]
-
-    def migrate_germline_variant_level_questions(self, old_questions, assembly):
-        if old_questions is None:
-            return None
-        return [self.migrate_germline_variant_level_question(question=question, assembly=assembly) for question in old_questions]
 
     def migrate_somatic_variant_level_question(self, question, assembly):
         new_question = self.convert_class(target_klass=self.new_model.CancerSomaticVariantLevelQuestions, instance=question)
