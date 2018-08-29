@@ -403,6 +403,22 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
+    def reverse_migrate_interpreted_genome_cancer_to_v4(json_dict):
+        types = [
+            CancerInterpretedGenome_4_0_0,
+            CancerInterpretedGenome_5_0_0,
+            InterpretedGenome_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports500To400().migrate_cancer_interpreted_genome,
+            MigrateReports600To500().migrate_cancer_interpreted_genome
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
     def migrate_clinical_report_cancer_to_latest(json_dict, sample_id=None, assembly=None, participant_id=None):
         """
         Migration from reports 3.0.0 is not supported as we have no data in that version
@@ -487,3 +503,4 @@ class MigrationHelpers(object):
     def set_version_to_6_0_0(version_controlled):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
         return version_controlled
+
