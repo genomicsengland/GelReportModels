@@ -23,8 +23,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
-        new_instance.pedigree.members = self.migrate_pedigree_members(old_members=old_instance.pedigree.members)
-        new_instance.otherFiles = self.migrate_other_files(other_files=old_instance.otherFiles)
+        new_instance.pedigree.members = self.convert_collection(
+            old_instance.pedigree.members, self.migrate_pedigree_member)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
@@ -57,7 +57,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.comments = comments
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants(old_instance.tieredVariants, assembly)
+        new_instance.variants = self.convert_collection(
+            old_instance.tieredVariants, self.migrate_reported_variant, assembly=assembly)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD
@@ -88,7 +89,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.reportUrl = old_instance.reportUri
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants(old_instance.reportedVariants, assembly)
+        new_instance.variants = self.convert_collection(
+            old_instance.reportedVariants, self.migrate_reported_variant, assembly=assembly)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD
@@ -119,7 +121,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.references = old_instance.supportingEvidence
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants(old_instance.candidateVariants, assembly)
+        new_instance.variants = self.convert_collection(
+            old_instance.candidateVariants, self.migrate_reported_variant, assembly=assembly)
 
         # converts all analysis panels
         if old_instance.additionalAnalysisPanels is not None:
@@ -152,8 +155,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = old_instance.reportVersion
         new_instance.genomeAssembly = assembly
         new_instance.cancerParticipant = self.migrate_cancer_participant(old_participant=old_instance.cancerParticipant)
-
-        new_instance.otherFiles = old_instance.otherFiles
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest
@@ -197,8 +198,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             raise MigrationError("There are several tumour samples, cannot decide which to use '{}'"
                                  .format(str(tumor_samples)))
         sample_id = tumor_samples[0].sampleId
-        new_instance.variants = self.migrate_reported_variants_cancer(
-            old_instance.tieredVariants, assembly, participant_id, sample_id)
+        new_instance.variants = self.convert_collection(
+            old_instance.tieredVariants, self.migrate_reported_variant_cancer,
+            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
@@ -224,8 +226,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             interpretation_service=interpretation_service
         )
 
-        new_instance = self.new_model.CancerInterpretedGenome.fromJsonDict(
-            jsonDict=old_instance.toJsonDict())  # :type: reports_5_0_0.CancerInterpretedGenome
+        new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)  # :type: reports_5_0_0.CancerInterpretedGenome
 
         # reportRequestId are interpretationRequestId
         new_instance.interpretationRequestId = old_instance.reportRequestId
@@ -242,8 +243,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         # NOTE: field reports_4_0_0.CancerInterpretedGenome.analysisId is lost in this migration
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants_cancer(old_instance.reportedVariants,
-                                                                      assembly, participant_id, sample_id)
+        new_instance.variants = self.convert_collection(
+            old_instance.reportedVariants, self.migrate_reported_variant_cancer,
+            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
@@ -275,8 +277,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             raise ex
 
         # converts all reported variants
-        new_instance.variants = self.migrate_reported_variants_cancer(old_instance.candidateVariants,
-                                                                      assembly, participant_id, sample_id)
+        new_instance.variants = self.convert_collection(
+            old_instance.candidateVariants, self.migrate_reported_variant_cancer,
+            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer
@@ -308,14 +311,11 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         # NOTE: missing fields: dbSnpId, cosmicIds, clinVarIds, genomicChange, cdnaChanges, proteinChanges
 
         # converts a list of called genotypes into a list of variant calls
-        variant_calls = []
-        if old_instance.calledGenotypes is not None:
-            for called_genotype in old_instance.calledGenotypes:
-                variant_calls.append(self.migrate_called_genotype_to_variant_call(called_genotype))
-        new_instance.variantCalls = variant_calls
+        new_instance.variantCalls = self.convert_collection(
+            old_instance.calledGenotypes, self.migrate_called_genotype_to_variant_call, default=[])
 
         # converts a list of report events
-        new_instance.reportEvents = self.migrate_report_events(old_instance.reportEvents)
+        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self.migrate_report_event)
 
         # rename field evidenceIds to references
         new_instance.references = old_instance.evidenceIds
@@ -333,13 +333,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariant
         )
-
-    def migrate_reported_variants(self, old_reported_variants, assembly):
-        new_variants = None
-        if old_reported_variants is not None:
-            new_variants = [self.migrate_reported_variant(old_reported_variant, assembly)
-                            for old_reported_variant in old_reported_variants]
-        return new_variants
 
     def migrate_assembly(self, assembly):
         """
@@ -434,11 +427,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             object_to_validate=new_instance, object_type=self.new_model.ReportEvent
         )
 
-    def migrate_report_events(self, old_report_events):
-        if old_report_events is not None:
-            return [self.migrate_report_event(old_report_event) for old_report_event in old_report_events]
-        return None
-
     def migrate_genomic_feature(self, old_instance):
         """
         # NOTE: some fields cannot be filled: otherIds
@@ -520,19 +508,12 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.alleleOrigins = old_instance.alleleOrigins
 
         # migrates cancer report events
-        new_instance.reportEvents = self.migrate_report_events_cancer(reported_variant_cancer.reportEvents)
+        new_instance.reportEvents = self.convert_collection(
+            reported_variant_cancer.reportEvents, self.migrate_report_event_cancer)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer
         )
-
-    def migrate_reported_variants_cancer(self, old_reported_variants, assembly, participant_id, sample_id):
-        new_variants = None
-        if old_reported_variants is not None:
-            new_variants = [self.migrate_reported_variant_cancer(
-                old_reported_variant, assembly, participant_id, sample_id)
-                for old_reported_variant in old_reported_variants]
-        return new_variants
 
     def migrate_report_event_cancer(self, old_instance):
         """
@@ -552,7 +533,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
                                                 for so_term in old_instance.soTerms]
 
         # migrates actions
-        new_instance.actions = self.migrate_actions(old_instance.actions)
+        new_instance.actions = self.convert_collection(old_instance.actions, self.migrate_action)
 
         # populates the role in cancer with the field inside the genomic feature
         map_role_in_cancer = {
@@ -566,11 +547,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer
         )
-
-    def migrate_report_events_cancer(self, old_report_events):
-        if old_report_events is not None:
-            return [self.migrate_report_event_cancer(old_report_event) for old_report_event in old_report_events]
-        return None
 
     def migrate_genomic_feature_cancer(self, old_instance):
         """
@@ -620,12 +596,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             object_to_validate=new_instance, object_type=self.new_model.Action
         )
 
-    def migrate_actions(self, old_instances):
-        new_instances = None
-        if old_instances is not None:
-            new_instances = [self.migrate_action(old_instance) for old_instance in old_instances]
-        return new_instances
-
     def migrate_tumour_sample(self, old_sample, ldp_code):
         ts = self.new_model.TumourSample
         tt = self.new_model.TumourType
@@ -644,14 +614,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         return self.validate_object(object_to_validate=new_sample, object_type=ts)
 
-    def migrate_tumour_samples(self, old_samples, ldp_code):
-        if old_samples is not None:
-            return [
-                self.migrate_tumour_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
-                if old_samples is not None
-            ]
-        return None
-
     @staticmethod
     def convert_int_to_str(value):
         try:
@@ -665,25 +627,15 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_sample.LDPCode = ldp_code
         return self.validate_object(object_to_validate=new_sample, object_type=gs)
 
-    def migrate_germline_samples(self, old_samples, ldp_code):
-        if old_samples is not None:
-            return [
-                self.migrate_germline_sample(old_sample=old_sample, ldp_code=ldp_code) for old_sample in old_samples
-                if old_samples is not None
-            ]
-        return None
-
     def migrate_cancer_participant(self, old_participant):
         new_participant = self.convert_class(
             self.new_model.CancerParticipant, old_participant
         )  # :type: reports_5_0_0.CancerParticipant
 
-        new_participant.tumourSamples = self.migrate_tumour_samples(
-            old_samples=old_participant.tumourSamples, ldp_code=old_participant.LDPCode
-        )
-        new_participant.germlineSamples = self.migrate_germline_samples(
-            old_samples=old_participant.germlineSamples, ldp_code=old_participant.LDPCode
-        )
+        new_participant.tumourSamples = self.convert_collection(
+            old_participant.tumourSamples, self.migrate_tumour_sample, ldp_code=old_participant.LDPCode)
+        new_participant.germlineSamples = self.convert_collection(
+            old_participant.germlineSamples, self.migrate_germline_sample, ldp_code=old_participant.LDPCode)
         # NOTE: we create all combinations of germline and tumour as a conservative approach
         if new_participant.germlineSamples is not None and new_participant.tumourSamples is not None:
             new_participant.matchedSamples = \
@@ -706,12 +658,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
         new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset, fail=False)
         return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
-
-    def migrate_disorder_list(self, old_disorder_list):
-        new_disorder_list = None
-        if old_disorder_list is not None:
-            new_disorder_list = [self.migrate_disorder(old_disorder=old_disorder) for old_disorder in old_disorder_list]
-        return new_disorder_list
 
     def migrate_hpo_term_age_of_onset(self, old_age_of_onset):
         new_age_of_onset = None
@@ -776,51 +722,12 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_modifier = map.get(modifier, "").upper()
         return new_modifier if new_modifier in enum else None
 
-    def migrate_hpo_term_list(self, old_hpo_term_list):
-        new_hpo_term_list = None
-        if old_hpo_term_list is not None:
-            new_hpo_term_list = [self.migrate_hpo_term(old_hpo_term=old_hpo) for old_hpo in old_hpo_term_list]
-        return new_hpo_term_list
-
-    def migrate_chiSquare1KGenomesPhase3Pop(self, old_chiSquare1KGenomesPhase3Pop):
-        new_object_type = self.new_model.ChiSquare1KGenomesPhase3Pop
-        new_cs1kgp3p = self.convert_class(target_klass=new_object_type, instance=old_chiSquare1KGenomesPhase3Pop)
-        new_cs1kgp3p.kgSuperPopCategory = old_chiSquare1KGenomesPhase3Pop.kGSuperPopCategory
-        return self.validate_object(object_to_validate=new_cs1kgp3p, object_type=new_object_type)
-
-    def migrate_chiSquare1KGenomesPhase3Pop_list(self, old_chiSquare1KGenomesPhase3Pop_list):
-        if old_chiSquare1KGenomesPhase3Pop_list is not None:
-            return [
-                self.migrate_chiSquare1KGenomesPhase3Pop(old_chiSquare1KGenomesPhase3Pop=old_chiSquare1KGenomesPhase3Pop)
-                for old_chiSquare1KGenomesPhase3Pop in old_chiSquare1KGenomesPhase3Pop_list
-            ]
-        return None
-
-    def migrate_ancestries(self, old_ancestries):
-        new_object_type = self.new_model.Ancestries
-        new_ancestries = self.convert_class(target_klass=new_object_type, instance=old_ancestries)
-        new_ancestries.chiSquare1KGenomesPhase3Pop = self.migrate_chiSquare1KGenomesPhase3Pop_list(old_chiSquare1KGenomesPhase3Pop_list=old_ancestries.chiSquare1KGenomesPhase3Pop)
-        return self.validate_object(object_to_validate=new_ancestries, object_type=new_object_type)
-
     def migrate_pedigree_member(self, old_member):
         new_object_type = self.new_model.PedigreeMember
         new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
-        new_member.disorderList = self.migrate_disorder_list(old_disorder_list=old_member.disorderList)
-        new_member.hpoTermList = self.migrate_hpo_term_list(old_hpo_term_list=old_member.hpoTermList)
-        if old_member.ancestries is not None:
-            new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
-        else:
-            new_member.ancestries = None
+        new_member.disorderList = self.convert_collection(old_member.disorderList, self.migrate_disorder)
+        new_member.hpoTermList = self.convert_collection(old_member.hpoTermList, self.migrate_hpo_term)
         return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
-
-    def migrate_pedigree_members(self, old_members):
-        if old_members is not None:
-            return [self.migrate_pedigree_member(old_member) for old_member in old_members if old_members is not None]
-        return None
-
-    def migrate_other_files(self, other_files):
-        if isinstance(other_files, dict):
-            return {key: self.convert_class(target_klass=self.new_model.File, instance=other_file) for key, other_file in other_files.items()}
 
     @staticmethod
     def migrate_allele_frequencies(additionalNumericVariantAnnotations):
