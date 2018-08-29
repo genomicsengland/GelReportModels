@@ -11,6 +11,21 @@ class MigrateReports600To500(BaseMigrateReports500And600):
     old_model = reports_6_0_0
     new_model = reports_5_0_0
 
+    moh_map = {
+        old_model.ModeOfInheritance.unknown: new_model.ReportedModeOfInheritance.unknown,
+        old_model.ModeOfInheritance.na: new_model.ReportedModeOfInheritance.unknown,
+        old_model.ModeOfInheritance.monoallelic: new_model.ReportedModeOfInheritance.monoallelic,
+        old_model.ModeOfInheritance.monoallelic_not_imprinted: new_model.ReportedModeOfInheritance.monoallelic_not_imprinted,
+        old_model.ModeOfInheritance.monoallelic_maternally_imprinted: new_model.ReportedModeOfInheritance.monoallelic_maternally_imprinted,
+        old_model.ModeOfInheritance.monoallelic_paternally_imprinted: new_model.ReportedModeOfInheritance.monoallelic_paternally_imprinted,
+        old_model.ModeOfInheritance.biallelic: new_model.ReportedModeOfInheritance.biallelic,
+        old_model.ModeOfInheritance.monoallelic_and_biallelic: new_model.ReportedModeOfInheritance.monoallelic_and_biallelic,
+        old_model.ModeOfInheritance.monoallelic_and_more_severe_biallelic: new_model.ReportedModeOfInheritance.monoallelic_and_more_severe_biallelic,
+        old_model.ModeOfInheritance.xlinked_biallelic: new_model.ReportedModeOfInheritance.xlinked_biallelic,
+        old_model.ModeOfInheritance.xlinked_monoallelic: new_model.ReportedModeOfInheritance.xlinked_monoallelic,
+        old_model.ModeOfInheritance.mitochondrial: new_model.ReportedModeOfInheritance.mitochondrial,
+    }
+
     def migrate_interpretation_request_rd(self, old_instance):
         """
         Migrates a reports_6_0_0.InterpretationRequestRD into a reports_5_0_0.InterpretationRequestRD
@@ -41,7 +56,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         """
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
         new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
-        new_instance.additionalAnalysisPanels = self.migrate_additional_analysis_panels(old_panels=old_instance.additionalAnalysisPanels)
+        new_instance.additionalAnalysisPanels = self.convert_collection(
+            old_instance.additionalAnalysisPanels, self.migrate_additional_analysis_panel)
         new_instance.versionControl = self.new_model.ReportVersionControl()
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
@@ -107,8 +123,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
                 new_instance.clinVarIds = var_attrs.variantIdentifiers.clinVarIds
             new_instance.variantAttributes = self.migrate_variant_attributes(old_variant_attributes=var_attrs)
 
-        new_instance.variantCalls = self.migrate_variant_calls(old_calls=small_variant.variantCalls)
-        new_instance.reportEvents = self.migrate_report_events(old_events=small_variant.reportEvents)
+        new_instance.variantCalls = self.convert_collection(small_variant.variantCalls, self.migrate_variant_call)
+        new_instance.reportEvents = self.convert_collection(small_variant.reportEvents, self.migrate_report_event)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedVariant)
 
@@ -121,9 +137,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance = self.convert_class(target_klass=self.new_model.VariantAttributes, instance=old_variant_attributes)
         new_instance.fdp50 = str(old_variant_attributes.fdp50)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantAttributes)
-
-    def migrate_variant_calls(self, old_calls):
-        return [self.migrate_variant_call(old_call=old_call) for old_call in old_calls]
 
     def migrate_variant_call(self, old_call):
         """
@@ -138,9 +151,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if old_call.phaseGenotype is not None:
             new_instance.phaseSet = old_call.phaseGenotype.phaseSet
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantCall)
-
-    def migrate_report_events(self, old_events):
-        return [self.migrate_report_event(old_event=old_event) for old_event in old_events]
 
     def migrate_report_event(self, old_event):
         """
@@ -157,7 +167,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         # https://github.com/genomicsengland/GelReportModels/blob/v7.1.2/protocols/migration/migration_reports_5_0_0_to_reports_6_0_0.py#L269
         new_instance.genePanel = self.migrate_gene_panel(old_panel=old_event.genePanel)
         new_instance.modeOfInheritance = self.migrate_mode_of_inheritance(old_moh=old_event.modeOfInheritance)
-        new_instance.genomicEntities = self.migrate_genomic_entities(old_entities=old_event.genomicEntities)
+        new_instance.genomicEntities = self.convert_collection(old_event.genomicEntities, self.migrate_genomic_entity)
         if new_instance.variantClassification is not None:
             new_instance.variantClassification.drugResponseClassification = None
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEvent)
@@ -173,26 +183,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.GenePanel)
 
     def migrate_mode_of_inheritance(self, old_moh):
-        old = self.old_model.ModeOfInheritance
-        new = self.new_model.ReportedModeOfInheritance
-        moh_map = {
-            old.unknown: new.unknown,
-            old.na: new.unknown,
-            old.monoallelic: new.monoallelic,
-            old.monoallelic_not_imprinted: new.monoallelic_not_imprinted,
-            old.monoallelic_maternally_imprinted: new.monoallelic_maternally_imprinted,
-            old.monoallelic_paternally_imprinted: new.monoallelic_paternally_imprinted,
-            old.biallelic: new.biallelic,
-            old.monoallelic_and_biallelic: new.monoallelic_and_biallelic,
-            old.monoallelic_and_more_severe_biallelic: new.monoallelic_and_more_severe_biallelic,
-            old.xlinked_biallelic: new.xlinked_biallelic,
-            old.xlinked_monoallelic: new.xlinked_monoallelic,
-            old.mitochondrial: new.mitochondrial,
-        }
-        return moh_map.get(old_moh, new.unknown)
-
-    def migrate_genomic_entities(self, old_entities):
-        return [self.migrate_genomic_entity(old_genomic_entity=old_entity) for old_entity in old_entities]
+        return self.moh_map.get(old_moh, self.new_model.ReportedModeOfInheritance.unknown)
 
     def migrate_genomic_entity(self, old_genomic_entity):
         new_instance = self.convert_class(target_klass=self.new_model.GenomicEntity, instance=old_genomic_entity)
@@ -247,25 +238,17 @@ class MigrateReports600To500(BaseMigrateReports500And600):
     def migrate_cancer_interpreted_genome(self, old_instance):
         new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretedGenome, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.migrate_variants_cancer(variants=old_instance.variants)
-
+        new_instance.variants = self.convert_collection(old_instance.variants, self.migrate_variant_cancer)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome)
-
-    def migrate_variants_cancer(self, variants):
-        if variants:
-            return [self.migrate_variant_cancer(old_variant) for old_variant in variants]
 
     def migrate_variant_cancer(self, old_variant):
         new_variant = self.convert_class(self.new_model.ReportedVariantCancer, old_variant)
         attributes = old_variant.variantAttributes.toJsonDict()
         new_variant.updateWithJsonDict(attributes)
         new_variant.variantAttributes.fdp50 = str(old_variant.variantAttributes.fdp50)
-
-        identifiers = old_variant.variantAttributes.variantIdentifiers.toJsonDict()
-        new_variant.updateWithJsonDict(identifiers)
-
-        new_variant.variantCalls = [self.migrate_variant_call_cancer(call) for call in old_variant.variantCalls]
-        new_variant.reportEvents = [self.migrate_report_event_cancer(reportEvent) for reportEvent in old_variant.reportEvents]
+        new_variant.updateWithJsonDict(old_variant.variantAttributes.variantIdentifiers.toJsonDict())
+        new_variant.variantCalls = self.convert_collection(old_variant.variantCalls, self.migrate_variant_call_cancer)
+        new_variant.reportEvents = self.convert_collection(old_variant.reportEvents, self.migrate_report_event_cancer)
 
         return new_variant
 
@@ -280,7 +263,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def migrate_report_event_cancer(self, old_report_event):
         new_event = self.convert_class(target_klass=self.new_model.ReportEventCancer, instance=old_report_event)
-
         new_event.genomicEntities = [self.migrate_genomic_entity(entity) for entity in old_report_event.genomicEntities]
         new_event.variantClassification = self.migrate_variant_classification(
             classification=old_report_event.variantClassification)
@@ -298,7 +280,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_variant_classification.clinicalSignificance = self.migrate_clinical_significance(
             old_significance=classification.clinicalSignificance)
         new_variant_classification.drugResponseClassification = None
-        return self.validate_object(object_to_validate=new_variant_classification, object_type=self.new_model.VariantClassification)
+        return self.validate_object(object_to_validate=new_variant_classification,
+                                    object_type=self.new_model.VariantClassification)
 
     def migrate_clinical_significance(self, old_significance):
         return self.clinical_signicance_reverse_map.get(old_significance)
@@ -327,11 +310,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         action.evidenceType += ",".join([' ('] + evidence.conditions + [')'])
         return action
 
-    def migrate_additional_analysis_panels(self, old_panels):
-        if old_panels is None:
-            return None
-        return [self.migrate_additional_analysis_panel(old_panel=old_panel) for old_panel in old_panels]
-
     def migrate_additional_analysis_panel(self, old_panel):
         new_instance = self.convert_class(target_klass=self.new_model.AdditionalAnalysisPanel, instance=old_panel)
         new_instance.panel = self.migrate_gene_panel(old_panel=old_panel.panel)
@@ -345,17 +323,17 @@ class MigrateReports600To500(BaseMigrateReports500And600):
     def migrate_cancer_exit_questionnaire(self, old_instance):
         new_object_type = self.new_model.CancerExitQuestionnaire
         new_instance = self.convert_class(target_klass=new_object_type, instance=old_instance)
-        new_instance.somaticVariantLevelQuestions = self.migrate_list_of_things(
+        new_instance.somaticVariantLevelQuestions = self.convert_collection(
             things=old_instance.somaticVariantLevelQuestions,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.CancerSomaticVariantLevelQuestions
         )
-        new_instance.germlineVariantLevelQuestions = self.migrate_list_of_things(
+        new_instance.germlineVariantLevelQuestions = self.convert_collection(
             things=old_instance.germlineVariantLevelQuestions,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.CancerGermlineVariantLevelQuestions
         )
-        new_instance.otherActionableVariants = self.migrate_list_of_things(
+        new_instance.otherActionableVariants = self.convert_collection(
             things=old_instance.otherActionableVariants,
             migrate_function=self.migrate_only_variant_details,
             klass=self.new_model.AdditionalVariantsQuestions
