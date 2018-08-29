@@ -260,7 +260,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         if identifiers is None:
             return None
         new_identifiers = []
-        for source, identifier in identifiers.iteritems():
+        for source, identifier in identifiers.items():
             new_identifiers.append(self.new_model.Identifier(
                 source=source,
                 identifier=identifier
