@@ -251,6 +251,24 @@ class MigrationHelpers(object):
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
+    @classmethod
+    def reverse_migrate_cancer_exit_questionnaire_to_v5(cls, json_dict):
+        """
+        :param json_dict: dict
+        :return: CancerExitQuestionnaire_5_0_0
+        """
+        types = [
+            CancerExitQuestionnaire_6_0_0,
+            CancerExitQuestionnaire_5_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            lambda x: MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=x, assembly=assembly)
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
     @staticmethod
     def migrate_pedigree_to_latest(json_dict):
         """
@@ -449,3 +467,4 @@ class MigrationHelpers(object):
     def set_version_to_6_0_0(version_controlled):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
         return version_controlled
+
