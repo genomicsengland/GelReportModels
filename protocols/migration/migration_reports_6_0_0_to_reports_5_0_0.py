@@ -312,6 +312,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def _make_action_from(self, evidence, evidenceType):
         action = self.new_model.Action()
+        action.actionType = {"Therapeutic": "therapeutic", "Prognostic": "prognosis", "Trial": "therapy"}[evidenceType]
         action.evidenceType = evidenceType
         if hasattr(evidence, 'source'):
             action.source = evidence.source

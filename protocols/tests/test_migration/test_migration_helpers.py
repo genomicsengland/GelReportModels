@@ -24,6 +24,22 @@ from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 
 
+class ActionFactory600(FactoryAvro):
+    class Meta:
+        model = reports_6_0_0.Actions
+
+    _version = VERSION_70
+
+    actionType = factory.fuzzy.FuzzyChoice(['therapy', 'therapeutic', 'prognosis', 'diagnosis'])
+    status = factory.fuzzy.FuzzyChoice(['clinical', 'pre-clinical'])
+    evidence = ["this", "that"]
+    drug = factory.fuzzy.FuzzyText()
+    variantActionable = factory.fuzzy.FuzzyChoice([True, False])
+    comments = ["this", "that"]
+    url = factory.fuzzy.FuzzyText()
+    evidenceType = factory.fuzzy.FuzzyText()
+    source = factory.fuzzy.FuzzyText()
+
 class ActionFactory400(FactoryAvro):
     class Meta:
         model = reports_4_0_0.Actions
@@ -39,7 +55,6 @@ class ActionFactory400(FactoryAvro):
     url = factory.fuzzy.FuzzyText()
     evidenceType = factory.fuzzy.FuzzyText()
     source = factory.fuzzy.FuzzyText()
-
 
 class ActionFactory300(FactoryAvro):
     class Meta:
@@ -133,14 +148,14 @@ class TestMigrationHelpers(TestCaseMigration):
             reports_6_0_0.Pedigree, VERSION_70, fill_nullables=fill_nullables
         ).create()
         old_ig = GenericFactoryAvro.get_factory_avro(
-            reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
+            reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
         self.assertIsInstance(old_instance, reports_6_0_0.InterpretationRequestRD)
 
-        migrated_instance = MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3(old_instance.toJsonDict(), old_ig)
+        migrated_instance = MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3(old_instance.toJsonDict(), old_ig.toJsonDict())
         self.assertIsInstance(migrated_instance, reports_3_0_0.InterpretationRequestRD)
         self._validate(migrated_instance)
         self.assertEqual(migrated_instance.versionControl.GitVersionControl, '3.0.0')
@@ -560,6 +575,24 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_interpretation_request_cancer_300_600_nulls(self):
         self.test_migrate_interpretation_request_cancer_300_600(fill_nullables=False)
+
+    def test_migrate_interpretation_request_cancer_600_400(self, fill_nullables=True):
+        old_instance = self.get_valid_object(
+            reports_6_0_0.CancerInterpretationRequest, VERSION_70, fill_nullables=fill_nullables
+        )
+        old_ig = self.get_valid_object(
+            reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
+        )
+
+        migrated_instance = MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4(
+            old_instance.toJsonDict(), old_ig.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_4_0_0.CancerInterpretationRequest)
+        self._validate(migrated_instance)
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '4.0.0')
+
+    def test_migrate_interpretation_request_cancer_600_400_nulls(self):
+        self.test_migrate_interpretation_request_cancer_600_400(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_500_600(self, fill_nullables=True):
 

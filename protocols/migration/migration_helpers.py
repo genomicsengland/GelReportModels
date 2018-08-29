@@ -88,7 +88,19 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def reverse_migrate_interpretation_request_rd_to_v3(json_dict, old_ig, cip=None):
+    def reverse_migrate_interpretation_request_rd_to_v3(json_dict, ig_json_dict, cip=None):
+        ig_types = [
+            InterpretedGenomeRD_5_0_0,
+            InterpretedGenome_6_0_0
+        ]
+
+        ig_migrations = [
+            lambda x: x,
+            MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd
+        ]
+
+        part_migrated_ig = MigrationHelpers.migrate(ig_json_dict, ig_types, ig_migrations)
+
         types = [
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_4_0_0,
@@ -99,7 +111,7 @@ class MigrationHelpers(object):
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpretation_request_rd,
-            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=old_ig, cip=cip),
+            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig, cip=cip),
             MigrateReports600To500().migrate_interpretation_request_rd,
         ]
 
@@ -292,6 +304,42 @@ class MigrationHelpers(object):
             MigrateReports500To600().migrate_interpretation_request_cancer,
             lambda x: MigrateReports400To500().migrate_cancer_interpretation_request(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_cancer_interpretation_request
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
+    def reverse_migrate_interpretation_request_cancer_to_v4(json_dict, ig_json_dict):
+        """
+        :type json_dict: dict
+        :type assembly: Assembly
+        :rtype: CancerInterpretationRequest_4_0_0
+        """
+        ig_types = [
+            CancerInterpretedGenome_5_0_0,
+            InterpretedGenome_6_0_0
+        ]
+
+        ig_migrations = [
+            lambda x: x,
+            MigrateReports600To500().migrate_cancer_interpreted_genome,
+        ]
+
+        part_migrated_ig = MigrationHelpers.migrate(ig_json_dict, ig_types, ig_migrations)
+        print(type(part_migrated_ig))
+
+        types = [
+            CancerInterpretationRequest_4_0_0,
+            CancerInterpretationRequest_5_0_0,
+            CancerInterpretationRequest_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            lambda x: MigrateReports500To400().migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(
+                x, part_migrated_ig
+            ),
+            MigrateReports600To500().migrate_interpretation_request_cancer,
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
