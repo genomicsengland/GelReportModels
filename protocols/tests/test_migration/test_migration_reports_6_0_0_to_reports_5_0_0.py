@@ -131,8 +131,10 @@ class TestMigrateReports600To500(TestCaseMigration):
         sv_6 = self.get_valid_object(
             object_type=old_model.SmallVariant, version=self.version_7_0, fill_nullables=True,
         )
-        rv_5 = MigrateReports600To500().migrate_small_variant_to_reported_variant(
-            small_variant=sv_6, new_type=new_model.ReportedVariant)
+        migrate = MigrateReports600To500()
+        rv_5 = migrate.migrate_small_variant_to_reported_variant(
+            small_variant=sv_6, new_type=new_model.ReportedVariant, migrate_re=migrate.migrate_report_event
+        )
         self.assertIsInstance(rv_5, new_model.ReportedVariant)
         self.assertTrue(rv_5.validate(rv_5.toJsonDict()))
 
