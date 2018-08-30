@@ -49,6 +49,8 @@ class BaseTestRoundTrip(TestCaseMigration):
         differ = False
         ignore_fields = set(ignore_fields)
         for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
+            if isinstance(field_path, unicode):
+                field_path = [field_path]
             if len(ignore_fields.intersection(set(field_path))) > 0:
                 continue
             logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), values[1], values[0]))
@@ -245,22 +247,22 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_rd_interpreted_genome_nulls(self):
         self.test_migrate_rd_interpreted_genome(fill_nullables=False)
 
-    # @unittest.skip
-    # def test_migrate_rd_clinical_report(self, fill_nullables=True):
-    #     # get original IR in version 3.0.0
-    #     original = self.get_valid_object(
-    #         object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-    #     self._check_round_trip_migration(
-    #         MigrationHelpers.migrate_clinical_report_rd_to_latest,
-    #         MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
-    #         original,
-    #         self.new_model.ClinicalReport,
-    #         expect_equality=True,
-    #         forward_kwargs={'assembly': Assembly.GRCh38})
-    #
-    # @unittest.skip
-    # def test_migrate_rd_clinical_report_nulls(self):
-    #     self.test_migrate_rd_clinical_report(fill_nullables=False)
+    def test_migrate_rd_clinical_report(self, fill_nullables=True):
+        # get original IR in version 3.0.0
+        original = self.get_valid_object(
+            object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables,
+            interpretationRequestVersion='1', candidateStructuralVariants=None
+        )
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_clinical_report_rd_to_latest,
+            MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
+            original,
+            self.new_model.ClinicalReport,
+            expect_equality=True, ignore_fields=["interpretationRequestAnalysisVersion"],
+            forward_kwargs={'assembly': Assembly.GRCh38})
+
+    def test_migrate_rd_clinical_report_nulls(self):
+        self.test_migrate_rd_clinical_report(fill_nullables=False)
 
     class FileFactory300(FactoryAvro):
         class Meta:
