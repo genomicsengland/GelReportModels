@@ -49,9 +49,13 @@ class MigrateParticipant110To100(BaseMigration):
 
     @staticmethod
     def migrate_hpo_term_modifiers(old_modifiers):
-        return dict(
-            laterality=old_modifiers.laterality,
-            progression=old_modifiers.progression,
-            severity=old_modifiers.severity,
-            spatial_pattern=old_modifiers.laterality,
-        )
+        if old_modifiers is None:
+            return None
+        modifiers = {}
+        if old_modifiers.laterality:
+            modifiers['laterality'] = old_modifiers.laterality
+        if old_modifiers.progression:
+            modifiers['progression'] = old_modifiers.progression
+        if old_modifiers.severity:
+            modifiers['severity'] = old_modifiers.severity
+        return modifiers

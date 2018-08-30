@@ -294,6 +294,38 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         _version = dependency_manager.VERSION_300
         copyNumber = None
 
+    class RDParticipantFactory300(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.RDParticipant
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = False
+
+    class RDParticipantFactory300Nulls(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.RDParticipant
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = True
+
+    class PedigreeFactory300(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.Pedigree
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = False
+
+    class PedigreeFactory300Nulls(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.Pedigree
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = True
+
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=True)
@@ -301,3 +333,11 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=False)
         GenericFactoryAvro.register_factory(
             reports_3_0_0.CalledGenotype, self.CalledGenotypeFactory300, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.RDParticipant, self.RDParticipantFactory300, self.version_3_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.RDParticipant, self.RDParticipantFactory300Nulls, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.Pedigree, self.PedigreeFactory300, self.version_3_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.Pedigree, self.PedigreeFactory300Nulls, self.version_3_0_0, fill_nullables=True)

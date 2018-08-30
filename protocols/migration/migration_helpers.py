@@ -53,8 +53,8 @@ from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import Migrate
 from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
 from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
 from protocols.migration import MigrateReports500To400
-from protocols.migration.participants import (
-    MigrationReportsToParticipants1,
+from protocols.migration import (
+    MigrationReports3ToParticipant1,
     MigrationParticipants100To103,
     MigrationParticipants103To110,
 )
@@ -293,7 +293,7 @@ class MigrationHelpers(object):
             lambda x: x,
             MigrationParticipants103To110().migrate_pedigree,
             MigrationParticipants100To103().migrate_pedigree,
-            MigrationReportsToParticipants1().migrate_pedigree
+            MigrationReports3ToParticipant1().migrate_pedigree
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)

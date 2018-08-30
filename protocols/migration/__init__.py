@@ -2,8 +2,9 @@ from .migration import Migration2_1To3
 
 from .base_migration import BaseMigration
 
-from .participants import MigrationParticipants100To103
-from .participants import MigrationParticipants103To110
+from .migration_participant_1_0_0_to_participant_1_0_3 import MigrationParticipants100To103
+from .migration_participant_1_0_3_to_participant_1_1_0 import MigrationParticipants103To110
+from .migration_reports_3_0_0_to_participant_1_0_0 import MigrationReports3ToParticipant1
 
 from .migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
 from .migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
