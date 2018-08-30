@@ -461,6 +461,22 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
+    def reverse_migrate_clinical_report_cancer_to_v4(json_dict):
+        types = [
+            ClinicalReportCancer_4_0_0,
+            ClinicalReportCancer_5_0_0,
+            ClinicalReport_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports500To400().migrate_cancer_clinical_report,
+            MigrateReports600To500().migrate_clinical_report_cancer
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
     def migrate_cancer_participant_to_latest(json_dict):
         """
         :type json_dict: dict
