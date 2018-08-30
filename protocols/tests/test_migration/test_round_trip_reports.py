@@ -47,16 +47,23 @@ class BaseTestRoundTrip(TestCaseMigration):
         self.assertValid(round_tripped)
 
         differ = False
-        ignore_fields = set(ignore_fields)
         for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
             if isinstance(field_path, unicode):
                 field_path = [field_path]
-            if len(ignore_fields.intersection(set(field_path))) > 0:
+            if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
                 continue
             logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), values[1], values[0]))
             differ = True
         if expect_equality:
             self.assertFalse(differ)
+
+    @staticmethod
+    def is_field_ignored(field_path, ignored_fields):
+        for ignored_field in ignored_fields:
+            for path in field_path:
+                if ignored_field in str(path):
+                    return True
+        return False
 
     def assertValid(self, instance):
         validation = instance.validate(instance.toJsonDict(), verbose=True)
@@ -207,26 +214,30 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     new_model = reports_6_0_0
 
     # @unittest.skip
-    # def test_migrate_rd_interpretation_request(self, fill_nullables=True):
-    #     # get original IR in version 3.0.0
-    #     original_ir = self.get_valid_object(
-    #         object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-    #     # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
-    #     ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
-    #         original_ir.toJsonDict(), assembly=Assembly.GRCh38)
-    #     ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
-    #     self._check_round_trip_migration(
-    #         MigrationHelpers.migrate_interpretation_request_rd_to_latest,
-    #         MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
-    #         original_ir,
-    #         self.new_model.InterpretationRequestRD,
-    #         expect_equality=True,
-    #         forward_kwargs={'assembly': Assembly.GRCh38},
-    #         backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
-    #
+    def test_migrate_rd_interpretation_request(self, fill_nullables=True):
+        # get original IR in version 3.0.0
+        assembly = Assembly.GRCh38
+        original_ir = self.get_valid_object(
+            object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0,
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
+            versionControl=reports_3_0_0.VersionControl())
+        # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
+        ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            original_ir.toJsonDict(), assembly=assembly)
+        ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_interpretation_request_rd_to_latest,
+            MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
+            original_ir,
+            self.new_model.InterpretationRequestRD,
+            expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
+                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome"],
+            forward_kwargs={'assembly': assembly},
+            backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
+
     # @unittest.skip
-    # def test_migrate_rd_interpretation_request_nulls(self):
-    #     self.test_migrate_rd_interpretation_request(fill_nullables=False)
+    def test_migrate_rd_interpretation_request_nulls(self):
+        self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
         # get original IG in version 3.0.0
