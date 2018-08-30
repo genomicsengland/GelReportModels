@@ -3,8 +3,8 @@ import logging
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols import opencb_1_3_0 as opencb_1_3_0
+from protocols.migration import MigrationParticipants103To110, MigrationParticipants100To103
 from protocols.migration.base_migration import MigrationError, BaseMigrateReports400And500
-import itertools
 
 
 class MigrateReports400To500(BaseMigrateReports400And500):
@@ -496,55 +496,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             object_to_validate=new_instance, object_type=self.new_model.Action
         )
 
-    def migrate_tumour_sample(self, old_sample, ldp_code):
-        ts = self.new_model.TumourSample
-        tt = self.new_model.TumourType
-        new_sample = self.convert_class(ts, old_sample)  # :type: reports_5_0_0.TumourSample
-
-        tumour_type_enum = [
-            tt.PRIMARY, tt.METASTATIC_RECURRENCE, tt.RECURRENCE_OF_PRIMARY_TUMOUR, tt.METASTASES
-        ]
-        new_sample.tumourType = old_sample.tumourType if old_sample.tumourType in tumour_type_enum else None
-        new_sample.tumourId = str(old_sample.tumourId)
-        if ldp_code is None:
-            raise MigrationError("Cannot migrate '{}' to '{}' having an empty value of 'ldp_code'".format(
-                type(old_sample), type(new_sample))
-            )
-        new_sample.LDPCode = ldp_code
-
-        return self.validate_object(object_to_validate=new_sample, object_type=ts)
-
-    def migrate_germline_sample(self, old_sample, ldp_code):
-        gs = self.new_model.GermlineSample
-        new_sample = self.convert_class(gs, old_sample)  # :type: reports_5_0_0.GermlineSample
-        new_sample.LDPCode = ldp_code
-        return self.validate_object(object_to_validate=new_sample, object_type=gs)
-
-    def migrate_cancer_participant(self, old_participant):
-        new_participant = self.convert_class(
-            self.new_model.CancerParticipant, old_participant
-        )  # :type: reports_5_0_0.CancerParticipant
-
-        new_participant.tumourSamples = self.convert_collection(
-            old_participant.tumourSamples, self.migrate_tumour_sample, ldp_code=old_participant.LDPCode)
-        new_participant.germlineSamples = self.convert_collection(
-            old_participant.germlineSamples, self.migrate_germline_sample, ldp_code=old_participant.LDPCode)
-        # NOTE: we create all combinations of germline and tumour as a conservative approach
-        if new_participant.germlineSamples is not None and new_participant.tumourSamples is not None:
-            new_participant.matchedSamples = \
-                [self.new_model.MatchedSamples(germlineSampleId=x.sampleId, tumourSampleId=y.sampleId)
-                 for (x, y) in list(itertools.product(new_participant.germlineSamples, new_participant.tumourSamples))]
-
-        new_participant.primaryDiagnosisDisease = \
-            [old_participant.primaryDiagnosisDisease] if old_participant.primaryDiagnosisDisease else None
-        new_participant.primaryDiagnosisSubDisease = \
-            [old_participant.primaryDiagnosisSubDisease] if old_participant.primaryDiagnosisSubDisease else None
-        new_participant.assignedICD10 = \
-            [old_participant.assignedICD10] if old_participant.assignedICD10 else None
-
-        return self.validate_object(
-            object_to_validate=new_participant, object_type=self.new_model.CancerParticipant
-        )
+    @staticmethod
+    def migrate_cancer_participant(old_participant):
+        part_migrated = MigrationParticipants100To103().migrate_cancer_participant(old_participant)
+        return MigrationParticipants103To110().migrate_cancer_participant(part_migrated)
 
     def migrate_disorder(self, old_disorder):
         new_object_type = self.new_model.Disorder
