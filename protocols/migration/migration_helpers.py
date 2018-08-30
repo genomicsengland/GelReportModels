@@ -371,13 +371,15 @@ class MigrationHelpers(object):
                 "Cannot transform a cancer interpretation request in version 5.0.0 or 6.0.0 into an interpreted genome")
 
         types = [
-            CancerInterpretationRequest_5_0_0,
+            InterpretedGenome_6_0_0,
+            CancerInterpretedGenome_5_0_0,
             CancerInterpretationRequest_4_0_0,
             CancerInterpretationRequest_3_0_0
         ]
 
         migrations = [
             lambda x: x,
+            MigrateReports500To600().migrate_cancer_interpreted_genome,
             lambda x: MigrateReports400To500().migrate_cancer_interpretation_request_to_cancer_interpreted_genome(
                 old_instance=x, assembly=assembly, interpretation_service=interpretation_service,
                 reference_database_versions=reference_database_versions, software_versions=software_versions,
@@ -399,7 +401,7 @@ class MigrationHelpers(object):
         :type sample_id: str
         :type interpretation_request_version: int
         :type interpretation_service: str
-        :rtype: CancerInterpretedGenome_6_0_0
+        :rtype: InterpretedGenome_6_0_0
         """
         types = [
             InterpretedGenome_6_0_0,
