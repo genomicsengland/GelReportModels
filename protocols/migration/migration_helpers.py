@@ -19,6 +19,7 @@ from protocols.reports_4_0_0 import InterpretationRequestRD as InterpretationReq
 from protocols.reports_4_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_4_0_0
 from protocols.reports_4_0_0 import CancerInterpretedGenome as CancerInterpretedGenome_4_0_0
 from protocols.reports_4_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_4_0_0
+from protocols.reports_4_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_4_0_0
 
 from protocols.reports_5_0_0 import ClinicalReportRD as ClinicalReportRD_5_0_0
 from protocols.reports_5_0_0 import InterpretedGenomeRD as InterpretedGenomeRD_5_0_0
@@ -404,6 +405,22 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
+    def reverse_migrate_interpreted_genome_cancer_to_v4(json_dict):
+        types = [
+            CancerInterpretedGenome_4_0_0,
+            CancerInterpretedGenome_5_0_0,
+            InterpretedGenome_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports500To400().migrate_cancer_interpreted_genome,
+            MigrateReports600To500().migrate_cancer_interpreted_genome
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
     def migrate_clinical_report_cancer_to_latest(json_dict, sample_id=None, assembly=None, participant_id=None):
         """
         Migration from reports 3.0.0 is not supported as we have no data in that version
@@ -473,6 +490,24 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
+    def reverse_migrate_exit_questionnaire_rd_to_v3(json_dict):
+        types = [
+            RareDiseaseExitQuestionnaire_3_0_0,
+            RareDiseaseExitQuestionnaire_4_0_0,
+            RareDiseaseExitQuestionnaire_5_0_0,
+            RareDiseaseExitQuestionnaire_6_0_0
+        ]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports400To300().migrate_exit_questionnaire_rd,
+            MigrateReports500To400().migrate_exit_questionnaire_rd,
+            MigrateReports600To500().migrate_exit_questionnaire_rd
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
+    @staticmethod
     def migrate(json_dict, types, migrations):
         for i, typ in enumerate(types):
             if PayloadValidation(klass=typ, payload=json_dict).is_valid:
@@ -488,3 +523,4 @@ class MigrationHelpers(object):
     def set_version_to_6_0_0(version_controlled):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
         return version_controlled
+
