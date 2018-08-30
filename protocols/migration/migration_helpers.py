@@ -260,6 +260,21 @@ class MigrationHelpers(object):
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
+    @classmethod
+    def reverse_migrate_cancer_exit_questionnaire_to_v5(cls, json_dict):
+        """
+        :param json_dict: dict
+        :return: CancerExitQuestionnaire_5_0_0
+        """
+        types = [CancerExitQuestionnaire_5_0_0, CancerExitQuestionnaire_6_0_0]
+
+        migrations = [
+            lambda x: x,
+            MigrateReports600To500().migrate_cancer_exit_questionnaire
+        ]
+
+        return MigrationHelpers.migrate(json_dict, types, migrations)
+
     @staticmethod
     def migrate_pedigree_to_latest(json_dict):
         """

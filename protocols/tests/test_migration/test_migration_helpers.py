@@ -119,8 +119,6 @@ class TestMigrationHelpers(TestCaseMigration):
             reports_2_1_0.File, FileFactory210, VERSION_210, fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_400_600(self, fill_nullables=True):
-
-        # tests IR RD 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.InterpretationRequestRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -164,8 +162,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_600_300(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_300_600(self, fill_nullables=True):
-
-        # tests IR RD 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -183,8 +179,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_300_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_210_600(self, fill_nullables=True):
-
-        # tests IR RD 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.InterpretationRequestRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -204,8 +198,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_210_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_500_600(self, fill_nullables=True):
-
-        # tests IR RD 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -223,8 +215,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_500_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_400_600(self, fill_nullables=True):
-
-        # tests IR 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.InterpretationRequestRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -242,8 +232,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_to_interpreted_genome_400_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_300_600(self, fill_nullables=True):
-
-        # tests IR 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -259,8 +247,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_to_interpreted_genome_300_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_210_600(self, fill_nullables=True):
-
-        # tests IR 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.InterpretationRequestRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -276,8 +262,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_rd_to_interpreted_genome_210_600(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_400_600(self, fill_nullables=True):
-
-        # tests IG 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.InterpretedGenomeRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -295,8 +279,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_rd_400_600(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_600_300(self, fill_nullables=True):
-
-        # tests IG 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         ).create()
@@ -312,8 +294,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_rd_600_300(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_300_600(self, fill_nullables=True):
-
-        # tests IG 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.InterpretedGenomeRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -331,8 +311,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_rd_300_600(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_210_600(self, fill_nullables=True):
-
-        # tests IG 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.InterpretedGenomeRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -350,8 +328,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_rd_210_600(fill_nullables=False)
 
     def test_migrate_interpreted_genome_rd_500_600(self, fill_nullables=True):
-
-        # tests IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.InterpretedGenomeRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -368,8 +344,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_rd_500_600(fill_nullables=True)
 
     def test_migrate_rd_clinical_report_400_600(self, fill_nullables=True):
-
-        # tests IG 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.ClinicalReportRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -387,8 +361,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_rd_clinical_report_400_600(fill_nullables=False)
 
     def test_migrate_rd_clinical_report_300_600(self, fill_nullables=True):
-
-        # tests IG 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.ClinicalReportRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -421,8 +393,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_rd_clinical_report_600_300(fill_nullables=False)
 
     def test_migrate_rd_clinical_report_210_600(self, fill_nullables=True):
-
-        # tests IG 210 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.ClinicalReportRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -440,8 +410,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_rd_clinical_report_210_600(fill_nullables=False)
 
     def test_migrate_rd_clinical_report_500_600(self, fill_nullables=True):
-
-        # tests IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.ClinicalReportRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -469,7 +437,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_rd_clinical_report_500_600(fill_nullables=False)
 
     def test_migrate_pedigree_300_110(self, fill_nullables=True):
-        # tests reports 300 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.Pedigree, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -486,7 +453,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_300_110(fill_nullables=False)
 
     def test_migrate_pedigree_100_110(self, fill_nullables=True):
-        # tests IG participants 100 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_0.Pedigree, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -504,8 +470,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_100_110(fill_nullables=False)
 
     def test_migrate_pedigree_103_110(self, fill_nullables=True):
-
-        # tests pedigree participants 103 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_3.Pedigree, VERSION_500, fill_nullables=fill_nullables
         ).create()
@@ -519,7 +483,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_103_110(fill_nullables=False)
 
     def test_migrate_pedigree_110_110(self, fill_nullables=True):
-        # tests pedigree participants 103 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_3.Pedigree, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -533,8 +496,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_pedigree_110_110(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_400_600(self, fill_nullables=True):
-
-        # tests CIR 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretationRequest, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -574,8 +535,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_600_400(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_300_600(self, fill_nullables=True):
-
-        # tests CIR 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.CancerInterpretationRequest, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -596,8 +555,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_300_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_500_600(self, fill_nullables=True):
-
-        # tests CIR 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerInterpretationRequest, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -616,8 +573,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_500_600(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_400_500(self, fill_nullables=True):
-
-        # tests IR 400 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretationRequest, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -639,8 +594,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_to_interpreted_genome_400_500(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_300_500(self, fill_nullables=True):
-
-        # tests IR 300 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.CancerInterpretationRequest, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -665,8 +618,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_to_interpreted_genome_300_500(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_500_500(self, fill_nullables=True):
-
-        # tests IG 500 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerInterpretationRequest, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -685,8 +636,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpretation_request_cancer_to_interpreted_genome_500_500(fill_nullables=False)
 
     def test_migrate_interpreted_genome_cancer_400_500(self, fill_nullables=True):
-
-        # tests IR 400 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretedGenome, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -703,8 +652,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_cancer_400_500(fill_nullables=False)
 
     def test_migrate_interpreted_genome_cancer_300_500(self, fill_nullables=True):
-
-        # tests IR 300 -> 500
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.CancerInterpretedGenome, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -722,8 +669,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_cancer_300_500(fill_nullables=False)
 
     def test_migrate_interpreted_genome_cancer_500_600(self, fill_nullables=True):
-
-        # tests C IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerInterpretedGenome, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -759,8 +704,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_interpreted_genome_cancer_500_600(fill_nullables=False)
 
     def test_migrate_clinical_report_cancer_400_600(self, fill_nullables=True):
-
-        # tests IR 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.ClinicalReportCancer, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -779,8 +722,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_clinical_report_cancer_400_600(fill_nullables=False)
 
     def test_migrate_clinical_report_cancer_300_600(self, fill_nullables=True):
-
-        # tests IR 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.ClinicalReportCancer, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -797,8 +738,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_clinical_report_cancer_300_600(fill_nullables=False)
 
     def test_migrate_clinical_report_cancer_500_600(self, fill_nullables=True):
-
-        # tests IG 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.ClinicalReportCancer, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -816,8 +755,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_clinical_report_cancer_500_600(fill_nullables=False)
 
     def test_migrate_questionnaire_rd_300_600(self, fill_nullables=True):
-
-        # tests EQ 300 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.RareDiseaseExitQuestionnaire, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -856,8 +793,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_questionnaire_rd_600_300(fill_nullables=False)
 
     def test_migrate_questionnaire_rd_400_600(self, fill_nullables=True):
-
-        # tests EQ 400 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -876,8 +811,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_questionnaire_rd_400_600(fill_nullables=False)
 
     def test_migrate_questionnaire_rd_500_600(self, fill_nullables=True):
-
-        # tests EQ 500 -> 600
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.RareDiseaseExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -896,8 +829,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_questionnaire_rd_500_600(fill_nullables=False)
 
     def test_migrate_cancer_participant_100_110(self, fill_nullables=True):
-
-        # tests IG participants 100 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_0.CancerParticipant, VERSION_400, fill_nullables=fill_nullables
         ).create()  # type: participant_1_0_0.CancerParticipant
@@ -912,8 +843,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_cancer_participant_100_110(fill_nullables=False)
 
     def test_migrate_cancer_participant_103_110(self, fill_nullables=True):
-
-        # tests pedigree participants 103 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_3.CancerParticipant, VERSION_500, fill_nullables=fill_nullables
         ).create()
@@ -927,8 +856,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_cancer_participant_103_110(fill_nullables=False)
 
     def test_migrate_cancer_participant_110_110(self, fill_nullables=True):
-
-        # tests pedigree participants 103 -> participants 103
         old_instance = GenericFactoryAvro.get_factory_avro(
             participant_1_0_3.CancerParticipant, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -942,7 +869,6 @@ class TestMigrationHelpers(TestCaseMigration):
         self.test_migrate_cancer_participant_110_110(fill_nullables=False)
 
     def test_migrate_cancer_exit_questionnaire_to_latest(self, fill_nullables=True):
-        # tests pedigree C EQ 5 -> C EQ 6
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerExitQuestionnaire, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -958,3 +884,20 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_cancer_exit_questionnaire_to_latest_no_nullables(self):
         self.test_migrate_cancer_exit_questionnaire_to_latest(fill_nullables=False)
+
+    def test_reverse_migrate_cancer_exit_questionnaire_to_v5(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.CancerExitQuestionnaire, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        old_instance = self.populate_c_eq_variant_level_questions_variant_details(old_c_eq=old_instance)
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.reverse_migrate_cancer_exit_questionnaire_to_v5(
+            json_dict=old_instance.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_5_0_0.CancerExitQuestionnaire)
+        self._validate(migrated_instance)
+
+    def test_reverse_migrate_cancer_exit_questionnaire_to_v5_no_nullables(self):
+        self.test_reverse_migrate_cancer_exit_questionnaire_to_v5(fill_nullables=False)
