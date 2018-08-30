@@ -204,27 +204,27 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     old_model = reports_3_0_0
     new_model = reports_6_0_0
 
-    @unittest.skip
-    def test_migrate_rd_interpretation_request(self, fill_nullables=True):
-        # get original IR in version 3.0.0
-        original_ir = self.get_valid_object(
-            object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-        # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
-        ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
-            original_ir.toJsonDict(), assembly=Assembly.GRCh38)
-        ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_interpretation_request_rd_to_latest,
-            MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
-            original_ir,
-            self.new_model.InterpretationRequestRD,
-            expect_equality=True,
-            forward_kwargs={'assembly': Assembly.GRCh38},
-            backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
-
-    @unittest.skip
-    def test_migrate_rd_interpretation_request_nulls(self):
-        self.test_migrate_rd_interpretation_request(fill_nullables=False)
+    # @unittest.skip
+    # def test_migrate_rd_interpretation_request(self, fill_nullables=True):
+    #     # get original IR in version 3.0.0
+    #     original_ir = self.get_valid_object(
+    #         object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
+    #     # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
+    #     ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+    #         original_ir.toJsonDict(), assembly=Assembly.GRCh38)
+    #     ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
+    #     self._check_round_trip_migration(
+    #         MigrationHelpers.migrate_interpretation_request_rd_to_latest,
+    #         MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
+    #         original_ir,
+    #         self.new_model.InterpretationRequestRD,
+    #         expect_equality=True,
+    #         forward_kwargs={'assembly': Assembly.GRCh38},
+    #         backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
+    #
+    # @unittest.skip
+    # def test_migrate_rd_interpretation_request_nulls(self):
+    #     self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
         # get original IG in version 3.0.0
@@ -245,22 +245,22 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_rd_interpreted_genome_nulls(self):
         self.test_migrate_rd_interpreted_genome(fill_nullables=False)
 
-    @unittest.skip
-    def test_migrate_rd_clinical_report(self, fill_nullables=True):
-        # get original IR in version 3.0.0
-        original = self.get_valid_object(
-            object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_clinical_report_rd_to_latest,
-            MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
-            original,
-            self.new_model.ClinicalReport,
-            expect_equality=True,
-            forward_kwargs={'assembly': Assembly.GRCh38})
-
-    @unittest.skip
-    def test_migrate_rd_clinical_report_nulls(self):
-        self.test_migrate_rd_clinical_report(fill_nullables=False)
+    # @unittest.skip
+    # def test_migrate_rd_clinical_report(self, fill_nullables=True):
+    #     # get original IR in version 3.0.0
+    #     original = self.get_valid_object(
+    #         object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
+    #     self._check_round_trip_migration(
+    #         MigrationHelpers.migrate_clinical_report_rd_to_latest,
+    #         MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
+    #         original,
+    #         self.new_model.ClinicalReport,
+    #         expect_equality=True,
+    #         forward_kwargs={'assembly': Assembly.GRCh38})
+    #
+    # @unittest.skip
+    # def test_migrate_rd_clinical_report_nulls(self):
+    #     self.test_migrate_rd_clinical_report(fill_nullables=False)
 
     class FileFactory300(FactoryAvro):
         class Meta:
