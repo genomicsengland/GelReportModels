@@ -32,6 +32,13 @@ class Migration21To3(BaseMigration):
         new_instance.versionControl = reports_3_0_0.VersionControl()
         new_instance.TieredVariants = self.convert_collection(
             interpretation_request.TieredVariants, self._migrate_reported_variant)
+        new_instance.BAMs = self.convert_collection(interpretation_request.BAMs, self._migrate_file)
+        new_instance.VCFs = self.convert_collection(interpretation_request.VCFs, self._migrate_file)
+        new_instance.bigWigs = self.convert_collection(interpretation_request.bigWigs, self._migrate_file)
+        if interpretation_request.pedigreeDiagram:
+            new_instance.pedigreeDiagram = self._migrate_file(interpretation_request.pedigreeDiagram)
+        if interpretation_request.annotationFile:
+            new_instance.annotationFile = self._migrate_file(interpretation_request.annotationFile)
         return self.validate_object(new_instance, self.new_model.InterpretationRequestRD)
 
     def migrate_clinical_report(self, clinical_report):
@@ -54,6 +61,12 @@ class Migration21To3(BaseMigration):
         new_instance.versionControl = reports_3_0_0.VersionControl()
         new_instance.participants = self.convert_collection(pedigree.participants, self._migrate_rd_participant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
+
+    def _migrate_file(self, old_instance):
+        if old_instance.fileType == self.old_model.FileType.TIER:
+            return None
+        new_instance = self.convert_class(self.new_model.File, old_instance)
+        return new_instance
 
     def _migrate_rd_participant(self, member):
         new_instance = self.convert_class(self.new_model.RDParticipant, member)
