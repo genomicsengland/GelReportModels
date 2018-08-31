@@ -17,39 +17,68 @@ class MigrationReports3ToParticipant1(BaseMigration):
 
     def migrate_pedigree(self, pedigree, ready_for_analysis=True):
         """
-
+        :type ready_for_analysis: bool
         :type pedigree: participant_old.Pedigree
         :rtype: participant_1_0_1.Pedigree
         """
-        new_pedigree = self.convert_class(self.new_model.Pedigree, pedigree)
-        new_pedigree.versionControl = self.new_model.VersionControl()
-        new_pedigree.members = self.convert_collection(pedigree.participants, self.migrate_pedigree_member)
-        new_pedigree.readyForAnalysis = ready_for_analysis
-        new_pedigree.familyId = pedigree.gelFamilyId
-        if new_pedigree.validate(new_pedigree.toJsonDict()):
-            return new_pedigree
-        else:
-            raise MigrationError('This model can not be converted')
+        new_instance = self.convert_class(self.new_model.Pedigree, pedigree)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.members = self.convert_collection(pedigree.participants, self._migrate_pedigree_member)
+        new_instance.readyForAnalysis = ready_for_analysis
+        new_instance.familyId = pedigree.gelFamilyId
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
 
-    def migrate_pedigree_member(self, member, sample_id_to_lab_sample_id=None):
+    def migrate_cancer_participant(self, old_cancer_participant):
         """
+        PRE: germlineSamples.labId follows an integer format
+        :type old_cancer_participant: reports_3_0_0.CancerParticipant
+        :rtype: participant_1_0_0.CancerParticipant
+        """
+        new_instance = self.convert_class(self.new_model.CancerParticipant, old_cancer_participant)
 
-        :type member: participant_old.RDParticipant
-        :rtype: participant_1_0_1.PedigreeMember
-        """
-        new_pedigree_member = self.convert_class(self.new_model.PedigreeMember, member)
-        new_pedigree_member.participantId = member.gelId
-        new_pedigree_member.sex = self.migrate_enumerations('Sex', member.sex)
-        new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
-        new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
-        new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
-        new_pedigree_member.personKaryotypicSex = self.migrate_enumerations('PersonKaryotipicSex', member.personKaryotipicSex)
-        new_pedigree_member.hpoTermList = self.convert_collection(member.hpoTermList, self.migrate_hpo_terms)
-        new_pedigree_member.yearOfBirth = self.convert_string_to_integer(
+        new_instance.versionControl.GitVersionControl = '1.0.0'
+        new_instance.additionalInformation = old_cancer_participant.cancerDemographics.additionalInformation
+        new_instance.assignedICD10 = old_cancer_participant.cancerDemographics.assignedICD10
+        new_instance.center = old_cancer_participant.cancerDemographics.center
+        new_instance.LDPCode = old_cancer_participant.cancerDemographics.center
+        new_instance.consentStatus = old_cancer_participant.cancerDemographics.consentStatus
+        new_instance.sex = self._migrate_sex(old_sex=old_cancer_participant.cancerDemographics.sex)
+        new_instance.individualId = old_cancer_participant.cancerDemographics.gelId
+        new_instance.primaryDiagnosisDisease = old_cancer_participant.cancerDemographics.primaryDiagnosis
+        new_instance.readyForAnalysis = True
+        if old_cancer_participant.cancerSamples is not None:
+            germline_samples = list(
+                filter(
+                    lambda s: s.sampleType == self.old_model.SampleType.germline, old_cancer_participant.cancerSamples
+                )
+            )
+            new_instance.germlineSamples = self.convert_collection(
+                things=germline_samples, migrate_function=self._migrate_germline_sample
+            )
+        if old_cancer_participant.cancerSamples is not None:
+            tumor_samples = list(filter(lambda s: s.sampleType == self.old_model.SampleType.tumor,
+                                        old_cancer_participant.cancerSamples))
+            new_instance.tumourSamples = self.convert_collection(
+                things=tumor_samples, migrate_function=self._migrate_tumor_sample
+            )
+        new_instance.matchedSamples = self.convert_collection(
+            old_cancer_participant.matchedSamples, self._migrate_match_samples)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerParticipant)
+
+    def _migrate_pedigree_member(self, member, sample_id_to_lab_sample_id=None):
+        new_instance = self.convert_class(self.new_model.PedigreeMember, member)
+        new_instance.participantId = member.gelId
+        new_instance.sex = self._migrate_enumerations('Sex', member.sex)
+        new_instance.lifeStatus = self._migrate_enumerations('LifeStatus', member.lifeStatus)
+        new_instance.adoptedStatus = self._migrate_enumerations('AdoptedStatus', member.adoptedStatus)
+        new_instance.affectionStatus = self._migrate_enumerations('AffectionStatus', member.affectionStatus)
+        new_instance.personKaryotypicSex = self._migrate_enumerations('PersonKaryotipicSex', member.personKaryotipicSex)
+        new_instance.hpoTermList = self.convert_collection(member.hpoTermList, self._migrate_hpo_terms)
+        new_instance.yearOfBirth = self.convert_string_to_integer(
             member.yearOfBirth, default_value=None, fail=False,
             defaulting_message="We are losing the year of birth as it cannot be converted into an integer")
 
-        new_pedigree_member.samples = []
+        new_instance.samples = []
         if member.samples is not None:
             for sample in member.samples:
                 if sample_id_to_lab_sample_id is not None and isinstance(sample_id_to_lab_sample_id, dict):
@@ -57,16 +86,13 @@ class MigrationReports3ToParticipant1(BaseMigration):
                         sample_id_to_lab_sample_id.get(sample, -1), default_value=-1)
                 else:
                     lab_sample_id = -1
-                new_pedigree_member.samples.append(self.new_model.Sample(
+                new_instance.samples.append(self.new_model.Sample(
                     sampleId=sample,
                     labSampleId=lab_sample_id
                 ))
-        if new_pedigree_member.validate(new_pedigree_member.toJsonDict()):
-            return new_pedigree_member
-        else:
-            raise Exception('This model can not be converted')
+        return new_instance
 
-    def migrate_enumerations(self, etype, value):
+    def _migrate_enumerations(self, etype, value):
         if etype in ['LifeStatus', 'AffectionStatus']:
             if etype == 'AffectionStatus' and value == self.old_model.AffectionStatus.unknown:
                 return self.new_model.AffectionStatus.UNCERTAIN
@@ -84,100 +110,54 @@ class MigrationReports3ToParticipant1(BaseMigration):
         else:
             raise NotImplementedError(etype + ' is not a valid enumeration type or is not implemented')
 
-    def migrate_hpo_terms(self, hpo_term):
+    def _migrate_hpo_terms(self, hpo_term):
         """
 
         :type hpo_term: participant_old.HpoTerm
         :rtype: participant_1_0_1.HpoTerm
         """
-        new_hpo = self.convert_class(self.new_model.HpoTerm, hpo_term)
-        new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
-        if new_hpo.validate(new_hpo.toJsonDict()):
-            return new_hpo
-        else:
-            raise Exception('This model can not be converted')
+        new_instance = self.convert_class(self.new_model.HpoTerm, hpo_term)
+        new_instance.termPresence = self._migrate_enumerations('termPresence', hpo_term.termPresence)
+        return new_instance
 
-    def migrate_cancer_participant(self, old_cancer_participant):
-        """
-        PRE: germlineSamples.labId follows an integer format
-        :type old_cancer_participant: reports_3_0_0.CancerParticipant
-        :rtype: participant_1_0_0.CancerParticipant
-        """
-        new_cancer_participant = self.convert_class(self.new_model.CancerParticipant, old_cancer_participant)
+    def _migrate_tumor_sample(self, old_cancer_sample):
 
-        new_cancer_participant.versionControl.GitVersionControl = '1.0.0'
-        new_cancer_participant.additionalInformation = old_cancer_participant.cancerDemographics.additionalInformation
-        new_cancer_participant.assignedICD10 = old_cancer_participant.cancerDemographics.assignedICD10
-        new_cancer_participant.center = old_cancer_participant.cancerDemographics.center
-        new_cancer_participant.LDPCode = old_cancer_participant.cancerDemographics.center
-        new_cancer_participant.consentStatus = old_cancer_participant.cancerDemographics.consentStatus
-        new_cancer_participant.sex = self.migrate_sex(old_sex=old_cancer_participant.cancerDemographics.sex)
-        new_cancer_participant.individualId = old_cancer_participant.cancerDemographics.gelId
-        new_cancer_participant.primaryDiagnosisDisease = old_cancer_participant.cancerDemographics.primaryDiagnosis
-        new_cancer_participant.readyForAnalysis = True
+        new_instance = self.convert_class(self.new_model.TumourSample, old_cancer_sample)
 
-        if old_cancer_participant.cancerSamples is not None:
-            germline_samples = list(
-                filter(
-                    lambda s: s.sampleType == self.old_model.SampleType.germline, old_cancer_participant.cancerSamples
-                )
-            )
-            new_cancer_participant.germlineSamples = self.convert_collection(
-                things=germline_samples, migrate_function=self.migrate_germline_sample
-            )
-
-        if old_cancer_participant.cancerSamples is not None:
-            tumor_samples = list(filter(lambda s: s.sampleType == self.old_model.SampleType.tumor,
-                                   old_cancer_participant.cancerSamples))
-            new_cancer_participant.tumourSamples = self.convert_collection(
-                things=tumor_samples, migrate_function=self.migrate_tumor_sample
-            )
-
-        new_cancer_participant.matchedSamples = self.convert_collection(
-            old_cancer_participant.matchedSamples, self.migrate_match_samples)
-
-        return self.validate_object(
-            object_to_validate=new_cancer_participant, object_type=self.new_model.CancerParticipant
-        )
-
-    def migrate_tumor_sample(self, old_cancer_sample):
-
-        new_tumour_sample = self.convert_class(self.new_model.TumourSample, old_cancer_sample)
-
-        new_tumour_sample.TNMStageGrouping = old_cancer_sample.tmn_stage_grouping
-        new_tumour_sample.TNMStageVersion = old_cancer_sample.tmn_stage_grouping
+        new_instance.TNMStageGrouping = old_cancer_sample.tmn_stage_grouping
+        new_instance.TNMStageVersion = old_cancer_sample.tmn_stage_grouping
         try:
-            new_tumour_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
+            new_instance.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
         except MigrationError as ex:
             logging.error("Laboratory identifier in tumour sample cannot be converted to an integer!")
             raise ex
-        new_tumour_sample.programmePhase = old_cancer_sample.gelPhase
+        new_instance.programmePhase = old_cancer_sample.gelPhase
 
-        new_tumour_sample.preparationMethod = old_cancer_sample.preservationMethod
-        new_tumour_sample.source = participant_1_0_0.SampleSource.TUMOUR
+        new_instance.preparationMethod = old_cancer_sample.preservationMethod
+        new_instance.source = participant_1_0_0.SampleSource.TUMOUR
 
         new_tumour_type = None
         if isinstance(old_cancer_sample.tumorType, basestring):
             old_tumour_type = old_cancer_sample.tumorType.upper()
             new_tumour_type = getattr(participant_1_0_0.TumourType, old_tumour_type, None)
-        new_tumour_sample.tumourType = new_tumour_type
+        new_instance.tumourType = new_tumour_type
 
         new_tumour_content = None
         if isinstance(old_cancer_sample.tumorContent, basestring):
             old_tumor_content = old_cancer_sample.tumorContent
             new_tumour_content = getattr(participant_1_0_0.TumourContent, old_tumor_content.title(), None)
-        new_tumour_sample.tumourContent = new_tumour_content
+        new_instance.tumourContent = new_tumour_content
 
-        new_tumour_sample.tumourSubType = old_cancer_sample.tumorSubType
+        new_instance.tumourSubType = old_cancer_sample.tumorSubType
 
-        new_tumour_sample.tumourId = 1
+        new_instance.tumourId = 1
 
         phase_map = {
             reports_3_0_0.Phase.PRIMARY: participant_1_0_0.Phase.PRIMARY,
             reports_3_0_0.Phase.METASTATIC: participant_1_0_0.Phase.METASTASES,
             reports_3_0_0.Phase.RECURRENCE: participant_1_0_0.Phase.RECURRENCE_OF_PRIMARY_TUMOUR
         }
-        new_tumour_sample.phase = phase_map.get(old_cancer_sample.phase)
+        new_instance.phase = phase_map.get(old_cancer_sample.phase)
 
         preservation_to_preparation_map = {
             reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
@@ -186,28 +166,19 @@ class MigrationReports3ToParticipant1(BaseMigration):
             reports_3_0_0.PreservationMethod.GL: None,
             reports_3_0_0.PreservationMethod.LEUK: None,
         }
-        new_tumour_sample.preparationMethod = preservation_to_preparation_map.get(
+        new_instance.preparationMethod = preservation_to_preparation_map.get(
             old_cancer_sample.preservationMethod)
+        return new_instance
 
-        return self.validate_object(
-            object_to_validate=new_tumour_sample, object_type=self.new_model.TumourSample
-        )
-
-    def migrate_match_samples(self, old_match_samples):
+    def _migrate_match_samples(self, old_match_samples):
         new_match_sample = self.convert_class(self.new_model.MatchedSamples, old_match_samples)
         new_match_sample.tumourSampleId = old_match_samples.tumorSampleId
         return new_match_sample
 
-    def migrate_germline_sample(self, old_cancer_sample):
+    def _migrate_germline_sample(self, old_cancer_sample):
 
-        new_germline_sample = self.convert_class(self.new_model.GermlineSample, old_cancer_sample)
-
-        try:
-            new_germline_sample.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
-        except MigrationError as ex:
-            logging.error("Laboratory identifier in germline sample cannot be converted to an integer!")
-            raise ex
-
+        new_instance = self.convert_class(self.new_model.GermlineSample, old_cancer_sample)
+        new_instance.labSampleId = self.convert_string_to_integer(string=old_cancer_sample.labId)
         preservation_to_preparation_map = {
             reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.PreparationMethod.EDTA,
             reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.PreparationMethod.ORAGENE,
@@ -215,9 +186,8 @@ class MigrationReports3ToParticipant1(BaseMigration):
             reports_3_0_0.PreservationMethod.GL: None,
             reports_3_0_0.PreservationMethod.LEUK: None,
         }
-        new_germline_sample.preparationMethod = preservation_to_preparation_map.get(
+        new_instance.preparationMethod = preservation_to_preparation_map.get(
             old_cancer_sample.preservationMethod)
-
         preservation_to_source_map = {
             reports_3_0_0.PreservationMethod.BLOOD: participant_1_0_0.SampleSource.BLOOD,
             reports_3_0_0.PreservationMethod.SALIVA: participant_1_0_0.SampleSource.SALIVA,
@@ -227,18 +197,12 @@ class MigrationReports3ToParticipant1(BaseMigration):
             reports_3_0_0.PreservationMethod.GL: None,
             reports_3_0_0.PreservationMethod.LEUK: None,
         }
-        new_germline_sample.source = preservation_to_source_map.get(
+        new_instance.source = preservation_to_source_map.get(
             old_cancer_sample.preservationMethod)
+        new_instance.programmePhase = old_cancer_sample.gelPhase
+        return new_instance
 
-        new_germline_sample.programmePhase = old_cancer_sample.gelPhase
-
-        if new_germline_sample.validate(new_germline_sample.toJsonDict(), verbose=True):
-            return new_germline_sample
-        else:
-            # TODO(Greg): Improve these error messages
-            raise Exception('This model can not be converted: ', new_germline_sample.validate_parts())
-
-    def migrate_sex(self, old_sex):
+    def _migrate_sex(self, old_sex):
         sex_map = {
             'F': self.new_model.Sex.FEMALE,
             'M': self.new_model.Sex.MALE

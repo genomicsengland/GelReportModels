@@ -25,7 +25,7 @@ class TestMigrateParticipant110To100(TestCaseMigration):
 
     def test_migrate_pedigree_member(self):
         pm_1_1_0 = self.get_valid_object(object_type=self.old_model.PedigreeMember, version=self.version_7_0)
-        pm_1_0_0 = MigrateParticipant110To100().migrate_pedigree_member(old_member=pm_1_1_0)
+        pm_1_0_0 = MigrateParticipant110To100()._migrate_pedigree_member(old_member=pm_1_1_0)
         self.assertIsInstance(pm_1_0_0, self.new_model.PedigreeMember)
         self.assertTrue(pm_1_0_0.validate(pm_1_0_0.toJsonDict()))
 

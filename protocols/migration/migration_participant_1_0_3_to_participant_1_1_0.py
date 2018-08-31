@@ -10,39 +10,24 @@ class MigrationParticipants103To110(BaseMigration):
     new_model = participant_1_1_0
 
     def migrate_pedigree(self, old_instance):
+        """
+        :type old_instance: participants_1_0_3.Pedigree
+        :rtype: participants_1_1_0.Pedigree
+        """
         new_instance = self.convert_class(self.new_model.Pedigree, old_instance)
-        if new_instance.validate(new_instance.toJsonDict()):
-            return new_instance
-        else:
-            raise MigrationError(
-                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
-            )
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
 
     def migrate_cancer_participant(self, old_instance):
         """
-
-        :param old_instance:
         :type old_instance: participants_1_0_3.CancerParticipant
-        :return:
+        :rtype: participants_1_1_0.CancerParticipant
         """
         new_instance = self.convert_class(self.new_model.CancerParticipant, old_instance)   # type: participant_1_1_0.CancerParticipant
         new_instance.tumourSamples = self.convert_collection(old_instance.tumourSamples, self._migrate_tumour_sample)
-        if new_instance.validate(new_instance.toJsonDict()):
-            return new_instance
-        else:
-            raise MigrationError(
-                'This model can not be converted: ', handle_avro_errors(new_instance.validate_parts())
-            )
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerParticipant)
 
     def _migrate_tumour_sample(self, old_instance):
-        """
-
-        :param old_instance:
-        :type old_instance: old_model.TumourSample
-        :return:
-        """
         new_instance = self.convert_class(self.new_model.TumourSample, old_instance)  # type: new_model.TumourSample
-
         if old_instance.morphologyICD is not None:
             new_instance.morphologyICDs = [old_instance.morphologyICD]
         if old_instance.morphologySnomedCT is not None:
@@ -55,7 +40,4 @@ class MigrationParticipants103To110(BaseMigration):
             new_instance.topographySnomedCTs = [old_instance.topographySnomedCT]
         if old_instance.topographySnomedRT is not None:
             new_instance.topographySnomedRTs = [old_instance.topographySnomedRT]
-
-        return self.validate_object(
-            object_to_validate=new_instance, object_type=self.new_model.TumourSample
-        )
+        return new_instance
