@@ -1063,7 +1063,8 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
             'versionControl', None)
 
 
-class PedigreeMember(ProtocolElement):
+class \
+        PedigreeMember(ProtocolElement):
     """
     This defines a RD Participant (demographics and pedigree
     information)

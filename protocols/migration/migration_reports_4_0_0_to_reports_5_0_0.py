@@ -23,8 +23,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
-        new_instance.pedigree.members = self.convert_collection(
-            old_instance.pedigree.members, self.migrate_pedigree_member)
+        new_instance.pedigree = self.migrate_pedigree(old_instance.pedigree)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
@@ -608,81 +607,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         part_migrated = MigrationParticipants100To103().migrate_cancer_participant(old_participant)
         return MigrationParticipants103To110().migrate_cancer_participant(part_migrated)
 
-    def migrate_disorder(self, old_disorder):
-        new_object_type = self.new_model.Disorder
-        new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
-        new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset, fail=False)
-        return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
-
-    def migrate_hpo_term_age_of_onset(self, old_age_of_onset):
-        new_age_of_onset = None
-        age_of_onset_enum = [
-            self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
-            self.new_model.AgeOfOnset.FETAL_ONSET,
-            self.new_model.AgeOfOnset.NEONATAL_ONSET,
-            self.new_model.AgeOfOnset.INFANTILE_ONSET,
-            self.new_model.AgeOfOnset.CHILDHOOD_ONSET,
-            self.new_model.AgeOfOnset.JUVENILE_ONSET,
-            self.new_model.AgeOfOnset.YOUNG_ADULT_ONSET,
-            self.new_model.AgeOfOnset.LATE_ONSET,
-            self.new_model.AgeOfOnset.MIDDLE_AGE_ONSET,
-        ]
-        if isinstance(old_age_of_onset, str):
-            if old_age_of_onset.upper() in age_of_onset_enum:
-                new_age_of_onset = old_age_of_onset.upper()
-        return new_age_of_onset
-
-    def migrate_hpo_term(self, old_hpo_term):
-        new_object_type = self.new_model.HpoTerm
-        new_hpo_term = self.convert_class(target_klass=new_object_type, instance=old_hpo_term)
-        new_hpo_term.ageOfOnset = self.migrate_hpo_term_age_of_onset(old_age_of_onset=old_hpo_term.ageOfOnset)
-        new_hpo_term.modifiers = self.migrate_hpo_term_modifiers(old_modifiers=old_hpo_term.modifiers)
-        return self.validate_object(object_to_validate=new_hpo_term, object_type=new_object_type)
-
-    def migrate_hpo_term_modifiers(self, old_modifiers):
-        if old_modifiers is None:
-            return None
-        # TODO(Greg): Check real data for whether these keys are used
-        laterality_enum = [
-            self.new_model.Laterality.RIGHT, self.new_model.Laterality.LEFT, self.new_model.Laterality.UNILATERAL,
-            self.new_model.Laterality.BILATERAL,
-        ]
-        laterality = self.extract_hpo_term_modifier(modifier="laterality", map=old_modifiers, enum=laterality_enum)
-
-        progression_enum = [self.new_model.Progression.PROGRESSIVE, self.new_model.Progression.NONPROGRESSIVE]
-        progression = self.extract_hpo_term_modifier(modifier="progression", map=old_modifiers, enum=progression_enum)
-
-        severity_enum = [
-            self.new_model.Severity.BORDERLINE, self.new_model.Severity.MILD, self.new_model.Severity.MODERATE,
-            self.new_model.Severity.SEVERE, self.new_model.Severity.PROFOUND,
-        ]
-        severity = self.extract_hpo_term_modifier(modifier="severity", map=old_modifiers, enum=severity_enum)
-
-        spatial_enum = [
-            self.new_model.SpatialPattern.DISTAL, self.new_model.SpatialPattern.GENERALIZED,
-            self.new_model.SpatialPattern.LOCALIZED, self.new_model.SpatialPattern.PROXIMAL,
-        ]
-        spatial_pattern = self.extract_hpo_term_modifier(modifier="spatial_pattern", map=old_modifiers, enum=spatial_enum)
-
-        new_modifier = self.new_model.HpoTermModifiers(
-            laterality=laterality,
-            progression=progression,
-            severity=severity,
-            spatialPattern=spatial_pattern,
-        )
-        return self.validate_object(object_to_validate=new_modifier, object_type=self.new_model.HpoTermModifiers)
-
     @staticmethod
-    def extract_hpo_term_modifier(modifier, map, enum):
-        new_modifier = map.get(modifier, "").upper()
-        return new_modifier if new_modifier in enum else None
-
-    def migrate_pedigree_member(self, old_member):
-        new_object_type = self.new_model.PedigreeMember
-        new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
-        new_member.disorderList = self.convert_collection(old_member.disorderList, self.migrate_disorder)
-        new_member.hpoTermList = self.convert_collection(old_member.hpoTermList, self.migrate_hpo_term)
-        return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
+    def migrate_pedigree(old_pedigree):
+        part_migrated = MigrationParticipants100To103().migrate_pedigree(old_pedigree)
+        return MigrationParticipants103To110().migrate_pedigree(part_migrated)
 
     @staticmethod
     def migrate_allele_frequencies(additionalNumericVariantAnnotations):
