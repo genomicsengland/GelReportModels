@@ -1,7 +1,7 @@
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_old
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
-from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrationReports3ToParticipant1
+from protocols.migration.migration_reports_300_to_participant_100 import MigrationReports3ToParticipant1
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.dependency_manager import VERSION_400, VERSION_300
 from protocols import reports_3_0_0

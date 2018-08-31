@@ -4,9 +4,7 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols.migration.base_migration import BaseMigrateReports400And500
 from protocols.migration.base_migration import MigrationError
-from protocols.migration.participants import MigrationParticipants103To100
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_0 import MigrateParticipant110To100
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
+from protocols.migration import MigrateParticipant110To100
 
 
 class MigrateReports500To400(BaseMigrateReports400And500):
@@ -281,11 +279,8 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if new_instance.bigWigs is None:
             new_instance.bigWigs = []
         if old_interpretation_request.cancerParticipant:
-            participant_103 = MigrateParticipant110To103().migrate_cancer_participant(
-                old_participant=old_interpretation_request.cancerParticipant
-            )
-            new_instance.cancerParticipant = MigrationParticipants103To100().migrate_cancer_participant(
-                old_instance=participant_103
+            new_instance.cancerParticipant = MigrateParticipant110To100().migrate_cancer_participant(
+                old_instance=old_interpretation_request.cancerParticipant
             )
         else:
             # default empty object as it is non nullable

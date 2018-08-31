@@ -3,8 +3,8 @@ from protocols import reports_5_0_0
 from protocols.migration import MigrateReports400To500, MigrateReports500To400
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
-from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
+from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
+from protocols.migration.migration_reports_500_to_reports_600 import MigrateReports500To600
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
