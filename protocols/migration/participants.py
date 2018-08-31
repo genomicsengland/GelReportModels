@@ -38,7 +38,6 @@ class MigrationParticipants101ToReports(BaseMigration):
         new_instance.samples = self.convert_collection(member.samples, lambda s: s.sampleId, default=[])
         new_instance.disorderList = self.convert_collection(
             member.disorderList, self._migrate_disorders, default=[])
-
         if member.ancestries is None:
             new_instance.ancestries = participant_old.Ancestries()
         return new_instance
@@ -111,7 +110,6 @@ class MigrationParticipants103To100(BaseMigration):
         new_instance.tumourSubType = tumour_sample.diseaseSubType
         new_instance.phase = tumour_sample.tumourType
         return new_instance
-
 
 class MigrationParticipants100ToReports(BaseMigration):
     old_model = participant_1_0_0
