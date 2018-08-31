@@ -32,15 +32,22 @@ class BaseMigration(object):
             raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
 
     @staticmethod
-    def convert_string_to_integer(string, default_value=None):
+    def convert_string_to_integer(string, default_value=None, defaulting_message=None, fail=True):
         if string is None:
             return default_value
         try:
             return int(string)
         except ValueError:
             if default_value:
+                if defaulting_message:
+                    logging.warning(defaulting_message)
                 return default_value
-            raise MigrationError("Value: {string} is not an integer contained in a string !".format(string=string))
+            message = "Value: {string} is not an integer contained in a string !".format(string=string)
+            if fail:
+                raise MigrationError(message)
+            else:
+                logging.warning(message)
+                return None
 
     @staticmethod
     def convert_string_to_float(string, default_value=None, fail=True):

@@ -1,8 +1,7 @@
 from protocols import reports_3_0_0
 from protocols import reports_4_0_0
 from protocols.migration import BaseMigration
-from protocols.migration.participants import MigrationReportsToParticipants1
-from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
+from protocols.migration import MigrationReports3ToParticipant1
 
 
 class MigrateReports3To4(BaseMigration):
@@ -89,7 +88,7 @@ class MigrateReports3To4(BaseMigration):
         :type old_interpretation_request: reports_3_0_0.CancerInterpretationRequest
         """
 
-        m = MigrateReports3ToParticipant1()
+        m = MigrationReports3ToParticipant1()
         new_cancer_interpretation_request = self.new_model.CancerInterpretationRequest(
             additionalInfo=old_interpretation_request.additionalInfo,
             analysisUri=old_interpretation_request.analysisURI,
@@ -213,7 +212,7 @@ class MigrateReports3To4(BaseMigration):
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self.migrate_file)
         new_instance.tieredVariants = self.convert_collection(
             old_instance.TieredVariants, self.migrate_tiered_variant)
-        new_instance.pedigree = MigrationReportsToParticipants1().migrate_pedigree(pedigree=old_instance.pedigree)
+        new_instance.pedigree = MigrationReports3ToParticipant1().migrate_pedigree(pedigree=old_instance.pedigree)
         new_instance.internalStudyId = ''
 
         return self.validate_object(

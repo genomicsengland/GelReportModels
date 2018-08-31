@@ -24,7 +24,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
         new_instance.pedigree = self.migrate_pedigree(old_instance.pedigree)
-
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
         )
@@ -494,13 +493,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.Action
         )
-
-    @staticmethod
-    def convert_int_to_str(value):
-        try:
-            return str(value)
-        except ValueError:
-            return None
 
     @staticmethod
     def migrate_cancer_participant(old_participant):
