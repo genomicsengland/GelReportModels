@@ -686,7 +686,6 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_interpreted_genome_cancer_500_600_nulls(self):
         self.test_migrate_interpreted_genome_cancer_500_600(fill_nullables=False)
 
-
     def test_migrate_interpreted_genome_cancer_600_400(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
@@ -721,6 +720,21 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_clinical_report_cancer_400_600_nulls(self):
         self.test_migrate_clinical_report_cancer_400_600(fill_nullables=False)
+
+    def test_reverse_migrate_clinical_report_cancer_600_400(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.ClinicalReport, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.reverse_migrate_clinical_report_cancer_to_v4(old_instance.toJsonDict())
+        self.assertIsInstance(migrated_instance, reports_4_0_0.ClinicalReportCancer)
+        self._validate(migrated_instance)
+
+    def test_reverse_migrate_clinical_report_cancer_600_400_nulls(self):
+        self.test_reverse_migrate_clinical_report_cancer_600_400(fill_nullables=False)
 
     def test_migrate_clinical_report_cancer_300_600(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(

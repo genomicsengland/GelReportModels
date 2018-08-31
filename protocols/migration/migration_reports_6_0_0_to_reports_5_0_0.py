@@ -44,7 +44,12 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         """
         new_instance = self.convert_class(target_klass=self.new_model.InterpretedGenomeRD, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        new_instance.variants = self.convert_collection(
+            old_instance.variants,
+            self.migrate_small_variant_to_reported_variant,
+            default=[],
+            new_type=self.new_model.ReportedVariant,
+            migrate_re=self.migrate_report_event)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD)
 
@@ -55,7 +60,13 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :rtype: reports_5_0_0.ClinicalReportRD
         """
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
-        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        new_instance.variants = self.convert_collection(
+            old_instance.variants,
+            self.migrate_small_variant_to_reported_variant,
+            default=[],
+            new_type=self.new_model.ReportedVariant,
+            migrate_re=self.migrate_report_event
+        )
         new_instance.additionalAnalysisPanels = self.convert_collection(
             old_instance.additionalAnalysisPanels, self.migrate_additional_analysis_panel)
         new_instance.versionControl = self.new_model.ReportVersionControl()
@@ -88,19 +99,15 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             alternate=coords.alternate)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantLevelQuestions)
 
-    def migrate_small_variants_to_reported_variants(self, small_variants):
-        return [] if small_variants is None else [
-            self.migrate_small_variant_to_reported_variant(small_variant=small_variant)
-            for small_variant in small_variants
-        ]
-
-    def migrate_small_variant_to_reported_variant(self, small_variant):
+    def migrate_small_variant_to_reported_variant(self, small_variant, new_type, migrate_re):
         """
         Migrates a reports_6_0_0.SmallVariant into a reports_5_0_0.ReportedVariant
         :type small_variant: reports_6_0_0.SmallVariant
+        :type new_type: Class
+        :type migrate_re: function
         :rtype: reports_5_0_0.ReportedVariant
         """
-        new_instance = self.convert_class(target_klass=self.new_model.ReportedVariant, instance=small_variant)
+        new_instance = self.convert_class(target_klass=new_type, instance=small_variant)
 
         var_attrs = small_variant.variantAttributes
         if var_attrs:
@@ -124,7 +131,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             new_instance.variantAttributes = self.migrate_variant_attributes(old_variant_attributes=var_attrs)
 
         new_instance.variantCalls = self.convert_collection(small_variant.variantCalls, self.migrate_variant_call)
-        new_instance.reportEvents = self.convert_collection(small_variant.reportEvents, self.migrate_report_event)
+        new_instance.reportEvents = self.convert_collection(small_variant.reportEvents, migrate_re)
 
         if new_instance.alleleOrigins is None:
             new_instance.alleleOrigins = []
@@ -333,7 +340,14 @@ class MigrateReports600To500(BaseMigrateReports500And600):
 
     def migrate_clinical_report_cancer(self, old_instance):
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
-        new_instance.variants = self.migrate_small_variants_to_reported_variants(small_variants=old_instance.variants)
+        new_instance.variants = self.convert_collection(
+            old_instance.variants,
+            self.migrate_small_variant_to_reported_variant,
+            default=[],
+            new_type=self.new_model.ReportedVariantCancer,
+            migrate_re=self.migrate_report_event_cancer
+        )
+
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)
 
     def migrate_cancer_exit_questionnaire(self, old_instance):
