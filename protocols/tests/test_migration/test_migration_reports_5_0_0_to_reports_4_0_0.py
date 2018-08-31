@@ -257,7 +257,7 @@ class TestMigrateReports5To400(TestCaseMigration):
             old_participant=p_110,
         )
         p_100 = MigrationParticipants103To100().migrate_cancer_participant(
-            cancer_participant=p_103,
+            old_instance=p_103,
         )
         self.assertIsInstance(p_100, participant_1_0_0.CancerParticipant)
         self.assertTrue(p_100.validate(p_100.toJsonDict()))

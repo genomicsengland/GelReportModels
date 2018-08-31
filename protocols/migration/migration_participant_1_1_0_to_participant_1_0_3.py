@@ -9,6 +9,10 @@ class MigrateParticipant110To103(BaseMigration):
     new_model = participant_1_0_3
 
     def migrate_cancer_participant(self, old_participant):
+        """
+        :type old_participant:  participant_1_1_0.CancerParticipant
+        :rtype: participant_1_0_3.CancerParticipant
+        """
         new_instance = self.convert_class(target_klass=self.new_model.CancerParticipant, instance=old_participant)
         new_instance.versionControl = self.new_model.VersionControl()
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerParticipant)
