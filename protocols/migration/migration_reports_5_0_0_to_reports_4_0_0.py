@@ -51,6 +51,8 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         old_model.ClinicalSignificance.benign: new_model.VariantClassification.benign_variant,
         old_model.ClinicalSignificance.likely_benign: new_model.VariantClassification.likely_benign_variant,
         old_model.ClinicalSignificance.VUS: new_model.VariantClassification.variant_of_unknown_clinical_significance,
+        old_model.ClinicalSignificance.uncertain_significance:
+            new_model.VariantClassification.variant_of_unknown_clinical_significance,
         old_model.ClinicalSignificance.likely_pathogenic: new_model.VariantClassification.likely_pathogenic_variant,
         old_model.ClinicalSignificance.pathogenic: new_model.VariantClassification.pathogenic_variant,
     }
@@ -87,9 +89,10 @@ class MigrateReports500To400(BaseMigrateReports400And500):
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
 
-    def migrate_interpreted_genome_rd(self, old_instance):
+    def migrate_interpreted_genome_rd(self, old_instance, cip=None):
         """
         :type old_instance: reports_5_0_0.InterpretedGenomeRD
+        :type cip:
         :rtype: reports_4_0_0.InterpretedGenomeRD
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)  # :type self.new_model.InterpretedGenomeRD
@@ -98,7 +101,10 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.companyName = old_instance.interpretationService
         if new_instance.reportUrl is None:
             new_instance.reportUrl = ""
-        new_instance.reportUri = ""
+        new_instance.reportUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
+            cip_short=self.cip_short_codes.get(cip),
+            ir_id=old_instance.interpretationRequestId,
+            ir_version=old_instance.interpretationRequestVersion) if cip else ""
         new_instance.reportedVariants = self.convert_collection(old_instance.variants, self.migrate_reported_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
@@ -215,11 +221,12 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             )
 
         # NOTE: fields changing their null state
-        new_report_event.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
+        if new_report_event.score is None:
+            new_report_event.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
         if new_report_event.penetrance is None:
             new_report_event.penetrance = self.new_model.Penetrance.complete
 
-        new_report_event.tier = self.tier_map[old_report_event.tier] if old_report_event.tier else self.new_model.Tier.NONE
+        new_report_event.tier = self.tier_map[old_report_event.tier] if old_report_event.tier else None
 
         return self.validate_object(object_to_validate=new_report_event, object_type=self.new_model.ReportEvent)
 

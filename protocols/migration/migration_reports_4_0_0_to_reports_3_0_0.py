@@ -119,12 +119,15 @@ class MigrateReports400To300(BaseMigration):
             return None
         sample_id = old_file.sampleId
 
-        md5_sum = self.new_model.File(
-            SampleId=None,
-            md5Sum=None,
-            URIFile=old_file.md5Sum,
-            fileType=self.new_model.FileType.MD5Sum
-        )
+        if old_file.md5Sum:
+            md5_sum = self.new_model.File(
+                SampleId=None,
+                md5Sum=None,
+                URIFile=old_file.md5Sum,
+                fileType=self.new_model.FileType.MD5Sum
+            )
+        else:
+            md5_sum = None
 
         invalid_file_types = [
             self.old_model.FileType.PARTITION,
