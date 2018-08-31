@@ -62,6 +62,53 @@ from protocols.reports_5_0_0 import Assembly
 
 
 class MigrationHelpers(object):
+    @staticmethod
+    def migrate_interpretation_request_rd_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpretation_request_rd_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_interpretation_request_rd_to_interpreted_genome_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_interpreted_genome_rd_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpreted_genome_rd_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_clinical_report_rd_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_clinical_report_rd_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_exit_questionnaire_rd_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_exit_questionnaire_rd_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_cancer_exit_questionnaire_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_cancer_exit_questionnaire_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_pedigree_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_pedigree_to_v1_1_0(*args, **kwargs)
+
+    @staticmethod
+    def migrate_interpretation_request_cancer_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpretation_request_cancer_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_interpretation_request_cancer_to_interpreted_genome_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_interpreted_genome_cancer_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_interpreted_genome_cancer_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_clinical_report_cancer_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_clinical_report_cancer_to_v6(*args, **kwargs)
+
+    @staticmethod
+    def migrate_cancer_participant_to_latest(*args, **kwargs):
+        return MigrationHelpers.migrate_cancer_participant_to_v1_1_0(*args, **kwargs)
 
     @staticmethod
     def migrate_interpretation_request_rd_to_v6(json_dict, assembly=None):
@@ -556,20 +603,3 @@ class MigrationHelpers(object):
     def set_version_to_6_0_0(version_controlled):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
         return version_controlled
-
-
-MigrationHelpers.migrate_interpretation_request_rd_to_latest = MigrationHelpers.migrate_interpretation_request_rd_to_v6
-MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest = \
-    MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_v6
-MigrationHelpers.migrate_interpreted_genome_rd_to_latest = MigrationHelpers.migrate_interpreted_genome_rd_to_v6
-MigrationHelpers.migrate_clinical_report_rd_to_latest = MigrationHelpers.migrate_clinical_report_rd_to_v6
-MigrationHelpers.migrate_exit_questionnaire_rd_to_latest = MigrationHelpers.migrate_exit_questionnaire_rd_to_v6
-MigrationHelpers.migrate_cancer_exit_questionnaire_to_latest = MigrationHelpers.migrate_cancer_exit_questionnaire_to_v6
-MigrationHelpers.migrate_pedigree_to_latest = MigrationHelpers.migrate_pedigree_to_v1_1_0
-MigrationHelpers.migrate_interpretation_request_cancer_to_latest = \
-    MigrationHelpers.migrate_interpretation_request_cancer_to_v6
-MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest = \
-    MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_v6
-MigrationHelpers.migrate_interpreted_genome_cancer_to_latest = MigrationHelpers.migrate_interpreted_genome_cancer_to_v6
-MigrationHelpers.migrate_clinical_report_cancer_to_latest = MigrationHelpers.migrate_clinical_report_cancer_to_v6
-MigrationHelpers.migrate_cancer_participant_to_latest = MigrationHelpers.migrate_cancer_participant_to_v1_1_0
