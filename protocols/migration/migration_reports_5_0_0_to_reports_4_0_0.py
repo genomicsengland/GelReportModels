@@ -285,7 +285,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 old_participant=old_interpretation_request.cancerParticipant
             )
             new_instance.cancerParticipant = MigrationParticipants103To100().migrate_cancer_participant(
-                cancer_participant=participant_103
+                old_instance=participant_103
             )
         else:
             # default empty object as it is non nullable

@@ -28,7 +28,7 @@ class MigrateReports400To300(BaseMigration):
         new_instance.pedigreeDiagram = self.migrate_file(old_file=old_instance.pedigreeDiagram)
         new_instance.annotationFile = self.migrate_file(old_file=old_instance.annotationFile)
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self.migrate_file)
-        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_pedigree=old_instance.pedigree)
+        new_instance.pedigree = MigrationParticipants100ToReports().migrate_pedigree(old_instance=old_instance.pedigree)
 
         # return new_instance
         return self.validate_object(

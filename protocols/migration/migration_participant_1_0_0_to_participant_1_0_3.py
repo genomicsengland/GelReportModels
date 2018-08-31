@@ -1,7 +1,6 @@
 import logging
 from protocols import participant_1_0_0
 from protocols import participant_1_0_3
-from protocols.util import handle_avro_errors
 from protocols.migration import BaseMigration
 
 
@@ -9,84 +8,65 @@ class MigrationParticipants100To103(BaseMigration):
     old_model = participant_1_0_0
     new_model = participant_1_0_3
 
-    def migrate_cancer_participant(self, cancer_participant):
-        migrated_participant = self.convert_class(self.new_model.CancerParticipant, cancer_participant)
+    def migrate_pedigree(self, old_instance):
+        """
+        :type old_instance: participants_1_0_0.Pedigree
+        :rtype: participants_1_0_3.Pedigree
+        """
+        new_instance = self.convert_class(self.new_model.Pedigree, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.members = self.convert_collection(old_instance.members, self._migrate_member)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
 
-        migrated_participant.versionControl = self.new_model.VersionControl()
-        migrated_participant.yearOfBirth = 0
-
-        if cancer_participant.primaryDiagnosisDisease is not None:
-            migrated_participant.primaryDiagnosisDisease = [cancer_participant.primaryDiagnosisDisease]
-
-        if cancer_participant.primaryDiagnosisSubDisease is not None:
-            migrated_participant.primaryDiagnosisSubDisease = [cancer_participant.primaryDiagnosisSubDisease]
-
-        if cancer_participant.assignedICD10 is not None:
-            migrated_participant.assignedICD10 = [cancer_participant.assignedICD10]
-
-        migrated_participant.tumourSamples = self.convert_collection(
-            cancer_participant.tumourSamples, self.migrate_tumour_sample, LDPCode=cancer_participant.LDPCode)
-        migrated_participant.germlineSamples = self.convert_collection(
-            cancer_participant.germlineSamples, self.migrate_germline_sample, LDPCode=cancer_participant.LDPCode)
-        migrated_participant.matchedSamples = self.convert_collection(
-            cancer_participant.matchedSamples, lambda s: self.convert_class(self.new_model.MatchedSamples, s),
+    def migrate_cancer_participant(self, old_instance):
+        """
+        :type old_instance: participants_1_0_0.CancerParticipant
+        :rtype: participants_1_0_3.CancerParticipant
+        """
+        new_instance = self.convert_class(self.new_model.CancerParticipant, old_instance)
+        new_instance.versionControl = self.new_model.VersionControl()
+        new_instance.yearOfBirth = 0
+        if old_instance.primaryDiagnosisDisease is not None:
+            new_instance.primaryDiagnosisDisease = [old_instance.primaryDiagnosisDisease]
+        if old_instance.primaryDiagnosisSubDisease is not None:
+            new_instance.primaryDiagnosisSubDisease = [old_instance.primaryDiagnosisSubDisease]
+        if old_instance.assignedICD10 is not None:
+            new_instance.assignedICD10 = [old_instance.assignedICD10]
+        new_instance.tumourSamples = self.convert_collection(
+            old_instance.tumourSamples, self._migrate_tumour_sample, LDPCode=old_instance.LDPCode)
+        new_instance.germlineSamples = self.convert_collection(
+            old_instance.germlineSamples, self._migrate_germline_sample, LDPCode=old_instance.LDPCode)
+        new_instance.matchedSamples = self.convert_collection(
+            old_instance.matchedSamples, lambda s: self.convert_class(self.new_model.MatchedSamples, s),
             default=[self.new_model.MatchedSamples()])
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerParticipant)
 
-        return self.validate_object(
-            object_to_validate=migrated_participant, object_type=self.new_model.CancerParticipant
-        )
+    def _migrate_tumour_sample(self, tumour_sample, LDPCode):
+        new_instance = self.convert_class(self.new_model.TumourSample, tumour_sample)
+        new_instance.LDPCode = LDPCode
+        new_instance.tumourId = str(tumour_sample.tumourId)
+        new_instance.diseaseType = tumour_sample.tumourType
+        new_instance.diseaseSubType = tumour_sample.tumourSubType
+        new_instance.tumourType = tumour_sample.phase
+        return new_instance
 
-    def migrate_tumour_sample(self, tumour_sample, LDPCode):
-        migrated_tumour_sample = self.convert_class(self.new_model.TumourSample, tumour_sample)
-        migrated_tumour_sample.LDPCode = LDPCode
-        migrated_tumour_sample.tumourId = str(tumour_sample.tumourId)
-        migrated_tumour_sample.diseaseType = tumour_sample.tumourType
-        migrated_tumour_sample.diseaseSubType = tumour_sample.tumourSubType
-        migrated_tumour_sample.tumourType = tumour_sample.phase
+    def _migrate_germline_sample(self, germline_sample, LDPCode):
+        new_instance = self.convert_class(self.new_model.GermlineSample, germline_sample)
+        new_instance.LDPCode = LDPCode
+        return new_instance
 
-        return self.validate_object(
-            object_to_validate=migrated_tumour_sample, object_type=self.new_model.TumourSample
-        )
+    def _migrate_member(self, old_member):
+        new_instance = self.convert_class(self.new_model.PedigreeMember, old_member)
+        new_instance.disorderList = self.convert_collection(old_member.disorderList, self._migrate_disorder)
+        new_instance.hpoTermList = self.convert_collection(old_member.hpoTermList, self._migrate_hpo_term)
+        return new_instance
 
-    def migrate_germline_sample(self, germline_sample, LDPCode):
-        migrated_germline_sample = self.convert_class(self.new_model.GermlineSample, germline_sample)
-
-        migrated_germline_sample.LDPCode = LDPCode
-
-        return self.validate_object(
-            object_to_validate=migrated_germline_sample, object_type=self.new_model.GermlineSample
-        )
-
-    def migrate_pedigree(self, old_pedigree):
-        new_pedigree = self.convert_class(self.new_model.Pedigree, old_pedigree)
-        new_pedigree.versionControl = self.new_model.VersionControl()
-
-        new_pedigree.members = self.convert_collection(old_pedigree.members, self.migrate_member)
-
-        if new_pedigree.validate(new_pedigree.toJsonDict()):
-            return new_pedigree
-        else:
-            raise Exception(
-                'This model can not be converted: ', handle_avro_errors(new_pedigree.validate_parts())
-            )
-
-    def migrate_member(self, old_member):
-        new_member = self.convert_class(self.new_model.PedigreeMember, old_member)
-        new_member.disorderList = self.convert_collection(old_member.disorderList, self.migrate_disorder)
-        new_member.hpoTermList = self.convert_collection(old_member.hpoTermList, self.migrate_hpo_term)
-        if new_member.validate(new_member.toJsonDict(), verbose=True):
-            return new_member
-        else:
-            raise Exception(
-                'This model can not be converted: ', handle_avro_errors(new_member.validate_parts())
-            )
-
-    def migrate_disorder(self, old_instance):
+    def _migrate_disorder(self, old_instance):
         new_instance = self.convert_class(self.new_model.Disorder, old_instance)
         new_instance.ageOfOnset = self.convert_string_to_float(old_instance.ageOfOnset, fail=False)
         return new_instance
 
-    def migrate_hpo_term(self, old_instance):
+    def _migrate_hpo_term(self, old_instance):
         if old_instance.ageOfOnset:
             old_instance.ageOfOnset = old_instance.ageOfOnset.upper().replace(" ", "_")
         new_instance = self.convert_class(self.new_model.HpoTerm, old_instance)
@@ -130,5 +110,4 @@ class MigrationParticipants100To103(BaseMigration):
                 else:
                     logging.warning("Lost modifier '{}={}' during migration".format(name, value))
                 new_instance.modifiers = new_modifiers
-
         return new_instance
