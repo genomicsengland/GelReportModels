@@ -64,11 +64,11 @@ from protocols.reports_5_0_0 import Assembly
 class MigrationHelpers(object):
 
     @staticmethod
-    def migrate_interpretation_request_rd_to_latest(json_dict, assembly=None):
+    def migrate_interpretation_request_rd_to_v6(json_dict, assembly=None):
         """
         :type json_dict: dict
         :type assembly: Assembly
-        :rtype: InterpretationRequestRD_5_0_0
+        :rtype: InterpretationRequestRD_6_0_0
         """
         types = [
             InterpretationRequestRD_6_0_0,
@@ -115,11 +115,11 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpretation_request_rd_to_interpreted_genome_latest(json_dict, assembly):
+    def migrate_interpretation_request_rd_to_interpreted_genome_v6(json_dict, assembly):
         """
         :type json_dict: dict
         :type assembly: Assembly
-        :rtype: InterpretedGenomeRD_5_0_0
+        :rtype: InterpretedGenomeRD_6_0_0
         """
         types = [
             InterpretationRequestRD_6_0_0,
@@ -143,14 +143,14 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpreted_genome_rd_to_latest(
+    def migrate_interpreted_genome_rd_to_v6(
             json_dict, assembly=None, interpretation_request_version=None, panel_source='panelapp'):
         """
         :type json_dict: dict
         :type assembly: Assembly
         :type interpretation_request_version: int
         :type panel_source: str
-        :rtype: InterpretedGenomeRD_5_0_0
+        :rtype: InterpretedGenome_6_0_0
         """
         types = [
             InterpretedGenome_6_0_0,
@@ -194,11 +194,11 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_clinical_report_rd_to_latest(json_dict, assembly=None):
+    def migrate_clinical_report_rd_to_v6(json_dict, assembly=None):
         """
         :type json_dict: dict
         :type assembly: Assembly
-        :rtype: ClinicalReportRD_5_0_0
+        :rtype: ClinicalReportRD_6_0_0
         """
         types = [
             ClinicalReport_6_0_0,
@@ -219,12 +219,12 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_exit_questionnaire_rd_to_latest(json_dict, assembly):
+    def migrate_exit_questionnaire_rd_to_v6(json_dict, assembly):
         """
         There are no changes in exit questionnaires between versions 4 and 5
         :type json_dict: dict
         :type assembly: str
-        :rtype: RareDiseaseExitQuestionnaire_5_0_0
+        :rtype: RareDiseaseExitQuestionnaire_6_0_0
         """
         types = [
             RareDiseaseExitQuestionnaire_6_0_0,
@@ -241,7 +241,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_cancer_exit_questionnaire_to_latest(json_dict, assembly):
+    def migrate_cancer_exit_questionnaire_to_v6(json_dict, assembly):
         """
         No data exists for Cancer Exit Questionnaires in v4.2.0 of the models
         :type json_dict: dict
@@ -260,8 +260,8 @@ class MigrationHelpers(object):
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
-    @classmethod
-    def reverse_migrate_cancer_exit_questionnaire_to_v5(cls, json_dict):
+    @staticmethod
+    def reverse_migrate_cancer_exit_questionnaire_to_v5(json_dict):
         """
         :param json_dict: dict
         :return: CancerExitQuestionnaire_5_0_0
@@ -276,7 +276,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_pedigree_to_latest(json_dict):
+    def migrate_pedigree_to_v1_1_0(json_dict):
         """
         :type json_dict: dict
         :rtype: Pedigree_1_1_0
@@ -298,11 +298,11 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpretation_request_cancer_to_latest(json_dict, assembly):
+    def migrate_interpretation_request_cancer_to_v6(json_dict, assembly):
         """
         :type json_dict: dict
         :type assembly: Assembly
-        :rtype: CancerInterpretationRequest_5_0_0
+        :rtype: CancerInterpretationRequest_6_0_0
         """
         types = [
             CancerInterpretationRequest_6_0_0,
@@ -351,7 +351,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpretation_request_cancer_to_interpreted_genome_latest(
+    def migrate_interpretation_request_cancer_to_interpreted_genome_v6(
             json_dict, assembly, interpretation_service, reference_database_versions, software_versions,
             report_url, comments):
         """
@@ -362,7 +362,7 @@ class MigrationHelpers(object):
         :type software_versions: dict
         :type report_url: str
         :type comments: list
-        :rtype: CancerInterpretationRequest_5_0_0
+        :rtype: CancerInterpretationRequest_6_0_0
         """
         if PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid or \
            PayloadValidation(klass=CancerInterpretationRequest_6_0_0, payload=json_dict).is_valid:
@@ -389,7 +389,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_interpreted_genome_cancer_to_latest(json_dict, assembly=None, participant_id=None,
+    def migrate_interpreted_genome_cancer_to_v6(json_dict, assembly=None, participant_id=None,
                                                     sample_id=None, interpretation_request_version=None,
                                                     interpretation_service=None):
         """
@@ -437,7 +437,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_clinical_report_cancer_to_latest(json_dict, sample_id=None, assembly=None, participant_id=None):
+    def migrate_clinical_report_cancer_to_v6(json_dict, sample_id=None, assembly=None, participant_id=None):
         """
         Migration from reports 3.0.0 is not supported as we have no data in that version
         :type json_dict: dict
@@ -479,7 +479,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_cancer_participant_to_latest(json_dict):
+    def migrate_cancer_participant_to_v1_1_0(json_dict):
         """
         :type json_dict: dict
         :rtype: CancerParticipant_1_1_0
@@ -556,3 +556,19 @@ class MigrationHelpers(object):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
         return version_controlled
 
+
+MigrationHelpers.migrate_interpretation_request_rd_to_latest = MigrationHelpers.migrate_interpretation_request_rd_to_v6
+MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest = \
+    MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_v6
+MigrationHelpers.migrate_interpreted_genome_rd_to_latest = MigrationHelpers.migrate_interpreted_genome_rd_to_v6
+MigrationHelpers.migrate_clinical_report_rd_to_latest = MigrationHelpers.migrate_clinical_report_rd_to_v6
+MigrationHelpers.migrate_exit_questionnaire_rd_to_latest = MigrationHelpers.migrate_exit_questionnaire_rd_to_v6
+MigrationHelpers.migrate_cancer_exit_questionnaire_to_latest = MigrationHelpers.migrate_cancer_exit_questionnaire_to_v6
+MigrationHelpers.migrate_pedigree_to_latest = MigrationHelpers.migrate_pedigree_to_v1_1_0
+MigrationHelpers.migrate_interpretation_request_cancer_to_latest = \
+    MigrationHelpers.migrate_interpretation_request_cancer_to_v6
+MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest = \
+    MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_v6
+MigrationHelpers.migrate_interpreted_genome_cancer_to_latest = MigrationHelpers.migrate_interpreted_genome_cancer_to_v6
+MigrationHelpers.migrate_clinical_report_cancer_to_latest = MigrationHelpers.migrate_clinical_report_cancer_to_v6
+MigrationHelpers.migrate_cancer_participant_to_latest = MigrationHelpers.migrate_cancer_participant_to_v1_1_0
