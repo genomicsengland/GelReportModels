@@ -362,8 +362,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.genomicFeatureCancer = self.migrate_genomic_entities_to_genomic_feature_cancer(
             genomic_entities=old_rec.genomicEntities,
         )
-        new_instance.actions = self.convert_collection(
-            old_rec.actions, self.migrate_action)
+        new_instance.actions = self.convert_collection(old_rec.actions, self.migrate_action)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer)
 
     def migrate_variant_consequence_to_so_term(self, vc):
