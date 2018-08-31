@@ -500,8 +500,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         return MigrationParticipants103To110().migrate_cancer_participant(part_migrated)
 
     @staticmethod
-    def migrate_pedigree(old_instance):
-        part_migrated = MigrationParticipants100To103().migrate_pedigree(old_instance)
+    def migrate_pedigree(old_pedigree):
+        part_migrated = MigrationParticipants100To103().migrate_pedigree(old_pedigree)
         return MigrationParticipants103To110().migrate_pedigree(part_migrated)
 
     @staticmethod
