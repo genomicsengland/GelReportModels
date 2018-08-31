@@ -47,7 +47,7 @@ from protocols.participant_1_0_3 import CancerParticipant as CancerParticipant_1
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_1_0_0
 
 from protocols.migration.model_validator import PayloadValidation
-from protocols.migration.migration_reports_210_to_300 import Migration2_1To3
+from protocols.migration.migration_reports_210_to_reports_300 import Migration21To3
 from protocols.migration.migration_reports_300_to_reports_400 import MigrateReports3To4
 from protocols.migration.migration_reports_400_to_reports_500 import MigrateReports400To500
 from protocols.migration.migration_reports_500_to_reports_600 import MigrateReports500To600
@@ -83,7 +83,7 @@ class MigrationHelpers(object):
             MigrateReports500To600().migrate_interpretation_request_rd,
             lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_interpretation_request_rd,
-            Migration2_1To3().migrate_interpretation_request
+            Migration21To3().migrate_interpretation_request
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
@@ -138,7 +138,7 @@ class MigrationHelpers(object):
                 reference_database_versions={}, software_versions={}
             ),
             MigrateReports3To4().migrate_interpretation_request_rd,
-            Migration2_1To3().migrate_interpretation_request
+            Migration21To3().migrate_interpretation_request
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
@@ -167,7 +167,7 @@ class MigrationHelpers(object):
             lambda x: MigrateReports400To500().migrate_interpreted_genome_rd(
                 x, assembly=assembly, interpretation_request_version=interpretation_request_version),
             MigrateReports3To4().migrate_interpreted_genome_rd,
-            Migration2_1To3().migrate_interpreted_genome
+            Migration21To3().migrate_interpreted_genome
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
@@ -214,7 +214,7 @@ class MigrationHelpers(object):
             MigrateReports500To600().migrate_clinical_report_rd,
             lambda x: MigrateReports400To500().migrate_clinical_report_rd(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_clinical_report_rd,
-            Migration2_1To3().migrate_clinical_report
+            Migration21To3().migrate_clinical_report
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)

@@ -1,4 +1,4 @@
-from .migration_reports_210_to_300 import Migration2_1To3
+from .migration_reports_210_to_reports_300 import Migration21To3
 
 from .base_migration import BaseMigration
 
