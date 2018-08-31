@@ -13,6 +13,7 @@ import factory.fuzzy
 from protocols.util import dependency_manager
 import dictdiffer
 import logging
+import factory
 
 
 class ActionFactory(FactoryAvro):
@@ -34,6 +35,12 @@ class ActionFactory(FactoryAvro):
 
 class BaseTestRoundTrip(TestCaseMigration):
 
+    # all empty values will not be considered as mismatchs
+    _empty_values = [None, [], {}, ""]
+    _equal_values = {
+        reports_3_0_0.Sex.undetermined: reports_3_0_0.Sex.unknown
+    }
+
     def _check_round_trip_migration(self, forward, backward, original, new_type,
                                     expect_equality=True, ignore_fields=[],
                                     forward_kwargs={}, backward_kwargs={}):
@@ -52,7 +59,13 @@ class BaseTestRoundTrip(TestCaseMigration):
                 field_path = [field_path]
             if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
                 continue
-            logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), values[1], values[0]))
+            expected = values[1]
+            observed = values[0]
+            if observed in self._empty_values and expected in self._empty_values:
+                continue
+            if self._equal_values.get(expected, "not the same") == observed:
+                continue
+            logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), expected, observed))
             differ = True
         if expect_equality:
             self.assertFalse(differ)
@@ -221,6 +234,9 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0,
             fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
             versionControl=reports_3_0_0.VersionControl())
+        for p in original_ir.pedigree.participants:
+            p.gelFamilyId = original_ir.pedigree.gelFamilyId
+            p.yearOfBirth
         # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
         ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
             original_ir.toJsonDict(), assembly=assembly)
@@ -231,7 +247,8 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             original_ir,
             self.new_model.InterpretationRequestRD,
             expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
-                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome"],
+                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome",
+                                                 "ageOfOnset", "consanguineousPopulation", "modifiers"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 
@@ -300,6 +317,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
 
         _version = dependency_manager.VERSION_300
         versionControl = reports_3_0_0.VersionControl()
+        yearOfBirth = str(factory.fuzzy.FuzzyInteger(low=1900, high=2018).fuzz())
         _fill_nullables = False
 
     class RDParticipantFactory300Nulls(FactoryAvro):
@@ -308,6 +326,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
 
         _version = dependency_manager.VERSION_300
         versionControl = reports_3_0_0.VersionControl()
+        yearOfBirth = str(factory.fuzzy.FuzzyInteger(low=1900, high=2018).fuzz())
         _fill_nullables = True
 
     class PedigreeFactory300(FactoryAvro):
@@ -326,6 +345,14 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         versionControl = reports_3_0_0.VersionControl()
         _fill_nullables = True
 
+    class HpoTermFactory(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.HpoTerm
+
+        _version = dependency_manager.VERSION_300
+        _fill_nullables = True
+        ageOfOnset = str(factory.fuzzy.FuzzyInteger(low=0, high=100).fuzz())
+
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=True)
@@ -341,3 +368,5 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             reports_3_0_0.Pedigree, self.PedigreeFactory300, self.version_3_0_0, fill_nullables=False)
         GenericFactoryAvro.register_factory(
             reports_3_0_0.Pedigree, self.PedigreeFactory300Nulls, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.HpoTerm, self.HpoTermFactory, self.version_3_0_0, fill_nullables=True)

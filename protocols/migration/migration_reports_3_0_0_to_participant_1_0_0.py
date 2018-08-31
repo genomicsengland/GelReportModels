@@ -24,8 +24,6 @@ class MigrationReports3ToParticipant1(BaseMigration):
         new_pedigree = self.convert_class(self.new_model.Pedigree, pedigree)
         new_pedigree.versionControl = self.new_model.VersionControl()
         new_pedigree.members = self.convert_collection(pedigree.participants, self.migrate_pedigree_member)
-        new_pedigree.analysisPanels = self.convert_collection(
-            pedigree.analysisPanels, self.migrate_analysis_panel, default=[])
         new_pedigree.readyForAnalysis = ready_for_analysis
         new_pedigree.familyId = pedigree.gelFamilyId
         if new_pedigree.validate(new_pedigree.toJsonDict()):
@@ -45,12 +43,11 @@ class MigrationReports3ToParticipant1(BaseMigration):
         new_pedigree_member.lifeStatus = self.migrate_enumerations('LifeStatus', member.lifeStatus)
         new_pedigree_member.adoptedStatus = self.migrate_enumerations('AdoptedStatus', member.adoptedStatus)
         new_pedigree_member.affectionStatus = self.migrate_enumerations('AffectionStatus', member.affectionStatus)
+        new_pedigree_member.personKaryotypicSex = self.migrate_enumerations('PersonKaryotipicSex', member.personKaryotipicSex)
         new_pedigree_member.hpoTermList = self.convert_collection(member.hpoTermList, self.migrate_hpo_terms)
-        try:
-            new_pedigree_member.yearOfBirth = self.convert_string_to_integer(member.yearOfBirth)
-        except MigrationError:
-            new_pedigree_member.yearOfBirth = None
-            logging.warning("We are losing the year of birth as it cannot be converted into an integer")
+        new_pedigree_member.yearOfBirth = self.convert_string_to_integer(
+            member.yearOfBirth, default_value=None, fail=False,
+            defaulting_message="We are losing the year of birth as it cannot be converted into an integer")
 
         new_pedigree_member.samples = []
         if member.samples is not None:
@@ -81,6 +78,9 @@ class MigrationReports3ToParticipant1(BaseMigration):
             return {'not_adopted': 'notadopted', 'adoptedin': 'adoptedin', 'adoptedout': 'adoptedout'}.get(value)
         elif etype == 'termPresence':
             return {True: 'yes', False: 'no', None: 'unknown'}.get(value)
+        elif etype == 'PersonKaryotipicSex':
+            return {'unknown': 'UNKNOWN', 'XX': 'XX', 'XY': 'XY', 'XO': 'XO', 'XXY': 'XXY', 'XXX': 'XXX',
+                    'XXYY': 'XXYY', 'XXXY': 'XXXY', 'XXXX': 'XXXX', 'XYY': 'XYY', 'other':'OTHER'}.get(value)
         else:
             raise NotImplementedError(etype + ' is not a valid enumeration type or is not implemented')
 
@@ -94,21 +94,6 @@ class MigrationReports3ToParticipant1(BaseMigration):
         new_hpo.termPresence = self.migrate_enumerations('termPresence', hpo_term.termPresence)
         if new_hpo.validate(new_hpo.toJsonDict()):
             return new_hpo
-        else:
-            raise Exception('This model can not be converted')
-
-    def migrate_analysis_panel(self, analysis_panel):
-        """
-
-        :type analysis_panel: participant_old.AnalysisPanel
-        :rtype: participant_1_0_1.AnalysisPanel
-        """
-
-        new_analysis_panel = self.convert_class(self.new_model.AnalysisPanel, analysis_panel)
-        new_analysis_panel.multipleGeneticOrigins = ''
-        new_analysis_panel.reviewOutcome = ''
-        if new_analysis_panel.validate(new_analysis_panel.toJsonDict()):
-            return new_analysis_panel
         else:
             raise Exception('This model can not be converted')
 

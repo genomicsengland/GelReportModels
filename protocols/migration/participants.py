@@ -43,10 +43,8 @@ class MigrationParticipants101ToReports(BaseMigration):
         if new_pedigree_member.affectionStatus == 'uncertain':
             new_pedigree_member.affectionStatus = 'unknown'
         new_pedigree_member.hpoTermList = self.convert_collection(member.hpoTermList, self.migrate_hpo_terms, default=[])
-        try:
-            new_pedigree_member.yearOfBirth = str(int(member.yearOfBirth))
-        except TypeError:
-            new_pedigree_member.yearOfBirth = None
+        if member.yearOfBirth is not None:
+            new_pedigree_member.yearOfBirth = str(member.yearOfBirth)
         new_pedigree_member.samples = self.convert_collection(member.samples, lambda s: s.sampleId, default=[])
         new_pedigree_member.disorderList = self.convert_collection(
             member.disorderList, self.migrate_disorders, default=[])
@@ -198,9 +196,11 @@ class MigrationParticipants100ToReports(BaseMigration):
         new_participant.gelFamilyId = family_id
         new_participant.pedigreeId = old_member.pedigreeId or 0
         new_participant.isProband = old_member.isProband or False
+        new_participant.gelId = old_member.participantId
         new_participant.sex = self.migrate_sex(old_sex=old_member.sex)
         new_participant.personKaryotipicSex = self.migrate_person_karyotypic_sex(old_pks=old_member.personKaryotypicSex)
-        new_participant.yearOfBirth = str(old_member.yearOfBirth)
+        if old_member.yearOfBirth is not None:
+            new_participant.yearOfBirth = str(old_member.yearOfBirth)
         new_participant.adoptedStatus = self.migrate_adopted_status(old_status=old_member.adoptedStatus)
         new_participant.lifeStatus = self.migrate_life_status(old_status=old_member.lifeStatus)
         new_participant.affectionStatus = self.migrate_affection_status(old_status=old_member.affectionStatus)
@@ -232,7 +232,7 @@ class MigrationParticipants100ToReports(BaseMigration):
             self.old_model.TernaryOption.no: False,
             self.old_model.TernaryOption.yes: True,
         }
-        return ternary_map.get(ternary_option, False)
+        return ternary_map.get(ternary_option, None)
 
     def migrate_affection_status(self, old_status):
         status_map = {

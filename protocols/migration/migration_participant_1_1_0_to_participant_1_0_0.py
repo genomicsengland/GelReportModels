@@ -39,7 +39,8 @@ class MigrateParticipant110To100(BaseMigration):
 
     def migrate_disorder(self, old_disorder):
         new_instance = self.convert_class(target_klass=self.new_model.Disorder, instance=old_disorder)
-        new_instance.ageOfOnset = str(old_disorder.ageOfOnset)
+        if old_disorder.ageOfOnset is not None:
+            new_instance.ageOfOnset = str(old_disorder.ageOfOnset)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Disorder)
 
     def migrate_hpo_term(self, old_term):
