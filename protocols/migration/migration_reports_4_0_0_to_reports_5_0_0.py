@@ -23,8 +23,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.genomeAssembly = assembly
-        new_instance.pedigree.members = self.convert_collection(
-            old_instance.pedigree.members, self.migrate_pedigree_member)
+        new_instance.pedigree = self.migrate_pedigree(old_instance.pedigree)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
@@ -75,20 +74,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             raise MigrationError(
                 "Parameters <assembly> and <interpretation_request_version> are required for models earlier than 5.0.0"
             )
-
         new_instance = self.convert_class(
             self.new_model.InterpretedGenomeRD, old_instance)  # type:self.new_model.InterpretedGenomeRD
-
-        # missing fields not existing in reports_4_0_0.InterpretedGenomeRD
         new_instance.interpretationRequestVersion = interpretation_request_version
-
-        # companyName changes to interpretationService
         new_instance.interpretationService = old_instance.companyName
-
-        # reportUri has changed to reportUrl
-        new_instance.reportUrl = old_instance.reportUri
-
-        # converts all reported variants
         new_instance.variants = self.convert_collection(
             old_instance.reportedVariants, self.migrate_reported_variant, assembly=assembly)
 
@@ -108,7 +97,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance = self.convert_class(
             self.new_model.ClinicalReportRD, old_instance)  # :type self.new_model.ClinicalReportRD
 
-        # type of interpretationRequestVersion has been changed from int to string
         try:
             new_instance.interpretationRequestVersion = self.convert_string_to_integer(
                 old_instance.interpretationRequestVersion)
@@ -116,15 +104,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
                 old_instance.interpretationRequestVersion))
             raise ex
-
-        # supportingEvidence has been renamed to references
         new_instance.references = old_instance.supportingEvidence
-
-        # converts all reported variants
         new_instance.variants = self.convert_collection(
             old_instance.candidateVariants, self.migrate_reported_variant, assembly=assembly)
-
-        # converts all analysis panels
         if old_instance.additionalAnalysisPanels is not None:
             panels = []
             for panel in old_instance.additionalAnalysisPanels:
@@ -178,18 +160,13 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance = self.convert_class(
             self.new_model.CancerInterpretedGenome, old_instance)  # :type: reports_5_0_0.CancerInterpretedGenome
 
-        # reportRequest id and version are interpretationRequest id and version
         new_instance.interpretationRequestId = old_instance.reportRequestId
         new_instance.interpretationRequestVersion = old_instance.reportVersion
-
-        # missing fields not existing in reports_4_0_0.InterpretationRequestRD will be received as parameters
         new_instance.interpretationService = interpretation_service
         new_instance.referenceDatabasesVersions = reference_database_versions
         new_instance.softwareVersions = software_versions
         new_instance.reportUrl = report_url
         new_instance.comments = comments
-
-        # converts all reported variants
         participant_id = old_instance.cancerParticipant.individualId
         tumor_samples = old_instance.cancerParticipant.tumourSamples
         if not tumor_samples:
@@ -227,22 +204,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         )
 
         new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)  # :type: reports_5_0_0.CancerInterpretedGenome
-
-        # reportRequestId are interpretationRequestId
         new_instance.interpretationRequestId = old_instance.reportRequestId
-
-        # interpretation request version has to be provided
         new_instance.interpretationRequestVersion = interpretation_request_version
-
-        # interpretation service has to be provided
         new_instance.interpretationService = interpretation_service
-
-        # reportUri has changed to reportUrl
         new_instance.reportUrl = old_instance.reportUri
-
-        # NOTE: field reports_4_0_0.CancerInterpretedGenome.analysisId is lost in this migration
-
-        # converts all reported variants
         new_instance.variants = self.convert_collection(
             old_instance.reportedVariants, self.migrate_reported_variant_cancer,
             assembly=assembly, participant_id=participant_id, sample_id=sample_id)
@@ -266,8 +231,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         new_instance = self.convert_class(
             self.new_model.ClinicalReportCancer, old_instance)  # :type: reports_5_0_0.ClinicalReportCancer
-
-        # type of interpretationRequestVersion has been changed from int to string
         try:
             new_instance.interpretationRequestVersion = self.convert_string_to_integer(
                 old_instance.interpretationRequestVersion)
@@ -275,8 +238,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             logging.error("Error converting 'interpretationRequestVersion' to integer from value '{}'".format(
                 old_instance.interpretationRequestVersion))
             raise ex
-
-        # converts all reported variants
         new_instance.variants = self.convert_collection(
             old_instance.candidateVariants, self.migrate_reported_variant_cancer,
             assembly=assembly, participant_id=participant_id, sample_id=sample_id)
@@ -298,8 +259,6 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         """
         new_instance = self.convert_class(
             self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
-
-        # builds up the variant coordinates
         new_instance.variantCoordinates = reports_5_0_0.VariantCoordinates(
             chromosome=old_instance.chromosome,
             position=old_instance.position,
@@ -307,22 +266,11 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             alternate=old_instance.alternate,
             assembly=self.migrate_assembly(assembly)
         )
-
-        # NOTE: missing fields: dbSnpId, cosmicIds, clinVarIds, genomicChange, cdnaChanges, proteinChanges
-
-        # converts a list of called genotypes into a list of variant calls
         new_instance.variantCalls = self.convert_collection(
             old_instance.calledGenotypes, self.migrate_called_genotype_to_variant_call, default=[])
-
-        # converts a list of report events
         new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self.migrate_report_event)
-
-        # rename field evidenceIds to references
         new_instance.references = old_instance.evidenceIds
-
-        # hardcodes allele origin to germline as this is a variant from rare disease program
         new_instance.alleleOrigins = [reports_5_0_0.AlleleOrigin.germline_variant]
-
         if migrate_frequencies:
             new_instance.alleleFrequencies = self.migrate_allele_frequencies(
                 old_instance.additionalNumericVariantAnnotations)
@@ -360,14 +308,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         """
         new_instance = self.convert_class(
             self.new_model.VariantCall, old_instance)  # :type: reports_5_0_0.VariantCall
-
-        # rename gelId to participantId
         new_instance.participantId = old_instance.gelId
-
-        # rename genotype to zygosity
         new_instance.zygosity = old_instance.genotype
-
-        # sets allele origin to germline, we fail to set maternal/paternal origin or de novo status
         new_instance.alleleOrigins = [reports_5_0_0.AlleleOrigin.germline_variant]
 
         # NOTE: fields that are lost: copyNumber
@@ -385,35 +327,28 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :return:
         """
         new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
-
-        # phenotypes has been changed to a list
         new_instance.phenotypes = [old_instance.phenotype]
-
-        # panelName and panelVersion are now inside a dedicated object
         if old_instance.panelName is not None:
             new_instance.genePanel = self.new_model.GenePanel(
                 panelName=old_instance.panelName)
             if old_instance.panelVersion is not None:
                 new_instance.genePanel.panelVersion = old_instance.panelVersion
-
-        # genomic feature has been changed to a list
         new_instance.genomicEntities = [self.migrate_genomic_feature(old_instance.genomicFeature)]
-
-        # variant classification is now in a complex object
         if old_instance.variantClassification is not None:
             old_variant_classification = reports_4_0_0.VariantClassification
             new_clinical_significance = reports_5_0_0.ClinicalSignificance
             map_variant_classification = {
                 old_variant_classification.benign_variant: new_clinical_significance.benign,
                 old_variant_classification.likely_benign_variant: new_clinical_significance.likely_benign,
-                old_variant_classification.variant_of_unknown_clinical_significance: new_clinical_significance.VUS,
+                old_variant_classification.variant_of_unknown_clinical_significance:
+                    new_clinical_significance.uncertain_significance,
                 old_variant_classification.likely_pathogenic_variant: new_clinical_significance.likely_pathogenic,
                 old_variant_classification.pathogenic_variant: new_clinical_significance.pathogenic,
                 old_variant_classification.not_assessed: None
             }
             clinical_significance = map_variant_classification[old_instance.variantClassification]
             if clinical_significance is not None:
-                new_instance.variantClassification = opencb_1_3_0.VariantClassification(
+                new_instance.variantClassification = self.new_model.VariantClassification(
                     clinicalSignificance=map_variant_classification[old_instance.variantClassification]
                 )
 
@@ -435,11 +370,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :return:
         """
         new_instance = self.convert_class(self.new_model.GenomicEntity, old_instance)
-
-        # rename field HGNC to gene symbol
         new_instance.geneSymbol = old_instance.hgnc
-
-        # enum feature type has been renamed
         map_feature_type = {
             reports_4_0_0.FeatureTypes.Transcript: reports_5_0_0.GenomicEntityType.transcript,
             reports_4_0_0.FeatureTypes.RegulatoryRegion: reports_5_0_0.GenomicEntityType.regulatory_region,
@@ -463,16 +394,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         """
         reported_variant_cancer = old_instance.reportedVariantCancer
         new_instance = self.convert_class(self.new_model.ReportedVariantCancer, reported_variant_cancer)  # :type: reports_5_0_0.ReportedVariant
-
-        # builds up the variant coordinates
         new_instance.variantCoordinates = self.convert_class(reports_5_0_0.VariantCoordinates, reported_variant_cancer)
         new_instance.variantCoordinates.assembly = self.migrate_assembly(assembly)
-
-        # field cDnaChange renamed to cdnaChange
         if old_instance.reportedVariantCancer.cDnaChange:
             new_instance.cdnaChanges = [old_instance.reportedVariantCancer.cDnaChange]
-
-        # field proteinChange changed to a list
         if reported_variant_cancer.proteinChange:
             new_instance.proteinChanges = [reported_variant_cancer.proteinChange]
 
@@ -489,28 +414,19 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             participantId=participant_id,
             sampleId=sample_id
         )]
-
-        # builds up an AlleleFrequency object
         if reported_variant_cancer.commonAf is not None:
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
                 alternateFrequency=self.convert_string_to_float(reported_variant_cancer.commonAf)
             )]
-
-        # builds up the VariantAttributes
         # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(
             ihp=reported_variant_cancer.ihp
         )
-
-        # list of allele origins is flattened and received as a parameter
         new_instance.alleleOrigins = old_instance.alleleOrigins
-
-        # migrates cancer report events
         new_instance.reportEvents = self.convert_collection(
             reported_variant_cancer.reportEvents, self.migrate_report_event_cancer)
-
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer
         )
@@ -523,19 +439,11 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :return:
         """
         new_instance = self.convert_class(self.new_model.ReportEventCancer, old_instance)
-
-        # map one genomic feature cancer into a list of common genomic features
         new_instance.genomicEntities = [self.migrate_genomic_feature_cancer(old_instance.genomicFeatureCancer)]
-
-        # transforms a list of SO terms into a list of variant consequences
         if old_instance.soTerms is not None:
             new_instance.variantConsequences = [reports_5_0_0.VariantConsequence(id=so_term.id, name=so_term.name)
                                                 for so_term in old_instance.soTerms]
-
-        # migrates actions
         new_instance.actions = self.convert_collection(old_instance.actions, self.migrate_action)
-
-        # populates the role in cancer with the field inside the genomic feature
         map_role_in_cancer = {
             None: None,
             reports_4_0_0.RoleInCancer.both: [reports_5_0_0.RoleInCancer.both],
@@ -555,13 +463,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :return:
         """
         new_instance = self.convert_class(self.new_model.GenomicEntity, old_instance)
-
-        # maps the feature type
         new_instance.type = self.feature_genomic_entity_map[old_instance.featureType]
-
-        # rename gene name to gene symbol
         new_instance.geneSymbol = old_instance.geneName
-
         new_instance.otherIds = dict(
             refSeqTranscriptId=old_instance.refSeqTranscriptId, refSeqProteinId=old_instance.refSeqProteinId
         )
@@ -578,11 +481,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
 
         new_instance.evidenceType = old_instance.actionType
         new_instance.actionType = None
-
-        # rename evidence to references
         new_instance.references = old_instance.evidence
-
-        # maps the action status
         if old_instance.status is not None:
             status = old_instance.status.lower().replace('-', '_')
             if status == reports_5_0_0.ActionStatus.clinical:
@@ -608,81 +507,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         part_migrated = MigrationParticipants100To103().migrate_cancer_participant(old_participant)
         return MigrationParticipants103To110().migrate_cancer_participant(part_migrated)
 
-    def migrate_disorder(self, old_disorder):
-        new_object_type = self.new_model.Disorder
-        new_disorder = self.convert_class(target_klass=new_object_type, instance=old_disorder)
-        new_disorder.ageOfOnset = self.convert_string_to_float(old_disorder.ageOfOnset, fail=False)
-        return self.validate_object(object_to_validate=new_disorder, object_type=new_object_type)
-
-    def migrate_hpo_term_age_of_onset(self, old_age_of_onset):
-        new_age_of_onset = None
-        age_of_onset_enum = [
-            self.new_model.AgeOfOnset.EMBRYONAL_ONSET,
-            self.new_model.AgeOfOnset.FETAL_ONSET,
-            self.new_model.AgeOfOnset.NEONATAL_ONSET,
-            self.new_model.AgeOfOnset.INFANTILE_ONSET,
-            self.new_model.AgeOfOnset.CHILDHOOD_ONSET,
-            self.new_model.AgeOfOnset.JUVENILE_ONSET,
-            self.new_model.AgeOfOnset.YOUNG_ADULT_ONSET,
-            self.new_model.AgeOfOnset.LATE_ONSET,
-            self.new_model.AgeOfOnset.MIDDLE_AGE_ONSET,
-        ]
-        if isinstance(old_age_of_onset, str):
-            if old_age_of_onset.upper() in age_of_onset_enum:
-                new_age_of_onset = old_age_of_onset.upper()
-        return new_age_of_onset
-
-    def migrate_hpo_term(self, old_hpo_term):
-        new_object_type = self.new_model.HpoTerm
-        new_hpo_term = self.convert_class(target_klass=new_object_type, instance=old_hpo_term)
-        new_hpo_term.ageOfOnset = self.migrate_hpo_term_age_of_onset(old_age_of_onset=old_hpo_term.ageOfOnset)
-        new_hpo_term.modifiers = self.migrate_hpo_term_modifiers(old_modifiers=old_hpo_term.modifiers)
-        return self.validate_object(object_to_validate=new_hpo_term, object_type=new_object_type)
-
-    def migrate_hpo_term_modifiers(self, old_modifiers):
-        if old_modifiers is None:
-            return None
-        # TODO(Greg): Check real data for whether these keys are used
-        laterality_enum = [
-            self.new_model.Laterality.RIGHT, self.new_model.Laterality.LEFT, self.new_model.Laterality.UNILATERAL,
-            self.new_model.Laterality.BILATERAL,
-        ]
-        laterality = self.extract_hpo_term_modifier(modifier="laterality", map=old_modifiers, enum=laterality_enum)
-
-        progression_enum = [self.new_model.Progression.PROGRESSIVE, self.new_model.Progression.NONPROGRESSIVE]
-        progression = self.extract_hpo_term_modifier(modifier="progression", map=old_modifiers, enum=progression_enum)
-
-        severity_enum = [
-            self.new_model.Severity.BORDERLINE, self.new_model.Severity.MILD, self.new_model.Severity.MODERATE,
-            self.new_model.Severity.SEVERE, self.new_model.Severity.PROFOUND,
-        ]
-        severity = self.extract_hpo_term_modifier(modifier="severity", map=old_modifiers, enum=severity_enum)
-
-        spatial_enum = [
-            self.new_model.SpatialPattern.DISTAL, self.new_model.SpatialPattern.GENERALIZED,
-            self.new_model.SpatialPattern.LOCALIZED, self.new_model.SpatialPattern.PROXIMAL,
-        ]
-        spatial_pattern = self.extract_hpo_term_modifier(modifier="spatial_pattern", map=old_modifiers, enum=spatial_enum)
-
-        new_modifier = self.new_model.HpoTermModifiers(
-            laterality=laterality,
-            progression=progression,
-            severity=severity,
-            spatialPattern=spatial_pattern,
-        )
-        return self.validate_object(object_to_validate=new_modifier, object_type=self.new_model.HpoTermModifiers)
-
     @staticmethod
-    def extract_hpo_term_modifier(modifier, map, enum):
-        new_modifier = map.get(modifier, "").upper()
-        return new_modifier if new_modifier in enum else None
-
-    def migrate_pedigree_member(self, old_member):
-        new_object_type = self.new_model.PedigreeMember
-        new_member = self.convert_class(target_klass=new_object_type, instance=old_member)
-        new_member.disorderList = self.convert_collection(old_member.disorderList, self.migrate_disorder)
-        new_member.hpoTermList = self.convert_collection(old_member.hpoTermList, self.migrate_hpo_term)
-        return self.validate_object(object_to_validate=new_member, object_type=new_object_type)
+    def migrate_pedigree(old_pedigree):
+        part_migrated = MigrationParticipants100To103().migrate_pedigree(old_pedigree)
+        return MigrationParticipants103To110().migrate_pedigree(part_migrated)
 
     @staticmethod
     def migrate_allele_frequencies(additionalNumericVariantAnnotations):

@@ -83,17 +83,22 @@ class BaseMigrateReports500And600(BaseMigration):
     tier_domain_map = {k: v for k, v in _tier_domain_mapping}
     domain_tier_map = {v: k for k, v in _tier_domain_mapping}
 
-    _clinical_signicance_mapping = [
-        (reports_5_0_0.ClinicalSignificance.benign, reports_6_0_0.ClinicalSignificance.benign),
-        (reports_5_0_0.ClinicalSignificance.likely_benign, reports_6_0_0.ClinicalSignificance.likely_benign),
-        (reports_5_0_0.ClinicalSignificance.pathogenic, reports_6_0_0.ClinicalSignificance.pathogenic),
-        (reports_5_0_0.ClinicalSignificance.likely_pathogenic, reports_6_0_0.ClinicalSignificance.likely_pathogenic),
-        (reports_5_0_0.ClinicalSignificance.uncertain_significance, reports_6_0_0.ClinicalSignificance.uncertain_significance),
-        (reports_5_0_0.ClinicalSignificance.VUS, reports_6_0_0.ClinicalSignificance.uncertain_significance)
-    ]
+    clinical_signicance_map = {
+        reports_5_0_0.ClinicalSignificance.benign: reports_6_0_0.ClinicalSignificance.benign,
+        reports_5_0_0.ClinicalSignificance.likely_benign: reports_6_0_0.ClinicalSignificance.likely_benign,
+        reports_5_0_0.ClinicalSignificance.pathogenic: reports_6_0_0.ClinicalSignificance.pathogenic,
+        reports_5_0_0.ClinicalSignificance.likely_pathogenic: reports_6_0_0.ClinicalSignificance.likely_pathogenic,
+        reports_5_0_0.ClinicalSignificance.uncertain_significance: reports_6_0_0.ClinicalSignificance.uncertain_significance,
+        reports_5_0_0.ClinicalSignificance.VUS: reports_6_0_0.ClinicalSignificance.uncertain_significance
+    }
 
-    clinical_signicance_map = {k: v for k, v in _clinical_signicance_mapping}
-    clinical_signicance_reverse_map = {v: k for k, v in _clinical_signicance_mapping}
+    clinical_signicance_reverse_map = {
+        reports_6_0_0.ClinicalSignificance.benign: reports_5_0_0.ClinicalSignificance.benign,
+        reports_6_0_0.ClinicalSignificance.likely_benign: reports_5_0_0.ClinicalSignificance.likely_benign,
+        reports_6_0_0.ClinicalSignificance.pathogenic: reports_5_0_0.ClinicalSignificance.pathogenic,
+        reports_6_0_0.ClinicalSignificance.likely_pathogenic: reports_5_0_0.ClinicalSignificance.likely_pathogenic,
+        reports_6_0_0.ClinicalSignificance.uncertain_significance: reports_5_0_0.ClinicalSignificance.VUS
+    }
 
 
 class BaseMigrateReports400And500(BaseMigration):

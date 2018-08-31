@@ -112,6 +112,7 @@ class MigrationHelpers(object):
             lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig, cip=cip),
             MigrateReports600To500().migrate_interpretation_request_rd,
         ]
+
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod

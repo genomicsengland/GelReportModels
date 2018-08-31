@@ -227,7 +227,8 @@ class MigrationParticipants100To103(BaseMigration):
 
     def migrate_member(self, old_member):
         new_member = self.convert_class(self.new_model.PedigreeMember, old_member)
-        new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
+        if old_member.ancestries:
+            new_member.ancestries = self.migrate_ancestries(old_ancestries=old_member.ancestries)
         if old_member.disorderList is not None:
             new_member.disorderList = [self.migrate_disorder(disorder) for disorder in old_member.disorderList]
         if old_member.hpoTermList is not None:
