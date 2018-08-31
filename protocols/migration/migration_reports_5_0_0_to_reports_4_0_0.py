@@ -352,6 +352,12 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 new_instance.additionalTextualVariantAnnotations['fdp50'] = old_rvc.variantAttributes.fdp50
             if old_rvc.variantAttributes.others:
                 new_instance.additionalTextualVariantAnnotations.update(old_rvc.variantAttributes.others)
+
+        common_afs = [af.alternateFrequency for af in old_rvc.alleleFrequencies
+                      if af.study == 'genomics_england' and af.population == 'ALL']
+        if common_afs:
+            new_instance.commonAf = int(common_afs[0])
+
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportedVariantCancer)
 
     def migrate_report_event_cancer(self, old_rec):
@@ -362,6 +368,14 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.genomicFeatureCancer = self.migrate_genomic_entities_to_genomic_feature_cancer(
             genomic_entities=old_rec.genomicEntities,
         )
+        map_role_in_cancer = {
+            None: None,
+            reports_5_0_0.RoleInCancer.both: reports_4_0_0.RoleInCancer.both,
+            reports_5_0_0.RoleInCancer.oncogene: reports_4_0_0.RoleInCancer.oncogene,
+            reports_5_0_0.RoleInCancer.tumor_suppressor_gene: reports_4_0_0.RoleInCancer.TSG
+        }
+        if old_rec.roleInCancer:
+            new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_rec.roleInCancer[0]]
         new_instance.actions = self.convert_collection(old_rec.actions, self.migrate_action)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ReportEventCancer)
 

@@ -1,34 +1,20 @@
 from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0
 from protocols import reports_5_0_0
 from protocols.migration import MigrateReports400To500, MigrateReports500To400
+from protocols.reports_3_0_0 import SampleType
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
 from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
-from protocols.util.dependency_manager import VERSION_400
+from protocols.util.dependency_manager import VERSION_400, VERSION_300
 from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
 import factory.fuzzy
 from protocols.util import dependency_manager
 import dictdiffer
 import logging
-
-
-class ActionFactory(FactoryAvro):
-    class Meta:
-        model = reports_4_0_0.Actions
-
-    _version = VERSION_400
-
-    actionType = factory.fuzzy.FuzzyChoice(['therapy', 'therapeutic', 'prognosis', 'diagnosis'])
-    status = factory.fuzzy.FuzzyChoice(['clinical', 'pre-clinical'])
-    evidence = ["this", "that"]
-    drug = factory.fuzzy.FuzzyText()
-    variantActionable = factory.fuzzy.FuzzyChoice([True, False])
-    comments = ["this", "that"]
-    url = factory.fuzzy.FuzzyText()
-    evidenceType = factory.fuzzy.FuzzyText()
-    source = factory.fuzzy.FuzzyText()
+import random
+import collections
 
 
 class BaseTestRoundTrip(TestCaseMigration):
@@ -61,12 +47,21 @@ class BaseTestRoundTrip(TestCaseMigration):
             observed = values[0]
             if observed in self._empty_values and expected in self._empty_values:
                 continue
-            if self._equal_values.get(expected, "not the same") == observed:
+            if self.is_hashable(expected) and self._equal_values.get(expected, "not the same") == observed:
+                continue
+            if expected == observed:
                 continue
             logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), expected, observed))
             differ = True
         if expect_equality:
             self.assertFalse(differ)
+
+    def is_hashable(self, item):
+        try:
+            hash(item)
+            return True
+        except:
+            return False
 
     @staticmethod
     def is_field_ignored(field_path, ignored_fields):
@@ -224,7 +219,6 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     old_model = reports_3_0_0
     new_model = reports_6_0_0
 
-    # @unittest.skip
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
         # get original IR in version 3.0.0
         assembly = Assembly.GRCh38
@@ -250,7 +244,6 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 
-    # @unittest.skip
     def test_migrate_rd_interpretation_request_nulls(self):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
@@ -302,6 +295,46 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
                                               reports_3_0_0.FileType.ANN, reports_3_0_0.FileType.VCF_small])
         md5Sum = None
 
+    def test_migrate_cancer_interpretation_request(self, fill_nullables=True):
+        # get original IR in version 4.0.0
+        assembly = Assembly.GRCh38
+        original_ir = self.get_valid_object(
+            object_type=reports_4_0_0.CancerInterpretationRequest, version=self.version_4_0_0,
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly)
+
+        original_ir.versionControl.gitVersionControl = '4.0.0'
+        original_ir.interpretGenome = True
+        # migration requires there is exactly one tumour sample
+        original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
+        # don't really understand why I need this
+        if original_ir.tieredVariants:
+            for tv in original_ir.tieredVariants:
+                for re in tv.reportedVariantCancer.reportEvents:
+                    if re.actions:
+                        for action in re.actions:
+                            action.status = "clinical"
+
+        # migrates forward IR 4.0.0 into IG 6.0.0
+        ig6 = MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
+            original_ir.toJsonDict(), assembly=assembly, interpretation_service="service",
+            reference_database_versions={}, software_versions={}, report_url="https://example.com", comments=[])
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_interpretation_request_cancer_to_latest,
+            MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4,
+            original_ir,
+            self.new_model.CancerInterpretationRequest,
+            expect_equality=True, ignore_fields=[
+                                                 "cancerParticipant.versionControl.GitVersionControl",
+                                                 "analysisUri", "analysisVersion",
+                                                 "TNMStageVersion",
+                                                 "TNMStageGrouping"
+                                                 ],
+            forward_kwargs={'assembly': assembly},
+            backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
+
+    def test_migrate_cancer_interpretation_request_nulls(self):
+        self.test_migrate_cancer_interpretation_request(fill_nullables=False)
+
     class CalledGenotypeFactory300(FactoryAvro):
         class Meta:
             model = reports_3_0_0.CalledGenotype
@@ -351,6 +384,22 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         _fill_nullables = True
         ageOfOnset = str(factory.fuzzy.FuzzyInteger(low=0, high=100).fuzz())
 
+    class ActionFactory(FactoryAvro):
+        class Meta:
+            model = reports_4_0_0.Actions
+
+        _version = VERSION_400
+
+        actionType = factory.fuzzy.FuzzyChoice(['therapy', 'therapeutic', 'prognosis', 'diagnosis'])
+        status = factory.fuzzy.FuzzyChoice(['clinical', 'pre-clinical'])
+        evidence = ["this", "that"]
+        drug = factory.fuzzy.FuzzyText()
+        variantActionable = factory.fuzzy.FuzzyChoice([True, False])
+        comments = ["this", "that"]
+        url = factory.fuzzy.FuzzyText()
+        evidenceType = factory.fuzzy.FuzzyText()
+        source = factory.fuzzy.FuzzyText()
+
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=True)
@@ -368,3 +417,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             reports_3_0_0.Pedigree, self.PedigreeFactory300Nulls, self.version_3_0_0, fill_nullables=True)
         GenericFactoryAvro.register_factory(
             reports_3_0_0.HpoTerm, self.HpoTermFactory, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_4_0_0.Actions, self.ActionFactory, self.version_4_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_4_0_0.Actions, self.ActionFactory, self.version_4_0_0, fill_nullables=False)
