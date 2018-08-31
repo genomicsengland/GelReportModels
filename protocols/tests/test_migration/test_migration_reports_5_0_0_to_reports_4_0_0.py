@@ -8,10 +8,8 @@ from protocols import participant_1_1_0
 from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.migration import MigrationParticipants103To100
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration import MigrateReports500To400
-from protocols.migration import MigrateParticipant110To103
 
 
 class TestMigrateReports5To400(TestCaseMigration):
@@ -250,17 +248,6 @@ class TestMigrateReports5To400(TestCaseMigration):
         rvc_4 = MigrateReports500To400().migrate_reported_variant_cancer(old_rvc=rvc_5)
         self.assertIsInstance(rvc_4, self.new_model.ReportedVariantCancer)
         self.assertTrue(rvc_4.validate(rvc_4.toJsonDict()))
-
-    def test_migrate_cancer_participant(self):
-        p_110 = self.get_valid_object(object_type=participant_1_1_0.CancerParticipant, version=self.version_6_1)
-        p_103 = MigrateParticipant110To103().migrate_cancer_participant(
-            old_participant=p_110,
-        )
-        p_100 = MigrationParticipants103To100().migrate_cancer_participant(
-            old_instance=p_103,
-        )
-        self.assertIsInstance(p_100, participant_1_0_0.CancerParticipant)
-        self.assertTrue(p_100.validate(p_100.toJsonDict()))
 
     def test_migrate_genomic_entities_to_genomic_feature_cancer(self):
         ge_5 = self.get_valid_object(object_type=self.old_model.GenomicEntity, version=self.version_6_1)
