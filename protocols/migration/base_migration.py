@@ -70,7 +70,8 @@ class BaseMigration(object):
         if things is None:
             return default
         elif isinstance(things, list):
-            return [migrate_function(thing, **kwargs) for thing in things]
+            migrated_list = [migrate_function(thing, **kwargs) for thing in things]
+            return list(filter(lambda x: x is not None, migrated_list))
         elif isinstance(things, dict):
             return {k: migrate_function(v, **kwargs) for (k, v) in things.items()}
         else:
