@@ -4,7 +4,7 @@ from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
+from protocols.migration.migration_reports_500_to_reports_600 import MigrateReports500To600
 
 
 class TestMigrateInterpretationRequest5To6(TestCaseMigration):

@@ -2,7 +2,7 @@ from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 import factory.fuzzy
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
-from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
+from protocols.migration.migration_reports_400_to_reports_500 import MigrateReports400To500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.factories.avro_factory import FactoryAvro

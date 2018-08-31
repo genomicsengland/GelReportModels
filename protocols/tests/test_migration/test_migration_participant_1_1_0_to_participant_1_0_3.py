@@ -9,7 +9,7 @@ from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
+from protocols.migration.migration_participant_110_to_participant_103 import MigrateParticipant110To103
 
 
 class TestMigrateParticipant110To100(TestCaseMigration):

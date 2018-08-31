@@ -1,7 +1,7 @@
 import logging
 
 from protocols.migration.base_migration import MigrationError
-from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
+from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
 
 from protocols.reports_2_1_0 import ClinicalReportRD as ClinicalReportRD_2_1_0
 from protocols.reports_2_1_0 import InterpretedGenomeRD as InterpretedGenomeRD_2_1_0
@@ -47,11 +47,11 @@ from protocols.participant_1_0_3 import CancerParticipant as CancerParticipant_1
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_1_0_0
 
 from protocols.migration.model_validator import PayloadValidation
-from protocols.migration.migration import Migration2_1To3
-from protocols.migration.migration_reports_3_0_0_to_reports_4_0_0 import MigrateReports3To4
-from protocols.migration.migration_reports_4_0_0_to_reports_5_0_0 import MigrateReports400To500
-from protocols.migration.migration_reports_5_0_0_to_reports_6_0_0 import MigrateReports500To600
-from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
+from protocols.migration.migration_reports_210_to_300 import Migration2_1To3
+from protocols.migration.migration_reports_300_to_reports_400 import MigrateReports3To4
+from protocols.migration.migration_reports_400_to_reports_500 import MigrateReports400To500
+from protocols.migration.migration_reports_500_to_reports_600 import MigrateReports500To600
+from protocols.migration.migration_reports_400_to_reports_300 import MigrateReports400To300
 from protocols.migration import MigrateReports500To400
 from protocols.migration import (
     MigrationReports3ToParticipant1,
