@@ -53,7 +53,7 @@ class BaseTestRoundTrip(TestCaseMigration):
 
         differ = False
         for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
-            if isinstance(field_path, unicode):
+            if type(field_path).__name__ in ['unicode', 'str']:
                 field_path = [field_path]
             if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
                 continue
