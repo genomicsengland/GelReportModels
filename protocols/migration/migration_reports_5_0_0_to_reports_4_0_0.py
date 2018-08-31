@@ -4,9 +4,9 @@ from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
 from protocols.migration.base_migration import BaseMigrateReports400And500
 from protocols.migration.base_migration import MigrationError
-from protocols.migration.participants import MigrationParticipants103To100
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_0 import MigrateParticipant110To100
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
+from protocols.migration import MigrationParticipants103To100
+from protocols.migration import MigrateParticipant110To100
+from protocols.migration import MigrateParticipant110To103
 
 
 class MigrateReports500To400(BaseMigrateReports400And500):
