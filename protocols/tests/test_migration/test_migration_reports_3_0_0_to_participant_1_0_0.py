@@ -1,7 +1,7 @@
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.reports_3_0_0 import CancerParticipant as CancerParticipant_old
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_new
-from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrateReports3ToParticipant1
+from protocols.migration.migration_reports_3_0_0_to_participant_1_0_0 import MigrationReports3ToParticipant1
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.util.dependency_manager import VERSION_400, VERSION_300
 from protocols import reports_3_0_0
@@ -27,7 +27,7 @@ class TestMigrateReports3ToParticipant1(TestCaseMigration):
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
-        new_instance = MigrateReports3ToParticipant1().migrate_cancer_participant(old_instance)
+        new_instance = MigrationReports3ToParticipant1().migrate_cancer_participant(old_instance)
         self._validate(new_instance)
         self._check_non_empty_fields(
             new_instance,
@@ -53,7 +53,7 @@ class TestMigrateReports3ToParticipant1(TestCaseMigration):
         self._validate(new_participant)
 
         # Perform the migration of old_participant from reports_3_0_0 to participant_1_0_0
-        migrated_participant = MigrateReports3ToParticipant1().migrate_cancer_participant(old_participant)
+        migrated_participant = MigrationReports3ToParticipant1().migrate_cancer_participant(old_participant)
 
         # Check migrated_participant is a valid participant_1_0_0 CancerParticipant object
         self.assertTrue(isinstance(migrated_participant, CancerParticipant_new))

@@ -1,6 +1,5 @@
-import unittest
-
-from protocols import reports_6_0_0, reports_4_0_0, reports_5_0_0, reports_3_0_0
+from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0
+from protocols import reports_5_0_0
 from protocols.migration import MigrateReports400To500, MigrateReports500To400
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
@@ -34,6 +33,12 @@ class ActionFactory(FactoryAvro):
 
 class BaseTestRoundTrip(TestCaseMigration):
 
+    # all empty values will not be considered as mismatchs
+    _empty_values = [None, [], {}, ""]
+    _equal_values = {
+        reports_3_0_0.Sex.undetermined: reports_3_0_0.Sex.unknown
+    }
+
     def _check_round_trip_migration(self, forward, backward, original, new_type,
                                     expect_equality=True, ignore_fields=[],
                                     forward_kwargs={}, backward_kwargs={}):
@@ -47,14 +52,29 @@ class BaseTestRoundTrip(TestCaseMigration):
         self.assertValid(round_tripped)
 
         differ = False
-        ignore_fields = set(ignore_fields)
         for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
-            if len(ignore_fields.intersection(set(field_path))) > 0:
+            if type(field_path).__name__ in ['unicode', 'str']:
+                field_path = [field_path]
+            if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
                 continue
-            logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), values[1], values[0]))
+            expected = values[1]
+            observed = values[0]
+            if observed in self._empty_values and expected in self._empty_values:
+                continue
+            if self._equal_values.get(expected, "not the same") == observed:
+                continue
+            logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(list(map(str, field_path))), expected, observed))
             differ = True
         if expect_equality:
             self.assertFalse(differ)
+
+    @staticmethod
+    def is_field_ignored(field_path, ignored_fields):
+        for ignored_field in ignored_fields:
+            for path in field_path:
+                if ignored_field in str(path):
+                    return True
+        return False
 
     def assertValid(self, instance):
         validation = instance.validate(instance.toJsonDict(), verbose=True)
@@ -205,26 +225,34 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     new_model = reports_6_0_0
 
     # @unittest.skip
-    # def test_migrate_rd_interpretation_request(self, fill_nullables=True):
-    #     # get original IR in version 3.0.0
-    #     original_ir = self.get_valid_object(
-    #         object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-    #     # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
-    #     ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
-    #         original_ir.toJsonDict(), assembly=Assembly.GRCh38)
-    #     ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
-    #     self._check_round_trip_migration(
-    #         MigrationHelpers.migrate_interpretation_request_rd_to_latest,
-    #         MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
-    #         original_ir,
-    #         self.new_model.InterpretationRequestRD,
-    #         expect_equality=True,
-    #         forward_kwargs={'assembly': Assembly.GRCh38},
-    #         backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
-    #
+    def test_migrate_rd_interpretation_request(self, fill_nullables=True):
+        # get original IR in version 3.0.0
+        assembly = Assembly.GRCh38
+        original_ir = self.get_valid_object(
+            object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0,
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
+            versionControl=reports_3_0_0.VersionControl())
+        for p in original_ir.pedigree.participants:
+            p.gelFamilyId = original_ir.pedigree.gelFamilyId
+            p.yearOfBirth
+        # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
+        ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
+            original_ir.toJsonDict(), assembly=assembly)
+        ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_interpretation_request_rd_to_latest,
+            MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
+            original_ir,
+            self.new_model.InterpretationRequestRD,
+            expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
+                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome",
+                                                 "ageOfOnset", "consanguineousPopulation", "modifiers"],
+            forward_kwargs={'assembly': assembly},
+            backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
+
     # @unittest.skip
-    # def test_migrate_rd_interpretation_request_nulls(self):
-    #     self.test_migrate_rd_interpretation_request(fill_nullables=False)
+    def test_migrate_rd_interpretation_request_nulls(self):
+        self.test_migrate_rd_interpretation_request(fill_nullables=False)
 
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
         # get original IG in version 3.0.0
@@ -245,22 +273,22 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_rd_interpreted_genome_nulls(self):
         self.test_migrate_rd_interpreted_genome(fill_nullables=False)
 
-    # @unittest.skip
-    # def test_migrate_rd_clinical_report(self, fill_nullables=True):
-    #     # get original IR in version 3.0.0
-    #     original = self.get_valid_object(
-    #         object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables)
-    #     self._check_round_trip_migration(
-    #         MigrationHelpers.migrate_clinical_report_rd_to_latest,
-    #         MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
-    #         original,
-    #         self.new_model.ClinicalReport,
-    #         expect_equality=True,
-    #         forward_kwargs={'assembly': Assembly.GRCh38})
-    #
-    # @unittest.skip
-    # def test_migrate_rd_clinical_report_nulls(self):
-    #     self.test_migrate_rd_clinical_report(fill_nullables=False)
+    def test_migrate_rd_clinical_report(self, fill_nullables=True):
+        # get original IR in version 3.0.0
+        original = self.get_valid_object(
+            object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables,
+            interpretationRequestVersion='1', candidateStructuralVariants=None
+        )
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_clinical_report_rd_to_latest,
+            MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
+            original,
+            self.new_model.ClinicalReport,
+            expect_equality=True, ignore_fields=["interpretationRequestAnalysisVersion"],
+            forward_kwargs={'assembly': Assembly.GRCh38})
+
+    def test_migrate_rd_clinical_report_nulls(self):
+        self.test_migrate_rd_clinical_report(fill_nullables=False)
 
     class FileFactory300(FactoryAvro):
         class Meta:
@@ -281,6 +309,48 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         _version = dependency_manager.VERSION_300
         copyNumber = None
 
+    class RDParticipantFactory300(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.RDParticipant
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        yearOfBirth = str(factory.fuzzy.FuzzyInteger(low=1900, high=2018).fuzz())
+        _fill_nullables = False
+
+    class RDParticipantFactory300Nulls(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.RDParticipant
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        yearOfBirth = str(factory.fuzzy.FuzzyInteger(low=1900, high=2018).fuzz())
+        _fill_nullables = True
+
+    class PedigreeFactory300(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.Pedigree
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = False
+
+    class PedigreeFactory300Nulls(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.Pedigree
+
+        _version = dependency_manager.VERSION_300
+        versionControl = reports_3_0_0.VersionControl()
+        _fill_nullables = True
+
+    class HpoTermFactory(FactoryAvro):
+        class Meta:
+            model = reports_3_0_0.HpoTerm
+
+        _version = dependency_manager.VERSION_300
+        _fill_nullables = True
+        ageOfOnset = str(factory.fuzzy.FuzzyInteger(low=0, high=100).fuzz())
+
     def setUp(self):
         GenericFactoryAvro.register_factory(
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=True)
@@ -288,3 +358,13 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             reports_3_0_0.File, self.FileFactory300, self.version_3_0_0, fill_nullables=False)
         GenericFactoryAvro.register_factory(
             reports_3_0_0.CalledGenotype, self.CalledGenotypeFactory300, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.RDParticipant, self.RDParticipantFactory300, self.version_3_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.RDParticipant, self.RDParticipantFactory300Nulls, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.Pedigree, self.PedigreeFactory300, self.version_3_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.Pedigree, self.PedigreeFactory300Nulls, self.version_3_0_0, fill_nullables=True)
+        GenericFactoryAvro.register_factory(
+            reports_3_0_0.HpoTerm, self.HpoTermFactory, self.version_3_0_0, fill_nullables=True)

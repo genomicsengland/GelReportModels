@@ -7,7 +7,6 @@ from protocols.migration.base_migration import MigrationError
 from protocols.migration.participants import MigrationParticipants103To100
 from protocols.migration.migration_participant_1_1_0_to_participant_1_0_0 import MigrateParticipant110To100
 from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
-from protocols.migration.participants import MigrationParticipants110To100
 
 
 class MigrateReports500To400(BaseMigrateReports400And500):
@@ -85,7 +84,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.analysisVersion = "1"  # it is always 1, so it can be hard-coded here
         if not old_instance.pedigree:
             raise MigrationError("Cannot reverse migrate an Interpretation Request for RD with null pedigree")
-        new_instance.pedigree = MigrationParticipants110To100().migrate_pedigree(old_instance.pedigree)
+        new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_instance.pedigree)
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
 
