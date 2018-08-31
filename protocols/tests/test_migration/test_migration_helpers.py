@@ -644,7 +644,7 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
-        migrated_instance = MigrationHelpers().migrate_interpreted_genome_cancer_to_latest(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_cancer_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_id='456',
             interpretation_request_version=5, interpretation_service='congenica')
         self._validate(migrated_instance)
@@ -661,7 +661,7 @@ class TestMigrationHelpers(TestCaseMigration):
             self._check_non_empty_fields(old_instance, exclusions=["md5Sum"])
 
         with self.assertRaises(MigrationError):
-            MigrationHelpers().migrate_interpreted_genome_cancer_to_latest(
+            MigrationHelpers.migrate_interpreted_genome_cancer_to_latest(
                 old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_id='456',
                 interpretation_request_version=5, interpretation_service='congenica')
             self.assertTrue(False)
@@ -677,7 +677,7 @@ class TestMigrationHelpers(TestCaseMigration):
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
-        migrated_instance = MigrationHelpers().migrate_interpreted_genome_cancer_to_latest(
+        migrated_instance = MigrationHelpers.migrate_interpreted_genome_cancer_to_latest(
             old_instance.toJsonDict()
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretedGenome)
