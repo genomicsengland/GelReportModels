@@ -324,9 +324,11 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_pedigree_to_v1_1_0(json_dict):
+    def migrate_pedigree_to_v1_1_0(json_dict, ldp_code=None, ready_for_analysis=True):
         """
         :type json_dict: dict
+        :type ldp_code: str
+        :type ready_for_analysis: bool
         :rtype: Pedigree_1_1_0
         """
         types = [
@@ -340,7 +342,8 @@ class MigrationHelpers(object):
             lambda x: x,
             MigrationParticipants103To110().migrate_pedigree,
             MigrationParticipants100To103().migrate_pedigree,
-            MigrationReports3ToParticipant1().migrate_pedigree
+            lambda x: MigrationReports3ToParticipant1().migrate_pedigree(
+                x, ldp_code=ldp_code, ready_for_analysis=ready_for_analysis)
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)

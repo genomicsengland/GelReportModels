@@ -32,7 +32,8 @@ class MigrateReports3To4(BaseMigration):
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self._migrate_file)
         new_instance.tieredVariants = self.convert_collection(
             old_instance.TieredVariants, self._migrate_tiered_variant)
-        new_instance.pedigree = self.participants_migrator.migrate_pedigree(pedigree=old_instance.pedigree)
+        new_instance.pedigree = self.participants_migrator.migrate_pedigree(
+            pedigree=old_instance.pedigree, ldp_code=next(iter(old_instance.workspace), None))
         new_instance.internalStudyId = '1'
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
