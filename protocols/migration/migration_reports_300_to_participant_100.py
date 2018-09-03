@@ -96,6 +96,7 @@ class MigrationReports3ToParticipant1(BaseMigration):
         return new_instance
 
     def _migrate_enumerations(self, etype, value):
+        # TODO: use enums and avoid hard coding strings
         if etype in ['LifeStatus', 'AffectionStatus']:
             if etype == 'AffectionStatus' and value == self.old_model.AffectionStatus.unknown:
                 return self.new_model.AffectionStatus.UNCERTAIN

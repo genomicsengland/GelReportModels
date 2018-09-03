@@ -82,18 +82,20 @@ class MigrateParticipant110To100(BaseMigration):
 
     def _migrate_hpo_term(self, old_term):
         new_instance = self.convert_class(target_klass=self.new_model.HpoTerm, instance=old_term)
-        new_instance.modifiers = self.migrate_hpo_term_modifiers(old_modifiers=old_term.modifiers)
+        new_instance.modifiers = self._migrate_hpo_term_modifiers(old_instance=old_term.modifiers)
         return new_instance
 
     @staticmethod
-    def migrate_hpo_term_modifiers(old_modifiers):
-        if old_modifiers is None:
+    def _migrate_hpo_term_modifiers(old_instance):
+        if old_instance is None:
             return None
-        modifiers = {}
-        if old_modifiers.laterality:
-            modifiers['laterality'] = old_modifiers.laterality
-        if old_modifiers.progression:
-            modifiers['progression'] = old_modifiers.progression
-        if old_modifiers.severity:
-            modifiers['severity'] = old_modifiers.severity
-        return modifiers
+        new_instance = {}
+        if old_instance.laterality:
+            new_instance['laterality'] = old_instance.laterality
+        if old_instance.progression:
+            new_instance['progression'] = old_instance.progression
+        if old_instance.severity:
+            new_instance['severity'] = old_instance.severity
+        if old_instance.spatialPattern:
+            new_instance['spatialPattern'] = old_instance.spatialPattern
+        return new_instance
