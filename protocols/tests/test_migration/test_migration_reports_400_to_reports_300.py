@@ -8,9 +8,9 @@ from protocols.util.dependency_manager import VERSION_500
 from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.migration.participants import MigrationParticipants100ToReports
+from protocols.migration import MigrationParticipants100ToReports
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_4_0_0_to_reports_3_0_0 import MigrateReports400To300
+from protocols.migration import MigrateReports400To300
 
 
 class TestMigrateReports4To3(TestCaseMigration):
@@ -129,7 +129,7 @@ class TestMigrateReports4To3(TestCaseMigration):
         )
         self.assertIsInstance(file_v4, self.old_model.File)
         self.assertTrue(file_v4.validate(file_v4.toJsonDict()))
-        file_v3 = MigrateReports400To300().migrate_file(old_file=file_v4)
+        file_v3 = MigrateReports400To300()._migrate_file(old_file=file_v4)
         self.assertIsInstance(file_v3, self.new_model.File)
         self.assertTrue(file_v3.validate(file_v3.toJsonDict()))
 

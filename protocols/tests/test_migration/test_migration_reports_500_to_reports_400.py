@@ -3,15 +3,11 @@ from random import randint
 
 from protocols import reports_4_0_0
 from protocols import reports_5_0_0
-from protocols import participant_1_0_0
-from protocols import participant_1_1_0
 from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.migration.participants import MigrationParticipants103To100
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_5_0_0_to_reports_4_0_0 import MigrateReports500To400
-from protocols.migration.migration_participant_1_1_0_to_participant_1_0_3 import MigrateParticipant110To103
+from protocols.migration import MigrateReports500To400
 
 
 class TestMigrateReports5To400(TestCaseMigration):
@@ -133,7 +129,7 @@ class TestMigrateReports5To400(TestCaseMigration):
         old_panel = GenericFactoryAvro.get_factory_avro(
             self.old_model.AdditionalAnalysisPanel, VERSION_61, fill_nullables=True
         ).create()
-        new_panel = MigrateReports500To400().migrate_analysis_panel(old_panel=old_panel)
+        new_panel = MigrateReports500To400()._migrate_analysis_panel(old_panel=old_panel)
         self.assertTrue(new_panel.validate(new_panel.toJsonDict()))
 
     def test_migrate_genomic_entity_to_feature(self):
@@ -145,20 +141,20 @@ class TestMigrateReports5To400(TestCaseMigration):
             self.old_model.GenomicEntityType.transcript: self.new_model.FeatureTypes.Transcript,
         }
         expected_feature_type = feature_type_map.get(entity_type)
-        new_feature = MigrateReports500To400().migrate_genomic_entity_to_feature(old_entity)
+        new_feature = MigrateReports500To400()._migrate_genomic_entity_to_feature(old_entity)
         self.assertTrue(isinstance(new_feature, self.new_model.GenomicFeature))
         self._validate(new_feature)
         self.assertEqual(new_feature.featureType, expected_feature_type)
 
     def test_migrate_report_event(self):
         old_report_event = GenericFactoryAvro.get_factory_avro(self.old_model.ReportEvent, VERSION_61, fill_nullables=True).create()
-        new_report_event = MigrateReports500To400().migrate_report_event(old_report_event=old_report_event)
+        new_report_event = MigrateReports500To400()._migrate_report_event(old_report_event=old_report_event)
         self.assertTrue(isinstance(new_report_event, self.new_model.ReportEvent))
         self._validate(new_report_event)
 
     def test_migrate_reported_variant(self):
         old_reported_variant = GenericFactoryAvro.get_factory_avro(self.old_model.ReportedVariant, VERSION_61, fill_nullables=True).create()
-        new_reported_variant = MigrateReports500To400().migrate_reported_variant(old_reported_variant=old_reported_variant)
+        new_reported_variant = MigrateReports500To400()._migrate_reported_variant(old_reported_variant=old_reported_variant)
         self.assertTrue(isinstance(new_reported_variant, self.new_model.ReportedVariant))
         self._validate(new_reported_variant)
 
@@ -166,7 +162,7 @@ class TestMigrateReports5To400(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.VariantCall, VERSION_61, fill_nullables=True
         ).create()
-        new_instance = MigrateReports500To400().migrate_variant_call_to_called_genotype(variant_call=old_instance)
+        new_instance = MigrateReports500To400()._migrate_variant_call_to_called_genotype(variant_call=old_instance)
         self.assertTrue(isinstance(new_instance, self.new_model.CalledGenotype))
         self._validate(new_instance)
 
@@ -241,26 +237,15 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_variant(self):
         rvc_5 = self.get_valid_object(object_type=self.old_model.ReportedVariantCancer, version=self.version_6_1)
-        rsv_4 = MigrateReports500To400().migrate_reported_variant_cancer_to_reported_somatic_variant(old_variant=rvc_5)
+        rsv_4 = MigrateReports500To400()._migrate_reported_variant_cancer_to_reported_somatic_variant(old_variant=rvc_5)
         self.assertIsInstance(rsv_4, self.new_model.ReportedSomaticVariants)
         self.assertTrue(rsv_4.validate(rsv_4.toJsonDict()))
 
     def test_migrate_reported_variant_cancer(self):
         rvc_5 = self.get_valid_object(object_type=self.old_model.ReportedVariantCancer, version=self.version_6_1)
-        rvc_4 = MigrateReports500To400().migrate_reported_variant_cancer(old_rvc=rvc_5)
+        rvc_4 = MigrateReports500To400()._migrate_reported_variant_cancer(old_rvc=rvc_5)
         self.assertIsInstance(rvc_4, self.new_model.ReportedVariantCancer)
         self.assertTrue(rvc_4.validate(rvc_4.toJsonDict()))
-
-    def test_migrate_cancer_participant(self):
-        p_110 = self.get_valid_object(object_type=participant_1_1_0.CancerParticipant, version=self.version_6_1)
-        p_103 = MigrateParticipant110To103().migrate_cancer_participant(
-            old_participant=p_110,
-        )
-        p_100 = MigrationParticipants103To100().migrate_cancer_participant(
-            old_instance=p_103,
-        )
-        self.assertIsInstance(p_100, participant_1_0_0.CancerParticipant)
-        self.assertTrue(p_100.validate(p_100.toJsonDict()))
 
     def test_migrate_genomic_entities_to_genomic_feature_cancer(self):
         ge_5 = self.get_valid_object(object_type=self.old_model.GenomicEntity, version=self.version_6_1)
@@ -268,7 +253,7 @@ class TestMigrateReports5To400(TestCaseMigration):
         test_ref_seq_protein_id = "test_refSeqProteinId"
         ge_5.otherIds["refSeqTranscriptId"] = test_ref_seq_transcript_id
         ge_5.otherIds["refSeqProteinId"] = test_ref_seq_protein_id
-        gfc_4 = MigrateReports500To400().migrate_genomic_entities_to_genomic_feature_cancer(genomic_entities=[ge_5])
+        gfc_4 = MigrateReports500To400()._migrate_genomic_entities_to_genomic_feature_cancer(genomic_entities=[ge_5])
         self.assertIsInstance(gfc_4, self.new_model.GenomicFeatureCancer)
         self.assertTrue(gfc_4.validate(gfc_4.toJsonDict()))
         self.assertEqual(gfc_4.refSeqProteinId, test_ref_seq_protein_id)
@@ -276,7 +261,7 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_variant_consequence_to_so_term(self):
         vc_5 = self.get_valid_object(object_type=self.old_model.VariantConsequence, version=self.version_6_1)
-        so_4 = MigrateReports500To400().migrate_variant_consequence_to_so_term(vc=vc_5)
+        so_4 = MigrateReports500To400()._migrate_variant_consequence_to_so_term(vc=vc_5)
         self.assertIsInstance(so_4, self.new_model.SoTerm)
         self.assertTrue(so_4.validate(so_4.toJsonDict()))
         self.assertEqual(so_4.name, vc_5.name)
@@ -284,7 +269,7 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_report_event_cancer(self):
         rec_5 = self.get_valid_object(object_type=self.old_model.ReportEventCancer, version=self.version_6_1)
-        rec_4 = MigrateReports500To400().migrate_report_event_cancer(old_rec=rec_5)
+        rec_4 = MigrateReports500To400()._migrate_report_event_cancer(old_rec=rec_5)
         self.assertIsInstance(rec_4, self.new_model.ReportEventCancer)
         self.assertTrue(rec_4.validate(rec_4.toJsonDict()))
         for action in rec_4.actions:

@@ -15,10 +15,11 @@ class MigrationReports3ToParticipant1(BaseMigration):
     old_model = reports_3_0_0
     new_model = participant_1_0_0
 
-    def migrate_pedigree(self, pedigree, ready_for_analysis=True):
+    def migrate_pedigree(self, pedigree, ready_for_analysis=True, ldp_code=None):
         """
         :type ready_for_analysis: bool
         :type pedigree: participant_old.Pedigree
+        :type ldp_code: str
         :rtype: participant_1_0_1.Pedigree
         """
         new_instance = self.convert_class(self.new_model.Pedigree, pedigree)
@@ -26,6 +27,8 @@ class MigrationReports3ToParticipant1(BaseMigration):
         new_instance.members = self.convert_collection(pedigree.participants, self._migrate_pedigree_member)
         new_instance.readyForAnalysis = ready_for_analysis
         new_instance.familyId = pedigree.gelFamilyId
+        if ldp_code:
+            new_instance.LDPCode = ldp_code
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
 
     def migrate_cancer_participant(self, old_cancer_participant):
@@ -93,6 +96,7 @@ class MigrationReports3ToParticipant1(BaseMigration):
         return new_instance
 
     def _migrate_enumerations(self, etype, value):
+        # TODO: use enums and avoid hard coding strings
         if etype in ['LifeStatus', 'AffectionStatus']:
             if etype == 'AffectionStatus' and value == self.old_model.AffectionStatus.unknown:
                 return self.new_model.AffectionStatus.UNCERTAIN

@@ -4,7 +4,7 @@ from protocols.protocol_6_1 import reports as new_model
 from protocols.protocol_7_0 import reports as old_model
 from protocols.protocol_7_0.reports import diseaseType, TissueSource
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
+from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
 
 
 class TestMigrateReports600To500(TestCaseMigration):
@@ -22,7 +22,7 @@ class TestMigrateReports600To500(TestCaseMigration):
     def test_migrate_variant_attributes(self, fill_nullables=True):
         small_variant = self.variant_with_type_valid_in_both_models()
 
-        reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
+        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
 
         self.assertEqual(reported_variant.genomicChanges, small_variant.variantAttributes.genomicChanges)
         self.assertEqual(reported_variant.cdnaChanges, small_variant.variantAttributes.cdnaChanges)
@@ -30,7 +30,7 @@ class TestMigrateReports600To500(TestCaseMigration):
         va_6 = self.get_valid_object(
             object_type=old_model.VariantAttributes, version=self.version_7_0, fill_nullables=fill_nullables
         )
-        va_5 = MigrateReports600To500().migrate_variant_attributes(old_variant_attributes=va_6)
+        va_5 = MigrateReports600To500()._migrate_variant_attributes(old_variant_attributes=va_6)
         self.assertIsInstance(va_5, new_model.VariantAttributes)
         self.assertTrue(va_5.validate(va_5.toJsonDict()))
 
@@ -40,14 +40,14 @@ class TestMigrateReports600To500(TestCaseMigration):
     def test_migrate_variant_identifiers(self):
         small_variant = self.variant_with_type_valid_in_both_models()
 
-        reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
+        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
 
         self.assertEqual(reported_variant.dbSnpId, small_variant.variantAttributes.variantIdentifiers.dbSnpId)
 
     def test_migrate_variant_call(self):
         small_variant = self.variant_with_type_valid_in_both_models()
 
-        reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
+        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
 
         original_variant_calls = small_variant.variantCalls
         new_variant_calls = reported_variant.variantCalls
@@ -60,7 +60,7 @@ class TestMigrateReports600To500(TestCaseMigration):
         vc_6 = self.get_valid_object(
             object_type=old_model.VariantCall, version=self.version_7_0, fill_nullables=True,
         )
-        vc_5 = MigrateReports600To500().migrate_variant_call(old_call=vc_6)
+        vc_5 = MigrateReports600To500()._migrate_variant_call(old_call=vc_6)
         self.assertIsInstance(vc_5, new_model.VariantCall)
         self.assertTrue(vc_5.validate(vc_5.toJsonDict()))
         self.assertEqual(vc_5.phaseSet, vc_6.phaseGenotype.phaseSet)
@@ -69,7 +69,7 @@ class TestMigrateReports600To500(TestCaseMigration):
     def test_migrate_report_events(self):
         small_variant = self.variant_with_type_valid_in_both_models()
 
-        reported_variant = MigrateReports600To500().migrate_variant_cancer(old_variant=small_variant)
+        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
 
         original_reports = small_variant.reportEvents
         new_reports = reported_variant.reportEvents
@@ -133,7 +133,7 @@ class TestMigrateReports600To500(TestCaseMigration):
         )
         migrate = MigrateReports600To500()
         rv_5 = migrate.migrate_small_variant_to_reported_variant(
-            small_variant=sv_6, new_type=new_model.ReportedVariant, migrate_re=migrate.migrate_report_event
+            small_variant=sv_6, new_type=new_model.ReportedVariant, migrate_re=migrate._migrate_report_event
         )
         self.assertIsInstance(rv_5, new_model.ReportedVariant)
         self.assertTrue(rv_5.validate(rv_5.toJsonDict()))
@@ -147,7 +147,7 @@ class TestMigrateReports600To500(TestCaseMigration):
         re_6 = self.get_valid_object(
             object_type=old_model.ReportEvent, version=self.version_7_0, fill_nullables=True,
         )
-        re_5 = MigrateReports600To500().migrate_report_event(old_event=re_6)
+        re_5 = MigrateReports600To500()._migrate_report_event(old_event=re_6)
         self.assertIsInstance(re_5, new_model.ReportEvent)
         self.assertTrue(re_5.validate(re_5.toJsonDict()))
 
