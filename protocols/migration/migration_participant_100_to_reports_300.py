@@ -50,7 +50,7 @@ class MigrationParticipants100ToReports(BaseMigration):
         return new_instance
 
     def _migrate_hpo_term(self, old_term):
-        new_instance = self.convert_class(target_klass=self.new_model.HpoTerm, instance=old_term)
+        new_instance = self.convert_class(target_klass=self.new_model.HpoTerm, instance=old_term)  # type: self.new_model.HpoTerm
         new_instance.termPresence = self._migrate_ternary_option_to_boolean(ternary_option=old_term.termPresence)
         return new_instance
 

@@ -86,8 +86,8 @@ class MigrationParticipants100To103(BaseMigration):
             if old_instance.ageOfOnset:
                 logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
         if old_instance.modifiers is not None:
+            new_modifiers = self.new_model.HpoTermModifiers()
             for name, value in old_instance.modifiers.items():
-                new_modifiers = self.new_model.HpoTermModifiers()
                 if name == "laterality" and value in [self.new_model.Laterality.RIGHT,
                                                       self.new_model.Laterality.UNILATERAL,
                                                       self.new_model.Laterality.BILATERAL,
@@ -106,8 +106,8 @@ class MigrationParticipants100To103(BaseMigration):
                                                             self.new_model.SpatialPattern.GENERALIZED,
                                                             self.new_model.SpatialPattern.LOCALIZED,
                                                             self.new_model.SpatialPattern.PROXIMAL]:
-                    new_modifiers.severity = value
+                    new_modifiers.spatialPattern = value
                 else:
                     logging.warning("Lost modifier '{}={}' during migration".format(name, value))
-                new_instance.modifiers = new_modifiers
+            new_instance.modifiers = new_modifiers
         return new_instance

@@ -9,6 +9,7 @@ import factory.fuzzy
 from protocols.util import dependency_manager
 import dictdiffer
 import logging
+import random
 
 
 class ActionFactory(FactoryAvro):
@@ -54,6 +55,8 @@ class BaseTestRoundTrip(TestCaseMigration):
                 field_path = [field_path]
             if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
                 continue
+            if isinstance(values, list):
+                values = values[0]
             expected = values[1]
             observed = values[0]
             if observed in self._empty_values and expected in self._empty_values:
@@ -86,6 +89,23 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     old_model = reports_3_0_0
     new_model = reports_6_0_0
 
+    lateralities = [new_model.Laterality.RIGHT, new_model.Laterality.UNILATERAL, new_model.Laterality.BILATERAL,
+                    new_model.Laterality.LEFT]
+    progressions = [new_model.Progression.PROGRESSIVE, new_model.Progression.NONPROGRESSIVE]
+    severities = [new_model.Severity.BORDERLINE, new_model.Severity.MILD, new_model.Severity.MODERATE,
+                  new_model.Severity.SEVERE, new_model.Severity.PROFOUND]
+    spatial_pattern = [new_model.SpatialPattern.DISTAL, new_model.SpatialPattern.GENERALIZED,
+                       new_model.SpatialPattern.LOCALIZED, new_model.SpatialPattern.PROXIMAL]
+
+    def _get_random_hpo_modifiers(self):
+        values = [
+            ('laterality', random.choice(self.lateralities)),
+            ('progression', random.choice(self.progressions)),
+            ('severity', random.choice(self.severities)),
+            ('spatialPattern', random.choice(self.spatial_pattern))
+            ]
+        return dict(random.sample(values, random.randint(0, 4)))
+
     # @unittest.skip
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
         # get original IR in version 3.0.0
@@ -93,10 +113,13 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         original_ir = self.get_valid_object(
             object_type=reports_3_0_0.InterpretationRequestRD, version=self.version_3_0_0,
             fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
-            versionControl=reports_3_0_0.VersionControl())
+            versionControl=reports_3_0_0.VersionControl())  # type: reports_3_0_0.InterpretationRequestRD
         for p in original_ir.pedigree.participants:
             p.gelFamilyId = original_ir.pedigree.gelFamilyId
             p.yearOfBirth
+        for p in original_ir.pedigree.participants:
+            for hpo in p.hpoTermList:
+                hpo.modifiers = self._get_random_hpo_modifiers()
         # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
         ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
             original_ir.toJsonDict(), assembly=assembly)
@@ -108,7 +131,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             self.new_model.InterpretationRequestRD,
             expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
                                                  "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome",
-                                                 "ageOfOnset", "consanguineousPopulation", "modifiers"],
+                                                 "ageOfOnset", "consanguineousPopulation"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 

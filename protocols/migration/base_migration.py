@@ -15,6 +15,11 @@ class BaseMigration(object):
 
     @staticmethod
     def convert_class(target_klass, instance):
+        """
+        :param target_klass: type
+        :param instance:
+        :rtype: target_klass
+        """
         new_instance = target_klass.migrateFromJsonDict(
             jsonDict=instance.toJsonDict()
         )
