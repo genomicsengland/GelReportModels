@@ -33,9 +33,9 @@ class MigrationParticipants100To103(BaseMigration):
         if old_instance.assignedICD10 is not None:
             new_instance.assignedICD10 = [old_instance.assignedICD10]
         new_instance.tumourSamples = self.convert_collection(
-            old_instance.tumourSamples, self._migrate_tumour_sample, LDPCode=old_instance.LDPCode)
+            old_instance.tumourSamples, self._migrate_tumour_sample, LDPCode=old_instance.LDPCode or "")
         new_instance.germlineSamples = self.convert_collection(
-            old_instance.germlineSamples, self._migrate_germline_sample, LDPCode=old_instance.LDPCode)
+            old_instance.germlineSamples, self._migrate_germline_sample, LDPCode=old_instance.LDPCode or "")
         new_instance.matchedSamples = self.convert_collection(
             old_instance.matchedSamples, lambda s: self.convert_class(self.new_model.MatchedSamples, s),
             default=[self.new_model.MatchedSamples()])

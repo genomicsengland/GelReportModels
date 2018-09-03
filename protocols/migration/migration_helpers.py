@@ -373,6 +373,7 @@ class MigrationHelpers(object):
     def reverse_migrate_interpretation_request_cancer_to_v4(json_dict, ig_json_dict):
         """
         :type json_dict: dict
+        :type ig_json_dict: dict
         :type assembly: Assembly
         :rtype: CancerInterpretationRequest_4_0_0
         """

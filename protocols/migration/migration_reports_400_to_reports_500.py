@@ -1,4 +1,5 @@
 import logging
+import math
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
@@ -163,6 +164,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = old_instance.reportVersion
         new_instance.interpretationService = interpretation_service
         new_instance.referenceDatabasesVersions = reference_database_versions
+        if software_versions is None:
+            software_versions = {}
+        software_versions['tiering'] = old_instance.tieringVersion
         new_instance.softwareVersions = software_versions
         new_instance.reportUrl = report_url
         new_instance.comments = comments
@@ -359,7 +363,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
-                alternateFrequency=self.convert_string_to_float(ne_instance.commonAf)/100
+                alternateFrequency=math.floor(self.convert_string_to_float(ne_instance.commonAf))/100
             )]
         # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(

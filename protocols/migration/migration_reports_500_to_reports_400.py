@@ -160,7 +160,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.interpretGenome = False
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant)
-        new_instance.tieringVersion = ""
+        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.analysisReturnUri = ""
         return self.validate_object(new_instance, self.new_model.CancerInterpretationRequest)
 
@@ -196,7 +196,8 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
-        new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
+        # new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
+        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
@@ -409,7 +410,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             logging.warning(msg=msg.format(ge_type=old_type, rep=self.new_model.FeatureTypes.Gene))
         return self.feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
 
-    def _migrate_action(self, old_action):
-        new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_action)
-        new_instance.evidence = old_action.references
+    def _migrate_action(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_instance)
+        new_instance.actionType = old_instance.evidenceType
+        new_instance.evidenceType = None
+        new_instance.evidence = old_instance.references
         return new_instance

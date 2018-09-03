@@ -1,4 +1,4 @@
-from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0, reports_2_1_0
+from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0, reports_2_1_0, participant_1_0_0
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration import MigrateReports600To500, Migration21To3
@@ -51,6 +51,7 @@ class BaseTestRoundTrip(TestCaseMigration):
             differ = True
         if expect_equality:
             self.assertFalse(differ)
+        return round_tripped
 
     def is_hashable(self, item):
         try:
@@ -197,37 +198,46 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         assembly = Assembly.GRCh38
         original_ir = self.get_valid_object(
             object_type=reports_4_0_0.CancerInterpretationRequest, version=self.version_4_0_0,
-            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly)
-
-        original_ir.versionControl.gitVersionControl = '4.0.0'
-        original_ir.interpretGenome = True
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
+            interpretGenome=True, structuralTieredVariants=[],
+            versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
+        )
+        for v in original_ir.tieredVariants:
+            v.commonAf = random.randint(0, 100)
         # migration requires there is exactly one tumour sample
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
-        # don't really understand why I need this
-        if original_ir.tieredVariants:
-            for tv in original_ir.tieredVariants:
-                for re in tv.reportedVariantCancer.reportEvents:
-                    if re.actions:
-                        for action in re.actions:
-                            action.status = "clinical"
-
-        # migrates forward IR 4.0.0 into IG 6.0.0
         ig6 = MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
             original_ir.toJsonDict(), assembly=assembly, interpretation_service="service",
             reference_database_versions={}, software_versions={}, report_url="https://example.com", comments=[])
-        self._check_round_trip_migration(
+        round_tripped = self._check_round_trip_migration(
             MigrationHelpers.migrate_interpretation_request_cancer_to_latest,
             MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4,
-            original_ir,
-            self.new_model.CancerInterpretationRequest,
-            expect_equality=True, ignore_fields=[
-                                                 "cancerParticipant.versionControl.GitVersionControl",
-                                                 "analysisUri", "analysisVersion",
-                                                 "TNMStageVersion",
-                                                 "TNMStageGrouping"
-                                                 ],
+            original_ir, self.new_model.CancerInterpretationRequest,
+            expect_equality=True,
+            ignore_fields=["analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
+                           "additionalTextualVariantAnnotations", "matchedSamples"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
+        # check actions
+        actions = {}
+        for v in original_ir.tieredVariants:
+            for re in v.reportedVariantCancer.reportEvents:
+                if re.actions:
+                    for a in re.actions:
+                        if a.url not in actions:
+                            actions[a.url] = []
+                        actions[a.url].append(a)
+        for v in round_tripped.tieredVariants:
+            for re in v.reportedVariantCancer.reportEvents:
+                if re.actions:
+                    for a in re.actions:
+                        if a.url not in actions:
+                            actions[a.url] = []
+                        actions[a.url].append(a)
+        for a in actions.values():
+            self.assertEqual(len(a), 2)
+            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
+            self.assertEqual(a[0].url, a[1].url)
 
     def test_migrate_cancer_interpretation_request_nulls(self):
         self.test_migrate_cancer_interpretation_request(fill_nullables=False)
@@ -299,15 +309,32 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
 
         _version = dependency_manager.VERSION_400
 
-        actionType = factory.fuzzy.FuzzyChoice(['therapy', 'therapeutic', 'prognosis', 'diagnosis'])
+        actionType = factory.fuzzy.FuzzyChoice(
+            ['Trial (blah, blah)', 'Therapeutic (blah, blah)', 'Prognostic (blah, blah)'])
         status = factory.fuzzy.FuzzyChoice(['clinical', 'pre-clinical'])
-        evidence = ["this", "that"]
-        drug = factory.fuzzy.FuzzyText()
+        evidence = None
+        drug = None
         variantActionable = factory.fuzzy.FuzzyChoice([True, False])
-        comments = ["this", "that"]
+        comments = None
         url = factory.fuzzy.FuzzyText()
-        evidenceType = factory.fuzzy.FuzzyText()
+        evidenceType = None
         source = factory.fuzzy.FuzzyText()
+
+    class CancerParticipantFactory(FactoryAvro):
+        class Meta:
+            model = participant_1_0_0.CancerParticipant
+
+        _version = dependency_manager.VERSION_400
+        _fill_nullables = False
+        versionControl = participant_1_0_0.VersionControl(GitVersionControl='1.0.0')
+
+    class CancerParticipantFactoryNulls(FactoryAvro):
+        class Meta:
+            model = participant_1_0_0.CancerParticipant
+
+        _version = dependency_manager.VERSION_400
+        _fill_nullables = True
+        versionControl = participant_1_0_0.VersionControl(GitVersionControl='1.0.0')
 
     def setUp(self):
         GenericFactoryAvro.register_factory(
@@ -330,6 +357,10 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             reports_4_0_0.Actions, self.ActionFactory, self.version_4_0_0, fill_nullables=True)
         GenericFactoryAvro.register_factory(
             reports_4_0_0.Actions, self.ActionFactory, self.version_4_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            participant_1_0_0.CancerParticipant, self.CancerParticipantFactory, self.version_4_0_0, fill_nullables=False)
+        GenericFactoryAvro.register_factory(
+            participant_1_0_0.CancerParticipant, self.CancerParticipantFactoryNulls, self.version_4_0_0, fill_nullables=True)
 
 
 class TestRoundTripMigrateReports210To600(BaseTestRoundTrip):
