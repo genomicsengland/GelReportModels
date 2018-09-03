@@ -534,26 +534,6 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_interpretation_request_cancer_600_400_nulls(self):
         self.test_migrate_interpretation_request_cancer_600_400(fill_nullables=False)
 
-    def test_migrate_interpretation_request_cancer_300_600(self, fill_nullables=True):
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_3_0_0.CancerInterpretationRequest, VERSION_300, fill_nullables=fill_nullables
-        ).create()
-        for cancer_sample in old_instance.cancerParticipant.cancerSamples:
-            cancer_sample.labId = "12345"
-        self._validate(old_instance)
-        if fill_nullables:
-            self._check_non_empty_fields(old_instance, exclusions=["md5Sum"])
-
-        migrated_instance = MigrationHelpers.migrate_interpretation_request_cancer_to_latest(
-            old_instance.toJsonDict(), assembly='GRCh38'
-        )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.CancerInterpretationRequest)
-        self._validate(migrated_instance)
-        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
-
-    def test_migrate_interpretation_request_cancer_300_600_nulls(self):
-        self.test_migrate_interpretation_request_cancer_300_600(fill_nullables=False)
-
     def test_migrate_interpretation_request_cancer_500_600(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.CancerInterpretationRequest, VERSION_61, fill_nullables=fill_nullables
@@ -593,30 +573,6 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_400_600_nulls(self):
         self.test_migrate_interpretation_request_cancer_to_interpreted_genome_400_600(fill_nullables=False)
-
-    def test_migrate_interpretation_request_cancer_to_interpreted_genome_300_500(self, fill_nullables=True):
-        old_instance = GenericFactoryAvro.get_factory_avro(
-            reports_3_0_0.CancerInterpretationRequest, VERSION_300, fill_nullables=fill_nullables
-        ).create()
-        # only one tumour sample
-        old_instance.cancerParticipant.cancerSamples = old_instance.cancerParticipant.cancerSamples[0:2]
-        old_instance.cancerParticipant.cancerSamples[0].labId = "12345"
-        old_instance.cancerParticipant.cancerSamples[0].sampleType = reports_3_0_0.SampleType.tumor
-        old_instance.cancerParticipant.cancerSamples[1].labId = "12345"
-        old_instance.cancerParticipant.cancerSamples[1].sampleType = reports_3_0_0.SampleType.germline
-        self._validate(old_instance)
-        if fill_nullables:
-            self._check_non_empty_fields(old_instance, exclusions=["md5Sum"])
-
-        migrated_instance = MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
-            old_instance.toJsonDict(), assembly='GRCh38', interpretation_service='testing',
-            reference_database_versions={'thisdb': 'thatversion'}, software_versions={'testing': '1.2'},
-            report_url='fake.url', comments=['blah', 'blah!', 'blah?']
-        )
-        self._validate(migrated_instance)
-
-    def test_migrate_interpretation_request_cancer_to_interpreted_genome_300_500_nulls(self):
-        self.test_migrate_interpretation_request_cancer_to_interpreted_genome_300_500(fill_nullables=False)
 
     def test_migrate_interpretation_request_cancer_to_interpreted_genome_500_500(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
