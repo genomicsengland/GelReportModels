@@ -129,7 +129,7 @@ class TestMigrateReports4To3(TestCaseMigration):
         )
         self.assertIsInstance(file_v4, self.old_model.File)
         self.assertTrue(file_v4.validate(file_v4.toJsonDict()))
-        file_v3 = MigrateReports400To300().migrate_file(old_file=file_v4)
+        file_v3 = MigrateReports400To300()._migrate_file(old_file=file_v4)
         self.assertIsInstance(file_v3, self.new_model.File)
         self.assertTrue(file_v3.validate(file_v3.toJsonDict()))
 
