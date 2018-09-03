@@ -135,6 +135,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         :rtype: reports_4_0_0.CancerInterpretedGenome
         """
         new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
         new_instance.reportedVariants = self.convert_collection(
             old_instance.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         new_instance.reportRequestId = old_instance.interpretationRequestId

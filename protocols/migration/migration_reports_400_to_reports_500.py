@@ -363,7 +363,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             new_instance.alleleFrequencies = [reports_5_0_0.AlleleFrequency(
                 study='genomics_england',
                 population='ALL',
-                alternateFrequency=math.floor(self.convert_string_to_float(ne_instance.commonAf))/100
+                alternateFrequency=self.convert_string_to_float(ne_instance.commonAf)/100
             )]
         # NOTE: some fields cannot be filled: "fdp50", "recurrentlyReported", "others"
         new_instance.variantAttributes = reports_5_0_0.VariantAttributes(

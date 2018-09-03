@@ -215,7 +215,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             original_ir, self.new_model.CancerInterpretationRequest,
             expect_equality=True,
             ignore_fields=["analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-                           "additionalTextualVariantAnnotations", "matchedSamples"],
+                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
         # check actions
@@ -241,6 +241,51 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
 
     def test_migrate_cancer_interpretation_request_nulls(self):
         self.test_migrate_cancer_interpretation_request(fill_nullables=False)
+
+    def test_migrate_cancer_interpreted_genome(self, fill_nullables=True):
+        assembly = Assembly.GRCh38
+        original_ig = self.get_valid_object(
+            object_type=reports_4_0_0.CancerInterpretedGenome, version=self.version_4_0_0,
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
+            interpretGenome=True, reportedStructuralVariants=[],
+            versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
+        )
+        for v in original_ig.reportedVariants:
+            v.commonAf = random.randint(0, 100)
+        # migration requires there is exactly one tumour sample
+        round_tripped = self._check_round_trip_migration(
+            MigrationHelpers.migrate_interpreted_genome_cancer_to_latest,
+            MigrationHelpers.reverse_migrate_interpreted_genome_cancer_to_v4,
+            original_ig, self.new_model.InterpretedGenome,
+            expect_equality=True,
+            ignore_fields=["analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"],
+            forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1',
+                            'interpretation_request_version': 1, 'interpretation_service': '1'}
+            # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
+        )
+        # check actions
+        actions = {}
+        for v in original_ig.reportedVariants:
+            for re in v.reportedVariantCancer.reportEvents:
+                if re.actions:
+                    for a in re.actions:
+                        if a.url not in actions:
+                            actions[a.url] = []
+                        actions[a.url].append(a)
+        for v in round_tripped.reportedVariants:
+            for re in v.reportedVariantCancer.reportEvents:
+                if re.actions:
+                    for a in re.actions:
+                        if a.url not in actions:
+                            actions[a.url] = []
+                        actions[a.url].append(a)
+        for a in actions.values():
+            self.assertEqual(len(a), 2)
+            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
+            self.assertEqual(a[0].url, a[1].url)
+
+    def test_migrate_cancer_interpreted_genome_nulls(self):
+        self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
 
     class FileFactory300(FactoryAvro):
         class Meta:
