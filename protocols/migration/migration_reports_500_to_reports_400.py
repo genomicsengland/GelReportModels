@@ -349,10 +349,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 new_instance.additionalTextualVariantAnnotations['fdp50'] = old_rvc.variantAttributes.fdp50
             if old_rvc.variantAttributes.others:
                 new_instance.additionalTextualVariantAnnotations.update(old_rvc.variantAttributes.others)
-        common_afs = [af.alternateFrequency for af in old_rvc.alleleFrequencies
-                      if af.study == 'genomics_england' and af.population == 'ALL']
-        if common_afs:
-            new_instance.commonAf = int(common_afs[0])
+        if old_rvc.alleleFrequencies is not None:
+            common_afs = [af.alternateFrequency for af in old_rvc.alleleFrequencies
+                          if af.study == 'genomics_england' and af.population == 'ALL']
+            if common_afs:
+                new_instance.commonAf = int(float(common_afs[0])*100)
         return new_instance
 
     def _migrate_report_event_cancer(self, old_rec):

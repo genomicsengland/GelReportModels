@@ -2,8 +2,6 @@ from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0, reports_2_1_0
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration import MigrateReports600To500, Migration21To3
-from protocols.migration.migration_reports_6_0_0_to_reports_5_0_0 import MigrateReports600To500
-from protocols.util.dependency_manager import VERSION_400, VERSION_300
 from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
 import factory.fuzzy
@@ -299,7 +297,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         class Meta:
             model = reports_4_0_0.Actions
 
-        _version = VERSION_400
+        _version = dependency_manager.VERSION_400
 
         actionType = factory.fuzzy.FuzzyChoice(['therapy', 'therapeutic', 'prognosis', 'diagnosis'])
         status = factory.fuzzy.FuzzyChoice(['clinical', 'pre-clinical'])
