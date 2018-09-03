@@ -287,6 +287,55 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_cancer_interpreted_genome_nulls(self):
         self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
 
+    def test_migrate_cancer_clinical_report(self, fill_nullables=True):
+        assembly = Assembly.GRCh38
+        original_cr = self.get_valid_object(
+            object_type=reports_4_0_0.ClinicalReportCancer, version=self.version_4_0_0,
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
+            interpretGenome=True, candidateStructuralVariants=[],
+            versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0'),
+            interpretationRequestVersion='123'
+        )
+        if original_cr.candidateVariants:
+            for v in original_cr.candidateVariants:
+                v.commonAf = random.randint(0, 100)
+        # migration requires there is exactly one tumour sample
+        round_tripped = self._check_round_trip_migration(
+            MigrationHelpers.migrate_clinical_report_cancer_to_latest,
+            MigrationHelpers.reverse_migrate_clinical_report_cancer_to_v4,
+            original_cr, self.new_model.ClinicalReport,
+            expect_equality=True,
+            ignore_fields=["analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf",
+                           "genePanelsCoverage"],
+            forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1'}
+            # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
+        )
+        # check actions
+        actions = {}
+        if original_cr.candidateVariants:
+            for v in original_cr.candidateVariants:
+                for re in v.reportedVariantCancer.reportEvents:
+                    if re.actions:
+                        for a in re.actions:
+                            if a.url not in actions:
+                                actions[a.url] = []
+                            actions[a.url].append(a)
+        if round_tripped.candidateVariants:
+            for v in round_tripped.candidateVariants:
+                for re in v.reportedVariantCancer.reportEvents:
+                    if re.actions:
+                        for a in re.actions:
+                            if a.url not in actions:
+                                actions[a.url] = []
+                            actions[a.url].append(a)
+        for a in actions.values():
+            self.assertEqual(len(a), 2)
+            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
+            self.assertEqual(a[0].url, a[1].url)
+
+    def test_migrate_cancer_clinical_report_nulls(self):
+        self.test_migrate_cancer_clinical_report(fill_nullables=False)
+
     class FileFactory300(FactoryAvro):
         class Meta:
             model = reports_3_0_0.File
