@@ -175,6 +175,34 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_rd_clinical_report_nulls(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
+    @staticmethod
+    def get_random_variant_details():
+        reference, alternate = random.sample(['A', 'C', 'G', 'T'], 2)
+        return "{chromosome}:{position}:{reference}:{alternate}".format(
+            chromosome=random.randint(1, 22),
+            position=random.randint(100, 1000000),
+            reference=reference,
+            alternate=alternate
+        )
+
+    def test_migrate_rd_exit_questionnaire(self, fill_nullables=True):
+        original = self.get_valid_object(
+            object_type=reports_3_0_0.RareDiseaseExitQuestionnaire, version=self.version_3_0_0,
+            fill_nullables=fill_nullables)  # type: reports_3_0_0.RareDiseaseExitQuestionnaire
+        for g in original.variantGroupLevelQuestions:
+            for v in g.variantLevelQuestions:
+                v.variant_details = self.get_random_variant_details()
+        self._check_round_trip_migration(
+            MigrationHelpers.migrate_exit_questionnaire_rd_to_latest,
+            MigrationHelpers.reverse_migrate_exit_questionnaire_rd_to_v3,
+            original,
+            self.new_model.RareDiseaseExitQuestionnaire,
+            expect_equality=True, ignore_fields=[],
+            forward_kwargs={'assembly': Assembly.GRCh38})
+
+    def test_migrate_rd_exit_questionnaire_nulls(self):
+        self.test_migrate_rd_exit_questionnaire(fill_nullables=False)
+
     class FileFactory300(FactoryAvro):
         class Meta:
             model = reports_3_0_0.File
