@@ -1158,7 +1158,7 @@ class Evaluation(ProtocolElement):
 "PaternalAunt", "PaternalUncle", "PaternalUncleOrAunt", "MaternalGrandmother",
 "PaternalGrandmother", "MaternalGrandfather", "PaternalGrandfather", "DoubleFirstCousin",
 "MaternalCousinSister", "PaternalCousinSister", "MaternalCousinBrother", "PaternalCousinBrother",
-"Cousin", "Spouse", "Other", "RelationIsNotClear", "Unrelated", "Unknown"], "namespace":
+"Cousin", "Spouse", "Other", "RelationIsNotClear", "Unknown"], "namespace":
 "org.gel.models.participant.avro", "type": "enum", "name": "FamiliarRelationship", "doc": ""}],
 "name": "relationshipFromPedigree"}, {"doc": "", "type": ["null", "string"], "name":
 "possibleRelationship"}, {"doc": "", "type": ["null", "Query"], "name": "withinFamilyIBDQuery"},
@@ -1290,7 +1290,6 @@ class FamiliarRelationship(object):
     Spouse = "Spouse"
     Other = "Other"
     RelationIsNotClear = "RelationIsNotClear"
-    Unrelated = "Unrelated"
     Unknown = "Unknown"
 
 
@@ -1361,9 +1360,9 @@ class FamilyRelatednessCheck(ProtocolElement):
 "MaternalUncleOrAunt", "PaternalAunt", "PaternalUncle", "PaternalUncleOrAunt",
 "MaternalGrandmother", "PaternalGrandmother", "MaternalGrandfather", "PaternalGrandfather",
 "DoubleFirstCousin", "MaternalCousinSister", "PaternalCousinSister", "MaternalCousinBrother",
-"PaternalCousinBrother", "Cousin", "Spouse", "Other", "RelationIsNotClear", "Unrelated", "Unknown"],
-"namespace": "org.gel.models.participant.avro", "type": "enum", "name": "FamiliarRelationship",
-"doc": ""}], "name": "relationshipFromPedigree"}, {"doc": "", "type": ["null", "string"], "name":
+"PaternalCousinBrother", "Cousin", "Spouse", "Other", "RelationIsNotClear", "Unknown"], "namespace":
+"org.gel.models.participant.avro", "type": "enum", "name": "FamiliarRelationship", "doc": ""}],
+"name": "relationshipFromPedigree"}, {"doc": "", "type": ["null", "string"], "name":
 "possibleRelationship"}, {"doc": "", "type": ["null", {"symbols": ["yes", "no", "unknown",
 "notTested"], "doc": "", "type": "enum", "name": "Query"}], "name": "withinFamilyIBDQuery"}, {"doc":
 "", "type": ["null", "string"], "name": "comments"}]}
@@ -6254,7 +6253,7 @@ class ReportedVsGeneticChecks(ProtocolElement):
 "PaternalUncleOrAunt", "MaternalGrandmother", "PaternalGrandmother", "MaternalGrandfather",
 "PaternalGrandfather", "DoubleFirstCousin", "MaternalCousinSister", "PaternalCousinSister",
 "MaternalCousinBrother", "PaternalCousinBrother", "Cousin", "Spouse", "Other", "RelationIsNotClear",
-"Unrelated", "Unknown"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
+"Unknown"], "namespace": "org.gel.models.participant.avro", "type": "enum", "name":
 "FamiliarRelationship", "doc": ""}], "name": "relationshipFromPedigree"}, {"doc": "", "type":
 ["null", "string"], "name": "possibleRelationship"}, {"doc": "", "type": ["null", "Query"], "name":
 "withinFamilyIBDQuery"}, {"doc": "", "type": ["null", "string"], "name": "comments"}], "type":

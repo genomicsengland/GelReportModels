@@ -253,6 +253,17 @@
           "dependencies": []
         }
       ]
+    },
+    {
+       "version": "1.0.0-metrics",
+       "packages": [
+         {
+           "package": "org.gel.models.metrics.avro",
+           "python_package": "metrics",
+           "version": "1.0.0",
+           "dependencies": []
+         }
+       ]
     }
   ]
 }

@@ -227,7 +227,7 @@ class MigrationParticipants100To103(BaseMigration):
             if old_instance.ageOfOnset:
                 logging.warning("Lost value for 'ageOfOnset={}' during migration".format(old_instance.ageOfOnset))
         if old_instance.modifiers is not None:
-            for name, value in old_instance.modifiers.iteritems():
+            for name, value in old_instance.modifiers.items():
                 new_modifiers = self.new_model.HpoTermModifiers()
                 if name == "laterality" and value in [self.new_model.Laterality.RIGHT,
                                                       self.new_model.Laterality.UNILATERAL,

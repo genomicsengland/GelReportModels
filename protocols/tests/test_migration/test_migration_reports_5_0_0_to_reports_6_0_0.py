@@ -149,9 +149,9 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         new_small_variant = MigrateReports500To600().migrate_variant(old_variant=old_reported_variant)
         self._validate(new_small_variant)
         self.assertIsInstance(new_small_variant, self.new_model.SmallVariant)
-        self.assertTrue(len(new_small_variant.reportEvents[0].variantConsequences) == 1)
+        self.assertEqual(len(new_small_variant.reportEvents[0].variantConsequences), 1)
         self.assertTrue(new_small_variant.reportEvents[0].variantConsequences[0].name == 'initiator_codon_variant')
-        self.assertTrue(len(new_small_variant.reportEvents[1].variantConsequences) == 1)
+        self.assertEqual(len(new_small_variant.reportEvents[1].variantConsequences), 1)
         self.assertTrue(new_small_variant.reportEvents[1].variantConsequences[0].name == 'incomplete_terminal_codon_variant')
 
     def test_migrate_variant_call(self, fill_nullables=True):
