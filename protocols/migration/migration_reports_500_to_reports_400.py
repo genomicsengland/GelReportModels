@@ -197,7 +197,6 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
-        # new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
         new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
