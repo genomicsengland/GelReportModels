@@ -1210,41 +1210,39 @@ class CancerInterpretationRequest(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}], "name":
-"cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items": "string", "type":
-"array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"}, {"doc": "", "type":
-["null", {"values": {"values": {"values": "float", "type": "map"}, "type": "map"}, "type": "map"}],
-"name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items": {"doc": "", "type": "record",
-"name": "InterpretationFlag", "fields": [{"doc": "", "type": {"symbols": ["mixed_chemistries",
-"mixedLab_preparation", "low_tumour_purity", "uniparental_isodisomy", "uniparental_heterodisomy",
-"unusual_karyotype", "high_cnv_count", "high_estimate_human_contamination_fraction",
-"mixed_recruiting_gmc", "suspected_mosaicism", "low_quality_sample", "ffpe_tumour_sample",
-"ff_nano_tumour_sample", "missing_values_for_proband_in_reported_variant", "reissued",
-"supplementary_report_errors", "internal_use_only", "high_priority", "other"], "doc": "", "type":
-"enum", "name": "InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null",
-"string"], "name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"},
-{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}],
-"doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
+{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
+"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
+"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedRT"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"},
+{"doc": "", "type": ["null", {"values": {"values": {"values": "float", "type": "map"}, "type":
+"map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc": "", "type":
+{"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
+"uniparental_isodisomy", "uniparental_heterodisomy", "unusual_karyotype", "high_cnv_count",
+"high_estimate_human_contamination_fraction", "mixed_recruiting_gmc", "suspected_mosaicism",
+"low_quality_sample", "ffpe_tumour_sample", "ff_nano_tumour_sample",
+"missing_values_for_proband_in_reported_variant", "reissued", "supplementary_report_errors",
+"internal_use_only", "high_priority", "other"], "doc": "", "type": "enum", "name":
+"InterpretationFlags"}, "name": "interpretationFlag"}, {"doc": "", "type": ["null", "string"],
+"name": "additionalDescription"}]}, "type": "array"}], "name": "interpretationFlags"}, {"doc": "",
+"type": ["null", {"values": "string", "type": "map"}], "name": "additionalInfo"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1538,25 +1536,24 @@ class CancerParticipant(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
+{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
+"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
+"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedRT"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -7526,26 +7523,24 @@ class ParticipantInjectCancer(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
-"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
-"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
-"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
-"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
-"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
-"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
-{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
-["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
-"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
-{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
-"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}, "name":
-"participant"}], "doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
+{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
+"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
+"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedRT"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}, "name": "participant"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -11990,13 +11985,11 @@ class TumourSample(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "topographySnomedRTs"}], "doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
+{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
+"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
+"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedRT"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -12005,18 +11998,18 @@ class TumourSample(ProtocolElement):
         "diseaseSubType",
         "diseaseType",
         "labSampleId",
-        "morphologyICDs",
-        "morphologySnomedCTs",
-        "morphologySnomedRTs",
+        "morphologyICD",
+        "morphologySnomedCT",
+        "morphologySnomedRT",
         "preparationMethod",
         "product",
         "programmePhase",
         "sampleId",
         "source",
         "tissueSource",
-        "topographyICDs",
-        "topographySnomedCTs",
-        "topographySnomedRTs",
+        "topographyICD",
+        "topographySnomedCT",
+        "topographySnomedRT",
         "tumourContent",
         "tumourId",
         "tumourType",
@@ -12035,11 +12028,11 @@ class TumourSample(ProtocolElement):
 
     __slots__ = [
         'LDPCode', 'clinicalSampleDateTime', 'diseaseSubType',
-        'diseaseType', 'labSampleId', 'morphologyICDs',
-        'morphologySnomedCTs', 'morphologySnomedRTs',
+        'diseaseType', 'labSampleId', 'morphologyICD',
+        'morphologySnomedCT', 'morphologySnomedRT',
         'preparationMethod', 'product', 'programmePhase', 'sampleId',
-        'source', 'tissueSource', 'topographyICDs',
-        'topographySnomedCTs', 'topographySnomedRTs', 'tumourContent',
+        'source', 'tissueSource', 'topographyICD',
+        'topographySnomedCT', 'topographySnomedRT', 'tumourContent',
         'tumourId', 'tumourType'
     ]
 
@@ -12054,12 +12047,12 @@ class TumourSample(ProtocolElement):
             'diseaseType', None)
         self.labSampleId = kwargs.get(
             'labSampleId', None)
-        self.morphologyICDs = kwargs.get(
-            'morphologyICDs', None)
-        self.morphologySnomedCTs = kwargs.get(
-            'morphologySnomedCTs', None)
-        self.morphologySnomedRTs = kwargs.get(
-            'morphologySnomedRTs', None)
+        self.morphologyICD = kwargs.get(
+            'morphologyICD', None)
+        self.morphologySnomedCT = kwargs.get(
+            'morphologySnomedCT', None)
+        self.morphologySnomedRT = kwargs.get(
+            'morphologySnomedRT', None)
         self.preparationMethod = kwargs.get(
             'preparationMethod', None)
         self.product = kwargs.get(
@@ -12072,12 +12065,12 @@ class TumourSample(ProtocolElement):
             'source', None)
         self.tissueSource = kwargs.get(
             'tissueSource', None)
-        self.topographyICDs = kwargs.get(
-            'topographyICDs', None)
-        self.topographySnomedCTs = kwargs.get(
-            'topographySnomedCTs', None)
-        self.topographySnomedRTs = kwargs.get(
-            'topographySnomedRTs', None)
+        self.topographyICD = kwargs.get(
+            'topographyICD', None)
+        self.topographySnomedCT = kwargs.get(
+            'topographySnomedCT', None)
+        self.topographySnomedRT = kwargs.get(
+            'topographySnomedRT', None)
         self.tumourContent = kwargs.get(
             'tumourContent', None)
         self.tumourId = kwargs.get(
