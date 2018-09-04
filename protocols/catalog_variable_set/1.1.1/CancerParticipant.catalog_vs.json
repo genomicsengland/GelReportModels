@@ -303,45 +303,45 @@
     "description": "Product of the sample"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologyICDs", 
+    "name": "morphologyICD", 
     "description": "Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologySnomedCTs", 
+    "name": "morphologySnomedCT", 
     "description": "Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologySnomedRTs", 
+    "name": "morphologySnomedRT", 
     "description": "Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographyICDs", 
+    "name": "topographyICD", 
     "description": "Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographySnomedCTs", 
+    "name": "topographySnomedCT", 
     "description": "Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }, 
    {
-    "multiValue": true, 
+    "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographySnomedRTs", 
+    "name": "topographySnomedRT", 
     "description": "Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
    }
   ], 

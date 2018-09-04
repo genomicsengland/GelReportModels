@@ -153,28 +153,28 @@ protocol CancerParticipants {
         /**
         Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} morphologyICDs;
+        union {null, string} morphologyICD;
         /**
         Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} morphologySnomedCTs;
+        union {null, string} morphologySnomedCT;
         /**
         Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} morphologySnomedRTs;
+        union {null, string} morphologySnomedRT;
 
         /**
         Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} topographyICDs;
+        union {null, string} topographyICD;
         /**
         Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} topographySnomedCTs;
+        union {null, string} topographySnomedCT;
         /**
         Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, array<string>} topographySnomedRTs;
+        union {null, string} topographySnomedRT;
     }
 
     /**
