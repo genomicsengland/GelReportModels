@@ -354,7 +354,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             common_afs = [af.alternateFrequency for af in old_rvc.alleleFrequencies
                           if af.study == 'genomics_england' and af.population == 'ALL']
             if common_afs:
-                new_instance.commonAf = int(float(common_afs[0])*100)
+                new_instance.commonAf = int(round(float(common_afs[0])*100))
         return new_instance
 
     def _migrate_report_event_cancer(self, old_rec):
