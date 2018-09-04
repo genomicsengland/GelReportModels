@@ -410,24 +410,25 @@ class CancerParticipant(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
-"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
-"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
-"type": ["null", "string"], "name": "topographySnomedRT"}]}, "type": "array"}, "name":
-"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
-"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
-["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
-"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
-"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
-"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
-{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
-[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
-"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
-"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
-"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
-"doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographySnomedRTs"}]}, "type": "array"}, "name": "tumourSamples"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "GermlineSample", "fields": [{"doc": "", "type":
+"string", "name": "sampleId"}, {"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "",
+"type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null", "SampleSource"], "name":
+"source"}, {"doc": "", "type": ["null", "Product"], "name": "product"}, {"doc": "", "type": ["null",
+"PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"],
+"name": "programmePhase"}, {"doc": "", "type": ["null", "string"], "name":
+"clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"}, {"doc": "", "type":
+{"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type":
+["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name":
+"tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null",
+{"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name": "GitVersionControl"}], "type":
+"record", "name": "VersionControl"}], "name": "versionControl"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -7222,11 +7223,13 @@ class TumourSample(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"], "type": "enum", "name": "TissueSource"}], "name":
 "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"], "type": "enum", "name":
-"Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"], "name": "morphologyICD"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"}, {"doc": "", "type": ["null",
-"string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name":
-"topographyICD"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "",
-"type": ["null", "string"], "name": "topographySnomedRT"}], "doc": ""}
+"Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographyICDs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
+"name": "topographySnomedRTs"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -7235,18 +7238,18 @@ class TumourSample(ProtocolElement):
         "diseaseSubType",
         "diseaseType",
         "labSampleId",
-        "morphologyICD",
-        "morphologySnomedCT",
-        "morphologySnomedRT",
+        "morphologyICDs",
+        "morphologySnomedCTs",
+        "morphologySnomedRTs",
         "preparationMethod",
         "product",
         "programmePhase",
         "sampleId",
         "source",
         "tissueSource",
-        "topographyICD",
-        "topographySnomedCT",
-        "topographySnomedRT",
+        "topographyICDs",
+        "topographySnomedCTs",
+        "topographySnomedRTs",
         "tumourContent",
         "tumourId",
         "tumourType",
@@ -7265,11 +7268,11 @@ class TumourSample(ProtocolElement):
 
     __slots__ = [
         'LDPCode', 'clinicalSampleDateTime', 'diseaseSubType',
-        'diseaseType', 'labSampleId', 'morphologyICD',
-        'morphologySnomedCT', 'morphologySnomedRT',
+        'diseaseType', 'labSampleId', 'morphologyICDs',
+        'morphologySnomedCTs', 'morphologySnomedRTs',
         'preparationMethod', 'product', 'programmePhase', 'sampleId',
-        'source', 'tissueSource', 'topographyICD',
-        'topographySnomedCT', 'topographySnomedRT', 'tumourContent',
+        'source', 'tissueSource', 'topographyICDs',
+        'topographySnomedCTs', 'topographySnomedRTs', 'tumourContent',
         'tumourId', 'tumourType'
     ]
 
@@ -7284,12 +7287,12 @@ class TumourSample(ProtocolElement):
             'diseaseType', None)
         self.labSampleId = kwargs.get(
             'labSampleId', None)
-        self.morphologyICD = kwargs.get(
-            'morphologyICD', None)
-        self.morphologySnomedCT = kwargs.get(
-            'morphologySnomedCT', None)
-        self.morphologySnomedRT = kwargs.get(
-            'morphologySnomedRT', None)
+        self.morphologyICDs = kwargs.get(
+            'morphologyICDs', None)
+        self.morphologySnomedCTs = kwargs.get(
+            'morphologySnomedCTs', None)
+        self.morphologySnomedRTs = kwargs.get(
+            'morphologySnomedRTs', None)
         self.preparationMethod = kwargs.get(
             'preparationMethod', None)
         self.product = kwargs.get(
@@ -7302,12 +7305,12 @@ class TumourSample(ProtocolElement):
             'source', None)
         self.tissueSource = kwargs.get(
             'tissueSource', None)
-        self.topographyICD = kwargs.get(
-            'topographyICD', None)
-        self.topographySnomedCT = kwargs.get(
-            'topographySnomedCT', None)
-        self.topographySnomedRT = kwargs.get(
-            'topographySnomedRT', None)
+        self.topographyICDs = kwargs.get(
+            'topographyICDs', None)
+        self.topographySnomedCTs = kwargs.get(
+            'topographySnomedCTs', None)
+        self.topographySnomedRTs = kwargs.get(
+            'topographySnomedRTs', None)
         self.tumourContent = kwargs.get(
             'tumourContent', None)
         self.tumourId = kwargs.get(

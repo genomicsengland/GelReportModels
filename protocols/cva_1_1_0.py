@@ -611,12 +611,12 @@ class AlgorithmBasedVariantClassification(ProtocolElement):
     _schemaSource = """
 {"namespace": "org.gel.models.report.avro", "type": "record", "name":
 "AlgorithmBasedVariantClassification", "fields": [{"doc": "", "type": "string", "name":
-"algorithmName"}, {"doc": "", "type": "string", "name": "classification"}, {"doc": "", "type":
+"AlgorithmName"}, {"doc": "", "type": "string", "name": "classification"}, {"doc": "", "type":
 ["null", "int"], "name": "rank"}, {"doc": "", "type": ["null", "int"], "name": "score"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
-        "algorithmName",
+        "AlgorithmName",
         "classification",
         "rank",
         "score",
@@ -634,12 +634,12 @@ class AlgorithmBasedVariantClassification(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'algorithmName', 'classification', 'rank', 'score'
+        'AlgorithmName', 'classification', 'rank', 'score'
     ]
 
     def __init__(self, **kwargs):
-        self.algorithmName = kwargs.get(
-            'algorithmName', None)
+        self.AlgorithmName = kwargs.get(
+            'AlgorithmName', None)
         self.classification = kwargs.get(
             'classification', None)
         self.rank = kwargs.get(
@@ -1668,31 +1668,33 @@ class CancerInterpretationRequest(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
 "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
-"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"],
-"name": "morphologyICD"}, {"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null",
-"string"], "name": "topographyICD"}, {"doc": "", "type": ["null", "string"], "name":
-"topographySnomedCT"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedRT"}]},
-"type": "array"}, "name": "tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"},
-{"doc": "", "type": ["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null",
-"Product"], "name": "product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name":
-"preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
-{"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"}]}, "type": "array"},
-"name": "germlineSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"},
-{"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}], "doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name":
-"otherFamilyHistory"}, {"doc": "", "type": ["null", {"values": {"values": {"values": "float",
-"type": "map"}, "type": "map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc":
-"", "type": {"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"},
+{"doc": "", "type": ["null", {"values": {"values": {"values": "float", "type": "map"}, "type":
+"map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc": "", "type":
+{"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
 "uniparental_isodisomy", "uniparental_heterodisomy", "unusual_karyotype", "high_cnv_count",
 "high_estimate_human_contamination_fraction", "mixed_recruiting_gmc", "suspected_mosaicism",
 "low_quality_sample", "ffpe_tumour_sample", "ff_nano_tumour_sample",
@@ -1848,24 +1850,26 @@ class CancerParticipant(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
 "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
-"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"],
-"name": "morphologyICD"}, {"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null",
-"string"], "name": "topographyICD"}, {"doc": "", "type": ["null", "string"], "name":
-"topographySnomedCT"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedRT"}]},
-"type": "array"}, "name": "tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"},
-{"doc": "", "type": ["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null",
-"Product"], "name": "product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name":
-"preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
-{"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"}]}, "type": "array"},
-"name": "germlineSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"},
-{"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}], "doc": ""}
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -2333,29 +2337,29 @@ class CandidateVariantInjectCancer(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -2671,29 +2675,29 @@ class CandidateVariantInjectRD(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -3043,48 +3047,48 @@ class ChromosomalRearrangement(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"VariantCall", "fields": [{"doc": "", "type": "string", "name": "participantId"}, {"doc": "",
-"type": "string", "name": "sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous",
-"heterozygous", "alternate_homozygous", "missing", "half_missing_reference",
-"half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields":
-[{"type": {"items": "string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name":
-"phaseSet"}], "type": "record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "",
-"type": ["null", "double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null",
-"int"], "name": "depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name":
-"numberOfCopies"}, {"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null",
-"int"], "name": "confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type":
-"array"}], "name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols":
-["de_novo_variant", "germline_variant", "maternal_variant", "paternal_variant",
-"pedigree_specific_variant", "population_specific_variant", "somatic_variant"], "doc": "", "type":
-"enum", "name": "AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null",
-{"items": {"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name":
-"SupportingReadType"}, "type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"},
-"name": "variantCalls"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantCall", "fields":
+[{"doc": "", "type": "string", "name": "participantId"}, {"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate",
+"alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields": [{"type": {"items":
+"string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name": "phaseSet"}], "type":
+"record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "", "type": ["null",
+"double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name": "numberOfCopies"},
+{"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null", "int"], "name":
+"confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type": "array"}],
+"name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols": ["de_novo_variant",
+"germline_variant", "maternal_variant", "paternal_variant", "pedigree_specific_variant",
+"population_specific_variant", "somatic_variant"], "doc": "", "type": "enum", "name":
+"AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null", {"items":
+{"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name": "SupportingReadType"},
+"type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"}, "name": "variantCalls"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -3400,29 +3404,29 @@ class ClinicalReport(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -5721,36 +5725,36 @@ class EvidenceSet(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}], "name":
-"reportEvent"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"ReportEventQuestionnaireRD", "fields": [{"doc": "", "type": ["null", "int"], "name":
-"groupOfVariants"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
-"record", "name": "VariantLevelQuestions", "fields": [{"doc": "", "type": {"doc": "", "type":
-"record", "name": "VariantCoordinates", "fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc": "", "type": "string", "name":
-"reference"}, {"doc": "", "type": "string", "name": "alternate"}, {"doc": "", "type": "Assembly",
-"name": "assembly"}]}, "name": "variantCoordinates"}, {"doc": "", "type": {"symbols": ["yes", "no",
-"na"], "type": "enum", "name": "ConfirmationDecision"}, "name": "confirmationDecision"}, {"doc": "",
-"type": {"symbols": ["yes", "no", "na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
-"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no", "na"], "type": "enum", "name":
-"ReportingQuestion"}, "name": "reportingQuestion"}, {"doc": "", "type": {"symbols":
-["pathogenic_variant", "likely_pathogenic_variant", "variant_of_unknown_clinical_significance",
-"likely_benign_variant", "benign_variant", "not_assessed"], "type": "enum", "name":
-"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "", "type": "string", "name":
-"publications"}], "doc": ""}, "name": "variantLevelQuestions"}, {"doc": "", "type": {"namespace":
-"org.gel.models.report.avro", "type": "record", "name": "VariantGroupLevelQuestions", "fields":
-[{"doc": "", "type": "int", "name": "variantGroup"}, {"doc": "", "type": {"items":
-"VariantLevelQuestions", "type": "array"}, "name": "variantLevelQuestions"}, {"doc": "", "type":
-{"symbols": ["yes", "no", "not_yet", "na"], "type": "enum", "name": "Actionability"}, "name":
-"actionability"}, {"doc": "", "type": {"items": {"symbols": ["none", "change_in_medication",
-"surgical_option", "additional_surveillance_for_proband_or_relatives", "clinical_trial_eligibility",
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}], "name": "reportEvent"}, {"doc":
+"", "type": ["null", {"doc": "", "type": "record", "name": "ReportEventQuestionnaireRD", "fields":
+[{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name": "VariantLevelQuestions", "fields": [{"doc":
+"", "type": {"doc": "", "type": "record", "name": "VariantCoordinates", "fields": [{"doc": "",
+"type": "string", "name": "chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc": "",
+"type": "string", "name": "reference"}, {"doc": "", "type": "string", "name": "alternate"}, {"doc":
+"", "type": "Assembly", "name": "assembly"}]}, "name": "variantCoordinates"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "na"], "type": "enum", "name": "ConfirmationDecision"}, "name":
+"confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes", "no", "na"], "type": "enum",
+"name": "ConfirmationOutcome"}, "name": "confirmationOutcome"}, {"doc": "", "type": {"symbols":
+["yes", "no", "na"], "type": "enum", "name": "ReportingQuestion"}, "name": "reportingQuestion"},
+{"doc": "", "type": {"symbols": ["pathogenic_variant", "likely_pathogenic_variant",
+"variant_of_unknown_clinical_significance", "likely_benign_variant", "benign_variant",
+"not_assessed"], "type": "enum", "name": "ACMGClassification"}, "name": "acmgClassification"},
+{"doc": "", "type": "string", "name": "publications"}], "doc": ""}, "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
+"record", "name": "VariantGroupLevelQuestions", "fields": [{"doc": "", "type": "int", "name":
+"variantGroup"}, {"doc": "", "type": {"items": "VariantLevelQuestions", "type": "array"}, "name":
+"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes", "no", "not_yet", "na"], "type":
+"enum", "name": "Actionability"}, "name": "actionability"}, {"doc": "", "type": {"items":
+{"symbols": ["none", "change_in_medication", "surgical_option",
+"additional_surveillance_for_proband_or_relatives", "clinical_trial_eligibility",
 "informs_reproductive_choice", "unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
 "type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type": {"symbols": ["yes", "no",
 "partially", "unknown"], "type": "enum", "name": "PhenotypesSolved"}, "name": "phenotypesSolved"},
@@ -6500,6 +6504,7 @@ class FamiliarRelationship(object):
     Spouse = "Spouse"
     Other = "Other"
     RelationIsNotClear = "RelationIsNotClear"
+    Unrelated = "Unrelated"
     Unknown = "Unknown"
 
     def __hash__(self):
@@ -7609,31 +7614,33 @@ class InterpretationDataCancer(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
 "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
-"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"],
-"name": "morphologyICD"}, {"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null",
-"string"], "name": "topographyICD"}, {"doc": "", "type": ["null", "string"], "name":
-"topographySnomedCT"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedRT"}]},
-"type": "array"}, "name": "tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"},
-{"doc": "", "type": ["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null",
-"Product"], "name": "product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name":
-"preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
-{"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"}]}, "type": "array"},
-"name": "germlineSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"},
-{"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}], "doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc":
-"", "type": "record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null",
-{"items": "string", "type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type":
-["null", {"items": "string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name":
-"otherFamilyHistory"}, {"doc": "", "type": ["null", {"values": {"values": {"values": "float",
-"type": "map"}, "type": "map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc":
-"", "type": {"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}], "name": "cancerParticipant"}, {"doc": "", "type": ["null", {"doc": "", "type":
+"record", "name": "OtherFamilyHistory", "fields": [{"doc": "", "type": ["null", {"items": "string",
+"type": "array"}], "name": "maternalFamilyHistory"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "paternalFamilyHistory"}]}], "name": "otherFamilyHistory"},
+{"doc": "", "type": ["null", {"values": {"values": {"values": "float", "type": "map"}, "type":
+"map"}, "type": "map"}], "name": "genePanelsCoverage"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "InterpretationFlag", "fields": [{"doc": "", "type":
+{"symbols": ["mixed_chemistries", "mixedLab_preparation", "low_tumour_purity",
 "uniparental_isodisomy", "uniparental_heterodisomy", "unusual_karyotype", "high_cnv_count",
 "high_estimate_human_contamination_fraction", "mixed_recruiting_gmc", "suspected_mosaicism",
 "low_quality_sample", "ffpe_tumour_sample", "ff_nano_tumour_sample",
@@ -7807,29 +7814,29 @@ class InterpretationDataCancer(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -8239,29 +8246,29 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -8849,29 +8856,29 @@ class InterpretedGenome(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -9808,24 +9815,26 @@ class ParticipantInjectCancer(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
 "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
-"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"],
-"name": "morphologyICD"}, {"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null",
-"string"], "name": "topographyICD"}, {"doc": "", "type": ["null", "string"], "name":
-"topographySnomedCT"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedRT"}]},
-"type": "array"}, "name": "tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type":
-"record", "name": "GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"},
-{"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"},
-{"doc": "", "type": ["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null",
-"Product"], "name": "product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name":
-"preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
-{"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"}]}, "type": "array"},
-"name": "germlineSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"},
-{"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}], "doc": ""}, "name": "participant"}], "doc": ""}
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}]}, "type": "array"}, "name":
+"tumourSamples"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
+"GermlineSample", "fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type":
+"int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type":
+["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name":
+"product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc":
+"", "type": ["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null",
+"string"], "name": "clinicalSampleDateTime"}]}, "type": "array"}, "name": "germlineSamples"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "MatchedSamples", "fields":
+[{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"}, {"doc": "", "type": ["null",
+"string"], "name": "tumourSampleId"}]}, "type": "array"}, "name": "matchedSamples"}, {"doc": "",
+"type": ["null", {"fields": [{"default": "1.1.0", "doc": "", "type": "string", "name":
+"GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name": "versionControl"}],
+"doc": ""}, "name": "participant"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -11496,14 +11505,14 @@ class ReportEvent(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -11777,37 +11786,36 @@ class ReportEventEntry(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}], "name":
-"reportEvent"}, {"doc": "", "type": ["null", {"doc": "", "type": "record", "name":
-"ReportEventQuestionnaireRD", "fields": [{"doc": "", "type": ["null", "int"], "name":
-"groupOfVariants"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
-"record", "name": "VariantLevelQuestions", "fields": [{"doc": "", "type": {"doc": "", "type":
-"record", "name": "VariantCoordinates", "fields": [{"doc": "", "type": "string", "name":
-"chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc": "", "type": "string", "name":
-"reference"}, {"doc": "", "type": "string", "name": "alternate"}, {"doc": "", "type": {"symbols":
-["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"}, "name": "assembly"}]}, "name":
-"variantCoordinates"}, {"doc": "", "type": {"symbols": ["yes", "no", "na"], "type": "enum", "name":
-"ConfirmationDecision"}, "name": "confirmationDecision"}, {"doc": "", "type": {"symbols": ["yes",
-"no", "na"], "type": "enum", "name": "ConfirmationOutcome"}, "name": "confirmationOutcome"}, {"doc":
-"", "type": {"symbols": ["yes", "no", "na"], "type": "enum", "name": "ReportingQuestion"}, "name":
-"reportingQuestion"}, {"doc": "", "type": {"symbols": ["pathogenic_variant",
-"likely_pathogenic_variant", "variant_of_unknown_clinical_significance", "likely_benign_variant",
-"benign_variant", "not_assessed"], "type": "enum", "name": "ACMGClassification"}, "name":
-"acmgClassification"}, {"doc": "", "type": "string", "name": "publications"}], "doc": ""}, "name":
-"variantLevelQuestions"}, {"doc": "", "type": {"namespace": "org.gel.models.report.avro", "type":
-"record", "name": "VariantGroupLevelQuestions", "fields": [{"doc": "", "type": "int", "name":
-"variantGroup"}, {"doc": "", "type": {"items": "VariantLevelQuestions", "type": "array"}, "name":
-"variantLevelQuestions"}, {"doc": "", "type": {"symbols": ["yes", "no", "not_yet", "na"], "type":
-"enum", "name": "Actionability"}, "name": "actionability"}, {"doc": "", "type": {"items":
-{"symbols": ["none", "change_in_medication", "surgical_option",
-"additional_surveillance_for_proband_or_relatives", "clinical_trial_eligibility",
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}], "doc": ""}], "name": "reportEvent"}, {"doc":
+"", "type": ["null", {"doc": "", "type": "record", "name": "ReportEventQuestionnaireRD", "fields":
+[{"doc": "", "type": ["null", "int"], "name": "groupOfVariants"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name": "VariantLevelQuestions", "fields": [{"doc":
+"", "type": {"doc": "", "type": "record", "name": "VariantCoordinates", "fields": [{"doc": "",
+"type": "string", "name": "chromosome"}, {"doc": "", "type": "int", "name": "position"}, {"doc": "",
+"type": "string", "name": "reference"}, {"doc": "", "type": "string", "name": "alternate"}, {"doc":
+"", "type": {"symbols": ["GRCh38", "GRCh37"], "doc": "", "type": "enum", "name": "Assembly"},
+"name": "assembly"}]}, "name": "variantCoordinates"}, {"doc": "", "type": {"symbols": ["yes", "no",
+"na"], "type": "enum", "name": "ConfirmationDecision"}, "name": "confirmationDecision"}, {"doc": "",
+"type": {"symbols": ["yes", "no", "na"], "type": "enum", "name": "ConfirmationOutcome"}, "name":
+"confirmationOutcome"}, {"doc": "", "type": {"symbols": ["yes", "no", "na"], "type": "enum", "name":
+"ReportingQuestion"}, "name": "reportingQuestion"}, {"doc": "", "type": {"symbols":
+["pathogenic_variant", "likely_pathogenic_variant", "variant_of_unknown_clinical_significance",
+"likely_benign_variant", "benign_variant", "not_assessed"], "type": "enum", "name":
+"ACMGClassification"}, "name": "acmgClassification"}, {"doc": "", "type": "string", "name":
+"publications"}], "doc": ""}, "name": "variantLevelQuestions"}, {"doc": "", "type": {"namespace":
+"org.gel.models.report.avro", "type": "record", "name": "VariantGroupLevelQuestions", "fields":
+[{"doc": "", "type": "int", "name": "variantGroup"}, {"doc": "", "type": {"items":
+"VariantLevelQuestions", "type": "array"}, "name": "variantLevelQuestions"}, {"doc": "", "type":
+{"symbols": ["yes", "no", "not_yet", "na"], "type": "enum", "name": "Actionability"}, "name":
+"actionability"}, {"doc": "", "type": {"items": {"symbols": ["none", "change_in_medication",
+"surgical_option", "additional_surveillance_for_proband_or_relatives", "clinical_trial_eligibility",
 "informs_reproductive_choice", "unknown", "other"], "type": "enum", "name": "ClinicalUtility"},
 "type": "array"}, "name": "clinicalUtility"}, {"doc": "", "type": {"symbols": ["yes", "no",
 "partially", "unknown"], "type": "enum", "name": "PhenotypesSolved"}, "name": "phenotypesSolved"},
@@ -12599,29 +12607,29 @@ class ReportedVariantInjectCancer(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -12939,29 +12947,29 @@ class ReportedVariantInjectRD(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -13768,48 +13776,48 @@ class ShortTandemRepeat(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"VariantCall", "fields": [{"doc": "", "type": "string", "name": "participantId"}, {"doc": "",
-"type": "string", "name": "sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous",
-"heterozygous", "alternate_homozygous", "missing", "half_missing_reference",
-"half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields":
-[{"type": {"items": "string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name":
-"phaseSet"}], "type": "record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "",
-"type": ["null", "double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null",
-"int"], "name": "depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name":
-"numberOfCopies"}, {"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null",
-"int"], "name": "confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type":
-"array"}], "name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols":
-["de_novo_variant", "germline_variant", "maternal_variant", "paternal_variant",
-"pedigree_specific_variant", "population_specific_variant", "somatic_variant"], "doc": "", "type":
-"enum", "name": "AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null",
-{"items": {"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name":
-"SupportingReadType"}, "type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"},
-"name": "variantCalls"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantCall", "fields":
+[{"doc": "", "type": "string", "name": "participantId"}, {"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate",
+"alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields": [{"type": {"items":
+"string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name": "phaseSet"}], "type":
+"record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "", "type": ["null",
+"double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name": "numberOfCopies"},
+{"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null", "int"], "name":
+"confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type": "array"}],
+"name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols": ["de_novo_variant",
+"germline_variant", "maternal_variant", "paternal_variant", "pedigree_specific_variant",
+"population_specific_variant", "somatic_variant"], "doc": "", "type": "enum", "name":
+"AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null", {"items":
+{"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name": "SupportingReadType"},
+"type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"}, "name": "variantCalls"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -14080,29 +14088,29 @@ class SmallVariant(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -14499,48 +14507,48 @@ class StructuralVariant(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"VariantCall", "fields": [{"doc": "", "type": "string", "name": "participantId"}, {"doc": "",
-"type": "string", "name": "sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous",
-"heterozygous", "alternate_homozygous", "missing", "half_missing_reference",
-"half_missing_alternate", "alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "",
-"type": "enum", "name": "Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields":
-[{"type": {"items": "string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name":
-"phaseSet"}], "type": "record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "",
-"type": ["null", "double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null",
-"int"], "name": "depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"},
-{"doc": "", "type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name":
-"numberOfCopies"}, {"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null",
-"int"], "name": "confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type":
-"array"}], "name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols":
-["de_novo_variant", "germline_variant", "maternal_variant", "paternal_variant",
-"pedigree_specific_variant", "population_specific_variant", "somatic_variant"], "doc": "", "type":
-"enum", "name": "AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null",
-{"items": {"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name":
-"SupportingReadType"}, "type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"},
-"name": "variantCalls"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"doc": "", "type": {"items": {"doc": "", "type": "record", "name": "VariantCall", "fields":
+[{"doc": "", "type": "string", "name": "participantId"}, {"doc": "", "type": "string", "name":
+"sampleId"}, {"doc": "", "type": {"symbols": ["reference_homozygous", "heterozygous",
+"alternate_homozygous", "missing", "half_missing_reference", "half_missing_alternate",
+"alternate_hemizigous", "reference_hemizigous", "unk", "na"], "doc": "", "type": "enum", "name":
+"Zygosity"}, "name": "zygosity"}, {"doc": "", "type": ["null", {"fields": [{"type": {"items":
+"string", "type": "array"}, "name": "sortedAlleles"}, {"type": "int", "name": "phaseSet"}], "type":
+"record", "name": "PhaseGenotype"}], "name": "phaseGenotype"}, {"doc": "", "type": ["null",
+"double"], "name": "sampleVariantAlleleFrequency"}, {"doc": "", "type": ["null", "int"], "name":
+"depthReference"}, {"doc": "", "type": ["null", "int"], "name": "depthAlternate"}, {"doc": "",
+"type": ["null", {"items": {"fields": [{"doc": "", "type": "int", "name": "numberOfCopies"},
+{"type": ["null", "int"], "name": "confidenceIntervalMaximum"}, {"type": ["null", "int"], "name":
+"confidenceIntervalMinimum"}], "type": "record", "name": "NumberOfCopies"}, "type": "array"}],
+"name": "numberOfCopies"}, {"doc": "", "type": ["null", {"items": {"symbols": ["de_novo_variant",
+"germline_variant", "maternal_variant", "paternal_variant", "pedigree_specific_variant",
+"population_specific_variant", "somatic_variant"], "doc": "", "type": "enum", "name":
+"AlleleOrigin"}, "type": "array"}], "name": "alleleOrigins"}, {"type": ["null", {"items":
+{"symbols": ["spanning", "flanking", "inrepeat"], "type": "enum", "name": "SupportingReadType"},
+"type": "array"}], "name": "supportingReadTypes"}]}, "type": "array"}, "name": "variantCalls"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -14946,8 +14954,6 @@ class Tier(object):
     TIER3 = "TIER3"
     TIER4 = "TIER4"
     TIER5 = "TIER5"
-    TIERA = "TIERA"
-    TIERB = "TIERB"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -15134,29 +15140,29 @@ class TieredVariantInjectCancer(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -15465,29 +15471,29 @@ class TieredVariantInjectRD(ProtocolElement):
 "name": "description"}]}, "type": "array"}], "name": "ampClincialOrExperimentalEvidence"}, {"doc":
 "", "type": ["null", "string"], "name": "assessment"}]}], "name": "ampVariantClassification"}]}],
 "name": "guidelineBasedVariantClassification"}, {"doc": "", "type": ["null", {"items": {"fields":
-[{"doc": "", "type": "string", "name": "algorithmName"}, {"doc": "", "type": "string", "name":
+[{"doc": "", "type": "string", "name": "AlgorithmName"}, {"doc": "", "type": "string", "name":
 "classification"}, {"doc": "", "type": ["null", "int"], "name": "rank"}, {"doc": "", "type":
 ["null", "int"], "name": "score"}], "type": "record", "name":
 "AlgorithmBasedVariantClassification"}, "type": "array"}], "name":
 "algorithmBasedVariantClassifications"}, {"doc": "", "type": ["null", {"symbols": ["NONE", "TIER1",
-"TIER2", "TIER3", "TIER4", "TIER5", "TIERA", "TIERB"], "doc": "", "type": "enum", "name": "Tier"}],
-"name": "tier"}, {"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3",
-"DOMAIN4", "NONE"], "type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"},
-"name": "reportEvents"}, {"type": ["null", {"doc": "", "type": "record", "name":
-"VariantAttributes", "fields": [{"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "genomicChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cdnaChanges"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"proteinChanges"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
-"additionalTextualVariantAnnotations"}, {"doc": "", "type": ["null", {"values": "string", "type":
-"map"}], "name": "references"}, {"type": ["null", {"fields": [{"doc": "", "type": ["null",
-"string"], "name": "dbSnpId"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}],
-"name": "cosmicIds"}, {"doc": "", "type": ["null", {"items": "string", "type": "array"}], "name":
-"clinVarIds"}, {"type": ["null", {"items": "Identifier", "type": "array"}], "name": "otherIds"}],
-"type": "record", "name": "VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type":
-["null", {"items": {"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "",
-"type": "string", "name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "",
-"type": "float", "name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"},
-{"doc": "", "type": ["null", {"values": "float", "type": "map"}], "name":
+"TIER2", "TIER3", "TIER4", "TIER5"], "doc": "", "type": "enum", "name": "Tier"}], "name": "tier"},
+{"doc": "", "type": ["null", {"symbols": ["DOMAIN1", "DOMAIN2", "DOMAIN3", "DOMAIN4", "NONE"],
+"type": "enum", "name": "Domain"}], "name": "domain"}]}, "type": "array"}, "name": "reportEvents"},
+{"type": ["null", {"doc": "", "type": "record", "name": "VariantAttributes", "fields": [{"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "genomicChanges"}, {"doc": "",
+"type": ["null", {"items": "string", "type": "array"}], "name": "cdnaChanges"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "proteinChanges"}, {"doc": "", "type":
+["null", {"values": "string", "type": "map"}], "name": "additionalTextualVariantAnnotations"},
+{"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name": "references"}, {"type":
+["null", {"fields": [{"doc": "", "type": ["null", "string"], "name": "dbSnpId"}, {"doc": "", "type":
+["null", {"items": "string", "type": "array"}], "name": "cosmicIds"}, {"doc": "", "type": ["null",
+{"items": "string", "type": "array"}], "name": "clinVarIds"}, {"type": ["null", {"items":
+"Identifier", "type": "array"}], "name": "otherIds"}], "type": "record", "name":
+"VariantIdentifiers"}], "name": "variantIdentifiers"}, {"doc": "", "type": ["null", {"items":
+{"doc": "", "type": "record", "name": "AlleleFrequency", "fields": [{"doc": "", "type": "string",
+"name": "study"}, {"doc": "", "type": "string", "name": "population"}, {"doc": "", "type": "float",
+"name": "alternateFrequency"}]}, "type": "array"}], "name": "alleleFrequencies"}, {"doc": "",
+"type": ["null", {"values": "float", "type": "map"}], "name":
 "additionalNumericVariantAnnotations"}, {"doc": "", "type": ["null", {"items": "string", "type":
 "array"}], "name": "comments"}, {"doc": "", "type": ["null", {"items": "AlleleOrigin", "type":
 "array"}], "name": "alleleOrigins"}, {"doc": "", "type": ["null", "int"], "name": "ihp"}, {"doc":
@@ -16153,12 +16159,13 @@ class TumourSample(ProtocolElement):
 "MRI_GUIDED_BIOPSY", "NON_GUIDED_BIOPSY", "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY",
 "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY", "NOT_SPECIFIED"], "type": "enum", "name":
 "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null", {"symbols": ["DNA", "RNA"],
-"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", "string"],
-"name": "morphologyICD"}, {"doc": "", "type": ["null", "string"], "name": "morphologySnomedCT"},
-{"doc": "", "type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "", "type": ["null",
-"string"], "name": "topographyICD"}, {"doc": "", "type": ["null", "string"], "name":
-"topographySnomedCT"}, {"doc": "", "type": ["null", "string"], "name": "topographySnomedRT"}],
-"doc": ""}
+"type": "enum", "name": "Product"}], "name": "product"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "morphologySnomedRTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographyICDs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedCTs"}, {"doc": "", "type": ["null", {"items":
+"string", "type": "array"}], "name": "topographySnomedRTs"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -16167,18 +16174,18 @@ class TumourSample(ProtocolElement):
         "diseaseSubType",
         "diseaseType",
         "labSampleId",
-        "morphologyICD",
-        "morphologySnomedCT",
-        "morphologySnomedRT",
+        "morphologyICDs",
+        "morphologySnomedCTs",
+        "morphologySnomedRTs",
         "preparationMethod",
         "product",
         "programmePhase",
         "sampleId",
         "source",
         "tissueSource",
-        "topographyICD",
-        "topographySnomedCT",
-        "topographySnomedRT",
+        "topographyICDs",
+        "topographySnomedCTs",
+        "topographySnomedRTs",
         "tumourContent",
         "tumourId",
         "tumourType",
@@ -16197,11 +16204,11 @@ class TumourSample(ProtocolElement):
 
     __slots__ = [
         'LDPCode', 'clinicalSampleDateTime', 'diseaseSubType',
-        'diseaseType', 'labSampleId', 'morphologyICD',
-        'morphologySnomedCT', 'morphologySnomedRT',
+        'diseaseType', 'labSampleId', 'morphologyICDs',
+        'morphologySnomedCTs', 'morphologySnomedRTs',
         'preparationMethod', 'product', 'programmePhase', 'sampleId',
-        'source', 'tissueSource', 'topographyICD',
-        'topographySnomedCT', 'topographySnomedRT', 'tumourContent',
+        'source', 'tissueSource', 'topographyICDs',
+        'topographySnomedCTs', 'topographySnomedRTs', 'tumourContent',
         'tumourId', 'tumourType'
     ]
 
@@ -16216,12 +16223,12 @@ class TumourSample(ProtocolElement):
             'diseaseType', None)
         self.labSampleId = kwargs.get(
             'labSampleId', None)
-        self.morphologyICD = kwargs.get(
-            'morphologyICD', None)
-        self.morphologySnomedCT = kwargs.get(
-            'morphologySnomedCT', None)
-        self.morphologySnomedRT = kwargs.get(
-            'morphologySnomedRT', None)
+        self.morphologyICDs = kwargs.get(
+            'morphologyICDs', None)
+        self.morphologySnomedCTs = kwargs.get(
+            'morphologySnomedCTs', None)
+        self.morphologySnomedRTs = kwargs.get(
+            'morphologySnomedRTs', None)
         self.preparationMethod = kwargs.get(
             'preparationMethod', None)
         self.product = kwargs.get(
@@ -16234,12 +16241,12 @@ class TumourSample(ProtocolElement):
             'source', None)
         self.tissueSource = kwargs.get(
             'tissueSource', None)
-        self.topographyICD = kwargs.get(
-            'topographyICD', None)
-        self.topographySnomedCT = kwargs.get(
-            'topographySnomedCT', None)
-        self.topographySnomedRT = kwargs.get(
-            'topographySnomedRT', None)
+        self.topographyICDs = kwargs.get(
+            'topographyICDs', None)
+        self.topographySnomedCTs = kwargs.get(
+            'topographySnomedCTs', None)
+        self.topographySnomedRTs = kwargs.get(
+            'topographySnomedRTs', None)
         self.tumourContent = kwargs.get(
             'tumourContent', None)
         self.tumourId = kwargs.get(
