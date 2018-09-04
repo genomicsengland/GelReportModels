@@ -98,6 +98,31 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             ]
         return dict(random.sample(values, random.randint(0, 4)))
 
+    def _diff_actions(self, report_events):
+        actions = {}
+        # NOTE: makes the assumption that the URL field is never empty
+        for re in report_events:
+            if re.actions:
+                for a in re.actions:
+                    if a.url not in actions:
+                        actions[a.url] = []
+                    actions[a.url].append(a)
+        for a in actions.values():
+            self.assertEqual(len(a), 2)
+            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
+            self.assertEqual(a[0].url, a[1].url)
+            self.assertEqual(a[0].variantActionable, a[1].variantActionable)
+
+    @staticmethod
+    def _get_random_variant_details():
+        reference, alternate = random.sample(['A', 'C', 'G', 'T'], 2)
+        return "{chromosome}:{position}:{reference}:{alternate}".format(
+            chromosome=random.randint(1, 22),
+            position=random.randint(100, 1000000),
+            reference=reference,
+            alternate=alternate
+        )
+
     def test_migrate_rd_interpretation_request(self, fill_nullables=True):
         # get original IR in version 3.0.0
         assembly = Assembly.GRCh38
@@ -165,23 +190,13 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
     def test_migrate_rd_clinical_report_nulls(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
 
-    @staticmethod
-    def get_random_variant_details():
-        reference, alternate = random.sample(['A', 'C', 'G', 'T'], 2)
-        return "{chromosome}:{position}:{reference}:{alternate}".format(
-            chromosome=random.randint(1, 22),
-            position=random.randint(100, 1000000),
-            reference=reference,
-            alternate=alternate
-        )
-
     def test_migrate_rd_exit_questionnaire(self, fill_nullables=True):
         original = self.get_valid_object(
             object_type=reports_3_0_0.RareDiseaseExitQuestionnaire, version=self.version_3_0_0,
             fill_nullables=fill_nullables)  # type: reports_3_0_0.RareDiseaseExitQuestionnaire
         for g in original.variantGroupLevelQuestions:
             for v in g.variantLevelQuestions:
-                v.variant_details = self.get_random_variant_details()
+                v.variant_details = self._get_random_variant_details()
         self._check_round_trip_migration(
             MigrationHelpers.migrate_exit_questionnaire_rd_to_latest,
             MigrationHelpers.reverse_migrate_exit_questionnaire_rd_to_v3,
@@ -202,9 +217,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             interpretGenome=True, structuralTieredVariants=[],
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
-        for v in original_ir.tieredVariants:
-            v.commonAf = random.randint(0, 100)
-        # migration requires there is exactly one tumour sample
+        # # migration requires there is exactly one tumour sample
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
         ig6 = MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
             original_ir.toJsonDict(), assembly=assembly, interpretation_service="service",
@@ -218,26 +231,14 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
                            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
-        # check actions
-        actions = {}
-        for v in original_ir.tieredVariants:
-            for re in v.reportedVariantCancer.reportEvents:
-                if re.actions:
-                    for a in re.actions:
-                        if a.url not in actions:
-                            actions[a.url] = []
-                        actions[a.url].append(a)
-        for v in round_tripped.tieredVariants:
-            for re in v.reportedVariantCancer.reportEvents:
-                if re.actions:
-                    for a in re.actions:
-                        if a.url not in actions:
-                            actions[a.url] = []
-                        actions[a.url].append(a)
-        for a in actions.values():
-            self.assertEqual(len(a), 2)
-            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
-            self.assertEqual(a[0].url, a[1].url)
+        # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
+        # dictionary comparison and then here manually check them
+        from itertools import chain, imap
+        expected_report_events = chain.from_iterable(
+            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ir.tieredVariants))
+        observed_report_events = chain.from_iterable(
+            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.tieredVariants))
+        self._diff_actions(chain(expected_report_events, observed_report_events))
 
     def test_migrate_cancer_interpretation_request_nulls(self):
         self.test_migrate_cancer_interpretation_request(fill_nullables=False)
@@ -250,8 +251,6 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             interpretGenome=True, reportedStructuralVariants=[],
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
-        for v in original_ig.reportedVariants:
-            v.commonAf = random.randint(0, 100)
         # migration requires there is exactly one tumour sample
         round_tripped = self._check_round_trip_migration(
             MigrationHelpers.migrate_interpreted_genome_cancer_to_latest,
@@ -261,28 +260,15 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             ignore_fields=["analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"],
             forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1',
                             'interpretation_request_version': 1, 'interpretation_service': '1'}
-            # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
         )
-        # check actions
-        actions = {}
-        for v in original_ig.reportedVariants:
-            for re in v.reportedVariantCancer.reportEvents:
-                if re.actions:
-                    for a in re.actions:
-                        if a.url not in actions:
-                            actions[a.url] = []
-                        actions[a.url].append(a)
-        for v in round_tripped.reportedVariants:
-            for re in v.reportedVariantCancer.reportEvents:
-                if re.actions:
-                    for a in re.actions:
-                        if a.url not in actions:
-                            actions[a.url] = []
-                        actions[a.url].append(a)
-        for a in actions.values():
-            self.assertEqual(len(a), 2)
-            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
-            self.assertEqual(a[0].url, a[1].url)
+        # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
+        # dictionary comparison and then here manually check them
+        from itertools import chain, imap
+        expected_report_events = chain.from_iterable(
+            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ig.reportedVariants))
+        observed_report_events = chain.from_iterable(
+            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.reportedVariants))
+        self._diff_actions(chain(expected_report_events, observed_report_events))
 
     def test_migrate_cancer_interpreted_genome_nulls(self):
         self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
@@ -296,9 +282,6 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0'),
             interpretationRequestVersion='123'
         )
-        if original_cr.candidateVariants:
-            for v in original_cr.candidateVariants:
-                v.commonAf = random.randint(0, 100)
         # migration requires there is exactly one tumour sample
         round_tripped = self._check_round_trip_migration(
             MigrationHelpers.migrate_clinical_report_cancer_to_latest,
@@ -310,28 +293,20 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1'}
             # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
         )
-        # check actions
-        actions = {}
+        # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
+        # dictionary comparison and then here manually check them
+        from itertools import chain, imap
         if original_cr.candidateVariants:
-            for v in original_cr.candidateVariants:
-                for re in v.reportedVariantCancer.reportEvents:
-                    if re.actions:
-                        for a in re.actions:
-                            if a.url not in actions:
-                                actions[a.url] = []
-                            actions[a.url].append(a)
+            expected_report_events = chain.from_iterable(
+                imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_cr.candidateVariants))
+        else:
+            expected_report_events = []
         if round_tripped.candidateVariants:
-            for v in round_tripped.candidateVariants:
-                for re in v.reportedVariantCancer.reportEvents:
-                    if re.actions:
-                        for a in re.actions:
-                            if a.url not in actions:
-                                actions[a.url] = []
-                            actions[a.url].append(a)
-        for a in actions.values():
-            self.assertEqual(len(a), 2)
-            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
-            self.assertEqual(a[0].url, a[1].url)
+            observed_report_events = chain.from_iterable(
+                imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.candidateVariants))
+        else:
+            observed_report_events = []
+        self._diff_actions(chain(expected_report_events, observed_report_events))
 
     def test_migrate_cancer_clinical_report_nulls(self):
         self.test_migrate_cancer_clinical_report(fill_nullables=False)
