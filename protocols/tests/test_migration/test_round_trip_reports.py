@@ -331,8 +331,7 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             original_eq, self.new_model.CancerExitQuestionnaire,
             expect_equality=True,
             ignore_fields=[],
-            forward_kwargs={'assembly':assembly}
-            # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
+            forward_kwargs={'assembly': assembly}
         )
 
     def test_migrate_cancer_exit_questionnaire_nulls(self):
