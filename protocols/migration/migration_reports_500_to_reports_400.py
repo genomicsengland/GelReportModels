@@ -135,6 +135,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         :rtype: reports_4_0_0.CancerInterpretedGenome
         """
         new_instance = self.convert_class(self.new_model.CancerInterpretedGenome, old_instance)
+        new_instance.versionControl = self.new_model.ReportVersionControl()
         new_instance.reportedVariants = self.convert_collection(
             old_instance.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         new_instance.reportRequestId = old_instance.interpretationRequestId
@@ -160,7 +161,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.interpretGenome = False
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant)
-        new_instance.tieringVersion = ""
+        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.analysisReturnUri = ""
         return self.validate_object(new_instance, self.new_model.CancerInterpretationRequest)
 
@@ -196,7 +197,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
-        new_instance.tieringVersion = ""    # TODO: can we fetch this from report events?
+        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
@@ -349,6 +350,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 new_instance.additionalTextualVariantAnnotations['fdp50'] = old_rvc.variantAttributes.fdp50
             if old_rvc.variantAttributes.others:
                 new_instance.additionalTextualVariantAnnotations.update(old_rvc.variantAttributes.others)
+        if old_rvc.alleleFrequencies is not None:
+            common_afs = [af.alternateFrequency for af in old_rvc.alleleFrequencies
+                          if af.study == 'genomics_england' and af.population == 'ALL']
+            if common_afs:
+                new_instance.commonAf = int(round(float(common_afs[0])*100))
         return new_instance
 
     def _migrate_report_event_cancer(self, old_rec):
@@ -359,6 +365,14 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.genomicFeatureCancer = self._migrate_genomic_entities_to_genomic_feature_cancer(
             genomic_entities=old_rec.genomicEntities,
         )
+        map_role_in_cancer = {
+            None: None,
+            reports_5_0_0.RoleInCancer.both: reports_4_0_0.RoleInCancer.both,
+            reports_5_0_0.RoleInCancer.oncogene: reports_4_0_0.RoleInCancer.oncogene,
+            reports_5_0_0.RoleInCancer.tumor_suppressor_gene: reports_4_0_0.RoleInCancer.TSG
+        }
+        if old_rec.roleInCancer:
+            new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_rec.roleInCancer[0]]
         new_instance.actions = self.convert_collection(old_rec.actions, self._migrate_action)
         return new_instance
 
@@ -396,7 +410,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             logging.warning(msg=msg.format(ge_type=old_type, rep=self.new_model.FeatureTypes.Gene))
         return self.feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
 
-    def _migrate_action(self, old_action):
-        new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_action)
-        new_instance.evidence = old_action.references
+    def _migrate_action(self, old_instance):
+        new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_instance)
+        new_instance.actionType = old_instance.evidenceType
+        new_instance.evidenceType = None
+        new_instance.evidence = old_instance.references
         return new_instance

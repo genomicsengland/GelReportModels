@@ -331,10 +331,10 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         present_evidences = [(typ, evidence) for typ, evidence in evidences if evidence]
         return [self._make_action_from(e, typ) for typ, evidence in present_evidences for e in evidence]
 
-    def _make_action_from(self, evidence, evidenceType):
+    def _make_action_from(self, evidence, evidence_type):
         action = self.new_model.Action()
-        action.actionType = {"Trial": "therapy", "Therapeutic": "therapeutic", "Prognostic": "prognosis"}[evidenceType]
-        action.evidenceType = evidenceType
+        action.evidenceType = "{} ({})".format(evidence_type, ", ".join(evidence.conditions))
+        action.actionType = None
         if hasattr(evidence, 'source'):
             action.source = evidence.source
         else:
@@ -346,7 +346,6 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if hasattr(evidence, 'referenceUrl'):
             action.url = evidence.referenceUrl
         action.variantActionable = evidence.variantActionable
-        action.evidenceType += ",".join([' ('] + evidence.conditions + [')'])
         return action
 
     def _migrate_additional_analysis_panel(self, old_panel):
