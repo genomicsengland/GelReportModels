@@ -9,6 +9,7 @@ from protocols.util import dependency_manager
 import dictdiffer
 import logging
 import random
+from itertools import chain
 
 
 class BaseTestRoundTrip(TestCaseMigration):
@@ -233,11 +234,10 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
-        from itertools import chain, imap
         expected_report_events = chain.from_iterable(
-            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ir.tieredVariants))
+            map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ir.tieredVariants))
         observed_report_events = chain.from_iterable(
-            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.tieredVariants))
+            map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.tieredVariants))
         self._diff_actions(chain(expected_report_events, observed_report_events))
 
     def test_migrate_cancer_interpretation_request_nulls(self):
@@ -263,11 +263,10 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         )
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
-        from itertools import chain, imap
         expected_report_events = chain.from_iterable(
-            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ig.reportedVariants))
+            map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ig.reportedVariants))
         observed_report_events = chain.from_iterable(
-            imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.reportedVariants))
+            map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.reportedVariants))
         self._diff_actions(chain(expected_report_events, observed_report_events))
 
     def test_migrate_cancer_interpreted_genome_nulls(self):
@@ -295,15 +294,14 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
         )
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
-        from itertools import chain, imap
         if original_cr.candidateVariants:
             expected_report_events = chain.from_iterable(
-                imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_cr.candidateVariants))
+                map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_cr.candidateVariants))
         else:
             expected_report_events = []
         if round_tripped.candidateVariants:
             observed_report_events = chain.from_iterable(
-                imap(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.candidateVariants))
+                map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.candidateVariants))
         else:
             observed_report_events = []
         self._diff_actions(chain(expected_report_events, observed_report_events))

@@ -48,7 +48,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         # missing fields not existing in reports_4_0_0.InterpretationRequestRD will be received as parameters
         new_instance.interpretationService = interpretation_service
         new_instance.referenceDatabasesVersions = reference_database_versions
-        if software_versions is None:
+        if not isinstance(software_versions, dict):
             software_versions = {}
         software_versions['tiering'] = old_instance.tieringVersion
         new_instance.softwareVersions = software_versions
@@ -164,7 +164,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = old_instance.reportVersion
         new_instance.interpretationService = interpretation_service
         new_instance.referenceDatabasesVersions = reference_database_versions
-        if software_versions is None:
+        if not isinstance(software_versions, dict):
             software_versions = {}
         software_versions['tiering'] = old_instance.tieringVersion
         new_instance.softwareVersions = software_versions
