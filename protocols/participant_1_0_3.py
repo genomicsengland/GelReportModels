@@ -215,23 +215,23 @@ false, "doc": "", "type": "boolean", "name": "programmeConsent"}, {"default": fa
 "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY", "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"],
 "type": "enum", "name": "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null",
 {"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}], "name": "product"}, {"doc": "",
-"type": ["null", "string"], "name": "morphologyICD"}, {"type": ["null", "string"], "name":
-"morphologySnomedCT"}, {"type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "",
-"type": ["null", "string"], "name": "topographyICD"}, {"type": ["null", "string"], "name":
-"topographySnomedCT"}, {"type": ["null", "string"], "name": "topographySnomedRT"}], "type":
-"record", "name": "TumourSample"}, "type": "array"}, "name": "tumourSamples"}, {"type": {"items":
-{"fields": [{"doc": "", "type": "string", "name": "sampleId"}, {"doc": "", "type": "int", "name":
-"labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"}, {"doc": "", "type": ["null",
-"SampleSource"], "name": "source"}, {"doc": "", "type": ["null", "Product"], "name": "product"},
-{"doc": "", "type": ["null", "PreparationMethod"], "name": "preparationMethod"}, {"doc": "", "type":
-["null", "ProgrammePhase"], "name": "programmePhase"}, {"doc": "", "type": ["null", "string"],
-"name": "clinicalSampleDateTime"}], "type": "record", "name": "GermlineSample"}, "type": "array"},
-"name": "germlineSamples"}, {"type": {"items": {"doc": "", "type": "record", "name":
-"MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"], "name": "germlineSampleId"},
-{"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]}, "type": "array"}, "name":
-"matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default": "1.0.3", "doc": "", "type":
-"string", "name": "GitVersionControl"}], "type": "record", "name": "VersionControl"}], "name":
-"versionControl"}], "doc": ""}
+"type": ["null", "string"], "name": "morphologyICD"}, {"doc": "", "type": ["null", "string"],
+"name": "morphologySnomedCT"}, {"doc": "", "type": ["null", "string"], "name":
+"morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name": "topographyICD"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "", "type": ["null", "string"],
+"name": "topographySnomedRT"}], "type": "record", "name": "TumourSample"}, "type": "array"}, "name":
+"tumourSamples"}, {"type": {"items": {"fields": [{"doc": "", "type": "string", "name": "sampleId"},
+{"doc": "", "type": "int", "name": "labSampleId"}, {"doc": "", "type": "string", "name": "LDPCode"},
+{"doc": "", "type": ["null", "SampleSource"], "name": "source"}, {"doc": "", "type": ["null",
+"Product"], "name": "product"}, {"doc": "", "type": ["null", "PreparationMethod"], "name":
+"preparationMethod"}, {"doc": "", "type": ["null", "ProgrammePhase"], "name": "programmePhase"},
+{"doc": "", "type": ["null", "string"], "name": "clinicalSampleDateTime"}], "type": "record",
+"name": "GermlineSample"}, "type": "array"}, "name": "germlineSamples"}, {"type": {"items": {"doc":
+"", "type": "record", "name": "MatchedSamples", "fields": [{"doc": "", "type": ["null", "string"],
+"name": "germlineSampleId"}, {"doc": "", "type": ["null", "string"], "name": "tumourSampleId"}]},
+"type": "array"}, "name": "matchedSamples"}, {"doc": "", "type": ["null", {"fields": [{"default":
+"1.0.3", "doc": "", "type": "string", "name": "GitVersionControl"}], "type": "record", "name":
+"VersionControl"}], "name": "versionControl"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1760,10 +1760,11 @@ class TumourSample(ProtocolElement):
 "SURGICAL_RESECTION", "STEREOTACTICALLY_GUIDED_BIOPSY", "USS_GUIDED_BIOPSY", "NON_STANDARD_BIOPSY"],
 "type": "enum", "name": "TissueSource"}], "name": "tissueSource"}, {"doc": "", "type": ["null",
 {"symbols": ["DNA", "RNA"], "type": "enum", "name": "Product"}], "name": "product"}, {"doc": "",
-"type": ["null", "string"], "name": "morphologyICD"}, {"type": ["null", "string"], "name":
-"morphologySnomedCT"}, {"type": ["null", "string"], "name": "morphologySnomedRT"}, {"doc": "",
-"type": ["null", "string"], "name": "topographyICD"}, {"type": ["null", "string"], "name":
-"topographySnomedCT"}, {"type": ["null", "string"], "name": "topographySnomedRT"}]}
+"type": ["null", "string"], "name": "morphologyICD"}, {"doc": "", "type": ["null", "string"],
+"name": "morphologySnomedCT"}, {"doc": "", "type": ["null", "string"], "name":
+"morphologySnomedRT"}, {"doc": "", "type": ["null", "string"], "name": "topographyICD"}, {"doc": "",
+"type": ["null", "string"], "name": "topographySnomedCT"}, {"doc": "", "type": ["null", "string"],
+"name": "topographySnomedRT"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {

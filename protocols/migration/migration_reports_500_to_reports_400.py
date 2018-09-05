@@ -147,29 +147,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
         )
 
-    def migrate_interpretation_request_rd_plus_interpreted_genome_rd(self, old_interpretation_request, old_interpreted_genome):
-        """
-        :type old_interpretation_request: reports_5_0_0.InterpretationRequestRD
-        :type old_interpreted_genome: reports_5_0_0.InterpretedGenomeRD
-        :rtype: reports_4_0_0.InterpretationRequestRD
-        """
-        new_instance = self.convert_class(target_klass=self.new_model.InterpretationRequestRD, instance=old_interpretation_request)
-        new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.genomeAssemblyVersion = old_interpretation_request.genomeAssembly
-        new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_pedigree=old_interpretation_request.pedigree)
-        new_instance.cellbaseVersion = ""
-        new_instance.interpretGenome = False
-        new_instance.tieredVariants = self.convert_collection(
-            old_interpreted_genome.variants, self._migrate_reported_variant)
-        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
-        new_instance.analysisReturnUri = ""
-        return self.validate_object(new_instance, self.new_model.CancerInterpretationRequest)
-
     def migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, old_interpretation_request, old_interpreted_genome):
         """
         :type old_interpretation_request: reports_5_0_0.CancerInterpretationRequest
         :type old_interpreted_genome: reports_5_0_0.CancerInterpretedGenome
-        :rtype: reports_5_0_0.CancerInterpretedGenome
+        :rtype: reports_4_0_0.CancerInterpretationRequest
         """
         new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretationRequest, instance=old_interpretation_request)
         new_instance.versionControl = self.new_model.ReportVersionControl()
@@ -200,7 +182,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
-        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD)
+        return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest)
 
     def migrate_cancer_clinical_report(self, old_instance):
         """

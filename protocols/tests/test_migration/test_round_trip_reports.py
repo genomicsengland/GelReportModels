@@ -1,4 +1,4 @@
-from protocols import reports_6_0_0, reports_5_0_0, reports_4_0_0, reports_3_0_0, reports_2_1_0, participant_1_0_0
+from protocols import reports_6_0_0, reports_4_0_0, reports_3_0_0, reports_2_1_0, participant_1_0_0
 from protocols.reports_5_0_0 import Assembly
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration import MigrateReports600To500, Migration21To3
@@ -308,34 +308,6 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
 
     def test_migrate_cancer_clinical_report_nulls(self):
         self.test_migrate_cancer_clinical_report(fill_nullables=False)
-
-    def test_migrate_cancer_exit_questionnaire(self, fill_nullables=True):
-        assembly = Assembly.GRCh38
-        original_eq = self.get_valid_object(
-            object_type=reports_5_0_0.CancerExitQuestionnaire, version=self.version_6_1,
-            fill_nullables=fill_nullables,
-            versionControl=reports_5_0_0.ReportVersionControl()
-        )
-        if original_eq.somaticVariantLevelQuestions:
-            for q in original_eq.somaticVariantLevelQuestions:
-                q.variantDetails = self._get_random_variant_details()
-        if original_eq.germlineVariantLevelQuestions:
-            for q in original_eq.germlineVariantLevelQuestions:
-                q.variantDetails = self._get_random_variant_details()
-        if original_eq.otherActionableVariants:
-            for q in original_eq.otherActionableVariants:
-                q.variantDetails = self._get_random_variant_details()
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_cancer_exit_questionnaire_to_latest,
-            MigrationHelpers.reverse_migrate_cancer_exit_questionnaire_to_v5,
-            original_eq, self.new_model.CancerExitQuestionnaire,
-            expect_equality=True,
-            ignore_fields=[],
-            forward_kwargs={'assembly': assembly}
-        )
-
-    def test_migrate_cancer_exit_questionnaire_nulls(self):
-        self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)
 
     class FileFactory300(FactoryAvro):
         class Meta:
