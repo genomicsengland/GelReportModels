@@ -59,7 +59,7 @@ class TestProcessSchema(TestCase):
     def test_generate_protocol(self):
         shutil.rmtree(self.test_import_package, ignore_errors=True)
         os.mkdir(self.test_import_package)
-        protocol_generator = ProtocolGenerator('builds.json', self.test_import_package, '7.0')
+        protocol_generator = ProtocolGenerator('builds.json', self.test_import_package, '6.1')
         protocol_generator.write()
 
         sys.path.insert(0, self.test_folder)

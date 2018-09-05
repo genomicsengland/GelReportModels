@@ -132,11 +132,11 @@ Duplication of the prior fields is not be supported.
         /**
         The identifier for the InterpretationRequest
         */
-        union {null, string} parentId;
+        union {null, string} caseId;
         /**
         The version for the InterpretationRequest
         */
-        union {null, int} parentVersion;
+        union {null, int} caseVersion;
         /**
         The group identifier, either a family identifier for RD or a participant id for cancer
         */
