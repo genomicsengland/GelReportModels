@@ -1,3 +1,11 @@
+Version 7.1.7 (5th Sept 2018)
+--------------------------------
+
+#### Major changes
+
+* More reverse migrations
+* Improvements to CVA data intake model
+
 Version 7.1.6 (24th August 2018)
 --------------------------------
 
