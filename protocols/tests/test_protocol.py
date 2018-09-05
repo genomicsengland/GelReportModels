@@ -1,9 +1,9 @@
 from unittest import TestCase
 
 from protocols import reports_3_0_0
-
-from protocols.util.factories.avro_factory import GenericFactoryAvro
+from protocols.reports_6_0_0 import ReportEvent
 from protocols.util.dependency_manager import VERSION_300
+from protocols.util.factories.avro_factory import GenericFactoryAvro
 
 
 class TestValidate(TestCase):
@@ -27,3 +27,7 @@ class TestValidate(TestCase):
         self.assertEqual(validation_result.messages[1], expected_message_1)
         expected_message_0 = 'Schema: ["int"] has type: [int] but received datum: [None]'
         self.assertEqual(validation_result.messages[0], expected_message_0)
+
+    def test_case_insensitive_migrations(self):
+        report_event = ReportEvent().migrateFromJsonDict({"DeNovoQualityScore": 5.0})
+        self.assertEqual(5.0, report_event.deNovoQualityScore)

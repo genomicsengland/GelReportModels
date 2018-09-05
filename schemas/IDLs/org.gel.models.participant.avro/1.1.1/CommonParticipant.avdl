@@ -175,5 +175,5 @@ protocol CommonParticipant {
          MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
          PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
          PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
-         RelationIsNotClear, Unknown}
+         RelationIsNotClear, Unrelated, Unknown}
 }
