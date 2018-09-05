@@ -553,7 +553,7 @@ class MigrateReports400To500(BaseMigration):
 
     def migrate_genomic_feature_cancer(self, old_instance):
         """
-        NOTE: fields that cannot be filled are "otherIds"
+        NOTE: fields that cannot be filled are "otherIds"protocols/opencb_1_3_0.py
         :type old_instance: reports_4_0_0.GenomicFeatureCancer
         :rtype reports_5_0_0.GenomicEntity
         :return:

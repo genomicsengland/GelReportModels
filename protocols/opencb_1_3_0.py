@@ -8,10 +8,11 @@ on the appropriate schema version.
 from protocols.protocol import ProtocolElement
 from protocols.protocol import SearchRequest
 from protocols.protocol import SearchResponse
+from protocols.protocol import avro_parse
 
 import avro.schema
 
-version = '1.3.0'
+version = '1.3.0-SNAPSHOT'
 
 
 class AdditionalAttribute(ProtocolElement):
@@ -23,7 +24,7 @@ class AdditionalAttribute(ProtocolElement):
 "AdditionalAttribute", "fields": [{"type": {"values": "string", "type": "map"}, "name":
 "attribute"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "attribute",
     }
@@ -59,6 +60,9 @@ class Aggregation(object):
     EVS = "EVS"
     EXAC = "EXAC"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AlleleOrigin(object):
     """
@@ -81,6 +85,9 @@ class AlleleOrigin(object):
     population_specific_variant = "population_specific_variant"
     somatic_variant = "somatic_variant"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class AllelesCode(object):
     """
@@ -90,6 +97,9 @@ class AllelesCode(object):
     ALLELES_MISSING = "ALLELES_MISSING"
     MULTIPLE_ALTERNATES = "MULTIPLE_ALTERNATES"
     HAPLOID = "HAPLOID"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class AlternateCoordinate(ProtocolElement):
@@ -105,7 +115,7 @@ class AlternateCoordinate(ProtocolElement):
 "DELETION", "TRANSLOCATION", "INVERSION", "CNV", "DUPLICATION", "BREAKEND", "NO_VARIATION",
 "SYMBOLIC", "MIXED"], "doc": "", "type": "enum", "name": "VariantType"}, "name": "type"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alternate",
         "chromosome",
@@ -154,7 +164,7 @@ class ChromosomeStats(ProtocolElement):
 "ChromosomeStats", "fields": [{"doc": "", "type": "int", "name": "count"}, {"doc": "", "type":
 "float", "name": "density"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "count",
         "density",
@@ -188,12 +198,12 @@ class ClinVar(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "ClinVar",
-"fields": [{"type": ["null", "string"], "name": "accession"}, {"type": ["null", "string"], "name":
-"clinicalSignificance"}, {"type": ["null", {"items": "string", "type": "array"}], "name": "traits"},
-{"type": ["null", {"items": "string", "type": "array"}], "name": "geneNames"}, {"type": ["null",
-"string"], "name": "reviewStatus"}]}
+"fields": [{"type": "string", "name": "accession"}, {"type": "string", "name":
+"clinicalSignificance"}, {"type": {"items": "string", "type": "array"}, "name": "traits"}, {"type":
+{"items": "string", "type": "array"}, "name": "geneNames"}, {"type": "string", "name":
+"reviewStatus"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "accession",
         "clinicalSignificance",
@@ -262,6 +272,9 @@ class ClinicalSignificance(object):
     pathogenic = "pathogenic"
     uncertain_significance = "uncertain_significance"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Cohort(ProtocolElement):
     """
@@ -274,7 +287,7 @@ class Cohort(ProtocolElement):
 "TIME_SERIES", "FAMILY", "TRIO", "MISCELLANEOUS", "UNKNOWN"], "type": "enum", "name":
 "SampleSetType"}, "name": "sampleSetType"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "sampleSetType",
@@ -319,6 +332,9 @@ class Confidence(object):
     high_confidence_level = "high_confidence_level"
     rejected = "rejected"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class ConsequenceType(ProtocolElement):
     """
@@ -350,7 +366,7 @@ null, "type": ["null", "string"], "name": "uniprotName"}, {"type": "int", "name"
 "accession"}, {"type": "string", "name": "name"}], "type": "record", "name":
 "SequenceOntologyTerm"}, "type": "array"}, "name": "sequenceOntologyTerms"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "biotype",
         "cdnaPosition",
@@ -440,6 +456,9 @@ class ConsistencyStatus(object):
     weakly_conflicting = "weakly_conflicting"
     strongly_conflicting = "strongly_conflicting"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Cosmic(ProtocolElement):
     """
@@ -447,14 +466,13 @@ class Cosmic(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "Cosmic",
-"fields": [{"type": ["null", "string"], "name": "mutationId"}, {"type": ["null", "string"], "name":
-"primarySite"}, {"type": ["null", "string"], "name": "siteSubtype"}, {"type": ["null", "string"],
-"name": "primaryHistology"}, {"type": ["null", "string"], "name": "histologySubtype"}, {"type":
-["null", "string"], "name": "sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
-{"type": ["null", "string"], "name": "geneName"}, {"type": ["null", "string"], "name":
-"mutationSomaticStatus"}]}
+"fields": [{"type": "string", "name": "mutationId"}, {"type": "string", "name": "primarySite"},
+{"type": "string", "name": "siteSubtype"}, {"type": "string", "name": "primaryHistology"}, {"type":
+"string", "name": "histologySubtype"}, {"type": "string", "name": "sampleSource"}, {"type":
+"string", "name": "tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type": "string",
+"name": "mutationSomaticStatus"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "geneName",
         "histologySubtype",
@@ -515,7 +533,7 @@ class Cytoband(ProtocolElement):
 "stain"}, {"type": ["null", "string"], "name": "name"}, {"type": ["null", "int"], "name": "start"},
 {"type": ["null", "int"], "name": "end"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chromosome",
         "end",
@@ -563,7 +581,7 @@ class Drug(ProtocolElement):
 "association"}, {"type": ["null", "string"], "name": "status"}, {"type": ["null", "string"], "name":
 "evidence"}, {"type": ["null", {"items": "string", "type": "array"}], "name": "bibliography"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "association",
         "bibliography",
@@ -633,6 +651,9 @@ class DrugResponseClassification(object):
     increased_monitoring = "increased_monitoring"
     efficacy = "efficacy"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class EthnicCategory(object):
     """
@@ -666,6 +687,9 @@ class EthnicCategory(object):
     R = "R"
     Z = "Z"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class EvidenceEntry(ProtocolElement):
     """
@@ -691,19 +715,19 @@ class EvidenceEntry(ProtocolElement):
 "paternal_variant", "pedigree_specific_variant", "population_specific_variant", "somatic_variant"],
 "doc": "", "type": "enum", "name": "AlleleOrigin"}, "type": "array"}], "name": "alleleOrigin"},
 {"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name": "HeritableTrait",
-"fields": [{"doc": "", "type": ["null", "string"], "name": "trait"}, {"doc": "", "type": ["null",
-{"symbols": ["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"fields": [{"doc": "", "type": "string", "name": "trait"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
 "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
-"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}], "name":
+"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
 "inheritanceMode"}]}, "type": "array"}, "name": "heritableTraits"}, {"default": [], "doc": "",
 "type": {"items": {"doc": "", "type": "record", "name": "GenomicFeature", "fields": [{"doc": "",
-"type": ["null", {"symbols": ["regulatory_region", "gene", "transcript", "protein"], "doc": "",
-"type": "enum", "name": "FeatureTypes"}], "name": "featureType"}, {"doc": "", "type": ["null",
-"string"], "name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}],
-"name": "xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "", "type": ["null",
-{"doc": "", "type": "record", "name": "VariantClassification", "fields": [{"doc": "", "type":
-["null", {"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic", "pathogenic",
+"type": {"symbols": ["regulatory_region", "gene", "transcript", "protein"], "doc": "", "type":
+"enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": ["null", "string"],
+"name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
+"xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "VariantClassification", "fields": [{"doc": "", "type": ["null",
+{"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic", "pathogenic",
 "uncertain_significance"], "doc": "", "type": "enum", "name": "ClinicalSignificance"}], "name":
 "clinicalSignificance"}, {"doc": "", "type": ["null", {"symbols": ["responsive", "resistant",
 "toxicity", "indication", "contraindication", "dosing", "increased_monitoring", "efficacy"], "doc":
@@ -733,7 +757,7 @@ class EvidenceEntry(ProtocolElement):
 "string"], "name": "value"}]}, "type": "array"}, "name": "additionalProperties"}, {"default": [],
 "doc": "", "type": {"items": "string", "type": "array"}, "name": "bibliography"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alleleOrigin",
         "assembly",
@@ -904,6 +928,9 @@ class EvidenceImpact(object):
     supporting = "supporting"
     stand_alone = "stand_alone"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class EvidenceSource(ProtocolElement):
     """
@@ -914,7 +941,7 @@ class EvidenceSource(ProtocolElement):
 "fields": [{"doc": "", "type": ["null", "string"], "name": "name"}, {"doc": "", "type": ["null",
 "string"], "name": "version"}, {"doc": "", "type": ["null", "string"], "name": "date"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "date",
         "name",
@@ -955,7 +982,7 @@ class EvidenceSubmission(ProtocolElement):
 {"doc": "", "type": ["null", "string"], "name": "date"}, {"doc": "", "type": ["null", "string"],
 "name": "id"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "date",
         "id",
@@ -995,7 +1022,7 @@ class ExonOverlap(ProtocolElement):
 "fields": [{"type": ["null", "string"], "name": "number"}, {"type": ["null", "float"], "name":
 "percentage"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "number",
         "percentage",
@@ -1036,7 +1063,7 @@ class Experiment(ProtocolElement):
 "name": "libraryLayout"}, {"default": null, "type": ["null", "string"], "name": "platform"},
 {"default": null, "type": ["null", "string"], "name": "description"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1087,7 +1114,7 @@ class Expression(ProtocolElement):
 "type": "enum", "name": "ExpressionCall"}], "name": "expression"}, {"type": ["null", "float"],
 "name": "pvalue"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "experimentId",
         "experimentalFactor",
@@ -1142,6 +1169,9 @@ class ExpressionCall(object):
     UP = "UP"
     DOWN = "DOWN"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class FeatureTypes(object):
     """
@@ -1151,6 +1181,9 @@ class FeatureTypes(object):
     gene = "gene"
     transcript = "transcript"
     protein = "protein"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class FileEntry(ProtocolElement):
@@ -1163,7 +1196,7 @@ class FileEntry(ProtocolElement):
 "string"], "name": "call"}, {"doc": "", "type": {"values": "string", "type": "map"}, "name":
 "attributes"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "attributes",
         "call",
@@ -1204,7 +1237,7 @@ class GeneDrugInteraction(ProtocolElement):
 ["null", "string"], "name": "drugName"}, {"type": ["null", "string"], "name": "source"}, {"type":
 ["null", "string"], "name": "studyType"}, {"type": ["null", "string"], "name": "type"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "drugName",
         "geneName",
@@ -1253,7 +1286,7 @@ class GeneTraitAssociation(ProtocolElement):
 "array"}], "name": "associationTypes"}, {"type": ["null", {"items": "string", "type": "array"}],
 "name": "sources"}, {"type": "string", "name": "source"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "associationTypes",
         "hpo",
@@ -1306,12 +1339,12 @@ class GenomicFeature(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "GenomicFeature",
-"fields": [{"doc": "", "type": ["null", {"symbols": ["regulatory_region", "gene", "transcript",
-"protein"], "doc": "", "type": "enum", "name": "FeatureTypes"}], "name": "featureType"}, {"doc": "",
-"type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "xrefs"}], "doc": ""}
+"fields": [{"doc": "", "type": {"symbols": ["regulatory_region", "gene", "transcript", "protein"],
+"doc": "", "type": "enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type":
+["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string", "type":
+"map"}], "name": "xrefs"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ensemblId",
         "featureType",
@@ -1352,7 +1385,7 @@ class Genotype(ProtocolElement):
 {"default": [], "type": {"items": "int", "type": "array"}, "name": "allelesIdx"}, {"type":
 "boolean", "name": "phased"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alternate",
         "phased",
@@ -1391,11 +1424,11 @@ class Gwas(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "Gwas", "fields":
-[{"type": ["null", "string"], "name": "snpIdCurrent"}, {"type": ["null", {"items": "string", "type":
-"array"}], "name": "traits"}, {"type": ["null", "double"], "name": "riskAlleleFrequency"}, {"type":
-["null", "string"], "name": "reportedGenes"}]}
+[{"type": "string", "name": "snpIdCurrent"}, {"type": {"items": "string", "type": "array"}, "name":
+"traits"}, {"type": "double", "name": "riskAlleleFrequency"}, {"type": "string", "name":
+"reportedGenes"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "reportedGenes",
         "riskAlleleFrequency",
@@ -1436,14 +1469,14 @@ class HeritableTrait(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "HeritableTrait",
-"fields": [{"doc": "", "type": ["null", "string"], "name": "trait"}, {"doc": "", "type": ["null",
-{"symbols": ["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"fields": [{"doc": "", "type": "string", "name": "trait"}, {"doc": "", "type": {"symbols":
+["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
 "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
-"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}], "name":
+"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
 "inheritanceMode"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "inheritanceMode",
         "trait",
@@ -1485,7 +1518,7 @@ class Individual(ProtocolElement):
 {"default": {}, "doc": "", "type": {"values": "string", "type": "map"}, "name": "annotations"}],
 "type": "record", "name": "Sample"}, "type": "array"}, "name": "samples"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -1563,6 +1596,9 @@ class ModeOfInheritance(object):
     unknown = "unknown"
     NA = "NA"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Penetrance(object):
     """
@@ -1570,6 +1606,9 @@ class Penetrance(object):
     """
     complete = "complete"
     incomplete = "incomplete"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class PopulationFrequency(ProtocolElement):
@@ -1584,7 +1623,7 @@ class PopulationFrequency(ProtocolElement):
 ["null", "float"], "name": "refHomGenotypeFreq"}, {"type": ["null", "float"], "name":
 "hetGenotypeFreq"}, {"type": ["null", "float"], "name": "altHomGenotypeFreq"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "altAllele",
         "altAlleleFreq",
@@ -1646,7 +1685,7 @@ class Program(ProtocolElement):
 {"default": null, "type": ["null", "string"], "name": "url"}, {"default": null, "type": ["null",
 "string"], "name": "commit"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -1688,7 +1727,7 @@ class Property(ProtocolElement):
 "fields": [{"doc": "", "type": ["null", "string"], "name": "id"}, {"doc": "", "type": ["null",
 "string"], "name": "name"}, {"doc": "", "type": ["null", "string"], "name": "value"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "name",
@@ -1729,7 +1768,7 @@ class ProteinFeature(ProtocolElement):
 "int", "name": "end"}, {"type": ["null", "string"], "name": "type"}, {"type": ["null", "string"],
 "name": "description"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "description",
         "end",
@@ -1785,7 +1824,7 @@ class ProteinVariantAnnotation(ProtocolElement):
 {"type": ["null", "string"], "name": "description"}], "type": "record", "name": "ProteinFeature"},
 "type": "array"}], "name": "features"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alternate",
         "features",
@@ -1852,7 +1891,7 @@ class Read(ProtocolElement):
 [{"doc": "", "type": "string", "name": "id"}, {"doc": "", "type": "string", "name": "sequence"},
 {"doc": "", "type": "string", "name": "quality"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "quality",
@@ -1896,7 +1935,7 @@ class Repeat(ProtocolElement):
 "percentageMatch"}, {"type": ["null", "float"], "name": "score"}, {"type": ["null", "string"],
 "name": "sequence"}, {"type": ["null", "string"], "name": "source"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chromosome",
         "consensusSize",
@@ -1962,7 +2001,7 @@ class Sample(ProtocolElement):
 [{"doc": "", "type": "string", "name": "id"}, {"default": {}, "doc": "", "type": {"values":
 "string", "type": "map"}, "name": "annotations"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -2003,6 +2042,9 @@ class SampleSetType(object):
     MISCELLANEOUS = "MISCELLANEOUS"
     UNKNOWN = "UNKNOWN"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class Score(ProtocolElement):
     """
@@ -2013,7 +2055,7 @@ class Score(ProtocolElement):
 [{"type": "double", "name": "score"}, {"type": "string", "name": "source"}, {"type": ["null",
 "string"], "name": "description"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "description",
         "score",
@@ -2053,7 +2095,7 @@ class SequenceOntologyTerm(ProtocolElement):
 "SequenceOntologyTerm", "fields": [{"type": "string", "name": "accession"}, {"type": "string",
 "name": "name"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "accession",
         "name",
@@ -2093,7 +2135,7 @@ class SomaticInformation(ProtocolElement):
 "histologySubtype"}, {"doc": "", "type": ["null", "string"], "name": "tumourOrigin"}, {"doc": "",
 "type": ["null", "string"], "name": "sampleSource"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "histologySubtype",
         "primaryHistology",
@@ -2145,7 +2187,7 @@ class Species(ProtocolElement):
 "taxonomyId"}, {"default": null, "type": ["null", "string"], "name": "strain"}, {"default": null,
 "type": ["null", "string"], "name": "assembly"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -2188,6 +2230,9 @@ class StructuralVariantType(object):
     COPY_NUMBER_LOSS = "COPY_NUMBER_LOSS"
     TANDEM_DUPLICATION = "TANDEM_DUPLICATION"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class StructuralVariation(ProtocolElement):
     """
@@ -2203,7 +2248,7 @@ class StructuralVariation(ProtocolElement):
 "COPY_NUMBER_LOSS", "TANDEM_DUPLICATION"], "doc": "", "type": "enum", "name":
 "StructuralVariantType"}], "name": "type"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "ciEndLeft",
         "ciEndRight",
@@ -2294,7 +2339,7 @@ class StudyEntry(ProtocolElement):
 "name": "VariantHardyWeinbergStats"}], "name": "hw"}], "type": "record", "name": "VariantStats"},
 "type": "map"}, "name": "stats"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "format",
         "samplesData",
@@ -2341,6 +2386,42 @@ class StudyEntry(ProtocolElement):
             'studyId', None)
 
 
+class Submission(ProtocolElement):
+    """
+    No documentation
+    """
+    _schemaSource = """
+{"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "Submission",
+"fields": [{"type": "string", "name": "submitter"}, {"type": ["null", "string"], "name": "date"}]}
+"""
+    schema = avro_parse(_schemaSource)
+    requiredFields = {
+        "date",
+        "submitter",
+    }
+
+    @classmethod
+    def isEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+        return fieldName in embeddedTypes
+
+    @classmethod
+    def getEmbeddedType(cls, fieldName):
+        embeddedTypes = {}
+
+        return embeddedTypes[fieldName]
+
+    __slots__ = [
+        'date', 'submitter'
+    ]
+
+    def __init__(self, **kwargs):
+        self.date = kwargs.get(
+            'date', None)
+        self.submitter = kwargs.get(
+            'submitter', None)
+
+
 class TraitAssociation(object):
     """
     Association of variants to a given trait. *
@@ -2355,6 +2436,9 @@ class TraitAssociation(object):
     uncertain_risk_allele = "uncertain_risk_allele"
     protective = "protective"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class TumorigenesisClassification(object):
     """
@@ -2365,6 +2449,9 @@ class TumorigenesisClassification(object):
     driver = "driver"
     passenger = "passenger"
     modifier = "modifier"
+
+    def __hash__(self):
+        return str(self).__hash__()
 
 
 class VariantAnnotation(ProtocolElement):
@@ -2429,21 +2516,19 @@ null, "type": ["null", "string"], "name": "uniprotName"}, {"type": "int", "name"
 ["null", "string"], "name": "drugName"}, {"type": ["null", "string"], "name": "source"}, {"type":
 ["null", "string"], "name": "studyType"}, {"type": ["null", "string"], "name": "type"}], "type":
 "record", "name": "GeneDrugInteraction"}, "type": "array"}], "name": "geneDrugInteraction"},
-{"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type": ["null", "string"],
-"name": "accession"}, {"type": ["null", "string"], "name": "clinicalSignificance"}, {"type":
-["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null", {"items":
-"string", "type": "array"}], "name": "geneNames"}, {"type": ["null", "string"], "name":
-"reviewStatus"}], "type": "record", "name": "ClinVar"}, "type": "array"}], "name": "clinvar"},
-{"type": ["null", {"items": {"fields": [{"type": ["null", "string"], "name": "snpIdCurrent"},
-{"type": ["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null",
-"double"], "name": "riskAlleleFrequency"}, {"type": ["null", "string"], "name": "reportedGenes"}],
-"type": "record", "name": "Gwas"}, "type": "array"}], "name": "gwas"}, {"type": ["null", {"items":
-{"fields": [{"type": ["null", "string"], "name": "mutationId"}, {"type": ["null", "string"], "name":
-"primarySite"}, {"type": ["null", "string"], "name": "siteSubtype"}, {"type": ["null", "string"],
-"name": "primaryHistology"}, {"type": ["null", "string"], "name": "histologySubtype"}, {"type":
-["null", "string"], "name": "sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
-{"type": ["null", "string"], "name": "geneName"}, {"type": ["null", "string"], "name":
-"mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+{"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"}, {"type": {"items": "string",
+"type": "array"}, "name": "traits"}, {"type": {"items": "string", "type": "array"}, "name":
+"geneNames"}, {"type": "string", "name": "reviewStatus"}], "type": "record", "name": "ClinVar"},
+"type": "array"}], "name": "clinvar"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "snpIdCurrent"}, {"type": {"items": "string", "type": "array"}, "name": "traits"}, {"type":
+"double", "name": "riskAlleleFrequency"}, {"type": "string", "name": "reportedGenes"}], "type":
+"record", "name": "Gwas"}, "type": "array"}], "name": "gwas"}, {"type": ["null", {"items":
+{"fields": [{"type": "string", "name": "mutationId"}, {"type": "string", "name": "primarySite"},
+{"type": "string", "name": "siteSubtype"}, {"type": "string", "name": "primaryHistology"}, {"type":
+"string", "name": "histologySubtype"}, {"type": "string", "name": "sampleSource"}, {"type":
+"string", "name": "tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type": "string",
+"name": "mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
 "cosmic"}], "type": "record", "name": "VariantTraitAssociation"}], "name":
 "variantTraitAssociation"}, {"type": ["null", {"items": {"doc": "", "type": "record", "name":
 "EvidenceEntry", "fields": [{"doc": "", "type": {"doc": "", "type": "record", "name":
@@ -2464,31 +2549,31 @@ null, "type": ["null", "string"], "name": "uniprotName"}, {"type": "int", "name"
 "maternal_variant", "paternal_variant", "pedigree_specific_variant", "population_specific_variant",
 "somatic_variant"], "doc": "", "type": "enum", "name": "AlleleOrigin"}, "type": "array"}], "name":
 "alleleOrigin"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"HeritableTrait", "fields": [{"doc": "", "type": ["null", "string"], "name": "trait"}, {"doc": "",
-"type": ["null", {"symbols": ["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
-"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
-"xlinked_monoallelic", "mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name":
-"ModeOfInheritance"}], "name": "inheritanceMode"}]}, "type": "array"}, "name": "heritableTraits"},
-{"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name": "GenomicFeature",
-"fields": [{"doc": "", "type": ["null", {"symbols": ["regulatory_region", "gene", "transcript",
-"protein"], "doc": "", "type": "enum", "name": "FeatureTypes"}], "name": "featureType"}, {"doc": "",
-"type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "",
-"type": ["null", {"doc": "", "type": "record", "name": "VariantClassification", "fields": [{"doc":
-"", "type": ["null", {"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic",
-"pathogenic", "uncertain_significance"], "doc": "", "type": "enum", "name":
-"ClinicalSignificance"}], "name": "clinicalSignificance"}, {"doc": "", "type": ["null", {"symbols":
-["responsive", "resistant", "toxicity", "indication", "contraindication", "dosing",
-"increased_monitoring", "efficacy"], "doc": "", "type": "enum", "name":
-"DrugResponseClassification"}], "name": "drugResponseClassification"}, {"doc": "", "type": ["null",
-{"symbols": ["established_risk_allele", "likely_risk_allele", "uncertain_risk_allele",
-"protective"], "doc": "", "type": "enum", "name": "TraitAssociation"}], "name": "traitAssociation"},
-{"doc": "", "type": ["null", {"symbols": ["driver", "passenger", "modifier"], "doc": "", "type":
-"enum", "name": "TumorigenesisClassification"}], "name": "tumorigenesisClassification"}, {"doc": "",
-"type": ["null", {"symbols": ["dominant_negative_variant", "gain_of_function_variant",
-"lethal_variant", "loss_of_function_variant", "loss_of_heterozygosity", "null_variant"], "doc": "",
-"type": "enum", "name": "VariantFunctionalEffect"}], "name": "functionalEffect"}]}], "name":
+"HeritableTrait", "fields": [{"doc": "", "type": "string", "name": "trait"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
+"monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
+"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
+"inheritanceMode"}]}, "type": "array"}, "name": "heritableTraits"}, {"default": [], "doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "GenomicFeature", "fields": [{"doc": "",
+"type": {"symbols": ["regulatory_region", "gene", "transcript", "protein"], "doc": "", "type":
+"enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": ["null", "string"],
+"name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
+"xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "VariantClassification", "fields": [{"doc": "", "type": ["null",
+{"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic", "pathogenic",
+"uncertain_significance"], "doc": "", "type": "enum", "name": "ClinicalSignificance"}], "name":
+"clinicalSignificance"}, {"doc": "", "type": ["null", {"symbols": ["responsive", "resistant",
+"toxicity", "indication", "contraindication", "dosing", "increased_monitoring", "efficacy"], "doc":
+"", "type": "enum", "name": "DrugResponseClassification"}], "name": "drugResponseClassification"},
+{"doc": "", "type": ["null", {"symbols": ["established_risk_allele", "likely_risk_allele",
+"uncertain_risk_allele", "protective"], "doc": "", "type": "enum", "name": "TraitAssociation"}],
+"name": "traitAssociation"}, {"doc": "", "type": ["null", {"symbols": ["driver", "passenger",
+"modifier"], "doc": "", "type": "enum", "name": "TumorigenesisClassification"}], "name":
+"tumorigenesisClassification"}, {"doc": "", "type": ["null", {"symbols":
+["dominant_negative_variant", "gain_of_function_variant", "lethal_variant",
+"loss_of_function_variant", "loss_of_heterozygosity", "null_variant"], "doc": "", "type": "enum",
+"name": "VariantFunctionalEffect"}], "name": "functionalEffect"}]}], "name":
 "variantClassification"}, {"doc": "", "type": ["null", {"symbols": ["very_strong", "strong",
 "moderate", "supporting", "stand_alone"], "doc": "", "type": "enum", "name": "EvidenceImpact"}],
 "name": "impact"}, {"doc": "", "type": ["null", {"symbols": ["low_confidence_level",
@@ -2526,7 +2611,7 @@ null, "type": ["null", "string"], "name": "uniprotName"}, {"type": "int", "name"
 "map"}, "name": "attribute"}], "type": "record", "name": "AdditionalAttribute"}, "type": "map"}],
 "name": "additionalAttributes"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alternate",
         "ancestralAllele",
@@ -2771,21 +2856,19 @@ class VariantAvro(ProtocolElement):
 ["null", "string"], "name": "drugName"}, {"type": ["null", "string"], "name": "source"}, {"type":
 ["null", "string"], "name": "studyType"}, {"type": ["null", "string"], "name": "type"}], "type":
 "record", "name": "GeneDrugInteraction"}, "type": "array"}], "name": "geneDrugInteraction"},
-{"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type": ["null", "string"],
-"name": "accession"}, {"type": ["null", "string"], "name": "clinicalSignificance"}, {"type":
-["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null", {"items":
-"string", "type": "array"}], "name": "geneNames"}, {"type": ["null", "string"], "name":
-"reviewStatus"}], "type": "record", "name": "ClinVar"}, "type": "array"}], "name": "clinvar"},
-{"type": ["null", {"items": {"fields": [{"type": ["null", "string"], "name": "snpIdCurrent"},
-{"type": ["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null",
-"double"], "name": "riskAlleleFrequency"}, {"type": ["null", "string"], "name": "reportedGenes"}],
-"type": "record", "name": "Gwas"}, "type": "array"}], "name": "gwas"}, {"type": ["null", {"items":
-{"fields": [{"type": ["null", "string"], "name": "mutationId"}, {"type": ["null", "string"], "name":
-"primarySite"}, {"type": ["null", "string"], "name": "siteSubtype"}, {"type": ["null", "string"],
-"name": "primaryHistology"}, {"type": ["null", "string"], "name": "histologySubtype"}, {"type":
-["null", "string"], "name": "sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
-{"type": ["null", "string"], "name": "geneName"}, {"type": ["null", "string"], "name":
-"mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+{"type": ["null", {"fields": [{"type": ["null", {"items": {"fields": [{"type": "string", "name":
+"accession"}, {"type": "string", "name": "clinicalSignificance"}, {"type": {"items": "string",
+"type": "array"}, "name": "traits"}, {"type": {"items": "string", "type": "array"}, "name":
+"geneNames"}, {"type": "string", "name": "reviewStatus"}], "type": "record", "name": "ClinVar"},
+"type": "array"}], "name": "clinvar"}, {"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "snpIdCurrent"}, {"type": {"items": "string", "type": "array"}, "name": "traits"}, {"type":
+"double", "name": "riskAlleleFrequency"}, {"type": "string", "name": "reportedGenes"}], "type":
+"record", "name": "Gwas"}, "type": "array"}], "name": "gwas"}, {"type": ["null", {"items":
+{"fields": [{"type": "string", "name": "mutationId"}, {"type": "string", "name": "primarySite"},
+{"type": "string", "name": "siteSubtype"}, {"type": "string", "name": "primaryHistology"}, {"type":
+"string", "name": "histologySubtype"}, {"type": "string", "name": "sampleSource"}, {"type":
+"string", "name": "tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type": "string",
+"name": "mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
 "cosmic"}], "type": "record", "name": "VariantTraitAssociation"}], "name":
 "variantTraitAssociation"}, {"type": ["null", {"items": {"doc": "", "type": "record", "name":
 "EvidenceEntry", "fields": [{"doc": "", "type": {"doc": "", "type": "record", "name":
@@ -2806,31 +2889,31 @@ class VariantAvro(ProtocolElement):
 "maternal_variant", "paternal_variant", "pedigree_specific_variant", "population_specific_variant",
 "somatic_variant"], "doc": "", "type": "enum", "name": "AlleleOrigin"}, "type": "array"}], "name":
 "alleleOrigin"}, {"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name":
-"HeritableTrait", "fields": [{"doc": "", "type": ["null", "string"], "name": "trait"}, {"doc": "",
-"type": ["null", {"symbols": ["monoallelic", "monoallelic_not_imprinted",
-"monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted", "biallelic",
-"monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic", "xlinked_biallelic",
-"xlinked_monoallelic", "mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name":
-"ModeOfInheritance"}], "name": "inheritanceMode"}]}, "type": "array"}, "name": "heritableTraits"},
-{"default": [], "doc": "", "type": {"items": {"doc": "", "type": "record", "name": "GenomicFeature",
-"fields": [{"doc": "", "type": ["null", {"symbols": ["regulatory_region", "gene", "transcript",
-"protein"], "doc": "", "type": "enum", "name": "FeatureTypes"}], "name": "featureType"}, {"doc": "",
-"type": ["null", "string"], "name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string",
-"type": "map"}], "name": "xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "",
-"type": ["null", {"doc": "", "type": "record", "name": "VariantClassification", "fields": [{"doc":
-"", "type": ["null", {"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic",
-"pathogenic", "uncertain_significance"], "doc": "", "type": "enum", "name":
-"ClinicalSignificance"}], "name": "clinicalSignificance"}, {"doc": "", "type": ["null", {"symbols":
-["responsive", "resistant", "toxicity", "indication", "contraindication", "dosing",
-"increased_monitoring", "efficacy"], "doc": "", "type": "enum", "name":
-"DrugResponseClassification"}], "name": "drugResponseClassification"}, {"doc": "", "type": ["null",
-{"symbols": ["established_risk_allele", "likely_risk_allele", "uncertain_risk_allele",
-"protective"], "doc": "", "type": "enum", "name": "TraitAssociation"}], "name": "traitAssociation"},
-{"doc": "", "type": ["null", {"symbols": ["driver", "passenger", "modifier"], "doc": "", "type":
-"enum", "name": "TumorigenesisClassification"}], "name": "tumorigenesisClassification"}, {"doc": "",
-"type": ["null", {"symbols": ["dominant_negative_variant", "gain_of_function_variant",
-"lethal_variant", "loss_of_function_variant", "loss_of_heterozygosity", "null_variant"], "doc": "",
-"type": "enum", "name": "VariantFunctionalEffect"}], "name": "functionalEffect"}]}], "name":
+"HeritableTrait", "fields": [{"doc": "", "type": "string", "name": "trait"}, {"doc": "", "type":
+{"symbols": ["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
+"monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
+"mitochondrial", "unknown", "NA"], "doc": "", "type": "enum", "name": "ModeOfInheritance"}, "name":
+"inheritanceMode"}]}, "type": "array"}, "name": "heritableTraits"}, {"default": [], "doc": "",
+"type": {"items": {"doc": "", "type": "record", "name": "GenomicFeature", "fields": [{"doc": "",
+"type": {"symbols": ["regulatory_region", "gene", "transcript", "protein"], "doc": "", "type":
+"enum", "name": "FeatureTypes"}, "name": "featureType"}, {"doc": "", "type": ["null", "string"],
+"name": "ensemblId"}, {"doc": "", "type": ["null", {"values": "string", "type": "map"}], "name":
+"xrefs"}]}, "type": "array"}, "name": "genomicFeatures"}, {"doc": "", "type": ["null", {"doc": "",
+"type": "record", "name": "VariantClassification", "fields": [{"doc": "", "type": ["null",
+{"symbols": ["benign", "likely_benign", "VUS", "likely_pathogenic", "pathogenic",
+"uncertain_significance"], "doc": "", "type": "enum", "name": "ClinicalSignificance"}], "name":
+"clinicalSignificance"}, {"doc": "", "type": ["null", {"symbols": ["responsive", "resistant",
+"toxicity", "indication", "contraindication", "dosing", "increased_monitoring", "efficacy"], "doc":
+"", "type": "enum", "name": "DrugResponseClassification"}], "name": "drugResponseClassification"},
+{"doc": "", "type": ["null", {"symbols": ["established_risk_allele", "likely_risk_allele",
+"uncertain_risk_allele", "protective"], "doc": "", "type": "enum", "name": "TraitAssociation"}],
+"name": "traitAssociation"}, {"doc": "", "type": ["null", {"symbols": ["driver", "passenger",
+"modifier"], "doc": "", "type": "enum", "name": "TumorigenesisClassification"}], "name":
+"tumorigenesisClassification"}, {"doc": "", "type": ["null", {"symbols":
+["dominant_negative_variant", "gain_of_function_variant", "lethal_variant",
+"loss_of_function_variant", "loss_of_heterozygosity", "null_variant"], "doc": "", "type": "enum",
+"name": "VariantFunctionalEffect"}], "name": "functionalEffect"}]}], "name":
 "variantClassification"}, {"doc": "", "type": ["null", {"symbols": ["very_strong", "strong",
 "moderate", "supporting", "stand_alone"], "doc": "", "type": "enum", "name": "EvidenceImpact"}],
 "name": "impact"}, {"doc": "", "type": ["null", {"symbols": ["low_confidence_level",
@@ -2869,7 +2952,7 @@ class VariantAvro(ProtocolElement):
 "name": "additionalAttributes"}], "type": "record", "name": "VariantAnnotation"}], "name":
 "annotation"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "alternate",
         "chromosome",
@@ -2958,7 +3041,7 @@ class VariantClassification(ProtocolElement):
 "lethal_variant", "loss_of_function_variant", "loss_of_heterozygosity", "null_variant"], "doc": "",
 "type": "enum", "name": "VariantFunctionalEffect"}], "name": "functionalEffect"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "clinicalSignificance",
         "drugResponseClassification",
@@ -3017,7 +3100,7 @@ class VariantFileHeader(ProtocolElement):
 "string", "name": "value"}], "type": "record", "name": "VariantFileHeaderSimpleLine"}, "type":
 "array"}, "name": "simpleLines"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "version",
     }
@@ -3064,7 +3147,7 @@ class VariantFileHeaderComplexLine(ProtocolElement):
 {"default": null, "doc": "", "type": ["null", "string"], "name": "type"}, {"default": {}, "doc": "",
 "type": {"values": "string", "type": "map"}, "name": "genericFields"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "key",
@@ -3109,7 +3192,7 @@ class VariantFileHeaderSimpleLine(ProtocolElement):
 "VariantFileHeaderSimpleLine", "fields": [{"doc": "", "type": "string", "name": "key"}, {"doc": "",
 "type": "string", "name": "value"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "key",
         "value",
@@ -3172,7 +3255,7 @@ class VariantFileMetadata(ProtocolElement):
 "array"}, "name": "simpleLines"}]}], "name": "header"}, {"default": {}, "doc": "", "type":
 {"values": "string", "type": "map"}, "name": "attributes"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
     }
@@ -3234,6 +3317,9 @@ class VariantFunctionalEffect(object):
     loss_of_heterozygosity = "loss_of_heterozygosity"
     null_variant = "null_variant"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class VariantGlobalStats(ProtocolElement):
     """
@@ -3248,7 +3334,7 @@ class VariantGlobalStats(ProtocolElement):
 "map"}, "name": "chromosomeCounts"}, {"type": {"values": "int", "type": "map"}, "name":
 "consequenceTypesCount"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chromosomeCounts",
         "consequenceTypesCount",
@@ -3312,7 +3398,7 @@ class VariantHardyWeinbergStats(ProtocolElement):
 "name": "e_Aa_10"}, {"type": ["null", "float"], "name": "e_aa_00"}, {"type": ["null", "float"],
 "name": "p"}, {"type": ["null", "float"], "name": "q"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "chi2",
         "e_AA_11",
@@ -3438,7 +3524,7 @@ null, "type": ["null", "string"], "name": "taxonomyId"}, {"default": null, "type
 "attributes"}], "type": "record", "name": "VariantStudyMetadata"}, "type": "array"}, "name":
 "studies"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -3496,7 +3582,7 @@ class VariantSetStats(ProtocolElement):
 "float", "name": "density"}], "type": "record", "name": "ChromosomeStats"}, "type": "map"}, "name":
 "chromosomeStats"}], "doc": ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "meanQuality",
         "numPass",
@@ -3576,7 +3662,7 @@ class VariantSource(ProtocolElement):
 "record", "name": "VcfHeader"}], "type": "map"}, "name": "metadata"}, {"type": ["null",
 "VcfHeader"], "name": "header"}, {"type": "null", "name": "pedigree"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "aggregation",
         "fileId",
@@ -3663,7 +3749,7 @@ class VariantStats(ProtocolElement):
 "name": "e_aa_00"}, {"type": ["null", "float"], "name": "p"}, {"type": ["null", "float"], "name":
 "q"}], "type": "record", "name": "VariantHardyWeinbergStats"}], "name": "hw"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "altAllele",
         "altAlleleCount",
@@ -3825,7 +3911,7 @@ null, "doc": "", "type": ["null", {"fields": [{"default": {}, "type": {"values":
 "stats"}, {"default": {}, "doc": "", "type": {"values": "string", "type": "map"}, "name":
 "attributes"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "sampleSetType",
@@ -3905,7 +3991,7 @@ class VariantStudyStats(ProtocolElement):
 "chromosomeStats"}]}, "type": "map"}, "name": "sampleStats"}, {"default": {}, "type": {"values":
 "VariantSetStats", "type": "map"}, "name": "cohortStats"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {}
 
     @classmethod
@@ -3942,24 +4028,22 @@ class VariantTraitAssociation(ProtocolElement):
     """
     _schemaSource = """
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name":
-"VariantTraitAssociation", "fields": [{"type": ["null", {"items": {"fields": [{"type": ["null",
-"string"], "name": "accession"}, {"type": ["null", "string"], "name": "clinicalSignificance"},
-{"type": ["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null",
-{"items": "string", "type": "array"}], "name": "geneNames"}, {"type": ["null", "string"], "name":
-"reviewStatus"}], "type": "record", "name": "ClinVar"}, "type": "array"}], "name": "clinvar"},
-{"type": ["null", {"items": {"fields": [{"type": ["null", "string"], "name": "snpIdCurrent"},
-{"type": ["null", {"items": "string", "type": "array"}], "name": "traits"}, {"type": ["null",
-"double"], "name": "riskAlleleFrequency"}, {"type": ["null", "string"], "name": "reportedGenes"}],
+"VariantTraitAssociation", "fields": [{"type": ["null", {"items": {"fields": [{"type": "string",
+"name": "accession"}, {"type": "string", "name": "clinicalSignificance"}, {"type": {"items":
+"string", "type": "array"}, "name": "traits"}, {"type": {"items": "string", "type": "array"},
+"name": "geneNames"}, {"type": "string", "name": "reviewStatus"}], "type": "record", "name":
+"ClinVar"}, "type": "array"}], "name": "clinvar"}, {"type": ["null", {"items": {"fields": [{"type":
+"string", "name": "snpIdCurrent"}, {"type": {"items": "string", "type": "array"}, "name": "traits"},
+{"type": "double", "name": "riskAlleleFrequency"}, {"type": "string", "name": "reportedGenes"}],
 "type": "record", "name": "Gwas"}, "type": "array"}], "name": "gwas"}, {"type": ["null", {"items":
-{"fields": [{"type": ["null", "string"], "name": "mutationId"}, {"type": ["null", "string"], "name":
-"primarySite"}, {"type": ["null", "string"], "name": "siteSubtype"}, {"type": ["null", "string"],
-"name": "primaryHistology"}, {"type": ["null", "string"], "name": "histologySubtype"}, {"type":
-["null", "string"], "name": "sampleSource"}, {"type": ["null", "string"], "name": "tumourOrigin"},
-{"type": ["null", "string"], "name": "geneName"}, {"type": ["null", "string"], "name":
-"mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
+{"fields": [{"type": "string", "name": "mutationId"}, {"type": "string", "name": "primarySite"},
+{"type": "string", "name": "siteSubtype"}, {"type": "string", "name": "primaryHistology"}, {"type":
+"string", "name": "histologySubtype"}, {"type": "string", "name": "sampleSource"}, {"type":
+"string", "name": "tumourOrigin"}, {"type": "string", "name": "geneName"}, {"type": "string",
+"name": "mutationSomaticStatus"}], "type": "record", "name": "Cosmic"}, "type": "array"}], "name":
 "cosmic"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "clinvar",
         "cosmic",
@@ -4026,6 +4110,9 @@ class VariantType(object):
     SYMBOLIC = "SYMBOLIC"
     MIXED = "MIXED"
 
+    def __hash__(self):
+        return str(self).__hash__()
+
 
 class VariantsByFrequency(ProtocolElement):
     """
@@ -4037,7 +4124,7 @@ class VariantsByFrequency(ProtocolElement):
 "", "type": "float", "name": "endFrequency"}, {"doc": "", "type": "int", "name": "count"}], "doc":
 ""}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "count",
         "endFrequency",
@@ -4077,7 +4164,7 @@ class VcfHeader(ProtocolElement):
 "VcfHeader", "fields": [{"type": "string", "name": "fileFormat"}, {"type": {"values": {"items":
 ["string", {"values": "string", "type": "map"}], "type": "array"}, "type": "map"}, "name": "meta"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "fileFormat",
         "meta",
@@ -4113,7 +4200,7 @@ class Xref(ProtocolElement):
 {"namespace": "org.opencb.biodata.models.variant.avro", "type": "record", "name": "Xref", "fields":
 [{"type": ["null", "string"], "name": "id"}, {"type": ["null", "string"], "name": "source"}]}
 """
-    schema = avro.schema.parse(_schemaSource)
+    schema = avro_parse(_schemaSource)
     requiredFields = {
         "id",
         "source",
