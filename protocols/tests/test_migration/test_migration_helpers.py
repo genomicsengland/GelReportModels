@@ -145,6 +145,10 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance.pedigree = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.Pedigree, VERSION_70, fill_nullables=fill_nullables
         ).create()
+        old_instance.additionalInfo = {}
+        old_instance.additionalInfo['cellbaseVersion'] = '1.0'
+        old_instance.additionalInfo['tieringVersion'] = '1.0'
+        old_instance.additionalInfo['analysisReturnUri'] = 'uri.com'
         old_ig = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         ).create()

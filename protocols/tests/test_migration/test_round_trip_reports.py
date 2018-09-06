@@ -146,9 +146,8 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
             original_ir,
             self.new_model.InterpretationRequestRD,
-            expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
-                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome",
-                                                 "ageOfOnset", "consanguineousPopulation"],
+            expect_equality=True, ignore_fields=["additionalInfo", "ageOfOnset", "consanguineousPopulation",
+                                                 "analysisVersion"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 
@@ -454,9 +453,8 @@ class TestRoundTripMigrateReports210To600(BaseTestRoundTrip):
             Migration21To3().migrate_interpretation_request(original_ir),
             self.new_model.InterpretationRequestRD,
             expect_equality=True,
-            ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId", "cellbaseVersion",
-                           "complexGeneticPhenomena", "interpretGenome", "ageOfOnset", "consanguineousPopulation",
-                           "modifiers", "copyNumber"],
+            ignore_fields=["additionalInfo", "ageOfOnset", "consanguineousPopulation",
+                           "modifiers", "copyNumber", "analysisVersion"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
 

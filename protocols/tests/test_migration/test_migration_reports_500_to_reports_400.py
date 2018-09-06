@@ -280,6 +280,10 @@ class TestMigrateReports5To400(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create(interpretationRequestVersion=1)
+        old_instance.additionalInfo = {}
+        old_instance.additionalInfo['cellbaseVersion'] = '1.0'
+        old_instance.additionalInfo['tieringVersion'] = '1.0'
+        old_instance.additionalInfo['analysisReturnUri'] = 'uri.com'
 
         self._validate(old_instance)
         if fill_nullables:
@@ -294,7 +298,7 @@ class TestMigrateReports5To400(TestCaseMigration):
             self._check_non_empty_fields(old_ig)
 
         new_instance = MigrateReports500To400().migrate_interpretation_request_rd(
-            old_instance=old_instance, old_ig=old_ig, cip='nextcode')
+            old_instance=old_instance, old_ig=old_ig)
         self.assertTrue(isinstance(new_instance, self.new_model.InterpretationRequestRD))
         self._validate(new_instance)
         if fill_nullables:

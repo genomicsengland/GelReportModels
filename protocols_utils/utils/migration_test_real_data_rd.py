@@ -36,8 +36,7 @@ class RealRoundTripperRd(object):
         differ = self.migration_runner.diff_round_tripped(
             ir, ir_round_tripped,
             ignore_fields=[
-                "analysisVersion", "analysisReturnURI", "cellbaseVersion", "complexGeneticPhenomena",
-                "interpretGenome", "ageOfOnset", "consanguineousPopulation", "reportUri", "GitVersionControl",
+                "ageOfOnset", "consanguineousPopulation", "reportUri", "GitVersionControl",
                 "analysisId", "genomeAssemblyVersion", "modifiers"
             ])
 

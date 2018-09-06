@@ -1,4 +1,5 @@
 import logging
+import distutils
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
@@ -54,13 +55,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         old_model.ClinicalSignificance.pathogenic: new_model.VariantClassification.pathogenic_variant,
     }
 
-    def migrate_interpretation_request_rd(self, old_instance, old_ig, cip=None):
+    def migrate_interpretation_request_rd(self, old_instance, old_ig):
         """
         Migrates a reports_5_0_0.InterpretationRequestRD into a reports_4_0_0.InterpretationRequestRD
         :type old_instance: reports_5_0_0.InterpretationRequestRD
         :type old_ig: reports_5_0_0.InterpretedGenomeRD
-        :param cip: this is used to build the field `analysisReturnUri`, it will be empty if not provided
-        :type cip: str
         :rtype: reports_4_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
@@ -74,12 +73,14 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         # grabs the list of variants from the interpreted genome
         new_instance.tieredVariants = self.convert_collection(old_ig.variants, self._migrate_reported_variant)
         new_instance.tieringVersion = old_ig.softwareVersions.get("tiering", "")
-        new_instance.complexGeneticPhenomena = None  # cannot fill this one, but it has never been used
-        new_instance.analysisReturnUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
-            cip_short=self.cip_short_codes.get(cip),
-            ir_id=old_instance.interpretationRequestId,
-            ir_version=old_instance.interpretationRequestVersion) if cip else ""
-        new_instance.analysisVersion = "1"  # it is always 1, so it can be hard-coded here
+        if old_instance.additionalInfo:
+            new_instance.analysisVersion = old_instance.additionalInfo.get('analysisVersion') or "1"
+            new_instance.analysisReturnUri = old_instance.additionalInfo.get('analysisReturnUri')
+            new_instance.tieringVersion = old_instance.additionalInfo.get('tieringVersion')
+            new_instance.complexGeneticPhenomena = old_instance.additionalInfo.get('complexGeneticPhenomena')
+            new_instance.cellbaseVersion = old_instance.additionalInfo.get('cellbaseVersion')
+            new_instance.interpretGenome = bool(distutils.util.strtobool(old_instance.additionalInfo.get('interpretGenome', 'false')))
+
         if not old_instance.pedigree:
             raise MigrationError("Cannot reverse migrate an Interpretation Request for RD with null pedigree")
         new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_instance.pedigree)
