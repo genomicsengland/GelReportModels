@@ -145,6 +145,24 @@ class BaseRoundTripper(object):
             differ = True
         return differ
 
+    def diff_actions(self, report_events):
+        actions = {}
+        # NOTE: makes the assumption that the URL field is never empty
+        for re in report_events:
+            if re.actions:
+                for a in re.actions:
+                    key = "{}-{}".format(a.url, a.actionType)
+                    if key not in actions:
+                        actions[key] = []
+                    actions[key].append(a)
+        differ = False
+        for a in actions.values():
+            differ |= len(a) != 2
+            differ |= a[0].evidenceType != a[1].evidenceType
+            differ |= a[0].url != a[1].url
+            differ |= a[0].variantActionable != a[1].variantActionable
+        return differ
+
     def is_hashable(self, item):
         try:
             hash(item)

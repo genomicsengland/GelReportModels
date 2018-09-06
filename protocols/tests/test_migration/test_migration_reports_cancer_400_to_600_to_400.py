@@ -15,21 +15,6 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
     old_model = reports_3_0_0
     new_model = reports_6_0_0
 
-    def _diff_actions(self, report_events):
-        actions = {}
-        # NOTE: makes the assumption that the URL field is never empty
-        for re in report_events:
-            if re.actions:
-                for a in re.actions:
-                    if a.url not in actions:
-                        actions[a.url] = []
-                    actions[a.url].append(a)
-        for a in actions.values():
-            self.assertEqual(len(a), 2)
-            self.assertEqual(a[0].evidenceType, a[1].evidenceType)
-            self.assertEqual(a[0].url, a[1].url)
-            self.assertEqual(a[0].variantActionable, a[1].variantActionable)
-
     @staticmethod
     def _get_random_variant_details():
         reference, alternate = random.sample(['A', 'C', 'G', 'T'], 2)
@@ -45,8 +30,7 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         assembly = Assembly.GRCh38
         original_ir = self.get_valid_object(
             object_type=reports_4_0_0.CancerInterpretationRequest, version=self.version_4_0_0,
-            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly,
-            interpretGenome=True, structuralTieredVariants=[],
+            fill_nullables=fill_nullables, genomeAssemblyVersion=assembly, structuralTieredVariants=[],
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
         # # migration requires there is exactly one tumour sample
@@ -54,14 +38,14 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ir(original_ir, assembly)
         self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
             "analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"])
+            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "interpretGenome"])
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         expected_report_events = chain.from_iterable(
             map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ir.tieredVariants))
         observed_report_events = chain.from_iterable(
             map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.tieredVariants))
-        self._diff_actions(chain(expected_report_events, observed_report_events))
+        self.assertFalse(self.diff_actions(chain(expected_report_events, observed_report_events)))
 
     def test_migrate_cancer_interpretation_request_nulls(self):
         self.test_migrate_cancer_interpretation_request(fill_nullables=False)
@@ -85,7 +69,7 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], original_ig.reportedVariants))
         observed_report_events = chain.from_iterable(
             map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.reportedVariants))
-        self._diff_actions(chain(expected_report_events, observed_report_events))
+        self.assertFalse(self.diff_actions(chain(expected_report_events, observed_report_events)))
 
     def test_migrate_cancer_interpreted_genome_nulls(self):
         self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
@@ -114,7 +98,7 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
                 map(lambda v: [re for re in v.reportedVariantCancer.reportEvents], round_tripped.candidateVariants))
         else:
             observed_report_events = []
-        self._diff_actions(chain(expected_report_events, observed_report_events))
+        self.assertFalse(self.diff_actions(chain(expected_report_events, observed_report_events)))
 
     def test_migrate_cancer_clinical_report_nulls(self):
         self.test_migrate_cancer_clinical_report(fill_nullables=False)
