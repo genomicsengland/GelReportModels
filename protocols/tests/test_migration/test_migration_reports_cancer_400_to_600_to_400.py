@@ -37,8 +37,8 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ir(original_ir, assembly)
         self.assertFalse(self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
-            "analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "interpretGenome"]))
+            "TNMStageVersion", "TNMStageGrouping", "actions",
+            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "additionalInfo"]))
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         expected_report_events = chain.from_iterable(

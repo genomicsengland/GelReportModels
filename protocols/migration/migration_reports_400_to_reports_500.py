@@ -153,6 +153,16 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = old_instance.reportVersion
         new_instance.genomeAssembly = assembly
         new_instance.cancerParticipant = self._migrate_cancer_participant(old_participant=old_instance.cancerParticipant)
+        if not new_instance.additionalInfo:
+            new_instance.additionalInfo = {}
+        if old_instance.analysisUri:
+            new_instance.additionalInfo['analysisUri'] = old_instance.analysisUri
+        if old_instance.analysisVersion:
+            new_instance.additionalInfo['analysisVersion'] = old_instance.analysisVersion
+        if old_instance.tieringVersion:
+            new_instance.additionalInfo['tieringVersion'] = old_instance.tieringVersion
+        if old_instance.interpretGenome:
+            new_instance.additionalInfo['interpretGenome'] = str(old_instance.interpretGenome)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest

@@ -12,7 +12,7 @@ class RealRoundTripperRd(object):
 
     def __init__(self):
         # configures logging to get only logs about the failed cases
-        self.log_file = "real_data.log"
+        self.log_file = "real_data_rd_round_trip.log"
         logging.basicConfig(filename=self.log_file, level=logging.ERROR)
         gel_user = raw_input("User:")
         gel_password = getpass.getpass("Password:")
@@ -37,7 +37,7 @@ class RealRoundTripperRd(object):
             ir, ir_round_tripped,
             ignore_fields=[
                 "ageOfOnset", "consanguineousPopulation", "reportUri", "GitVersionControl",
-                "analysisId", "genomeAssemblyVersion", "modifiers"
+                "analysisId", "genomeAssemblyVersion", "modifiers", "additionalInfo"
             ])
 
         if not is_valid:

@@ -73,12 +73,14 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         # grabs the list of variants from the interpreted genome
         new_instance.tieredVariants = self.convert_collection(old_ig.variants, self._migrate_reported_variant)
         new_instance.tieringVersion = old_ig.softwareVersions.get("tiering", "")
+        new_instance.analysisVersion = "1"
+        new_instance.analysisReturnUri = ""
         if old_instance.additionalInfo:
             new_instance.analysisVersion = old_instance.additionalInfo.get('analysisVersion') or "1"
-            new_instance.analysisReturnUri = old_instance.additionalInfo.get('analysisReturnUri')
-            new_instance.tieringVersion = old_instance.additionalInfo.get('tieringVersion')
+            new_instance.analysisReturnUri = old_instance.additionalInfo.get('analysisReturnUri', '')
+            new_instance.tieringVersion = old_instance.additionalInfo.get('tieringVersion', '')
             new_instance.complexGeneticPhenomena = old_instance.additionalInfo.get('complexGeneticPhenomena')
-            new_instance.cellbaseVersion = old_instance.additionalInfo.get('cellbaseVersion')
+            new_instance.cellbaseVersion = old_instance.additionalInfo.get('cellbaseVersion', '')
             new_instance.interpretGenome = bool(distutils.util.strtobool(old_instance.additionalInfo.get('interpretGenome', 'false')))
 
         if not old_instance.pedigree:
@@ -148,16 +150,16 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
         )
 
-    def migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, old_interpretation_request, old_interpreted_genome):
+    def migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, old_instance, old_interpreted_genome):
         """
-        :type old_interpretation_request: reports_5_0_0.CancerInterpretationRequest
+        :type old_instance: reports_5_0_0.CancerInterpretationRequest
         :type old_interpreted_genome: reports_5_0_0.CancerInterpretedGenome
         :rtype: reports_4_0_0.CancerInterpretationRequest
         """
-        new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretationRequest, instance=old_interpretation_request)
+        new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretationRequest, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.reportRequestId = old_interpretation_request.interpretationRequestId
-        new_instance.reportVersion = old_interpretation_request.interpretationRequestVersion
+        new_instance.reportRequestId = old_instance.interpretationRequestId
+        new_instance.reportVersion = old_instance.interpretationRequestVersion
         new_instance.interpretGenome = True
         if new_instance.bams is None:
             new_instance.bams = []
@@ -165,9 +167,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             new_instance.vcfs = []
         if new_instance.bigWigs is None:
             new_instance.bigWigs = []
-        if old_interpretation_request.cancerParticipant:
+        if old_instance.cancerParticipant:
             new_instance.cancerParticipant = MigrateParticipant110To100().migrate_cancer_participant(
-                old_instance=old_interpretation_request.cancerParticipant
+                old_instance=old_instance.cancerParticipant
             )
         else:
             # default empty object as it is non nullable
@@ -180,6 +182,10 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.structuralTieredVariants = []
         new_instance.analysisVersion = ""
         new_instance.analysisUri = ""
+        if old_instance.additionalInfo:
+            new_instance.analysisVersion = old_instance.additionalInfo.get('analysisVersion') or "1"
+            new_instance.analysisUri = old_instance.additionalInfo.get('analysisUri', '')
+            new_instance.interpretGenome = bool(distutils.util.strtobool(old_instance.additionalInfo.get('interpretGenome', 'false')))
         new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)

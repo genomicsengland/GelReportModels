@@ -523,6 +523,12 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance = self.get_valid_object(
             reports_6_0_0.CancerInterpretationRequest, VERSION_70, fill_nullables=fill_nullables
         )
+        old_instance.additionalInfo = {
+            'interpretGenome': 'True',
+            'analysisUri': 'blah.com',
+            'analysisVersion': '1',
+            'tieringVersion': '1'
+        }
         old_ig = self.get_valid_object(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         )

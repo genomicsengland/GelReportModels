@@ -227,8 +227,8 @@ class TestRoundTripMigrateReports300To600(BaseTestRoundTrip):
             MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4,
             original_ir, self.new_model.CancerInterpretationRequest,
             expect_equality=True,
-            ignore_fields=["analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"],
+            ignore_fields=["TNMStageVersion", "TNMStageGrouping", "actions",
+                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "additionalInfo"],
             forward_kwargs={'assembly': assembly},
             backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the

@@ -12,7 +12,7 @@ class RealRoundTripperCancer(object):
 
     def __init__(self):
         # configures logging to get only logs about the failed cases
-        self.log_file = "real_data.log"
+        self.log_file = "real_data_cancer_round_trip.log"
         logging.basicConfig(filename=self.log_file, level=logging.ERROR)
         gel_user = raw_input("User:")
         gel_password = getpass.getpass("Password:")
@@ -38,10 +38,11 @@ class RealRoundTripperCancer(object):
             reports_4_0_0.CancerInterpretationRequest, ir_round_tripped.toJsonDict())
         differ = self.migration_runner.diff_round_tripped(
             ir, ir_round_tripped,
-            ignore_fields=["analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping",
-                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "interpretGenome",
+            ignore_fields=["TNMStageVersion", "TNMStageGrouping",
+                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf",
                            "actions",  # NOTE: this is ignores as actions come back in a different order
                            "versionControl"  # NOTE: this is ignored as some real data have a missing version value
+                           "additionalInfo"
                            ])
         differ |= self._check_actions(ir.tieredVariants, ir_round_tripped.tieredVariants)
 

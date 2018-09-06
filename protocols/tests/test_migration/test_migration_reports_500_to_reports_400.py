@@ -204,10 +204,16 @@ class TestMigrateReports5To400(TestCaseMigration):
     def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, fill_nullables=True):
         ir_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest,
                                        version=self.version_6_1, fill_nullables=fill_nullables)
+        ir_c_5.additionalInfo = {
+            'interpretGenome': 'True',
+            'analysisUri': 'blah.com',
+            'analysisVersion': '1',
+            'tieringVersion': '1'
+        }
         ig_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretedGenome,
                                        version=self.version_6_1, fill_nullables=fill_nullables)
         ir_c_4 = MigrateReports500To400().migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(
-            old_interpretation_request=ir_c_5, old_interpreted_genome=ig_c_5
+            old_instance=ir_c_5, old_interpreted_genome=ig_c_5
         )
         self.assertIsInstance(ir_c_4, self.new_model.CancerInterpretationRequest)
         self.assertTrue(ir_c_4.validate(ir_c_4.toJsonDict()))
