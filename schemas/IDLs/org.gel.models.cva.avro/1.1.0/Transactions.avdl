@@ -4,6 +4,7 @@ protocol TransactionProtocol {
 
     // CVA references
     import idl "CvaVariant.avdl";
+    import idl "DataIntake.avdl";
 
     /**
     The transaction status:
@@ -70,7 +71,7 @@ protocol TransactionProtocol {
     */
     record TransactionDetails {
         /**
-        The type of the transaction (e.g.: org.gel.models.cva.avro.InterpretationRequestRD)
+        The type of the transaction (e.g.: org.gel.models.cva.avro.InterpretedGenomeInject)
         */
         string type;
         /**
@@ -78,51 +79,9 @@ protocol TransactionProtocol {
         */
         int numberOfElements;
         /**
-        Report avro models version
+        Metadata on the injection data
         */
-        string reportModelVersion;
-        /**
-        The identifier for the entity containing this reported variant.
-        */
-        string id;
-        /**
-        The version for the entity containing this reported variant. This is a correlative number being the highest
-        value the latest version.
-        */
-        int version;
-        /**
-        The identifier for the entity containing this reported variant.
-        */
-        string parentId;
-        /**
-        The version for the entity containing this reported variant. This is a correlative number being the highest
-        value the latest version.
-        */
-        int parentVersion;
-        /**
-        The participant identifier or family identifier
-        */
-        string groupId;
-        /**
-        The cohort identifier (the same family can have several cohorts)
-        */
-        string cohortId;
-        /**
-        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
-        */
-        string author;
-        /**
-        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
-        */
-        union {null, string} authorVersion;
-        /**
-        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
-        */
-        array<string> workspace;
-        /**
-        The assembly to which the variant refers
-        */
-        union {null, org.gel.models.report.avro.Assembly} assembly;
+        InjectionMetadata metadata;
         /**
         Messages
         */

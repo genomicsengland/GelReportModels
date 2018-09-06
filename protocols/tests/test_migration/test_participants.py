@@ -63,7 +63,7 @@ class TestMigrationParticipants100To103(TestCaseMigration):
         self._validate(old_participant)
 
         migrated_participant = MigrationParticipants100To103().migrate_cancer_participant(
-            cancer_participant=old_participant
+            old_instance=old_participant
         )
 
         self.assertIsInstance(migrated_participant, self.new_model.CancerParticipant)
@@ -121,7 +121,7 @@ class TestMigrationParticipants100To103(TestCaseMigration):
         self.assertIsInstance(old_tumour_sample, self.old_model.TumourSample)
         self._validate(old_tumour_sample)
 
-        migrated_sample = MigrationParticipants100To103().migrate_tumour_sample(
+        migrated_sample = MigrationParticipants100To103()._migrate_tumour_sample(
             tumour_sample=old_tumour_sample, LDPCode='test_ldp_code'
         )
 
