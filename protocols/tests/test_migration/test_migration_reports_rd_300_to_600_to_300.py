@@ -1,6 +1,7 @@
 from protocols import reports_6_0_0, reports_3_0_0
 from protocols.reports_5_0_0 import Assembly
 from protocols.migration import MigrateReports600To500
+from protocols.tests.test_migration.migration_runner import MigrationRunner
 from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
 from protocols.tests.test_migration.base_test_migration import BaseTestRoundTrip
@@ -44,20 +45,10 @@ class TestRoundTripMigrateReportsRd300To600(BaseTestRoundTrip):
         for p in original_ir.pedigree.participants:
             for hpo in p.hpoTermList:
                 hpo.modifiers = self._get_random_hpo_modifiers()
-        # migrates forward IR 3.0.0 into IG 6.0.0 and then back to IG 5.0.0
-        ig6 = MigrationHelpers.migrate_interpretation_request_rd_to_interpreted_genome_latest(
-            original_ir.toJsonDict(), assembly=assembly)
-        ig5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(ig6)
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_interpretation_request_rd_to_latest,
-            MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3,
-            original_ir,
-            self.new_model.InterpretationRequestRD,
-            expect_equality=True, ignore_fields=["analysisVersion", "analysisReturnURI", "SampleId",
-                                                 "cellbaseVersion", "complexGeneticPhenomena", "interpretGenome",
-                                                 "ageOfOnset", "consanguineousPopulation"],
-            forward_kwargs={'assembly': assembly},
-            backward_kwargs={'ig_json_dict': ig5.toJsonDict()})
+        migrated, round_tripped = MigrationRunner().roundtrip_rd_ir(original_ir, assembly)
+        self.assertFalse(self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
+            "analysisVersion", "analysisReturnURI", "SampleId", "cellbaseVersion", "complexGeneticPhenomena",
+            "interpretGenome", "ageOfOnset", "consanguineousPopulation"]))
 
     def test_migrate_rd_interpretation_request_nulls(self):
         self.test_migrate_rd_interpretation_request(fill_nullables=False)
@@ -68,15 +59,10 @@ class TestRoundTripMigrateReportsRd300To600(BaseTestRoundTrip):
         original_ig = self.get_valid_object(
             object_type=reports_3_0_0.InterpretedGenomeRD, version=self.version_3_0_0, fill_nullables=fill_nullables,
             reportedStructuralVariants=None, versionControl=reports_3_0_0.VersionControl(), analysisId='1',
-            reportURI=''
-        )
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_interpreted_genome_rd_to_latest,
-            MigrationHelpers.reverse_migrate_interpreted_genome_rd_to_v3,
-            original_ig,
-            self.new_model.InterpretedGenome,
-            expect_equality=True, ignore_fields=['additionalNumericVariantAnnotations'],
-            forward_kwargs={'assembly': Assembly.GRCh38, 'interpretation_request_version': 1})
+            reportURI='')
+        migrated, round_tripped = MigrationRunner().roundtrip_rd_ig(original_ig, Assembly.GRCh38)
+        self.assertFalse(self.diff_round_tripped(
+            original_ig, round_tripped, ignore_fields=['additionalNumericVariantAnnotations']))
 
     def test_migrate_rd_interpreted_genome_nulls(self):
         self.test_migrate_rd_interpreted_genome(fill_nullables=False)
@@ -87,13 +73,9 @@ class TestRoundTripMigrateReportsRd300To600(BaseTestRoundTrip):
             object_type=reports_3_0_0.ClinicalReportRD, version=self.version_3_0_0, fill_nullables=fill_nullables,
             interpretationRequestVersion='1', candidateStructuralVariants=None
         )
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_clinical_report_rd_to_latest,
-            MigrationHelpers.reverse_migrate_clinical_report_rd_to_v3,
-            original,
-            self.new_model.ClinicalReport,
-            expect_equality=True, ignore_fields=["interpretationRequestAnalysisVersion"],
-            forward_kwargs={'assembly': Assembly.GRCh38})
+        migrated, round_tripped = MigrationRunner().roundtrip_rd_cr(original, Assembly.GRCh38)
+        self.assertFalse(self.diff_round_tripped(
+            original, round_tripped, ignore_fields=["interpretationRequestAnalysisVersion"]))
 
     def test_migrate_rd_clinical_report_nulls(self):
         self.test_migrate_rd_clinical_report(fill_nullables=False)
@@ -105,13 +87,8 @@ class TestRoundTripMigrateReportsRd300To600(BaseTestRoundTrip):
         for g in original.variantGroupLevelQuestions:
             for v in g.variantLevelQuestions:
                 v.variant_details = self._get_random_variant_details()
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_exit_questionnaire_rd_to_latest,
-            MigrationHelpers.reverse_migrate_exit_questionnaire_rd_to_v3,
-            original,
-            self.new_model.RareDiseaseExitQuestionnaire,
-            expect_equality=True, ignore_fields=[],
-            forward_kwargs={'assembly': Assembly.GRCh38})
+        migrated, round_tripped = MigrationRunner().roundtrip_rd_eq(original, Assembly.GRCh38)
+        self.assertFalse(self.diff_round_tripped(original, round_tripped, ignore_fields=[]))
 
     def test_migrate_rd_exit_questionnaire_nulls(self):
         self.test_migrate_rd_exit_questionnaire(fill_nullables=False)

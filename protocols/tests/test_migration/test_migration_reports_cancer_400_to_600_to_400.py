@@ -36,9 +36,9 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         # # migration requires there is exactly one tumour sample
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ir(original_ir, assembly)
-        self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
+        self.assertFalse(self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
             "analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "interpretGenome"])
+            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf", "interpretGenome"]))
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         expected_report_events = chain.from_iterable(
@@ -60,8 +60,8 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         )
         # migration requires there is exactly one tumour sample
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ig(original_ig, assembly)
-        self.diff_round_tripped(original_ig, round_tripped, ignore_fields=[
-            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"])
+        self.assertFalse(self.diff_round_tripped(original_ig, round_tripped, ignore_fields=[
+            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"]))
 
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
@@ -84,8 +84,8 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             interpretationRequestVersion='123'
         )
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_cr(original_cr, assembly)
-        self.diff_round_tripped(original_cr, round_tripped, ignore_fields=[
-            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf", "genePanelsCoverage"])
+        self.assertFalse(self.diff_round_tripped(original_cr, round_tripped, ignore_fields=[
+            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf", "genePanelsCoverage"]))
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         if original_cr.candidateVariants:
