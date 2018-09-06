@@ -3,6 +3,7 @@ from protocols.reports_5_0_0 import Assembly
 from protocols.util.factories.avro_factory import FactoryAvro, GenericFactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
 from protocols.tests.test_migration.base_test_migration import BaseTestRoundTrip
+from protocols.tests.test_migration.migration_runner import MigrationRunner
 import factory.fuzzy
 from protocols.util import dependency_manager
 import random
@@ -50,18 +51,10 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         )
         # # migration requires there is exactly one tumour sample
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
-        ig6 = MigrationHelpers.migrate_interpretation_request_cancer_to_interpreted_genome_latest(
-            original_ir.toJsonDict(), assembly=assembly, interpretation_service="service",
-            reference_database_versions={}, software_versions={}, report_url="https://example.com", comments=[])
-        round_tripped = self._check_round_trip_migration(
-            MigrationHelpers.migrate_interpretation_request_cancer_to_latest,
-            MigrationHelpers.reverse_migrate_interpretation_request_cancer_to_v4,
-            original_ir, self.new_model.CancerInterpretationRequest,
-            expect_equality=True,
-            ignore_fields=["analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
-                           "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"],
-            forward_kwargs={'assembly': assembly},
-            backward_kwargs={'ig_json_dict': ig6.toJsonDict()})
+        migrated, round_tripped = MigrationRunner().roundtrip_cancer_ir(original_ir, assembly)
+        self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
+            "analysisUri", "analysisVersion", "TNMStageVersion", "TNMStageGrouping", "actions",
+            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf"])
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         expected_report_events = chain.from_iterable(
@@ -82,15 +75,10 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
         # migration requires there is exactly one tumour sample
-        round_tripped = self._check_round_trip_migration(
-            MigrationHelpers.migrate_interpreted_genome_cancer_to_latest,
-            MigrationHelpers.reverse_migrate_interpreted_genome_cancer_to_v4,
-            original_ig, self.new_model.InterpretedGenome,
-            expect_equality=True,
-            ignore_fields=["analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"],
-            forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1',
-                            'interpretation_request_version': 1, 'interpretation_service': '1'}
-        )
+        migrated, round_tripped = MigrationRunner().roundtrip_cancer_ig(original_ig, assembly)
+        self.diff_round_tripped(original_ig, round_tripped, ignore_fields=[
+            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf"])
+
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         expected_report_events = chain.from_iterable(
@@ -111,17 +99,9 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0'),
             interpretationRequestVersion='123'
         )
-        # migration requires there is exactly one tumour sample
-        round_tripped = self._check_round_trip_migration(
-            MigrationHelpers.migrate_clinical_report_cancer_to_latest,
-            MigrationHelpers.reverse_migrate_clinical_report_cancer_to_v4,
-            original_cr, self.new_model.ClinicalReport,
-            expect_equality=True,
-            ignore_fields=["analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf",
-                           "genePanelsCoverage"],
-            forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1'}
-            # backward_kwargs={'ig_json_dict': ig6.toJsonDict()}
-        )
+        migrated, round_tripped = MigrationRunner().roundtrip_cancer_cr(original_cr, assembly)
+        self.diff_round_tripped(original_cr, round_tripped, ignore_fields=[
+            "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf", "genePanelsCoverage"])
         # NOTE: not all fields in actions are kept and the order is not maintained, thus we ignore it in the
         # dictionary comparison and then here manually check them
         if original_cr.candidateVariants:
@@ -155,14 +135,8 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
         if original_eq.otherActionableVariants:
             for q in original_eq.otherActionableVariants:
                 q.variantDetails = self._get_random_variant_details()
-        self._check_round_trip_migration(
-            MigrationHelpers.migrate_cancer_exit_questionnaire_to_latest,
-            MigrationHelpers.reverse_migrate_cancer_exit_questionnaire_to_v5,
-            original_eq, self.new_model.CancerExitQuestionnaire,
-            expect_equality=True,
-            ignore_fields=[],
-            forward_kwargs={'assembly': assembly}
-        )
+        migrated, round_tripped = MigrationRunner().roundtrip_cancer_eq(original_eq, assembly)
+        self.diff_round_tripped(original_eq, round_tripped, ignore_fields=[])
 
     def test_migrate_cancer_exit_questionnaire_nulls(self):
         self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)
