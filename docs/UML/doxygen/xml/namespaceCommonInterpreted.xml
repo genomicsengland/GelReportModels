@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceCommonInterpreted" kind="namespace">
+    <compoundname>CommonInterpreted</compoundname>
+    <innerclass refid="structCommonInterpreted_1_1CalledGenotype" prot="public">CommonInterpreted::CalledGenotype</innerclass>
+    <innerclass refid="structCommonInterpreted_1_1ReportedStructuralVariant" prot="public">CommonInterpreted::ReportedStructuralVariant</innerclass>
+    <innerclass refid="structCommonInterpreted_1_1ReportedVariant" prot="public">CommonInterpreted::ReportedVariant</innerclass>
+    <innerclass refid="structCommonInterpreted_1_1ReportEvent" prot="public">CommonInterpreted::ReportEvent</innerclass>
+    <innerclass refid="structCommonInterpreted_1_1Transcript" prot="public">CommonInterpreted::Transcript</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683" prot="public" static="no">
+        <name>VariantClassification</name>
+        <enumvalue id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683a73d121d73e64599752cbaddeba3f7f86" prot="public">
+          <name>BENIGN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683adf68f558e159d1f56c866ce8896c0491" prot="public">
+          <name>LIKELY_BENIGN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683acce904233eb68c39e2a8821b114a2007" prot="public">
+          <name>VUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683a9e4ab483668f384dad4f74e1f750140f" prot="public">
+          <name>LIKELY_PATHOGENIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683afe6d46324d12f39d2a58b5a73fdc18fd" prot="public">
+          <name>PATHOGENIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the classification of the variant according to standard practice guidelines (e.g. ACMG) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="65" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549" prot="public" static="no">
+        <name>Penetrance</name>
+        <enumvalue id="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549a1c8dcf5a56eefef673860ab8ccbee948" prot="public">
+          <name>complete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549ab55e54e20e5b38ed8af032f402813111" prot="public">
+          <name>incomplete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Penetrance assumed in the analysis </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="71" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1" prot="public" static="no">
+        <name>Tier</name>
+        <enumvalue id="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a6d01510372faba3b80bb95c12c651146" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a4e000688601c52372fb760dc0965f5a6" prot="public">
+          <name>TIER1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a3d89245941bc7b320feb839b243d0bb3" prot="public">
+          <name>TIER2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a30701205d32f8c4c06d46c3f521011c9" prot="public">
+          <name>TIER3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Possible tiers as defined by Genomics England </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="76" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760" prot="public" static="no">
+        <name>ReportType</name>
+        <enumvalue id="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760acd77383faf3b644e98bbd84622201c1b" prot="public">
+          <name>primaryFindings</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760a622ce6c86bdae3cefe139824381b2f22" prot="public">
+          <name>SecondaryFindings</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760ab1e61bff76f7221921a89f667a627b29" prot="public">
+          <name>CarrierStatus</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="254" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="254" bodyend="254"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This protocol defines the Commons for GEL models </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="5" column="1"/>
+  </compounddef>
+</doxygen>

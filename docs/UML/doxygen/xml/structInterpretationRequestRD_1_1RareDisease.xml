@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretationRequestRD_1_1RareDisease" kind="struct" prot="public">
+    <compoundname>InterpretationRequestRD::RareDisease</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1aa0cf0f58f96071d5b79bc845bda2868d" prot="public" static="no" mutable="no">
+        <type>Pedigree</type>
+        <definition>Pedigree InterpretationRequestRD::RareDisease::pedigree</definition>
+        <argsstring></argsstring>
+        <name>pedigree</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="54" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1a0b42ad790754cf01c67aafb0868c0b54" prot="public" static="no" mutable="no">
+        <type>union&lt; null, File &gt;</type>
+        <definition>union&lt;null, File&gt; InterpretationRequestRD::RareDisease::inbreedingCoefficientEstimates</definition>
+        <argsstring></argsstring>
+        <name>inbreedingCoefficientEstimates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="56" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1aeb4a87d836dd5a0b7e1530330ea096ef" prot="public" static="no" mutable="no">
+        <type>Ancestries</type>
+        <definition>Ancestries InterpretationRequestRD::RareDisease::ancestries</definition>
+        <argsstring></argsstring>
+        <name>ancestries</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="58" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1a58e30c303b3f981edb7b31e4b0ea60e0" prot="public" static="no" mutable="no">
+        <type>ComplexGeneticPhenomena</type>
+        <definition>ComplexGeneticPhenomena InterpretationRequestRD::RareDisease::complexGeneticPhenomena</definition>
+        <argsstring></argsstring>
+        <name>complexGeneticPhenomena</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="60" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1af98e2d7d5721f85834820f80c410dd55" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243ab" kindref="member">ModelOfInheritance</ref></type>
+        <definition>ModelOfInheritance InterpretationRequestRD::RareDisease::modeOfInheritance</definition>
+        <argsstring></argsstring>
+        <name>modeOfInheritance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="62" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1a6c442e737dc473e6caedb4cc74dfa5a0" prot="public" static="no" mutable="no">
+        <type>union&lt; null, VirtualPanel &gt;</type>
+        <definition>union&lt;null, VirtualPanel&gt; InterpretationRequestRD::RareDisease::virtualPanel</definition>
+        <argsstring></argsstring>
+        <name>virtualPanel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual Panels can be defined using EnsmbleIds, Transcripts, a BED File or a VCF File </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="67" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RareDisease_1a60e2c9310c5fbd79dcf914037edf2ce4" prot="public" static="no" mutable="no">
+        <type>union&lt; null, OtherFamilyHistory &gt;</type>
+        <definition>union&lt;null, OtherFamilyHistory&gt; InterpretationRequestRD::RareDisease::otherFamilyHistory</definition>
+        <argsstring></argsstring>
+        <name>otherFamilyHistory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the family history as pertinent to assessing secondary findings. It is paternal or maternal with reference to the proband. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="73" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="52" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="52" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1aeb4a87d836dd5a0b7e1530330ea096ef" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>ancestries</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1a58e30c303b3f981edb7b31e4b0ea60e0" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>complexGeneticPhenomena</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1a0b42ad790754cf01c67aafb0868c0b54" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>inbreedingCoefficientEstimates</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1af98e2d7d5721f85834820f80c410dd55" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>modeOfInheritance</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1a60e2c9310c5fbd79dcf914037edf2ce4" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>otherFamilyHistory</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1aa0cf0f58f96071d5b79bc845bda2868d" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>pedigree</name></member>
+      <member refid="structInterpretationRequestRD_1_1RareDisease_1a6c442e737dc473e6caedb4cc74dfa5a0" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RareDisease</scope><name>virtualPanel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

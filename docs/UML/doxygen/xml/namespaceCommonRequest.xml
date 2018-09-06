@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceCommonRequest" kind="namespace">
+    <compoundname>CommonRequest</compoundname>
+    <innerclass refid="structCommonRequest_1_1File" prot="public">CommonRequest::File</innerclass>
+    <innerclass refid="structCommonRequest_1_1OtherFamilyHistory" prot="public">CommonRequest::OtherFamilyHistory</innerclass>
+    <innerclass refid="structCommonRequest_1_1VirtualPanel" prot="public">CommonRequest::VirtualPanel</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This protocol defines the Commons for GEL models </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="5" column="1"/>
+  </compounddef>
+</doxygen>

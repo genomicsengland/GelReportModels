@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceInterpretedGenomesRD" kind="namespace">
+    <compoundname>InterpretedGenomesRD</compoundname>
+    <innerclass refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" prot="public">InterpretedGenomesRD::RDInterpretationAnalysis</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceInterpretedGenomesRD_1acf61da7779894c2b109c728e0d0c0d8c" prot="public" static="no" mutable="no">
+        <type>import idl CommonInterpreted</type>
+        <definition>import idl CommonInterpreted InterpretedGenomesRD::avdl</definition>
+        <argsstring></argsstring>
+        <name>avdl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="8" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Define the Report used by GEL to get the clinical interpretation companies results for bronze level </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="6" column="1"/>
+  </compounddef>
+</doxygen>

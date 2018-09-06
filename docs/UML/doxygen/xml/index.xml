@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.7">
+  <compound refid="structCommonParticipant_1_1Ancestries" kind="struct"><name>CommonParticipant::Ancestries</name>
+    <member refid="structCommonParticipant_1_1Ancestries_1a29aac33b15a82aec43694c6a7173443c" kind="variable"><name>mothersEthnicOrigin</name></member>
+    <member refid="structCommonParticipant_1_1Ancestries_1a68ed63c8acfdebbd51610e168ff6fde2" kind="variable"><name>mothersOtherRelevantAncestry</name></member>
+    <member refid="structCommonParticipant_1_1Ancestries_1a56ab419908bb6fed14035894acb96e7e" kind="variable"><name>fathersEthnicOrigin</name></member>
+    <member refid="structCommonParticipant_1_1Ancestries_1ad9cf6e02ad793fecb238d377f5ea20b5" kind="variable"><name>fathersOtherRelevantAncestry</name></member>
+    <member refid="structCommonParticipant_1_1Ancestries_1a7545d24b77a7300013f868a3e8319c19" kind="variable"><name>kGenomesPhase3Pop</name></member>
+  </compound>
+  <compound refid="structCommonInterpreted_1_1CalledGenotype" kind="struct"><name>CommonInterpreted::CalledGenotype</name>
+    <member refid="structCommonInterpreted_1_1CalledGenotype_1a2b5567d78c83fc08623d869db594e2a6" kind="variable"><name>gelId</name></member>
+    <member refid="structCommonInterpreted_1_1CalledGenotype_1a27fa62bdc153ac0320e67614339a4034" kind="variable"><name>genotype</name></member>
+    <member refid="structCommonInterpreted_1_1CalledGenotype_1a3b7e2ad014a4608e20f8f978e3795234" kind="variable"><name>alleleFraction</name></member>
+    <member refid="structCommonInterpreted_1_1CalledGenotype_1a436467ff5faf39b05d4a1b352ca798fa" kind="variable"><name>copyNumber</name></member>
+  </compound>
+  <compound refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis" kind="struct"><name>InterpretedGenomesCancer::CancerInterpretationAnalysis</name>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ac44a2fd737a17905e874afcf7f37a16a" kind="variable"><name>reportRequestId</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ae69e3394296eff408d456b2439b60389" kind="variable"><name>analysisId</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1acdb9d3c8ee0fd7ce3d5ab08bcb9c13d2" kind="variable"><name>companyName</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a4730ec5c09b72cee4c94636e0631bf93" kind="variable"><name>reportURI</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a1cee6df991dc045dd2fe4bef2554c154" kind="variable"><name>reportedVariants</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ab2a0235ffbdf25a3161eaa5e5016d872" kind="variable"><name>reportedStructuralVariants</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a01983fa2f686059074bb561e9d04f5de" kind="variable"><name>comments</name></member>
+  </compound>
+  <compound refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest" kind="struct"><name>InterpretationRequestCancer::CancerInterpretationRequest</name>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a465e732015340b9a8a519a55638fb356" kind="variable"><name>reportRequestId</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a621d550ca383c10f9146633037174180" kind="variable"><name>reportVersion</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1abd1cfe7a2a549037c251f7330a800cec" kind="variable"><name>interpretGenome</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1adbd33930868acb41700f8e27ed255ca1" kind="variable"><name>BAMs</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a524eb136abaac40496b43129104c2338" kind="variable"><name>gVCFs</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a76868dea8f846b79fb6f6bf5fb079b5b" kind="variable"><name>VCFs</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa59767f8c8bad72975d00a0d36aa10a4" kind="variable"><name>BigWigs</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a7512b5f375df538891e97285db78cfaa" kind="variable"><name>annotationFile</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1aa171ee9d239e74d60daa291c3dd87e95" kind="variable"><name>virtualPanels</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a5cb1c545f7bf838ec3cc928b92e5ad79" kind="variable"><name>analysisURI</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1a566e2ab2d3a8571e466b810f64958e0e" kind="variable"><name>analysisVersion</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1ac24577726b283fa5875c0ee3f2bc28ee" kind="variable"><name>additionalInfo</name></member>
+    <member refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest_1afffa7ced7b21e809559aea69980b91f9" kind="variable"><name>otherFamilyHistory</name></member>
+  </compound>
+  <compound refid="structCommonParticipant_1_1ConsentStatus" kind="struct"><name>CommonParticipant::ConsentStatus</name>
+    <member refid="structCommonParticipant_1_1ConsentStatus_1a28e48854873e2eb335ce20fb64ddf536" kind="variable"><name>programmeConsent</name></member>
+    <member refid="structCommonParticipant_1_1ConsentStatus_1a5c471a6cf6b6a629aff53b93127fe0d9" kind="variable"><name>primaryFindingConsent</name></member>
+    <member refid="structCommonParticipant_1_1ConsentStatus_1a9220497814bb3aaa5000ac9cd12e0fee" kind="variable"><name>secondaryFindingConsent</name></member>
+    <member refid="structCommonParticipant_1_1ConsentStatus_1ac6ed0b174868c9cc715a381fbb29f6a7" kind="variable"><name>carrierStatusConsent</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1ConsentStatus" kind="struct"><name>RDPedigree::ConsentStatus</name>
+    <member refid="structRDPedigree_1_1ConsentStatus_1a51d52ebd2a7b0f71b7eb8418b71d7281" kind="variable"><name>programmeConsent</name></member>
+    <member refid="structRDPedigree_1_1ConsentStatus_1abce0b58c817100b5fab4941b4560fc7c" kind="variable"><name>primaryFindingConsent</name></member>
+    <member refid="structRDPedigree_1_1ConsentStatus_1ae1a0494ad26f4f39a0b8e4d9f75b1689" kind="variable"><name>secondaryFindingConsent</name></member>
+    <member refid="structRDPedigree_1_1ConsentStatus_1a1f91e05b08ebf8645f31306a2595331c" kind="variable"><name>carrierStatusConsent</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1Disorder" kind="struct"><name>RDPedigree::Disorder</name>
+    <member refid="structRDPedigree_1_1Disorder_1a3d0590752b3c118d36fd25ccbaa76f0a" kind="variable"><name>diseaseGroup</name></member>
+    <member refid="structRDPedigree_1_1Disorder_1afaed93a72077ba1416b8b26a3540804a" kind="variable"><name>diseaseSubGroup</name></member>
+    <member refid="structRDPedigree_1_1Disorder_1a34df0fe9377815f60a3fb241ec65e06f" kind="variable"><name>specificDisease</name></member>
+    <member refid="structRDPedigree_1_1Disorder_1a9c01d71d77690ac0d7b3ffe4cb588b09" kind="variable"><name>ageOfOnset</name></member>
+  </compound>
+  <compound refid="structCommonRequest_1_1File" kind="struct"><name>CommonRequest::File</name>
+    <member refid="structCommonRequest_1_1File_1a1cb22e0d9326bb9aa09791b7b1e91e1a" kind="variable"><name>SampleId</name></member>
+    <member refid="structCommonRequest_1_1File_1a760d26d1d18661ed1d09de5161eca772" kind="variable"><name>URIFile</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1HpoTerm" kind="struct"><name>RDPedigree::HpoTerm</name>
+    <member refid="structRDPedigree_1_1HpoTerm_1a8b4e46935ca829745a480ed9202c9037" kind="variable"><name>term</name></member>
+    <member refid="structRDPedigree_1_1HpoTerm_1af761327ce3d6acb803027f14b8f73c82" kind="variable"><name>termPresent</name></member>
+    <member refid="structRDPedigree_1_1HpoTerm_1a5d1ed956c305a63cc399be0d87bc7b3c" kind="variable"><name>modifiers</name></member>
+    <member refid="structRDPedigree_1_1HpoTerm_1ac47623496a8f2cf82fd8af3370724690" kind="variable"><name>ageOfOnset</name></member>
+    <member refid="structRDPedigree_1_1HpoTerm_1aed59c1a9865077d0258cde5490587ec5" kind="variable"><name>termPresence</name></member>
+  </compound>
+  <compound refid="structCommonParticipant_1_1KGenomesPhase3Pop" kind="struct"><name>CommonParticipant::KGenomesPhase3Pop</name>
+    <member refid="structCommonParticipant_1_1KGenomesPhase3Pop_1aa842c2f9f2ed5bdb6a0e319312cb8741" kind="variable"><name>kGSuperPopCategory</name></member>
+    <member refid="structCommonParticipant_1_1KGenomesPhase3Pop_1af715e7ffe465157a9b9ad096eac1d411" kind="variable"><name>kGPopCategory</name></member>
+  </compound>
+  <compound refid="structCommonRequest_1_1OtherFamilyHistory" kind="struct"><name>CommonRequest::OtherFamilyHistory</name>
+    <member refid="structCommonRequest_1_1OtherFamilyHistory_1a5c60fd81397f4b928f5e00b44d9f4b5b" kind="variable"><name>maternalFamilyHistory</name></member>
+    <member refid="structCommonRequest_1_1OtherFamilyHistory_1ab376fbc29c5a12c8f89df6521c95d83b" kind="variable"><name>paternalFamilyHistory</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1Pedigree" kind="struct"><name>RDPedigree::Pedigree</name>
+    <member refid="structRDPedigree_1_1Pedigree_1aa3bf2c2d2745f5b6cf615f665ca57721" kind="variable"><name>gelFamilyId</name></member>
+    <member refid="structRDPedigree_1_1Pedigree_1a1a2e45876ddb409a75719ac4483bf85e" kind="variable"><name>pedigreeMembers</name></member>
+    <member refid="structRDPedigree_1_1Pedigree_1a522d1e9faf4ab365dcd01d90397b683f" kind="variable"><name>participants</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1PedigreeMember" kind="struct"><name>RDPedigree::PedigreeMember</name>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a4f5122cf015ec0988b775cc20bb5ea0c" kind="variable"><name>pedigreeId</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a583299817a245e37f63c43f8a4144782" kind="variable"><name>gelId</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a03c102d42717ee2fc0cec83dbb3e76a1" kind="variable"><name>firstName</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a59ef4de66fa20301632fe98329d0ba7a" kind="variable"><name>surname</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a91597607fa7bb1d8d8406ab93d6f0d8e" kind="variable"><name>NHSNumber</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a6242263842dbbef03aef79dd4b9e46fa" kind="variable"><name>dateBirth</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a0850eee52aa61fc78c9134e1f19c20f9" kind="variable"><name>externalIds</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a6eaa39015643b37f78b877a5676601c8" kind="variable"><name>sex</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1af632be062ca2ac3458b1f4400ecdb84a" kind="variable"><name>fatherId</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a7f5b6cce054632f18f16e6101734bf21" kind="variable"><name>motherId</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1ae931a786e9ae2eac60b9436061ac4424" kind="variable"><name>twinGroup</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a035ed735733c0e450f804512ef8ff114" kind="variable"><name>monozygotic</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a2d6e79941bbe8dbfd8b4169d599f6887" kind="variable"><name>adoptedStatus</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1aca63c968c7aff4742d99d88295a743c0" kind="variable"><name>lifeStatus</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a8f770d0f10facd0b9de044a0eff7a67d" kind="variable"><name>consanguineousParents</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1ab553a747b796dbfe8c035a5e7d05d1d8" kind="variable"><name>affectionStatus</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1acd72d33a5e3ce6ce67d9c9d22e6818fb" kind="variable"><name>disorderList</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1aa135014fdc26df555ae9132227adce9d" kind="variable"><name>hpoTermList</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1a26728c064f1d73b5c9fcdd5a09e5218c" kind="variable"><name>dataModelCatalogueVersion</name></member>
+    <member refid="structRDPedigree_1_1PedigreeMember_1aa14c21748afa86955a3f3dd9756b0616" kind="variable"><name>additionalInformation</name></member>
+  </compound>
+  <compound refid="structInterpretationRequestRD_1_1RareDisease" kind="struct"><name>InterpretationRequestRD::RareDisease</name>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1aa0cf0f58f96071d5b79bc845bda2868d" kind="variable"><name>pedigree</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1a0b42ad790754cf01c67aafb0868c0b54" kind="variable"><name>inbreedingCoefficientEstimates</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1aeb4a87d836dd5a0b7e1530330ea096ef" kind="variable"><name>ancestries</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1a58e30c303b3f981edb7b31e4b0ea60e0" kind="variable"><name>complexGeneticPhenomena</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1af98e2d7d5721f85834820f80c410dd55" kind="variable"><name>modeOfInheritance</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1a6c442e737dc473e6caedb4cc74dfa5a0" kind="variable"><name>virtualPanel</name></member>
+    <member refid="structInterpretationRequestRD_1_1RareDisease_1a60e2c9310c5fbd79dcf914037edf2ce4" kind="variable"><name>otherFamilyHistory</name></member>
+  </compound>
+  <compound refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" kind="struct"><name>InterpretedGenomesRD::RDInterpretationAnalysis</name>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a41b07c87a92f12b9e68fb89772c08b5d" kind="variable"><name>reportRequestId</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a576d62bce2ec493330b344d912c152fc" kind="variable"><name>analysisId</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad76424f465453d05b586875616d90a2d" kind="variable"><name>companyName</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a6fd7a270728ff5cb846189b74f0f776e" kind="variable"><name>reportURI</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad2d68ab34082e3e10fb6876a6d39ea92" kind="variable"><name>reportedVariants</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1aa79c36707152273da9a2e14cab978adf" kind="variable"><name>reportedStructuralVariants</name></member>
+    <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a56a03b680c2099df8f49399a9f6defc0" kind="variable"><name>comments</name></member>
+  </compound>
+  <compound refid="structInterpretationRequestRD_1_1RDInterpretationRequest" kind="struct"><name>InterpretationRequestRD::RDInterpretationRequest</name>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa29f1613ce072925b8fb443536114069" kind="variable"><name>reportRequestId</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5db56e39e73c230eb9186f66fb31ad5c" kind="variable"><name>genomeAssemblyVersion</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ab44c007e194d5cea5f4489245a596447" kind="variable"><name>reportVersion</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae9636257e923b4334c2d4708b70d771b" kind="variable"><name>interpretGenome</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1af2dd479ab584e39f54a82720488805e4" kind="variable"><name>workspace</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a91607ad318229e2b1c630bee48001efe" kind="variable"><name>BAMs</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a8d392c04d3357a2d01f4514dd60765df" kind="variable"><name>gVCFs</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa5cdaaf36e52e1fcb68875e95a51febd" kind="variable"><name>VCFs</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ac61e84f9e6fda166c927c04cf36f3fa1" kind="variable"><name>BigWigs</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aac743ab6e25178db75efff4868571bfd" kind="variable"><name>annotationFile</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae37e756e4bdfd7befc920ca35ab2f73e" kind="variable"><name>rareDisease</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ace139bf096c72ef1cc27c0948b2ce4f5" kind="variable"><name>analysisReturnURI</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa240d389941abe65c1b90b149493b7ba" kind="variable"><name>analysisVersion</name></member>
+    <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5c14f8e53882b294a926fe0303a85c5f" kind="variable"><name>additionalInfo</name></member>
+  </compound>
+  <compound refid="structRDPedigree_1_1RDParticipant" kind="struct"><name>RDPedigree::RDParticipant</name>
+    <member refid="structRDPedigree_1_1RDParticipant_1ae25407a26f8e9b8c54f9e95e4f41d96f" kind="variable"><name>pedigreeId</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a17ef124b5757faa321b49bb736f98a61" kind="variable"><name>gelId</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a785574e1ad5a7a6df686688abde2a3f3" kind="variable"><name>gelFamilyId</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1aed3db47b95840446acd5f968f0e41d59" kind="variable"><name>sex</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a8dd3f7f6eec8f301be6fc814bce43cd5" kind="variable"><name>fatherId</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a2f429246824b3677e2b33fa391abca23" kind="variable"><name>motherId</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a1e77a3afa2374fcceca8e7e47bdf60bc" kind="variable"><name>twinGroup</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a7aeb435dce0b50997b6f51d1f7ef4ad1" kind="variable"><name>monozygotic</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a3817bce884b38dacdf376ae3d8d1fea9" kind="variable"><name>adoptedStatus</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a31aaebb267c0a5e0a17e54de6b61a003" kind="variable"><name>lifeStatus</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a08a626e38288acbb253d832bff85c5a2" kind="variable"><name>consanguineousParents</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a244aac63769451a68afd4d76dee4ffcb" kind="variable"><name>consanguineousPopulation</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1aac2f9497b6ffa3546cc95522bf49a03d" kind="variable"><name>affectionStatus</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1ab0f390fe3413ded2423bc56969e21967" kind="variable"><name>disorderList</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a6575eb678c48c83c23709975a74a7f9c" kind="variable"><name>hpoTermList</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1ab4a2a9ab192abb35202445c8d0e234e3" kind="variable"><name>dataModelCatalogueVersion</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a5295d2b7e6fa3c70fd1a19c209253313" kind="variable"><name>consentStatus</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1a4a24dc6ca3bb20682390f3092e6d1d44" kind="variable"><name>samples</name></member>
+    <member refid="structRDPedigree_1_1RDParticipant_1ad9a547c493d60c88c5a35c9b89ed0801" kind="variable"><name>additionalInformation</name></member>
+  </compound>
+  <compound refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants" kind="struct"><name>InterpretedGenomesCancer::ReportedSomaticStructuralVariants</name>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a82cb3ac5ec202ca0024fa3b7fdfe8861" kind="variable"><name>chromosome</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1ab8d71e0a31defa6163660b80745021db" kind="variable"><name>start</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a7e4f579cd0fb964b2194886c6297c93b" kind="variable"><name>end</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a395397168beb718da2b9ae484bd1e955" kind="variable"><name>type</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a10b1f6f4d907b4b0157f87d6868d1069" kind="variable"><name>reference</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a6ad67d13a7539103bed7267f6ef3157c" kind="variable"><name>alternate</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a594f82ee7e6c5ed2784d29e34099132e" kind="variable"><name>ReportEvents</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1ac19a6161b4273e2b186f14b600d0e7b3" kind="variable"><name>calledGenotypes</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a6e6fa100f74247f0d45636981dd0a366" kind="variable"><name>internalScore</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a1949d2063fe8c661da62c157a3d036b9" kind="variable"><name>variantClassification</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a00e88567f0ca0cc1649cff6c63a1ba6b" kind="variable"><name>additionalTextualVariantAnnotations</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1afdaa3eb0039958019896d15e0988ba9f" kind="variable"><name>additionalNumericVariantAnnotations</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1a0126a2c3522737345513c3f9dfdfdbbf" kind="variable"><name>comments</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants_1abe4170f4de23c90ddfa1f7402adc3e39" kind="variable"><name>somaticOrGermline</name></member>
+  </compound>
+  <compound refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants" kind="struct"><name>InterpretedGenomesCancer::ReportedSomaticVariants</name>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a4ff15255e6fded460c4058648e041e45" kind="variable"><name>chromosome</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ac2786c57aa1f435f6be98ab3e6582821" kind="variable"><name>dbSNPid</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7d4a667bb9b8f0a469ea0b70f9f0e04b" kind="variable"><name>position</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a8bd0a518ee96cf7aa0b96e0d4c2d5e18" kind="variable"><name>reference</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1afbc3b353366f4b0c9036a9f95477ae47" kind="variable"><name>alternate</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a42e5e2e045ac2fcf0dc9194cbaaf24ae" kind="variable"><name>reportEvents</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a336e72b58919314aeccbb09d3344e8e1" kind="variable"><name>calledGenotypes</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a9b27d23233db9a40ed53e8837a9447c8" kind="variable"><name>internalScore</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a1dcb7894bfe2f9b9e5877f3514c45231" kind="variable"><name>variantClassification</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7e00b4f128eefcceb8039d28c016ecbf" kind="variable"><name>additionalTextualVariantAnnotations</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1aa66915bb8fb78c87333535739d882ec8" kind="variable"><name>additionalNumericVariantAnnotations</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ad435d0dd4e0fb23cc5b176b33b6a08d5" kind="variable"><name>comments</name></member>
+    <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1af78fde69a8a09f795ebdb345e93f1a21" kind="variable"><name>somaticOrGermline</name></member>
+  </compound>
+  <compound refid="structCommonInterpreted_1_1ReportedStructuralVariant" kind="struct"><name>CommonInterpreted::ReportedStructuralVariant</name>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a9fb252dd77b41237fcab24b7cc31709f" kind="variable"><name>chromosome</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a6d761d52800fab28b9f450a08630f776" kind="variable"><name>start</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1aff01fba28863fee1205c2600566dc905" kind="variable"><name>end</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a33bf5266c043a8898e113dd4ed42d522" kind="variable"><name>type</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a79438f441136bf278cf4c5eac554e6b6" kind="variable"><name>reference</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a2bb92ce2275e6955419c6b61920ab227" kind="variable"><name>alternate</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a121e60f3d0925465832a319007f908ce" kind="variable"><name>calledGenotypes</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a03bd3a12ad4c290ce4cd77faf9e06bd5" kind="variable"><name>reportEvents</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1aeed18e30616d264d679ba27457f5b75c" kind="variable"><name>additionalTextualVariantAnnotations</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1ac81a2e543480418736fbe5f1a4b681a7" kind="variable"><name>additionalNumericVariantAnnotations</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedStructuralVariant_1a6e9281628283d77455a7855af29a97c1" kind="variable"><name>comments</name></member>
+  </compound>
+  <compound refid="structCommonInterpreted_1_1ReportedVariant" kind="struct"><name>CommonInterpreted::ReportedVariant</name>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1a655e836d89b3d0a15413a1150fc73526" kind="variable"><name>chromosome</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1a8bf899c2f43210e4a981e18dfd3233cd" kind="variable"><name>dbSNPid</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1ab7d4680aa43dbbeb0d1e200b3a754f2d" kind="variable"><name>position</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1adfab00081950e43871eecb9124a973f8" kind="variable"><name>reference</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1af81708b2f5a48e24613915deb562f2eb" kind="variable"><name>alternate</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1a1628ea8134a894a016f87f6829c0e1b0" kind="variable"><name>calledGenotypes</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1ad9ea553970d37e76b42683253a36e744" kind="variable"><name>reportEvents</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1a02f466bd7ce97aac39fe87a21fd8510c" kind="variable"><name>additionalTextualVariantAnnotations</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1abb9a55430ba71e0b7729497579ffc7e3" kind="variable"><name>additionalNumericVariantAnnotations</name></member>
+    <member refid="structCommonInterpreted_1_1ReportedVariant_1ab16e23dd67a092340840cc9eafdd590b" kind="variable"><name>comments</name></member>
+  </compound>
+  <compound refid="structCommonInterpreted_1_1ReportEvent" kind="struct"><name>CommonInterpreted::ReportEvent</name>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a98da8614a5037138490f40dd523af311" kind="variable"><name>modeOfInheritance</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a9c81fea9e4159302e263d17678c53606" kind="variable"><name>transcript</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a53cd845d8e279adb21173558a796b2a4" kind="variable"><name>penetrance</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1aca2aee14c947a255a6e55c278de5c842" kind="variable"><name>score</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1afaf6a3e75f33ea196857493f4195bd3a" kind="variable"><name>vendorSpecificScores</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a5b84dd2e03f614ec1f7edff6c472ef1b" kind="variable"><name>variantClassification</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1abbe57dfe19a9c853c6910c6fdcfbaf6b" kind="variable"><name>fullyExplainsPhenotype</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a0820cf306ff13394a487b9e104569dd0" kind="variable"><name>groupOfVariants</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a3895d61835f94c9464833ee5a795722c" kind="variable"><name>eventJustification</name></member>
+    <member refid="structCommonInterpreted_1_1ReportEvent_1a6867e695c093acfb353535ac0abd4016" kind="variable"><name>tier</name></member>
+  </compound>
+  <compound refid="structSensitiveInformation_1_1SensitiveInformation" kind="struct"><name>SensitiveInformation::SensitiveInformation</name>
+    <member refid="structSensitiveInformation_1_1SensitiveInformation_1a8a40e61c31edbb642dd9d7c8363353c7" kind="variable"><name>externalIds</name></member>
+    <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1e217401a76e827bc172c8bf5933d45a" kind="variable"><name>genomicMedicineCenter</name></member>
+    <member refid="structSensitiveInformation_1_1SensitiveInformation_1a97ee62a8d0ea599cbc877ad06db72135" kind="variable"><name>fullNameOfResponsibleConsultant</name></member>
+    <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1e7090074e08c57dbbfe0c4a8e0ee463" kind="variable"><name>contactNumber</name></member>
+    <member refid="structSensitiveInformation_1_1SensitiveInformation_1a1d3fef3437a1aa1bf1619810b6dab611" kind="variable"><name>hospitalOfResponsibleConsultant</name></member>
+  </compound>
+  <compound refid="structCommonInterpreted_1_1Transcript" kind="struct"><name>CommonInterpreted::Transcript</name>
+    <member refid="structCommonInterpreted_1_1Transcript_1a3da25aa771074e3399a2cb695403aaf6" kind="variable"><name>geneSymbol</name></member>
+    <member refid="structCommonInterpreted_1_1Transcript_1ac9cd900bf504289ccdab8d9ea710257a" kind="variable"><name>transcriptId</name></member>
+    <member refid="structCommonInterpreted_1_1Transcript_1ad7f99dc553fded67a4e1fb8361411e90" kind="variable"><name>ids</name></member>
+    <member refid="structCommonInterpreted_1_1Transcript_1ae4627c55f7c3d4b8d5fcc902437989a0" kind="variable"><name>geneCoverage</name></member>
+  </compound>
+  <compound refid="structCommonRequest_1_1VirtualPanel" kind="struct"><name>CommonRequest::VirtualPanel</name>
+    <member refid="structCommonRequest_1_1VirtualPanel_1a888e4b7548bf9fcc98adefdad1efe9d4" kind="variable"><name>specificDiseaseTitle</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1a7528b9fa3d46d0a6f4b7bbb0b8c0fe40" kind="variable"><name>panelVersion</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1add7a8d892da24b27a13ddffc881c54f4" kind="variable"><name>ensemblVersion</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1a96358e9f8d295bd99a3078be39b9dcf9" kind="variable"><name>dataModelCatalogueVersion</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1adeaca3444398dd7e226b79cef33722bf" kind="variable"><name>geneIds</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1ac602d3fb38be1be1b13015ced548cea8" kind="variable"><name>Transcripts</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1ae94b5535f4db19fc0fe0028b976d0b16" kind="variable"><name>relevantRegions</name></member>
+    <member refid="structCommonRequest_1_1VirtualPanel_1a20ed335ca54f0222f44f5b34ac3a51c2" kind="variable"><name>clinicalRelevantVariants</name></member>
+  </compound>
+  <compound refid="namespaceCommonInterpreted" kind="namespace"><name>CommonInterpreted</name>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683" kind="enum"><name>VariantClassification</name></member>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683a73d121d73e64599752cbaddeba3f7f86" kind="enumvalue"><name>BENIGN</name></member>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683adf68f558e159d1f56c866ce8896c0491" kind="enumvalue"><name>LIKELY_BENIGN</name></member>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683acce904233eb68c39e2a8821b114a2007" kind="enumvalue"><name>VUS</name></member>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683a9e4ab483668f384dad4f74e1f750140f" kind="enumvalue"><name>LIKELY_PATHOGENIC</name></member>
+    <member refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683afe6d46324d12f39d2a58b5a73fdc18fd" kind="enumvalue"><name>PATHOGENIC</name></member>
+    <member refid="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549" kind="enum"><name>Penetrance</name></member>
+    <member refid="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549a1c8dcf5a56eefef673860ab8ccbee948" kind="enumvalue"><name>complete</name></member>
+    <member refid="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549ab55e54e20e5b38ed8af032f402813111" kind="enumvalue"><name>incomplete</name></member>
+    <member refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1" kind="enum"><name>Tier</name></member>
+    <member refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a6d01510372faba3b80bb95c12c651146" kind="enumvalue"><name>NONE</name></member>
+    <member refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a4e000688601c52372fb760dc0965f5a6" kind="enumvalue"><name>TIER1</name></member>
+    <member refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a3d89245941bc7b320feb839b243d0bb3" kind="enumvalue"><name>TIER2</name></member>
+    <member refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1a30701205d32f8c4c06d46c3f521011c9" kind="enumvalue"><name>TIER3</name></member>
+    <member refid="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760" kind="enum"><name>ReportType</name></member>
+    <member refid="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760acd77383faf3b644e98bbd84622201c1b" kind="enumvalue"><name>primaryFindings</name></member>
+    <member refid="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760a622ce6c86bdae3cefe139824381b2f22" kind="enumvalue"><name>SecondaryFindings</name></member>
+    <member refid="namespaceCommonInterpreted_1a6d0995beccb2da61ad24b5f741456760ab1e61bff76f7221921a89f667a627b29" kind="enumvalue"><name>CarrierStatus</name></member>
+  </compound>
+  <compound refid="namespaceCommonParticipant" kind="namespace"><name>CommonParticipant</name>
+    <member refid="namespaceCommonParticipant_1a6c4345b9e76e934906b062fa5c7113ef" kind="enum"><name>Sex</name></member>
+    <member refid="namespaceCommonParticipant_1a6c4345b9e76e934906b062fa5c7113efa4d2d633c02c2227e90efecb9fa617554" kind="enumvalue"><name>male</name></member>
+    <member refid="namespaceCommonParticipant_1a6c4345b9e76e934906b062fa5c7113efa484ac6adc0aafbebbcc95ebda9b3876c" kind="enumvalue"><name>female</name></member>
+    <member refid="namespaceCommonParticipant_1a6c4345b9e76e934906b062fa5c7113efa9855217c3b2f2094833b00ab8431d1fd" kind="enumvalue"><name>undetermined</name></member>
+    <member refid="namespaceCommonParticipant_1a36c27b7773f06d4bfbd2369ad87fd78a" kind="enum"><name>TernaryOption</name></member>
+    <member refid="namespaceCommonParticipant_1a36c27b7773f06d4bfbd2369ad87fd78aaee71be10919317fdefd229c94aff3d20" kind="enumvalue"><name>yes</name></member>
+    <member refid="namespaceCommonParticipant_1a36c27b7773f06d4bfbd2369ad87fd78aa3034a56b53d1160df546f1ff24701625" kind="enumvalue"><name>no</name></member>
+    <member refid="namespaceCommonParticipant_1a36c27b7773f06d4bfbd2369ad87fd78aa2f42ba11cacbd273eee9c5b204ea5465" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53e" kind="enum"><name>EthnicCategory</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea45b70127731ad3819405b8c5920fadce" kind="enumvalue"><name>D</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53eab0914e80be5a877780f3e21528bbb5af" kind="enumvalue"><name>E</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53eaa5236e922bf4187e7ab2df158662c12e" kind="enumvalue"><name>F</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea8a47bdf632a7e4ffebc67abff9cd29b9" kind="enumvalue"><name>G</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea507e7d0d2d4ce743cccb076ced0a21d4" kind="enumvalue"><name>A</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea756950dcad8c5028c82db8e8e3089da7" kind="enumvalue"><name>B</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea5135ef2d25676dbc61396097fa02876a" kind="enumvalue"><name>C</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53eac1f31df30c1743c886dee5be0bd09cce" kind="enumvalue"><name>L</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea42d95878b40b7f040c0ad1643b7184ff" kind="enumvalue"><name>M</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea8f45a1c73260ecfabd0d02a30982f47c" kind="enumvalue"><name>N</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea3c39c2677022dc29dd9d659ad8aeea7f" kind="enumvalue"><name>H</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea9622a4784734252c8250cb39df5b08aa" kind="enumvalue"><name>J</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea6c102eb16937009f51bfe04e4aa66bae" kind="enumvalue"><name>K</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53eac261bc5405e9d38d37274c1fa8bb4976" kind="enumvalue"><name>P</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea201bf864087c5286e2017d67f7e92b34" kind="enumvalue"><name>S</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea6ed182f2f28cdf57c745cb06eb03993d" kind="enumvalue"><name>R</name></member>
+    <member refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53ea8963d967ca2c0c12b6ebe38046cc37a5" kind="enumvalue"><name>Z</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737" kind="enum"><name>KGPopCategory</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a9a9fbe06bbeeaab1d996166d3f5ca72b" kind="enumvalue"><name>ACB</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737aaeccfb823cd7081c47732e7f85c52bba" kind="enumvalue"><name>ASW</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a5735f7374de106d3aacc8031e10611bc" kind="enumvalue"><name>BEB</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737af155e52e367d146df756a14f12f137a5" kind="enumvalue"><name>CDX</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a64a1076210846c201784a7c5ddfb858a" kind="enumvalue"><name>CEU</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a17485efa4fc864fa004314bc606651a1" kind="enumvalue"><name>CHB</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737abf2a2c1c7282b35041220cf8a2f0d833" kind="enumvalue"><name>CHS</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737abb3bd2dd006b15e688962aa9fa335110" kind="enumvalue"><name>CLM</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a5fabb8ccd316aa224dc73d52f3b38e5a" kind="enumvalue"><name>ESN</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a584685dc494f5b5ae64fda7ea5d84aec" kind="enumvalue"><name>FIN</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a1f61bf5d6072fa7574253223955bade6" kind="enumvalue"><name>GBR</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737aa9d36831d3f472309a88b3d42b81f5fb" kind="enumvalue"><name>GIH</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a1645e1d87bb8d616b5954ee926a2bb04" kind="enumvalue"><name>GWD</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a8faa4a000a60319128345823bb4b1a24" kind="enumvalue"><name>IBS</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a2bf983874e48fe446095f3732817d5c9" kind="enumvalue"><name>ITU</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a5a064775906e33a2a9476f7989bfe580" kind="enumvalue"><name>JPT</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737abf177ee79810b5e54d93947273953bd5" kind="enumvalue"><name>KHV</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737ac2312a2e0c4c84ec81d4ea92b188d16c" kind="enumvalue"><name>LWK</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a0cb4a34370c170fb8ce05258bde1867e" kind="enumvalue"><name>MSL</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a90a155dcd7b3aea2c714b203d4f62c26" kind="enumvalue"><name>MXL</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737ac4678843886305dd0ccb3a2ed1a189a6" kind="enumvalue"><name>PEL</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a34947cdeb922bdfb0ec3f87631b39869" kind="enumvalue"><name>PJL</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737ac1ae40cf53ee5339992c522f1e9a3c85" kind="enumvalue"><name>PUR</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a21c62d43c2a969a1e3e35495aec73e5d" kind="enumvalue"><name>STU</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737a7bdf678d89449de9a19bde8871945269" kind="enumvalue"><name>TSI</name></member>
+    <member refid="namespaceCommonParticipant_1a4c67461f454a3caf408aaaba557d4737aaf49179bd187c326f23366e81ea9a4c1" kind="enumvalue"><name>YRI</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044e" kind="enum"><name>KGSuperPopCategory</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044ea4c9411ccaba6f1edd9256af7c07316a2" kind="enumvalue"><name>AFR</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044eac501a833b35c3d5274fd97729bc71963" kind="enumvalue"><name>AMR</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044ea8cbe906fc8e55167842e19220a6bde15" kind="enumvalue"><name>EAS</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044eaffc7788e26702b244c313660c0f6938b" kind="enumvalue"><name>EUR</name></member>
+    <member refid="namespaceCommonParticipant_1af4a4d0a0926192c2e8fd38f935fe044ea511b655afbba2d5daaf4e865b77edc40" kind="enumvalue"><name>SAS</name></member>
+  </compound>
+  <compound refid="namespaceCommonRequest" kind="namespace"><name>CommonRequest</name>
+  </compound>
+  <compound refid="namespaceInterpretationRequestCancer" kind="namespace"><name>InterpretationRequestCancer</name>
+    <member refid="namespaceInterpretationRequestCancer_1a9ebf8f0b192d4aea7e5ad53ce678334a" kind="variable"><name>avdl</name></member>
+  </compound>
+  <compound refid="namespaceInterpretationRequestRD" kind="namespace"><name>InterpretationRequestRD</name>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243ab" kind="enum"><name>ModelOfInheritance</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba1b3fa7ee838555a7bb40c6a8c8dc33e1" kind="enumvalue"><name>monoallelic_not_imprinted</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abafe71158684dd7434f334b9ebfaf771bb" kind="enumvalue"><name>monoallelic_maternally_imprinted</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abad688c4099113c056db08249fcfabb492" kind="enumvalue"><name>monoallelic_paternally_imprinted</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba98464611691755fa1226af88c0158aab" kind="enumvalue"><name>monoallelic</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba2f93a6e09751b30188ad129634fd95f6" kind="enumvalue"><name>xlinked_biallelic</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abacbaf27783478f640df4cf7c0976d1917" kind="enumvalue"><name>xlinked_monoallelic</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba7ce795cbd76d0809af1f6212be437e5d" kind="enumvalue"><name>mitochondrial</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba9f6288daea77373d09eb354381e22774" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97" kind="enum"><name>ComplexGeneticPhenomena</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97aa8ec0ba2c4dc3659c80dccbf4e478ef5" kind="enumvalue"><name>mosaicism</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a9bf762b4330bab7749536bef9236bc39" kind="enumvalue"><name>monosomy</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a3946d110af32037629ad78e2410261e1" kind="enumvalue"><name>disomy</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a1fbf4a40bf7f8ba47ffab78655ab2b11" kind="enumvalue"><name>uniparental_disomy</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97ac233e284fb67012da04a62fbb45619c1" kind="enumvalue"><name>trisomy</name></member>
+    <member refid="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a4a02f3a9c958771d36f42e27d5685ea3" kind="enumvalue"><name>other_aneuploidy</name></member>
+    <member refid="namespaceInterpretationRequestRD_1a3bde6b7748e2a26ff8d2745eaeab534f" kind="variable"><name>avdl</name></member>
+  </compound>
+  <compound refid="namespaceInterpretedGenomesCancer" kind="namespace"><name>InterpretedGenomesCancer</name>
+    <member refid="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911" kind="enum"><name>SomaticOrGermline</name></member>
+    <member refid="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a64f8333cc2a14091150f6e094924ec59" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a3bbfabedbc5324715cecd36b8a1b40b3" kind="enumvalue"><name>somatic</name></member>
+    <member refid="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911a6f6a5ccc55667ca4e4127e991274ac65" kind="enumvalue"><name>germline</name></member>
+    <member refid="namespaceInterpretedGenomesCancer_1a00501b862c20fdbd08e9c3f00cfcceee" kind="variable"><name>avdl</name></member>
+  </compound>
+  <compound refid="namespaceInterpretedGenomesRD" kind="namespace"><name>InterpretedGenomesRD</name>
+    <member refid="namespaceInterpretedGenomesRD_1acf61da7779894c2b109c728e0d0c0d8c" kind="variable"><name>avdl</name></member>
+  </compound>
+  <compound refid="namespaceRDPedigree" kind="namespace"><name>RDPedigree</name>
+    <member refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1" kind="enum"><name>Sex</name></member>
+    <member refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a011e6013422f6a01549837ff9a834ead" kind="enumvalue"><name>male</name></member>
+    <member refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a3d1f490c5e6ac1a9423628a54c3ee641" kind="enumvalue"><name>female</name></member>
+    <member refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a467e5885d296b828206ffc7c133c8034" kind="enumvalue"><name>undetermined</name></member>
+    <member refid="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3" kind="enum"><name>TernaryOption</name></member>
+    <member refid="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3ad3c10e0f34536191145d21be52069653" kind="enumvalue"><name>yes</name></member>
+    <member refid="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3a64e896f2054a3c206908cf13dbbacf60" kind="enumvalue"><name>no</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" kind="enum"><name>AffectionStatus</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" kind="enumvalue"><name>unaffected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" kind="enumvalue"><name>affected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" kind="enumvalue"><name>unaffected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" kind="enumvalue"><name>affected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209" kind="enum"><name>LifeStatus</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" kind="enumvalue"><name>alive</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" kind="enumvalue"><name>aborted</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" kind="enumvalue"><name>deceased</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" kind="enumvalue"><name>unborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" kind="enumvalue"><name>stillborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" kind="enumvalue"><name>miscarriage</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" kind="enumvalue"><name>alive</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" kind="enumvalue"><name>aborted</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" kind="enumvalue"><name>deceased</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" kind="enumvalue"><name>unborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" kind="enumvalue"><name>stillborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" kind="enumvalue"><name>miscarriage</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" kind="enum"><name>AdoptedStatus</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" kind="enumvalue"><name>not_adopted</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" kind="enumvalue"><name>adoptedin</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" kind="enumvalue"><name>adoptedout</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" kind="enumvalue"><name>not_adopted</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" kind="enumvalue"><name>adoptedin</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" kind="enumvalue"><name>adoptedout</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" kind="enum"><name>AffectionStatus</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" kind="enumvalue"><name>unaffected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" kind="enumvalue"><name>affected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" kind="enumvalue"><name>unaffected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" kind="enumvalue"><name>affected</name></member>
+    <member refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" kind="enumvalue"><name>unknown</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209" kind="enum"><name>LifeStatus</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" kind="enumvalue"><name>alive</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" kind="enumvalue"><name>aborted</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" kind="enumvalue"><name>deceased</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" kind="enumvalue"><name>unborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" kind="enumvalue"><name>stillborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" kind="enumvalue"><name>miscarriage</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" kind="enumvalue"><name>alive</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" kind="enumvalue"><name>aborted</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" kind="enumvalue"><name>deceased</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" kind="enumvalue"><name>unborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" kind="enumvalue"><name>stillborn</name></member>
+    <member refid="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" kind="enumvalue"><name>miscarriage</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" kind="enum"><name>AdoptedStatus</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" kind="enumvalue"><name>not_adopted</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" kind="enumvalue"><name>adoptedin</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" kind="enumvalue"><name>adoptedout</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" kind="enumvalue"><name>not_adopted</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" kind="enumvalue"><name>adoptedin</name></member>
+    <member refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" kind="enumvalue"><name>adoptedout</name></member>
+    <member refid="namespaceRDPedigree_1ad8ab411d553c29aceb648215b8300af0" kind="variable"><name>avdl</name></member>
+  </compound>
+  <compound refid="namespaceSensitiveInformation" kind="namespace"><name>SensitiveInformation</name>
+  </compound>
+  <compound refid="CancerParticipant_8avdl" kind="file"><name>CancerParticipant.avdl</name>
+  </compound>
+  <compound refid="CommonInterpreted_8avdl" kind="file"><name>CommonInterpreted.avdl</name>
+  </compound>
+  <compound refid="CommonParticipant_8avdl" kind="file"><name>CommonParticipant.avdl</name>
+  </compound>
+  <compound refid="CommonRequest_8avdl" kind="file"><name>CommonRequest.avdl</name>
+  </compound>
+  <compound refid="InterpretationRequestCancer_8avdl" kind="file"><name>InterpretationRequestCancer.avdl</name>
+  </compound>
+  <compound refid="InterpretationRequestRD_8avdl" kind="file"><name>InterpretationRequestRD.avdl</name>
+  </compound>
+  <compound refid="InterpretedGenomesCancer_8avdl" kind="file"><name>InterpretedGenomesCancer.avdl</name>
+  </compound>
+  <compound refid="InterpretedGenomesRD_8avdl" kind="file"><name>InterpretedGenomesRD.avdl</name>
+  </compound>
+  <compound refid="ParticipantSensitiveInformation_8avdl" kind="file"><name>ParticipantSensitiveInformation.avdl</name>
+  </compound>
+  <compound refid="Pedigree_8avdl" kind="file"><name>Pedigree.avdl</name>
+  </compound>
+  <compound refid="RDParticipant_8avdl" kind="file"><name>RDParticipant.avdl</name>
+  </compound>
+  <compound refid="dir_2529cba52821706394ef46f7a2d0b660" kind="dir"><name>/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs</name>
+  </compound>
+  <compound refid="dir_586d0515919d6cf8184dff168e5a4b5e" kind="dir"><name>/home/antonior/PycharmGEL/GelReportModels/schemas</name>
+  </compound>
+</doxygenindex>

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonParticipant_1_1ConsentStatus" kind="struct" prot="public">
+    <compoundname>CommonParticipant::ConsentStatus</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonParticipant_1_1ConsentStatus_1a28e48854873e2eb335ce20fb64ddf536" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean CommonParticipant::ConsentStatus::programmeConsent</definition>
+        <argsstring></argsstring>
+        <name>programmeConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Is this individual consented to the programme? It could simple be a family member that is not consented but for whom affection status is known False by default! needs to be explicitly changed </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="53" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1ConsentStatus_1a5c471a6cf6b6a629aff53b93127fe0d9" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean CommonParticipant::ConsentStatus::primaryFindingConsent</definition>
+        <argsstring></argsstring>
+        <name>primaryFindingConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for feedback of primary findings? False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="59" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1ConsentStatus_1a9220497814bb3aaa5000ac9cd12e0fee" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean CommonParticipant::ConsentStatus::secondaryFindingConsent</definition>
+        <argsstring></argsstring>
+        <name>secondaryFindingConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for secondary finding lookup False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="65" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1ConsentStatus_1ac6ed0b174868c9cc715a381fbb29f6a7" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean CommonParticipant::ConsentStatus::carrierStatusConsent</definition>
+        <argsstring></argsstring>
+        <name>carrierStatusConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for carrier status check? False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="71" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Consent Status </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="46" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="46" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structCommonParticipant_1_1ConsentStatus_1ac6ed0b174868c9cc715a381fbb29f6a7" prot="public" virt="non-virtual"><scope>CommonParticipant::ConsentStatus</scope><name>carrierStatusConsent</name></member>
+      <member refid="structCommonParticipant_1_1ConsentStatus_1a5c471a6cf6b6a629aff53b93127fe0d9" prot="public" virt="non-virtual"><scope>CommonParticipant::ConsentStatus</scope><name>primaryFindingConsent</name></member>
+      <member refid="structCommonParticipant_1_1ConsentStatus_1a28e48854873e2eb335ce20fb64ddf536" prot="public" virt="non-virtual"><scope>CommonParticipant::ConsentStatus</scope><name>programmeConsent</name></member>
+      <member refid="structCommonParticipant_1_1ConsentStatus_1a9220497814bb3aaa5000ac9cd12e0fee" prot="public" virt="non-virtual"><scope>CommonParticipant::ConsentStatus</scope><name>secondaryFindingConsent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

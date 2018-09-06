@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonInterpreted_1_1ReportEvent" kind="struct" prot="public">
+    <compoundname>CommonInterpreted::ReportEvent</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a98da8614a5037138490f40dd523af311" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonInterpreted::ReportEvent::modeOfInheritance</definition>
+        <argsstring></argsstring>
+        <name>modeOfInheritance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the description of the model of inheritance, (now it&apos;s free text, in next version should be an enumeration) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="83" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a9c81fea9e4159302e263d17678c53606" prot="public" static="no" mutable="no">
+        <type><ref refid="structCommonInterpreted_1_1Transcript" kindref="compound">Transcript</ref></type>
+        <definition>Transcript CommonInterpreted::ReportEvent::transcript</definition>
+        <argsstring></argsstring>
+        <name>transcript</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the transcript of interest for this reported variant, please note that one variant can overlap more that one gene/transcript If more than one gene is considered interesting for this particular variant, should be reported in two different ReportEvents </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="90" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a53cd845d8e279adb21173558a796b2a4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceCommonInterpreted_1a21e8f0921f2c4c3ca0330831a1ccd549" kindref="member">Penetrance</ref></type>
+        <definition>Penetrance CommonInterpreted::ReportEvent::penetrance</definition>
+        <argsstring></argsstring>
+        <name>penetrance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the penetrance assumed for scoring or classifying this variant </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="95" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1aca2aee14c947a255a6e55c278de5c842" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float CommonInterpreted::ReportEvent::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the score provided by the company to reflect a variant&apos;s likelihood of explaining the phenotype using a specific mode of Inheritance </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="101" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1afaf6a3e75f33ea196857493f4195bd3a" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; float &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;float&gt; &gt; CommonInterpreted::ReportEvent::vendorSpecificScores</definition>
+        <argsstring></argsstring>
+        <name>vendorSpecificScores</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Other scores that the interpretation provider may add (for example phenotypically informed or family informed scores) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="106" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a5b84dd2e03f614ec1f7edff6c472ef1b" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="namespaceCommonInterpreted_1a0cd4ef214dcf6ff07f57694ae5809683" kindref="member">VariantClassification</ref> &gt;</type>
+        <definition>union&lt;null, VariantClassification&gt; CommonInterpreted::ReportEvent::variantClassification</definition>
+        <argsstring></argsstring>
+        <name>variantClassification</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Classification of the pathogenicity of this variant with respect to the phenotype </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="111" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1abbe57dfe19a9c853c6910c6fdcfbaf6b" prot="public" static="no" mutable="no">
+        <type>union&lt; null, boolean &gt;</type>
+        <definition>union&lt;null, boolean&gt; CommonInterpreted::ReportEvent::fullyExplainsPhenotype</definition>
+        <argsstring></argsstring>
+        <name>fullyExplainsPhenotype</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This variant using this mode of inheritance can fully explain the phenotype? true or false </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="116" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a0820cf306ff13394a487b9e104569dd0" prot="public" static="no" mutable="no">
+        <type>union&lt; null, int &gt;</type>
+        <definition>union&lt;null, int&gt; CommonInterpreted::ReportEvent::groupOfVariants</definition>
+        <argsstring></argsstring>
+        <name>groupOfVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This value groups variants that together could explain the phenotype according to the mode of inheritance used. All the variants sharing the same value will be considered in the same group. This value is an integer unique in the whole analysis. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="123" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a3895d61835f94c9464833ee5a795722c" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonInterpreted::ReportEvent::eventJustification</definition>
+        <argsstring></argsstring>
+        <name>eventJustification</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the description of why this variant would be reported, for example that it affects the protein in this way and that this gene has been implicated in this disorder in these publications. Publications should be provided as PMIDs using the format [PMID:8075643]. Other sources can be used in the same manner, e.g. [OMIM:163500]. Brackets need to be included. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="130" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportEvent_1a6867e695c093acfb353535ac0abd4016" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="namespaceCommonInterpreted_1ac783dff3cb3f6c833eb582ea52dfbdd1" kindref="member">Tier</ref> &gt;</type>
+        <definition>union&lt;null, Tier&gt; CommonInterpreted::ReportEvent::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="133" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="45">
+        <label>CommonInterpreted::ReportEvent</label>
+        <link refid="structCommonInterpreted_1_1ReportEvent"/>
+        <childnode refid="46" relation="usage">
+          <edgelabel>transcript</edgelabel>
+        </childnode>
+      </node>
+      <node id="46">
+        <label>CommonInterpreted::Transcript</label>
+        <link refid="structCommonInterpreted_1_1Transcript"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="78" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="78" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a3895d61835f94c9464833ee5a795722c" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>eventJustification</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1abbe57dfe19a9c853c6910c6fdcfbaf6b" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>fullyExplainsPhenotype</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a0820cf306ff13394a487b9e104569dd0" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>groupOfVariants</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a98da8614a5037138490f40dd523af311" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>modeOfInheritance</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a53cd845d8e279adb21173558a796b2a4" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>penetrance</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1aca2aee14c947a255a6e55c278de5c842" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>score</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a6867e695c093acfb353535ac0abd4016" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>tier</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a9c81fea9e4159302e263d17678c53606" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>transcript</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1a5b84dd2e03f614ec1f7edff6c472ef1b" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>variantClassification</name></member>
+      <member refid="structCommonInterpreted_1_1ReportEvent_1afaf6a3e75f33ea196857493f4195bd3a" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportEvent</scope><name>vendorSpecificScores</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

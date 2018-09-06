@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceRDPedigree" kind="namespace">
+    <compoundname>RDPedigree</compoundname>
+    <innerclass refid="structRDPedigree_1_1ConsentStatus" prot="public">RDPedigree::ConsentStatus</innerclass>
+    <innerclass refid="structRDPedigree_1_1Disorder" prot="public">RDPedigree::Disorder</innerclass>
+    <innerclass refid="structRDPedigree_1_1HpoTerm" prot="public">RDPedigree::HpoTerm</innerclass>
+    <innerclass refid="structRDPedigree_1_1Pedigree" prot="public">RDPedigree::Pedigree</innerclass>
+    <innerclass refid="structRDPedigree_1_1PedigreeMember" prot="public">RDPedigree::PedigreeMember</innerclass>
+    <innerclass refid="structRDPedigree_1_1RDParticipant" prot="public">RDPedigree::RDParticipant</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1" prot="public" static="no">
+        <name>Sex</name>
+        <enumvalue id="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a011e6013422f6a01549837ff9a834ead" prot="public">
+          <name>male</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a3d1f490c5e6ac1a9423628a54c3ee641" prot="public">
+          <name>female</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1a467e5885d296b828206ffc7c133c8034" prot="public">
+          <name>undetermined</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp. Currently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be completed but we add the others for generality </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="12" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3" prot="public" static="no">
+        <name>TernaryOption</name>
+        <enumvalue id="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3ad3c10e0f34536191145d21be52069653" prot="public">
+          <name>yes</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a1e8efe50260a05f7cd22379b960c63b3a64e896f2054a3c206908cf13dbbacf60" prot="public">
+          <name>no</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="15" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="15" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" prot="public" static="no">
+        <name>AffectionStatus</name>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" prot="public">
+          <name>unaffected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" prot="public">
+          <name>affected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" prot="public">
+          <name>unaffected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" prot="public">
+          <name>affected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Definitions of enumeration used in <ref refid="structRDPedigree_1_1RDParticipant" kindref="compound">RDParticipant</ref> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="101" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209" prot="public" static="no">
+        <name>LifeStatus</name>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" prot="public">
+          <name>alive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" prot="public">
+          <name>aborted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" prot="public">
+          <name>deceased</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" prot="public">
+          <name>unborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" prot="public">
+          <name>stillborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" prot="public">
+          <name>miscarriage</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" prot="public">
+          <name>alive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" prot="public">
+          <name>aborted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" prot="public">
+          <name>deceased</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" prot="public">
+          <name>unborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" prot="public">
+          <name>stillborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" prot="public">
+          <name>miscarriage</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="103" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" prot="public" static="no">
+        <name>AdoptedStatus</name>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" prot="public">
+          <name>not_adopted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" prot="public">
+          <name>adoptedin</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" prot="public">
+          <name>adoptedout</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" prot="public">
+          <name>not_adopted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" prot="public">
+          <name>adoptedin</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" prot="public">
+          <name>adoptedout</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default is not_adopted adoptedin means adopted into the family adoptedout means child belonged to the family and was adopted out </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="110" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" prot="public" static="no">
+        <name>AffectionStatus</name>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" prot="public">
+          <name>unaffected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" prot="public">
+          <name>affected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2a644b891b7b296bdfc371ad20c618a5df" prot="public">
+          <name>unaffected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ab818f8297b032bff5d04352c4b0e6152" prot="public">
+          <name>affected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2ac6cb26db75251824e9e62c7531ab1b6a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Definitions of enumeration used in <ref refid="structRDPedigree_1_1RDParticipant" kindref="compound">RDParticipant</ref> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="71" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209" prot="public" static="no">
+        <name>LifeStatus</name>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" prot="public">
+          <name>alive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" prot="public">
+          <name>aborted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" prot="public">
+          <name>deceased</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" prot="public">
+          <name>unborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" prot="public">
+          <name>stillborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" prot="public">
+          <name>miscarriage</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a93f67b15153e3885cdd725495ae7e3d0" prot="public">
+          <name>alive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a70d06471e25a57ed786d4e45043f4ea7" prot="public">
+          <name>aborted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209acc4e4d0eea51d80a4c7feec9805273ee" prot="public">
+          <name>deceased</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ac789cfe2da60d88ff22ff6d8ea345bb0" prot="public">
+          <name>unborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209ad99c6db33d099af2e618c0ff33771b48" prot="public">
+          <name>stillborn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1a5ea11b5793ec3f4c8e920ddcb4f84209a38d9ae1f06b7418e1be997356b3a6553" prot="public">
+          <name>miscarriage</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="73" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" prot="public" static="no">
+        <name>AdoptedStatus</name>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" prot="public">
+          <name>not_adopted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" prot="public">
+          <name>adoptedin</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" prot="public">
+          <name>adoptedout</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ad30861e2bcbf740ae2b17f3229ad0d6b" prot="public">
+          <name>not_adopted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82a234335e1ea8bf2563868fdadd38a8bb9" prot="public">
+          <name>adoptedin</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82ac9eff4ceb61fd61398254f11548dfe89" prot="public">
+          <name>adoptedout</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default is not_adopted adoptedin means adopted into the family adoptedout means child belonged to the family and was adopted out </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="80" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="80" bodyend="80"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceRDPedigree_1ad8ab411d553c29aceb648215b8300af0" prot="public" static="no" mutable="no">
+        <type>import idl CommonRequest</type>
+        <definition>import idl CommonParticipant RDPedigree::avdl</definition>
+        <argsstring></argsstring>
+        <name>avdl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="7" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This protocol defines the Participants and <ref refid="structRDPedigree_1_1Pedigree" kindref="compound">Pedigree</ref> </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="5" column="1"/>
+  </compounddef>
+</doxygen>

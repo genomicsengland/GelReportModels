@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis" kind="struct" prot="public">
+    <compoundname>InterpretedGenomesCancer::CancerInterpretationAnalysis</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ac44a2fd737a17905e874afcf7f37a16a" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::CancerInterpretationAnalysis::reportRequestId</definition>
+        <argsstring></argsstring>
+        <name>reportRequestId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TODO: ARM To check ReportType This is the ID of the clinical interpretation request </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="166" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ae69e3394296eff408d456b2439b60389" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::CancerInterpretationAnalysis::analysisId</definition>
+        <argsstring></argsstring>
+        <name>analysisId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This object define the type of report being returned for the participant</para><para>ReportType reportType; This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters used to produce the clinical interpretation over this group of samples. It is critical to establish provenance. It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="180" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1acdb9d3c8ee0fd7ce3d5ab08bcb9c13d2" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::CancerInterpretationAnalysis::companyName</definition>
+        <argsstring></argsstring>
+        <name>companyName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="182" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a4730ec5c09b72cee4c94636e0631bf93" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::CancerInterpretationAnalysis::reportURI</definition>
+        <argsstring></argsstring>
+        <name>reportURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="184" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a1cee6df991dc045dd2fe4bef2554c154" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants" kindref="compound">ReportedSomaticVariants</ref> &gt;</type>
+        <definition>array&lt;ReportedSomaticVariants&gt; InterpretedGenomesCancer::CancerInterpretationAnalysis::reportedVariants</definition>
+        <argsstring></argsstring>
+        <name>reportedVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="186" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ab2a0235ffbdf25a3161eaa5e5016d872" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structInterpretedGenomesCancer_1_1ReportedSomaticStructuralVariants" kindref="compound">ReportedSomaticStructuralVariants</ref> &gt;</type>
+        <definition>array&lt;ReportedSomaticStructuralVariants&gt; InterpretedGenomesCancer::CancerInterpretationAnalysis::reportedStructuralVariants</definition>
+        <argsstring></argsstring>
+        <name>reportedStructuralVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="188" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a01983fa2f686059074bb561e9d04f5de" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; InterpretedGenomesCancer::CancerInterpretationAnalysis::comments</definition>
+        <argsstring></argsstring>
+        <name>comments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comments about the report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="193" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="160" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="160" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ae69e3394296eff408d456b2439b60389" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>analysisId</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a01983fa2f686059074bb561e9d04f5de" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>comments</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1acdb9d3c8ee0fd7ce3d5ab08bcb9c13d2" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>companyName</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ab2a0235ffbdf25a3161eaa5e5016d872" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>reportedStructuralVariants</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a1cee6df991dc045dd2fe4bef2554c154" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>reportedVariants</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1ac44a2fd737a17905e874afcf7f37a16a" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>reportRequestId</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1CancerInterpretationAnalysis_1a4730ec5c09b72cee4c94636e0631bf93" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::CancerInterpretationAnalysis</scope><name>reportURI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

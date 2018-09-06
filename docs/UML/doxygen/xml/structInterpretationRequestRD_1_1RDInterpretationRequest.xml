@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretationRequestRD_1_1RDInterpretationRequest" kind="struct" prot="public">
+    <compoundname>InterpretationRequestRD::RDInterpretationRequest</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa29f1613ce072925b8fb443536114069" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestRD::RDInterpretationRequest::reportRequestId</definition>
+        <argsstring></argsstring>
+        <name>reportRequestId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique id for this report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="85" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5db56e39e73c230eb9186f66fb31ad5c" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestRD::RDInterpretationRequest::genomeAssemblyVersion</definition>
+        <argsstring></argsstring>
+        <name>genomeAssemblyVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="87" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1ab44c007e194d5cea5f4489245a596447" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int InterpretationRequestRD::RDInterpretationRequest::reportVersion</definition>
+        <argsstring></argsstring>
+        <name>reportVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Version of this report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="92" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae9636257e923b4334c2d4708b70d771b" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean InterpretationRequestRD::RDInterpretationRequest::interpretGenome</definition>
+        <argsstring></argsstring>
+        <name>interpretGenome</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simply load data to system or also provide interpretation? </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="97" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1af2dd479ab584e39f54a82720488805e4" prot="public" static="no" mutable="no">
+        <type>array&lt; string &gt;</type>
+        <definition>array&lt;string&gt; InterpretationRequestRD::RDInterpretationRequest::workspace</definition>
+        <argsstring></argsstring>
+        <name>workspace</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="99" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1a91607ad318229e2b1c630bee48001efe" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestRD::RDInterpretationRequest::BAMs</definition>
+        <argsstring></argsstring>
+        <name>BAMs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BAMs Files </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="104" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1a8d392c04d3357a2d01f4514dd60765df" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestRD::RDInterpretationRequest::gVCFs</definition>
+        <argsstring></argsstring>
+        <name>gVCFs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>gVCFs Files where SNVs and INDELs are represented </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="109" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa5cdaaf36e52e1fcb68875e95a51febd" prot="public" static="no" mutable="no">
+        <type>array&lt; File &gt;</type>
+        <definition>array&lt;File&gt; InterpretationRequestRD::RDInterpretationRequest::VCFs</definition>
+        <argsstring></argsstring>
+        <name>VCFs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>VCFs Files where SVs and CNVs are represented </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="114" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1ac61e84f9e6fda166c927c04cf36f3fa1" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; File &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;File&gt; &gt; InterpretationRequestRD::RDInterpretationRequest::BigWigs</definition>
+        <argsstring></argsstring>
+        <name>BigWigs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BigWig Files </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="119" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1aac743ab6e25178db75efff4868571bfd" prot="public" static="no" mutable="no">
+        <type>union&lt; null, File &gt;</type>
+        <definition>union&lt;null, File&gt; InterpretationRequestRD::RDInterpretationRequest::annotationFile</definition>
+        <argsstring></argsstring>
+        <name>annotationFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be the output file from Cellbase + version used </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="124" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae37e756e4bdfd7befc920ca35ab2f73e" prot="public" static="no" mutable="no">
+        <type><ref refid="structInterpretationRequestRD_1_1RareDisease" kindref="compound">RareDisease</ref></type>
+        <definition>RareDisease InterpretationRequestRD::RDInterpretationRequest::rareDisease</definition>
+        <argsstring></argsstring>
+        <name>rareDisease</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="126" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1ace139bf096c72ef1cc27c0948b2ce4f5" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestRD::RDInterpretationRequest::analysisReturnURI</definition>
+        <argsstring></argsstring>
+        <name>analysisReturnURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="128" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa240d389941abe65c1b90b149493b7ba" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretationRequestRD::RDInterpretationRequest::analysisVersion</definition>
+        <argsstring></argsstring>
+        <name>analysisVersion</name>
+        <initializer>=&quot;1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>In the event that the provider has multiple versions of their system and an analysis will need to be provided against a particular version, then that version goes here. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="134" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5c14f8e53882b294a926fe0303a85c5f" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;string&gt; &gt; InterpretationRequestRD::RDInterpretationRequest::additionalInfo</definition>
+        <argsstring></argsstring>
+        <name>additionalInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional information </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="140" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This record represents basic information for this report </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="31">
+        <label>InterpretationRequestRD::RDInterpretationRequest</label>
+        <link refid="structInterpretationRequestRD_1_1RDInterpretationRequest"/>
+        <childnode refid="32" relation="usage">
+          <edgelabel>rareDisease</edgelabel>
+        </childnode>
+      </node>
+      <node id="32">
+        <label>InterpretationRequestRD::RareDisease</label>
+        <link refid="structInterpretationRequestRD_1_1RareDisease"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="81" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="81" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5c14f8e53882b294a926fe0303a85c5f" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>additionalInfo</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ace139bf096c72ef1cc27c0948b2ce4f5" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>analysisReturnURI</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa240d389941abe65c1b90b149493b7ba" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>analysisVersion</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aac743ab6e25178db75efff4868571bfd" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>annotationFile</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a91607ad318229e2b1c630bee48001efe" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>BAMs</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ac61e84f9e6fda166c927c04cf36f3fa1" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>BigWigs</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a5db56e39e73c230eb9186f66fb31ad5c" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>genomeAssemblyVersion</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1a8d392c04d3357a2d01f4514dd60765df" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>gVCFs</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae9636257e923b4334c2d4708b70d771b" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>interpretGenome</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ae37e756e4bdfd7befc920ca35ab2f73e" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>rareDisease</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa29f1613ce072925b8fb443536114069" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>reportRequestId</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1ab44c007e194d5cea5f4489245a596447" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>reportVersion</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1aa5cdaaf36e52e1fcb68875e95a51febd" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>VCFs</name></member>
+      <member refid="structInterpretationRequestRD_1_1RDInterpretationRequest_1af2dd479ab584e39f54a82720488805e4" prot="public" virt="non-virtual"><scope>InterpretationRequestRD::RDInterpretationRequest</scope><name>workspace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

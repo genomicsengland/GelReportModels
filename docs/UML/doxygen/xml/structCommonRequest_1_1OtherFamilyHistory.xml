@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonRequest_1_1OtherFamilyHistory" kind="struct" prot="public">
+    <compoundname>CommonRequest::OtherFamilyHistory</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonRequest_1_1OtherFamilyHistory_1a5c60fd81397f4b928f5e00b44d9f4b5b" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; CommonRequest::OtherFamilyHistory::maternalFamilyHistory</definition>
+        <argsstring></argsstring>
+        <name>maternalFamilyHistory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="74" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1OtherFamilyHistory_1ab376fbc29c5a12c8f89df6521c95d83b" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; CommonRequest::OtherFamilyHistory::paternalFamilyHistory</definition>
+        <argsstring></argsstring>
+        <name>paternalFamilyHistory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="75" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Family history for secondary findings TODO: define the enumerations + other. Currently from model catalogue EndocrineTumours colorectal BreastOvarian HDOrStroke Arrays of strings describing discrete family history phenotypes </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="73" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="73" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structCommonRequest_1_1OtherFamilyHistory_1a5c60fd81397f4b928f5e00b44d9f4b5b" prot="public" virt="non-virtual"><scope>CommonRequest::OtherFamilyHistory</scope><name>maternalFamilyHistory</name></member>
+      <member refid="structCommonRequest_1_1OtherFamilyHistory_1ab376fbc29c5a12c8f89df6521c95d83b" prot="public" virt="non-virtual"><scope>CommonRequest::OtherFamilyHistory</scope><name>paternalFamilyHistory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

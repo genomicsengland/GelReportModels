@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonParticipant_1_1Ancestries" kind="struct" prot="public">
+    <compoundname>CommonParticipant::Ancestries</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonParticipant_1_1Ancestries_1a29aac33b15a82aec43694c6a7173443c" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53e" kindref="member">EthnicCategory</ref> &gt;</type>
+        <definition>union&lt;null, EthnicCategory&gt; CommonParticipant::Ancestries::mothersEthnicOrigin</definition>
+        <argsstring></argsstring>
+        <name>mothersEthnicOrigin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="33" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1Ancestries_1a68ed63c8acfdebbd51610e168ff6fde2" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; CommonParticipant::Ancestries::mothersOtherRelevantAncestry</definition>
+        <argsstring></argsstring>
+        <name>mothersOtherRelevantAncestry</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="34" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1Ancestries_1a56ab419908bb6fed14035894acb96e7e" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="namespaceCommonParticipant_1a45984363a1fa84a1949e1e294167a53e" kindref="member">EthnicCategory</ref> &gt;</type>
+        <definition>union&lt;null, EthnicCategory&gt; CommonParticipant::Ancestries::fathersEthnicOrigin</definition>
+        <argsstring></argsstring>
+        <name>fathersEthnicOrigin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="35" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1Ancestries_1ad9cf6e02ad793fecb238d377f5ea20b5" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; CommonParticipant::Ancestries::fathersOtherRelevantAncestry</definition>
+        <argsstring></argsstring>
+        <name>fathersOtherRelevantAncestry</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="36" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonParticipant_1_1Ancestries_1a7545d24b77a7300013f868a3e8319c19" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; <ref refid="structCommonParticipant_1_1KGenomesPhase3Pop" kindref="compound">KGenomesPhase3Pop</ref> &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;KGenomesPhase3Pop&gt; &gt; CommonParticipant::Ancestries::kGenomesPhase3Pop</definition>
+        <argsstring></argsstring>
+        <name>kGenomesPhase3Pop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="38" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" line="31" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonParticipant.avdl" bodystart="31" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structCommonParticipant_1_1Ancestries_1a56ab419908bb6fed14035894acb96e7e" prot="public" virt="non-virtual"><scope>CommonParticipant::Ancestries</scope><name>fathersEthnicOrigin</name></member>
+      <member refid="structCommonParticipant_1_1Ancestries_1ad9cf6e02ad793fecb238d377f5ea20b5" prot="public" virt="non-virtual"><scope>CommonParticipant::Ancestries</scope><name>fathersOtherRelevantAncestry</name></member>
+      <member refid="structCommonParticipant_1_1Ancestries_1a7545d24b77a7300013f868a3e8319c19" prot="public" virt="non-virtual"><scope>CommonParticipant::Ancestries</scope><name>kGenomesPhase3Pop</name></member>
+      <member refid="structCommonParticipant_1_1Ancestries_1a29aac33b15a82aec43694c6a7173443c" prot="public" virt="non-virtual"><scope>CommonParticipant::Ancestries</scope><name>mothersEthnicOrigin</name></member>
+      <member refid="structCommonParticipant_1_1Ancestries_1a68ed63c8acfdebbd51610e168ff6fde2" prot="public" virt="non-virtual"><scope>CommonParticipant::Ancestries</scope><name>mothersOtherRelevantAncestry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
