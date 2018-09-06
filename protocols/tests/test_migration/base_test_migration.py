@@ -158,9 +158,12 @@ class BaseRoundTripper(object):
         differ = False
         for a in actions.values():
             differ |= len(a) != 2
-            differ |= a[0].evidenceType != a[1].evidenceType
+            differ |= a[0].actionType != a[1].actionType
             differ |= a[0].url != a[1].url
             differ |= a[0].variantActionable != a[1].variantActionable
+            if differ:
+                logging.error("Actions differ. {}".format(a))
+                break
         return differ
 
     def is_hashable(self, item):

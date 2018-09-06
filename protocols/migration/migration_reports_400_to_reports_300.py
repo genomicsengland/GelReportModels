@@ -116,7 +116,10 @@ class MigrateReports400To300(BaseMigration):
     def _migrate_file(self, old_file):
         if old_file is None:
             return None
-        sample_id = old_file.sampleId
+        if isinstance(old_file.sampleId, list) and len(old_file.sampleId) == 1:
+            sample_id = old_file.sampleId[0]
+        else:
+            sample_id = old_file.sampleId
 
         if old_file.md5Sum:
             md5_sum = self.new_model.File(

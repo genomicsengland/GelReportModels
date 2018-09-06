@@ -5,14 +5,15 @@ from protocols import reports_4_0_0, reports_6_0_0
 from protocols.reports_6_0_0 import Program
 from protocols.tests.test_migration.migration_runner import MigrationRunner
 from itertools import chain
+import logging
 
 
-class RealRoundTripper(object):
+class RealRoundTripperCancer(object):
 
     def __init__(self):
         # configures logging to get only logs about the failed cases
         self.log_file = "real_data.log"
-        self.file = open(self.log_file, "w")
+        logging.basicConfig(filename=self.log_file, level=logging.ERROR)
         gel_user = raw_input("User:")
         gel_password = getpass.getpass("Password:")
         cipapi_url = raw_input("URL:")
@@ -45,10 +46,10 @@ class RealRoundTripper(object):
         differ |= self._check_actions(ir.tieredVariants, ir_round_tripped.tieredVariants)
 
         if not is_valid:
-            self.file.writelines("Invalid cancer IR id={} version={}\n".format(_id, version))
+            logging.error("Invalid cancer IR id={} version={}\n".format(_id, version))
         if not is_valid_round_tripped:
-            self.file.writelines("Invalid round tripped cancer IR id={} version={}\n".format(_id, version))
-        self.file.writelines("{} cancer IR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+            logging.error("Invalid round tripped cancer IR id={} version={}\n".format(_id, version))
+        logging.error("{} cancer IR id={} version={}\n".format("KO" if differ else "OK", _id, version))
 
         # interpreted genome
         if case.has_interpreted_genome():
@@ -62,10 +63,10 @@ class RealRoundTripper(object):
                 ig, ig_round_tripped, ignore_fields=["analysisId", "additionalTextualVariantAnnotations", "commonAf"])
             differ |= self._check_actions(ig.reportedVariants, ig_round_tripped.reportedVariants)
             if not is_valid:
-                self.file.writelines("Invalid cancer IG id={} version={}\n".format(_id, version))
+                logging.error("Invalid cancer IG id={} version={}\n".format(_id, version))
             if not is_valid_round_tripped:
-                self.file.writelines("Invalid round tripped cancer IG id={} version={}\n".format(_id, version))
-            self.file.writelines("{} cancer IG id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer IG id={} version={}\n".format(_id, version))
+            logging.error("{} cancer IG id={} version={}\n".format("KO" if differ else "OK", _id, version))
 
         # clinical report
         if case.has_clinical_report():
@@ -80,18 +81,17 @@ class RealRoundTripper(object):
                                                      "genePanelsCoverage", "actions"])
             differ |= self._check_actions(cr.candidateVariants, cr_round_tripped.candidateVariants)
             if not is_valid:
-                self.file.writelines("Invalid cancer CR id={} version={}\n".format(_id, version))
+                logging.error("Invalid cancer CR id={} version={}\n".format(_id, version))
             if not is_valid_round_tripped:
-                self.file.writelines("Invalid round tripped cancer CR id={} version={}\n".format(_id, version))
-            self.file.writelines("{} cancer CR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer CR id={} version={}\n".format(_id, version))
+            logging.error("{} cancer CR id={} version={}\n".format("KO" if differ else "OK", _id, version))
 
     def run(self):
         print "Check your results in '{}'".format(self.log_file)
         for case in self.cipapi_client.get_cases(program=Program.cancer):  # type: CipApiCase
             self.process_case(case)
-        self.file.close()
 
 
 if __name__ == '__main__':
-    round_tripper = RealRoundTripper()
+    round_tripper = RealRoundTripperCancer()
     round_tripper.run()

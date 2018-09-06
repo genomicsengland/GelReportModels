@@ -47,7 +47,7 @@ class TestRoundTripMigrateReportsRd300To600(BaseTestRoundTrip):
                 hpo.modifiers = self._get_random_hpo_modifiers()
         migrated, round_tripped = MigrationRunner().roundtrip_rd_ir(original_ir, assembly)
         self.assertFalse(self.diff_round_tripped(original_ir, round_tripped, ignore_fields=[
-            "analysisVersion", "analysisReturnURI", "SampleId", "cellbaseVersion", "complexGeneticPhenomena",
+            "analysisVersion", "analysisReturnURI", "cellbaseVersion", "complexGeneticPhenomena",
             "interpretGenome", "ageOfOnset", "consanguineousPopulation"]))
 
     def test_migrate_rd_interpretation_request_nulls(self):
