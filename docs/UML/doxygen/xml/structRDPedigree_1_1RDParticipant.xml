@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structRDPedigree_1_1RDParticipant" kind="struct" prot="public">
+    <compoundname>RDPedigree::RDParticipant</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1ae25407a26f8e9b8c54f9e95e4f41d96f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RDPedigree::RDParticipant::pedigreeId</definition>
+        <argsstring></argsstring>
+        <name>pedigreeId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="87" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a17ef124b5757faa321b49bb736f98a61" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; RDPedigree::RDParticipant::gelId</definition>
+        <argsstring></argsstring>
+        <name>gelId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="88" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a785574e1ad5a7a6df686688abde2a3f3" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string RDPedigree::RDParticipant::gelFamilyId</definition>
+        <argsstring></argsstring>
+        <name>gelFamilyId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Family id which internally translate to a sample set </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="93" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1aed3db47b95840446acd5f968f0e41d59" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1" kindref="member">Sex</ref></type>
+        <definition>Sex RDPedigree::RDParticipant::sex</definition>
+        <argsstring></argsstring>
+        <name>sex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="95" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a8dd3f7f6eec8f301be6fc814bce43cd5" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; RDPedigree::RDParticipant::fatherId</definition>
+        <argsstring></argsstring>
+        <name>fatherId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known about them in order to unambiguously reconstruct the pedigree. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="101" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a2f429246824b3677e2b33fa391abca23" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; RDPedigree::RDParticipant::motherId</definition>
+        <argsstring></argsstring>
+        <name>motherId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="102" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a1e77a3afa2374fcceca8e7e47bdf60bc" prot="public" static="no" mutable="no">
+        <type>union&lt; null, int &gt;</type>
+        <definition>union&lt;null, int&gt; RDPedigree::RDParticipant::twinGroup</definition>
+        <argsstring></argsstring>
+        <name>twinGroup</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="107" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a7aeb435dce0b50997b6f51d1f7ef4ad1" prot="public" static="no" mutable="no">
+        <type>union&lt; null, TernaryOption &gt;</type>
+        <definition>union&lt;null, TernaryOption&gt; RDPedigree::RDParticipant::monozygotic</definition>
+        <argsstring></argsstring>
+        <name>monozygotic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="108" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a3817bce884b38dacdf376ae3d8d1fea9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" kindref="member">AdoptedStatus</ref></type>
+        <definition>AdoptedStatus RDPedigree::RDParticipant::adoptedStatus</definition>
+        <argsstring></argsstring>
+        <name>adoptedStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="111" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a31aaebb267c0a5e0a17e54de6b61a003" prot="public" static="no" mutable="no">
+        <type>LifeStatus</type>
+        <definition>LifeStatus RDPedigree::RDParticipant::lifeStatus</definition>
+        <argsstring></argsstring>
+        <name>lifeStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="113" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a08a626e38288acbb253d832bff85c5a2" prot="public" static="no" mutable="no">
+        <type>TernaryOption</type>
+        <definition>TernaryOption RDPedigree::RDParticipant::consanguineousParents</definition>
+        <argsstring></argsstring>
+        <name>consanguineousParents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="115" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a244aac63769451a68afd4d76dee4ffcb" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; RDPedigree::RDParticipant::consanguineousPopulation</definition>
+        <argsstring></argsstring>
+        <name>consanguineousPopulation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Offspring from a consanguineous population </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="120" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1aac2f9497b6ffa3546cc95522bf49a03d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" kindref="member">AffectionStatus</ref></type>
+        <definition>AffectionStatus RDPedigree::RDParticipant::affectionStatus</definition>
+        <argsstring></argsstring>
+        <name>affectionStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="122" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1ab0f390fe3413ded2423bc56969e21967" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structRDPedigree_1_1Disorder" kindref="compound">Disorder</ref> &gt;</type>
+        <definition>array&lt;Disorder&gt; RDPedigree::RDParticipant::disorderList</definition>
+        <argsstring></argsstring>
+        <name>disorderList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="127" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a6575eb678c48c83c23709975a74a7f9c" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structRDPedigree_1_1HpoTerm" kindref="compound">HpoTerm</ref> &gt;</type>
+        <definition>array&lt;HpoTerm&gt; RDPedigree::RDParticipant::hpoTermList</definition>
+        <argsstring></argsstring>
+        <name>hpoTermList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clinical Data (HPO terms) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="132" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1ab4a2a9ab192abb35202445c8d0e234e3" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string RDPedigree::RDParticipant::dataModelCatalogueVersion</definition>
+        <argsstring></argsstring>
+        <name>dataModelCatalogueVersion</name>
+        <initializer>=&quot;v4.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Version of the Data Catalogue against which the information is being provided The data catalogue version should internally keep track of the version for the HPO ontology </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="139" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a5295d2b7e6fa3c70fd1a19c209253313" prot="public" static="no" mutable="no">
+        <type><ref refid="structRDPedigree_1_1ConsentStatus" kindref="compound">ConsentStatus</ref></type>
+        <definition>ConsentStatus RDPedigree::RDParticipant::consentStatus</definition>
+        <argsstring></argsstring>
+        <name>consentStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>What has this participant consented to? A participant that has been consented to the programme should also have sequence data associated with them; however this needs to be programmatically checked </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="146" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1a4a24dc6ca3bb20682390f3092e6d1d44" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; RDPedigree::RDParticipant::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is an array containing all the samples that belong to this individual, e.g [&quot;LP00002255_GA4&quot;] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="151" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1RDParticipant_1ad9a547c493d60c88c5a35c9b89ed0801" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;string&gt; &gt; RDPedigree::RDParticipant::additionalInformation</definition>
+        <argsstring></argsstring>
+        <name>additionalInformation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>We could add a map here to store additional information for example URIs to images, ECGs, etc Null by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="158" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This defines a RD Participant (demographics and pedigree information) </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="35">
+        <label>RDPedigree::ConsentStatus</label>
+        <link refid="structRDPedigree_1_1ConsentStatus"/>
+      </node>
+      <node id="34">
+        <label>RDPedigree::RDParticipant</label>
+        <link refid="structRDPedigree_1_1RDParticipant"/>
+        <childnode refid="35" relation="usage">
+          <edgelabel>consentStatus</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" line="85" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/RDParticipant.avdl" bodystart="85" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structRDPedigree_1_1RDParticipant_1ad9a547c493d60c88c5a35c9b89ed0801" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>additionalInformation</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a3817bce884b38dacdf376ae3d8d1fea9" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>adoptedStatus</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1aac2f9497b6ffa3546cc95522bf49a03d" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>affectionStatus</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a08a626e38288acbb253d832bff85c5a2" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>consanguineousParents</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a244aac63769451a68afd4d76dee4ffcb" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>consanguineousPopulation</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a5295d2b7e6fa3c70fd1a19c209253313" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>consentStatus</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1ab4a2a9ab192abb35202445c8d0e234e3" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>dataModelCatalogueVersion</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1ab0f390fe3413ded2423bc56969e21967" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>disorderList</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a8dd3f7f6eec8f301be6fc814bce43cd5" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>fatherId</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a785574e1ad5a7a6df686688abde2a3f3" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>gelFamilyId</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a17ef124b5757faa321b49bb736f98a61" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>gelId</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a6575eb678c48c83c23709975a74a7f9c" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>hpoTermList</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a31aaebb267c0a5e0a17e54de6b61a003" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>lifeStatus</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a7aeb435dce0b50997b6f51d1f7ef4ad1" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>monozygotic</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a2f429246824b3677e2b33fa391abca23" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>motherId</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1ae25407a26f8e9b8c54f9e95e4f41d96f" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>pedigreeId</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a4a24dc6ca3bb20682390f3092e6d1d44" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>samples</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1aed3db47b95840446acd5f968f0e41d59" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>sex</name></member>
+      <member refid="structRDPedigree_1_1RDParticipant_1a1e77a3afa2374fcceca8e7e47bdf60bc" prot="public" virt="non-virtual"><scope>RDPedigree::RDParticipant</scope><name>twinGroup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

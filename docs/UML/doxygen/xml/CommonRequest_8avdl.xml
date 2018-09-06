@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="CommonRequest_8avdl" kind="file">
+    <compoundname>CommonRequest.avdl</compoundname>
+    <innerclass refid="structCommonRequest_1_1File" prot="public">CommonRequest::File</innerclass>
+    <innerclass refid="structCommonRequest_1_1VirtualPanel" prot="public">CommonRequest::VirtualPanel</innerclass>
+    <innerclass refid="structCommonRequest_1_1OtherFamilyHistory" prot="public">CommonRequest::OtherFamilyHistory</innerclass>
+    <innernamespace refid="namespaceCommonRequest">CommonRequest</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceCommonRequest" refkind="compound"><highlight class="normal">@</highlight><highlight class="keyword">namespace</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;Gel_BioInf_Models&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">protocol<sp/>CommonRequest<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="structCommonRequest_1_1File" refkind="compound"><highlight class="normal">record<sp/><ref refid="structCommonRequest_1_1File" kindref="compound">File</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>string,<sp/>array&lt;string&gt;}<sp/>SampleId;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>URIFile;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="comment">//TODO:<sp/>this<sp/>needs<sp/>to<sp/>be<sp/>tightened<sp/>up<sp/>and<sp/>eventually<sp/>changed<sp/>to<sp/>be<sp/>supported<sp/>in<sp/>cellbase<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//TODO:<sp/>this<sp/>can<sp/>be<sp/>an<sp/>array<sp/>of<sp/>virtual<sp/>panels<sp/>each<sp/>one<sp/>with<sp/>a<sp/>model<sp/>of<sp/>inheritance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structCommonRequest_1_1VirtualPanel" refkind="compound"><highlight class="normal">record<sp/><ref refid="structCommonRequest_1_1VirtualPanel" kindref="compound">VirtualPanel</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>specificDiseaseTitle;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>panelVersion;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>ensemblVersion;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>dataModelCatalogueVersion;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>array&lt;string&gt;<sp/>geneIds;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>Transcripts;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/><ref refid="structCommonRequest_1_1File" kindref="compound">File</ref>}<sp/>relevantRegions;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/><ref refid="structCommonRequest_1_1File" kindref="compound">File</ref>}<sp/>clinicalRelevantVariants;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structCommonRequest_1_1OtherFamilyHistory" refkind="compound"><highlight class="normal">record<sp/><ref refid="structCommonRequest_1_1OtherFamilyHistory" kindref="compound">OtherFamilyHistory</ref><sp/>{<sp/><sp/></highlight><highlight class="comment">//priority<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>maternalFamilyHistory;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>paternalFamilyHistory;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl"/>
+  </compounddef>
+</doxygen>

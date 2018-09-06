@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" kind="struct" prot="public">
+    <compoundname>InterpretedGenomesRD::RDInterpretationAnalysis</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a41b07c87a92f12b9e68fb89772c08b5d" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesRD::RDInterpretationAnalysis::reportRequestId</definition>
+        <argsstring></argsstring>
+        <name>reportRequestId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TODO: ARM To check ReportType (Revised: dont understand what is this, aks Eik) This is the ID of the clinical interpretation request </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="17" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a576d62bce2ec493330b344d912c152fc" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesRD::RDInterpretationAnalysis::analysisId</definition>
+        <argsstring></argsstring>
+        <name>analysisId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This object define the type of report being returned for the participant)</para><para>ReportType reportType; This is the ID of the analysis carried out and is expected to be linked to the conditions and parameters used to produce the clinical interpretation over this group of samples. It is critical to establish provenance. It is expected that this id can be used to retrieve an analysis in the decision support/ variant exploration tools </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="30" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad76424f465453d05b586875616d90a2d" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesRD::RDInterpretationAnalysis::companyName</definition>
+        <argsstring></argsstring>
+        <name>companyName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="32" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a6fd7a270728ff5cb846189b74f0f776e" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesRD::RDInterpretationAnalysis::reportURI</definition>
+        <argsstring></argsstring>
+        <name>reportURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="34" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad2d68ab34082e3e10fb6876a6d39ea92" prot="public" static="no" mutable="no">
+        <type>array&lt; ReportedVariant &gt;</type>
+        <definition>array&lt;ReportedVariant&gt; InterpretedGenomesRD::RDInterpretationAnalysis::reportedVariants</definition>
+        <argsstring></argsstring>
+        <name>reportedVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="36" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1aa79c36707152273da9a2e14cab978adf" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; ReportedStructuralVariant &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;ReportedStructuralVariant&gt; &gt; InterpretedGenomesRD::RDInterpretationAnalysis::reportedStructuralVariants</definition>
+        <argsstring></argsstring>
+        <name>reportedStructuralVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="38" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a56a03b680c2099df8f49399a9f6defc0" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; InterpretedGenomesRD::RDInterpretationAnalysis::comments</definition>
+        <argsstring></argsstring>
+        <name>comments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comments about the report </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="43" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" line="10" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl" bodystart="10" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a576d62bce2ec493330b344d912c152fc" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>analysisId</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a56a03b680c2099df8f49399a9f6defc0" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>comments</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad76424f465453d05b586875616d90a2d" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>companyName</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1aa79c36707152273da9a2e14cab978adf" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>reportedStructuralVariants</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1ad2d68ab34082e3e10fb6876a6d39ea92" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>reportedVariants</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a41b07c87a92f12b9e68fb89772c08b5d" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>reportRequestId</name></member>
+      <member refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis_1a6fd7a270728ff5cb846189b74f0f776e" prot="public" virt="non-virtual"><scope>InterpretedGenomesRD::RDInterpretationAnalysis</scope><name>reportURI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="InterpretedGenomesRD_8avdl" kind="file">
+    <compoundname>InterpretedGenomesRD.avdl</compoundname>
+    <innerclass refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" prot="public">InterpretedGenomesRD::RDInterpretationAnalysis</innerclass>
+    <innernamespace refid="namespaceInterpretedGenomesRD">InterpretedGenomesRD</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceInterpretedGenomesRD" refkind="compound"><highlight class="normal">@</highlight><highlight class="keyword">namespace</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;Gel_BioInf_Models&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">protocol<sp/>InterpretedGenomesRD<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>idl<sp/></highlight><highlight class="stringliteral">&quot;CommonInterpreted.avdl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" refkind="compound"><highlight class="normal">record<sp/><ref refid="structInterpretedGenomesRD_1_1RDInterpretationAnalysis" kindref="compound">RDInterpretationAnalysis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>reportRequestId;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>analysisId;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>companyName;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>reportURI;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>array&lt;ReportedVariant&gt;<sp/>reportedVariants;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;ReportedStructuralVariant&gt;}<sp/>reportedStructuralVariants;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>comments;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesRD.avdl"/>
+  </compounddef>
+</doxygen>

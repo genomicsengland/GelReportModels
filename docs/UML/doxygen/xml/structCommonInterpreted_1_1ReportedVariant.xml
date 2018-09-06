@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonInterpreted_1_1ReportedVariant" kind="struct" prot="public">
+    <compoundname>CommonInterpreted::ReportedVariant</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1a655e836d89b3d0a15413a1150fc73526" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonInterpreted::ReportedVariant::chromosome</definition>
+        <argsstring></argsstring>
+        <name>chromosome</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>chromosome, named as: 1-22,X,Y,MT(other contigs name) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="142" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1a8bf899c2f43210e4a981e18dfd3233cd" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt;null, string&gt; CommonInterpreted::ReportedVariant::dbSNPid</definition>
+        <argsstring></argsstring>
+        <name>dbSNPid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>variant ID in dbSNP </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="147" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1ab7d4680aa43dbbeb0d1e200b3a754f2d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CommonInterpreted::ReportedVariant::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>position: Position 1-based </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="152" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1adfab00081950e43871eecb9124a973f8" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonInterpreted::ReportedVariant::reference</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>reference: Reference Allele sequence, the same provided in vcf </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="157" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1af81708b2f5a48e24613915deb562f2eb" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonInterpreted::ReportedVariant::alternate</definition>
+        <argsstring></argsstring>
+        <name>alternate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>alternate: Alternate Allele sequence, the same provided in vcf </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="162" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1a1628ea8134a894a016f87f6829c0e1b0" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structCommonInterpreted_1_1CalledGenotype" kindref="compound">CalledGenotype</ref> &gt;</type>
+        <definition>array&lt;CalledGenotype&gt; CommonInterpreted::ReportedVariant::calledGenotypes</definition>
+        <argsstring></argsstring>
+        <name>calledGenotypes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>array of genotypes for the family </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="167" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1ad9ea553970d37e76b42683253a36e744" prot="public" static="no" mutable="no">
+        <type>array&lt; <ref refid="structCommonInterpreted_1_1ReportEvent" kindref="compound">ReportEvent</ref> &gt;</type>
+        <definition>array&lt;ReportEvent&gt; CommonInterpreted::ReportedVariant::reportEvents</definition>
+        <argsstring></argsstring>
+        <name>reportEvents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the scores across multiple modes of inheritance, for each model of inheritance analyzed, the variants can have only one Report event. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="173" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1a02f466bd7ce97aac39fe87a21fd8510c" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; string &gt; &gt;</type>
+        <definition>union&lt;null,map&lt;string&gt; &gt; CommonInterpreted::ReportedVariant::additionalTextualVariantAnnotations</definition>
+        <argsstring></argsstring>
+        <name>additionalTextualVariantAnnotations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For example HGMD ID) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="178" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1abb9a55430ba71e0b7729497579ffc7e3" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; float &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;float&gt; &gt; CommonInterpreted::ReportedVariant::additionalNumericVariantAnnotations</definition>
+        <argsstring></argsstring>
+        <name>additionalNumericVariantAnnotations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="183" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonInterpreted_1_1ReportedVariant_1ab16e23dd67a092340840cc9eafdd590b" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; CommonInterpreted::ReportedVariant::comments</definition>
+        <argsstring></argsstring>
+        <name>comments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comments </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="188" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" line="137" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonInterpreted.avdl" bodystart="137" bodyend="190"/>
+    <listofallmembers>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1abb9a55430ba71e0b7729497579ffc7e3" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>additionalNumericVariantAnnotations</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1a02f466bd7ce97aac39fe87a21fd8510c" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>additionalTextualVariantAnnotations</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1af81708b2f5a48e24613915deb562f2eb" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>alternate</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1a1628ea8134a894a016f87f6829c0e1b0" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>calledGenotypes</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1a655e836d89b3d0a15413a1150fc73526" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>chromosome</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1ab16e23dd67a092340840cc9eafdd590b" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>comments</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1a8bf899c2f43210e4a981e18dfd3233cd" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>dbSNPid</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1ab7d4680aa43dbbeb0d1e200b3a754f2d" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>position</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1adfab00081950e43871eecb9124a973f8" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>reference</name></member>
+      <member refid="structCommonInterpreted_1_1ReportedVariant_1ad9ea553970d37e76b42683253a36e744" prot="public" virt="non-virtual"><scope>CommonInterpreted::ReportedVariant</scope><name>reportEvents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

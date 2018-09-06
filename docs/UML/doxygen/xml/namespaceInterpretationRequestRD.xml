@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceInterpretationRequestRD" kind="namespace">
+    <compoundname>InterpretationRequestRD</compoundname>
+    <innerclass refid="structInterpretationRequestRD_1_1RareDisease" prot="public">InterpretationRequestRD::RareDisease</innerclass>
+    <innerclass refid="structInterpretationRequestRD_1_1RDInterpretationRequest" prot="public">InterpretationRequestRD::RDInterpretationRequest</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243ab" prot="public" static="no">
+        <name>ModelOfInheritance</name>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba1b3fa7ee838555a7bb40c6a8c8dc33e1" prot="public">
+          <name>monoallelic_not_imprinted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abafe71158684dd7434f334b9ebfaf771bb" prot="public">
+          <name>monoallelic_maternally_imprinted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abad688c4099113c056db08249fcfabb492" prot="public">
+          <name>monoallelic_paternally_imprinted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba98464611691755fa1226af88c0158aab" prot="public">
+          <name>monoallelic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba2f93a6e09751b30188ad129634fd95f6" prot="public">
+          <name>xlinked_biallelic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243abacbaf27783478f640df4cf7c0976d1917" prot="public">
+          <name>xlinked_monoallelic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba7ce795cbd76d0809af1f6212be437e5d" prot="public">
+          <name>mitochondrial</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af7fd10f9306c517cf3845f77524243aba9f6288daea77373d09eb354381e22774" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>monoallelic_not_imprinted-&gt;MONOALLELIC, autosomal or pseudoautosomal, not imprinted monoallelic_maternally_imprinted-&gt;MONOALLELIC, autosomal or pseudoautosomal, maternally imprinted (paternal allele expressed) monoallelic_paternally_imprinted-&gt;MONOALLELIC, autosomal or pseudoautosomal, paternally imprinted (maternal allele expressed) monoallelic-&gt;MONOALLELIC, autosomal or pseudoautosomal, imprinted status unknown biallelic-&gt;BIALLELIC, autosomal or pseudoautosomal monoallelic_and_biallelic-&gt;BOTH monoallelic and biallelic, autosomal or pseudoautosomal monoallelic_and_more_severe_biallelic-&gt;BOTH monoallelic and biallelic, autosomal or pseudoautosomal (but BIALLELIC mutations cause a more SEVERE disease form), autosomal or pseudoautosomal xlinked_biallelic-&gt;X-LINKED: hemizygous mutation in males, biallelic mutations in females xlinked_monoallelic-&gt;X linked: hemizygous mutation in males, monoallelic mutations in females may cause disease (may be less severe, later onset than males) mitochondrial-&gt;MITOCHONDRIAL unknown-&gt;Unknown </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="37" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97" prot="public" static="no">
+        <name>ComplexGeneticPhenomena</name>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97aa8ec0ba2c4dc3659c80dccbf4e478ef5" prot="public">
+          <name>mosaicism</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a9bf762b4330bab7749536bef9236bc39" prot="public">
+          <name>monosomy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a3946d110af32037629ad78e2410261e1" prot="public">
+          <name>disomy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a1fbf4a40bf7f8ba47ffab78655ab2b11" prot="public">
+          <name>uniparental_disomy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97ac233e284fb67012da04a62fbb45619c1" prot="public">
+          <name>trisomy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceInterpretationRequestRD_1af9dd0a1ec7b9c60610119e36b3b35f97a4a02f3a9c958771d36f42e27d5685ea3" prot="public">
+          <name>other_aneuploidy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="48" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="48" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceInterpretationRequestRD_1a3bde6b7748e2a26ff8d2745eaeab534f" prot="public" static="no" mutable="no">
+        <type>import idl RDParticipant</type>
+        <definition>import idl CommonRequest InterpretationRequestRD::avdl</definition>
+        <argsstring></argsstring>
+        <name>avdl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Caution!! This has been removed import idl &quot;variants.avdl&quot;; </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="20" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>TODO: change/specify rareDisease &gt; cancer TODO: There are a number of types included from the rare disease schema, these can be left null however the question is, are there any good arguments for removing them all together? This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party The record Report is the top level class. This includes clinical information + various version The annotation provided by Genomics England is created using CellBase <ulink url="https://github.com/opencb/cellbase/wiki">https://github.com/opencb/cellbase/wiki</ulink> All annotations are against Ensembl gene models </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestRD.avdl" line="13" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants" kind="struct" prot="public">
+    <compoundname>InterpretedGenomesCancer::ReportedSomaticVariants</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a4ff15255e6fded460c4058648e041e45" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::ReportedSomaticVariants::chromosome</definition>
+        <argsstring></argsstring>
+        <name>chromosome</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>chromosome, named as: 1-22,X,Y,MT(other contigs name) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="28" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ac2786c57aa1f435f6be98ab3e6582821" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::ReportedSomaticVariants::dbSNPid</definition>
+        <argsstring></argsstring>
+        <name>dbSNPid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>variant ID in dbSNP </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="33" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7d4a667bb9b8f0a469ea0b70f9f0e04b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int InterpretedGenomesCancer::ReportedSomaticVariants::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>position: Position 1-based </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="38" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a8bd0a518ee96cf7aa0b96e0d4c2d5e18" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::ReportedSomaticVariants::reference</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>reference: Reference Allele sequence, the same provided in vcf </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="43" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1afbc3b353366f4b0c9036a9f95477ae47" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string InterpretedGenomesCancer::ReportedSomaticVariants::alternate</definition>
+        <argsstring></argsstring>
+        <name>alternate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>alternate: Alternate Allele sequence, the same provided in vcf </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="48" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a42e5e2e045ac2fcf0dc9194cbaaf24ae" prot="public" static="no" mutable="no">
+        <type>array&lt; ReportEvent &gt;</type>
+        <definition>array&lt;ReportEvent&gt; InterpretedGenomesCancer::ReportedSomaticVariants::reportEvents</definition>
+        <argsstring></argsstring>
+        <name>reportEvents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the overall score provided by the company to reflect a variant&apos;s likelihood of explaining the phenotype This score may be missing if the company does not calculate such a score. In principle this score should summarise other scores for example across multiple modes of inheritance. TODO: Think about this!!! </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="59" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a336e72b58919314aeccbb09d3344e8e1" prot="public" static="no" mutable="no">
+        <type>array&lt; CalledGenotype &gt;</type>
+        <definition>array&lt;CalledGenotype&gt; InterpretedGenomesCancer::ReportedSomaticVariants::calledGenotypes</definition>
+        <argsstring></argsstring>
+        <name>calledGenotypes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="61" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a9b27d23233db9a40ed53e8837a9447c8" prot="public" static="no" mutable="no">
+        <type>union&lt; null, float &gt;</type>
+        <definition>union&lt;null, float&gt; InterpretedGenomesCancer::ReportedSomaticVariants::internalScore</definition>
+        <argsstring></argsstring>
+        <name>internalScore</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="63" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a1dcb7894bfe2f9b9e5877f3514c45231" prot="public" static="no" mutable="no">
+        <type>union&lt; null, VariantClassification &gt;</type>
+        <definition>union&lt;null, VariantClassification&gt; InterpretedGenomesCancer::ReportedSomaticVariants::variantClassification</definition>
+        <argsstring></argsstring>
+        <name>variantClassification</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="65" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7e00b4f128eefcceb8039d28c016ecbf" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; string &gt; &gt;</type>
+        <definition>union&lt;null,map&lt;string&gt; &gt; InterpretedGenomesCancer::ReportedSomaticVariants::additionalTextualVariantAnnotations</definition>
+        <argsstring></argsstring>
+        <name>additionalTextualVariantAnnotations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For example HGMD ID) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="70" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1aa66915bb8fb78c87333535739d882ec8" prot="public" static="no" mutable="no">
+        <type>union&lt; null, map&lt; float &gt; &gt;</type>
+        <definition>union&lt;null, map&lt;float&gt; &gt; InterpretedGenomesCancer::ReportedSomaticVariants::additionalNumericVariantAnnotations</definition>
+        <argsstring></argsstring>
+        <name>additionalNumericVariantAnnotations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For Example (Allele Frequency, sift, polyphen, mutationTaster, CADD. ..) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="75" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ad435d0dd4e0fb23cc5b176b33b6a08d5" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; InterpretedGenomesCancer::ReportedSomaticVariants::comments</definition>
+        <argsstring></argsstring>
+        <name>comments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comments </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="80" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1af78fde69a8a09f795ebdb345e93f1a21" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceInterpretedGenomesCancer_1a929ac711363eede5288b4cebe6851911" kindref="member">SomaticOrGermline</ref></type>
+        <definition>SomaticOrGermline InterpretedGenomesCancer::ReportedSomaticVariants::somaticOrGermline</definition>
+        <argsstring></argsstring>
+        <name>somaticOrGermline</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EIK added: This object defines where the variant type being reported is considered to a somatic or germline finding </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="85" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" line="23" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretedGenomesCancer.avdl" bodystart="23" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1aa66915bb8fb78c87333535739d882ec8" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>additionalNumericVariantAnnotations</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7e00b4f128eefcceb8039d28c016ecbf" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>additionalTextualVariantAnnotations</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1afbc3b353366f4b0c9036a9f95477ae47" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>alternate</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a336e72b58919314aeccbb09d3344e8e1" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>calledGenotypes</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a4ff15255e6fded460c4058648e041e45" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>chromosome</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ad435d0dd4e0fb23cc5b176b33b6a08d5" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>comments</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1ac2786c57aa1f435f6be98ab3e6582821" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>dbSNPid</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a9b27d23233db9a40ed53e8837a9447c8" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>internalScore</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a7d4a667bb9b8f0a469ea0b70f9f0e04b" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>position</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a8bd0a518ee96cf7aa0b96e0d4c2d5e18" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>reference</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a42e5e2e045ac2fcf0dc9194cbaaf24ae" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>reportEvents</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1af78fde69a8a09f795ebdb345e93f1a21" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>somaticOrGermline</name></member>
+      <member refid="structInterpretedGenomesCancer_1_1ReportedSomaticVariants_1a1dcb7894bfe2f9b9e5877f3514c45231" prot="public" virt="non-virtual"><scope>InterpretedGenomesCancer::ReportedSomaticVariants</scope><name>variantClassification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

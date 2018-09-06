@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structRDPedigree_1_1ConsentStatus" kind="struct" prot="public">
+    <compoundname>RDPedigree::ConsentStatus</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRDPedigree_1_1ConsentStatus_1a51d52ebd2a7b0f71b7eb8418b71d7281" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::ConsentStatus::programmeConsent</definition>
+        <argsstring></argsstring>
+        <name>programmeConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Is this individual consented to the programme? It could simple be a family member that is not consented but for whom affection status is known False by default! needs to be explicitly changed </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="27" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1ConsentStatus_1abce0b58c817100b5fab4941b4560fc7c" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::ConsentStatus::primaryFindingConsent</definition>
+        <argsstring></argsstring>
+        <name>primaryFindingConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for feedback of primary findings? False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="33" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1ConsentStatus_1ae1a0494ad26f4f39a0b8e4d9f75b1689" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::ConsentStatus::secondaryFindingConsent</definition>
+        <argsstring></argsstring>
+        <name>secondaryFindingConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for secondary finding lookup False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="39" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1ConsentStatus_1a1f91e05b08ebf8645f31306a2595331c" prot="public" static="no" mutable="no">
+        <type>boolean</type>
+        <definition>boolean RDPedigree::ConsentStatus::carrierStatusConsent</definition>
+        <argsstring></argsstring>
+        <name>carrierStatusConsent</name>
+        <initializer>=false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Consent for carrier status check? False by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="45" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="18" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="18" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structRDPedigree_1_1ConsentStatus_1a1f91e05b08ebf8645f31306a2595331c" prot="public" virt="non-virtual"><scope>RDPedigree::ConsentStatus</scope><name>carrierStatusConsent</name></member>
+      <member refid="structRDPedigree_1_1ConsentStatus_1abce0b58c817100b5fab4941b4560fc7c" prot="public" virt="non-virtual"><scope>RDPedigree::ConsentStatus</scope><name>primaryFindingConsent</name></member>
+      <member refid="structRDPedigree_1_1ConsentStatus_1a51d52ebd2a7b0f71b7eb8418b71d7281" prot="public" virt="non-virtual"><scope>RDPedigree::ConsentStatus</scope><name>programmeConsent</name></member>
+      <member refid="structRDPedigree_1_1ConsentStatus_1ae1a0494ad26f4f39a0b8e4d9f75b1689" prot="public" virt="non-virtual"><scope>RDPedigree::ConsentStatus</scope><name>secondaryFindingConsent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

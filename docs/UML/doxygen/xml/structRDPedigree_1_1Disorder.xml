@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structRDPedigree_1_1Disorder" kind="struct" prot="public">
+    <compoundname>RDPedigree::Disorder</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRDPedigree_1_1Disorder_1a3d0590752b3c118d36fd25ccbaa76f0a" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt; null, string &gt; RDPedigree::Disorder::diseaseGroup</definition>
+        <argsstring></argsstring>
+        <name>diseaseGroup</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is Level2 Title for this disorder </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="53" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1Disorder_1afaed93a72077ba1416b8b26a3540804a" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt; null, string &gt; RDPedigree::Disorder::diseaseSubGroup</definition>
+        <argsstring></argsstring>
+        <name>diseaseSubGroup</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is Level3 Title for this disorder </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="58" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1Disorder_1a34df0fe9377815f60a3fb241ec65e06f" prot="public" static="no" mutable="no">
+        <type>union&lt; null, string &gt;</type>
+        <definition>union&lt; null, string &gt; RDPedigree::Disorder::specificDisease</definition>
+        <argsstring></argsstring>
+        <name>specificDisease</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is Level4 Title for this disorder </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="63" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRDPedigree_1_1Disorder_1a9c01d71d77690ac0d7b3ffe4cb588b09" prot="public" static="no" mutable="no">
+        <type>union&lt; null, int &gt;</type>
+        <definition>union&lt; null, int &gt; RDPedigree::Disorder::ageOfOnset</definition>
+        <argsstring></argsstring>
+        <name>ageOfOnset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Age of onset in months </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="68" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is quite GEL specific. This is the way is stored in ModelCatalogue and PanelApp. Currently all specific disease titles are assigned to a disease subgroup so really only specificDisease needs to be completed but we add the others for generality </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" line="49" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl" bodystart="49" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structRDPedigree_1_1Disorder_1a9c01d71d77690ac0d7b3ffe4cb588b09" prot="public" virt="non-virtual"><scope>RDPedigree::Disorder</scope><name>ageOfOnset</name></member>
+      <member refid="structRDPedigree_1_1Disorder_1a3d0590752b3c118d36fd25ccbaa76f0a" prot="public" virt="non-virtual"><scope>RDPedigree::Disorder</scope><name>diseaseGroup</name></member>
+      <member refid="structRDPedigree_1_1Disorder_1afaed93a72077ba1416b8b26a3540804a" prot="public" virt="non-virtual"><scope>RDPedigree::Disorder</scope><name>diseaseSubGroup</name></member>
+      <member refid="structRDPedigree_1_1Disorder_1a34df0fe9377815f60a3fb241ec65e06f" prot="public" virt="non-virtual"><scope>RDPedigree::Disorder</scope><name>specificDisease</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="structCommonRequest_1_1VirtualPanel" kind="struct" prot="public">
+    <compoundname>CommonRequest::VirtualPanel</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1a888e4b7548bf9fcc98adefdad1efe9d4" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonRequest::VirtualPanel::specificDiseaseTitle</definition>
+        <argsstring></argsstring>
+        <name>specificDiseaseTitle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="33" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1a7528b9fa3d46d0a6f4b7bbb0b8c0fe40" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonRequest::VirtualPanel::panelVersion</definition>
+        <argsstring></argsstring>
+        <name>panelVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="35" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1add7a8d892da24b27a13ddffc881c54f4" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonRequest::VirtualPanel::ensemblVersion</definition>
+        <argsstring></argsstring>
+        <name>ensemblVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="37" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1a96358e9f8d295bd99a3078be39b9dcf9" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string CommonRequest::VirtualPanel::dataModelCatalogueVersion</definition>
+        <argsstring></argsstring>
+        <name>dataModelCatalogueVersion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Version of the Data Catalogue against which the information is being provided The data catalogue version should internally keep track of the version for the HPO ontology </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="44" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1adeaca3444398dd7e226b79cef33722bf" prot="public" static="no" mutable="no">
+        <type>array&lt; string &gt;</type>
+        <definition>array&lt;string&gt; CommonRequest::VirtualPanel::geneIds</definition>
+        <argsstring></argsstring>
+        <name>geneIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>gene id from ensembl (version as per annotation file) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="49" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1ac602d3fb38be1be1b13015ced548cea8" prot="public" static="no" mutable="no">
+        <type>union&lt; null, array&lt; string &gt; &gt;</type>
+        <definition>union&lt;null, array&lt;string&gt; &gt; CommonRequest::VirtualPanel::Transcripts</definition>
+        <argsstring></argsstring>
+        <name>Transcripts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>transcript ids from ensembl </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="54" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1ae94b5535f4db19fc0fe0028b976d0b16" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="structCommonRequest_1_1File" kindref="compound">File</ref> &gt;</type>
+        <definition>union&lt;null, File&gt; CommonRequest::VirtualPanel::relevantRegions</definition>
+        <argsstring></argsstring>
+        <name>relevantRegions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BED format file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="59" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCommonRequest_1_1VirtualPanel_1a20ed335ca54f0222f44f5b34ac3a51c2" prot="public" static="no" mutable="no">
+        <type>union&lt; null, <ref refid="structCommonRequest_1_1File" kindref="compound">File</ref> &gt;</type>
+        <definition>union&lt;null, File&gt; CommonRequest::VirtualPanel::clinicalRelevantVariants</definition>
+        <argsstring></argsstring>
+        <name>clinicalRelevantVariants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>GA4GH format, sources: clinvar, HGMD, COSMIC, GWASCatalog??? Should we use VCF files and not make this more complex???? </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="64" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This record defines a gene panel. </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" line="32" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/CommonRequest.avdl" bodystart="32" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structCommonRequest_1_1VirtualPanel_1a20ed335ca54f0222f44f5b34ac3a51c2" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>clinicalRelevantVariants</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1a96358e9f8d295bd99a3078be39b9dcf9" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>dataModelCatalogueVersion</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1add7a8d892da24b27a13ddffc881c54f4" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>ensemblVersion</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1adeaca3444398dd7e226b79cef33722bf" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>geneIds</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1a7528b9fa3d46d0a6f4b7bbb0b8c0fe40" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>panelVersion</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1ae94b5535f4db19fc0fe0028b976d0b16" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>relevantRegions</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1a888e4b7548bf9fcc98adefdad1efe9d4" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>specificDiseaseTitle</name></member>
+      <member refid="structCommonRequest_1_1VirtualPanel_1ac602d3fb38be1be1b13015ced548cea8" prot="public" virt="non-virtual"><scope>CommonRequest::VirtualPanel</scope><name>Transcripts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

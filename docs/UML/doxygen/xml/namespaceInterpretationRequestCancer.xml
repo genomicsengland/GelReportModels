@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="namespaceInterpretationRequestCancer" kind="namespace">
+    <compoundname>InterpretationRequestCancer</compoundname>
+    <innerclass refid="structInterpretationRequestCancer_1_1CancerInterpretationRequest" prot="public">InterpretationRequestCancer::CancerInterpretationRequest</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceInterpretationRequestCancer_1a9ebf8f0b192d4aea7e5ad53ce678334a" prot="public" static="no" mutable="no">
+        <type>import idl CancerParticipant</type>
+        <definition>import idl CommonRequest InterpretationRequestCancer::avdl</definition>
+        <argsstring></argsstring>
+        <name>avdl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Caution!! This has been removed import idl &quot;variants.avdl&quot;; </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="18" column="1" bodyfile="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cancer specific This protocol defines the mechanism that GEL uses to trigger a clinical interpretation process from a third party The record Report is the top level class. This includes clinical information + various version The annotation provided by Genomics England is created using CellBase <ulink url="https://github.com/opencb/cellbase/wiki">https://github.com/opencb/cellbase/wiki</ulink> All annotations are against Ensembl gene models </para>    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/InterpretationRequestCancer.avdl" line="10" column="1"/>
+  </compounddef>
+</doxygen>

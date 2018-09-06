@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="ParticipantSensitiveInformation_8avdl" kind="file">
+    <compoundname>ParticipantSensitiveInformation.avdl</compoundname>
+    <innerclass refid="structSensitiveInformation_1_1SensitiveInformation" prot="public">SensitiveInformation::SensitiveInformation</innerclass>
+    <innernamespace refid="namespaceSensitiveInformation">SensitiveInformation</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceSensitiveInformation" refkind="compound"><highlight class="normal">@</highlight><highlight class="keyword">namespace</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;Gel_BioInf_Models&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">protocol<sp/><ref refid="structSensitiveInformation_1_1SensitiveInformation" kindref="compound">SensitiveInformation</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7" refid="structSensitiveInformation_1_1SensitiveInformation" refkind="compound"><highlight class="normal">record<sp/><ref refid="structSensitiveInformation_1_1SensitiveInformation" kindref="compound">SensitiveInformation</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>externalIds;<sp/></highlight><highlight class="comment">//should<sp/>be<sp/>hide<sp/>for<sp/>external<sp/>companies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>genomicMedicineCenter;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>fullNameOfResponsibleConsultant;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>contactNumber;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>hospitalOfResponsibleConsultant;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/ParticipantSensitiveInformation.avdl"/>
+  </compounddef>
+</doxygen>

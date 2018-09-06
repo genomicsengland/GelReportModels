@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="dir_586d0515919d6cf8184dff168e5a4b5e" kind="dir">
+    <compoundname>/home/antonior/PycharmGEL/GelReportModels/schemas</compoundname>
+    <innerdir refid="dir_2529cba52821706394ef46f7a2d0b660">/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/"/>
+  </compounddef>
+</doxygen>

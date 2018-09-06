@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.7">
+  <compounddef id="Pedigree_8avdl" kind="file">
+    <compoundname>Pedigree.avdl</compoundname>
+    <innerclass refid="structRDPedigree_1_1ConsentStatus" prot="public">RDPedigree::ConsentStatus</innerclass>
+    <innerclass refid="structRDPedigree_1_1Disorder" prot="public">RDPedigree::Disorder</innerclass>
+    <innerclass refid="structRDPedigree_1_1HpoTerm" prot="public">RDPedigree::HpoTerm</innerclass>
+    <innerclass refid="structRDPedigree_1_1PedigreeMember" prot="public">RDPedigree::PedigreeMember</innerclass>
+    <innerclass refid="structRDPedigree_1_1Pedigree" prot="public">RDPedigree::Pedigree</innerclass>
+    <innernamespace refid="namespaceRDPedigree">RDPedigree</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceRDPedigree" refkind="compound"><highlight class="normal">@</highlight><highlight class="keyword">namespace</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;Gel_BioInf_Models&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">protocol<sp/>RDPedigree<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1" kindref="member">Sex</ref><sp/>{male,<sp/>female,<sp/>undetermined}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>TernaryOption<sp/>{yes,<sp/>no,<sp/>unknown}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structRDPedigree_1_1ConsentStatus" refkind="compound"><highlight class="normal">record<sp/><ref refid="structRDPedigree_1_1ConsentStatus" kindref="compound">ConsentStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>programmeConsent=</highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>primaryFindingConsent=</highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>secondaryFindingConsent=</highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>carrierStatusConsent=</highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structRDPedigree_1_1Disorder" refkind="compound"><highlight class="normal">record<sp/><ref refid="structRDPedigree_1_1Disorder" kindref="compound">Disorder</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>diseaseGroup;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>diseaseSubGroup;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>specificDisease;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">}<sp/>ageOfOnset;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structRDPedigree_1_1HpoTerm" refkind="compound"><highlight class="normal">record<sp/><ref refid="structRDPedigree_1_1HpoTerm" kindref="compound">HpoTerm</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>term;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>termPresent;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>modifiers;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">}<sp/>ageOfOnset;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" kindref="member">AffectionStatus</ref><sp/>{unaffected,<sp/>affected,<sp/><sp/>unknown}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>LifeStatus<sp/>{alive,<sp/>aborted,<sp/>deceased,<sp/>unborn,<sp/>stillborn,<sp/>miscarriage}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" kindref="member">AdoptedStatus</ref><sp/>{not_adopted,<sp/>adoptedin,<sp/>adoptedout}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structRDPedigree_1_1PedigreeMember" refkind="compound"><highlight class="normal">record<sp/><ref refid="structRDPedigree_1_1PedigreeMember" kindref="compound">PedigreeMember</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>pedigreeId;<sp/><sp/></highlight><highlight class="comment">//Numbering<sp/>used<sp/>to<sp/>refer<sp/>to<sp/>each<sp/>member<sp/>of<sp/>the<sp/>pedigree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>gelId;<sp/><sp/></highlight><highlight class="comment">//gel<sp/>internal<sp/>identifier,<sp/>only<sp/>required<sp/>when<sp/>the<sp/>participant<sp/>belongs<sp/>to<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>firstName;<sp/></highlight><highlight class="comment">//Only<sp/>required<sp/>when<sp/>the<sp/>participant<sp/>belongs<sp/>to<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>surname;<sp/></highlight><highlight class="comment">//Only<sp/>required<sp/>when<sp/>the<sp/>participant<sp/>belongs<sp/>to<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>NHSNumber;<sp/></highlight><highlight class="comment">//Only<sp/>required<sp/>when<sp/>the<sp/>participant<sp/>belongs<sp/>to<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/>dateBirth;<sp/></highlight><highlight class="comment">//Only<sp/>required<sp/>when<sp/>the<sp/>participant<sp/>belongs<sp/>to<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>array&lt;string&gt;}<sp/>externalIds;<sp/></highlight><highlight class="comment">//other<sp/>potential<sp/>ids<sp/>for<sp/>individuals<sp/>e.g,<sp/>Hospital<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceRDPedigree_1a50c3b35ac82796e3ee565cd8d7a6fcc1" kindref="member">Sex</ref><sp/>sex;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/><sp/>fatherId;<sp/></highlight><highlight class="comment">//refers<sp/>to<sp/>the<sp/>pedigreeId<sp/>of<sp/>the<sp/>father</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">}<sp/><sp/>motherId;<sp/></highlight><highlight class="comment">//refers<sp/>to<sp/>the<sp/>pedigreeId<sp/>of<sp/>the<sp/>mother</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">}<sp/>twinGroup;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>TernaryOption}<sp/>monozygotic;<sp/></highlight><highlight class="comment">//a<sp/>property<sp/>of<sp/>the<sp/>twinning<sp/>group<sp/>but<sp/>should<sp/>be<sp/>entered<sp/>for<sp/>all<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceRDPedigree_1aa6d9159003e3657dc15d4e698bbf2b82" kindref="member">AdoptedStatus</ref><sp/>adoptedStatus;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>LifeStatus<sp/>lifeStatus;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>TernaryOption<sp/>consanguineousParents;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespaceRDPedigree_1a35cfe41d35055332d163c619639d84b2" kindref="member">AffectionStatus</ref><sp/>affectionStatus;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>array&lt;Disorder&gt;<sp/>disorderList;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>array&lt;HpoTerm&gt;<sp/>hpoTermList;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>dataModelCatalogueVersion=</highlight><highlight class="stringliteral">&quot;v4.2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{null,<sp/>map&lt;string&gt;}<sp/>additionalInformation;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structRDPedigree_1_1Pedigree" refkind="compound"><highlight class="normal">record<sp/><ref refid="structRDPedigree_1_1Pedigree" kindref="compound">Pedigree</ref><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>gelFamilyId;<sp/><sp/></highlight><highlight class="comment">//gel<sp/>family<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>array<sp/>&lt;PedigreeMember&gt;<sp/>pedigreeMembers;<sp/></highlight><highlight class="comment">//priority<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/antonior/PycharmGEL/GelReportModels/schemas/IDLs/Pedigree.avdl"/>
+  </compounddef>
+</doxygen>
