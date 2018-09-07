@@ -4,6 +4,7 @@ import logging
 import dictdiffer
 import random
 
+from protocols.migration import BaseMigration
 from protocols.util import dependency_manager
 from protocols.util import handle_avro_errors
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -48,7 +49,7 @@ class TestCaseMigration(TestCase):
                         self._check_non_empty_fields(attribute, exclusions)
 
     def _validate(self, instance):
-        self.assertTrue(instance.validate(instance.toJsonDict(), verbose=True))
+        return BaseMigration.validate_object(instance, type(instance))
 
     def populate_exit_questionnaire_variant_details(self, eq):
         for vglq in eq.variantGroupLevelQuestions:

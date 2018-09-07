@@ -9,6 +9,7 @@ from protocols import (
     reports_6_0_0,
     participant_1_0_0,
     participant_1_0_3,
+    participant_1_1_0
 )
 from protocols.util.dependency_manager import (
     VERSION_210,
@@ -488,7 +489,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_pedigree_110_110(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
-            participant_1_0_3.Pedigree, VERSION_61, fill_nullables=fill_nullables
+            participant_1_1_0.Pedigree, VERSION_61, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
         if fill_nullables:
