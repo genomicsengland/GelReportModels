@@ -41,7 +41,7 @@ class RealRoundTripperCancer(object):
             ignore_fields=["TNMStageVersion", "TNMStageGrouping",
                            "additionalTextualVariantAnnotations", "matchedSamples", "commonAf",
                            "actions",  # NOTE: this is ignores as actions come back in a different order
-                           "versionControl"  # NOTE: this is ignored as some real data have a missing version value
+                           "versionControl",  # NOTE: this is ignored as some real data have a missing version value
                            "additionalInfo"
                            ])
         differ |= self._check_actions(ir.tieredVariants, ir_round_tripped.tieredVariants)

@@ -151,16 +151,17 @@ class BaseRoundTripper(object):
         for re in report_events:
             if re.actions:
                 for a in re.actions:
-                    key = "{}-{}".format(a.url, a.actionType)
+                    key = "{}-{}-{}".format(a.url, a.actionType, a.variantActionable)
                     if key not in actions:
                         actions[key] = []
                     actions[key].append(a)
         differ = False
         for a in actions.values():
-            differ |= len(a) != 2
-            differ |= a[0].actionType != a[1].actionType
-            differ |= a[0].url != a[1].url
-            differ |= a[0].variantActionable != a[1].variantActionable
+            differ |= len(a) % 2 != 0
+            if len(a) > 1:
+                differ |= a[0].actionType != a[1].actionType
+                differ |= a[0].url != a[1].url
+                differ |= a[0].variantActionable != a[1].variantActionable
             if differ:
                 logging.error("Actions differ. {}".format(a))
                 break
