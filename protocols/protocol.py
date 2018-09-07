@@ -15,7 +15,7 @@ import logging
 
 import avro.io
 import avro.schema
-from avro.schema import UnionSchema, ArraySchema
+from avro.schema import UnionSchema, ArraySchema, RecordSchema
 
 
 class ProtocolElementEncoder(json.JSONEncoder):

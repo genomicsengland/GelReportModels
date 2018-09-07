@@ -136,7 +136,7 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def reverse_migrate_interpretation_request_rd_to_v3(json_dict, ig_json_dict, cip=None):
+    def reverse_migrate_interpretation_request_rd_to_v3(json_dict, ig_json_dict):
         ig_types = [
             InterpretedGenomeRD_5_0_0,
             InterpretedGenome_6_0_0
@@ -156,7 +156,7 @@ class MigrationHelpers(object):
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpretation_request_rd,
-            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig, cip=cip),
+            lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig),
             MigrateReports600To500().migrate_interpretation_request_rd,
         ]
 

@@ -22,9 +22,25 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         """
         if assembly is None:
             raise MigrationError("Parameter <assembly> is required if version is older than 5.0.0")
-        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
+        new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)  # type: reports_5_0_0.InterpretationRequestRD
         new_instance.genomeAssembly = assembly
         new_instance.pedigree = self._migrate_pedigree(old_instance.pedigree)
+        # NOTE: store fields in additional fields that are lost otherwise
+        if not new_instance.additionalInfo:
+            new_instance.additionalInfo = {}
+        if old_instance.analysisVersion:
+            new_instance.additionalInfo['analysisVersion'] = old_instance.analysisVersion
+        if old_instance.analysisReturnUri:
+            new_instance.additionalInfo['analysisReturnUri'] = old_instance.analysisReturnUri
+        if old_instance.tieringVersion:
+            new_instance.additionalInfo['tieringVersion'] = old_instance.tieringVersion
+        if old_instance.complexGeneticPhenomena:
+            new_instance.additionalInfo['complexGeneticPhenomena'] = str(old_instance.complexGeneticPhenomena)
+        if old_instance.cellbaseVersion:
+            new_instance.additionalInfo['cellbaseVersion'] = old_instance.cellbaseVersion
+        if old_instance.interpretGenome:
+            new_instance.additionalInfo['interpretGenome'] = str(old_instance.interpretGenome)
+
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretationRequestRD
         )
@@ -137,6 +153,16 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.interpretationRequestVersion = old_instance.reportVersion
         new_instance.genomeAssembly = assembly
         new_instance.cancerParticipant = self._migrate_cancer_participant(old_participant=old_instance.cancerParticipant)
+        if not new_instance.additionalInfo:
+            new_instance.additionalInfo = {}
+        if old_instance.analysisUri:
+            new_instance.additionalInfo['analysisUri'] = old_instance.analysisUri
+        if old_instance.analysisVersion:
+            new_instance.additionalInfo['analysisVersion'] = old_instance.analysisVersion
+        if old_instance.tieringVersion:
+            new_instance.additionalInfo['tieringVersion'] = old_instance.tieringVersion
+        if old_instance.interpretGenome:
+            new_instance.additionalInfo['interpretGenome'] = str(old_instance.interpretGenome)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest

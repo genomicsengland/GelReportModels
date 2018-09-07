@@ -1,4 +1,5 @@
 import logging
+import distutils
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
@@ -54,13 +55,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         old_model.ClinicalSignificance.pathogenic: new_model.VariantClassification.pathogenic_variant,
     }
 
-    def migrate_interpretation_request_rd(self, old_instance, old_ig, cip=None):
+    def migrate_interpretation_request_rd(self, old_instance, old_ig):
         """
         Migrates a reports_5_0_0.InterpretationRequestRD into a reports_4_0_0.InterpretationRequestRD
         :type old_instance: reports_5_0_0.InterpretationRequestRD
         :type old_ig: reports_5_0_0.InterpretedGenomeRD
-        :param cip: this is used to build the field `analysisReturnUri`, it will be empty if not provided
-        :type cip: str
         :rtype: reports_4_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
@@ -74,12 +73,16 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         # grabs the list of variants from the interpreted genome
         new_instance.tieredVariants = self.convert_collection(old_ig.variants, self._migrate_reported_variant)
         new_instance.tieringVersion = old_ig.softwareVersions.get("tiering", "")
-        new_instance.complexGeneticPhenomena = None  # cannot fill this one, but it has never been used
-        new_instance.analysisReturnUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
-            cip_short=self.cip_short_codes.get(cip),
-            ir_id=old_instance.interpretationRequestId,
-            ir_version=old_instance.interpretationRequestVersion) if cip else ""
-        new_instance.analysisVersion = "1"  # it is always 1, so it can be hard-coded here
+        new_instance.analysisVersion = ''
+        new_instance.analysisReturnUri = ''
+        if old_instance.additionalInfo:
+            new_instance.analysisVersion = old_instance.additionalInfo.get('analysisVersion') or ''
+            new_instance.analysisReturnUri = old_instance.additionalInfo.get('analysisReturnUri', '')
+            new_instance.tieringVersion = old_instance.additionalInfo.get('tieringVersion', '')
+            new_instance.complexGeneticPhenomena = old_instance.additionalInfo.get('complexGeneticPhenomena')
+            new_instance.cellbaseVersion = old_instance.additionalInfo.get('cellbaseVersion', '')
+            new_instance.interpretGenome = bool(distutils.util.strtobool(old_instance.additionalInfo.get('interpretGenome', 'false')))
+
         if not old_instance.pedigree:
             raise MigrationError("Cannot reverse migrate an Interpretation Request for RD with null pedigree")
         new_instance.pedigree = MigrateParticipant110To100().migrate_pedigree(old_instance.pedigree)
@@ -97,11 +100,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.analysisId = str(old_instance.interpretationRequestVersion)
         new_instance.companyName = old_instance.interpretationService
         if new_instance.reportUrl is None:
-            new_instance.reportUrl = ""
+            new_instance.reportUrl = ''
         new_instance.reportUri = "/gel/returns/{cip_short}-{ir_id}-{ir_version}".format(
             cip_short=self.cip_short_codes.get(cip),
             ir_id=old_instance.interpretationRequestId,
-            ir_version=old_instance.interpretationRequestVersion) if cip else ""
+            ir_version=old_instance.interpretationRequestVersion) if cip else ''
         new_instance.reportedVariants = self.convert_collection(old_instance.variants, self._migrate_reported_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportRD)
 
@@ -139,24 +142,24 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.reportedVariants = self.convert_collection(
             old_instance.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         new_instance.reportRequestId = old_instance.interpretationRequestId
-        new_instance.reportUri = old_instance.reportUrl or ""
-        new_instance.analysisId = ""
+        new_instance.reportUri = old_instance.reportUrl or ''
+        new_instance.analysisId = ''
         new_instance.reportedStructuralVariants = []
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
         )
 
-    def migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, old_interpretation_request, old_interpreted_genome):
+    def migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, old_instance, old_interpreted_genome):
         """
-        :type old_interpretation_request: reports_5_0_0.CancerInterpretationRequest
+        :type old_instance: reports_5_0_0.CancerInterpretationRequest
         :type old_interpreted_genome: reports_5_0_0.CancerInterpretedGenome
         :rtype: reports_4_0_0.CancerInterpretationRequest
         """
-        new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretationRequest, instance=old_interpretation_request)
+        new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretationRequest, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.reportRequestId = old_interpretation_request.interpretationRequestId
-        new_instance.reportVersion = old_interpretation_request.interpretationRequestVersion
+        new_instance.reportRequestId = old_instance.interpretationRequestId
+        new_instance.reportVersion = old_instance.interpretationRequestVersion
         new_instance.interpretGenome = True
         if new_instance.bams is None:
             new_instance.bams = []
@@ -164,9 +167,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             new_instance.vcfs = []
         if new_instance.bigWigs is None:
             new_instance.bigWigs = []
-        if old_interpretation_request.cancerParticipant:
+        if old_instance.cancerParticipant:
             new_instance.cancerParticipant = MigrateParticipant110To100().migrate_cancer_participant(
-                old_instance=old_interpretation_request.cancerParticipant
+                old_instance=old_instance.cancerParticipant
             )
         else:
             # default empty object as it is non nullable
@@ -177,9 +180,13 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 tumourSamples=[],
                 germlineSamples=[])
         new_instance.structuralTieredVariants = []
-        new_instance.analysisVersion = ""
-        new_instance.analysisUri = ""
-        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", "")
+        new_instance.analysisVersion = ''
+        new_instance.analysisUri = ''
+        if old_instance.additionalInfo:
+            new_instance.analysisVersion = old_instance.additionalInfo.get('analysisVersion') or ''
+            new_instance.analysisUri = old_instance.additionalInfo.get('analysisUri', '')
+            new_instance.interpretGenome = bool(distutils.util.strtobool(old_instance.additionalInfo.get('interpretGenome', 'false')))
+        new_instance.tieringVersion = old_interpreted_genome.softwareVersions.get("tiering", '')
         new_instance.tieredVariants = self.convert_collection(
             old_interpreted_genome.variants, self._migrate_reported_variant_cancer_to_reported_somatic_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretationRequest)

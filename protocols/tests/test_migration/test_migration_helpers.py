@@ -9,6 +9,7 @@ from protocols import (
     reports_6_0_0,
     participant_1_0_0,
     participant_1_0_3,
+    participant_1_1_0
 )
 from protocols.util.dependency_manager import (
     VERSION_210,
@@ -145,6 +146,10 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance.pedigree = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.Pedigree, VERSION_70, fill_nullables=fill_nullables
         ).create()
+        old_instance.additionalInfo = {}
+        old_instance.additionalInfo['cellbaseVersion'] = '1.0'
+        old_instance.additionalInfo['tieringVersion'] = '1.0'
+        old_instance.additionalInfo['analysisReturnUri'] = 'uri.com'
         old_ig = GenericFactoryAvro.get_factory_avro(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         ).create()
@@ -484,7 +489,7 @@ class TestMigrationHelpers(TestCaseMigration):
 
     def test_migrate_pedigree_110_110(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
-            participant_1_0_3.Pedigree, VERSION_61, fill_nullables=fill_nullables
+            participant_1_1_0.Pedigree, VERSION_61, fill_nullables=fill_nullables
         ).create()
         self._validate(old_instance)
         if fill_nullables:
@@ -519,6 +524,12 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance = self.get_valid_object(
             reports_6_0_0.CancerInterpretationRequest, VERSION_70, fill_nullables=fill_nullables
         )
+        old_instance.additionalInfo = {
+            'interpretGenome': 'True',
+            'analysisUri': 'blah.com',
+            'analysisVersion': '1',
+            'tieringVersion': '1'
+        }
         old_ig = self.get_valid_object(
             reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
         )
