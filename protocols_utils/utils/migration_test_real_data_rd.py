@@ -3,6 +3,7 @@ from pycipapi.cipapi_client import CipApiClient, CipApiCase
 import getpass
 from protocols import reports_2_1_0, reports_3_0_0, reports_6_0_0
 from protocols.migration import Migration21To3
+from protocols.migration.base_migration import MigrationError
 from protocols.reports_6_0_0 import Program
 from protocols.tests.test_migration.migration_runner import MigrationRunner
 import logging
@@ -23,15 +24,19 @@ class RealRoundTripperRd(object):
     def process_case(self, case):
         # interpretation request
         raw_ir, case_id, version = case._get_raw_interpretation_request()
-        if reports_2_1_0.InterpretationRequestRD.validate(reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir)):
+        ir = reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir)
+        if ir.versionControl.GitVersionControl == '2.1.0':
             ir = Migration21To3().migrate_interpretation_request(
                 reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir))
-        elif reports_3_0_0.InterpretationRequestRD.validate(reports_3_0_0.InterpretationRequestRD.fromJsonDict(raw_ir)):
-            ir = reports_3_0_0.InterpretationRequestRD.fromJsonDict(raw_ir)  # type: reports_3_0_0.InterpretationRequestRD
         else:
-            logging.error("Skipped case {}-{}".format(case_id, version))
-            return  # continue
-        ir_migrated, ir_round_tripped = self.migration_runner.roundtrip_rd_ir(ir, case.assembly)
+            ir = reports_3_0_0.InterpretationRequestRD.fromJsonDict(raw_ir)
+
+        try:
+            ir_migrated, ir_round_tripped = self.migration_runner.roundtrip_rd_ir(ir, case.assembly)
+        except MigrationError as e:
+            logging.error("Skipping case {}-{}: {}".format(case_id, version, e.message))
+            return
+
         is_valid = ir_migrated.validate(reports_6_0_0.InterpretationRequestRD, ir_migrated.toJsonDict())
         is_valid_round_tripped = ir_round_tripped.validate(
             reports_3_0_0.InterpretationRequestRD, ir_round_tripped.toJsonDict())

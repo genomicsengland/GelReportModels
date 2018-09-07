@@ -2,6 +2,7 @@
 from pycipapi.cipapi_client import CipApiClient, CipApiCase
 import getpass
 from protocols import reports_4_0_0, reports_6_0_0
+from protocols.migration.base_migration import MigrationError
 from protocols.reports_6_0_0 import Program
 from protocols.tests.test_migration.migration_runner import MigrationRunner
 from itertools import chain
@@ -29,10 +30,14 @@ class RealRoundTripperCancer(object):
 
     def process_case(self, case):
         # interpretation request
-        raw_ir, _id, version = case._get_raw_interpretation_request()
+        raw_ir, case_id, version = case._get_raw_interpretation_request()
         ir = reports_4_0_0.CancerInterpretationRequest.fromJsonDict(
             raw_ir)  # type: reports_4_0_0.CancerInterpretationRequest
-        ir_migrated, ir_round_tripped = self.migration_runner.roundtrip_cancer_ir(ir, case.assembly)
+        try:
+            ir_migrated, ir_round_tripped = self.migration_runner.roundtrip_cancer_ir(ir, case.assembly)
+        except MigrationError as e:
+            logging.error("Skipping case {}-{}: {}".format(case_id, version, e.message))
+            return
         is_valid = ir_migrated.validate(reports_6_0_0.CancerInterpretationRequest, ir_migrated.toJsonDict())
         is_valid_round_tripped = ir_round_tripped.validate(
             reports_4_0_0.CancerInterpretationRequest, ir_round_tripped.toJsonDict())
@@ -47,10 +52,10 @@ class RealRoundTripperCancer(object):
         differ |= self._check_actions(ir.tieredVariants, ir_round_tripped.tieredVariants)
 
         if not is_valid:
-            logging.error("Invalid cancer IR {}-{}".format(_id, version))
+            logging.error("Invalid cancer IR {}-{}".format(case_id, version))
         if not is_valid_round_tripped:
-            logging.error("Invalid round tripped cancer IR {}-{}".format(_id, version))
-        logging.error("{} cancer IR {}-{}".format("KO" if differ else "OK", _id, version))
+            logging.error("Invalid round tripped cancer IR {}-{}".format(case_id, version))
+        logging.error("{} cancer IR {}-{}".format("KO" if differ else "OK", case_id, version))
 
         # interpreted genome
         if case.has_interpreted_genome():
@@ -64,10 +69,10 @@ class RealRoundTripperCancer(object):
                 ig, ig_round_tripped, ignore_fields=["analysisId", "additionalTextualVariantAnnotations", "commonAf"])
             differ |= self._check_actions(ig.reportedVariants, ig_round_tripped.reportedVariants)
             if not is_valid:
-                logging.error("Invalid cancer IG {}-{}".format(_id, version))
+                logging.error("Invalid cancer IG {}-{}".format(case_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped cancer IG {}-{}".format(_id, version))
-            logging.error("{} cancer IG {}-{}".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer IG {}-{}".format(case_id, version))
+            logging.error("{} cancer IG {}-{}".format("KO" if differ else "OK", case_id, version))
 
         # clinical report
         if case.has_clinical_report():
@@ -82,10 +87,10 @@ class RealRoundTripperCancer(object):
                                                      "genePanelsCoverage", "actions"])
             differ |= self._check_actions(cr.candidateVariants, cr_round_tripped.candidateVariants)
             if not is_valid:
-                logging.error("Invalid cancer CR {}-{}".format(_id, version))
+                logging.error("Invalid cancer CR {}-{}".format(case_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped cancer CR {}-{}".format(_id, version))
-            logging.error("{} cancer CR {}-{}".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer CR {}-{}".format(case_id, version))
+            logging.error("{} cancer CR {}-{}".format("KO" if differ else "OK", case_id, version))
 
     def run(self):
         print "Check your results in '{}'".format(self.log_file)
