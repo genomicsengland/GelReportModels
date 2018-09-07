@@ -47,10 +47,10 @@ class RealRoundTripperCancer(object):
         differ |= self._check_actions(ir.tieredVariants, ir_round_tripped.tieredVariants)
 
         if not is_valid:
-            logging.error("Invalid cancer IR id={} version={}\n".format(_id, version))
+            logging.error("Invalid cancer IR {}-{}".format(_id, version))
         if not is_valid_round_tripped:
-            logging.error("Invalid round tripped cancer IR id={} version={}\n".format(_id, version))
-        logging.error("{} cancer IR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+            logging.error("Invalid round tripped cancer IR {}-{}".format(_id, version))
+        logging.error("{} cancer IR {}-{}".format("KO" if differ else "OK", _id, version))
 
         # interpreted genome
         if case.has_interpreted_genome():
@@ -64,10 +64,10 @@ class RealRoundTripperCancer(object):
                 ig, ig_round_tripped, ignore_fields=["analysisId", "additionalTextualVariantAnnotations", "commonAf"])
             differ |= self._check_actions(ig.reportedVariants, ig_round_tripped.reportedVariants)
             if not is_valid:
-                logging.error("Invalid cancer IG id={} version={}\n".format(_id, version))
+                logging.error("Invalid cancer IG {}-{}".format(_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped cancer IG id={} version={}\n".format(_id, version))
-            logging.error("{} cancer IG id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer IG {}-{}".format(_id, version))
+            logging.error("{} cancer IG {}-{}".format("KO" if differ else "OK", _id, version))
 
         # clinical report
         if case.has_clinical_report():
@@ -82,10 +82,10 @@ class RealRoundTripperCancer(object):
                                                      "genePanelsCoverage", "actions"])
             differ |= self._check_actions(cr.candidateVariants, cr_round_tripped.candidateVariants)
             if not is_valid:
-                logging.error("Invalid cancer CR id={} version={}\n".format(_id, version))
+                logging.error("Invalid cancer CR {}-{}".format(_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped cancer CR id={} version={}\n".format(_id, version))
-            logging.error("{} cancer CR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped cancer CR {}-{}".format(_id, version))
+            logging.error("{} cancer CR {}-{}".format("KO" if differ else "OK", _id, version))
 
     def run(self):
         print "Check your results in '{}'".format(self.log_file)

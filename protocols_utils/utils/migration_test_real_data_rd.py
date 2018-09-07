@@ -22,13 +22,15 @@ class RealRoundTripperRd(object):
 
     def process_case(self, case):
         # interpretation request
-        raw_ir, _id, version = case._get_raw_interpretation_request()
-        if reports_2_1_0.InterpretationRequestRD.validate(
-                reports_2_1_0.InterpretationRequestRD, reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir)):
+        raw_ir, case_id, version = case._get_raw_interpretation_request()
+        if reports_2_1_0.InterpretationRequestRD.validate(reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir)):
             ir = Migration21To3().migrate_interpretation_request(
                 reports_2_1_0.InterpretationRequestRD.fromJsonDict(raw_ir))
-        else:
+        elif reports_3_0_0.InterpretationRequestRD.validate(reports_3_0_0.InterpretationRequestRD.fromJsonDict(raw_ir)):
             ir = reports_3_0_0.InterpretationRequestRD.fromJsonDict(raw_ir)  # type: reports_3_0_0.InterpretationRequestRD
+        else:
+            logging.error("Skipped case {}-{}".format(case_id, version))
+            return  # continue
         ir_migrated, ir_round_tripped = self.migration_runner.roundtrip_rd_ir(ir, case.assembly)
         is_valid = ir_migrated.validate(reports_6_0_0.InterpretationRequestRD, ir_migrated.toJsonDict())
         is_valid_round_tripped = ir_round_tripped.validate(
@@ -41,10 +43,10 @@ class RealRoundTripperRd(object):
             ])
 
         if not is_valid:
-            logging.error("Invalid rd IR id={} version={}\n".format(_id, version))
+            logging.error("Invalid rd IR {}-{}".format(case_id, version))
         if not is_valid_round_tripped:
-            logging.error("Invalid round tripped rd IR id={} version={}\n".format(_id, version))
-        logging.error("{} rd IR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+            logging.error("Invalid round tripped rd IR {}-{}".format(case_id, version))
+        logging.error("{} rd IR {}-{}".format("KO" if differ else "OK", case_id, version))
 
         # interpreted genome
         if case.has_interpreted_genome():
@@ -63,10 +65,10 @@ class RealRoundTripperRd(object):
                 ig, ig_round_tripped, ignore_fields=['additionalNumericVariantAnnotations', "reportURI", "analysisId",
                                                      "GitVersionControl"])
             if not is_valid:
-                logging.error("Invalid rd IG id={} version={}\n".format(_id, version))
+                logging.error("Invalid rd IG {}-{}".format(case_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped rd IG id={} version={}\n".format(_id, version))
-            logging.error("{} rd IG id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped rd IG {}-{}".format(case_id, version))
+            logging.error("{} rd IG {}-{}".format("KO" if differ else "OK", case_id, version))
 
         # clinical report
         if case.has_clinical_report():
@@ -83,10 +85,10 @@ class RealRoundTripperRd(object):
             differ = self.migration_runner.diff_round_tripped(
                 cr, cr_round_tripped, ignore_fields=["interpretationRequestAnalysisVersion", "GitVersionControl"])
             if not is_valid:
-                logging.error("Invalid rd CR id={} version={}\n".format(_id, version))
+                logging.error("Invalid rd CR {}-{}".format(case_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped rd CR id={} version={}\n".format(_id, version))
-            logging.error("{} rd CR id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped rd CR {}-{}".format(case_id, version))
+            logging.error("{} rd CR {}-{}".format("KO" if differ else "OK", case_id, version))
 
         if case.has_exit_questionnaire():
             raw_eq = case.raw_questionnaire
@@ -98,10 +100,10 @@ class RealRoundTripperRd(object):
             differ = self.migration_runner.diff_round_tripped(
                 eq, eq_round_tripped, ignore_fields=[])
             if not is_valid:
-                logging.error("Invalid rd EQ id={} version={}\n".format(_id, version))
+                logging.error("Invalid rd EQ {}-{}".format(case_id, version))
             if not is_valid_round_tripped:
-                logging.error("Invalid round tripped rd EQ id={} version={}\n".format(_id, version))
-            logging.error("{} rd EQ id={} version={}\n".format("KO" if differ else "OK", _id, version))
+                logging.error("Invalid round tripped rd EQ {}-{}".format(case_id, version))
+            logging.error("{} rd EQ {}-{}".format("KO" if differ else "OK", case_id, version))
 
     def run(self):
         print "Check your results in '{}'".format(self.log_file)
