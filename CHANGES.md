@@ -1,3 +1,10 @@
+Version 7.1.8 (7th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Bugfixes to reverse migrations
+
 Version 7.1.7 (24th August 2018)
 --------------------------------
 
