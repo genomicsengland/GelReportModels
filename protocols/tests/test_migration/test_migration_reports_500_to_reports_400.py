@@ -204,10 +204,16 @@ class TestMigrateReports5To400(TestCaseMigration):
     def test_migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(self, fill_nullables=True):
         ir_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretationRequest,
                                        version=self.version_6_1, fill_nullables=fill_nullables)
+        ir_c_5.additionalInfo = {
+            'interpretGenome': 'True',
+            'analysisUri': 'blah.com',
+            'analysisVersion': '1',
+            'tieringVersion': '1'
+        }
         ig_c_5 = self.get_valid_object(object_type=self.old_model.CancerInterpretedGenome,
                                        version=self.version_6_1, fill_nullables=fill_nullables)
         ir_c_4 = MigrateReports500To400().migrate_interpretation_request_cancer_plus_cancer_interpreted_genome(
-            old_interpretation_request=ir_c_5, old_interpreted_genome=ig_c_5
+            old_instance=ir_c_5, old_interpreted_genome=ig_c_5
         )
         self.assertIsInstance(ir_c_4, self.new_model.CancerInterpretationRequest)
         self.assertTrue(ir_c_4.validate(ir_c_4.toJsonDict()))
@@ -280,6 +286,10 @@ class TestMigrateReports5To400(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create(interpretationRequestVersion=1)
+        old_instance.additionalInfo = {}
+        old_instance.additionalInfo['cellbaseVersion'] = '1.0'
+        old_instance.additionalInfo['tieringVersion'] = '1.0'
+        old_instance.additionalInfo['analysisReturnUri'] = 'uri.com'
 
         self._validate(old_instance)
         if fill_nullables:
@@ -294,7 +304,7 @@ class TestMigrateReports5To400(TestCaseMigration):
             self._check_non_empty_fields(old_ig)
 
         new_instance = MigrateReports500To400().migrate_interpretation_request_rd(
-            old_instance=old_instance, old_ig=old_ig, cip='nextcode')
+            old_instance=old_instance, old_ig=old_ig)
         self.assertTrue(isinstance(new_instance, self.new_model.InterpretationRequestRD))
         self._validate(new_instance)
         if fill_nullables:

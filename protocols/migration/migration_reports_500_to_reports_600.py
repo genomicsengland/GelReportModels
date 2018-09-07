@@ -403,7 +403,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
                     new_actions.trials.append(trial)
             elif "Prognostic" in action.evidenceType:
                 prognosis = self.new_model.Prognosis()
-                prognosis.referenceUrl = action.url
+                prognosis.referenceUrl = action.url or ""  # NOTE: it isn't frequent but there're some missing URLs
                 prognosis.source = action.source
                 prognosis.references = action.references
                 prognosis.variantActionable = action.variantActionable
@@ -413,7 +413,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
                 new_actions.prognosis.append(prognosis)
             elif "Therapeutic" in action.evidenceType:
                 therapy = self.new_model.Therapy()
-                therapy.referenceUrl = action.url
+                therapy.referenceUrl = action.url or ""  # NOTE: it isn't frequent but there're some missing URLs
                 therapy.source = action.source
                 therapy.references = action.references
                 therapy.variantActionable = action.variantActionable

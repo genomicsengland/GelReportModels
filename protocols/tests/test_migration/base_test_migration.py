@@ -4,6 +4,7 @@ import logging
 import dictdiffer
 import random
 
+from protocols.migration import BaseMigration
 from protocols.util import dependency_manager
 from protocols.util import handle_avro_errors
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -48,7 +49,7 @@ class TestCaseMigration(TestCase):
                         self._check_non_empty_fields(attribute, exclusions)
 
     def _validate(self, instance):
-        self.assertTrue(instance.validate(instance.toJsonDict(), verbose=True))
+        return BaseMigration.validate_object(instance, type(instance))
 
     def populate_exit_questionnaire_variant_details(self, eq):
         for vglq in eq.variantGroupLevelQuestions:
@@ -109,31 +110,26 @@ class TestCaseMigration(TestCase):
         return valid_object
 
 
-class BaseTestRoundTrip(TestCaseMigration):
+class BaseRoundTripper(object):
 
-    # all empty values will not be considered as mismatchs
     _empty_values = [None, [], {}, ""]
     _equal_values = {
         reports_3_0_0.Sex.undetermined: reports_3_0_0.Sex.unknown
     }
 
-    def _check_round_trip_migration(self, forward, backward, original, new_type,
-                                    expect_equality=True, ignore_fields=[],
-                                    forward_kwargs={}, backward_kwargs={}):
+    def round_trip_migration(self, forward, backward, original, forward_kwargs={}, backward_kwargs={}):
 
         migrated = forward(original.toJsonDict(), **forward_kwargs)
-        self.assertIsInstance(migrated, new_type)
-        self.assertValid(migrated)
-
         round_tripped = backward(migrated.toJsonDict(), **backward_kwargs)
-        self.assertIsInstance(round_tripped, type(original))
-        self.assertValid(round_tripped)
+        return migrated, round_tripped
 
+    def diff_round_tripped(self, original, round_tripped, ignore_fields=[]):
         differ = False
-        for diff_type, field_path, values in list(dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
+        for diff_type, field_path, values in list(
+                dictdiffer.diff(round_tripped.toJsonDict(), original.toJsonDict())):
             if type(field_path).__name__ in ['unicode', 'str']:
                 field_path = [field_path]
-            if BaseTestRoundTrip.is_field_ignored(field_path, ignore_fields):
+            if self.is_field_ignored(field_path, ignore_fields):
                 continue
             if isinstance(values, list):
                 values = values[0]
@@ -148,9 +144,29 @@ class BaseTestRoundTrip(TestCaseMigration):
             logging.error("{}: {} expected '{}' found '{}'".format(diff_type, ".".join(
                 list(map(str, field_path))), expected, observed))
             differ = True
-        if expect_equality:
-            self.assertFalse(differ)
-        return round_tripped
+        return differ
+
+    def diff_actions(self, report_events):
+        actions = {}
+        # NOTE: makes the assumption that the URL field is never empty
+        for re in report_events:
+            if re.actions:
+                for a in re.actions:
+                    key = "{}-{}-{}".format(a.url, a.actionType, a.variantActionable)
+                    if key not in actions:
+                        actions[key] = []
+                    actions[key].append(a)
+        differ = False
+        for a in actions.values():
+            differ |= len(a) % 2 != 0
+            if len(a) > 1:
+                differ |= a[0].actionType != a[1].actionType
+                differ |= a[0].url != a[1].url
+                differ |= a[0].variantActionable != a[1].variantActionable
+            if differ:
+                logging.error("Actions differ. {}".format(a))
+                break
+        return differ
 
     def is_hashable(self, item):
         try:
@@ -166,6 +182,30 @@ class BaseTestRoundTrip(TestCaseMigration):
                 if ignored_field in str(path):
                     return True
         return False
+
+
+class BaseTestRoundTrip(TestCaseMigration, BaseRoundTripper):
+
+    # all empty values will not be considered as mismatchs
+    _empty_values = [None, [], {}, ""]
+    _equal_values = {
+        reports_3_0_0.Sex.undetermined: reports_3_0_0.Sex.unknown
+    }
+
+    def _check_round_trip_migration(self, forward, backward, original, new_type,
+                                    expect_equality=True, ignore_fields=[],
+                                    forward_kwargs={}, backward_kwargs={}):
+
+        migrated, round_tripped = self.round_trip_migration(
+            forward, backward, original, forward_kwargs, backward_kwargs)
+        differ = self.diff_round_tripped(original, round_tripped, ignore_fields)
+        self.assertIsInstance(migrated, new_type)
+        self.assertValid(migrated)
+        self.assertIsInstance(round_tripped, type(original))
+        self.assertValid(round_tripped)
+        if expect_equality:
+            self.assertFalse(differ)
+        return round_tripped
 
     def assertValid(self, instance):
         validation = instance.validate(instance.toJsonDict(), verbose=True)

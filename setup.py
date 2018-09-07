@@ -25,13 +25,15 @@ elif target_version == '3':
 else:
     raise ValueError("Not supported python version {}".format(target_version))
 
-VERSION = "7.1.7"
+VERSION = "7.1.8"
 setup(
     name='GelReportModels',
     version=VERSION,
     packages=find_packages(),
     include_package_data=True,
-    scripts=['bin/ModelValidator', 'protocols_utils/utils/conversion_tools.py'],
+    scripts=['bin/ModelValidator', 'protocols_utils/utils/conversion_tools.py',
+             'protocols_utils/utils/migration_test_real_data_rd.py',
+             'protocols_utils/utils/migration_test_real_data_cancer.py'],
     url='',
     license='',
     author='Bioinformatics Team at Genomics England',
