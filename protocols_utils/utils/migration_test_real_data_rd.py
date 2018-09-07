@@ -15,7 +15,7 @@ class RealRoundTripperRd(object):
         # configures logging to get only logs about the failed cases
         self.log_file = "real_data_rd_round_trip.log"
         logging.basicConfig(filename=self.log_file, level=logging.ERROR,
-                            format='%(asctime)s - %(message)s',
+                            format='%(asctime)s.%(msecs)03d - %(message)s',
                             datefmt='%H:%M:%S',)
         gel_user = raw_input("User:")
         gel_password = getpass.getpass("Password:")
