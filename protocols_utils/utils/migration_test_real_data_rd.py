@@ -41,13 +41,19 @@ class RealRoundTripperRd(AbstractRealRoundTripper):
         if case.has_interpreted_genome():
             raw_ig = case.raw_interpreted_genome
             try:
-                ig = reports_2_1_0.InterpretedGenomeRD.fromJsonDict(raw_ir)
-                model_version = '3.0.0'
-                if ig.versionControl.GitVersionControl == '2.1.0':
+                is_valid_210 = reports_2_1_0.InterpretedGenomeRD.validate(
+                    reports_2_1_0.InterpretedGenomeRD, reports_2_1_0.InterpretedGenomeRD.fromJsonDict(raw_ir))
+                is_valid_300 = reports_3_0_0.InterpretedGenomeRD.validate(
+                    reports_3_0_0.InterpretedGenomeRD, reports_3_0_0.InterpretedGenomeRD.fromJsonDict(raw_ir))
+                if is_valid_210 and not is_valid_300:
                     model_version = '2.1.0'
+                    ig = reports_2_1_0.InterpretedGenomeRD.fromJsonDict(raw_ir)
                     ig = Migration21To3().migrate_interpreted_genome(ig)
-                else:
+                elif is_valid_300:
+                    model_version = '3.0.0'
                     ig = reports_3_0_0.InterpretedGenomeRD.fromJsonDict(raw_ig)
+                else:
+                    raise MigrationError("Payload invalid according to 2.1.0 and 3.0.0")
                 ig_migrated, ig_round_tripped = self.migration_runner.roundtrip_rd_ig(ig, case.assembly)
                 is_valid = ig_migrated.validate(reports_6_0_0.InterpretedGenome, ig_migrated.toJsonDict())
                 is_valid_round_tripped = ig_round_tripped.validate(

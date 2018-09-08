@@ -54,22 +54,22 @@ class AbstractRealRoundTripper(object):
     def save_case(case, program, data_folder):
         raw_ir, case_id, version = case._get_raw_interpretation_request()
         AbstractRealRoundTripper.save_json(
-            raw_ir, os.path.join(data_folder, "{program}-{type}-{id}-{version}.json".format(
+            raw_ir, os.path.join(data_folder, "{program}-{id}-{version}-{type}.json".format(
                 program=program, type="IR", id=case_id, version=version)))
         if case.has_interpreted_genome():
             raw_ig = case.raw_interpreted_genome
             AbstractRealRoundTripper.save_json(
-                raw_ig, os.path.join(data_folder, "{program}-{type}-{id}-{version}.json".format(
+                raw_ig, os.path.join(data_folder, "{program}-{id}-{version}-{type}.json".format(
                     program=program, type="IG", id=case_id, version=version)))
         if case.has_clinical_report():
             raw_cr = case.raw_clinical_report
             AbstractRealRoundTripper.save_json(
-                raw_cr, os.path.join(data_folder, "{program}-{type}-{id}-{version}.json".format(
+                raw_cr, os.path.join(data_folder, "{program}-{id}-{version}-{type}.json".format(
                     program=program, type="CR", id=case_id, version=version)))
         if case.has_exit_questionnaire():
             raw_eq = case.raw_questionnaire
             AbstractRealRoundTripper.save_json(
-                raw_eq, os.path.join(data_folder, "{program}-{type}-{id}-{version}.json".format(
+                raw_eq, os.path.join(data_folder, "{program}-{id}-{version}-{type}.json".format(
                     program=program, type="EQ", id=case_id, version=version)))
 
     def run(self):
