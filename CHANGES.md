@@ -1,3 +1,10 @@
+Version 7.1.9 (8th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Improve forward migration of coordinates in exit questionnaires
+
 Version 7.1.8 (7th September 2018)
 --------------------------------
 
