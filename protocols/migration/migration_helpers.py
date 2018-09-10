@@ -597,7 +597,7 @@ class MigrationHelpers(object):
                     migrated = migration(migrated)
                 return migrated
 
-        raise MigrationError("json_dict data is not one of: {}".format(types))
+        raise MigrationError("json_dict of type {} data is not one of: {}".format(type(json_dict), types))
 
     @staticmethod
     def set_version_to_6_0_0(version_controlled):
