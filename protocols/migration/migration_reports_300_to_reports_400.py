@@ -31,7 +31,7 @@ class MigrateReports3To4(BaseMigration):
         new_instance.annotationFile = self._migrate_file(old_file=old_instance.annotationFile)
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self._migrate_file)
         new_instance.tieredVariants = self.convert_collection(
-            old_instance.TieredVariants, self._migrate_tiered_variant)
+            old_instance.TieredVariants, self._migrate_reported_variant)
         new_instance.pedigree = self.participants_migrator.migrate_pedigree(
             pedigree=old_instance.pedigree, ldp_code=next(iter(old_instance.workspace), None))
         new_instance.internalStudyId = ''
@@ -88,12 +88,6 @@ class MigrateReports3To4(BaseMigration):
         new_instance.variantClassification = self.variant_classification_map.get(
             old_instance.variantClassification, self.new_model.VariantClassification.not_assessed
         )
-        return new_instance
-
-    def _migrate_tiered_variant(self, old_instance):
-        new_instance = self.convert_class(
-            self.new_model.ReportedVariant, old_instance)  # :type: reports_5_0_0.ReportedVariant
-        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self._migrate_report_event)
         return new_instance
 
     def _migrate_file(self, old_file):
