@@ -599,9 +599,12 @@ class MigrationHelpers(object):
 
     @staticmethod
     def get_version_control(json_dict):
-        version = json_dict.get('versionControl', {}).get('gitVersionControl')
-        if not version:
-            version = json_dict.get('versionControl', {}).get('GitVersionControl')
+        version = None
+        version_control = json_dict.get('versionControl', {})
+        if version_control is not None:
+            version = version_control.get('gitVersionControl')
+            if not version:
+                version = json_dict.get('versionControl', {}).get('GitVersionControl')
         return version
 
     @staticmethod

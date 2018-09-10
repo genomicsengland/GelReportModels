@@ -31,7 +31,7 @@ class MigrateReports3To4(BaseMigration):
         new_instance.annotationFile = self._migrate_file(old_file=old_instance.annotationFile)
         new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self._migrate_file)
         new_instance.tieredVariants = self.convert_collection(
-            old_instance.TieredVariants, self._migrate_reported_variant)
+            zip(old_instance.TieredVariants, new_instance.tieredVariants), self._migrate_reported_variant)
         new_instance.pedigree = self.participants_migrator.migrate_pedigree(
             pedigree=old_instance.pedigree, ldp_code=next(iter(old_instance.workspace), None))
         new_instance.internalStudyId = ''
@@ -46,22 +46,23 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)
         new_instance.reportedVariants = self.convert_collection(
-            old_instance.reportedVariants, self._migrate_reported_variant)
+            zip(old_instance.reportedVariants, new_instance.reportedVariants), self._migrate_reported_variant)
         new_instance.reportedStructuralVariants = self.convert_collection(
             old_instance.reportedStructuralVariants, self._migrate_reported_structural_variant)
         return self.validate_object(new_instance, self.new_model.InterpretedGenomeRD)
 
-    def migrate_clinical_report_rd(self, old_clinical_report_rd):
+    def migrate_clinical_report_rd(self, old_instance):
         """
-        :type old_clinical_report_rd: reports_3_0_0.ClinicalReportRD
+        :type old_instance: reports_3_0_0.ClinicalReportRD
         :rtype: reports_4_0_0.ClinicalReportRD
         """
-        new_clinical_report_rd = self.convert_class(self.new_model.ClinicalReportRD, old_clinical_report_rd)
-        new_clinical_report_rd.candidateVariants = self.convert_collection(
-            old_clinical_report_rd.candidateVariants, self._migrate_reported_variant)
-        new_clinical_report_rd.candidateStructuralVariants = self.convert_collection(
-            old_clinical_report_rd.candidateStructuralVariants, self._migrate_reported_structural_variant)
-        return self.validate_object(new_clinical_report_rd, self.new_model.InterpretedGenomeRD)
+        new_instance = self.convert_class(self.new_model.ClinicalReportRD, old_instance)
+        if old_instance.candidateVariants is not None:
+            new_instance.candidateVariants = self.convert_collection(
+                zip(old_instance.candidateVariants, new_instance.candidateVariants), self._migrate_reported_variant)
+        new_instance.candidateStructuralVariants = self.convert_collection(
+            old_instance.candidateStructuralVariants, self._migrate_reported_structural_variant)
+        return self.validate_object(new_instance, self.new_model.InterpretedGenomeRD)
 
     def migrate_rd_exit_questionnaire(self, old_instance):
         """
@@ -69,22 +70,28 @@ class MigrateReports3To4(BaseMigration):
         :rtype: reports_4_0_0.RareDiseaseExitQuestionnaire
         """
         new_instance = self.convert_class(
-            self.new_model.RareDiseaseExitQuestionnaire, old_instance) # type: reports_4_0_0.RareDiseaseExitQuestionnaire
+            self.new_model.RareDiseaseExitQuestionnaire,
+            old_instance)  # type: reports_4_0_0.RareDiseaseExitQuestionnaire
         return self.validate_object(new_instance, self.new_model.RareDiseaseExitQuestionnaire)
 
-    def _migrate_reported_variant(self, old_reported_variant):
-        new_instance = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
+    def _migrate_reported_variant(self, reported_variant):
+        old_instance = reported_variant[0]
+        new_instance = reported_variant[1]
+        # new_instance = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
         new_instance.reportEvents = self.convert_collection(
-            old_reported_variant.reportEvents, self._migrate_report_event)
+            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         return new_instance
 
     def _migrate_reported_structural_variant(self, old_instance):
         new_instance = self.convert_class(self.new_model.ReportedStructuralVariant, old_instance)
-        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self._migrate_report_event)
+        new_instance.reportEvents = self.convert_collection(
+            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         return new_instance
 
-    def _migrate_report_event(self, old_instance):
-        new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
+    def _migrate_report_event(self, report_event):
+        old_instance = report_event[0]
+        new_instance = report_event[1]
+        # new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
         new_instance.variantClassification = self.variant_classification_map.get(
             old_instance.variantClassification, self.new_model.VariantClassification.not_assessed
         )
