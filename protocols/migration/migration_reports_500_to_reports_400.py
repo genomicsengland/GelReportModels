@@ -249,7 +249,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
     def _migrate_genomic_entity_to_feature(self, entity):
         new_instance = self.convert_class(self.new_model.GenomicFeature, entity)
         feature_type = self.feature_type_map.get(entity.type, self.new_model.FeatureTypes.Gene)
-        if feature_type != entity.type:
+        if entity.type not in self.feature_type_map.keys():
             logging.warning(
                 "{} can not be migrated to a feature type, as it is not one of: {} so is being migrated to {}".format(
                     entity.type, self.feature_type_map.keys(), self.new_model.FeatureTypes.Gene
