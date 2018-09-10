@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 from protocols.migration.base_migration import MigrationError
 from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
@@ -572,12 +573,21 @@ class MigrationHelpers(object):
         valid_types = MigrationHelpers.is_valid(json_dict, types)
         if len(valid_types) == 0:
             raise MigrationError("JSON dict not valid according to any model")
+        elif len(valid_types) == 1:
+            typ = valid_types[0]
         elif len(valid_types) > 1:
-            # TODO: untie intelligently
-            pass
-        typ = valid_types[-1]
-        index = types.index(typ)
-        migrations_to_apply = migrations[0:index + 1]
+            observed_version = MigrationHelpers.get_version_control(json_dict)
+            typ = None
+            for t in valid_types:
+                expected_version = MigrationHelpers.get_version_control(t().toJsonDict())
+                if expected_version == observed_version:
+                    # chooses the type having the correct expected version
+                    typ = t
+                    break
+            if typ is None:
+                # if none matched chooses the most conservative one
+                typ = valid_types[-1]
+        migrations_to_apply = migrations[0:types.index(typ) + 1]
         migrated = typ.fromJsonDict(json_dict)
         for migration in reversed(migrations_to_apply):
             migrated = migration(migrated)
@@ -586,6 +596,13 @@ class MigrationHelpers(object):
     @staticmethod
     def is_valid(json_dict, types):
         return [i for (i, v) in zip(types, [typ.validate(json_dict) for typ in types]) if v]
+
+    @staticmethod
+    def get_version_control(json_dict):
+        version = json_dict.get('versionControl', {}).get('gitVersionControl')
+        if not version:
+            version = json_dict.get('versionControl', {}).get('GitVersionControl')
+        return version
 
     @staticmethod
     def set_version_to_6_0_0(version_controlled):
