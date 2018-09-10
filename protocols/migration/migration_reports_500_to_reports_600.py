@@ -117,7 +117,6 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def _migrate_variant(self, variants, panel_source='panelapp'):
         old_instance = variants[0]
         new_instance = variants[1]
-        # new_instance = self.convert_class(self.new_model.SmallVariant, old_variant)
         new_instance.variantCalls = self.convert_collection(
             zip(old_instance.variantCalls, new_instance.variantCalls), self._migrate_variant_call)
         consequence_types = []
@@ -167,7 +166,6 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def _migrate_variant_call(self, variant_calls):
         old_instance = variant_calls[0]
         new_instance = variant_calls[1]
-        # new_variant_call = self.convert_class(self.new_model.VariantCall, variant_call)
         if old_instance.phaseSet:
             new_instance.phaseGenotype = self.new_model.PhaseGenotype()
             new_instance.phaseGenotype.phaseSet = old_instance.phaseSet
@@ -227,13 +225,13 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def _migrate_report_event(self, report_events, panel_source='panelapp', consequence_types=[]):
         old_instance = report_events[0]
         new_instance = report_events[1]
-        # new_instance = self.convert_class(self.new_model.ReportEvent, report_event)
         new_instance.phenotypes = self._migrate_phenotypes(phenotypes=old_instance.phenotypes)
-        new_instance.genePanel = self._migrate_gene_panel(gene_panel=old_instance.genePanel, panel_source=panel_source)
+        new_instance.genePanel = self._migrate_gene_panel(
+            (old_instance.genePanel, new_instance.genePanel), panel_source=panel_source)
         new_instance.genomicEntities = self.convert_collection(
-            old_instance.genomicEntities, self._migrate_genomic_entity)
+            zip(old_instance.genomicEntities, new_instance.genomicEntities), self._migrate_genomic_entity)
         new_instance.variantClassification = self._migrate_variant_classification(
-            classification=old_instance.variantClassification)
+            (old_instance.variantClassification, new_instance.variantClassification))
         if old_instance.eventJustification:
             new_instance.segregationPattern = self._migrate_segregation_pattern(
                 event_justification=old_instance.eventJustification)
@@ -274,19 +272,21 @@ class MigrateReports500To600(BaseMigrateReports500And600):
             return self.new_model.SegregationPattern.MitochondrialGenome
         return None
 
-    def _migrate_gene_panel(self, gene_panel, panel_source='panelapp'):
-        if gene_panel is None:
+    def _migrate_gene_panel(self, gene_panels, panel_source='panelapp'):
+        old_instance = gene_panels[0]
+        new_instance = gene_panels[1]
+        if old_instance is None:
             return None
-        new_gene_panel = self.convert_class(self.new_model.GenePanel, gene_panel)
-        new_gene_panel.source = panel_source
-        return new_gene_panel
+        new_instance.source = panel_source
+        return new_instance
 
-    def _migrate_variant_classification(self, classification):
-        if classification is None:
+    def _migrate_variant_classification(self, classifications):
+        old_instance = classifications[0]
+        new_instance = classifications[1]
+        if old_instance is None:
             return None
-        new_instance = self.convert_class(self.new_model.VariantClassification, classification)
         new_instance.clinicalSignificance = self._migrate_clinical_significance(
-            old_significance=classification.clinicalSignificance)
+            old_significance=old_instance.clinicalSignificance)
         new_instance.drugResponseClassification = None
         return new_instance
 
@@ -299,10 +299,11 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         )
         return new_instance
 
-    def _migrate_genomic_entity(self, genomic_entity):
-        new_instance = self.convert_class(self.new_model.GenomicEntity, genomic_entity)
-        if genomic_entity.otherIds is not None and isinstance(genomic_entity.otherIds, dict):
-            new_instance.otherIds = self._migrate_other_ids(genomic_entity.otherIds)
+    def _migrate_genomic_entity(self, genomic_entities):
+        old_instance = genomic_entities[0]
+        new_instance = genomic_entities[1]
+        if old_instance.otherIds is not None and isinstance(old_instance.otherIds, dict):
+            new_instance.otherIds = self._migrate_other_ids(old_instance.otherIds)
         return new_instance
 
     def _migrate_other_ids(self, identifiers):
@@ -368,24 +369,25 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_variant.variantCalls = self.convert_collection(
             zip(variant.variantCalls, new_variant.variantCalls), self._migrate_variant_call)
         new_variant.reportEvents = self.convert_collection(
-            variant.reportEvents, self._migrate_report_event_cancer)
+            zip(variant.reportEvents, new_variant.reportEvents), self._migrate_report_event_cancer)
         new_variant.variantAttributes = self._migrate_variant_attributes(old_variant=variant)
         return self.validate_object(object_to_validate=new_variant, object_type=self.new_model.SmallVariant)
 
-    def _migrate_report_event_cancer(self, event):
-        new_instance = self.convert_class(target_klass=self.new_model.ReportEvent, instance=event)
+    def _migrate_report_event_cancer(self, report_events):
+        old_instance = report_events[0]
+        new_instance = report_events[1]
         new_instance.modeOfInheritance = self.new_model.ModeOfInheritance.na
         new_instance.phenotypes = self.new_model.Phenotypes()
         new_instance.genomicEntities = self.convert_collection(
-            event.genomicEntities, self._migrate_genomic_entity)
+            zip(old_instance.genomicEntities, new_instance.genomicEntities), self._migrate_genomic_entity)
         new_instance.variantClassification = self._migrate_variant_classification(
-            classification=event.variantClassification)
+            (old_instance.variantClassification, new_instance.variantClassification))
         # migrate tier to domain
         new_instance.tier = None
-        if event.tier:
-            new_instance.domain = self.tier_domain_map[event.tier]
-        if event.actions:
-            new_instance.actions = self._migrate_actions(event.actions)
+        if old_instance.tier:
+            new_instance.domain = self.tier_domain_map[old_instance.tier]
+        if old_instance.actions:
+            new_instance.actions = self._migrate_actions(old_instance.actions)
         return new_instance
 
     def _migrate_actions(self, actions):

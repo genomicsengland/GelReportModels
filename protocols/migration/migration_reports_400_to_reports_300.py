@@ -79,7 +79,6 @@ class MigrateReports400To300(BaseMigration):
     def _migrate_reported_variant(self, reported_variants):
         old_instance = reported_variants[0]
         new_instance = reported_variants[1]
-        # new_instance = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
         new_instance.reportEvents = self.convert_collection(
             zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         return new_instance
@@ -93,7 +92,6 @@ class MigrateReports400To300(BaseMigration):
     def _migrate_report_event(self, report_events):
         old_instance = report_events[0]
         new_instance = report_events[1]
-        # new_instance = self.convert_class(self.new_model.ReportEvent, old_event)
         new_instance.variantClassification = self._migrate_variant_classification(
             old_v_classification=old_instance.variantClassification)
         if new_instance.eventJustification is None:

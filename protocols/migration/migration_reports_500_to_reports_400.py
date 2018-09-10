@@ -262,7 +262,6 @@ class MigrateReports500To400(BaseMigrateReports400And500):
     def _migrate_report_event(self, report_events):
         old_instance = report_events[0]
         new_instance = report_events[1]
-        # new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
         new_instance.phenotype = ','.join(old_instance.phenotypes)
         if old_instance.genePanel is not None:
             if hasattr(old_instance.genePanel, 'panelName') and hasattr(old_instance.genePanel, 'panelVersion'):
@@ -310,7 +309,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if old_rvc.proteinChanges:
             new_instance.proteinChange = next((e for e in old_rvc.proteinChanges), None)
         new_instance.reportEvents = self.convert_collection(
-            old_rvc.reportEvents, self._migrate_report_event_cancer)
+            zip(old_rvc.reportEvents, new_instance.reportEvents), self._migrate_report_event_cancer)
         new_instance.chromosome = old_rvc.variantCoordinates.chromosome
         new_instance.position = old_rvc.variantCoordinates.position
         new_instance.reference = old_rvc.variantCoordinates.reference
@@ -348,13 +347,14 @@ class MigrateReports500To400(BaseMigrateReports400And500):
                 new_instance.commonAf = int(round(float(common_afs[0])*100))
         return new_instance
 
-    def _migrate_report_event_cancer(self, old_rec):
-        new_instance = self.convert_class(target_klass=self.new_model.ReportEventCancer, instance=old_rec)
-        new_instance.tier = self.tier_map.get(old_rec.tier)
+    def _migrate_report_event_cancer(self, report_events):
+        old_instance = report_events[0]
+        new_instance = report_events[1]
+        new_instance.tier = self.tier_map.get(old_instance.tier)
         new_instance.soTerms = self.convert_collection(
-            old_rec.variantConsequences, self._migrate_variant_consequence_to_so_term)
+            old_instance.variantConsequences, self._migrate_variant_consequence_to_so_term)
         new_instance.genomicFeatureCancer = self._migrate_genomic_entities_to_genomic_feature_cancer(
-            genomic_entities=old_rec.genomicEntities,
+            genomic_entities=old_instance.genomicEntities,
         )
         map_role_in_cancer = {
             None: None,
@@ -362,9 +362,11 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             reports_5_0_0.RoleInCancer.oncogene: reports_4_0_0.RoleInCancer.oncogene,
             reports_5_0_0.RoleInCancer.tumor_suppressor_gene: reports_4_0_0.RoleInCancer.TSG
         }
-        if old_rec.roleInCancer:
-            new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_rec.roleInCancer[0]]
-        new_instance.actions = self.convert_collection(old_rec.actions, self._migrate_action)
+        if old_instance.roleInCancer:
+            new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_instance.roleInCancer[0]]
+        if old_instance.actions is not None:
+            new_instance.actions = self.convert_collection(
+                zip(old_instance.actions, new_instance.actions), self._migrate_action)
         return new_instance
 
     def _migrate_variant_consequence_to_so_term(self, vc):
@@ -401,8 +403,9 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             logging.warning(msg=msg.format(ge_type=old_type, rep=self.new_model.FeatureTypes.Gene))
         return self.feature_type_map.get(old_type, self.new_model.FeatureTypes.Gene)
 
-    def _migrate_action(self, old_instance):
-        new_instance = self.convert_class(target_klass=self.new_model.Actions, instance=old_instance)
+    def _migrate_action(self, actions):
+        old_instance = actions[0]
+        new_instance = actions[1]
         new_instance.actionType = old_instance.evidenceType
         new_instance.evidenceType = None
         new_instance.evidence = old_instance.references

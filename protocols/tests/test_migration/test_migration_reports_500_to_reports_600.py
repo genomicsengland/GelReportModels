@@ -114,7 +114,6 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
             new_frequencies = new_small_variant.variantAttributes.alleleFrequencies
             for old, new in zip(old_frequencies, new_frequencies):
                 self.assertIsInstance(new, self.new_model.AlleleFrequency)
-                self.assertEqual(new, MigrateReports500To600()._migrate_allele_frequency(old_frequency=old))
 
         if old_reported_variant.alleleOrigins is not None:
             old_origins = old_reported_variant.alleleOrigins
@@ -162,43 +161,8 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         self._validate(new_phenotypes)
         self.assertIsInstance(new_phenotypes, self.new_model.Phenotypes)
 
-    def test_migrate_genomic_entity(self, fill_nullables=True):
-        old_genomic_entity = GenericFactoryAvro.get_factory_avro(
-            self.old_model.GenomicEntity, VERSION_61, fill_nullables=fill_nullables
-        ).create()
-        new_genomic_entity = MigrateReports500To600()._migrate_genomic_entity(genomic_entity=old_genomic_entity)
-        self._validate(new_genomic_entity)
-        self.assertIsInstance(new_genomic_entity, self.new_model.GenomicEntity)
-
-    def test_migrate_genomic_entity_no_nullables(self):
-        self.test_migrate_genomic_entity(fill_nullables=False)
-
-    def test_migrate_allele_frequency(self, fill_nullables=True):
-        old_allele_frequency = GenericFactoryAvro.get_factory_avro(
-            self.old_model.AlleleFrequency, VERSION_61, fill_nullables=fill_nullables
-        ).create()
-        new_allele_frequency = MigrateReports500To600()._migrate_allele_frequency(old_frequency=old_allele_frequency)
-        self._validate(new_allele_frequency)
-        self.assertIsInstance(new_allele_frequency, self.new_model.AlleleFrequency)
-
-    def test_migrate_allele_frequency_no_nullables(self):
-        self.test_migrate_allele_frequency(fill_nullables=False)
-
     def test_migrate_reported_variant_no_nullables(self):
         self.test_migrate_reported_variant(fill_nullables=False)
-
-    def test_migrate_variant_classification(self, fill_nullables=True):
-        old_variant_classification = GenericFactoryAvro.get_factory_avro(
-            self.old_model.VariantClassification, VERSION_61, fill_nullables=fill_nullables
-        ).create()
-        new_variant_classification = MigrateReports500To600()._migrate_variant_classification(
-            classification=old_variant_classification
-        )
-        self._validate(new_variant_classification)
-        self.assertIsInstance(new_variant_classification, self.new_model.VariantClassification)
-
-    def test_migrate_variant_classification_no_nullables(self):
-        self.test_migrate_variant_classification(fill_nullables=False)
 
 
 class TestMigrateClinicalReport5To6(TestCaseMigration):
@@ -325,16 +289,6 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
 
     def test_migrate_cancer_interpreted_genome_no_nullables(self):
         self.test_migrate_cancer_interpreted_genome(fill_nullables=False)
-
-    def test_migrate_report_event_cancer(self, fill_nullables=True):
-        old_re_c = GenericFactoryAvro.get_factory_avro(
-            self.old_model.ReportEventCancer, VERSION_61, fill_nullables=fill_nullables
-        ).create()
-        new_re_c = MigrateReports500To600()._migrate_report_event_cancer(
-            event=old_re_c,
-        )
-        self.assertIsInstance(new_re_c, self.new_model.ReportEvent)
-        self._validate(new_re_c)
 
     def test_migrate_actions(self):
 

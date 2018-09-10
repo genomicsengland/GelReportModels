@@ -254,14 +254,6 @@ class TestMigrateReports5To400(TestCaseMigration):
         self.assertEqual(so_4.name, vc_5.name)
         self.assertEqual(so_4.id, vc_5.id)
 
-    def test_migrate_report_event_cancer(self):
-        rec_5 = self.get_valid_object(object_type=self.old_model.ReportEventCancer, version=self.version_6_1)
-        rec_4 = MigrateReports500To400()._migrate_report_event_cancer(old_rec=rec_5)
-        self.assertIsInstance(rec_4, self.new_model.ReportEventCancer)
-        self.assertTrue(rec_4.validate(rec_4.toJsonDict()))
-        for action in rec_4.actions:
-            self.assertIsInstance(action, self.new_model.Actions)
-
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
         # creates a random clinical report RD for testing filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(

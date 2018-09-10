@@ -24,12 +24,19 @@ class MigrateReports3To4(BaseMigration):
         :rtype: reports_4_0_0.InterpretationRequestRD
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
-        new_instance.bams = self.convert_collection(old_instance.BAMs, self._migrate_file)
-        new_instance.vcfs = self.convert_collection(old_instance.VCFs, self._migrate_file)
-        new_instance.bigWigs = self.convert_collection(old_instance.bigWigs, self._migrate_file)
-        new_instance.pedigreeDiagram = self._migrate_file(old_file=old_instance.pedigreeDiagram)
-        new_instance.annotationFile = self._migrate_file(old_file=old_instance.annotationFile)
-        new_instance.otherFiles = self.convert_collection(old_instance.otherFiles, self._migrate_file)
+        new_instance.bams = self.convert_collection(
+            zip(old_instance.BAMs, new_instance.bams), self._migrate_file)
+        new_instance.vcfs = self.convert_collection(
+            zip(old_instance.VCFs, new_instance.vcfs), self._migrate_file)
+        if old_instance.bigWigs is not None:
+            new_instance.bigWigs = self.convert_collection(
+                zip(old_instance.bigWigs, new_instance.bigWigs), self._migrate_file)
+        new_instance.pedigreeDiagram = self._migrate_file((old_instance.pedigreeDiagram, new_instance.pedigreeDiagram))
+        new_instance.annotationFile = self._migrate_file((old_instance.annotationFile, new_instance.annotationFile))
+        if old_instance.otherFiles is not None:
+            new_instance.otherFiles = self.convert_collection(
+                {k: (old_file, new_instance.otherFiles[k]) for k, old_file in old_instance.otherFiles.items()},
+                self._migrate_file)
         new_instance.tieredVariants = self.convert_collection(
             zip(old_instance.TieredVariants, new_instance.tieredVariants), self._migrate_reported_variant)
         new_instance.pedigree = self.participants_migrator.migrate_pedigree(
@@ -77,7 +84,6 @@ class MigrateReports3To4(BaseMigration):
     def _migrate_reported_variant(self, reported_variant):
         old_instance = reported_variant[0]
         new_instance = reported_variant[1]
-        # new_instance = self.convert_class(self.new_model.ReportedVariant, old_reported_variant)
         new_instance.reportEvents = self.convert_collection(
             zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         return new_instance
@@ -91,21 +97,21 @@ class MigrateReports3To4(BaseMigration):
     def _migrate_report_event(self, report_event):
         old_instance = report_event[0]
         new_instance = report_event[1]
-        # new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
         new_instance.variantClassification = self.variant_classification_map.get(
             old_instance.variantClassification, self.new_model.VariantClassification.not_assessed
         )
         return new_instance
 
-    def _migrate_file(self, old_file):
-        if old_file is None:
+    def _migrate_file(self, files):
+        old_instance = files[0]
+        new_instance = files[1]
+        if old_instance is None:
             return None
-        new_instance = self.convert_class(self.new_model.File, old_file)
-        if isinstance(old_file.SampleId, list):
-            sample_id = old_file.SampleId
-        elif old_file.SampleId is None:
+        if isinstance(old_instance.SampleId, list):
+            sample_id = old_instance.SampleId
+        elif old_instance.SampleId is None:
             sample_id = None
         else:
-            sample_id = [old_file.SampleId]
+            sample_id = [old_instance.SampleId]
         new_instance.sampleId = sample_id
         return new_instance
