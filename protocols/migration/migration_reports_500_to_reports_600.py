@@ -115,14 +115,14 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def _migrate_variant(self, old_variant, panel_source='panelapp'):
         new_instance = self.convert_class(self.new_model.SmallVariant, old_variant)
         new_instance.variantCalls = self.convert_collection(
-            old_variant.variantCalls, self._migrate_variant_call)
+            zip(old_variant.variantCalls, new_instance.variantCalls), self._migrate_variant_call)
         consequence_types = []
         if old_variant.additionalTextualVariantAnnotations:
             consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
             consequence_types = [c for c in consequence_types if c]
         new_instance.reportEvents = self.convert_collection(
-            old_variant.reportEvents, self._migrate_report_event, panel_source=panel_source,
-            consequence_types=consequence_types)
+            zip(old_variant.reportEvents, new_instance.reportEvents),
+            self._migrate_report_event, panel_source=panel_source, consequence_types=consequence_types)
         new_instance.variantAttributes = self._migrate_variant_attributes(old_variant=old_variant)
         return new_instance
 
@@ -160,15 +160,17 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_frequency = self.convert_class(self.new_model.AlleleFrequency, old_frequency)
         return new_frequency
 
-    def _migrate_variant_call(self, variant_call):
-        new_variant_call = self.convert_class(self.new_model.VariantCall, variant_call)
-        if variant_call.phaseSet:
-            new_variant_call.phaseGenotype = self.new_model.PhaseGenotype()
-            new_variant_call.phaseGenotype.phaseSet = variant_call.phaseSet
+    def _migrate_variant_call(self, variant_calls):
+        old_instance = variant_calls[0]
+        new_instance = variant_calls[1]
+        # new_variant_call = self.convert_class(self.new_model.VariantCall, variant_call)
+        if old_instance.phaseSet:
+            new_instance.phaseGenotype = self.new_model.PhaseGenotype()
+            new_instance.phaseGenotype.phaseSet = old_instance.phaseSet
             # TODO: build this list or change the model or ...?
-            new_variant_call.phaseGenotype.sortedAlleles = []
-        new_variant_call.sampleVariantAlleleFrequency = variant_call.vaf
-        return new_variant_call
+            new_instance.phaseGenotype.sortedAlleles = []
+        new_instance.sampleVariantAlleleFrequency = old_instance.vaf
+        return new_instance
 
     _tier1_consequence_types = [
         'transcript_ablation', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'frameshift_variant',
@@ -218,15 +220,19 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         'intron_variant': 'SO:0001627'
     }
 
-    def _migrate_report_event(self, report_event, panel_source='panelapp', consequence_types=[]):
-        new_instance = self.convert_class(self.new_model.ReportEvent, report_event)
-        new_instance.phenotypes = self._migrate_phenotypes(phenotypes=report_event.phenotypes)
-        new_instance.genePanel = self._migrate_gene_panel(gene_panel=report_event.genePanel, panel_source=panel_source)
+    def _migrate_report_event(self, report_events, panel_source='panelapp', consequence_types=[]):
+        old_instance = report_events[0]
+        new_instance = report_events[1]
+        # new_instance = self.convert_class(self.new_model.ReportEvent, report_event)
+        new_instance.phenotypes = self._migrate_phenotypes(phenotypes=old_instance.phenotypes)
+        new_instance.genePanel = self._migrate_gene_panel(gene_panel=old_instance.genePanel, panel_source=panel_source)
         new_instance.genomicEntities = self.convert_collection(
-            report_event.genomicEntities, self._migrate_genomic_entity)
-        new_instance.variantClassification = self._migrate_variant_classification(classification=report_event.variantClassification)
-        if report_event.eventJustification:
-            new_instance.segregationPattern = self._migrate_segregation_pattern(event_justification=report_event.eventJustification)
+            old_instance.genomicEntities, self._migrate_genomic_entity)
+        new_instance.variantClassification = self._migrate_variant_classification(
+            classification=old_instance.variantClassification)
+        if old_instance.eventJustification:
+            new_instance.segregationPattern = self._migrate_segregation_pattern(
+                event_justification=old_instance.eventJustification)
         if consequence_types is None:
             consequence_types = []
         tier = new_instance.tier
@@ -237,7 +243,6 @@ class MigrateReports500To600(BaseMigrateReports500And600):
             lambda f: self.new_model.VariantConsequence(id=self._map_variant_consequences.get(f, ""), name=f), list(filter(
                 lambda c: (is_tier1 and c in self._tier1_consequence_types) or \
                           (is_tier2 and c in self._tier2_consequence_types) or is_tier3, consequence_types))))
-
         return new_instance
 
     def _migrate_segregation_pattern(self, event_justification):
@@ -356,7 +361,8 @@ class MigrateReports500To600(BaseMigrateReports500And600):
 
     def migrate_variant_cancer(self, variant):
         new_variant = self.convert_class(target_klass=self.new_model.SmallVariant, instance=variant)
-        new_variant.variantCalls = self.convert_collection(variant.variantCalls, self._migrate_variant_call)
+        new_variant.variantCalls = self.convert_collection(
+            zip(variant.variantCalls, new_variant.variantCalls), self._migrate_variant_call)
         new_variant.reportEvents = self.convert_collection(
             variant.reportEvents, self._migrate_report_event_cancer)
         new_variant.variantAttributes = self._migrate_variant_attributes(old_variant=variant)

@@ -287,7 +287,8 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         )
         new_instance.variantCalls = self.convert_collection(
             old_instance.calledGenotypes, self._migrate_called_genotype_to_variant_call, default=[])
-        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, self._migrate_report_event)
+        new_instance.reportEvents = self.convert_collection(
+            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         new_instance.references = old_instance.evidenceIds
         new_instance.alleleOrigins = [reports_5_0_0.AlleleOrigin.germline_variant]
         if migrate_frequencies:
@@ -319,8 +320,10 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         # NOTE: fields that cannot be filled: vaf, alleleOrigins
         return new_instance
 
-    def _migrate_report_event(self, old_instance):
-        new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
+    def _migrate_report_event(self, report_events):
+        old_instance = report_events[0]
+        new_instance = report_events[1]
+        # new_instance = self.convert_class(self.new_model.ReportEvent, old_instance)
         new_instance.phenotypes = [old_instance.phenotype]
         if old_instance.panelName is not None:
             new_instance.genePanel = self.new_model.GenePanel(
