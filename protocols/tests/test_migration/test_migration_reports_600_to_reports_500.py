@@ -125,22 +125,6 @@ class TestMigrateReports600To500(TestCaseMigration):
         self.assertIsInstance(ig_rd_5, new_model.InterpretedGenomeRD)
         self.assertTrue(ig_rd_5.validate(ig_rd_5.toJsonDict()))
 
-    def test_migrate_small_variant_to_reported_variant(self):
-        # Can not reverse migrate a v6 SmallVariant to a v5 ReportedVariant if variantAttributes is None as
-        # alleleOrigins is a required field in v5 ReportedVariant so nullables must be filled
-        sv_6 = self.get_valid_object(
-            object_type=old_model.SmallVariant, version=self.version_7_0, fill_nullables=True,
-        )
-        migrate = MigrateReports600To500()
-        rv_5 = migrate.migrate_small_variant_to_reported_variant(
-            small_variant=sv_6, new_type=new_model.ReportedVariant, migrate_re=migrate._migrate_report_event
-        )
-        self.assertIsInstance(rv_5, new_model.ReportedVariant)
-        self.assertTrue(rv_5.validate(rv_5.toJsonDict()))
-
-        for af in rv_5.alleleFrequencies:
-            self.assertIsInstance(af, new_model.AlleleFrequency)
-
     def test_migrate_report_event(self):
         # Can not reverse migrate v6 Report Event if phenotypes does not have nonStandardPhenotype populated as v5
         # phenotypes is required, so nullables must be filled

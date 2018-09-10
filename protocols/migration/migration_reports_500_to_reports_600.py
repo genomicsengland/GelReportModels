@@ -44,7 +44,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_instance = self.convert_class(self.new_model.InterpretedGenome, old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
         new_instance.variants = self.convert_collection(
-            old_instance.variants, self._migrate_variant, panel_source=panel_source)
+            zip(old_instance.variants, new_instance.variants), self._migrate_variant, panel_source=panel_source)
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome
         )
@@ -55,7 +55,9 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         :rtype reports_6_0_0.ClinicalReport:
         """
         migrated_instance = self.convert_class(self.new_model.ClinicalReport, old_instance)
-        migrated_instance.variants = self.convert_collection(old_instance.variants, self._migrate_variant)
+        if old_instance.variants is not None:
+            migrated_instance.variants = self.convert_collection(
+                zip(old_instance.variants, migrated_instance.variants), self._migrate_variant)
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
 
     def migrate_rd_exit_questionnaire(self, old_instance, assembly):
@@ -112,18 +114,20 @@ class MigrateReports500To600(BaseMigrateReports500And600):
             old_instance.otherActionableVariants, self._migrate_other_actionable_variant, assembly=assembly)
         return self.validate_object(object_to_validate=new_c_eq, object_type=self.new_model.CancerExitQuestionnaire)
 
-    def _migrate_variant(self, old_variant, panel_source='panelapp'):
-        new_instance = self.convert_class(self.new_model.SmallVariant, old_variant)
+    def _migrate_variant(self, variants, panel_source='panelapp'):
+        old_instance = variants[0]
+        new_instance = variants[1]
+        # new_instance = self.convert_class(self.new_model.SmallVariant, old_variant)
         new_instance.variantCalls = self.convert_collection(
-            zip(old_variant.variantCalls, new_instance.variantCalls), self._migrate_variant_call)
+            zip(old_instance.variantCalls, new_instance.variantCalls), self._migrate_variant_call)
         consequence_types = []
-        if old_variant.additionalTextualVariantAnnotations:
-            consequence_types = old_variant.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
+        if old_instance.additionalTextualVariantAnnotations:
+            consequence_types = old_instance.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
             consequence_types = [c for c in consequence_types if c]
         new_instance.reportEvents = self.convert_collection(
-            zip(old_variant.reportEvents, new_instance.reportEvents),
+            zip(old_instance.reportEvents, new_instance.reportEvents),
             self._migrate_report_event, panel_source=panel_source, consequence_types=consequence_types)
-        new_instance.variantAttributes = self._migrate_variant_attributes(old_variant=old_variant)
+        new_instance.variantAttributes = self._migrate_variant_attributes(old_variant=old_instance)
         return new_instance
 
     def _migrate_variant_attributes(self, old_variant):

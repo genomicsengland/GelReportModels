@@ -7,7 +7,7 @@ from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration import MigrateReports500To400
+from protocols.migration import MigrateReports500To400, BaseMigration
 
 
 class TestMigrateReports5To400(TestCaseMigration):
@@ -148,7 +148,8 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_report_event(self):
         old_report_event = GenericFactoryAvro.get_factory_avro(self.old_model.ReportEvent, VERSION_61, fill_nullables=True).create()
-        new_report_event = MigrateReports500To400()._migrate_report_event(old_report_event=old_report_event)
+        new_report_event = BaseMigration.convert_class(reports_4_0_0.ReportEvent, old_report_event)
+        new_report_event = MigrateReports500To400()._migrate_report_event((old_report_event, new_report_event))
         self.assertTrue(isinstance(new_report_event, self.new_model.ReportEvent))
         self._validate(new_report_event)
 

@@ -44,12 +44,14 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         """
         new_instance = self.convert_class(target_klass=self.new_model.InterpretedGenomeRD, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.convert_collection(
-            old_instance.variants,
-            self.migrate_small_variant_to_reported_variant,
-            default=[],
-            new_type=self.new_model.ReportedVariant,
-            migrate_re=self._migrate_report_event)
+        if old_instance.variants is not None:
+            new_instance.variants = self.convert_collection(
+                zip(old_instance.variants, new_instance.variants),
+                self.migrate_small_variant_to_reported_variant,
+                default=[],
+                migrate_re=self._migrate_report_event)
+        else:
+            new_instance.variants = []
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD)
 
@@ -60,13 +62,15 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :rtype: reports_5_0_0.ClinicalReportRD
         """
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportRD, instance=old_instance)
-        new_instance.variants = self.convert_collection(
-            old_instance.variants,
-            self.migrate_small_variant_to_reported_variant,
-            default=[],
-            new_type=self.new_model.ReportedVariant,
-            migrate_re=self._migrate_report_event
-        )
+        if old_instance.variants is not None:
+            new_instance.variants = self.convert_collection(
+                zip(old_instance.variants, new_instance.variants),
+                self.migrate_small_variant_to_reported_variant,
+                default=[],
+                migrate_re=self._migrate_report_event
+            )
+        else:
+            new_instance.variants = []
         new_instance.additionalAnalysisPanels = self.convert_collection(
             old_instance.additionalAnalysisPanels, self._migrate_additional_analysis_panel)
         new_instance.versionControl = self.new_model.ReportVersionControl()
@@ -122,13 +126,15 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         :rtype: reports_5_0_0.ClinicalReportCancer
         """
         new_instance = self.convert_class(target_klass=self.new_model.ClinicalReportCancer, instance=old_instance)
-        new_instance.variants = self.convert_collection(
-            old_instance.variants,
-            self.migrate_small_variant_to_reported_variant,
-            default=[],
-            new_type=self.new_model.ReportedVariantCancer,
-            migrate_re=self._migrate_report_event_cancer
-        )
+        if old_instance.variants is not None:
+            new_instance.variants = self.convert_collection(
+                zip(old_instance.variants, new_instance.variants),
+                self.migrate_small_variant_to_reported_variant,
+                default=[],
+                migrate_re=self._migrate_report_event_cancer
+            )
+        else:
+            new_instance.variants = []
 
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer)
 
@@ -170,10 +176,13 @@ class MigrateReports600To500(BaseMigrateReports500And600):
             alternate=coords.alternate)
         return new_instance
 
-    def migrate_small_variant_to_reported_variant(self, small_variant, new_type, migrate_re):
-        new_instance = self.convert_class(target_klass=new_type, instance=small_variant)
+    def migrate_small_variant_to_reported_variant(self, variants, migrate_re):
 
-        var_attrs = small_variant.variantAttributes
+        old_instance = variants[0]
+        new_instance = variants[1]
+        # new_instance = self.convert_class(target_klass=new_type, instance=small_variant)
+
+        var_attrs = old_instance.variantAttributes
         if var_attrs:
             new_instance.genomicChanges = var_attrs.genomicChanges
             new_instance.cdnaChanges = var_attrs.cdnaChanges
@@ -194,8 +203,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
                 new_instance.clinVarIds = var_attrs.variantIdentifiers.clinVarIds
             new_instance.variantAttributes = self._migrate_variant_attributes(old_variant_attributes=var_attrs)
 
-        new_instance.variantCalls = self.convert_collection(small_variant.variantCalls, self._migrate_variant_call)
-        new_instance.reportEvents = self.convert_collection(small_variant.reportEvents, migrate_re)
+        new_instance.variantCalls = self.convert_collection(old_instance.variantCalls, self._migrate_variant_call)
+        new_instance.reportEvents = self.convert_collection(old_instance.reportEvents, migrate_re)
 
         if new_instance.alleleOrigins is None:
             new_instance.alleleOrigins = []

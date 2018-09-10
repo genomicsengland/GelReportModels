@@ -221,7 +221,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.calledGenotypes = self.convert_collection(
             old_reported_variant.variantCalls, self._migrate_variant_call_to_called_genotype)
         new_instance.reportEvents = self.convert_collection(
-            old_reported_variant.reportEvents, self._migrate_report_event)
+            zip(old_reported_variant.reportEvents, new_instance.reportEvents), self._migrate_report_event)
         new_instance.additionalNumericVariantAnnotations = self._merge_annotations_and_frequencies(
             old_reported_variant.additionalNumericVariantAnnotations, old_reported_variant.alleleFrequencies,
         )
@@ -259,31 +259,33 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.hgnc = entity.geneSymbol
         return new_instance
 
-    def _migrate_report_event(self, old_report_event):
-        new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
-        new_report_event.phenotype = ','.join(old_report_event.phenotypes)
-        if old_report_event.genePanel is not None:
-            if hasattr(old_report_event.genePanel, 'panelName') and hasattr(old_report_event.genePanel, 'panelVersion'):
-                new_report_event.panelName = old_report_event.genePanel.panelName
-                new_report_event.panelVersion = old_report_event.genePanel.panelVersion
-        if isinstance(old_report_event.genomicEntities, list):
-            if old_report_event.genomicEntities:
-                first_genomic_entity = old_report_event.genomicEntities[0]
-                new_report_event.genomicFeature = self._migrate_genomic_entity_to_feature(entity=first_genomic_entity)
-                if len(old_report_event.genomicEntities) > 1:
-                    logging.warning("{} genomic entities are being lost in the migration".format(len(old_report_event.genomicEntities)-1))
-        if old_report_event.variantClassification:
-            new_report_event.variantClassification = self.variant_classification_map.get(
-                old_report_event.variantClassification.clinicalSignificance,
+    def _migrate_report_event(self, report_events):
+        old_instance = report_events[0]
+        new_instance = report_events[1]
+        # new_report_event = self.convert_class(self.new_model.ReportEvent, old_report_event)
+        new_instance.phenotype = ','.join(old_instance.phenotypes)
+        if old_instance.genePanel is not None:
+            if hasattr(old_instance.genePanel, 'panelName') and hasattr(old_instance.genePanel, 'panelVersion'):
+                new_instance.panelName = old_instance.genePanel.panelName
+                new_instance.panelVersion = old_instance.genePanel.panelVersion
+        if isinstance(old_instance.genomicEntities, list):
+            if old_instance.genomicEntities:
+                first_genomic_entity = old_instance.genomicEntities[0]
+                new_instance.genomicFeature = self._migrate_genomic_entity_to_feature(entity=first_genomic_entity)
+                if len(old_instance.genomicEntities) > 1:
+                    logging.warning("{} genomic entities are being lost in the migration".format(len(old_instance.genomicEntities)-1))
+        if old_instance.variantClassification:
+            new_instance.variantClassification = self.variant_classification_map.get(
+                old_instance.variantClassification.clinicalSignificance,
                 self.new_model.VariantClassification.not_assessed
             )
         # NOTE: fields changing their null state
-        if new_report_event.score is None:
-            new_report_event.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
-        if new_report_event.penetrance is None:
-            new_report_event.penetrance = self.new_model.Penetrance.complete
-        new_report_event.tier = self.tier_map[old_report_event.tier] if old_report_event.tier else None
-        return new_report_event
+        if new_instance.score is None:
+            new_instance.score = -999.0  # NOTE: this is a tag value so we know this was null for forward migration
+        if new_instance.penetrance is None:
+            new_instance.penetrance = self.new_model.Penetrance.complete
+        new_instance.tier = self.tier_map[old_instance.tier] if old_instance.tier else None
+        return new_instance
 
     def _migrate_variant_call_to_called_genotype(self, variant_call):
         new_instance = self.convert_class(self.new_model.CalledGenotype, variant_call)

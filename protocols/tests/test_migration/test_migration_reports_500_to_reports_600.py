@@ -1,5 +1,6 @@
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
+from protocols.migration import BaseMigration
 from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
@@ -68,7 +69,7 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
             self.assertIsInstance(new, self.new_model.SmallVariant)
             self.assertEqual(
                 new,
-                MigrateReports500To600()._migrate_variant(old_variant=old)
+                MigrateReports500To600()._migrate_variant((old, new))
             )
         for v in new_variants:
             for re in v.reportEvents:
@@ -85,7 +86,8 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         old_reported_variant = GenericFactoryAvro.get_factory_avro(
             self.old_model.ReportedVariant, VERSION_61, fill_nullables=fill_nullables
         ).create()
-        new_small_variant = MigrateReports500To600()._migrate_variant(old_variant=old_reported_variant)
+        new_small_variant = BaseMigration.convert_class(reports_6_0_0.SmallVariant, old_reported_variant)
+        new_small_variant = MigrateReports500To600()._migrate_variant((old_reported_variant, new_small_variant))
         self._validate(new_small_variant)
         self.assertIsInstance(new_small_variant, self.new_model.SmallVariant)
 
@@ -146,7 +148,8 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
             'ConsequenceType': "initiator_codon_variant,incomplete_terminal_codon_variant"}
         old_reported_variant.reportEvents[0].tier = self.old_model.Tier.TIER1
         old_reported_variant.reportEvents[1].tier = self.old_model.Tier.TIER2
-        new_small_variant = MigrateReports500To600()._migrate_variant(old_variant=old_reported_variant)
+        new_small_variant = BaseMigration.convert_class(reports_6_0_0.SmallVariant, old_reported_variant)
+        new_small_variant = MigrateReports500To600()._migrate_variant((old_reported_variant, new_small_variant))
         self._validate(new_small_variant)
         self.assertIsInstance(new_small_variant, self.new_model.SmallVariant)
         self.assertEqual(len(new_small_variant.reportEvents[0].variantConsequences), 1)
@@ -232,7 +235,7 @@ class TestMigrateClinicalReport5To6(TestCaseMigration):
                 self._validate(new)
                 self.assertEqual(
                     new,
-                    MigrateReports500To600()._migrate_variant(old_variant=old)
+                    MigrateReports500To600()._migrate_variant((old, new))
                 )
 
         if old_clinical_report_rd.additionalAnalysisPanels is not None:
