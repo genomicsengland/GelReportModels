@@ -124,7 +124,6 @@ class MigrationHelpers(object):
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_2_1_0
         ]
-
         migrations = [
             MigrationHelpers.set_version_to_6_0_0,  # needed because 5 is valid as 6
             MigrateReports500To600().migrate_interpretation_request_rd,
@@ -132,7 +131,6 @@ class MigrationHelpers(object):
             MigrateReports3To4().migrate_interpretation_request_rd,
             Migration21To3().migrate_interpretation_request
         ]
-
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
@@ -152,7 +150,6 @@ class MigrationHelpers(object):
             InterpretationRequestRD_5_0_0,
             InterpretationRequestRD_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpretation_request_rd,
@@ -176,7 +173,6 @@ class MigrationHelpers(object):
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_2_1_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To600().migrate_interpreted_genome_rd,
@@ -207,7 +203,6 @@ class MigrationHelpers(object):
             InterpretedGenomeRD_3_0_0,
             InterpretedGenomeRD_2_1_0
         ]
-
         migrations = [
             lambda x: x,
             lambda x: MigrateReports500To600().migrate_interpreted_genome_rd(x, panel_source=panel_source),
@@ -231,7 +226,6 @@ class MigrationHelpers(object):
             InterpretedGenomeRD_5_0_0,
             InterpretedGenome_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpreted_genome_rd,
@@ -255,7 +249,6 @@ class MigrationHelpers(object):
             ClinicalReportRD_3_0_0,
             ClinicalReportRD_2_1_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To600().migrate_clinical_report_rd,
@@ -279,7 +272,6 @@ class MigrationHelpers(object):
             RareDiseaseExitQuestionnaire_5_0_0,
             RareDiseaseExitQuestionnaire_3_0_0
         ]
-
         migrations = [
             lambda x: x,
             lambda x: MigrateReports500To600().migrate_rd_exit_questionnaire(old_instance=x, assembly=assembly),
@@ -300,7 +292,6 @@ class MigrationHelpers(object):
             CancerExitQuestionnaire_6_0_0,
             CancerExitQuestionnaire_5_0_0
         ]
-
         migrations = [
             lambda x: x,
             lambda x: MigrateReports500To600().migrate_cancer_exit_questionnaire(old_instance=x, assembly=assembly)
@@ -315,7 +306,6 @@ class MigrationHelpers(object):
         :return: CancerExitQuestionnaire_5_0_0
         """
         types = [CancerExitQuestionnaire_5_0_0, CancerExitQuestionnaire_6_0_0]
-
         migrations = [
             lambda x: x,
             MigrateReports600To500().migrate_cancer_exit_questionnaire
@@ -337,7 +327,6 @@ class MigrationHelpers(object):
             Pedigree_1_0_0,
             Pedigree_reports_3_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrationParticipants103To110().migrate_pedigree,
@@ -360,7 +349,6 @@ class MigrationHelpers(object):
             CancerInterpretationRequest_5_0_0,
             CancerInterpretationRequest_4_0_0
         ]
-
         migrations = [
             MigrationHelpers.set_version_to_6_0_0,
             MigrateReports500To600().migrate_interpretation_request_cancer,
@@ -424,7 +412,6 @@ class MigrationHelpers(object):
             CancerInterpretedGenome_5_0_0,
             CancerInterpretationRequest_4_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To600().migrate_cancer_interpreted_genome,
@@ -455,7 +442,6 @@ class MigrationHelpers(object):
             CancerInterpretedGenome_5_0_0,
             CancerInterpretedGenome_4_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To600().migrate_cancer_interpreted_genome,
@@ -475,7 +461,6 @@ class MigrationHelpers(object):
             CancerInterpretedGenome_5_0_0,
             InterpretedGenome_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To400().migrate_cancer_interpreted_genome,
@@ -499,7 +484,6 @@ class MigrationHelpers(object):
             ClinicalReportCancer_5_0_0,
             ClinicalReportCancer_4_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To600().migrate_cancer_clinical_report,
@@ -517,7 +501,6 @@ class MigrationHelpers(object):
             ClinicalReportCancer_5_0_0,
             ClinicalReport_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports500To400().migrate_cancer_clinical_report,
@@ -537,7 +520,6 @@ class MigrationHelpers(object):
             CancerParticipant_1_0_3,
             CancerParticipant_1_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrationParticipants103To110().migrate_cancer_participant,
@@ -559,7 +541,6 @@ class MigrationHelpers(object):
             ClinicalReportRD_5_0_0,
             ClinicalReport_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_clinical_report_rd,
@@ -577,7 +558,6 @@ class MigrationHelpers(object):
             RareDiseaseExitQuestionnaire_5_0_0,
             RareDiseaseExitQuestionnaire_6_0_0
         ]
-
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_exit_questionnaire_rd,
@@ -589,15 +569,23 @@ class MigrationHelpers(object):
 
     @staticmethod
     def migrate(json_dict, types, migrations):
-        for i, typ in enumerate(types):
-            if PayloadValidation(klass=typ, payload=json_dict).is_valid:
-                migrated = typ.fromJsonDict(json_dict)
-                migrations_to_apply = migrations[0:i+1]
-                for migration in reversed(migrations_to_apply):
-                    migrated = migration(migrated)
-                return migrated
+        valid_types = MigrationHelpers.is_valid(json_dict, types)
+        if len(valid_types) == 0:
+            raise MigrationError("JSON dict not valid according to any model")
+        elif len(valid_types) > 1:
+            # TODO: untie intelligently
+            pass
+        typ = valid_types[0]
+        index = types.index(typ)
+        migrations_to_apply = migrations[0:index + 1]
+        migrated = typ.fromJsonDict(json_dict)
+        for migration in reversed(migrations_to_apply):
+            migrated = migration(migrated)
+        return migrated
 
-        raise MigrationError("json_dict of type {} data is not one of: {}".format(type(json_dict), types))
+    @staticmethod
+    def is_valid(json_dict, types):
+        return [i for (i, v) in zip(types, [typ.validate(json_dict) for typ in types]) if v]
 
     @staticmethod
     def set_version_to_6_0_0(version_controlled):
