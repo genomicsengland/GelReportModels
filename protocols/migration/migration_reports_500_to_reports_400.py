@@ -1,5 +1,5 @@
 import logging
-import distutils
+import distutils.util
 
 from protocols import reports_4_0_0 as reports_4_0_0
 from protocols import reports_5_0_0 as reports_5_0_0
