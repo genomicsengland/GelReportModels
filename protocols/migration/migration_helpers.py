@@ -575,7 +575,7 @@ class MigrationHelpers(object):
         elif len(valid_types) > 1:
             # TODO: untie intelligently
             pass
-        typ = valid_types[0]
+        typ = valid_types[-1]
         index = types.index(typ)
         migrations_to_apply = migrations[0:index + 1]
         migrated = typ.fromJsonDict(json_dict)
