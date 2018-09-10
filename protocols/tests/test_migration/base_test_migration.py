@@ -131,9 +131,7 @@ class BaseRoundTripper(object):
                 field_path = [field_path]
             if self.is_field_ignored(field_path, ignore_fields):
                 continue
-            if isinstance(values, list):
-                values = values[0]
-            expected = values[1]
+            expected = values[1] if len(values) > 1 else None
             observed = values[0]
             if observed in self._empty_values and expected in self._empty_values:
                 continue
