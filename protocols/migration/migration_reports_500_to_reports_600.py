@@ -1,7 +1,4 @@
-import logging
-
 import re
-
 from protocols import reports_6_0_0
 from protocols import reports_5_0_0
 from protocols.migration.base_migration import MigrationError
@@ -339,9 +336,9 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         """
         The format of variant_details is "chr:pos:ref:alt"
         """
-        details = variant_details.split(":")
+        details = list(map(lambda x: x.strip(), re.compile(":|>").split(variant_details)))
         if len(details) != 4:
-            raise MigrationError("Variant details: {variant_details} should be in format chr:pos:ref:alt".format(
+            raise MigrationError("Variant details: {variant_details} should have fields chr, pos, ref and alt".format(
                 variant_details=variant_details
             ))
         try:
