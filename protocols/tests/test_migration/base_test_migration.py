@@ -131,9 +131,7 @@ class BaseRoundTripper(object):
                 field_path = [field_path]
             if self.is_field_ignored(field_path, ignore_fields):
                 continue
-            if isinstance(values, list):
-                values = values[0]
-            expected = values[1]
+            expected = values[1] if len(values) > 1 else None
             observed = values[0]
             if observed in self._empty_values and expected in self._empty_values:
                 continue
@@ -152,7 +150,7 @@ class BaseRoundTripper(object):
         for re in report_events:
             if re.actions:
                 for a in re.actions:
-                    key = "{}-{}-{}".format(a.url, a.actionType, a.variantActionable)
+                    key = "{}-{}-{}".format(a.url if a.url else '', a.actionType, a.variantActionable)
                     if key not in actions:
                         actions[key] = []
                     actions[key].append(a)
@@ -168,9 +166,10 @@ class BaseRoundTripper(object):
                     logging.error("Diff. Action type left='{}' right='{}' for key {}".format(
                         a[0].actionType, a[1].actionType, key))
                 differ |= differ_action_type
-                differ_url = a[0].url != a[1].url
+                differ_url = (a[0].url if a[0].url else None) != (a[1].url if a[1].url else None)
                 if differ_url:
-                    logging.error("Diff. URL left='{}' right='{}' for key {}".format(a[0].url, a[1].url, key))
+                    logging.error("Diff. URL left='{}' right='{}' for key {}".format(
+                        a[0].url, a[1].url, key))
                 differ |= differ_url
                 differ_actionable = a[0].variantActionable != a[1].variantActionable
                 if differ_actionable:
