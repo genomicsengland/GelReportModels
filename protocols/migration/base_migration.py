@@ -27,11 +27,12 @@ class BaseMigration(object):
 
     @staticmethod
     def validate_object(object_to_validate, object_type):
-        if object_to_validate.validate(jsonDict=object_to_validate.toJsonDict()):
+        json_dict = object_to_validate.toJsonDict()
+        if object_to_validate.validate(jsonDict=json_dict):
             return object_to_validate
         else:
             pprint(handle_avro_errors(object_to_validate.validate_parts()))
-            for message in object_to_validate.validate(object_to_validate.toJsonDict(), verbose=True).messages:
+            for message in object_to_validate.validate(json_dict, verbose=True).messages:
                 print("---------------")
                 print(message)
             raise MigrationError("New {object_type} object is not valid".format(object_type=object_type))
