@@ -102,7 +102,6 @@ class RealRoundTripperCancer(AbstractRealRoundTripper):
             except MigrationError as e:
                 RealRoundTripperCancer.log("MIGRATION_ERROR", "EQ", '5.0.0', case_id, case_version, e.message)
 
-
 if __name__ == '__main__':
     round_tripper = RealRoundTripperCancer()
     round_tripper.run()

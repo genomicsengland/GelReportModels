@@ -83,7 +83,6 @@ class RealRoundTripperRd(AbstractRealRoundTripper):
                 RealRoundTripperRd.log("MIGRATION_ERROR", "IG", model_version, case_id, case_version, e.message)
             except ValueError as e:
                 RealRoundTripperRd.log("INVALID_SCHEMA", "IG", model_version, case_id, case_version, e.message)
-
         # clinical report
         if case.has_clinical_report():
             raw_cr = case.raw_clinical_report
@@ -127,6 +126,7 @@ class RealRoundTripperRd(AbstractRealRoundTripper):
                 start = int(round(time.time() * 1000))
                 eq_migrated, eq_round_tripped = self.migration_runner.roundtrip_rd_eq(eq, case.assembly)
                 run_time = int(round(time.time() * 1000)) - start
+
                 is_valid = eq_migrated.validate(reports_6_0_0.RareDiseaseExitQuestionnaire, eq_migrated.toJsonDict())
                 is_valid_round_tripped = eq_round_tripped.validate(
                     reports_3_0_0.RareDiseaseExitQuestionnaire, eq_round_tripped.toJsonDict())
