@@ -86,7 +86,6 @@ class Migration21To3(BaseMigration):
     def _migrate_reported_called_genotype(self, called_genotypes):
         old_instance = called_genotypes[0]
         new_instance = called_genotypes[1]
-        # new_instance = self.convert_class(self.new_model.CalledGenotype, called_genotype)
         if new_instance.validate(new_instance.toJsonDict()):
             return new_instance
         else:
