@@ -47,7 +47,6 @@ from protocols.participant_1_1_0 import CancerParticipant as CancerParticipant_1
 from protocols.participant_1_0_3 import CancerParticipant as CancerParticipant_1_0_3
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_1_0_0
 
-from protocols.migration.model_validator import PayloadValidation
 from protocols.migration.migration_reports_210_to_reports_300 import Migration21To3
 from protocols.migration.migration_reports_300_to_reports_400 import MigrateReports3To4
 from protocols.migration.migration_reports_400_to_reports_500 import MigrateReports400To500
@@ -403,10 +402,12 @@ class MigrationHelpers(object):
         :type comments: list
         :rtype: CancerInterpretationRequest_6_0_0
         """
-        if PayloadValidation(klass=CancerInterpretationRequest_5_0_0, payload=json_dict).is_valid or \
-           PayloadValidation(klass=CancerInterpretationRequest_6_0_0, payload=json_dict).is_valid:
+        if CancerInterpretationRequest_5_0_0.validate(CancerInterpretationRequest_5_0_0.fromJsonDict(json_dict)):
             raise MigrationError(
-                "Cannot transform a cancer interpretation request in version 5.0.0 or 6.0.0 into an interpreted genome")
+                "Cannot transform a cancer interpretation request in version 5.0.0 into an interpreted genome")
+        if CancerInterpretationRequest_6_0_0.validate(CancerInterpretationRequest_6_0_0.fromJsonDict(json_dict)):
+            raise MigrationError(
+                "Cannot transform a cancer interpretation request in version 6.0.0 into an interpreted genome")
 
         types = [
             InterpretedGenome_6_0_0,

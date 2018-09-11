@@ -100,10 +100,10 @@ class ProtocolElement(object):
         out = {}
         for field in self.schema.fields:
             val = getattr(self, field.name)
-            if self.isEmbeddedType(field.name):
-                if val is None:
-                    out[field.name] = None
-                elif isinstance(val, list):
+            if val is None:
+                out[field.name] = None
+            elif self.isEmbeddedType(field.name):
+                if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
                 elif isinstance(val, dict):
                     out[field.name] = {key: el.toJsonDict() for key, el in val.items()}
