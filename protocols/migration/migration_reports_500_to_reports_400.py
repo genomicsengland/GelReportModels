@@ -221,7 +221,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         new_instance.calledGenotypes = self.convert_collection(
             old_reported_variant.variantCalls, self._migrate_variant_call_to_called_genotype)
         new_instance.reportEvents = self.convert_collection(
-            zip(old_reported_variant.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_reported_variant.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         new_instance.additionalNumericVariantAnnotations = self._merge_annotations_and_frequencies(
             old_reported_variant.additionalNumericVariantAnnotations, old_reported_variant.alleleFrequencies,
         )
@@ -309,7 +309,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
         if old_rvc.proteinChanges:
             new_instance.proteinChange = next((e for e in old_rvc.proteinChanges), None)
         new_instance.reportEvents = self.convert_collection(
-            zip(old_rvc.reportEvents, new_instance.reportEvents), self._migrate_report_event_cancer)
+            list(zip(old_rvc.reportEvents, new_instance.reportEvents)), self._migrate_report_event_cancer)
         new_instance.chromosome = old_rvc.variantCoordinates.chromosome
         new_instance.position = old_rvc.variantCoordinates.position
         new_instance.reference = old_rvc.variantCoordinates.reference
@@ -366,7 +366,7 @@ class MigrateReports500To400(BaseMigrateReports400And500):
             new_instance.genomicFeatureCancer.roleInCancer = map_role_in_cancer[old_instance.roleInCancer[0]]
         if old_instance.actions is not None:
             new_instance.actions = self.convert_collection(
-                zip(old_instance.actions, new_instance.actions), self._migrate_action)
+                list(zip(old_instance.actions, new_instance.actions)), self._migrate_action)
         return new_instance
 
     def _migrate_variant_consequence_to_so_term(self, vc):

@@ -15,7 +15,7 @@ class Migration21To3(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, interpreted_genome)
         new_instance.reportedVariants = self.convert_collection(
-            zip(interpreted_genome.reportedVariants, new_instance.reportedVariants), self._migrate_reported_variant)
+            list(zip(interpreted_genome.reportedVariants, new_instance.reportedVariants)), self._migrate_reported_variant)
         new_instance.reportedStructuralVariants = []
         interpreted_genome.versionControl = reports_3_0_0.VersionControl()
         new_instance.softwareVersions = {}
@@ -31,12 +31,12 @@ class Migration21To3(BaseMigration):
         new_instance.pedigree = self.migrate_pedigree(interpretation_request.pedigree)
         new_instance.versionControl = reports_3_0_0.VersionControl()
         new_instance.TieredVariants = self.convert_collection(
-            zip(interpretation_request.TieredVariants, new_instance.TieredVariants), self._migrate_reported_variant)
-        new_instance.BAMs = self.convert_collection(zip(interpretation_request.BAMs, new_instance.BAMs), self._migrate_file)
-        new_instance.VCFs = self.convert_collection(zip(interpretation_request.VCFs, new_instance.VCFs), self._migrate_file)
+            list(zip(interpretation_request.TieredVariants, new_instance.TieredVariants)), self._migrate_reported_variant)
+        new_instance.BAMs = self.convert_collection(list(zip(interpretation_request.BAMs, new_instance.BAMs)), self._migrate_file)
+        new_instance.VCFs = self.convert_collection(list(zip(interpretation_request.VCFs, new_instance.VCFs)), self._migrate_file)
         if interpretation_request.bigWigs is not None:
             new_instance.bigWigs = self.convert_collection(
-                zip(interpretation_request.bigWigs, new_instance.bigWigs), self._migrate_file)
+                list(zip(interpretation_request.bigWigs, new_instance.bigWigs)), self._migrate_file)
         if interpretation_request.pedigreeDiagram:
             new_instance.pedigreeDiagram = self._migrate_file(
                 (interpretation_request.pedigreeDiagram, new_instance.pedigreeDiagram))
@@ -52,7 +52,7 @@ class Migration21To3(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.ClinicalReportRD, clinical_report)
         new_instance.candidateVariants = self.convert_collection(
-            zip(clinical_report.candidateVariants, new_instance.candidateVariants), self._migrate_reported_variant)
+            list(zip(clinical_report.candidateVariants, new_instance.candidateVariants)), self._migrate_reported_variant)
         new_instance.candidateStructuralVariants = []
         return self.validate_object(new_instance, self.new_model.ClinicalReportRD)
 
@@ -64,7 +64,7 @@ class Migration21To3(BaseMigration):
         new_instance = self.convert_class(self.new_model.Pedigree, pedigree)
         new_instance.versionControl = reports_3_0_0.VersionControl()
         new_instance.participants = self.convert_collection(
-            zip(pedigree.participants, new_instance.participants), self._migrate_rd_participant)
+            list(zip(pedigree.participants, new_instance.participants)), self._migrate_rd_participant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Pedigree)
 
     def _migrate_file(self, files):
@@ -109,7 +109,7 @@ class Migration21To3(BaseMigration):
         old_instance = reported_variants[0]
         new_instance = reported_variants[1]
         new_instance.calledGenotypes = self.convert_collection(
-            zip(old_instance.calledGenotypes, new_instance.calledGenotypes), self._migrate_reported_called_genotype)
+            list(zip(old_instance.calledGenotypes, new_instance.calledGenotypes)), self._migrate_reported_called_genotype)
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         return new_instance

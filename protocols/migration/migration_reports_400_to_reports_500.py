@@ -288,7 +288,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.variantCalls = self.convert_collection(
             old_instance.calledGenotypes, self._migrate_called_genotype_to_variant_call, default=[])
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         new_instance.references = old_instance.evidenceIds
         new_instance.alleleOrigins = [reports_5_0_0.AlleleOrigin.germline_variant]
         if migrate_frequencies:
@@ -399,7 +399,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         )
         new_instance.alleleOrigins = old_instance.alleleOrigins
         new_instance.reportEvents = self.convert_collection(
-            zip(ne_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event_cancer)
+            list(zip(ne_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event_cancer)
         return new_instance
 
     def _migrate_report_event_cancer(self, report_events):
@@ -411,7 +411,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
                                                 for so_term in old_instance.soTerms]
         if old_instance.actions is not None:
             new_instance.actions = self.convert_collection(
-                zip(old_instance.actions, new_instance.actions), self._migrate_action)
+                list(zip(old_instance.actions, new_instance.actions)), self._migrate_action)
         map_role_in_cancer = {
             None: None,
             reports_4_0_0.RoleInCancer.both: [reports_5_0_0.RoleInCancer.both],

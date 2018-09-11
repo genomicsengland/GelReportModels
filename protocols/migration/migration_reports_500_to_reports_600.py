@@ -44,7 +44,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_instance = self.convert_class(self.new_model.InterpretedGenome, old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
         new_instance.variants = self.convert_collection(
-            zip(old_instance.variants, new_instance.variants), self._migrate_variant, panel_source=panel_source)
+            list(zip(old_instance.variants, new_instance.variants)), self._migrate_variant, panel_source=panel_source)
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.InterpretedGenome
         )
@@ -57,7 +57,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         migrated_instance = self.convert_class(self.new_model.ClinicalReport, old_instance)
         if old_instance.variants is not None:
             migrated_instance.variants = self.convert_collection(
-                zip(old_instance.variants, migrated_instance.variants), self._migrate_variant)
+                list(zip(old_instance.variants, migrated_instance.variants)), self._migrate_variant)
         return self.validate_object(object_to_validate=migrated_instance, object_type=self.new_model.ClinicalReport)
 
     def migrate_rd_exit_questionnaire(self, old_instance, assembly):
@@ -118,13 +118,13 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         old_instance = variants[0]
         new_instance = variants[1]
         new_instance.variantCalls = self.convert_collection(
-            zip(old_instance.variantCalls, new_instance.variantCalls), self._migrate_variant_call)
+            list(zip(old_instance.variantCalls, new_instance.variantCalls)), self._migrate_variant_call)
         consequence_types = []
         if old_instance.additionalTextualVariantAnnotations:
             consequence_types = old_instance.additionalTextualVariantAnnotations.get('ConsequenceType', "").split(",")
             consequence_types = [c for c in consequence_types if c]
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents),
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)),
             self._migrate_report_event, panel_source=panel_source, consequence_types=consequence_types)
         new_instance.variantAttributes = self._migrate_variant_attributes(old_variant=old_instance)
         return new_instance
@@ -229,7 +229,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_instance.genePanel = self._migrate_gene_panel(
             (old_instance.genePanel, new_instance.genePanel), panel_source=panel_source)
         new_instance.genomicEntities = self.convert_collection(
-            zip(old_instance.genomicEntities, new_instance.genomicEntities), self._migrate_genomic_entity)
+            list(zip(old_instance.genomicEntities, new_instance.genomicEntities)), self._migrate_genomic_entity)
         new_instance.variantClassification = self._migrate_variant_classification(
             (old_instance.variantClassification, new_instance.variantClassification))
         if old_instance.eventJustification:
@@ -367,9 +367,9 @@ class MigrateReports500To600(BaseMigrateReports500And600):
     def migrate_variant_cancer(self, variant):
         new_variant = self.convert_class(target_klass=self.new_model.SmallVariant, instance=variant)
         new_variant.variantCalls = self.convert_collection(
-            zip(variant.variantCalls, new_variant.variantCalls), self._migrate_variant_call)
+            list(zip(variant.variantCalls, new_variant.variantCalls)), self._migrate_variant_call)
         new_variant.reportEvents = self.convert_collection(
-            zip(variant.reportEvents, new_variant.reportEvents), self._migrate_report_event_cancer)
+            list(zip(variant.reportEvents, new_variant.reportEvents)), self._migrate_report_event_cancer)
         new_variant.variantAttributes = self._migrate_variant_attributes(old_variant=variant)
         return self.validate_object(object_to_validate=new_variant, object_type=self.new_model.SmallVariant)
 
@@ -379,7 +379,7 @@ class MigrateReports500To600(BaseMigrateReports500And600):
         new_instance.modeOfInheritance = self.new_model.ModeOfInheritance.na
         new_instance.phenotypes = self.new_model.Phenotypes()
         new_instance.genomicEntities = self.convert_collection(
-            zip(old_instance.genomicEntities, new_instance.genomicEntities), self._migrate_genomic_entity)
+            list(zip(old_instance.genomicEntities, new_instance.genomicEntities)), self._migrate_genomic_entity)
         new_instance.variantClassification = self._migrate_variant_classification(
             (old_instance.variantClassification, new_instance.variantClassification))
         # migrate tier to domain

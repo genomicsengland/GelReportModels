@@ -21,7 +21,7 @@ class MigrateReports400To300(BaseMigration):
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.versionControl = self.new_model.VersionControl()
         new_instance.TieredVariants = self.convert_collection(
-            zip(old_instance.tieredVariants, new_instance.TieredVariants), self._migrate_reported_variant)
+            list(zip(old_instance.tieredVariants, new_instance.TieredVariants)), self._migrate_reported_variant)
         new_instance.BAMs = self.convert_collection(old_instance.bams, self._migrate_file)
         new_instance.VCFs = self.convert_collection(old_instance.vcfs, self._migrate_file)
         new_instance.bigWigs = self.convert_collection(old_instance.bigWigs, self._migrate_file)
@@ -43,7 +43,7 @@ class MigrateReports400To300(BaseMigration):
         new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)
         new_instance.versionControl = self.new_model.VersionControl()
         new_instance.reportedVariants = self.convert_collection(
-            zip(old_instance.reportedVariants, new_instance.reportedVariants), self._migrate_reported_variant)
+            list(zip(old_instance.reportedVariants, new_instance.reportedVariants)), self._migrate_reported_variant)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.InterpretedGenomeRD)
 
     def migrate_clinical_report_rd(self, old_instance):
@@ -61,7 +61,7 @@ class MigrateReports400To300(BaseMigration):
 
         if old_instance.candidateVariants is not None:
             new_instance.candidateVariants = self.convert_collection(
-                zip(old_instance.candidateVariants, new_instance.candidateVariants), self._migrate_reported_variant)
+                list(zip(old_instance.candidateVariants, new_instance.candidateVariants)), self._migrate_reported_variant)
         new_instance.candidateStructuralVariants = self.convert_collection(
             old_instance.candidateStructuralVariants, self._migrate_reported_structural_variant)
 
@@ -80,13 +80,13 @@ class MigrateReports400To300(BaseMigration):
         old_instance = reported_variants[0]
         new_instance = reported_variants[1]
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         return new_instance
 
     def _migrate_reported_structural_variant(self, old_structural_variant):
         new_instance = self.convert_class(self.new_model.ReportedStructuralVariant, old_structural_variant)
         new_instance.reportEvents = self.convert_collection(
-            zip(old_structural_variant.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_structural_variant.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         return new_instance
 
     def _migrate_report_event(self, report_events):

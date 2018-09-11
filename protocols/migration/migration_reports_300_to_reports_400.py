@@ -25,12 +25,12 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.InterpretationRequestRD, old_instance)
         new_instance.bams = self.convert_collection(
-            zip(old_instance.BAMs, new_instance.bams), self._migrate_file)
+            list(zip(old_instance.BAMs, new_instance.bams)), self._migrate_file)
         new_instance.vcfs = self.convert_collection(
-            zip(old_instance.VCFs, new_instance.vcfs), self._migrate_file)
+            list(zip(old_instance.VCFs, new_instance.vcfs)), self._migrate_file)
         if old_instance.bigWigs is not None:
             new_instance.bigWigs = self.convert_collection(
-                zip(old_instance.bigWigs, new_instance.bigWigs), self._migrate_file)
+                list(zip(old_instance.bigWigs, new_instance.bigWigs)), self._migrate_file)
         new_instance.pedigreeDiagram = self._migrate_file((old_instance.pedigreeDiagram, new_instance.pedigreeDiagram))
         new_instance.annotationFile = self._migrate_file((old_instance.annotationFile, new_instance.annotationFile))
         if old_instance.otherFiles is not None:
@@ -38,7 +38,7 @@ class MigrateReports3To4(BaseMigration):
                 {k: (old_file, new_instance.otherFiles[k]) for k, old_file in old_instance.otherFiles.items()},
                 self._migrate_file)
         new_instance.tieredVariants = self.convert_collection(
-            zip(old_instance.TieredVariants, new_instance.tieredVariants), self._migrate_reported_variant)
+            list(zip(old_instance.TieredVariants, new_instance.tieredVariants)), self._migrate_reported_variant)
         new_instance.pedigree = self.participants_migrator.migrate_pedigree(
             pedigree=old_instance.pedigree, ldp_code=next(iter(old_instance.workspace), None))
         new_instance.internalStudyId = ''
@@ -53,7 +53,7 @@ class MigrateReports3To4(BaseMigration):
         """
         new_instance = self.convert_class(self.new_model.InterpretedGenomeRD, old_instance)
         new_instance.reportedVariants = self.convert_collection(
-            zip(old_instance.reportedVariants, new_instance.reportedVariants), self._migrate_reported_variant)
+            list(zip(old_instance.reportedVariants, new_instance.reportedVariants)), self._migrate_reported_variant)
         new_instance.reportedStructuralVariants = self.convert_collection(
             old_instance.reportedStructuralVariants, self._migrate_reported_structural_variant)
         return self.validate_object(new_instance, self.new_model.InterpretedGenomeRD)
@@ -66,7 +66,7 @@ class MigrateReports3To4(BaseMigration):
         new_instance = self.convert_class(self.new_model.ClinicalReportRD, old_instance)
         if old_instance.candidateVariants is not None:
             new_instance.candidateVariants = self.convert_collection(
-                zip(old_instance.candidateVariants, new_instance.candidateVariants), self._migrate_reported_variant)
+                list(zip(old_instance.candidateVariants, new_instance.candidateVariants)), self._migrate_reported_variant)
         new_instance.candidateStructuralVariants = self.convert_collection(
             old_instance.candidateStructuralVariants, self._migrate_reported_structural_variant)
         return self.validate_object(new_instance, self.new_model.InterpretedGenomeRD)
@@ -85,13 +85,13 @@ class MigrateReports3To4(BaseMigration):
         old_instance = reported_variant[0]
         new_instance = reported_variant[1]
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         return new_instance
 
     def _migrate_reported_structural_variant(self, old_instance):
         new_instance = self.convert_class(self.new_model.ReportedStructuralVariant, old_instance)
         new_instance.reportEvents = self.convert_collection(
-            zip(old_instance.reportEvents, new_instance.reportEvents), self._migrate_report_event)
+            list(zip(old_instance.reportEvents, new_instance.reportEvents)), self._migrate_report_event)
         return new_instance
 
     def _migrate_report_event(self, report_event):

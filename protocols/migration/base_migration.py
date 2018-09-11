@@ -75,7 +75,7 @@ class BaseMigration(object):
     def convert_collection(things, migrate_function, default=None, **kwargs):
         if things is None:
             return default
-        elif isinstance(things, (list, type(zip))):
+        elif isinstance(things, (list)):
             migrated_list = [migrate_function(thing, **kwargs) for thing in things]
             return list(filter(lambda x: x is not None, migrated_list))
         elif isinstance(things, dict):

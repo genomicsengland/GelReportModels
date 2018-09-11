@@ -47,6 +47,7 @@ from protocols.participant_1_1_0 import CancerParticipant as CancerParticipant_1
 from protocols.participant_1_0_3 import CancerParticipant as CancerParticipant_1_0_3
 from protocols.participant_1_0_0 import CancerParticipant as CancerParticipant_1_0_0
 
+
 from protocols.migration.migration_reports_210_to_reports_300 import Migration21To3
 from protocols.migration.migration_reports_300_to_reports_400 import MigrateReports3To4
 from protocols.migration.migration_reports_400_to_reports_500 import MigrateReports400To500
