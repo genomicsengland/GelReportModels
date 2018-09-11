@@ -37,7 +37,7 @@ class TestMigrateReports3To4(TestCaseMigration):
             self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=False
         ).create()
         self._validate(old_instance)
-        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_clinical_report_rd=old_instance)
+        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_instance=old_instance)
         self._validate(migrated_instance)
 
         # fill all nullables
@@ -45,7 +45,7 @@ class TestMigrateReports3To4(TestCaseMigration):
             self.old_model.ClinicalReportRD, VERSION_300, fill_nullables=True
         ).create()
         self._validate(old_instance)
-        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_clinical_report_rd=old_instance)
+        migrated_instance = MigrateReports3To4().migrate_clinical_report_rd(old_instance=old_instance)
         self._validate(migrated_instance)
 
     def test_migrate_interpreted_genome_rd(self):

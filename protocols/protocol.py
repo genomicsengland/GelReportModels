@@ -100,17 +100,15 @@ class ProtocolElement(object):
         out = {}
         for field in self.schema.fields:
             val = getattr(self, field.name)
-            if self.isEmbeddedType(field.name):
+            if val is None:
+                out[field.name] = None
+            elif self.isEmbeddedType(field.name):
                 if isinstance(val, list):
                     out[field.name] = list(el.toJsonDict() for el in val)
                 elif isinstance(val, dict):
                     out[field.name] = {key: el.toJsonDict() for key, el in val.items()}
-                elif val is None:
-                    out[field.name] = None
                 else:
                     out[field.name] = val.toJsonDict()
-            elif isinstance(val, list):
-                out[field.name] = list(val)
             else:
                 out[field.name] = val
         return out
@@ -319,9 +317,10 @@ class ProtocolElement(object):
             raise ValueError("Required values not set in {0}".format(cls))
 
         if isinstance(jsonDict, dict):
-            key_mapping = {key_mapper(key): key for key in jsonDict.keys()}
+            json_key_mapping = {key_mapper(key): key for key in jsonDict.keys()}
         else:
-            key_mapping = dict()
+            json_key_mapping = dict()
+        protocol_key_mapping = {key_mapper(key): key for key in cls.__slots__}
 
         instance = cls()
         for field in cls.schema.fields:
@@ -329,10 +328,11 @@ class ProtocolElement(object):
                 instanceVal = field.default
             else:
                 instanceVal = None
-            if key_mapper(field.name) in key_mapping:
-                mapped_name = key_mapping[key_mapper(field.name)]
-                val = jsonDict[mapped_name]
-                if cls.isEmbeddedType(mapped_name):
+            if key_mapper(field.name) in json_key_mapping:
+                json_mapped_name = json_key_mapping[key_mapper(field.name)]
+                protocol_mapped_name = protocol_key_mapping[key_mapper(field.name)]
+                val = jsonDict[json_mapped_name]
+                if cls.isEmbeddedType(protocol_mapped_name):
                     instanceVal = cls._decodeEmbedded(field, val, key_mapper=key_mapper)
                 else:
                     instanceVal = val

@@ -7,7 +7,7 @@ from protocols.util.dependency_manager import VERSION_61
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
-from protocols.migration import MigrateReports500To400
+from protocols.migration import MigrateReports500To400, BaseMigration
 
 
 class TestMigrateReports5To400(TestCaseMigration):
@@ -148,7 +148,8 @@ class TestMigrateReports5To400(TestCaseMigration):
 
     def test_migrate_report_event(self):
         old_report_event = GenericFactoryAvro.get_factory_avro(self.old_model.ReportEvent, VERSION_61, fill_nullables=True).create()
-        new_report_event = MigrateReports500To400()._migrate_report_event(old_report_event=old_report_event)
+        new_report_event = BaseMigration.convert_class(reports_4_0_0.ReportEvent, old_report_event)
+        new_report_event = MigrateReports500To400()._migrate_report_event((old_report_event, new_report_event))
         self.assertTrue(isinstance(new_report_event, self.new_model.ReportEvent))
         self._validate(new_report_event)
 
@@ -252,14 +253,6 @@ class TestMigrateReports5To400(TestCaseMigration):
         self.assertTrue(so_4.validate(so_4.toJsonDict()))
         self.assertEqual(so_4.name, vc_5.name)
         self.assertEqual(so_4.id, vc_5.id)
-
-    def test_migrate_report_event_cancer(self):
-        rec_5 = self.get_valid_object(object_type=self.old_model.ReportEventCancer, version=self.version_6_1)
-        rec_4 = MigrateReports500To400()._migrate_report_event_cancer(old_rec=rec_5)
-        self.assertIsInstance(rec_4, self.new_model.ReportEventCancer)
-        self.assertTrue(rec_4.validate(rec_4.toJsonDict()))
-        for action in rec_4.actions:
-            self.assertIsInstance(action, self.new_model.Actions)
 
     def test_migrate_rd_interpreted_genome(self, fill_nullables=True):
         # creates a random clinical report RD for testing filling null values

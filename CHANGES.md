@@ -1,3 +1,16 @@
+Version 7.1.10 (11th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Improve performance of migrations by:
+    - Avoid unnecessary validations
+    - Improve performance of `toJsonDict()`
+    - Avoid calling `fromJsonDict()` recursively
+* Fix some issues checking equality of cancer actions in round trip migrations
+* In `MigrationHelpers` choice the right version when an entity validates against multiple version by looking at the version control 
+
+
 Version 7.1.9 (8th September 2018)
 --------------------------------
 
