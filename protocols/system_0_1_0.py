@@ -20,12 +20,12 @@ class API(ProtocolElement):
     Represents the contract of API dependency (either REST or OTHER)
     """
     _schemaSource = """
-{"type": "record", "name": "API", "namespace": "org.gel.models.system.avro", "doc": "", "fields":
-[{"name": "type", "type": {"type": "enum", "name": "APIType", "symbols": ["REST", "MONGODB",
-"OTHER"]}}, {"name": "description", "type": "string"}, {"name": "url", "type": {"type": "array",
-"items": "string"}}, {"name": "status", "type": {"type": "enum", "name": "Status", "doc": "",
-"symbols": ["OK", "DOWN"]}}, {"name": "additionalProperties", "type": ["null", {"type": "map",
-"values": "string"}]}]}
+{"namespace": "org.gel.models.system.avro", "type": "record", "name": "API", "fields": [{"type":
+{"symbols": ["REST", "MONGODB", "OTHER"], "type": "enum", "name": "APIType"}, "name": "type"},
+{"type": "string", "name": "description"}, {"type": {"items": "string", "type": "array"}, "name":
+"url"}, {"type": {"symbols": ["OK", "DOWN"], "doc": "", "type": "enum", "name": "Status"}, "name":
+"status"}, {"type": ["null", {"values": "string", "type": "map"}], "name": "additionalProperties"}],
+"doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -82,11 +82,11 @@ class DataStore(ProtocolElement):
     mongodb, postgres, etc
     """
     _schemaSource = """
-{"type": "record", "name": "DataStore", "namespace": "org.gel.models.system.avro", "doc": "",
-"fields": [{"name": "type", "type": "string"}, {"name": "description", "type": "string"}, {"name":
-"url", "type": {"type": "array", "items": "string"}}, {"name": "status", "type": {"type": "enum",
-"name": "Status", "doc": "", "symbols": ["OK", "DOWN"]}}, {"name": "additionalProperties", "type":
-["null", {"type": "map", "values": "string"}]}]}
+{"namespace": "org.gel.models.system.avro", "type": "record", "name": "DataStore", "fields":
+[{"type": "string", "name": "type"}, {"type": "string", "name": "description"}, {"type": {"items":
+"string", "type": "array"}, "name": "url"}, {"type": {"symbols": ["OK", "DOWN"], "doc": "", "type":
+"enum", "name": "Status"}, "name": "status"}, {"type": ["null", {"values": "string", "type":
+"map"}], "name": "additionalProperties"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -130,17 +130,17 @@ class Dependencies(ProtocolElement):
     Represents contract of all dependencies for a service
     """
     _schemaSource = """
-{"type": "record", "name": "Dependencies", "namespace": "org.gel.models.system.avro", "doc": "",
-"fields": [{"name": "datastores", "type": {"type": "array", "items": {"type": "record", "name":
-"DataStore", "doc": "", "fields": [{"name": "type", "type": "string"}, {"name": "description",
-"type": "string"}, {"name": "url", "type": {"type": "array", "items": "string"}}, {"name": "status",
-"type": {"type": "enum", "name": "Status", "doc": "", "symbols": ["OK", "DOWN"]}}, {"name":
-"additionalProperties", "type": ["null", {"type": "map", "values": "string"}]}]}}}, {"name": "apis",
-"type": {"type": "array", "items": {"type": "record", "name": "API", "doc": "", "fields": [{"name":
-"type", "type": {"type": "enum", "name": "APIType", "symbols": ["REST", "MONGODB", "OTHER"]}},
-{"name": "description", "type": "string"}, {"name": "url", "type": {"type": "array", "items":
-"string"}}, {"name": "status", "type": "Status"}, {"name": "additionalProperties", "type": ["null",
-{"type": "map", "values": "string"}]}]}}}]}
+{"namespace": "org.gel.models.system.avro", "type": "record", "name": "Dependencies", "fields":
+[{"type": {"items": {"doc": "", "type": "record", "name": "DataStore", "fields": [{"type": "string",
+"name": "type"}, {"type": "string", "name": "description"}, {"type": {"items": "string", "type":
+"array"}, "name": "url"}, {"type": {"symbols": ["OK", "DOWN"], "doc": "", "type": "enum", "name":
+"Status"}, "name": "status"}, {"type": ["null", {"values": "string", "type": "map"}], "name":
+"additionalProperties"}]}, "type": "array"}, "name": "datastores"}, {"type": {"items": {"doc": "",
+"type": "record", "name": "API", "fields": [{"type": {"symbols": ["REST", "MONGODB", "OTHER"],
+"type": "enum", "name": "APIType"}, "name": "type"}, {"type": "string", "name": "description"},
+{"type": {"items": "string", "type": "array"}, "name": "url"}, {"type": "Status", "name": "status"},
+{"type": ["null", {"values": "string", "type": "map"}], "name": "additionalProperties"}]}, "type":
+"array"}, "name": "apis"}], "doc": ""}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -181,20 +181,20 @@ class ServiceHealth(ProtocolElement):
     No documentation
     """
     _schemaSource = """
-{"type": "record", "name": "ServiceHealth", "namespace": "org.gel.models.system.avro", "fields":
-[{"name": "serviceName", "type": "string"}, {"name": "requestUrl", "type": "string"}, {"name":
-"datetime", "type": "string"}, {"name": "status", "type": {"type": "enum", "name": "Status", "doc":
-"", "symbols": ["OK", "DOWN"]}}, {"name": "dependencies", "type": {"type": "record", "name":
-"Dependencies", "doc": "", "fields": [{"name": "datastores", "type": {"type": "array", "items":
-{"type": "record", "name": "DataStore", "doc": "", "fields": [{"name": "type", "type": "string"},
-{"name": "description", "type": "string"}, {"name": "url", "type": {"type": "array", "items":
-"string"}}, {"name": "status", "type": "Status"}, {"name": "additionalProperties", "type": ["null",
-{"type": "map", "values": "string"}]}]}}}, {"name": "apis", "type": {"type": "array", "items":
-{"type": "record", "name": "API", "doc": "", "fields": [{"name": "type", "type": {"type": "enum",
-"name": "APIType", "symbols": ["REST", "MONGODB", "OTHER"]}}, {"name": "description", "type":
-"string"}, {"name": "url", "type": {"type": "array", "items": "string"}}, {"name": "status", "type":
-"Status"}, {"name": "additionalProperties", "type": ["null", {"type": "map", "values":
-"string"}]}]}}}]}}]}
+{"namespace": "org.gel.models.system.avro", "type": "record", "name": "ServiceHealth", "fields":
+[{"type": "string", "name": "serviceName"}, {"type": "string", "name": "requestUrl"}, {"type":
+"string", "name": "datetime"}, {"type": {"symbols": ["OK", "DOWN"], "doc": "", "type": "enum",
+"name": "Status"}, "name": "status"}, {"type": {"doc": "", "type": "record", "name": "Dependencies",
+"fields": [{"type": {"items": {"doc": "", "type": "record", "name": "DataStore", "fields": [{"type":
+"string", "name": "type"}, {"type": "string", "name": "description"}, {"type": {"items": "string",
+"type": "array"}, "name": "url"}, {"type": "Status", "name": "status"}, {"type": ["null", {"values":
+"string", "type": "map"}], "name": "additionalProperties"}]}, "type": "array"}, "name":
+"datastores"}, {"type": {"items": {"doc": "", "type": "record", "name": "API", "fields": [{"type":
+{"symbols": ["REST", "MONGODB", "OTHER"], "type": "enum", "name": "APIType"}, "name": "type"},
+{"type": "string", "name": "description"}, {"type": {"items": "string", "type": "array"}, "name":
+"url"}, {"type": "Status", "name": "status"}, {"type": ["null", {"values": "string", "type":
+"map"}], "name": "additionalProperties"}]}, "type": "array"}, "name": "apis"}]}, "name":
+"dependencies"}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
