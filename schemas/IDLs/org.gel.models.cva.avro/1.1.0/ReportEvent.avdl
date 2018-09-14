@@ -22,7 +22,7 @@ protocol ReportEventProtocol {
     enum ReportEventType {
         reported,
         candidate,
-        tiered,
+        genomics_england_tiering,
         questionnaire,
         other
     }
