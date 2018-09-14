@@ -7,7 +7,7 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>gel-models</artifactId>
-    <version>${models.version}</version>
+    <version>${models.version}-${maven.build.timestamp}</version>
     <packaging>${p.type}</packaging>
 
     <properties>
