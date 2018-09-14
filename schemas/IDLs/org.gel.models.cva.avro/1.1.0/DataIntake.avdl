@@ -235,7 +235,7 @@ protocol DataIntakeProtocol {
         Please provide other (potentially) actionable entities: e.g domain 3 small variants,
         SV/CNV, mutational signatures, mutational burden
         */
-        union {null, string} otherActionableVariants;
+        union {null, array<org.gel.models.report.avro.AdditionalVariantsQuestions>} otherActionableVariants;
     }
 
     /**
