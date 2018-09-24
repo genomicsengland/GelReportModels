@@ -1,3 +1,11 @@
+Version 7.1.13 (24th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Migration from participants 1.0.3 to 1.0.0 back in for cancer dispatch 
+
+
 Version 7.1.12 (14th September 2018)
 --------------------------------
 
