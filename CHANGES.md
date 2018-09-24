@@ -1,3 +1,18 @@
+Version 7.1.12 (14th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* changes to cva ReportEvent schema to match intake
+
+
+Version 7.1.11 (14th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* changes to cva data intake schema
+
 Version 7.1.10 (11th September 2018)
 --------------------------------
 
