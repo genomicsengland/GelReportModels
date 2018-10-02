@@ -207,6 +207,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         new_instance.modeOfInheritance = self._migrate_mode_of_inheritance(old_moh=old_instance.modeOfInheritance)
         new_instance.genomicEntities = self.convert_collection(
             list(zip(old_instance.genomicEntities, new_instance.genomicEntities)), self._migrate_genomic_entity)
+        if old_instance.segregationPattern is not None and new_instance.eventJustification is None:
+            new_instance.eventJustification = "passed the {} segregation filter".format(old_instance.segregationPattern)
         if new_instance.variantClassification is not None:
             new_instance.variantClassification.drugResponseClassification = None
 

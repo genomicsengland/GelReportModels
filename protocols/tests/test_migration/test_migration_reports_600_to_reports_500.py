@@ -1,4 +1,4 @@
-from protocols.migration import MigrateReports500To600
+from protocols.migration import MigrateReports500To600, BaseMigration
 from protocols.migration.base_migration import BaseMigrateReports500And600
 from protocols.protocol_6_1 import reports as new_model
 from protocols.protocol_7_0 import reports as old_model
@@ -106,3 +106,35 @@ class TestMigrateReports600To500(TestCaseMigration):
 
     def test_migrate_cancer_exit_questionnaire_no_nullables(self):
         self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)
+
+    def test_migrate_report_event(self, fill_nullables=True):
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = None
+        re_rd_6.segregationPattern = old_model.SegregationPattern.CompoundHeterozygous
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(old_model.SegregationPattern.CompoundHeterozygous in re_rd_5.eventJustification)
+
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = "I have an event justification"
+        re_rd_6.segregationPattern = old_model.SegregationPattern.CompoundHeterozygous
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(re_rd_5.eventJustification is not None)
+        self.assertTrue(old_model.SegregationPattern.CompoundHeterozygous not in re_rd_5.eventJustification)
+
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = None
+        re_rd_6.segregationPattern = None
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(re_rd_5.eventJustification is None)
