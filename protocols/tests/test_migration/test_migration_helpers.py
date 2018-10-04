@@ -304,6 +304,19 @@ class TestMigrationHelpers(TestCaseMigration):
         ).create()
         self._validate(old_instance)
         if fill_nullables:
+            for rsv in old_instance.reportedStructuralVariants:
+                for cg in rsv.calledGenotypes:
+                    cg.copyNumber = int(round(uniform(-100, 100)))
+                    cg.phaseSet = int(round(uniform(-100, 100)))
+                    cg.depthReference = int(round(uniform(-100, 100)))
+                    cg.depthAlternate = int(round(uniform(-100, 100)))
+            for rv in old_instance.reportedVariants:
+                for cg in rv.calledGenotypes:
+                    cg.copyNumber = int(round(uniform(-100, 100)))
+                    cg.phaseSet = int(round(uniform(-100, 100)))
+                    cg.depthReference = int(round(uniform(-100, 100)))
+                    cg.depthAlternate = int(round(uniform(-100, 100)))
+
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_interpreted_genome_rd_to_latest(
@@ -372,6 +385,18 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance.interpretationRequestVersion = str(factory.fuzzy.FuzzyInteger(0).fuzz())
         self._validate(old_instance)
         if fill_nullables:
+            for csv in old_instance.candidateStructuralVariants:
+                for cg in csv.calledGenotypes:
+                    cg.copyNumber = int(round(uniform(-100, 100)))
+                    cg.phaseSet = int(round(uniform(-100, 100)))
+                    cg.depthReference = int(round(uniform(-100, 100)))
+                    cg.depthAlternate = int(round(uniform(-100, 100)))
+            for cv in old_instance.candidateVariants:
+                for cg in cv.calledGenotypes:
+                    cg.copyNumber = int(round(uniform(-100, 100)))
+                    cg.phaseSet = int(round(uniform(-100, 100)))
+                    cg.depthReference = int(round(uniform(-100, 100)))
+                    cg.depthAlternate = int(round(uniform(-100, 100)))
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_rd_to_latest(

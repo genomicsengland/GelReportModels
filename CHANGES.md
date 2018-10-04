@@ -1,3 +1,10 @@
+Version 7.1.14 (1st October 2018)
+--------------------------------
+
+#### Minor changes
+
+* Include explicit parsing from segregation pattern into event justification for reverse migration of report events 
+
 Version 7.1.13 (24th September 2018)
 --------------------------------
 
