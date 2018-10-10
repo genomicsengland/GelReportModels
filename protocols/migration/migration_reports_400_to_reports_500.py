@@ -198,22 +198,26 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.comments = comments
         participant_id = old_instance.cancerParticipant.individualId
         tumor_samples = old_instance.cancerParticipant.tumourSamples
+        germline_samples = old_instance.cancerParticipant.germlineSamples
         if not tumor_samples:
             raise MigrationError("There is no tumour sample to perform the migration")
         elif len(tumor_samples) > 1:
             raise MigrationError("There are several tumour samples, cannot decide which to use '{}'"
                                  .format(str(tumor_samples)))
-        sample_id = tumor_samples[0].sampleId
+        sample_ids = {
+            'germline_variant': germline_samples[0].sampleId if germline_samples else None,
+            'somatic_variant': tumor_samples[0].sampleId
+        }
         new_instance.variants = self.convert_collection(
             old_instance.tieredVariants, self._migrate_reported_variant_cancer,
-            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
+            assembly=assembly, participant_id=participant_id, sample_ids=sample_ids)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
         )
 
     def migrate_cancer_interpreted_genome(self, old_instance,
-                                          assembly, participant_id, sample_id,
+                                          assembly, participant_id, sample_ids,
                                           interpretation_request_version, interpretation_service):
         """
         NOTE: we migrate from a model where only one sample and one participant is supported, thus we do not need
@@ -221,13 +225,13 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         :type old_instance: reports_4_0_0.CancerInterpretedGenome
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
-        :type sample_id: str
+        :type sample_ids: sample_ids: map[str (alleleOrigin)]: str - {'germline_variant': 'LP...', 'somatic_variant': 'LP...'}
         :type interpretation_request_version: int
         :type interpretation_service: str
         :rtype: reports_5_0_0.CancerInterpretedGenome
         """
         self._check_required_parameters(
-            assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+            assembly=assembly, participant_id=participant_id, sample_ids=sample_ids,
             interpretation_request_version=interpretation_request_version,
             interpretation_service=interpretation_service
         )
@@ -239,23 +243,23 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.reportUrl = old_instance.reportUri
         new_instance.variants = self.convert_collection(
             old_instance.reportedVariants, self._migrate_reported_variant_cancer,
-            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
+            assembly=assembly, participant_id=participant_id, sample_ids=sample_ids)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome
         )
 
-    def migrate_cancer_clinical_report(self, old_instance, assembly, participant_id, sample_id):
+    def migrate_cancer_clinical_report(self, old_instance, assembly, participant_id, sample_ids):
         """
         NOTE: we migrate from a model where only one sample and one participant is supported, thus we do not need
         a list of samples or participants
         :type old_instance: reports_4_0_0.ClinicalReportCancer
         :type assembly: reports_5_0_0.Assembly
         :type participant_id: str
-        :type sample_id: str
+        :type sample_ids: map[str (alleleOrigin)]: str - {'germline_variant': 'LP...', 'somatic_variant': 'LP...'}
         :rtype: reports_5_0_0.ClinicalReportCancer
         """
-        if not sample_id or not assembly or not participant_id:
+        if not sample_ids or not assembly or not participant_id:
             raise MigrationError("Missing required fields to migrate cancer clinical report from 4.0.0 to 5.0.0")
 
         new_instance = self.convert_class(
@@ -269,7 +273,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             raise ex
         new_instance.variants = self.convert_collection(
             old_instance.candidateVariants, self._migrate_reported_variant_cancer,
-            assembly=assembly, participant_id=participant_id, sample_id=sample_id)
+            assembly=assembly, participant_id=participant_id, sample_ids=sample_ids)
 
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.ClinicalReportCancer
@@ -364,7 +368,7 @@ class MigrateReports400To500(BaseMigrateReports400And500):
         new_instance.type = map_feature_type[old_instance.featureType]
         return new_instance
 
-    def _migrate_reported_variant_cancer(self, old_instance, assembly, participant_id, sample_id):
+    def _migrate_reported_variant_cancer(self, old_instance, assembly, participant_id, sample_ids):
         ne_instance = old_instance.reportedVariantCancer
         new_instance = self.convert_class(self.new_model.ReportedVariantCancer, ne_instance)  # :type: reports_5_0_0.ReportedVariant
         new_instance.variantCoordinates = self.convert_class(reports_5_0_0.VariantCoordinates, ne_instance)
@@ -375,6 +379,9 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             new_instance.proteinChanges = [ne_instance.proteinChange]
 
         # NOTE: missing fields: genomicChanges
+        sample_id = sample_ids.get(old_instance.alleleOrigins[0], None)
+        if not sample_id:
+            raise MigrationError('Couldn\'t retrieve Sample ID for {}'.format(old_instance.alleleOrigins[0]))
 
         # builds up the VariantCall object
         # NOTE: fields that cannot be filled "phaseSet"
@@ -474,14 +481,14 @@ class MigrateReports400To500(BaseMigrateReports400And500):
             )
         )
 
-    def _check_required_parameters(self, assembly=None, participant_id=None, sample_id=None,
+    def _check_required_parameters(self, assembly=None, participant_id=None, sample_ids=None,
                                    interpretation_request_version=None, interpretation_service=None):
         if not assembly:
             self._raise_migration_error_for_parameter(parameter='assembly')
         if not participant_id:
             self._raise_migration_error_for_parameter(parameter='participant_id')
-        if not sample_id:
-            self._raise_migration_error_for_parameter(parameter='sample_id')
+        if not sample_ids:
+            self._raise_migration_error_for_parameter(parameter='sample_ids')
         if not interpretation_request_version:
             self._raise_migration_error_for_parameter(parameter='interpretation_request_version')
         if not interpretation_service:
