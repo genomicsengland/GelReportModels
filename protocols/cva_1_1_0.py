@@ -5337,32 +5337,32 @@ null}]}, "doc": ""}]}}, "doc": "", "default": []}]}}, "doc": ""}, {"name": "cura
 "groupId", "type": "string", "doc": ""}, {"name": "cohortId", "type": "string", "doc": ""}, {"name":
 "date", "type": "string", "doc": ""}, {"name": "author", "type": "string", "doc": ""}, {"name":
 "authorVersion", "type": ["null", "string"], "doc": ""}, {"name": "type", "type": {"type": "enum",
-"name": "ReportEventType", "doc": "", "symbols": ["reported", "candidate", "tiered",
-"questionnaire", "other"]}, "doc": ""}, {"name": "program", "type": {"type": "enum", "name":
-"Program", "namespace": "org.gel.models.report.avro", "doc": "", "symbols": ["cancer",
-"rare_disease"]}, "doc": ""}, {"name": "validated", "type": "boolean", "doc": "", "default": false},
-{"name": "workspace", "type": {"type": "array", "items": "string"}, "doc": "", "default": []},
-{"name": "reportEvent", "type": ["null", {"type": "record", "name": "ReportEvent", "namespace":
-"org.gel.models.report.avro", "doc": "", "fields": [{"name": "reportEventId", "type": "string",
-"doc": ""}, {"name": "phenotypes", "type": {"type": "record", "name": "Phenotypes", "doc": "",
-"fields": [{"name": "nonStandardPhenotype", "type": ["null", {"type": "array", "items": "string"}],
-"doc": ""}, {"name": "standardPhenotypes", "type": ["null", {"type": "array", "items": {"type":
-"record", "name": "StandardPhenotype", "doc": "", "fields": [{"name": "id", "type": "string"},
-{"name": "name", "type": ["null", "string"]}, {"name": "namespace", "type": ["null", "string"]},
-{"name": "definition", "type": ["null", "string"]}, {"name": "comment", "type": ["null", "string"]},
-{"name": "alternativeIds", "type": ["null", "string"]}, {"name": "synonyms", "type": ["null",
-"string"]}, {"name": "isA", "type": ["null", "string"]}, {"name": "ontology", "type": {"type":
-"record", "name": "Ontology", "doc": "", "fields": [{"name": "name", "type": "string"}, {"name":
-"version", "type": "string"}]}, "doc": ""}, {"name": "matchScore", "type": ["null", "float"], "doc":
-""}]}}], "doc": ""}]}, "doc": ""}, {"name": "variantConsequences", "type": {"type": "array",
-"items": {"type": "record", "name": "VariantConsequence", "doc": "", "fields": [{"name": "id",
-"type": "string", "doc": ""}, {"name": "name", "type": ["null", "string"], "doc": ""}]}}, "doc":
-""}, {"name": "genePanel", "type": ["null", {"type": "record", "name": "GenePanel", "doc": "",
-"fields": [{"name": "panelIdentifier", "type": ["null", "string"], "doc": ""}, {"name": "panelName",
-"type": ["null", "string"], "doc": ""}, {"name": "panelVersion", "type": ["null", "string"], "doc":
-""}, {"name": "source", "type": ["null", "string"], "doc": ""}]}], "doc": ""}, {"name":
-"modeOfInheritance", "type": {"type": "enum", "name": "ModeOfInheritance", "doc": "", "symbols":
-["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
+"name": "ReportEventType", "doc": "", "symbols": ["reported", "candidate",
+"genomics_england_tiering", "questionnaire", "other"]}, "doc": ""}, {"name": "program", "type":
+{"type": "enum", "name": "Program", "namespace": "org.gel.models.report.avro", "doc": "", "symbols":
+["cancer", "rare_disease"]}, "doc": ""}, {"name": "validated", "type": "boolean", "doc": "",
+"default": false}, {"name": "workspace", "type": {"type": "array", "items": "string"}, "doc": "",
+"default": []}, {"name": "reportEvent", "type": ["null", {"type": "record", "name": "ReportEvent",
+"namespace": "org.gel.models.report.avro", "doc": "", "fields": [{"name": "reportEventId", "type":
+"string", "doc": ""}, {"name": "phenotypes", "type": {"type": "record", "name": "Phenotypes", "doc":
+"", "fields": [{"name": "nonStandardPhenotype", "type": ["null", {"type": "array", "items":
+"string"}], "doc": ""}, {"name": "standardPhenotypes", "type": ["null", {"type": "array", "items":
+{"type": "record", "name": "StandardPhenotype", "doc": "", "fields": [{"name": "id", "type":
+"string"}, {"name": "name", "type": ["null", "string"]}, {"name": "namespace", "type": ["null",
+"string"]}, {"name": "definition", "type": ["null", "string"]}, {"name": "comment", "type": ["null",
+"string"]}, {"name": "alternativeIds", "type": ["null", "string"]}, {"name": "synonyms", "type":
+["null", "string"]}, {"name": "isA", "type": ["null", "string"]}, {"name": "ontology", "type":
+{"type": "record", "name": "Ontology", "doc": "", "fields": [{"name": "name", "type": "string"},
+{"name": "version", "type": "string"}]}, "doc": ""}, {"name": "matchScore", "type": ["null",
+"float"], "doc": ""}]}}], "doc": ""}]}, "doc": ""}, {"name": "variantConsequences", "type": {"type":
+"array", "items": {"type": "record", "name": "VariantConsequence", "doc": "", "fields": [{"name":
+"id", "type": "string", "doc": ""}, {"name": "name", "type": ["null", "string"], "doc": ""}]}},
+"doc": ""}, {"name": "genePanel", "type": ["null", {"type": "record", "name": "GenePanel", "doc":
+"", "fields": [{"name": "panelIdentifier", "type": ["null", "string"], "doc": ""}, {"name":
+"panelName", "type": ["null", "string"], "doc": ""}, {"name": "panelVersion", "type": ["null",
+"string"], "doc": ""}, {"name": "source", "type": ["null", "string"], "doc": ""}]}], "doc": ""},
+{"name": "modeOfInheritance", "type": {"type": "enum", "name": "ModeOfInheritance", "doc": "",
+"symbols": ["monoallelic", "monoallelic_not_imprinted", "monoallelic_maternally_imprinted",
 "monoallelic_paternally_imprinted", "biallelic", "monoallelic_and_biallelic",
 "monoallelic_and_more_severe_biallelic", "xlinked_biallelic", "xlinked_monoallelic",
 "mitochondrial", "unknown", "na"]}, "doc": ""}, {"name": "genomicEntities", "type": {"type":
@@ -5556,9 +5556,18 @@ null}]}, "doc": ""}]}}, "doc": "", "default": []}]}}, "doc": ""}, {"name": "cura
 "domain_1_2_and_suplementary"]}, "doc": ""}, {"name": "actionableVariants", "type": {"type": "enum",
 "name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no"]}, "doc": ""}]}, "doc": ""},
 {"name": "additionalComments", "type": ["null", "string"], "doc": ""}, {"name":
-"otherActionableVariants", "type": ["null", "string"], "doc": ""}]}], "doc": ""}, {"name":
-"observedVariants", "type": {"type": "array", "items": {"type": "record", "name": "ObservedVariant",
-"doc": "", "fields": [{"name": "date", "type": "string", "doc": ""}, {"name": "assembly", "type":
+"otherActionableVariants", "type": ["null", {"type": "array", "items": {"type": "record", "name":
+"AdditionalVariantsQuestions", "namespace": "org.gel.models.report.avro", "fields": [{"name":
+"variantCoordinates", "type": "VariantCoordinates", "doc": ""}, {"name": "variantActionability",
+"type": {"type": "array", "items": "CancerActionability"}, "doc": ""}, {"name":
+"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
+"CancerUsabilitySomatic", "doc": ""}, {"name": "variantTested", "type": {"type": "enum", "name":
+"CancerTestedAdditional", "doc": "", "symbols": ["not_indicated_for_patient_care",
+"no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"]}, "doc": ""}, {"name": "validationAssayType", "type":
+"string", "doc": ""}]}}], "doc": ""}]}], "doc": ""}, {"name": "observedVariants", "type": {"type":
+"array", "items": {"type": "record", "name": "ObservedVariant", "doc": "", "fields": [{"name":
+"date", "type": "string", "doc": ""}, {"name": "assembly", "type":
 "org.gel.models.report.avro.Assembly", "doc": ""}, {"name": "variant", "type": "Variant", "doc":
 ""}, {"name": "variantCall", "type": ["null", {"type": "record", "name": "VariantCall", "namespace":
 "org.gel.models.report.avro", "doc": "", "fields": [{"name": "participantId", "type": "string",
@@ -5779,7 +5788,16 @@ class ExitQuestionnaireInjectCancer(ProtocolElement):
 "actioned_result_of_this_wga"]}, "doc": ""}, {"name": "variantTested", "type": "CancerTested",
 "doc": ""}, {"name": "validationAssayType", "type": "string", "doc": ""}]}, "doc": ""}]}}, "doc":
 ""}, {"name": "additionalComments", "type": ["null", "string"], "doc": ""}, {"name":
-"otherActionableVariants", "type": ["null", "string"], "doc": ""}]}
+"otherActionableVariants", "type": ["null", {"type": "array", "items": {"type": "record", "name":
+"AdditionalVariantsQuestions", "namespace": "org.gel.models.report.avro", "fields": [{"name":
+"variantCoordinates", "type": "VariantCoordinates", "doc": ""}, {"name": "variantActionability",
+"type": {"type": "array", "items": "CancerActionability"}, "doc": ""}, {"name":
+"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
+"CancerUsabilitySomatic", "doc": ""}, {"name": "variantTested", "type": {"type": "enum", "name":
+"CancerTestedAdditional", "doc": "", "symbols": ["not_indicated_for_patient_care",
+"no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"]}, "doc": ""}, {"name": "validationAssayType", "type":
+"string", "doc": ""}]}}], "doc": ""}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -5798,6 +5816,7 @@ class ExitQuestionnaireInjectCancer(ProtocolElement):
             'cancerSomaticExitQuestionnaires': CancerSomaticVariantLevelQuestionnaire,
             'cancercaseLevelQuestions': CancerCaseLevelQuestions,
             'metadata': InjectionMetadata,
+            'otherActionableVariants': AdditionalVariantsQuestions,
         }
         return fieldName in embeddedTypes
 
@@ -5808,6 +5827,7 @@ class ExitQuestionnaireInjectCancer(ProtocolElement):
             'cancerSomaticExitQuestionnaires': CancerSomaticVariantLevelQuestionnaire,
             'cancercaseLevelQuestions': CancerCaseLevelQuestions,
             'metadata': InjectionMetadata,
+            'otherActionableVariants': AdditionalVariantsQuestions,
         }
 
         return embeddedTypes[fieldName]
@@ -11617,31 +11637,31 @@ class ReportEventEntry(ProtocolElement):
 ""}, {"name": "cohortId", "type": "string", "doc": ""}, {"name": "date", "type": "string", "doc":
 ""}, {"name": "author", "type": "string", "doc": ""}, {"name": "authorVersion", "type": ["null",
 "string"], "doc": ""}, {"name": "type", "type": {"type": "enum", "name": "ReportEventType", "doc":
-"", "symbols": ["reported", "candidate", "tiered", "questionnaire", "other"]}, "doc": ""}, {"name":
-"program", "type": {"type": "enum", "name": "Program", "namespace": "org.gel.models.report.avro",
-"doc": "", "symbols": ["cancer", "rare_disease"]}, "doc": ""}, {"name": "validated", "type":
-"boolean", "doc": "", "default": false}, {"name": "workspace", "type": {"type": "array", "items":
-"string"}, "doc": "", "default": []}, {"name": "reportEvent", "type": ["null", {"type": "record",
-"name": "ReportEvent", "namespace": "org.gel.models.report.avro", "doc": "", "fields": [{"name":
-"reportEventId", "type": "string", "doc": ""}, {"name": "phenotypes", "type": {"type": "record",
-"name": "Phenotypes", "doc": "", "fields": [{"name": "nonStandardPhenotype", "type": ["null",
-{"type": "array", "items": "string"}], "doc": ""}, {"name": "standardPhenotypes", "type": ["null",
-{"type": "array", "items": {"type": "record", "name": "StandardPhenotype", "doc": "", "fields":
-[{"name": "id", "type": "string"}, {"name": "name", "type": ["null", "string"]}, {"name":
-"namespace", "type": ["null", "string"]}, {"name": "definition", "type": ["null", "string"]},
-{"name": "comment", "type": ["null", "string"]}, {"name": "alternativeIds", "type": ["null",
-"string"]}, {"name": "synonyms", "type": ["null", "string"]}, {"name": "isA", "type": ["null",
-"string"]}, {"name": "ontology", "type": {"type": "record", "name": "Ontology", "doc": "", "fields":
-[{"name": "name", "type": "string"}, {"name": "version", "type": "string"}]}, "doc": ""}, {"name":
-"matchScore", "type": ["null", "float"], "doc": ""}]}}], "doc": ""}]}, "doc": ""}, {"name":
-"variantConsequences", "type": {"type": "array", "items": {"type": "record", "name":
-"VariantConsequence", "doc": "", "fields": [{"name": "id", "type": "string", "doc": ""}, {"name":
-"name", "type": ["null", "string"], "doc": ""}]}}, "doc": ""}, {"name": "genePanel", "type":
-["null", {"type": "record", "name": "GenePanel", "doc": "", "fields": [{"name": "panelIdentifier",
-"type": ["null", "string"], "doc": ""}, {"name": "panelName", "type": ["null", "string"], "doc":
-""}, {"name": "panelVersion", "type": ["null", "string"], "doc": ""}, {"name": "source", "type":
-["null", "string"], "doc": ""}]}], "doc": ""}, {"name": "modeOfInheritance", "type": {"type":
-"enum", "name": "ModeOfInheritance", "doc": "", "symbols": ["monoallelic",
+"", "symbols": ["reported", "candidate", "genomics_england_tiering", "questionnaire", "other"]},
+"doc": ""}, {"name": "program", "type": {"type": "enum", "name": "Program", "namespace":
+"org.gel.models.report.avro", "doc": "", "symbols": ["cancer", "rare_disease"]}, "doc": ""},
+{"name": "validated", "type": "boolean", "doc": "", "default": false}, {"name": "workspace", "type":
+{"type": "array", "items": "string"}, "doc": "", "default": []}, {"name": "reportEvent", "type":
+["null", {"type": "record", "name": "ReportEvent", "namespace": "org.gel.models.report.avro", "doc":
+"", "fields": [{"name": "reportEventId", "type": "string", "doc": ""}, {"name": "phenotypes",
+"type": {"type": "record", "name": "Phenotypes", "doc": "", "fields": [{"name":
+"nonStandardPhenotype", "type": ["null", {"type": "array", "items": "string"}], "doc": ""}, {"name":
+"standardPhenotypes", "type": ["null", {"type": "array", "items": {"type": "record", "name":
+"StandardPhenotype", "doc": "", "fields": [{"name": "id", "type": "string"}, {"name": "name",
+"type": ["null", "string"]}, {"name": "namespace", "type": ["null", "string"]}, {"name":
+"definition", "type": ["null", "string"]}, {"name": "comment", "type": ["null", "string"]}, {"name":
+"alternativeIds", "type": ["null", "string"]}, {"name": "synonyms", "type": ["null", "string"]},
+{"name": "isA", "type": ["null", "string"]}, {"name": "ontology", "type": {"type": "record", "name":
+"Ontology", "doc": "", "fields": [{"name": "name", "type": "string"}, {"name": "version", "type":
+"string"}]}, "doc": ""}, {"name": "matchScore", "type": ["null", "float"], "doc": ""}]}}], "doc":
+""}]}, "doc": ""}, {"name": "variantConsequences", "type": {"type": "array", "items": {"type":
+"record", "name": "VariantConsequence", "doc": "", "fields": [{"name": "id", "type": "string",
+"doc": ""}, {"name": "name", "type": ["null", "string"], "doc": ""}]}}, "doc": ""}, {"name":
+"genePanel", "type": ["null", {"type": "record", "name": "GenePanel", "doc": "", "fields": [{"name":
+"panelIdentifier", "type": ["null", "string"], "doc": ""}, {"name": "panelName", "type": ["null",
+"string"], "doc": ""}, {"name": "panelVersion", "type": ["null", "string"], "doc": ""}, {"name":
+"source", "type": ["null", "string"], "doc": ""}]}], "doc": ""}, {"name": "modeOfInheritance",
+"type": {"type": "enum", "name": "ModeOfInheritance", "doc": "", "symbols": ["monoallelic",
 "monoallelic_not_imprinted", "monoallelic_maternally_imprinted", "monoallelic_paternally_imprinted",
 "biallelic", "monoallelic_and_biallelic", "monoallelic_and_more_severe_biallelic",
 "xlinked_biallelic", "xlinked_monoallelic", "mitochondrial", "unknown", "na"]}, "doc": ""}, {"name":
@@ -11836,9 +11856,18 @@ class ReportEventEntry(ProtocolElement):
 "domain_1_2_and_suplementary"]}, "doc": ""}, {"name": "actionableVariants", "type": {"type": "enum",
 "name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no"]}, "doc": ""}]}, "doc": ""},
 {"name": "additionalComments", "type": ["null", "string"], "doc": ""}, {"name":
-"otherActionableVariants", "type": ["null", "string"], "doc": ""}]}], "doc": ""}, {"name":
-"observedVariants", "type": {"type": "array", "items": {"type": "record", "name": "ObservedVariant",
-"doc": "", "fields": [{"name": "date", "type": "string", "doc": ""}, {"name": "assembly", "type":
+"otherActionableVariants", "type": ["null", {"type": "array", "items": {"type": "record", "name":
+"AdditionalVariantsQuestions", "namespace": "org.gel.models.report.avro", "fields": [{"name":
+"variantCoordinates", "type": "VariantCoordinates", "doc": ""}, {"name": "variantActionability",
+"type": {"type": "array", "items": "CancerActionability"}, "doc": ""}, {"name":
+"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
+"CancerUsabilitySomatic", "doc": ""}, {"name": "variantTested", "type": {"type": "enum", "name":
+"CancerTestedAdditional", "doc": "", "symbols": ["not_indicated_for_patient_care",
+"no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"]}, "doc": ""}, {"name": "validationAssayType", "type":
+"string", "doc": ""}]}}], "doc": ""}]}], "doc": ""}, {"name": "observedVariants", "type": {"type":
+"array", "items": {"type": "record", "name": "ObservedVariant", "doc": "", "fields": [{"name":
+"date", "type": "string", "doc": ""}, {"name": "assembly", "type":
 "org.gel.models.report.avro.Assembly", "doc": ""}, {"name": "variant", "type": {"type": "record",
 "name": "Variant", "doc": "", "fields": [{"name": "variants", "type": {"type": "array", "items":
 {"type": "record", "name": "VariantRepresentation", "doc": "", "fields": [{"name": "assembly",
@@ -12222,7 +12251,16 @@ class ReportEventQuestionnaireCancer(ProtocolElement):
 "domain_1_2_and_suplementary"]}, "doc": ""}, {"name": "actionableVariants", "type": {"type": "enum",
 "name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no"]}, "doc": ""}]}, "doc": ""},
 {"name": "additionalComments", "type": ["null", "string"], "doc": ""}, {"name":
-"otherActionableVariants", "type": ["null", "string"], "doc": ""}]}
+"otherActionableVariants", "type": ["null", {"type": "array", "items": {"type": "record", "name":
+"AdditionalVariantsQuestions", "namespace": "org.gel.models.report.avro", "fields": [{"name":
+"variantCoordinates", "type": "VariantCoordinates", "doc": ""}, {"name": "variantActionability",
+"type": {"type": "array", "items": "CancerActionability"}, "doc": ""}, {"name":
+"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
+"CancerUsabilitySomatic", "doc": ""}, {"name": "variantTested", "type": {"type": "enum", "name":
+"CancerTestedAdditional", "doc": "", "symbols": ["not_indicated_for_patient_care",
+"no_orthologous_test_available", "test_performed_prior_to_wga",
+"technical_validation_following_wga", "na"]}, "doc": ""}, {"name": "validationAssayType", "type":
+"string", "doc": ""}]}}], "doc": ""}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -12239,6 +12277,7 @@ class ReportEventQuestionnaireCancer(ProtocolElement):
             'cancerGermlineVariantLevelQuestions': CancerGermlineVariantLevelQuestions,
             'cancerSomaticVariantLevelQuestions': CancerSomaticVariantLevelQuestions,
             'cancercaseLevelQuestions': CancerCaseLevelQuestions,
+            'otherActionableVariants': AdditionalVariantsQuestions,
         }
         return fieldName in embeddedTypes
 
@@ -12248,6 +12287,7 @@ class ReportEventQuestionnaireCancer(ProtocolElement):
             'cancerGermlineVariantLevelQuestions': CancerGermlineVariantLevelQuestions,
             'cancerSomaticVariantLevelQuestions': CancerSomaticVariantLevelQuestions,
             'cancercaseLevelQuestions': CancerCaseLevelQuestions,
+            'otherActionableVariants': AdditionalVariantsQuestions,
         }
 
         return embeddedTypes[fieldName]
@@ -12362,7 +12402,7 @@ class ReportEventType(object):
     """
     reported = "reported"
     candidate = "candidate"
-    tiered = "tiered"
+    genomics_england_tiering = "genomics_england_tiering"
     questionnaire = "questionnaire"
     other = "other"
 

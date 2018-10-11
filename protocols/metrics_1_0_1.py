@@ -3932,21 +3932,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -4173,19 +4166,14 @@ class SamtoolsStatsCalculations(ProtocolElement):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    No documentation
     """
     ready = "ready"
-    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
     def __hash__(self):
         return str(self).__hash__()

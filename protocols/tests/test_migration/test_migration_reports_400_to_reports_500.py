@@ -1,3 +1,4 @@
+import random
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 import factory.fuzzy
 from protocols import reports_4_0_0
@@ -50,14 +51,22 @@ class TestMigrateReports4To500(TestCaseMigration):
         cr_c_400 = GenericFactoryAvro.get_factory_avro(
             self.old_model.ClinicalReportCancer, VERSION_400, fill_nullables=True
         ).create(interpretationRequestVersion='1')  # we need to enforce that it can be cast to int
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        if cr_c_400.candidateVariants:
+            for candidate_variant in cr_c_400.candidateVariants:
+                if candidate_variant.alleleOrigins[0] not in valid_cancer_origins:
+                    candidate_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         self._validate(cr_c_400)
         self._check_non_empty_fields(cr_c_400)
 
         assembly = 'grch38'
         participant_id = "no_one"
-        sample_id = 'some'
+        sample_ids = {
+            'germline_variant': 'germline1',
+            'somatic_variant': 'somatic1'
+        }
         migrated_cir_500 = MigrateReports400To500().migrate_cancer_clinical_report(
-            cr_c_400, assembly=assembly, participant_id=participant_id, sample_id=sample_id
+            cr_c_400, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids
         )
         self._validate(migrated_cir_500)
         self._check_non_empty_fields(migrated_cir_500,
@@ -76,13 +85,20 @@ class TestMigrateReports4To500(TestCaseMigration):
         cr_c_400 = GenericFactoryAvro.get_factory_avro(
             self.old_model.ClinicalReportCancer, VERSION_400, fill_nullables=False
         ).create(interpretationRequestVersion='1')
+        if cr_c_400.candidateVariants:
+            for candidate_variant in cr_c_400.candidateVariants:
+                if candidate_variant.alleleOrigins[0] not in valid_cancer_origins:
+                    candidate_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         self._validate(cr_c_400)
 
         assembly = 'hg19'
         participant_id = "no_one"
-        sample_id = 'some'
+        sample_ids = {
+            'germline_variant': 'germline1',
+            'somatic_variant': 'somatic1'
+        }
         migrated_cir_500 = MigrateReports400To500().migrate_cancer_clinical_report(
-            cr_c_400, assembly=assembly, participant_id=participant_id, sample_id=sample_id
+            cr_c_400, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids
         )
         self._validate(migrated_cir_500)
 
@@ -95,16 +111,23 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretedGenome, VERSION_400, fill_nullables=True
         ).create()
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for reported_variant in old_instance.reportedVariants:
+            if reported_variant.alleleOrigins[0] not in valid_cancer_origins:
+                reported_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
 
         assembly = 'grch38'
         participant_id = "no_one"
-        sample_id = 'some'
+        sample_ids = {
+            'germline_variant': 'germline1',
+            'somatic_variant': 'somatic1'
+        }
         interpretation_request_version = 1
         interpretation_service = 'testing'
         new_instance = MigrateReports400To500().migrate_cancer_interpreted_genome(
-            old_instance, assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+            old_instance, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids,
             interpretation_request_version=interpretation_request_version,
             interpretation_service=interpretation_service
         )
@@ -126,14 +149,21 @@ class TestMigrateReports4To500(TestCaseMigration):
             self.old_model.CancerInterpretedGenome, VERSION_400, fill_nullables=False
         ).create()
         self._validate(old_instance)
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for reported_variant in old_instance.reportedVariants:
+            if reported_variant.alleleOrigins[0] not in valid_cancer_origins:
+                reported_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
 
         assembly = 'hg19'
         participant_id = "no_one"
-        sample_id = 'some'
+        sample_ids = {
+            'germline_variant': 'germline1',
+            'somatic_variant': 'somatic1'
+        }
         interpretation_request_version = 1
         interpretation_service = 'testing'
         new_instance = MigrateReports400To500().migrate_cancer_interpreted_genome(
-            old_instance, assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+            old_instance, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids,
             interpretation_request_version=interpretation_request_version,
             interpretation_service=interpretation_service
         )
@@ -150,6 +180,12 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=True
         ).create()
+
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for tiered_variant in old_instance.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
+
         old_instance.cancerParticipant.tumourSamples = [old_instance.cancerParticipant.tumourSamples[0]]
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
@@ -181,6 +217,9 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=False
         ).create()
+        for tiered_variant in old_instance.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         old_instance.cancerParticipant.tumourSamples = [old_instance.cancerParticipant.tumourSamples[0]]
         self._validate(old_instance)
 
@@ -381,6 +420,10 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=True
         ).create()  # we need to enforce that it can be cast to int
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for tiered_variant in old_instance.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         self._validate(old_instance)
         self._check_non_empty_fields(old_instance)
         migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(
@@ -392,6 +435,9 @@ class TestMigrateReports4To500(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.CancerInterpretationRequest, VERSION_400, fill_nullables=False
         ).create()  # we need to enforce that it can be cast to int
+        for tiered_variant in old_instance.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         old_instance.cancerParticipant.LDPCode = "needs to be filled"
         self._validate(old_instance)
         migrated_instance = MigrateReports400To500().migrate_cancer_interpretation_request(

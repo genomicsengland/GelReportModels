@@ -1,3 +1,4 @@
+import random
 import factory.fuzzy
 from random import uniform
 
@@ -592,6 +593,10 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretationRequest, VERSION_400, fill_nullables=fill_nullables
         ).create()
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for tiered_variant in old_instance.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         if not fill_nullables:
             old_instance.cancerParticipant.LDPCode = "12345"
         # only one tumour sample
@@ -632,12 +637,17 @@ class TestMigrationHelpers(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.CancerInterpretedGenome, VERSION_400, fill_nullables=fill_nullables
         ).create()
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for reported_variant in old_instance.reportedVariants:
+            if reported_variant.alleleOrigins[0] not in valid_cancer_origins:
+                reported_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         self._validate(old_instance)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_interpreted_genome_cancer_to_latest(
-            old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_id='456',
+            old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_ids={
+                'somatic_variant': 'somatic1', 'germline_variant': 'germline1'},
             interpretation_request_version=5, interpretation_service='congenica')
         self._validate(migrated_instance)
 
@@ -654,7 +664,8 @@ class TestMigrationHelpers(TestCaseMigration):
 
         with self.assertRaises(MigrationError):
             MigrationHelpers.migrate_interpreted_genome_cancer_to_latest(
-                old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_id='456',
+                old_instance.toJsonDict(), assembly='GRCh38', participant_id='123', sample_ids={
+                'somatic_variant': 'somatic1', 'germline_variant': 'germline1'},
                 interpretation_request_version=5, interpretation_service='congenica')
             self.assertTrue(False)
 
@@ -701,11 +712,17 @@ class TestMigrationHelpers(TestCaseMigration):
         ).create()
         old_instance.interpretationRequestVersion = '789'
         self._validate(old_instance)
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        if old_instance.candidateVariants:
+            for candidate_variant in old_instance.candidateVariants:
+                if candidate_variant.alleleOrigins[0] not in valid_cancer_origins:
+                    candidate_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         if fill_nullables:
             self._check_non_empty_fields(old_instance)
 
         migrated_instance = MigrationHelpers.migrate_clinical_report_cancer_to_latest(
-            old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456'
+            old_instance.toJsonDict(), sample_ids={
+                'somatic_variant': 'somatic1', 'germline_variant': 'germline1'}, assembly='GRCh38', participant_id='456'
         )
         self.assertIsInstance(migrated_instance, reports_6_0_0.ClinicalReport)
         self._validate(migrated_instance)
@@ -738,7 +755,8 @@ class TestMigrationHelpers(TestCaseMigration):
 
         with self.assertRaises(MigrationError):
             MigrationHelpers.migrate_clinical_report_cancer_to_latest(
-                json_dict=old_instance.toJsonDict(), sample_id='123', assembly='GRCh38', participant_id='456'
+                json_dict=old_instance.toJsonDict(), sample_ids={
+                'somatic_variant': 'somatic1', 'germline_variant': 'germline1'}, assembly='GRCh38', participant_id='456'
             )
 
     def test_migrate_clinical_report_cancer_300_600_nulls(self):

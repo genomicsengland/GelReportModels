@@ -1559,6 +1559,9 @@ class SampleSource(object):
     """
     No documentation
     """
+    TUMOUR = "TUMOUR"
+    BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS = "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS"
+    BONE_MARROW_ASPIRATE_TUMOUR_CELLS = "BONE_MARROW_ASPIRATE_TUMOUR_CELLS"
     BLOOD = "BLOOD"
     SALIVA = "SALIVA"
     FIBROBLAST = "FIBROBLAST"
@@ -1658,10 +1661,10 @@ class Severity(object):
 
 class Sex(object):
     """
-    Sex
+    No documentation
     """
-    MALE = "MALE"
     FEMALE = "FEMALE"
+    MALE = "MALE"
     UNKNOWN = "UNKNOWN"
 
     def __hash__(self):

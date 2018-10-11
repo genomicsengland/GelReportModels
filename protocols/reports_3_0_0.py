@@ -7148,21 +7148,14 @@ class Reason(object):
     """
     No documentation
     """
-    median_coverage = "median_coverage"
-    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    pedigree_mendelian_errors = "pedigree_mendelian_errors"
-    pedigree_ibd_sharing = "pedigree_ibd_sharing"
+    consent = "consent"
+    pedigree = "pedigree"
     contamination = "contamination"
     quality = "quality"
-    sex_query = "sex_query"
-    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
-    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
-    arrayconcordance = "arrayconcordance"
-    high_cnv = "high_cnv"
+    plinksex = "plinksex"
+    inbreedingcoefficient = "inbreedingcoefficient"
     in_qc = "in_qc"
-    pass_qc = "pass_qc"
-    other = "other"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -8218,19 +8211,14 @@ class SomaticOrGermline(object):
 
 class State(object):
     """
-    This is the master state for this sample, for example
-    caution,quality could be used to say that a sample under this
-    individual has quality issues.  ready: sample is ready to be used
-    pending: sample is in the process of being analysed hold: sample
-    is on hold pending investigation fail: sample has failed a QC
-    check caution: sample is ready but should be used with caution
+    No documentation
     """
     ready = "ready"
-    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
+    blocked = "blocked"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -8238,67 +8226,74 @@ class State(object):
 
 class SupplementaryAnalysisResults(ProtocolElement):
     """
-    This defines a Supplementary Analysis Result
+    This is the record for results of supplementary analysis
     """
     _schemaSource = """
 {"type": "record", "name": "SupplementaryAnalysisResults", "namespace":
-"org.gel.models.report.avro", "doc": "", "fields": [{"name":
-"contextualAnalysisSubstitutionsCounts", "type": {"type": "map", "values": "int"}, "doc": ""},
-{"name": "mutationalSignatureContribution", "type": {"type": "record", "name":
-"MutationalSignatureContribution", "fields": [{"name": "coefficients", "type": {"type": "map",
-"values": "double"}, "doc": ""}, {"name": "rss", "type": "double", "doc": ""}]}, "doc": ""},
-{"name": "sNVAlleleFrequencyHistogramCounts", "type": {"type": "map", "values": "int"}, "doc": ""},
-{"name": "indelAlleleFrequencyHistogramCounts", "type": {"type": "map", "values": "int"}, "doc":
-""}, {"name": "indelLengthHistogramCounts", "type": {"type": "map", "values": "int"}, "doc": ""},
-{"name": "genomicRegionsOfHypermutation", "type": {"type": "array", "items": "string"}, "doc": ""}]}
+"org.gel.models.report.avro", "doc": "", "fields": [{"name": "numberOfSomaticVariants", "type":
+"int"}, {"name": "numberOfSomaticSnvsPerMb", "type": "double"}, {"name":
+"numberOfNonsynSomaticSnvsPerMb", "type": "double"}, {"name":
+"ContextualAnalysisSubstitutionsCounts", "type": {"type": "map", "values": "int"}}, {"name":
+"MutationalSignatureContribution", "type": {"type": "map", "values": "double"}}, {"name":
+"GenomicRegionsOfHypermutation", "type": {"type": "array", "items": "string"}}, {"name":
+"SNValleleFrequencyHistogramCounts", "type": {"type": "map", "values": "int"}}, {"name":
+"IndelAlleleFrequencyHistogramCounts", "type": {"type": "map", "values": "int"}}, {"name":
+"IndelLengthHistogramCounts", "type": {"type": "map", "values": "int"}}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
-        "contextualAnalysisSubstitutionsCounts",
-        "genomicRegionsOfHypermutation",
-        "indelAlleleFrequencyHistogramCounts",
-        "indelLengthHistogramCounts",
-        "mutationalSignatureContribution",
-        "sNVAlleleFrequencyHistogramCounts",
+        "ContextualAnalysisSubstitutionsCounts",
+        "GenomicRegionsOfHypermutation",
+        "IndelAlleleFrequencyHistogramCounts",
+        "IndelLengthHistogramCounts",
+        "MutationalSignatureContribution",
+        "SNValleleFrequencyHistogramCounts",
+        "numberOfNonsynSomaticSnvsPerMb",
+        "numberOfSomaticSnvsPerMb",
+        "numberOfSomaticVariants",
     }
 
     @classmethod
     def isEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'mutationalSignatureContribution': MutationalSignatureContribution,
-        }
+        embeddedTypes = {}
         return fieldName in embeddedTypes
 
     @classmethod
     def getEmbeddedType(cls, fieldName):
-        embeddedTypes = {
-            'mutationalSignatureContribution': MutationalSignatureContribution,
-        }
+        embeddedTypes = {}
 
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'contextualAnalysisSubstitutionsCounts',
-        'genomicRegionsOfHypermutation',
-        'indelAlleleFrequencyHistogramCounts',
-        'indelLengthHistogramCounts',
-        'mutationalSignatureContribution',
-        'sNVAlleleFrequencyHistogramCounts'
+        'ContextualAnalysisSubstitutionsCounts',
+        'GenomicRegionsOfHypermutation',
+        'IndelAlleleFrequencyHistogramCounts',
+        'IndelLengthHistogramCounts',
+        'MutationalSignatureContribution',
+        'SNValleleFrequencyHistogramCounts',
+        'numberOfNonsynSomaticSnvsPerMb', 'numberOfSomaticSnvsPerMb',
+        'numberOfSomaticVariants'
     ]
 
     def __init__(self, **kwargs):
-        self.contextualAnalysisSubstitutionsCounts = kwargs.get(
-            'contextualAnalysisSubstitutionsCounts', None)
-        self.genomicRegionsOfHypermutation = kwargs.get(
-            'genomicRegionsOfHypermutation', None)
-        self.indelAlleleFrequencyHistogramCounts = kwargs.get(
-            'indelAlleleFrequencyHistogramCounts', None)
-        self.indelLengthHistogramCounts = kwargs.get(
-            'indelLengthHistogramCounts', None)
-        self.mutationalSignatureContribution = kwargs.get(
-            'mutationalSignatureContribution', MutationalSignatureContribution())
-        self.sNVAlleleFrequencyHistogramCounts = kwargs.get(
-            'sNVAlleleFrequencyHistogramCounts', None)
+        self.ContextualAnalysisSubstitutionsCounts = kwargs.get(
+            'ContextualAnalysisSubstitutionsCounts', None)
+        self.GenomicRegionsOfHypermutation = kwargs.get(
+            'GenomicRegionsOfHypermutation', None)
+        self.IndelAlleleFrequencyHistogramCounts = kwargs.get(
+            'IndelAlleleFrequencyHistogramCounts', None)
+        self.IndelLengthHistogramCounts = kwargs.get(
+            'IndelLengthHistogramCounts', None)
+        self.MutationalSignatureContribution = kwargs.get(
+            'MutationalSignatureContribution', None)
+        self.SNValleleFrequencyHistogramCounts = kwargs.get(
+            'SNValleleFrequencyHistogramCounts', None)
+        self.numberOfNonsynSomaticSnvsPerMb = kwargs.get(
+            'numberOfNonsynSomaticSnvsPerMb', None)
+        self.numberOfSomaticSnvsPerMb = kwargs.get(
+            'numberOfSomaticSnvsPerMb', None)
+        self.numberOfSomaticVariants = kwargs.get(
+            'numberOfSomaticVariants', None)
 
 
 class SupportingEvidences(ProtocolElement):
