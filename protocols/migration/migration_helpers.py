@@ -428,14 +428,14 @@ class MigrationHelpers(object):
 
     @staticmethod
     def migrate_interpreted_genome_cancer_to_v6(json_dict, assembly=None, participant_id=None,
-                                                    sample_id=None, interpretation_request_version=None,
-                                                    interpretation_service=None):
+                                                sample_ids=None, interpretation_request_version=None,
+                                                interpretation_service=None):
         """
         Migration from reports 3.0.0 is not supported as we have no data in that version
         :type json_dict: dict
         :type assembly: Assembly
         :type participant_id: str
-        :type sample_id: str
+        :type sample_ids: map[str (alleleOrigin)]: str - {'germline_variant': 'LP...', 'somatic_variant': 'LP...'}
         :type interpretation_request_version: int
         :type interpretation_service: str
         :rtype: InterpretedGenome_6_0_0
@@ -449,7 +449,7 @@ class MigrationHelpers(object):
             lambda x: x,
             MigrateReports500To600().migrate_cancer_interpreted_genome,
             lambda x: MigrateReports400To500().migrate_cancer_interpreted_genome(
-                old_instance=x, assembly=assembly, participant_id=participant_id, sample_id=sample_id,
+                old_instance=x, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids,
                 interpretation_request_version=interpretation_request_version,
                 interpretation_service=interpretation_service
             )
@@ -473,11 +473,11 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate(json_dict, types, migrations)
 
     @staticmethod
-    def migrate_clinical_report_cancer_to_v6(json_dict, sample_id=None, assembly=None, participant_id=None):
+    def migrate_clinical_report_cancer_to_v6(json_dict, sample_ids=None, assembly=None, participant_id=None):
         """
         Migration from reports 3.0.0 is not supported as we have no data in that version
         :type json_dict: dict
-        :type sample_id: str
+        :type sample_ids: map[str (alleleOrigin)]: str - {'germline_variant': 'LP...', 'somatic_variant': 'LP...'}
         :type assembly: Assembly
         :type participant_id: str
         :rtype: ClinicalReport_6_0_0
@@ -491,7 +491,7 @@ class MigrationHelpers(object):
             lambda x: x,
             MigrateReports500To600().migrate_cancer_clinical_report,
             lambda x: MigrateReports400To500().migrate_cancer_clinical_report(
-                old_instance=x, assembly=assembly, participant_id=participant_id, sample_id=sample_id
+                old_instance=x, assembly=assembly, participant_id=participant_id, sample_ids=sample_ids
             )
         ]
 

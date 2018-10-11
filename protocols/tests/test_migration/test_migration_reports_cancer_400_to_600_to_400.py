@@ -33,6 +33,10 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             fill_nullables=fill_nullables, genomeAssemblyVersion=assembly, structuralTieredVariants=[],
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for tiered_variant in original_ir.tieredVariants:
+            if tiered_variant.alleleOrigins[0] not in valid_cancer_origins:
+                tiered_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         # # migration requires there is exactly one tumour sample
         original_ir.cancerParticipant.tumourSamples = [original_ir.cancerParticipant.tumourSamples[0]]
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ir(original_ir, assembly)
@@ -58,6 +62,10 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             interpretGenome=True, reportedStructuralVariants=[],
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0')
         )
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        for reported_variant in original_ig.reportedVariants:
+            if reported_variant.alleleOrigins[0] not in valid_cancer_origins:
+                reported_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
         # migration requires there is exactly one tumour sample
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_ig(original_ig, assembly)
         self.assertFalse(self.diff_round_tripped(original_ig, round_tripped, ignore_fields=[
@@ -83,6 +91,13 @@ class TestRoundTripMigrateReportsCancer400To600(BaseTestRoundTrip):
             versionControl=reports_4_0_0.ReportVersionControl(gitVersionControl='4.0.0'),
             interpretationRequestVersion='123'
         )
+
+        valid_cancer_origins = ['germline_variant', 'somatic_variant']
+        if original_cr.candidateVariants:
+            for candidate_variant in original_cr.candidateVariants:
+                if candidate_variant.alleleOrigins[0] not in valid_cancer_origins:
+                    candidate_variant.alleleOrigins[0] = random.choice(valid_cancer_origins)
+
         migrated, round_tripped = MigrationRunner().roundtrip_cancer_cr(original_cr, assembly)
         self.assertFalse(self.diff_round_tripped(original_cr, round_tripped, ignore_fields=[
             "analysisId", "actions", "additionalTextualVariantAnnotations", "commonAf", "genePanelsCoverage"]))

@@ -66,7 +66,8 @@ class MigrationRunner(BaseRoundTripper):
             MigrationHelpers.migrate_interpreted_genome_cancer_to_latest,
             MigrationHelpers.reverse_migrate_interpreted_genome_cancer_to_v4,
             ig,
-            forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1',
+            forward_kwargs={'assembly': assembly, 'participant_id': '1',
+                            'sample_ids': {'somatic_variant': 'somatic1', 'germline_variant': 'germline1'},
                             'interpretation_request_version': 1, 'interpretation_service': '1'}
         )
         return migrated, round_tripped
@@ -80,7 +81,10 @@ class MigrationRunner(BaseRoundTripper):
         migrated, round_tripped = self.round_trip_migration(
             MigrationHelpers.migrate_clinical_report_cancer_to_latest,
             MigrationHelpers.reverse_migrate_clinical_report_cancer_to_v4,
-            cr, forward_kwargs={'assembly': assembly, 'participant_id': '1', 'sample_id': '1'}
+            cr, forward_kwargs={'assembly': assembly, 'participant_id': '1',
+                                'sample_ids': {'somatic_variant': 'somatic1',
+                                               'germline_variant': 'germline1'}
+                                }
         )
         return migrated, round_tripped
 

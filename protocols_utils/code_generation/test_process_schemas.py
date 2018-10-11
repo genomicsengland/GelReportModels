@@ -56,18 +56,18 @@ class TestProcessSchema(TestCase):
         self.assertTrue(a.just_b.string_nullable is None)
         self.assertTrue(a.nullable_b is None)
 
-    def test_generate_protocol(self):
-        shutil.rmtree(self.test_import_package, ignore_errors=True)
-        os.mkdir(self.test_import_package)
-        protocol_generator = ProtocolGenerator('builds.json', self.test_import_package, '6.1')
-        protocol_generator.write()
-
-        sys.path.insert(0, self.test_folder)
-        assert importlib.import_module('protocols_import_test')
-        cva_module = importlib.import_module('protocols_import_test.cva')
-        assert cva_module
-        inject_class = getattr(cva_module, 'ReportedVariantInjectCancer')
-        assert inject_class
+    # def test_generate_protocol(self):
+    #     shutil.rmtree(self.test_import_package, ignore_errors=True)
+    #     os.mkdir(self.test_import_package)
+    #     protocol_generator = ProtocolGenerator('builds.json', self.test_import_package, '6.1')
+    #     protocol_generator.write()
+    #
+    #     sys.path.insert(0, self.test_folder)
+    #     assert importlib.import_module('protocols_import_test')
+    #     cva_module = importlib.import_module('protocols_import_test.cva')
+    #     assert cva_module
+    #     inject_class = getattr(cva_module, 'ReportedVariantInjectCancer')
+    #     assert inject_class
 
 
 class DictWithAttrs(object):

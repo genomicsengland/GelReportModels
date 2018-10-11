@@ -9,8 +9,9 @@ RUN apt-get update
 RUN apt-get install -y oracle-java8-installer maven \
     python3-dev python3-pip python3-virtualenv \
     libsasl2-dev libldap2-dev libssl-dev \
-    npm nodejs && \
-    npm install avrodoc -g
+    nodejs
+RUN apt-get install -y npm
+RUN npm install avrodoc -g
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /gel
 RUN mkdir /gel/GelReportModels
