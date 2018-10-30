@@ -9,7 +9,7 @@ reqs = [
     "sphinx_rtd_theme==0.2.4",
     "factory-boy==2.9.2",
     "humanize==0.5.1",
-    "PyYAML==3.12",
+    "PyYAML==3.13",
     "ujson==1.35",
     "dictdiffer",
     "future==0.16.0"
