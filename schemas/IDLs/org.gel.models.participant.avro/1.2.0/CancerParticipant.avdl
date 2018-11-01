@@ -1,0 +1,112 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the `CancerParticipant`
+*/
+protocol CancerParticipants {
+
+    import idl "CommonParticipant.avdl";
+    import idl "VersionControl.avdl";
+
+    /**
+    This defines a pair of germline and tumor, this pair should/must be analyzed together
+    */
+    record MatchedSamples{
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH)) for the germline
+        */
+        union {null, string} germlineSampleId;
+
+        /**
+        Sample identifier (e.g, LP00012643_7JS)) for the tumor
+        */
+        union {null, string} tumourSampleId;
+
+    }
+
+    /**
+    This defines a Cancer Participant
+    */
+    record CancerParticipant{
+
+        /**
+        Year of birth for the cancer participant
+        */
+        union {null, int} yearOfBirth;
+
+        /**
+        TODO
+        */
+        union {null, array<string>}  morphology;
+
+        /**
+        Flag indicating if the participant is ready for analysis
+        */
+        boolean readyForAnalysis;
+
+        /**
+        What has this participant consented to?
+        A participant that has been consented to the programme should also have sequence data associated with them; however
+        this needs to be programmatically checked
+        */
+        union {null, ConsentStatus} consentStatus;
+
+        /**
+        Center
+        */
+        union {null, string} center;
+
+        /**
+        Individual identifier
+        */
+        string individualId;
+
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisDisease;
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisSubDisease;
+
+        /**
+        Sex
+        */
+        Sex sex;
+
+        /**
+        We could add a map here to store additional information for example URIs to images, ECGs, etc
+        */
+        union {null, map<string>} additionalInformation;
+
+        /**
+        assigned ICD10 code
+        */
+        union {null, array<string>} assignedICD10;
+
+        /**
+        List of tumour samples
+        */
+        array<TumourSample> tumourSamples;
+
+        /**
+        List of germline samples
+        */
+        array<GermlineSample> germlineSamples;
+
+        /**
+        List of matched samples (i.e.: pairs tumour-germline)
+        */
+        array<MatchedSamples> matchedSamples;
+
+        /**
+        Model version number
+        */
+        union {null, VersionControl} versionControl;
+    }
+}

@@ -1,0 +1,133 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines NGIS payloads for referal and test
+*/
+protocol Ngis {
+
+    import idl "CommonParticipant.avdl";
+    import idl "CancerParticipant.avdl";
+    import idl "RDParticipant.avdl";
+
+    enum Priority {high, medium, low}
+
+    record Organisation{
+    /**
+    Organisation Id
+    */
+        string organisationId;
+    /**
+    Ods code
+    */
+        string organisationOdsCode;
+    /**
+    Organisation Name
+    */
+        string organisationName;
+    /**
+    National Grouping
+    */
+        union{null, string} organisationNationalGrouping;
+    /**
+    organisation High Level Health Geography
+    */
+        union{null,string} organisationHighLevelHealthGeography;
+    /**
+    Contact name
+    */
+        union{null, string} organisationContactName;
+    }
+
+    record ReferalTest{
+    /**
+    Test UID
+     */
+        string referralTestUid;
+    /**
+    Clinical indication Test type ID
+     */
+        string clinicalIndicationTestTypeUid;
+    /**
+    Clinical indication Test Name
+     */
+        string clinicalIndicationTestName;
+    /**
+    List of all somatic samples aplicable to this test
+     */
+        union {null, array<TumourSample>} somaticSamples;
+    /**
+    List of all germline samples aplicable to this test
+     */
+        union {null, array<GermlineSample>} germlineSamples;
+    /**
+    List of Analysis panels
+     */
+        union{null, array<AnalysisPanel>} analysisPanels;
+    /**
+    Organisation assigned for the interpretation of this test
+     */
+        Organisation interpreter;
+    /**
+    Organisation assigned for the processing of the test
+     */
+        Organisation processingLab;
+    /**
+    Priority
+    */
+    Priority priority;
+
+    }
+
+    record RareDiseaseReferral{
+    /**
+    Refereal Id (to be displayed)
+     */
+        string referalId;
+    /**
+    Referal internal unique Id
+     */
+        string referalUid;
+    /**
+    List of tests associated to the referal
+     */
+        array<ReferalTest> referalTests;
+    /**
+    Requester
+     */
+        Organisation requester;
+    /**
+    Date of ordering
+     */
+        string orederingDate;
+    /**
+    Pedigree
+     */
+        Pedigree pedigree;
+    }
+
+    record CancerReferral{
+    /**
+    Refereal Id (to be displayed)
+     */
+        string referalId;
+    /**
+    Referal internal unique Id
+     */
+        string referalUid;
+    /**
+    List of tests associated to the referal
+     */
+        array<ReferalTest> referalTests;
+    /**
+    Requester
+     */
+        Organisation requester;
+    /**
+    Date of ordering
+     */
+        string orederingDate;
+    /**
+    Cancer Participant
+    */
+        CancerParticipant cancerParticipant;
+    }
+}
