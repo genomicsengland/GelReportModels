@@ -1,4 +1,4 @@
-from protocols.migration import MigrateReports500To600
+from protocols.migration import MigrateReports500To600, BaseMigration
 from protocols.migration.base_migration import BaseMigrateReports500And600
 from protocols.protocol_6_1 import reports as new_model
 from protocols.protocol_7_0 import reports as old_model
@@ -18,78 +18,6 @@ class TestMigrateReports600To500(TestCaseMigration):
 
     def test_migrate_interpretation_request_rd_nulls(self):
         self.test_migrate_interpretation_request_rd(fill_nullables=False)
-
-    def test_migrate_variant_attributes(self, fill_nullables=True):
-        small_variant = self.variant_with_type_valid_in_both_models()
-
-        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
-
-        self.assertEqual(reported_variant.genomicChanges, small_variant.variantAttributes.genomicChanges)
-        self.assertEqual(reported_variant.cdnaChanges, small_variant.variantAttributes.cdnaChanges)
-
-        va_6 = self.get_valid_object(
-            object_type=old_model.VariantAttributes, version=self.version_7_0, fill_nullables=fill_nullables
-        )
-        va_5 = MigrateReports600To500()._migrate_variant_attributes(old_variant_attributes=va_6)
-        self.assertIsInstance(va_5, new_model.VariantAttributes)
-        self.assertTrue(va_5.validate(va_5.toJsonDict()))
-
-    def test_migrate_variant_attributes_no_nullables(self):
-        self.test_migrate_variant_attributes(fill_nullables=False)
-
-    def test_migrate_variant_identifiers(self):
-        small_variant = self.variant_with_type_valid_in_both_models()
-
-        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
-
-        self.assertEqual(reported_variant.dbSnpId, small_variant.variantAttributes.variantIdentifiers.dbSnpId)
-
-    def test_migrate_variant_call(self):
-        small_variant = self.variant_with_type_valid_in_both_models()
-
-        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
-
-        original_variant_calls = small_variant.variantCalls
-        new_variant_calls = reported_variant.variantCalls
-
-        for original_call, new_call in zip(original_variant_calls, new_variant_calls):
-            self.assertEqual(new_call.phaseSet, original_call.phaseGenotype.phaseSet)
-            self.assertEqual(new_call.vaf, original_call.sampleVariantAlleleFrequency)
-
-        # AlleleOrigins are required for v5 so v6 can not have any nullables not filled
-        vc_6 = self.get_valid_object(
-            object_type=old_model.VariantCall, version=self.version_7_0, fill_nullables=True,
-        )
-        vc_5 = MigrateReports600To500()._migrate_variant_call(old_call=vc_6)
-        self.assertIsInstance(vc_5, new_model.VariantCall)
-        self.assertTrue(vc_5.validate(vc_5.toJsonDict()))
-        self.assertEqual(vc_5.phaseSet, vc_6.phaseGenotype.phaseSet)
-        self.assertEqual(vc_5.vaf, vc_6.sampleVariantAlleleFrequency)
-
-    def test_migrate_report_events(self):
-        small_variant = self.variant_with_type_valid_in_both_models()
-
-        reported_variant = MigrateReports600To500()._migrate_variant_cancer(old_variant=small_variant)
-
-        original_reports = small_variant.reportEvents
-        new_reports = reported_variant.reportEvents
-
-        for original_report, new_report in zip(original_reports, new_reports):
-            self.assertEqual(MigrateReports500To600.tier_domain_map[new_report.tier], original_report.domain)
-
-            actions = original_report.actions
-            expected_action_length = sum(map(len, (actions.prognosis, actions.therapies, actions.trials)))
-            self.assertEqual(len(new_report.actions), expected_action_length)
-
-            clinical_significance = new_report.variantClassification.clinicalSignificance
-            self.assertEqual(
-                BaseMigrateReports500And600.clinical_signicance_map[clinical_significance],
-                original_report.variantClassification.clinicalSignificance
-            )
-
-            new_types = [ge.type for ge in new_report.genomicEntities]
-            old_types = [ge.type for ge in original_report.genomicEntities]
-            self.assertEqual(new_types, old_types)
 
     def variant_with_type_valid_in_both_models(self):
         small_variant = self.get_valid_object(object_type=old_model.SmallVariant, version=self.version_7_0)
@@ -124,36 +52,6 @@ class TestMigrateReports600To500(TestCaseMigration):
         ig_rd_5 = MigrateReports600To500().migrate_interpreted_genome_to_interpreted_genome_rd(old_instance=ig_6)
         self.assertIsInstance(ig_rd_5, new_model.InterpretedGenomeRD)
         self.assertTrue(ig_rd_5.validate(ig_rd_5.toJsonDict()))
-
-    def test_migrate_small_variant_to_reported_variant(self):
-        # Can not reverse migrate a v6 SmallVariant to a v5 ReportedVariant if variantAttributes is None as
-        # alleleOrigins is a required field in v5 ReportedVariant so nullables must be filled
-        sv_6 = self.get_valid_object(
-            object_type=old_model.SmallVariant, version=self.version_7_0, fill_nullables=True,
-        )
-        migrate = MigrateReports600To500()
-        rv_5 = migrate.migrate_small_variant_to_reported_variant(
-            small_variant=sv_6, new_type=new_model.ReportedVariant, migrate_re=migrate._migrate_report_event
-        )
-        self.assertIsInstance(rv_5, new_model.ReportedVariant)
-        self.assertTrue(rv_5.validate(rv_5.toJsonDict()))
-
-        for af in rv_5.alleleFrequencies:
-            self.assertIsInstance(af, new_model.AlleleFrequency)
-
-    def test_migrate_report_event(self):
-        # Can not reverse migrate v6 Report Event if phenotypes does not have nonStandardPhenotype populated as v5
-        # phenotypes is required, so nullables must be filled
-        re_6 = self.get_valid_object(
-            object_type=old_model.ReportEvent, version=self.version_7_0, fill_nullables=True,
-        )
-        re_5 = MigrateReports600To500()._migrate_report_event(old_event=re_6)
-        self.assertIsInstance(re_5, new_model.ReportEvent)
-        self.assertTrue(re_5.validate(re_5.toJsonDict()))
-
-        for vc in re_5.variantConsequences:
-            self.assertIsInstance(vc, new_model.VariantConsequence)
-        self.assertIsInstance(re_5.variantClassification, new_model.VariantClassification)
 
     def test_migrate_clinical_report_rd(self, fill_nullables=True):
         cr_rd_6 = self.get_valid_object(object_type=old_model.ClinicalReport, version=self.version_7_0, fill_nullables=fill_nullables)
@@ -208,3 +106,35 @@ class TestMigrateReports600To500(TestCaseMigration):
 
     def test_migrate_cancer_exit_questionnaire_no_nullables(self):
         self.test_migrate_cancer_exit_questionnaire(fill_nullables=False)
+
+    def test_migrate_report_event(self, fill_nullables=True):
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = None
+        re_rd_6.segregationPattern = old_model.SegregationPattern.CompoundHeterozygous
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(old_model.SegregationPattern.CompoundHeterozygous in re_rd_5.eventJustification)
+
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = "I have an event justification"
+        re_rd_6.segregationPattern = old_model.SegregationPattern.CompoundHeterozygous
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(re_rd_5.eventJustification is not None)
+        self.assertTrue(old_model.SegregationPattern.CompoundHeterozygous not in re_rd_5.eventJustification)
+
+        re_rd_6 = self.get_valid_object(object_type=old_model.ReportEvent, version=self.version_7_0,
+                                        fill_nullables=fill_nullables)
+        re_rd_6.eventJustification = None
+        re_rd_6.segregationPattern = None
+        re_rd_5 = BaseMigration.convert_class(target_klass=new_model.ReportEvent, instance=re_rd_6)
+        re_rd_5 = MigrateReports600To500()._migrate_report_event((re_rd_6, re_rd_5))
+        self.assertIsInstance(re_rd_5, new_model.ReportEvent)
+        self.assertTrue(re_rd_5.validate(re_rd_5.toJsonDict()))
+        self.assertTrue(re_rd_5.eventJustification is None)

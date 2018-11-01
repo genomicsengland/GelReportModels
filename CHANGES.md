@@ -1,3 +1,52 @@
+Version 7.1.14 (1st October 2018)
+--------------------------------
+
+#### Minor changes
+
+* Include explicit parsing from segregation pattern into event justification for reverse migration of report events 
+
+Version 7.1.13 (24th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Migration from participants 1.0.3 to 1.0.0 back in for cancer dispatch 
+
+
+Version 7.1.12 (14th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* changes to cva ReportEvent schema to match intake
+
+
+Version 7.1.11 (14th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* changes to cva data intake schema
+
+Version 7.1.10 (11th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Improve performance of migrations by:
+    - Avoid unnecessary validations
+    - Improve performance of `toJsonDict()`
+    - Avoid calling `fromJsonDict()` recursively
+* Fix some issues checking equality of cancer actions in round trip migrations
+* In `MigrationHelpers` choice the right version when an entity validates against multiple version by looking at the version control 
+
+Version 7.1.9 (8th September 2018)
+--------------------------------
+
+#### Minor changes
+
+* Improve forward migration of coordinates in exit questionnaires
+
 Version 7.1.8 (7th September 2018)
 --------------------------------
 

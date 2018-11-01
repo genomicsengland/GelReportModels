@@ -3,7 +3,6 @@ from random import randint
 from protocols import reports_3_0_0
 from protocols import reports_5_0_0
 from protocols.migration import MigrationHelpers
-from protocols.migration.model_validator import PayloadValidation
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.util.dependency_manager import VERSION_61
 
