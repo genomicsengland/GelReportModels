@@ -1,0 +1,420 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the Common things between participant models
+*/
+protocol CommonParticipant {
+
+    enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
+    ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
+    SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY, NOT_SPECIFIED}
+
+    enum diseaseType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL, ENDOCRINE,
+    ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
+    OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL, OTHER,
+    NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
+
+    enum TumourType {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
+
+    enum ProgrammePhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
+
+    enum Method {RESECTION, BIOPSY, BLOOD}
+
+    enum Product {DNA, RNA}
+
+    enum TumourContent {High, Medium, Low}
+
+    enum HematologicalCancerLineage {MYELOID, LYMPHOID, UNKNOWN}
+
+    /**
+    Sex
+    */
+    enum Sex {MALE, FEMALE, UNKNOWN}
+
+    /**
+    The source of the sample
+    */
+    enum SampleSource {TUMOUR, BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS, BONE_MARROW_ASPIRATE_TUMOUR_CELLS,  BLOOD, SALIVA, FIBROBLAST, TISSUE}
+
+    /**
+    Karyotipic Sex
+    */
+    enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+
+    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE}
+
+    /**
+    Penetrance assumed in the analysis
+    */
+    enum Penetrance {complete, incomplete}
+
+    /**
+    This defines a yes/no/unknown case
+    */
+    enum TernaryOption {yes, no, unknown}
+
+    /**
+    This is the list of ethnicities in ONS16
+
+    * `D`:  Mixed: White and Black Caribbean
+    * `E`:  Mixed: White and Black African
+    * `F`:  Mixed: White and Asian
+    * `G`:  Mixed: Any other mixed background
+    * `A`:  White: British
+    * `B`:  White: Irish
+    * `C`:  White: Any other White background
+    * `L`:  Asian or Asian British: Any other Asian background
+    * `M`:  Black or Black British: Caribbean
+    * `N`:  Black or Black British: African
+    * `H`:  Asian or Asian British: Indian
+    * `J`:  Asian or Asian British: Pakistani
+    * `K`:  Asian or Asian British: Bangladeshi
+    * `P`:  Black or Black British: Any other Black background
+    * `S`:  Other Ethnic Groups: Any other ethnic group
+    * `R`:  Other Ethnic Groups: Chinese
+    * `Z`:  Not stated
+    */
+    enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
+
+    /**
+    1K Genomes project populations
+    */
+    enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
+    /**
+    1K Genomes project super populations
+    */
+    enum KgSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
+
+    /**
+    Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+    */
+    record ChiSquare1KGenomesPhase3Pop {
+        /**
+        1K Super Population
+        */
+        KgSuperPopCategory kgSuperPopCategory;
+        /**
+        1K Population
+        */
+        union {null, KgPopCategory} kgPopCategory;
+        /**
+        Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
+        */
+        double chiSquare;
+    }
+
+    /**
+    An analysis panel
+    */
+    record AnalysisPanel {
+        /**
+        The specific disease that a panel tests
+        */
+        string specificDisease;
+        /**
+        The name of the panel
+        */
+        string panelName;
+        /**
+        Id of the panel
+        */
+        union {null, string} panelId;
+        /**
+        The version of the panel
+        */
+        union {null, string} panelVersion;
+        /**
+        Deprecated
+        */
+        union {null, string}  reviewOutcome;
+        /**
+        Deprecated
+        */
+        union {null, string} multipleGeneticOrigins;
+    }
+
+    /**
+    Ancestries, defined as Ethnic category(ies) and Chi-square test
+    */
+    record Ancestries {
+        /**
+        Mother's Ethnic Origin
+        */
+        union{null, EthnicCategory} mothersEthnicOrigin;
+        /**
+        Mother's Ethnic Origin Description
+        */
+        union{null, string} mothersOtherRelevantAncestry;
+        /**
+        Father's Ethnic Origin
+        */
+        union{null, EthnicCategory} fathersEthnicOrigin;
+        /**
+        Father's Ethnic Origin Description
+        */
+        union{null, string} fathersOtherRelevantAncestry;
+        /**
+        Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+        */
+        union{null, array<ChiSquare1KGenomesPhase3Pop>} chiSquare1KGenomesPhase3Pop;
+
+
+    }
+
+    /**
+    Consent Status
+    */
+    record ConsentStatus {
+
+        /**
+        Is this individual consented to the programme?
+        It could simply be a family member that is not consented but for whom affection status is known
+        */
+        boolean programmeConsent=false;
+
+        /**
+        Consent for feedback of primary findings?
+        */
+        boolean primaryFindingConsent=false;
+
+        /**
+        Consent for secondary finding lookup
+        */
+        boolean secondaryFindingConsent=false;
+
+        /**
+        Consent for carrier status check?
+        */
+        boolean carrierStatusConsent=false;
+    }
+
+    /**
+    Inbreeding coefficient
+    */
+    record InbreedingCoefficient {
+
+        /**
+        This is the sample id against which the coefficient was estimated
+        */
+        string sampleId;
+        /**
+        Name of program used to calculate the coefficient
+        */
+        string program;
+        /**
+        Version of the programme
+        */
+        string version;
+        /**
+        Where various methods for estimation exist, which method was used.
+        */
+        string estimationMethod;
+        /**
+        Inbreeding coefficient ideally a real number in [0,1]
+        */
+        double coefficient;
+        /**
+        Standard error of the Inbreeding coefficient
+        */
+        union {null, double} standardError;
+    }
+
+    /**
+    Familiar relationship from pedrigree
+    */
+    enum FamiliarRelationship {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
+         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
+         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
+         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
+         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
+         RelationIsNotClear, Unrelated, Unknown}
+
+
+
+    /**
+    A germline sample
+    */
+    record GermlineSample {
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample identifier
+        */
+        int labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        union {null, string} LDPCode;
+
+        /**
+        Source of the sample
+        */
+        union {null, SampleSource} source;
+
+        /**
+        Product of the sample
+        */
+        union {null, Product} product;
+
+        /**
+        Preparation method
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        Genomics England programme phase - DEPRECATED
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null,string} clinicalSampleDateTime;
+
+        union {null,string} participantId;
+
+        union {null,string} sampleUid;
+
+        union {null,string} maskedPid;
+
+    }
+
+    /**
+    A tumour sample
+    */
+    record TumourSample {
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample identifier
+        */
+        int labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        string LDPCode;
+
+        /**
+        Identifier of each one of the tumours for a participant
+        */
+        string tumourId;
+
+        /**
+        Genomics England programme phase
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        Disease type
+        */
+        union {null, diseaseType} diseaseType;
+
+        /**
+        Disease subtype
+        */
+        union {null, string} diseaseSubType;
+
+        /**
+        Clinical Indication
+        */
+        union {null, string} clinicalIndication;
+
+        /**
+        Hematological Cancer
+        */
+        union {null, boolean} hematologicalCancer;
+
+        /**
+        Hematological cancer lineage
+        */
+        union {null, HematologicalCancerLineage} hematologicalCancerLineage;
+
+        /**
+        The time when the sample was recieved. In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null, string} clinicalSampleDateTime;
+
+        /**
+        Tumor type
+        */
+        union {null, TumourType} tumourType;
+
+        /**
+        Tumour content
+        */
+        union {null, TumourContent} tumourContent;
+
+        /**
+        Tumour content percentage
+        */
+        union {null, float} tumourContentPercentage;
+
+        /**
+        Source of the sample
+        */
+        union {null, SampleSource} source;
+
+        /**
+        The preparation method
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        The tissue source
+        */
+        union {null, TissueSource} tissueSource;
+
+        /**
+        Product of the sample
+        */
+        union {null, Product} product;
+
+        /**
+        Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologyICD;
+        /**
+        Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedCT;
+        /**
+        Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedRT;
+
+        /**
+        Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographyICD;
+        /**
+        Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedCT;
+        /**
+        Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedRT;
+
+        union {null, array<string>} SnomedTermList;
+
+        union {null, string} sampleUid;
+
+        union {null, string} participdantId;
+
+        union {null, string} maskedPid;
+
+
+    }
+
+
+
+}
