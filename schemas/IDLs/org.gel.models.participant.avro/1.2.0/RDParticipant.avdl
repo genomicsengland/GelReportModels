@@ -139,7 +139,6 @@ protocol Pedigrees {
         Age at diagnosis
         */
         union{null, float} ageAtDiagnosisInYears;
-
     }
 
     /**
@@ -285,9 +284,9 @@ protocol Pedigrees {
         union {null, string} lastMenstrualPeriod;
 
         /**
-        Additional set of diagnotic ontology terms
+        Additional set of diagnostic ontology terms
         */
-        union {null, DiagnosticDetail} diagnosticDetails;
+        union {null, array<DiagnosticDetail>} diagnosticDetails;
 
     }
 
