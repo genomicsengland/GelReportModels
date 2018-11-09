@@ -54,6 +54,11 @@ protocol DataIntakeProtocol {
         clinical
     }
 
+    enum Category {
+        HundredK,
+        NGIS
+    }
+
     /**
     Metadata about injected data
     */
@@ -95,10 +100,6 @@ protocol DataIntakeProtocol {
         */
         union {null, string} authorVersion;
         /**
-        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
-        */
-        array<string> workspace;
-        /**
         The assembly to which the variants refer
         */
         union {null, org.gel.models.report.avro.Assembly} assembly;
@@ -106,6 +107,10 @@ protocol DataIntakeProtocol {
         The 100K Genomes program to which the reported variant belongs.
         */
         org.gel.models.report.avro.Program program;
+        /**
+        The category to which the case belongs.
+        */
+        Category category;
         /**
         The creation date of the case (ISO-8601)
         */
