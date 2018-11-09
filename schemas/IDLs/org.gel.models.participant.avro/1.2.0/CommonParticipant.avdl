@@ -160,31 +160,35 @@ protocol CommonParticipant {
 
     }
 
+    enum GenericConsent {`true`, `false`, not_discussed}
+
+    enum PrimaryConsent {`true`, `false`, best_interest}
+
     /**
     Consent Status
     */
     record ConsentStatus {
-
         /**
-        Is this individual consented to the programme?
-        It could simply be a family member that is not consented but for whom affection status is known
+        Is this individual consented to the programme? It could simply be a family member that is not consented
+        but for whom affection status is known
         */
-        boolean programmeConsent=false;
-
+        GenericConsent programmeConsent;
         /**
         Consent for feedback of primary findings?
         */
-        boolean primaryFindingConsent=false;
-
+        PrimaryConsent primaryFindingConsent;
         /**
-        Consent for secondary finding lookup
+        Consent for secondary health related findings?
         */
-        boolean secondaryFindingConsent=false;
-
+        GenericConsent healthRelatedFindingConsent;
         /**
         Consent for carrier status check?
         */
-        boolean carrierStatusConsent=false;
+        GenericConsent carrierStatusConsent;
+        /**
+        Consent for pharmacogenomics consent as secondary findings?
+        */
+        GenericConsent pharmacogenomicsFindingConsent;
     }
 
     /**
