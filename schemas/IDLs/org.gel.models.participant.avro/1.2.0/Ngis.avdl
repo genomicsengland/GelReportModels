@@ -1,6 +1,6 @@
 @namespace("org.gel.models.participant.avro")
 /**
-This protocol defines NGIS payloads for referal and test
+This protocol defines NGIS payloads for referral and test
 */
 protocol Ngis {
 
@@ -41,7 +41,7 @@ protocol Ngis {
         /**
         Test UID
          */
-        string referralTestUid;
+        string referralTestId;
         /**
         Clinical indication Test type ID
          */
@@ -51,11 +51,11 @@ protocol Ngis {
          */
         string clinicalIndicationTestName;
         /**
-
+        Technology unique identifier
         */
         string testTechnologyUid;
         /**
-
+        Technology description
         */
         string testTechnologyDescription;
         /**
@@ -90,15 +90,15 @@ protocol Ngis {
 
     record Referral {
         /**
-        Refereal Id (to be displayed)
+        Referral unique identifier (to be displayed)
          */
         string referralId;
         /**
-        Referal internal unique Id
+        Referral internal unique identifier
          */
         string referralUid;
         /**
-        List of tests associated to the referal
+        List of tests associated to the referral
          */
         array<ReferralTest> referralTests;
         /**
