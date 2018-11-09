@@ -37,7 +37,7 @@ protocol Ngis {
         union{null, string} organisationContactName;
     }
 
-    record ReferalTest{
+    record ReferralTest{
         /**
         Test UID
          */
@@ -50,6 +50,14 @@ protocol Ngis {
         Clinical indication Test Name
          */
         string clinicalIndicationTestName;
+        /**
+
+        */
+        string testTechnologyUid;
+        /**
+
+        */
+        string testTechnologyDescription;
         /**
         List of all somatic samples aplicable to this test
          */
@@ -74,21 +82,25 @@ protocol Ngis {
         Priority
         */
         Priority priority;
+        /**
+        Date of ordering
+         */
+        string orderingDate;
     }
 
-    record RareDiseaseReferral{
+    record Referral {
         /**
         Refereal Id (to be displayed)
          */
-        string referalId;
+        string referralId;
         /**
         Referal internal unique Id
          */
-        string referalUid;
+        string referralUid;
         /**
         List of tests associated to the referal
          */
-        array<ReferalTest> referalTests;
+        array<ReferralTest> referralTests;
         /**
         Requester
          */
@@ -96,37 +108,14 @@ protocol Ngis {
         /**
         Date of ordering
          */
-        string orederingDate;
+        string orderingDate;
         /**
         Pedigree
          */
-        Pedigree pedigree;
-    }
-
-    record CancerReferral{
-        /**
-        Refereal Id (to be displayed)
-         */
-        string referalId;
-        /**
-        Referal internal unique Id
-         */
-        string referalUid;
-        /**
-        List of tests associated to the referal
-         */
-        array<ReferalTest> referalTests;
-        /**
-        Requester
-         */
-        Organisation requester;
-        /**
-        Date of ordering
-         */
-        string orederingDate;
+        union {null, Pedigree} pedigree;
         /**
         Cancer Participant
         */
-        CancerParticipant cancerParticipant;
+        union {null, CancerParticipant} cancerParticipant;
     }
 }
