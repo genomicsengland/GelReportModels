@@ -11,123 +11,122 @@ protocol Ngis {
     enum Priority {high, medium, low}
 
     record Organisation{
-    /**
-    Organisation Id
-    */
+        /**
+        Organisation Id
+        */
         string organisationId;
-    /**
-    Ods code
-    */
+        /**
+        Ods code
+        */
         string organisationOdsCode;
-    /**
-    Organisation Name
-    */
+        /**
+        Organisation Name
+        */
         string organisationName;
-    /**
-    National Grouping
-    */
+        /**
+        National Grouping
+        */
         union{null, string} organisationNationalGrouping;
-    /**
-    organisation High Level Health Geography
-    */
+        /**
+        organisation High Level Health Geography
+        */
         union{null,string} organisationHighLevelHealthGeography;
-    /**
-    Contact name
-    */
+        /**
+        Contact name
+        */
         union{null, string} organisationContactName;
     }
 
     record ReferalTest{
-    /**
-    Test UID
-     */
+        /**
+        Test UID
+         */
         string referralTestUid;
-    /**
-    Clinical indication Test type ID
-     */
+        /**
+        Clinical indication Test type ID
+         */
         string clinicalIndicationTestTypeUid;
-    /**
-    Clinical indication Test Name
-     */
+        /**
+        Clinical indication Test Name
+         */
         string clinicalIndicationTestName;
-    /**
-    List of all somatic samples aplicable to this test
-     */
+        /**
+        List of all somatic samples aplicable to this test
+         */
         union {null, array<TumourSample>} somaticSamples;
-    /**
-    List of all germline samples aplicable to this test
-     */
+        /**
+        List of all germline samples aplicable to this test
+         */
         union {null, array<GermlineSample>} germlineSamples;
-    /**
-    List of Analysis panels
-     */
+        /**
+        List of Analysis panels
+         */
         union{null, array<AnalysisPanel>} analysisPanels;
-    /**
-    Organisation assigned for the interpretation of this test
-     */
+        /**
+        Organisation assigned for the interpretation of this test
+         */
         Organisation interpreter;
-    /**
-    Organisation assigned for the processing of the test
-     */
+        /**
+        Organisation assigned for the processing of the test
+         */
         Organisation processingLab;
-    /**
-    Priority
-    */
-    Priority priority;
-
+        /**
+        Priority
+        */
+        Priority priority;
     }
 
     record RareDiseaseReferral{
-    /**
-    Refereal Id (to be displayed)
-     */
+        /**
+        Refereal Id (to be displayed)
+         */
         string referalId;
-    /**
-    Referal internal unique Id
-     */
+        /**
+        Referal internal unique Id
+         */
         string referalUid;
-    /**
-    List of tests associated to the referal
-     */
+        /**
+        List of tests associated to the referal
+         */
         array<ReferalTest> referalTests;
-    /**
-    Requester
-     */
+        /**
+        Requester
+         */
         Organisation requester;
-    /**
-    Date of ordering
-     */
+        /**
+        Date of ordering
+         */
         string orederingDate;
-    /**
-    Pedigree
-     */
+        /**
+        Pedigree
+         */
         Pedigree pedigree;
     }
 
     record CancerReferral{
-    /**
-    Refereal Id (to be displayed)
-     */
+        /**
+        Refereal Id (to be displayed)
+         */
         string referalId;
-    /**
-    Referal internal unique Id
-     */
+        /**
+        Referal internal unique Id
+         */
         string referalUid;
-    /**
-    List of tests associated to the referal
-     */
+        /**
+        List of tests associated to the referal
+         */
         array<ReferalTest> referalTests;
-    /**
-    Requester
-     */
+        /**
+        Requester
+         */
         Organisation requester;
-    /**
-    Date of ordering
-     */
+        /**
+        Date of ordering
+         */
         string orederingDate;
-    /**
-    Cancer Participant
-    */
+        /**
+        Cancer Participant
+        */
         CancerParticipant cancerParticipant;
     }
 }
