@@ -123,7 +123,7 @@ protocol DataIntakeProtocol {
         The organisation responsible for this payload (Pedigree and CancerParticipant will correspond to the case
         owner and the ClinicalReport will correspond to the case assignee)
         */
-        union {null, Organisation} organisation;
+        union {null, org.gel.models.participant.avro.Organisation} organisation;
         /**
         Test unique identifier (only sent for NGIS cases)
          */
