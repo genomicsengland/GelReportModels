@@ -39,6 +39,7 @@ protocol DataIntakeProtocol {
     import idl "ExitQuestionnaire.avdl";
     import idl "RDParticipant.avdl";
     import idl "CancerParticipant.avdl";
+    import idl "Ngis.avdl";
 
     /**
     Predefined authors.
@@ -51,6 +52,11 @@ protocol DataIntakeProtocol {
     enum Authors {
         tiering,
         clinical
+    }
+
+    enum Category {
+        HundredK,
+        NGIS
     }
 
     /**
@@ -94,10 +100,6 @@ protocol DataIntakeProtocol {
         */
         union {null, string} authorVersion;
         /**
-        The genome shall be assigned to the workspaces(projects or domains with a predefined set of users) to control user access
-        */
-        array<string> workspace;
-        /**
         The assembly to which the variants refer
         */
         union {null, org.gel.models.report.avro.Assembly} assembly;
@@ -105,6 +107,31 @@ protocol DataIntakeProtocol {
         The 100K Genomes program to which the reported variant belongs.
         */
         org.gel.models.report.avro.Program program;
+        /**
+        The category to which the case belongs.
+        */
+        Category category;
+        /**
+        The creation date of the case (ISO-8601)
+        */
+        union {null, string} caseCreationDate;
+        /**
+        The last modified date of the case (ISO-8601)
+        */
+        union {null, string} caseLastModifiedDate;
+        /**
+        The organisation responsible for this payload (Pedigree and CancerParticipant will correspond to the case
+        owner and the ClinicalReport will correspond to the case assignee)
+        */
+        union {null, org.gel.models.participant.avro.Organisation} organisation;
+        /**
+        Test unique identifier (only sent for NGIS cases)
+         */
+        union {null, string} referralTestId;
+        /**
+        Referral unique identifier (only sent for NGIS cases)
+         */
+        union {null, string} referralId;
     }
 
     /**
