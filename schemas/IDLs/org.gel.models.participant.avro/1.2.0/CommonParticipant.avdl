@@ -261,6 +261,24 @@ protocol CommonParticipant {
          RelationIsNotClear, Unrelated, Unknown}
 
 
+    record ClinicalIndication{
+        /**
+        GUID of Clinical Indication for the Referral
+         */
+        string clinicalIndicationUid;
+        /**
+        Code of Clinical Indication, e.g. (RT-13)
+         */
+        string clinicalIndicationCode;
+        /**
+        Clinical Indication Full Name
+         */
+        string clinicalIndicationFullName;
+        /**
+        Clinical Indication version number
+         */
+        union {null, string} clinicalIndicationVersionNumber;
+    }
 
     /**
     A germline sample
@@ -333,7 +351,7 @@ protocol CommonParticipant {
         /**
         LDP Code (Local Delivery Partner)
         */
-        string LDPCode;
+        union {null, string} LDPCode;
 
         /**
         Identifier of each one of the tumours for a participant
@@ -358,7 +376,7 @@ protocol CommonParticipant {
         /**
         Clinical Indication
         */
-        union {null, string} clinicalIndication;
+        union {null, ClinicalIndication} clinicalIndication;
 
         /**
         Hematological Cancer
