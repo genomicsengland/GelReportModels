@@ -121,6 +121,10 @@ Types of files:
         supplementary_report_errors,
         internal_use_only,
         high_priority,
+        suspected_increased_number_of_false_positive_heterozygous_loss_calls,
+        suspected_poor_quality_cnv_calls,
+        cnv_calls_assumed_xx_karyo,
+        cnv_calls_assumed_xy_karyo,
         other
     }
 
@@ -137,4 +141,29 @@ Types of files:
         */
         union {null, string} additionalDescription;
     }
+
+    /**
+    Interpretation flags at the participant level
+    */
+    record ParticipantInterpretationFlags{
+        /**
+        The interpretation flag
+        */
+        InterpretationFlags  interpretationFlag;
+        /**
+        The description for the flag
+        */
+        union {null, string} additionalDescription;
+        /**
+        Sample Id fron which this flag was reported
+        */
+        string SampleId;
+        /**
+        Participant Id as appeared in the pedigree
+        */
+        union {null, string} participantId;
+
+    }
+
+
 }

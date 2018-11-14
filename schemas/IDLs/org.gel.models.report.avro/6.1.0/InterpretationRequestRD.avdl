@@ -105,6 +105,11 @@ protocol InterpretationRequestsRD {
         union {null, array<InterpretationFlag>} interpretationFlags;
 
         /**
+        Flags for this case relevant for interpretation per participant
+        */
+        union {null, array<ParticipantInterpretationFlags>} participantsInterpretationFlags;
+
+        /**
         Additional information
         */
         union {null, map<string>} additionalInfo;
