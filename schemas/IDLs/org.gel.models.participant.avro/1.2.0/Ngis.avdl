@@ -24,17 +24,13 @@ protocol Ngis {
         */
         string organisationName;
         /**
-        National Grouping
+        National Grouping (GLH) Id
         */
-        union{null, string} organisationNationalGrouping;
+        string organisationNationalGroupingId;
         /**
-        organisation High Level Health Geography
+        National Grouping (GLH) Name
         */
-        union{null,string} organisationHighLevelHealthGeography;
-        /**
-        Contact name
-        */
-        union{null, string} organisationContactName;
+        string organisationNationalGroupingName;
     }
 
     record ReferralTest{
@@ -45,21 +41,25 @@ protocol Ngis {
         /**
         Clinical indication Test type ID
          */
-        string clinicalIndicationTestTypeUid;
+        string clinicalIndicationTestTypeId;
+        /**
+        Clinical indication Test code (e.g. R13-1)
+         */
+        string clinicalIndicationTestTypeCode;
         /**
         Clinical indication Test Name
          */
         string clinicalIndicationTestName;
         /**
         Technology unique identifier
-        */
-        string testTechnologyUid;
+         */
+        string testTechnologyId;
         /**
         Technology description
-        */
+         */
         string testTechnologyDescription;
         /**
-        List of all somatic samples aplicable to this test
+        List of all somatic samples applicable to this test
          */
         union {null, array<TumourSample>} somaticSamples;
         /**
@@ -80,13 +80,15 @@ protocol Ngis {
         Organisation processingLab;
         /**
         Priority
-        */
+         */
         Priority priority;
         /**
         Date of ordering
          */
         string orderingDate;
     }
+
+
 
     record Referral {
         /**
@@ -117,5 +119,9 @@ protocol Ngis {
         Cancer Participant
         */
         union {null, CancerParticipant} cancerParticipant;
+        /**
+        Clinical Indication of the referral
+        */
+        ClinicalIndication clinicalIndication;
     }
 }
