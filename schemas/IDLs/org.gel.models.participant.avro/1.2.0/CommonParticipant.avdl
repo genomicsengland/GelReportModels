@@ -167,7 +167,7 @@ protocol CommonParticipant {
     /**
     Consent Status
     */
-    record ConsentStatus {
+    record GmsConsentStatus {
         /**
         Is this individual consented to the programme? It could simply be a family member that is not consented
         but for whom affection status is known
@@ -189,6 +189,34 @@ protocol CommonParticipant {
         Consent for pharmacogenomics consent as secondary findings?
         */
         GenericConsent pharmacogenomicsFindingConsent;
+    }
+
+
+    /**
+    Consent Status
+    */
+    record ConsentStatus {
+
+        /**
+        Is this individual consented to the programme?
+        It could simply be a family member that is not consented but for whom affection status is known
+        */
+        boolean programmeConsent=false;
+
+        /**
+        Consent for feedback of primary findings?
+        */
+        boolean primaryFindingConsent=false;
+
+        /**
+        Consent for secondary finding lookup
+        */
+        boolean secondaryFindingConsent=false;
+
+        /**
+        Consent for carrier status check?
+        */
+        boolean carrierStatusConsent=false;
     }
 
     /**
