@@ -47,6 +47,10 @@ protocol Ngis {
         Clinical indication Test Name
         */
         string clinicalIndicationTestName;
+        /**
+        Technology used in ClinicalIndicationTest
+        */
+        Technology technology;
     }
 
     record Technology{
@@ -92,9 +96,16 @@ protocol Ngis {
         /**
         Date of ordering
          */
-        string orderingDate;
+        union{null, string} pipelineStartDate;
+        /**
+        Clinical Indication Test for this specific referralTest
+         */
+        ClinicalIndicationTest clinicalIndicationTest;
+        /**
+        Disease Penetrance applied for that referralTest
+        */
+        union {null, array<DiseasePenetrance>} diseasePenetrances;
     }
-
 
 
     record Referral {
