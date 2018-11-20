@@ -40,7 +40,7 @@ protocol CommonParticipant {
     */
     enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
-    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE, HEPARIN}
+    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE, LI_HEP}
 
     /**
     Penetrance assumed in the analysis
