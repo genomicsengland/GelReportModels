@@ -452,7 +452,7 @@ protocol CommonParticipant {
 
         union {null, string} sampleUid;
 
-        union {null, string} participdantId;
+        union {null, string} participantId;
 
         union {null, string} maskedPid;
         /**
