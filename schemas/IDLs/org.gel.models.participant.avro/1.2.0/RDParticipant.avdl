@@ -24,7 +24,8 @@ protocol Pedigrees {
         union {null,string} diseaseSubGroup;
 
         /**
-        This is Level4 Title for this disorder
+        This is Level4 Title for this disorder.
+        NOTE: This is the clinicalIndication in GMS
         */
         union {null,string} specificDisease;
 
@@ -42,12 +43,16 @@ protocol Pedigrees {
 
     enum SpatialPattern {DISTAL, GENERALIZED, LOCALIZED, PROXIMAL}
 
-
+    /**
+    TODO: see if ageOfOnset needs to be added to HpoTermModifiders for GMS
+    */
     record HpoTermModifiers{
         union {null, Laterality} laterality;
         union {null, Progression} progression;
         union {null, Severity} severity;
         union {null, SpatialPattern} spatialPattern;
+        union {null, string} hpoModifierCode;
+        union {null, string} hpoModifierVersion;
     }
 
 
@@ -157,7 +162,7 @@ protocol Pedigrees {
         union {null, boolean} isProband;
 
         /**
-        participantId
+        participantId.  This is the human readable ID in NGIS
         */
         union {null, string} participantId;
 
@@ -167,7 +172,9 @@ protocol Pedigrees {
         union {null, ParticipantQCState} participantQCState;
 
         /**
-        superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
+        superFamily id, this id is built as a concatenation of all
+        families id in this superfamily i.e, fam10024_fam100457.
+        NOTE: Retired for GMS
         */
         union {null, string} gelSuperFamilyId;
 
@@ -201,11 +208,13 @@ protocol Pedigrees {
 
         /**
         this id is built using the original familyId and the original pedigreeId of the father
+        NOTE: retired for GMS
         */
         union {null, int}  superFatherId;
 
         /**
         this id is built using the original familyId and the original pedigreeId of the mother
+        NOTE: Retired for GMS
         */
         union {null, int}  superMotherId;
 
@@ -287,6 +296,11 @@ protocol Pedigrees {
         Additional set of diagnostic ontology terms
         */
         union {null, array<DiagnosticDetail>} diagnosticDetails;
+
+        /**
+        ParticipantGUID in NGIS
+        */
+        union {null, string} participantUid;
 
     }
 
