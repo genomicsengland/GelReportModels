@@ -110,10 +110,6 @@ protocol Ngis {
          */
         union{null, string} pipelineStartDate;
         /**
-        Clinical Indication Test for this specific referralTest
-         */
-        ClinicalIndicationTest clinicalIndicationTest;
-        /**
         Disease Penetrance applied for that referralTest
         */
         union {null, array<DiseasePenetrance>} diseasePenetrances;
