@@ -36,6 +36,17 @@ protocol Ngis {
         string organisationNationalGroupingName;
     }
 
+    record Technology{
+        /**
+        Technology unique identifier
+         */
+        string testTechnologyId;
+        /**
+        Technology description
+        */
+        string testTechnologyDescription;
+    }
+
     record ClinicalIndicationTest{
         /**
         Clinical indication Test type ID
@@ -59,17 +70,6 @@ protocol Ngis {
         Technology technology;
     }
 
-    record Technology{
-        /**
-        Technology unique identifier
-         */
-        string testTechnologyId;
-        /**
-        Technology description
-        */
-        string testTechnologyDescription;
-    }
-
     record ReferralTest{
         /**
         Test UID
@@ -79,10 +79,6 @@ protocol Ngis {
         Clinical indication test
         */
         ClinicalIndicationTest clinicalIndicationTest;
-        /**
-        Technology used
-        */
-        Technology technology;
         /**
         List of all somatic samples applicable to this test
          */
