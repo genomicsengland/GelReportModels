@@ -66,7 +66,7 @@ protocol Ngis {
         string testTechnologyId;
         /**
         Technology description
-         */
+        */
         string testTechnologyDescription;
     }
 
@@ -75,6 +75,14 @@ protocol Ngis {
         Test UID
         */
         string referralTestId;
+        /**
+        Clinical indication test
+        */
+        ClinicalIndicationTest clinicalIndicationTest;
+        /**
+        Technology used
+        */
+        Technology technology;
         /**
         List of all somatic samples applicable to this test
          */
