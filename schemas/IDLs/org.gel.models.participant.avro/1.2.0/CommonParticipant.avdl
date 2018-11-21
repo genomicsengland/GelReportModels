@@ -40,7 +40,7 @@ protocol CommonParticipant {
     */
     enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
-    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE}
+    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE, LI_HEP}
 
     /**
     Penetrance assumed in the analysis
@@ -303,7 +303,7 @@ protocol CommonParticipant {
         /**
         Source of the sample
         */
-        union {null, SampleSource} source;
+        union {null, string} source;
 
         /**
         Product of the sample
@@ -372,12 +372,6 @@ protocol CommonParticipant {
         Disease subtype
         */
         union {null, string} diseaseSubType;
-
-        /**
-        Clinical Indication
-        */
-        union {null, ClinicalIndication} clinicalIndication;
-
         /**
         Hematological Cancer
         */
@@ -396,7 +390,7 @@ protocol CommonParticipant {
         /**
         Tumor type
         */
-        union {null, TumourType} tumourType;
+        union {null, string} tumourType;
 
         /**
         Tumour content
@@ -411,7 +405,7 @@ protocol CommonParticipant {
         /**
         Source of the sample
         */
-        union {null, SampleSource} source;
+        union {null, string} source;
 
         /**
         The preparation method
@@ -421,7 +415,7 @@ protocol CommonParticipant {
         /**
         The tissue source
         */
-        union {null, TissueSource} tissueSource;
+        union {null, string} tissueSource;
 
         /**
         Product of the sample
@@ -458,10 +452,17 @@ protocol CommonParticipant {
 
         union {null, string} sampleUid;
 
-        union {null, string} participdantId;
+        union {null, string} participantId;
 
         union {null, string} maskedPid;
-
+        /**
+        Date of Diagnosis of the specific Tumour
+        */
+        union {null, string} tumourDateOfDiagnosis;
+        /**
+        Primary site of metastatic tumour
+        */
+        union {null, string} primarySiteOfMetastaticTumour;
 
     }
 
