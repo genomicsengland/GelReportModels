@@ -21,7 +21,7 @@ protocol Ngis {
         /**
         Ods code
         */
-        string organisationOdsCode;
+        string organisationCode;
         /**
         Organisation Name
         */
@@ -34,6 +34,53 @@ protocol Ngis {
         National Grouping (GLH) Name
         */
         string organisationNationalGroupingName;
+    }
+
+    record User{
+
+       /**
+       User ID
+       */
+       string userId;
+
+       /**
+       User Name
+       */
+       string userName;
+
+    }
+
+    record RequestingClinician{
+
+        /**
+        Requesting Clinician
+        */
+        string requestingClinician;
+
+        /**
+        Responsible Clinician
+        */
+        union {null, boolean} responsibleClinician;
+
+    }
+
+    record Requester{
+
+        /**
+        Organisation that created the Referral
+        */
+        Organisation orderingEntity;
+
+        /**
+        User who inputted the referral
+        */
+        User user;
+
+        /**
+        Responsible Clinician and other Clinicians to be contacted
+        */
+        union {null, array<RequestingClinician>} requestingClinicians;
+
     }
 
     record Technology{
@@ -113,6 +160,11 @@ protocol Ngis {
         Disease Penetrance applied for that referralTest
         */
         union {null, array<DiseasePenetrance>} diseasePenetrances;
+        /**
+        List of matched samples (i.e.: pairs tumour-germline)
+        */
+        union {null, array<MatchedSamples>} matchedSamples;
+
     }
 
     record Referral {
@@ -131,7 +183,7 @@ protocol Ngis {
         /**
         Requester
          */
-        Organisation requester;
+        Requester requester;
         /**
         Date of ordering
          */

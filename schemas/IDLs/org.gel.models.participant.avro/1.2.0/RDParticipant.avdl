@@ -25,7 +25,7 @@ protocol Pedigrees {
 
         /**
         This is Level4 Title for this disorder.
-        NOTE: This is the clinicalIndication in GMS
+        NOTE: This is the clinicalIndicationCode in GMS
         */
         union {null,string} specificDisease;
 
@@ -302,6 +302,10 @@ protocol Pedigrees {
         */
         union {null, string} participantUid;
 
+        /**
+        ClinicalEthnicity as defined for NGIS
+        */
+        union {null, ClinicalEthnicities} clinicalEthnicities;
     }
 
     /**
