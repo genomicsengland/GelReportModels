@@ -76,6 +76,80 @@ protocol CommonParticipant {
     enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 
     /**
+        * A     British, Mixed British
+    * B     Irish
+    * C     Any other White background
+    * C2    Northern Irish
+    * C3    Other white, white unspecified
+    * CA    English
+    * CB    Scottish
+    * CC    Welsh
+    * CD    Cornish
+    * CE    Cypriot (part not stated)
+    * CF    Greek
+    * CG    Greek Cypriot
+    * CH    Turkish
+    * CJ    Turkish Cypriot
+    * CK    Italian
+    * CL    Irish Traveller
+    * CM    Traveller
+    * CN    Gypsy/Romany
+    * CP    Polish
+    * CQ    All republics which made up the former USSR
+    * CR    Kosovan
+    * CS    Albanian
+    * CT    Bosnian
+    * CU    Croatian
+    * CV    Serbian
+    * CW    Other republics which made up the former Yugoslavia
+    * CX    Mixed white
+    * CY    Other white European, European unspecified, European mixed
+    * D     White and Black Caribbean
+    * E     White and Black African
+    * F     White and Asian
+    * G     Any other mixed background
+    * GA    Black and Asian
+    * GB    Black and Chinese
+    * GC    Black and White
+    * GD    Chinese and White
+    * GE    Asian and Chinese
+    * GF    Other Mixed, Mixed Unspecified
+    * H     Indian or British Indian
+    * J     Pakistani or British Pakistani
+    * K     Bangladeshi or British Bangladeshi
+    * L     Any other Asian background
+    * LA    Mixed Asian
+    * LB    Punjabi
+    * LC    Kashmiri
+    * LD    East African Asian
+    * LE    Sri Lanka
+    * LF    Tamil
+    * LG    Sinhalese
+    * LH    British Asian
+    * LJ    Caribbean Asian
+    * LK    Other Asian, Asian unspecified
+    * M     Caribbean
+    * N     African
+    * P     Any other Black background
+    * PA    Somali
+    * PB    Mixed Black
+    * PC    Nigerian
+    * PD    Black British
+    * PE    Other Black, Black unspecified
+    * R     Chinese
+    * S     Any other ethnic group
+    * S1    Ashkenazi
+    * S2    Sephardi
+    * SA    Vietnamese
+    * SB    Japanese
+    * SC    Filipino
+    * SD    Malaysian
+    * SE    Any Other Group
+    * Z     Not stated
+    */
+    enum ClinicalEthnicity {A,B,C,C2,C3,CA,CB,CC,CD,CE,CF,CG,CH,CJ,CK,CL,CM,CN,CP,CQ,CR,CS,CT,CU,CV,CW,CX,CY,D,E,F,G,GA,GB,GC,GD,GE,GF,H,J,K,L,LA,LB,LC,LD,LE,LF,LG,LH,LJ,LK,M,N,P,PA,PB,PC,PD,PE,R,S,S1,S2,SA,SB,SC,SD,SE,Z}
+
+    /**
     1K Genomes project populations
     */
     enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
@@ -157,6 +231,15 @@ protocol CommonParticipant {
         */
         union{null, array<ChiSquare1KGenomesPhase3Pop>} chiSquare1KGenomesPhase3Pop;
 
+
+    }
+
+    /**
+    clinicalEthnicities supersedes Ancestries in GMS
+    */
+    record ClinicalEthnicities {
+
+        union {null, array<ClinicalEthnicity>} clinicalEthnicity;
 
     }
 
@@ -280,6 +363,36 @@ protocol CommonParticipant {
         union {null, string} clinicalIndicationVersionNumber;
     }
 
+    record Morphology{
+        /**
+        Tumour/sample morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologyICD;
+        /**
+        Tumour/sample morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedCT;
+        /**
+        Tumour/sample morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedRT;
+    }
+
+    record Topography{
+        /**
+        Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographyICD;
+        /**
+        Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedCT;
+        /**
+        Tumour/sample topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedRT;
+    }
+
     /**
     A germline sample
     */
@@ -364,12 +477,12 @@ protocol CommonParticipant {
         union {null, ProgrammePhase} programmePhase;
 
         /**
-        Disease type
+        Disease type. Deprecated in GMS
         */
         union {null, diseaseType} diseaseType;
 
         /**
-        Disease subtype
+        Disease subtype. Deprecated in GMS
         */
         union {null, string} diseaseSubType;
         /**
@@ -388,7 +501,7 @@ protocol CommonParticipant {
         union {null, string} clinicalSampleDateTime;
 
         /**
-        Tumor type
+        Tumor type. Deprecated in GMS
         */
         union {null, string} tumourType;
 
@@ -408,12 +521,12 @@ protocol CommonParticipant {
         union {null, string} source;
 
         /**
-        The preparation method
+        The preparation method of the sample
         */
         union {null, PreparationMethod} preparationMethod;
 
         /**
-        The tissue source
+        The tissue source of the sample
         */
         union {null, string} tissueSource;
 
@@ -423,30 +536,17 @@ protocol CommonParticipant {
         union {null, Product} product;
 
         /**
-        Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        TODO: This may need to be moved to a tumour level independent of tumourSample
+        Morphology according to the sample taken from the tumour
         */
-        union {null, string} morphologyICD;
-        /**
-        Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
-        */
-        union {null, string} morphologySnomedCT;
-        /**
-        Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
-        */
-        union {null, string} morphologySnomedRT;
+        union {null, array<Morphology>} tumourSampleMorphologies;
 
         /**
-        Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        TODO: This may need to be moved to a tumour level independent of tumourSample
+        Topography according to the sample taken from the tumour
         */
-        union {null, string} topographyICD;
-        /**
-        Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
-        */
-        union {null, string} topographySnomedCT;
-        /**
-        Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
-        */
-        union {null, string} topographySnomedRT;
+        union {null, array<Topography>} tumourSampleTopographies;
+
 
         union {null, array<string>} SnomedTermList;
 
@@ -462,7 +562,7 @@ protocol CommonParticipant {
         /**
         Primary site of metastatic tumour
         */
-        union {null, string} primarySiteOfMetastaticTumour;
+        union {null, string} primaryTopographySnomedCT;
 
     }
 

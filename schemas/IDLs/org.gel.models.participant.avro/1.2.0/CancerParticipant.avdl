@@ -35,7 +35,7 @@ protocol CancerParticipants {
         union {null, int} yearOfBirth;
 
         /**
-        TODO
+        This field is deprecated in GMS as morphology will be in sample or with respect to a tumour
         */
         union {null, array<string>}  morphology;
 
@@ -57,7 +57,7 @@ protocol CancerParticipants {
         union {null, string} center;
 
         /**
-        Individual identifier
+        Individual identifier.  This is the human readable ID in GMS
         */
         string individualId;
 
@@ -92,21 +92,21 @@ protocol CancerParticipants {
         /**
         List of tumour samples
         */
-        array<TumourSample> tumourSamples;
+        union {null, array<TumourSample>} tumourSamples;
 
         /**
         List of germline samples
         */
-        array<GermlineSample> germlineSamples;
-
-        /**
-        List of matched samples (i.e.: pairs tumour-germline)
-        */
-        array<MatchedSamples> matchedSamples;
-
+        union {null, array<GermlineSample>} germlineSamples;
         /**
         Model version number
         */
         union {null, VersionControl} versionControl;
+
+        /**
+        Individual UID in GMS
+        */
+        union {null, string} individualUid;
+
     }
 }
