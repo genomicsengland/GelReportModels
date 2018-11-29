@@ -2,7 +2,7 @@
   "builds" :
   [
     {
-      "version": "7.3",
+      "version": "7.2",
       "packages": [
         {
           "package": "org.ga4gh.models",
