@@ -197,6 +197,8 @@ Duplication of the prior fields is not be supported.
     */
     record EvidenceEntryAndVariants {
         VariantsCoordinates variantsCoordinates;
+        VariantsCoordinates markersCoordinates;
         org.opencb.biodata.models.variant.avro.EvidenceEntry evidenceEntry;
+        org.gel.models.report.avro.Actions actions;
     }
 }
