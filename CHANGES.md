@@ -1,3 +1,9 @@
+Version 7.1.17 (4th Dec 2018)
+-----------------------------
+
+* Add nullable action and markers fields to evidence entry and variant which is part of the CVA models
+
+
 Version 7.1.14 (1st October 2018)
 --------------------------------
 
