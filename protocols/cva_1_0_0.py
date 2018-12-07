@@ -2648,7 +2648,7 @@ class ClinicalSignificance(object):
     for the interpretation of sequence variants: a joint consensus
     recommendation of the American College         of Medical Genetics
     and Genomics and the Association for Molecular Pathology. Genetics
-    in Medicine, 17(5),         405?423.
+    in Medicine, 17(5),         405 423.
     https://doi.org/10.1038/gim.2015.30.      Classification for
     pharmacogenomic variants, variants associated to     disease and
     somatic variants based on the ACMG recommendations and ClinVar
@@ -4133,9 +4133,9 @@ class EvidenceImpact(object):
     interpretation     of sequence variants: a joint consensus
     recommendation of the American College of Medical Genetics and
     Genomics and     the Association for Molecular Pathology. Genetics
-    in Medicine, 17(5), 405?423. https://doi.org/10.1038/gim.2015.30
+    in Medicine, 17(5), 405 423. https://doi.org/10.1038/gim.2015.30
     Evidence of pathogenicity: * `very_strong`:     - PVS1 null
-    variant (nonsense, frameshift, canonical ?1 or 2 splice sites,
+    variant (nonsense, frameshift, canonical  1 or 2 splice sites,
     initiation codon, single or multiexon     deletion) in a gene
     where LOF is a known mechanism of disease * `strong`:     - PS1
     Same amino acid change as a previously established pathogenic
@@ -4165,7 +4165,7 @@ class EvidenceImpact(object):
     mechanism of disease     - PP3 Multiple lines of computational
     evidence support a deleterious effect on the gene or gene product
     (conservation, evolutionary, splicing impact, etc.)     - PP4
-    Patient?s phenotype or family history is highly specific for a
+    Patient s phenotype or family history is highly specific for a
     disease with a single genetic etiology     - PP5 Reputable source
     recently reports variant as pathogenic, but the evidence is not
     available to the laboratory     to perform an independent

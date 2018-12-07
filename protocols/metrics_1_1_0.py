@@ -6085,14 +6085,21 @@ class Reason(object):
     """
     No documentation
     """
+    median_coverage = "median_coverage"
+    in_analysis = "in_analysis"
     duplicate = "duplicate"
-    consent = "consent"
-    pedigree = "pedigree"
+    pedigree_mendelian_errors = "pedigree_mendelian_errors"
+    pedigree_ibd_sharing = "pedigree_ibd_sharing"
     contamination = "contamination"
     quality = "quality"
-    plinksex = "plinksex"
-    inbreedingcoefficient = "inbreedingcoefficient"
+    sex_query = "sex_query"
+    perc_bases_ge_15x_mapQ_ge11 = "perc_bases_ge_15x_mapQ_ge11"
+    GbQ30NoDupsNoClip = "GbQ30NoDupsNoClip"
+    arrayconcordance = "arrayconcordance"
+    high_cnv = "high_cnv"
     in_qc = "in_qc"
+    pass_qc = "pass_qc"
+    other = "other"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -6863,12 +6870,11 @@ class Severity(object):
 
 class Sex(object):
     """
-    Phenotypic sex
+    Sex
     """
-    UNKNOWN = "UNKNOWN"
     MALE = "MALE"
     FEMALE = "FEMALE"
-    OTHER = "OTHER"
+    UNKNOWN = "UNKNOWN"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -6889,14 +6895,20 @@ class SpatialPattern(object):
 
 class State(object):
     """
-    No documentation
+    This is the master state for this sample, for example
+    caution,quality could be used to say that a sample under this
+    individual has quality issues.  * ready: sample is ready to be
+    used * pending: sample is in the process of being analysed * hold:
+    sample is on hold pending investigation * fail: sample has failed
+    a QC check * caution: sample is ready but should be used with
+    caution
     """
     ready = "ready"
+    warning = "warning"
     pending = "pending"
     hold = "hold"
     fail = "fail"
     caution = "caution"
-    blocked = "blocked"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -7716,6 +7728,18 @@ class diseaseType(object):
     CLASSICAL_HODGKINS = "CLASSICAL_HODGKINS"
     NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS = "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS"
     T_CELL_LYMPHOMA = "T_CELL_LYMPHOMA"
+
+    def __hash__(self):
+        return str(self).__hash__()
+
+
+class reportedVsGeneticSummary(object):
+    """
+    Reported vs Genetic Summary
+    """
+    familyPassesGvsRChecks = "familyPassesGvsRChecks"
+    familyFailsACheck = "familyFailsACheck"
+    familyMissingACheck = "familyMissingACheck"
 
     def __hash__(self):
         return str(self).__hash__()

@@ -191,6 +191,14 @@ Duplication of the prior fields is not be supported.
         */
         array<ObservedVariant> observedVariants = [];
         /**
+        The assembly to which the variant refers
+        */
+        org.gel.models.report.avro.Assembly assembly;
+        /**
+        The abstract variant
+        */
+        Variant variant;
+        /**
         Comments for this diagnostic event
         */
         array<Comment> comments = [];
