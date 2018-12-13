@@ -529,7 +529,7 @@ see Expanded Access Data Element Definitions).
         /**
         associated effect of the drug
         */
-        DrugResponseClassification drugResponseClassification;
+        GelDrugResponseClassification drugResponseClassification;
     }
 
     record Therapy{
@@ -744,7 +744,7 @@ see Expanded Access Data Element Definitions).
         /**
         The variant's pharmacogenomics classification.
         */
-        union{null, DrugResponseClassification} drugResponseClassification;
+        union{null, GelDrugResponseClassification} drugResponseClassification;
         /**
         The variant's trait association.
         */
