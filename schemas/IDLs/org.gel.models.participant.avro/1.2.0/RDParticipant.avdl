@@ -25,7 +25,7 @@ protocol Pedigrees {
 
         /**
         This is Level4 Title for this disorder.
-        NOTE: This is the clinicalIndicationCode in GMS
+        In GMS, this is the clinicalIndicationFullName.
         */
         union {null,string} specificDisease;
 
@@ -44,7 +44,8 @@ protocol Pedigrees {
     enum SpatialPattern {DISTAL, GENERALIZED, LOCALIZED, PROXIMAL}
 
     /**
-    TODO: see if ageOfOnset needs to be added to HpoTermModifiders for GMS
+    HPO Modifiers
+    For GMS, hpoModifierCode and hpoModifierVersion will be used
     */
     record HpoTermModifiers{
         union {null, Laterality} laterality;
@@ -129,6 +130,10 @@ protocol Pedigrees {
         */
         string diagnosisCodingSystem;
         /**
+        Diagnosis Coding System Version
+        */
+        union{null, string} diagonsisCodingSystemVersion;
+        /**
         Diagnosis Code
         */
         string diagnosisCode;
@@ -162,7 +167,7 @@ protocol Pedigrees {
         union {null, boolean} isProband;
 
         /**
-        participantId.  This is the human readable ID in NGIS
+        participantId.  This is the human readable ID in GMS
         */
         union {null, string} participantId;
 
@@ -250,7 +255,7 @@ protocol Pedigrees {
         union {null, AffectionStatus} affectionStatus;
 
         /**
-        Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty
+        Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty.
         */
         union {null, array<Disorder>} disorderList;
 
@@ -260,7 +265,8 @@ protocol Pedigrees {
         union {null, array<HpoTerm>} hpoTermList;
 
         /**
-        Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+        Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations.
+        NOTE: for GMS this field has been deprecated in favour of clinicalEthnicities
         */
         union {null, Ancestries} ancestries;
 
@@ -268,6 +274,7 @@ protocol Pedigrees {
         What has this participant consented to?
         A participant that has been consented to the programme should also have sequence data associated with them; however
         this needs to be programmatically checked
+        NOTE: for GMS this field has been replaced by GMSConsentStatus
         */
         union {null, ConsentStatus} consentStatus;
 
@@ -298,14 +305,19 @@ protocol Pedigrees {
         union {null, array<DiagnosticDetail>} diagnosticDetails;
 
         /**
-        ParticipantGUID in NGIS
+        ParticipantGUID in GMS
         */
         union {null, string} participantUid;
 
         /**
-        ClinicalEthnicity as defined for NGIS
+        ClinicalEthnicity as defined for GMS
         */
-        union {null, ClinicalEthnicities} clinicalEthnicities;
+        union {null, array<ClinicalEthnicity>} clinicalEthnicities;
+
+        /**
+        For GMS cases, previous Treatment History
+        */
+        union {null, array<PreviousTreatment>} previousTreatment;
     }
 
     /**
@@ -353,7 +365,7 @@ protocol Pedigrees {
         union {null, array<AnalysisPanel>} analysisPanels;
 
         /**
-        List of disease penetrances
+        List of disease penetrances. Moved to referralTest for GMS
         */
         union {null, array<DiseasePenetrance>} diseasePenetrances;
 
@@ -363,7 +375,7 @@ protocol Pedigrees {
         boolean readyForAnalysis;
 
         /**
-        The famili quality control status
+        The family quality control status
         */
         union {null, FamilyQCState} familyQCState;
     }

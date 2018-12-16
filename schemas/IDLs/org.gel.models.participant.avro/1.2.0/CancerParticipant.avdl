@@ -25,6 +25,92 @@ protocol CancerParticipants {
     }
 
     /**
+    This defines the date of diagnosis of a particular tumour
+    */
+    record TumourDateOfDiagnosis{
+
+        /**
+        Tumour Diagnosis Year in the format YYYY
+        */
+        string tumourDiagnosisYear;
+
+        /**
+        Tumour Diagnosis Month in the format MM. E.g June is 06
+        */
+        union {null, string} tumourDiagnosisMonth;
+
+        /**
+        Tumour Diagnosis in the format DD E.g. 12th of October is 12
+        */
+        union {null, string} tumourDiagnosisDay;
+    }
+
+    record Tumour{
+
+        /**
+        TumourId in GMS
+        */
+        string tumourId;
+
+        /**
+        Local hospital tumour ID from the GLH Laboratory Information Management System (LIMS) in GMS
+        */
+        string tumourLocalId;
+
+        /**
+        tumourType, e.g. Primary, Metastatic, Unknown
+        */
+        TumourType tumourType;
+
+        /**
+        Parent Tumour ID if this tumour is metastatic
+        */
+        union {null, string} tumourParentId;
+
+        /**
+        Date of Diagnosis of the specific tumour
+        */
+        union {null, TumourDateOfDiagnosis} tumourDateOfDiagnosis;
+
+        /**
+        Description of the tumour
+        */
+        union {null, string} tumourDescription;
+
+        /**
+        Morphology of the tumour
+        */
+        union {null, array<TumourMorphology>} tumourMorphologies;
+
+        /**
+        Topography of the tumour
+        */
+        union {null, array<TumourTopography>} tumourTopographies;
+
+        /**
+        Associated primary topography for metastatic tumours
+        */
+        union {null, array<TumourTopography>} tumourPrimaryTopographies;
+
+        /**
+        Grade of the Tumour
+        */
+        union {null, string} tumourGrade;
+
+        /**
+        Stage of the Tumour
+        */
+        union {null, string} tumourStage;
+
+        /**
+        Prognostic Score of the Tumour
+        */
+        union {null, string} tumourPrognosticScore;
+
+    }
+
+
+    /**
     This defines a Cancer Participant
     */
     record CancerParticipant{
@@ -35,12 +121,14 @@ protocol CancerParticipants {
         union {null, int} yearOfBirth;
 
         /**
-        This field is deprecated in GMS as morphology will be in sample or with respect to a tumour
+        Morphology of any tumours
+        In GMS, this field is deprecated as morphology will be in sample or with respect to a tumour
         */
         union {null, array<string>}  morphology;
 
         /**
         Flag indicating if the participant is ready for analysis
+        In GMS, this will default to true
         */
         boolean readyForAnalysis;
 
@@ -48,11 +136,13 @@ protocol CancerParticipants {
         What has this participant consented to?
         A participant that has been consented to the programme should also have sequence data associated with them; however
         this needs to be programmatically checked
+        In GMS, this is replaced by the GMSConsentStatus
         */
         union {null, ConsentStatus} consentStatus;
 
         /**
         Center
+        In GMS, this will be taken from the ReferralTest
         */
         union {null, string} center;
 
@@ -65,12 +155,14 @@ protocol CancerParticipants {
         /**
         This should be an enumeration when it is well defined
         blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        In GMS, this field is deprecated
         */
         union {null, array<string>} primaryDiagnosisDisease;
 
         /**
         This should be an enumeration when it is well defined
         blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        In GMS, this field is deprecated
         */
         union {null, array<string>} primaryDiagnosisSubDisease;
 
@@ -86,18 +178,22 @@ protocol CancerParticipants {
 
         /**
         assigned ICD10 code
+        IN GMS, this is deprecated
         */
         union {null, array<string>} assignedICD10;
 
         /**
         List of tumour samples
+        IN GMS, this is deprecated and moved to ReferralTest
         */
         union {null, array<TumourSample>} tumourSamples;
 
         /**
         List of germline samples
+        IN GMS, this is deprecated and moved to ReferralTest
         */
         union {null, array<GermlineSample>} germlineSamples;
+
         /**
         Model version number
         */
@@ -108,5 +204,14 @@ protocol CancerParticipants {
         */
         union {null, string} individualUid;
 
+        /**
+        In GMS, for all tumours for the CancerParticipant, independent of any samples
+        */
+        union {null, array<Tumour>} tumours;
+
+        /**
+        In GMS, any previous treatment recorded in TOMs
+        */
+        union {null, array<PreviousTreatment>} previousTreatment;
     }
 }
