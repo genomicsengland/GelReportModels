@@ -36,53 +36,6 @@ protocol Ngis {
         string organisationNationalGroupingName;
     }
 
-    record User{
-
-       /**
-       User ID
-       */
-       string userId;
-
-       /**
-       User Name
-       */
-       string userName;
-
-    }
-
-    record RequestingClinician{
-
-        /**
-        Requesting Clinician
-        */
-        string requestingClinician;
-
-        /**
-        Responsible Clinician
-        */
-        union {null, boolean} responsibleClinician;
-
-    }
-
-    record Requester{
-
-        /**
-        Organisation that created the Referral
-        */
-        Organisation orderingEntity;
-
-        /**
-        User who inputted the referral
-        */
-        User user;
-
-        /**
-        Responsible Clinician and other Clinicians to be contacted
-        */
-        union {null, array<RequestingClinician>} requestingClinicians;
-
-    }
-
     record Technology{
         /**
         Technology unique identifier
@@ -122,6 +75,10 @@ protocol Ngis {
         Test UID
         */
         string referralTestId;
+        /**
+        The date of which the referralTest was sent to Bioinformatics
+        */
+        union {null, string} referralTestOrderingDate;
         /**
         Clinical indication test
         */
@@ -181,13 +138,13 @@ protocol Ngis {
          */
         array<ReferralTest> referralTests;
         /**
-        Requester
+        Requesting Organisation of the Referral
          */
-        Requester requester;
+        Organisation requester;
         /**
-        Date of ordering
+        Date of referral being created
          */
-        string orderingDate;
+        union {null, string} orderingDate;
         /**
         Pedigree
          */
