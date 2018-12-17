@@ -176,6 +176,27 @@ protocol CommonParticipant {
     }
 
     /**
+    This defines a date record
+    */
+    record Date{
+
+        /**
+        Format YYYY
+        */
+        string Year;
+
+        /**
+        Format MM. e.g June is 06
+        */
+        union {null, string} Month;
+
+        /**
+        Format DD e.g. 12th of October is 12
+        */
+        union {null, string} Day;
+    }
+
+    /**
     An analysis panel
     */
     record AnalysisPanel {
@@ -242,7 +263,7 @@ protocol CommonParticipant {
     enum PrimaryConsent {`true`, `false`, best_interest}
 
     /**
-    Consent Status
+    Consent Status for GMS
     */
     record GmsConsentStatus {
         /**
@@ -276,7 +297,7 @@ protocol CommonParticipant {
 
 
     /**
-    Consent Status
+    Consent Status for 100k program
     */
     record ConsentStatus {
 
@@ -352,7 +373,7 @@ protocol CommonParticipant {
 
         union {null, string} previousTreatmentName;
 
-        union {null, string} previoustreatmentDate;
+        union {null, Date} previoustreatmentDate;
 
     }
 

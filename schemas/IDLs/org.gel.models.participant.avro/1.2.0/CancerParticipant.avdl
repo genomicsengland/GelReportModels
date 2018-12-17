@@ -24,26 +24,6 @@ protocol CancerParticipants {
 
     }
 
-    /**
-    This defines the date of diagnosis of a particular tumour
-    */
-    record TumourDateOfDiagnosis{
-
-        /**
-        Tumour Diagnosis Year in the format YYYY
-        */
-        string tumourDiagnosisYear;
-
-        /**
-        Tumour Diagnosis Month in the format MM. E.g June is 06
-        */
-        union {null, string} tumourDiagnosisMonth;
-
-        /**
-        Tumour Diagnosis in the format DD E.g. 12th of October is 12
-        */
-        union {null, string} tumourDiagnosisDay;
-    }
 
     record Tumour{
 
@@ -70,7 +50,7 @@ protocol CancerParticipants {
         /**
         Date of Diagnosis of the specific tumour
         */
-        union {null, TumourDateOfDiagnosis} tumourDateOfDiagnosis;
+        union {null, Date} tumourDateOfDiagnosis;
 
         /**
         Description of the tumour
