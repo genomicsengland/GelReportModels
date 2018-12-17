@@ -1,8 +1,9 @@
 import logging
 from collections import OrderedDict
 
-from protocols.migration.base_migration import MigrationError
+from protocols.migration.base_migration import MigrationError, BaseMigration
 from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
+from protocols.migration.migration_reports_601_to_reports_600 import MigrateReports601To600
 
 from protocols.reports_2_1_0 import ClinicalReportRD as ClinicalReportRD_2_1_0
 from protocols.reports_2_1_0 import InterpretedGenomeRD as InterpretedGenomeRD_2_1_0
@@ -38,6 +39,11 @@ from protocols.reports_6_0_0 import InterpretationRequestRD as InterpretationReq
 from protocols.reports_6_0_0 import CancerInterpretationRequest as CancerInterpretationRequest_6_0_0
 from protocols.reports_6_0_0 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_0
 
+from protocols.reports_6_0_1 import InterpretationRequestRD as InterpretationRequestRD_6_0_1
+from protocols.reports_6_0_1 import RareDiseaseExitQuestionnaire as RareDiseaseExitQuestionnaire_6_0_1
+from protocols.reports_6_0_1 import CancerExitQuestionnaire as CancerExitQuestionnaire_6_0_1
+
+
 from protocols.participant_1_1_0 import Pedigree as Pedigree_1_1_0
 from protocols.participant_1_0_3 import Pedigree as Pedigree_1_0_3
 from protocols.participant_1_0_0 import Pedigree as Pedigree_1_0_0
@@ -65,7 +71,7 @@ from protocols.reports_5_0_0 import Assembly
 class MigrationHelpers(object):
     @staticmethod
     def migrate_interpretation_request_rd_to_latest(*args, **kwargs):
-        return MigrationHelpers.migrate_interpretation_request_rd_to_v6(*args, **kwargs)
+        return MigrationHelpers.migrate_interpretation_request_rd_to_v601(*args, **kwargs)
 
     @staticmethod
     def migrate_interpretation_request_rd_to_interpreted_genome_latest(*args, **kwargs):
@@ -112,6 +118,14 @@ class MigrationHelpers(object):
         return MigrationHelpers.migrate_cancer_participant_to_v1_1_0(*args, **kwargs)
 
     @staticmethod
+    def migrate_interpretation_request_rd_to_v601(json_dict, assembly=None):
+        rd_6_0_0 = MigrationHelpers.migrate_interpretation_request_rd_to_v6(json_dict, assembly)
+        new_instance = BaseMigration.convert_class(target_klass=InterpretationRequestRD_6_0_1, instance=rd_6_0_0)
+        new_instance.versionControl.gitVersionControl = "6.0.1"
+        return BaseMigration.validate_object(object_to_validate=new_instance,
+                                             object_type=InterpretationRequestRD_6_0_1)
+
+    @staticmethod
     def migrate_interpretation_request_rd_to_v6(json_dict, assembly=None):
         """
         :type json_dict: dict
@@ -149,13 +163,15 @@ class MigrationHelpers(object):
             InterpretationRequestRD_3_0_0,
             InterpretationRequestRD_4_0_0,
             InterpretationRequestRD_5_0_0,
-            InterpretationRequestRD_6_0_0
+            InterpretationRequestRD_6_0_0,
+            InterpretationRequestRD_6_0_1
         ]
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_interpretation_request_rd,
             lambda x: MigrateReports500To400().migrate_interpretation_request_rd(x, old_ig=part_migrated_ig),
             MigrateReports600To500().migrate_interpretation_request_rd,
+            MigrateReports601To600().migrate_interpretation_request_rd
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
@@ -306,10 +322,11 @@ class MigrationHelpers(object):
         :param json_dict: dict
         :return: CancerExitQuestionnaire_5_0_0
         """
-        types = [CancerExitQuestionnaire_5_0_0, CancerExitQuestionnaire_6_0_0]
+        types = [CancerExitQuestionnaire_5_0_0, CancerExitQuestionnaire_6_0_0, CancerExitQuestionnaire_6_0_1]
         migrations = [
             lambda x: x,
-            MigrateReports600To500().migrate_cancer_exit_questionnaire
+            MigrateReports600To500().migrate_cancer_exit_questionnaire,
+            MigrateReports601To600().migrate_exit_questionnaire_cancer,
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)
@@ -559,13 +576,15 @@ class MigrationHelpers(object):
             RareDiseaseExitQuestionnaire_3_0_0,
             RareDiseaseExitQuestionnaire_4_0_0,
             RareDiseaseExitQuestionnaire_5_0_0,
-            RareDiseaseExitQuestionnaire_6_0_0
+            RareDiseaseExitQuestionnaire_6_0_0,
+            RareDiseaseExitQuestionnaire_6_0_1
         ]
         migrations = [
             lambda x: x,
             MigrateReports400To300().migrate_exit_questionnaire_rd,
             MigrateReports500To400().migrate_exit_questionnaire_rd,
-            MigrateReports600To500().migrate_exit_questionnaire_rd
+            MigrateReports600To500().migrate_exit_questionnaire_rd,
+            MigrateReports601To600().migrate_exit_questionnaire_rd
         ]
 
         return MigrationHelpers.migrate(json_dict, types, migrations)

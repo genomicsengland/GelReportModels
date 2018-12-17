@@ -246,6 +246,13 @@ protocol ExitQuestionnaires {
     */
     enum CancerActionability {germline_susceptibility, predicts_therapeutic_response, prognostic, defines_diagnosis_group, eligibility_for_trial, other}
 
+    /**
+    An enumeration Variant Actionability:
+      * `therapeutic_dosage_change`: Therapeutic dosage change - current or future
+      * `alternative_therapeutic_chosen`: Alternative Therapeutic Chosen
+    */
+    enum CancerActionabilityPharmacogenomics {therapeutic_dosage_change, alternative_therapeutic_chosen}
+
 
     /**
     Variant usability for somatic variants:
@@ -384,6 +391,37 @@ protocol ExitQuestionnaires {
         string validationAssayType;
     }
 
+    /**
+    The questions for the cancer program exit questionnaire for PGX variants
+    */
+    record CancerPharmacogenomicsVariantLevelQuestions{
+        /**
+        Variant coordinates following format `chromosome:position:reference:alternate`
+        */
+        VariantCoordinates variantCoordinates;
+
+        /**
+        Type of potential actionability:
+        */
+        array<CancerActionabilityPharmacogenomics> variantActionability;
+        union {null, string} otherVariantActionability;
+
+        /**
+        How has/will this potentially actionable variant been/be used?
+        */
+        CancerUsabilityGermline variantUsability;
+
+        /**
+        Has this variant been tested by another method (either prior to or following receipt of this WGA)?
+        */
+        CancerTested variantTested;
+
+        /**
+        Please enter validation assay type e.g Pyrosequencing, NGS panel, COBAS, Sanger sequencing. If not applicable enter NA;
+        */
+        string validationAssayType;
+    }
+
     record AdditionalVariantsQuestions{
         /**
         Chr: Pos Ref > Alt
@@ -475,6 +513,11 @@ protocol ExitQuestionnaires {
         The questions for germline variants
         */
         union {null, array<CancerGermlineVariantLevelQuestions>} germlineVariantLevelQuestions;
+
+        /**
+        The questions for PGX variants
+        */
+        union {null, array<CancerPharmacogenomicsVariantLevelQuestions>} pharmacogenomicsVariantLevelQuestions;
 
         /**
         Please enter any additional comments you may have about the case here.
