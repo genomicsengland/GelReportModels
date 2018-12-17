@@ -53,7 +53,7 @@
         {
           "package": "org.gel.models.cva.avro",
           "python_package": "cva",
-          "version": "1.1.0",
+          "version": "1.2.0",
           "dependencies": [
             "org.gel.models.report.avro",
             "org.gel.models.participant.avro",

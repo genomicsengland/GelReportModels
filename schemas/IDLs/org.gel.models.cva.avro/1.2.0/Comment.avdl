@@ -1,0 +1,22 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol CommentProtocol {
+
+    /**
+    A generic comment.
+    */
+    record Comment {
+        /**
+        The text of the comment
+        */
+        string text;
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string `date`;
+        /**
+        The author of the curation event
+        */
+        string userid;
+    }
+}
