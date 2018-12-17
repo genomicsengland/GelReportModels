@@ -183,17 +183,17 @@ protocol CommonParticipant {
         /**
         Format YYYY
         */
-        string Year;
+        int Year;
 
         /**
         Format MM. e.g June is 06
         */
-        union {null, string} Month;
+        union {null, int} Month;
 
         /**
         Format DD e.g. 12th of October is 12
         */
-        union {null, string} Day;
+        union {null, int} Day;
     }
 
     /**
