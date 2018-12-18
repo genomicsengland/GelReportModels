@@ -8,6 +8,7 @@ from protocols import (
     reports_4_0_0,
     reports_5_0_0,
     reports_6_0_0,
+    reports_6_0_1,
     participant_1_0_0,
     participant_1_0_3,
     participant_1_1_0
@@ -18,7 +19,8 @@ from protocols.util.dependency_manager import (
     VERSION_400,
     VERSION_500,
     VERSION_61,
-    VERSION_70)
+    VERSION_70,
+    VERSION_72)
 from protocols.migration.base_migration import MigrationError
 from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.migration.migration_helpers import MigrationHelpers
@@ -120,7 +122,7 @@ class TestMigrationHelpers(TestCaseMigration):
         GenericFactoryAvro.register_factory(
             reports_2_1_0.File, FileFactory210, VERSION_210, fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_400_600(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_400_latest(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.InterpretationRequestRD, VERSION_400, fill_nullables=fill_nullables
         ).create()
@@ -132,12 +134,12 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
+        self.assertIsInstance(migrated_instance, reports_6_0_1.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
 
-    def test_migrate_interpretation_request_rd_400_600_no_nullables(self):
-        self.test_migrate_interpretation_request_rd_400_600(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_400_latest_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_400_latest(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_600_300(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
@@ -167,7 +169,39 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_interpretation_request_rd_600_300_no_nullables(self):
         self.test_migrate_interpretation_request_rd_600_300(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_300_600(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_601_300(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_1.InterpretationRequestRD, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        # there is an explicit check for pedigree even though it's nullable.
+        old_instance.pedigree = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.Pedigree, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        old_instance.additionalInfo = {}
+        old_instance.additionalInfo['cellbaseVersion'] = '1.0'
+        old_instance.additionalInfo['tieringVersion'] = '1.0'
+        old_instance.additionalInfo['analysisReturnUri'] = 'uri.com'
+        old_ig = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_0.InterpretedGenome, VERSION_70, fill_nullables=fill_nullables
+        ).create()
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        self.assertIsInstance(old_instance, reports_6_0_1.InterpretationRequestRD)
+        if old_instance.interpretationFlags:
+            old_instance.interpretationFlags.append(reports_6_0_1.InterpretationFlag(
+                interpretationFlag=reports_6_0_1.InterpretationFlags.cnv_calls_assumed_xx_karyo)
+            )
+
+        migrated_instance = MigrationHelpers.reverse_migrate_interpretation_request_rd_to_v3(old_instance.toJsonDict(), old_ig.toJsonDict())
+        self.assertIsInstance(migrated_instance, reports_3_0_0.InterpretationRequestRD)
+        self._validate(migrated_instance)
+        self.assertEqual(migrated_instance.versionControl.GitVersionControl, '3.0.0')
+
+    def test_migrate_interpretation_request_rd_601_300_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_601_300(fill_nullables=False)
+
+    def test_migrate_interpretation_request_rd_300_latest(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_3_0_0.InterpretationRequestRD, VERSION_300, fill_nullables=fill_nullables
         ).create()
@@ -177,14 +211,14 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
+        self.assertIsInstance(migrated_instance, reports_6_0_1.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
 
-    def test_migrate_interpretation_request_rd_300_600_no_nullables(self):
-        self.test_migrate_interpretation_request_rd_300_600(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_300_latest_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_300_latest(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_210_600(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_210_latest(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_2_1_0.InterpretationRequestRD, VERSION_210, fill_nullables=fill_nullables
         ).create()
@@ -196,14 +230,14 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             old_instance.toJsonDict(), assembly='GRCh38'
         )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
+        self.assertIsInstance(migrated_instance, reports_6_0_1.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
 
-    def test_migrate_interpretation_request_rd_210_600_no_nullables(self):
-        self.test_migrate_interpretation_request_rd_210_600(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_210_latest_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_210_latest(fill_nullables=False)
 
-    def test_migrate_interpretation_request_rd_500_600(self, fill_nullables=True):
+    def test_migrate_interpretation_request_rd_500_latest(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_5_0_0.InterpretationRequestRD, VERSION_61, fill_nullables=fill_nullables
         ).create()
@@ -213,12 +247,12 @@ class TestMigrationHelpers(TestCaseMigration):
         migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
             json_dict=old_instance.toJsonDict()
         )
-        self.assertIsInstance(migrated_instance, reports_6_0_0.InterpretationRequestRD)
+        self.assertIsInstance(migrated_instance, reports_6_0_1.InterpretationRequestRD)
         self._validate(migrated_instance)
-        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.0')
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
 
-    def test_migrate_interpretation_request_rd_500_600_no_nullables(self):
-        self.test_migrate_interpretation_request_rd_500_600(fill_nullables=False)
+    def test_migrate_interpretation_request_rd_500_latest_no_nullables(self):
+        self.test_migrate_interpretation_request_rd_500_latest(fill_nullables=False)
 
     def test_migrate_interpretation_request_rd_to_interpreted_genome_400_600(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
@@ -817,6 +851,27 @@ class TestMigrationHelpers(TestCaseMigration):
     def test_migrate_questionnaire_rd_600_300_nulls(self):
         self.test_migrate_questionnaire_rd_600_300(fill_nullables=False)
 
+    def test_migrate_questionnaire_rd_601_300(self, fill_nullables=True):
+
+        # tests EQ 300 -> 600
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_1.RareDiseaseExitQuestionnaire, VERSION_72, fill_nullables=fill_nullables
+        ).create()
+        old_instance = self.populate_exit_questionnaire_variant_details(eq=old_instance)
+
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+
+        migrated_instance = MigrationHelpers.reverse_migrate_exit_questionnaire_rd_to_v3(
+            json_dict=old_instance.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_3_0_0.RareDiseaseExitQuestionnaire)
+        self._validate(migrated_instance)
+
+    def test_migrate_questionnaire_rd_601_300_nulls(self):
+        self.test_migrate_questionnaire_rd_600_300(fill_nullables=False)
+
     def test_migrate_questionnaire_rd_400_600(self, fill_nullables=True):
         old_instance = GenericFactoryAvro.get_factory_avro(
             reports_4_0_0.RareDiseaseExitQuestionnaire, VERSION_400, fill_nullables=fill_nullables
@@ -925,4 +980,21 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(migrated_instance)
 
     def test_reverse_migrate_cancer_exit_questionnaire_to_v5_no_nullables(self):
+        self.test_reverse_migrate_cancer_exit_questionnaire_to_v5(fill_nullables=False)
+
+    def test_reverse_migrate_cancer_exit_questionnaire_601_to_v5(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_1.CancerExitQuestionnaire, VERSION_72, fill_nullables=fill_nullables
+        ).create()
+        old_instance = self.populate_c_eq_variant_level_questions_variant_details(old_c_eq=old_instance)
+        self._validate(old_instance)
+        if fill_nullables:
+            self._check_non_empty_fields(old_instance)
+        migrated_instance = MigrationHelpers.reverse_migrate_cancer_exit_questionnaire_to_v5(
+            json_dict=old_instance.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_5_0_0.CancerExitQuestionnaire)
+        self._validate(migrated_instance)
+
+    def test_reverse_migrate_cancer_exit_questionnaire_601_to_v5_no_nullables(self):
         self.test_reverse_migrate_cancer_exit_questionnaire_to_v5(fill_nullables=False)
