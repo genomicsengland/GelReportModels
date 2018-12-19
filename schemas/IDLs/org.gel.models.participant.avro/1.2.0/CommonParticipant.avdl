@@ -420,7 +420,7 @@ protocol CommonParticipant {
         /**
         Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} tumourMopographyICD;
+        union {null, string} tumourTopographyICD;
 
         /**
         Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
