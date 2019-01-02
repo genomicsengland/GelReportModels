@@ -148,7 +148,7 @@ protocol Pedigrees {
         /**
         Age at diagnosis
         */
-        union{null, float} ageAtDiagnosisInYears;
+        union{null, float} ageAtOnsetInYears;
     }
 
     /**

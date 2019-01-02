@@ -43,7 +43,7 @@ protocol CancerParticipants {
         TumourType tumourType;
 
         /**
-        Parent Tumour ID if this tumour is metastatic
+        Parent Tumour UID if this tumour is metastatic
         */
         union {null, string} tumourParentId;
 
@@ -60,17 +60,17 @@ protocol CancerParticipants {
         /**
         Morphology of the tumour
         */
-        union {null, array<TumourMorphology>} tumourMorphologies;
+        union {null, array<Morphology>} tumourMorphologies;
 
         /**
         Topography of the tumour
         */
-        union {null, array<TumourTopography>} tumourTopographies;
+        union {null, array<Topography>} tumourTopographies;
 
         /**
         Associated primary topography for metastatic tumours
         */
-        union {null, array<TumourTopography>} tumourPrimaryTopographies;
+        union {null, array<Topography>} tumourPrimaryTopographies;
 
         /**
         Grade of the Tumour
@@ -102,13 +102,13 @@ protocol CancerParticipants {
 
         /**
         Morphology of any tumours
-        In GMS, this field is deprecated as morphology will be in sample or with respect to a tumour
+        NOTE: In GMS, this field is deprecated as morphology will be in sample or with respect to a tumour record
         */
         union {null, array<string>}  morphology;
 
         /**
         Flag indicating if the participant is ready for analysis
-        In GMS, this will default to true
+        NOTE: In GMS, this will default to true
         */
         boolean readyForAnalysis;
 
@@ -116,13 +116,13 @@ protocol CancerParticipants {
         What has this participant consented to?
         A participant that has been consented to the programme should also have sequence data associated with them; however
         this needs to be programmatically checked
-        In GMS, this is replaced by the GMSConsentStatus
+        NOTE: In GMS, this is replaced by the GMSConsentStatus
         */
         union {null, ConsentStatus} consentStatus;
 
         /**
         Center
-        In GMS, this will be taken from the ReferralTest
+        NOTE: In GMS, this will be taken from the ReferralTest and duplicated here
         */
         union {null, string} center;
 
@@ -130,7 +130,6 @@ protocol CancerParticipants {
         Individual identifier.  This is the human readable ID in GMS
         */
         string individualId;
-
 
         /**
         This should be an enumeration when it is well defined
