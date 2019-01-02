@@ -5,15 +5,15 @@ This protocol defines the Common things between participant models
 protocol CommonParticipant {
 
     enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
-    ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
-    SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY, NOT_SPECIFIED}
+        ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
+        SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY, NOT_SPECIFIED}
 
     enum diseaseType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL, ENDOCRINE,
-    ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
-    OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL, OTHER,
-    NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
+        ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
+        OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL, OTHER,
+        NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
 
-    /**
+/**
     NOTE: In GMS, this has been deprecated in favour of TumourPresentation and PrimaryOrMetastatic fields
     */
     enum TumourType {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES, UNKNOWN, LOCAL_RECURRENCE_OF_PRIMARY_TUMOUR, DISTANT_METASTASES}
@@ -30,55 +30,55 @@ protocol CommonParticipant {
 
     enum PrimaryOrMetastatic {PRIMARY, METASTATIC, UNKNOWN, NOT_APPLICABLE}
 
-    /**
+/**
     In GMS, these are the tumourTypes that can be selected by the clinician in the front end of TOMs
     */
     enum NgisTumourType {BRAIN_TUMOUR, HAEMATOLOGICAL_MALIGNANCY_SOLID_SAMPLE, HAEMATOLOGICAL_MALIGNANCY_LIQUID_SAMPLE, SOLID_TUMOUR_METASTATIC, SOLID_TUMOUR_PRIMARY, SOLID_TUMOUR, UNKNOWN}
 
-    /**
+/**
     Sex
     */
     enum Sex {MALE, FEMALE, UNKNOWN}
 
-    /**
+/**
     The source of the sample
     NOTE: IN GMS, BONE_MARROW_ASPIRATE_TUMOUR_CELLS and BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS are deprecated as they have been separated into their respective biotypes
     */
     enum SampleSource {AMNIOTIC_FLUID, BLOOD, BONE_MARROW, BONE_MARROW_ASPIRATE_TUMOUR_CELLS, BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS, BUCCAL_SWAB, CHORIONIC_VILLUS_SAMPLE, FIBROBLAST, FLUID, FRESH_TISSUE_IN_CULTURE_MEDIUM, OTHER, SALIVA, TISSUE, TUMOUR, URINE}
 
-    /**
+/**
     Karyotipic Sex
     */
     enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
 
 
-    /**
+/**
     In 100K, preparation Method of sample
     NOTE: In GMS, this field is deprecated in favour of StorageMedium and Method
     */
     enum PreparationMethod {ASPIRATE, CD128_SORTED_CELLS, CD138_SORTED_CELLS, EDTA, FF, FFPE, LI_HEP, ORAGENE}
 
-    /**
+/**
     In GMS, Method is defined as how the sample was taken directly from the patient
     */
     enum Method {ASPIRATE, BIOPSY, NOT_APPLICABLE, RESECTION, SORTED_OTHER, UNKNOWN, UNSORTED, CD138_SORTED}
 
-    /**
+/**
     In GMS, storage medium of sample
     */
     enum StorageMedium {EDTA, FF, LI_HEP, ORAGENE}
 
-    /**
+/**
     Penetrance assumed in the analysis
     */
     enum Penetrance {complete, incomplete}
 
-    /**
+/**
     This defines a yes/no/unknown case
     */
     enum TernaryOption {yes, no, unknown}
 
-    /**
+/**
     This is the list of ethnicities in ONS16
 
     * `D`:  Mixed: White and Black Caribbean
@@ -101,7 +101,7 @@ protocol CommonParticipant {
     */
     enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
 
-    /**
+/**
     * A     British, Mixed British
     * B     Irish
     * C     Any other White background
@@ -175,105 +175,105 @@ protocol CommonParticipant {
     */
     enum ClinicalEthnicity {A,B,C,C2,C3,CA,CB,CC,CD,CE,CF,CG,CH,CJ,CK,CL,CM,CN,CP,CQ,CR,CS,CT,CU,CV,CW,CX,CY,D,E,F,G,GA,GB,GC,GD,GE,GF,H,J,K,L,LA,LB,LC,LD,LE,LF,LG,LH,LJ,LK,M,N,P,PA,PB,PC,PD,PE,R,S,S1,S2,SA,SB,SC,SD,SE,Z}
 
-    /**
+/**
     1K Genomes project populations
     */
     enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
-    /**
+/**
     1K Genomes project super populations
     */
     enum KgSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
 
-    /**
+/**
     Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
     */
     record ChiSquare1KGenomesPhase3Pop {
-        /**
+    /**
         1K Super Population
         */
         KgSuperPopCategory kgSuperPopCategory;
-        /**
+    /**
         1K Population
         */
         union {null, KgPopCategory} kgPopCategory;
-        /**
+    /**
         Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
         */
         double chiSquare;
     }
 
-    /**
+/**
     This defines a date record
     */
     record Date{
 
-        /**
+    /**
         Format YYYY
         */
         int Year;
 
-        /**
+    /**
         Format MM. e.g June is 06
         */
         union {null, int} Month;
 
-        /**
+    /**
         Format DD e.g. 12th of October is 12
         */
         union {null, int} Day;
     }
 
-    /**
+/**
     An analysis panel
     */
     record AnalysisPanel {
-        /**
+    /**
         The specific disease that a panel tests
         */
         string specificDisease;
-        /**
+    /**
         The name of the panel
         */
         string panelName;
-        /**
+    /**
         Id of the panel
         */
         union {null, string} panelId;
-        /**
+    /**
         The version of the panel
         */
         union {null, string} panelVersion;
-        /**
+    /**
         Deprecated
         */
         union {null, string}  reviewOutcome;
-        /**
+    /**
         Deprecated
         */
         union {null, string} multipleGeneticOrigins;
     }
 
-    /**
+/**
     Ancestries, defined as Ethnic category(ies) and Chi-square test
     */
     record Ancestries {
-        /**
+    /**
         Mother's Ethnic Origin
         */
         union{null, EthnicCategory} mothersEthnicOrigin;
-        /**
+    /**
         Mother's Ethnic Origin Description
         */
         union{null, string} mothersOtherRelevantAncestry;
-        /**
+    /**
         Father's Ethnic Origin
         */
         union{null, EthnicCategory} fathersEthnicOrigin;
-        /**
+    /**
         Father's Ethnic Origin Description
         */
         union{null, string} fathersOtherRelevantAncestry;
-        /**
+    /**
         Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
         */
         union{null, array<ChiSquare1KGenomesPhase3Pop>} chiSquare1KGenomesPhase3Pop;
@@ -281,7 +281,7 @@ protocol CommonParticipant {
 
     }
 
-    /**
+/**
     clinicalEthnicities supersedes Ancestries in GMS
     */
 
@@ -289,109 +289,109 @@ protocol CommonParticipant {
 
     enum PrimaryConsent {`true`, `false`, best_interest}
 
-    /**
+/**
     Consent Status for GMS
     */
     record GmsConsentStatus {
-        /**
+    /**
         Is this individual consented to the programme? It could simply be a family member that is not consented
         but for whom affection status is known
         */
         GenericConsent programmeConsent;
-        /**
+    /**
         Consent for feedback of primary findings?
         RD: Primary Findings
         Cancer: PrimaryFindings is somatic + pertinent germline findings
         */
         PrimaryConsent primaryFindingConsent;
-        /**
+    /**
         Research Consent
         */
         GenericConsent researchConsent;
-        /**
+    /**
         Consent for secondary health related findings?
         */
         GenericConsent healthRelatedFindingConsent;
-        /**
+    /**
         Consent for carrier status check?
         */
         GenericConsent carrierStatusConsent;
-        /**
+    /**
         Consent for pharmacogenomics consent as secondary findings?
         */
         GenericConsent pharmacogenomicsFindingConsent;
     }
 
 
-    /**
+/**
     Consent Status for 100k program
     */
     record ConsentStatus {
 
-        /**
+    /**
         Is this individual consented to the programme?
         It could simply be a family member that is not consented but for whom affection status is known
         */
         boolean programmeConsent=false;
 
-        /**
+    /**
         Consent for feedback of primary findings?
         */
         boolean primaryFindingConsent=false;
 
-        /**
+    /**
         Consent for secondary finding lookup
         */
         boolean secondaryFindingConsent=false;
 
-        /**
+    /**
         Consent for carrier status check?
         */
         boolean carrierStatusConsent=false;
     }
 
-    /**
+/**
     Inbreeding coefficient
     */
     record InbreedingCoefficient {
 
-        /**
+    /**
         This is the sample id against which the coefficient was estimated
         */
         string sampleId;
-        /**
+    /**
         Name of program used to calculate the coefficient
         */
         string program;
-        /**
+    /**
         Version of the programme
         */
         string version;
-        /**
+    /**
         Where various methods for estimation exist, which method was used.
         */
         string estimationMethod;
-        /**
+    /**
         Inbreeding coefficient ideally a real number in [0,1]
         */
         double coefficient;
-        /**
+    /**
         Standard error of the Inbreeding coefficient
         */
         union {null, double} standardError;
     }
 
-    /**
+/**
     Familiar relationship from pedrigree
     */
     enum FamiliarRelationship {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
-         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
-         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
-         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
-         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
-         RelationIsNotClear, Unrelated, Unknown}
+        FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
+        MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
+        PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
+        PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
+        RelationIsNotClear, Unrelated, Unknown}
 
-    /**
+/**
     In GMS, Previous Treatment of Patient
     */
     record PreviousTreatment{
@@ -406,19 +406,19 @@ protocol CommonParticipant {
 
 
     record ClinicalIndication{
-        /**
+    /**
         GUID of Clinical Indication for the Referral
          */
         string clinicalIndicationUid;
-        /**
+    /**
         Code of Clinical Indication, e.g. (RT-13)
          */
         string clinicalIndicationCode;
-        /**
+    /**
         Clinical Indication Full Name
          */
         string clinicalIndicationFullName;
-        /**
+    /**
         Clinical Indication version number
          */
         union {null, string} clinicalIndicationVersionNumber;
@@ -426,17 +426,17 @@ protocol CommonParticipant {
 
     record Morphology{
 
-        /**
+    /**
         Tumour/sample morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} morphologyICD;
 
-        /**
+    /**
         Tumour/sample morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} morphologySnomedCT;
 
-        /**
+    /**
         Tumour/sample morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} morphologySnomedRT;
@@ -444,65 +444,65 @@ protocol CommonParticipant {
 
     record Topography{
 
-        /**
+    /**
         Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} topographyICD;
 
-        /**
+    /**
         Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} topographySnomedCT;
 
-        /**
+    /**
         Tumour/sample topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
         union {null, string} topographySnomedRT;
 
     }
 
-    /**
+/**
     A germline sample
     */
     record GermlineSample {
 
-        /**
+    /**
         Sample identifier (e.g, LP00012645_5GH))
         */
         string sampleId;
 
-        /**
+    /**
         Lab sample identifier
         */
         int labSampleId;
 
-        /**
+    /**
         LDP Code (Local Delivery Partner)
         */
         union {null, string} LDPCode;
 
-        /**
+    /**
         Source of the sample
         */
         union {null, SampleSource} source;
 
-        /**
+    /**
         Product of the sample
         */
         union {null, Product} product;
 
-        /**
+    /**
         Preparation method
         NOTE: In GMS, this has been deprecated in favour of Method and storageMedium
         */
         union {null, PreparationMethod} preparationMethod;
 
-        /**
+    /**
         Genomics England programme phase
         */
         union {null, ProgrammePhase} programmePhase;
 
-        /**
+    /**
         The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         union {null,string} clinicalSampleDateTime;
@@ -513,22 +513,22 @@ protocol CommonParticipant {
 
         union {null,string} maskedPid;
 
-        /**
+    /**
         In GMS, this is how the sample was extracted from the participant
         */
         union {null, Method} method;
 
-        /**
+    /**
         In GMS, this is what solvent/medium the sample was stored in
         */
         union {null, StorageMedium} storageMedium;
 
-        /**
+    /**
         In GMS, this is the sampleType as entered by the clinician in TOMs
         */
         union {null, string} sampleType;
 
-        /**
+    /**
         In GMS, this is the sampleState as entered by the clinician in TOMs
         */
         union {null, string} sampleState;
@@ -537,144 +537,144 @@ protocol CommonParticipant {
 
     }
 
-    /**
+/**
     A tumour sample
     */
     record TumourSample {
 
-        /**
+    /**
         Sample identifier (e.g, LP00012645_5GH))
         */
         string sampleId;
 
-        /**
+    /**
         Lab sample identifier
         */
         int labSampleId;
 
-        /**
+    /**
         LDP Code (Local Delivery Partner)
         */
         union {null, string} LDPCode;
 
-        /**
+    /**
         This is the ID of the tumour from which this tumour sample was taken from
         */
         union {null, string} tumourId;
 
-        /**
+    /**
         Genomics England programme phase
         */
         union {null, string} programmePhase;
 
-        /**
+    /**
         Disease type.
         NOTE: Deprecated in GMS
         */
         union {null, diseaseType} diseaseType;
 
-        /**
+    /**
         Disease subtype.
         NOTE: Deprecated in GMS
         */
         union {null, string} diseaseSubType;
 
-        /**
+    /**
         True or false if this sample is of type: Haematological Cancer
         */
         union {null, boolean} haematologicalCancer;
 
-        /**
+    /**
         This is the Haematological cancer lineage of the tumourSample if this sample is from a haematological cancer
         */
         union {null, HaematologicalCancerLineage} haematologicalCancerLineage;
 
-        /**
+    /**
         The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
         */
         union {null, string} clinicalSampleDateTime;
 
-        /**
+    /**
         Tumor type.
         NOTE: Deprecated in GMS in tumourSample but available in tumour record
         */
         union {null, string} tumourType;
 
-        /**
+    /**
         This is the tumour content
         */
         union {null, TumourContent} tumourContent;
 
-        /**
+    /**
         This is the tumour content percentage
         */
         union {null, float} tumourContentPercentage;
 
-        /**
+    /**
         Source of the sample
         */
         union {null, SampleSource} source;
 
-        /**
+    /**
         The preparation method of the sample
         NOTE: Deprecated in GMS in replace of Method and storageMedium record
         */
         union {null, PreparationMethod} preparationMethod;
 
-        /**
+    /**
         The tissue source of the sample.
         NOTE: DEPRECATED IN GMS in replace of method record
         */
         union {null, string} tissueSource;
 
-        /**
+    /**
         Product of the sample
         */
         union {null, Product} product;
 
-        /**
+    /**
         Morphology according to the sample taken
         */
         union {null, array<Morphology>} sampleMorphologies;
 
-        /**
+    /**
         Topography according to the sample taken
         */
         union {null, array<Topography>} sampleTopographies;
 
-        /**
+    /**
         In GMS, this is the GUID of the sample
         */
         union {null, string} sampleUid;
 
-        /**
+    /**
         In GMS, this is the individualUid of the sample
         */
         union {null, string} individualUid;
 
-        /**
+    /**
         In GMS, this is the maskedPID
         */
         union {null, string} maskedPid;
 
-        /**
+    /**
         In GMS, this is how the sample was extracted from the participant
         */
         union {null, Method} method;
 
-        /**
+    /**
         In GMS, this is what solvent/medium the sample was stored in
         */
         union {null, StorageMedium} storageMedium;
 
-        /**
+    /**
         In GMS, this is the sampleType as entered by the clinician in TOMs
         */
         union {null, string} sampleType;
 
-        /**
+    /**
         In GMS, this is the sampleState as entered by the clinician in TOMs
         */
         union {null, string} sampleState;
     }
-
+}
