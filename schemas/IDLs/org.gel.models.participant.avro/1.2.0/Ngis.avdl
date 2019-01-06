@@ -86,7 +86,7 @@ protocol Ngis {
         /**
         List of all somatic samples applicable to this test
          */
-        union {null, array<TumourSample>} somaticSamples;
+        union {null, array<TumourSample>} tumourSamples;
         /**
         List of all germline samples aplicable to this test
          */
