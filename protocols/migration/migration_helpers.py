@@ -119,20 +119,13 @@ class MigrationHelpers(object):
 
     @staticmethod
     def migrate_interpretation_request_rd_to_v601(json_dict, assembly=None):
-        rd_6_0_0 = MigrationHelpers.migrate_interpretation_request_rd_to_v6(json_dict, assembly)
-        new_instance = BaseMigration.convert_class(target_klass=InterpretationRequestRD_6_0_1, instance=rd_6_0_0)
-        new_instance.versionControl.gitVersionControl = "6.0.1"
-        return BaseMigration.validate_object(object_to_validate=new_instance,
-                                             object_type=InterpretationRequestRD_6_0_1)
-
-    @staticmethod
-    def migrate_interpretation_request_rd_to_v6(json_dict, assembly=None):
         """
         :type json_dict: dict
         :type assembly: Assembly
         :rtype: InterpretationRequestRD_6_0_0
         """
         types = [
+            InterpretationRequestRD_6_0_1,
             InterpretationRequestRD_6_0_0,
             InterpretationRequestRD_5_0_0,
             InterpretationRequestRD_4_0_0,
@@ -140,6 +133,7 @@ class MigrationHelpers(object):
             InterpretationRequestRD_2_1_0
         ]
         migrations = [
+            MigrationHelpers.set_version_to_6_0_1,  # needed because 6 is valid as 6.1
             MigrationHelpers.set_version_to_6_0_0,  # needed because 5 is valid as 6
             MigrateReports500To600().migrate_interpretation_request_rd,
             lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
@@ -631,4 +625,9 @@ class MigrationHelpers(object):
     @staticmethod
     def set_version_to_6_0_0(version_controlled):
         version_controlled.versionControl.gitVersionControl = "6.0.0"
+        return version_controlled
+
+    @staticmethod
+    def set_version_to_6_0_1(version_controlled):
+        version_controlled.versionControl.gitVersionControl = "6.0.1"
         return version_controlled

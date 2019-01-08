@@ -251,6 +251,23 @@ class TestMigrationHelpers(TestCaseMigration):
         self._validate(migrated_instance)
         self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
 
+    def test_migrate_interpretation_request_rd_601_latest(self, fill_nullables=True):
+        old_instance = GenericFactoryAvro.get_factory_avro(
+            reports_6_0_1.InterpretationRequestRD, VERSION_72, fill_nullables=fill_nullables
+        ).create()
+        old_instance.interpretationFlags.append(reports_6_0_1.InterpretationFlag(
+            interpretationFlag=reports_6_0_1.InterpretationFlags.cnv_calls_assumed_xx_karyo
+        ))
+        self.assertIsInstance(old_instance, reports_6_0_1.InterpretationRequestRD)
+        self._validate(old_instance)
+
+        migrated_instance = MigrationHelpers.migrate_interpretation_request_rd_to_latest(
+            json_dict=old_instance.toJsonDict()
+        )
+        self.assertIsInstance(migrated_instance, reports_6_0_1.InterpretationRequestRD)
+        self._validate(migrated_instance)
+        self.assertEqual(migrated_instance.versionControl.gitVersionControl, '6.0.1')
+
     def test_migrate_interpretation_request_rd_500_latest_no_nullables(self):
         self.test_migrate_interpretation_request_rd_500_latest(fill_nullables=False)
 
