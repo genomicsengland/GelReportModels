@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 from protocols.migration.base_migration import MigrationError, BaseMigration
 from protocols.migration.migration_reports_600_to_reports_500 import MigrateReports600To500
+from protocols.migration.migration_reports_600_to_reports_601 import MigrateReports600To601
 from protocols.migration.migration_reports_601_to_reports_600 import MigrateReports601To600
 
 from protocols.reports_2_1_0 import ClinicalReportRD as ClinicalReportRD_2_1_0
@@ -122,7 +123,7 @@ class MigrationHelpers(object):
         """
         :type json_dict: dict
         :type assembly: Assembly
-        :rtype: InterpretationRequestRD_6_0_0
+        :rtype: InterpretationRequestRD_6_0_1
         """
         types = [
             InterpretationRequestRD_6_0_1,
@@ -134,7 +135,7 @@ class MigrationHelpers(object):
         ]
         migrations = [
             MigrationHelpers.set_version_to_6_0_1,  # needed because 6 is valid as 6.1
-            MigrationHelpers.set_version_to_6_0_0,  # needed because 5 is valid as 6
+            MigrateReports600To601().migrate_interpretation_request_rd,
             MigrateReports500To600().migrate_interpretation_request_rd,
             lambda x: MigrateReports400To500().migrate_interpretation_request_rd(old_instance=x, assembly=assembly),
             MigrateReports3To4().migrate_interpretation_request_rd,
