@@ -481,4 +481,6 @@ class TestMigrateReports4To500(TestCaseMigration):
 
         old_hgnc_symbols = [re.genomicFeature.hgnc for rv in old_ig.reportedVariants for re in rv.reportEvents]
         new_hgnc_symbols = [ge.geneSymbol for rv in reported_variants_5 for re in rv.reportEvents for ge in re.genomicEntities]
+        [self.assertIsNotNone(symbol) for symbol in old_hgnc_symbols]
+        [self.assertIsNotNone(symbol) for symbol in new_hgnc_symbols]
         self.assertEqual(old_hgnc_symbols, new_hgnc_symbols)
