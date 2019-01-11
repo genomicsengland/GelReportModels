@@ -7,11 +7,11 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>gel-models</artifactId>
-    <version>7.2.1</version>
-   <packaging>${p.type}</packaging>
+    <version>7.3.0</version>
+    <packaging>${p.type}</packaging>
 
     <properties>
-        <models.version>7.2</models.version>
+        <models.version>7.3</models.version>
         <opencb.models.version>1.3.0</opencb.models.version>
         <opencb.models.package>org.opencb.biodata.models.variant.avro</opencb.models.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
