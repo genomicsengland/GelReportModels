@@ -305,7 +305,7 @@ class TestMigrateReports4To500(TestCaseMigration):
             reports_5_0_0.Assembly.GRCh38
         )
 
-        # creates a random clinical report cancer for testing not filling null values
+        # creates a random RD interpreted genome for testing not filling null values
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretedGenomeRD, VERSION_400, fill_nullables=False
         ).create()
@@ -467,3 +467,18 @@ class TestMigrateReports4To500(TestCaseMigration):
         new_instance = self.new_model.RareDiseaseExitQuestionnaire.fromJsonDict(jsonDict=old_json)
         self.assertIsInstance(new_instance, self.new_model.RareDiseaseExitQuestionnaire)
         self._validate(new_instance)
+
+    def test_migrate_reported_variants(self):
+
+        old_ig = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_400, fill_nullables=True
+        ).create()
+        self._validate(old_ig)
+
+        reported_variants_5 = MigrateReports400To500().convert_collection(
+            old_ig.reportedVariants, MigrateReports400To500()._migrate_reported_variant, assembly="GRCh37"
+        )
+
+        old_hgnc_symbols = [re.genomicFeature.hgnc for rv in old_ig.reportedVariants for re in rv.reportEvents]
+        new_hgnc_symbols = [ge.geneSymbol for rv in reported_variants_5 for re in rv.reportEvents for ge in re.genomicEntities]
+        self.assertEqual(old_hgnc_symbols, new_hgnc_symbols)
