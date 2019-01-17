@@ -16,6 +16,7 @@ protocol ExitQuestionnaires {
     // TODO: refactor with VariantClassification in CommonInterpreted.avdl
     enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed, na}
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
+    enum TypeOfAdditionalFinding {domain3, tier3, sv_cnv, mutational_signatures, mutational_burden, other}
 
 
     /**
@@ -215,15 +216,17 @@ protocol ExitQuestionnaires {
 * `domain_1`: Domain 1 only
 * `domain_1_and_2`: Domains 1 and 2
 * `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
+* `somatic_if_relevant`: Somatic WGA results to be reviewed when/if clinically relevant
     */
-    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary}
+    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary, somatic_if_relevant}
 
     /**
     Are the variants actionable?
 * `yes`: yes
 * `no`: no
+* `na`: Not applicable
     */
-    enum CancerActionableVariants {yes, no}
+    enum CancerActionableVariants {yes, no, na}
 
     /**
     The variant actionabilities:
@@ -423,10 +426,13 @@ protocol ExitQuestionnaires {
     }
 
     record AdditionalVariantsQuestions{
+
+        union {null, TypeOfAdditionalFinding} typeOfAdditionalFinding;
+        union {null, string} findingDescription;
         /**
         Chr: Pos Ref > Alt
         */
-        VariantCoordinates variantCoordinates;
+        union {null, VariantCoordinates} variantCoordinates;
 
         /**
         Type of potential actionability:
