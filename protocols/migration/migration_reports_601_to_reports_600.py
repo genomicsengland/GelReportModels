@@ -59,5 +59,11 @@ class MigrateReports601To600(BaseMigration):
         if new_instance.caseLevelQuestions.actionableVariants == 'na':
             new_instance.caseLevelQuestions.reviewedInMdtWg = 'no'
 
+        list_of_actionable_variants = []
+        for actionable_variant in new_instance.otherActionableVariants:
+            if actionable_variant.variantCoordinates is not None:
+                list_of_actionable_variants.append(actionable_variant)
+
+        new_instance.otherActionableVariants = list_of_actionable_variants
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerExitQuestionnaire)
