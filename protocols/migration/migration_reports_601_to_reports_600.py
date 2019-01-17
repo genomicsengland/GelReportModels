@@ -57,7 +57,7 @@ class MigrateReports601To600(BaseMigration):
             new_instance.caseLevelQuestions.reviewedInMdtWg = 'domain_1'
 
         if new_instance.caseLevelQuestions.actionableVariants == 'na':
-            new_instance.caseLevelQuestions.reviewedInMdtWg = 'no'
+            new_instance.caseLevelQuestions.actionableVariants = 'no'
 
         list_of_actionable_variants = []
         for actionable_variant in new_instance.otherActionableVariants:
