@@ -53,5 +53,11 @@ class MigrateReports601To600(BaseMigration):
         """
         new_instance = self.convert_class(
             target_klass=self.new_model.CancerExitQuestionnaire, instance=old_instance)
+        if new_instance.caseLevelQuestions.reviewedInMdtWga == 'somatic_if_relevant':
+            new_instance.caseLevelQuestions.reviewedInMdtWg = 'domain_1'
+
+        if new_instance.caseLevelQuestions.actionableVariants == 'na':
+            new_instance.caseLevelQuestions.reviewedInMdtWg = 'no'
+
         return self.validate_object(
             object_to_validate=new_instance, object_type=self.new_model.CancerExitQuestionnaire)
