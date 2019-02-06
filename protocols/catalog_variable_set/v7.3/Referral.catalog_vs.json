@@ -34,21 +34,21 @@
       "multiValue": false, 
       "required": true, 
       "type": "INTEGER", 
-      "name": "Year", 
+      "name": "year", 
       "description": "Format YYYY"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "Month", 
+      "name": "month", 
       "description": "Format MM. e.g June is 06"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "Day", 
+      "name": "day", 
       "description": "Format DD e.g. 12th of October is 12"
      }
     ], 
@@ -768,21 +768,21 @@
       "multiValue": false, 
       "required": true, 
       "type": "INTEGER", 
-      "name": "Year", 
+      "name": "year", 
       "description": "Format YYYY"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "Month", 
+      "name": "month", 
       "description": "Format MM. e.g June is 06"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "Day", 
+      "name": "day", 
       "description": "Format DD e.g. 12th of October is 12"
      }
     ], 
@@ -896,21 +896,21 @@
     "multiValue": false, 
     "required": true, 
     "type": "INTEGER", 
-    "name": "Year", 
+    "name": "year", 
     "description": "Format YYYY"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "INTEGER", 
-    "name": "Month", 
+    "name": "month", 
     "description": "Format MM. e.g June is 06"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "INTEGER", 
-    "name": "Day", 
+    "name": "day", 
     "description": "Format DD e.g. 12th of October is 12"
    }
   ], 
@@ -1883,21 +1883,21 @@
           "multiValue": false, 
           "required": true, 
           "type": "INTEGER", 
-          "name": "Year", 
+          "name": "year", 
           "description": "Format YYYY"
          }, 
          {
           "multiValue": false, 
           "required": false, 
           "type": "INTEGER", 
-          "name": "Month", 
+          "name": "month", 
           "description": "Format MM. e.g June is 06"
          }, 
          {
           "multiValue": false, 
           "required": false, 
           "type": "INTEGER", 
-          "name": "Day", 
+          "name": "day", 
           "description": "Format DD e.g. 12th of October is 12"
          }
         ], 
@@ -2705,21 +2705,21 @@
         "multiValue": false, 
         "required": true, 
         "type": "INTEGER", 
-        "name": "Year", 
+        "name": "year", 
         "description": "Format YYYY"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "Month", 
+        "name": "month", 
         "description": "Format MM. e.g June is 06"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "Day", 
+        "name": "day", 
         "description": "Format DD e.g. 12th of October is 12"
        }
       ], 
@@ -2876,21 +2876,21 @@
         "multiValue": false, 
         "required": true, 
         "type": "INTEGER", 
-        "name": "Year", 
+        "name": "year", 
         "description": "Format YYYY"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "Month", 
+        "name": "month", 
         "description": "Format MM. e.g June is 06"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "Day", 
+        "name": "day", 
         "description": "Format DD e.g. 12th of October is 12"
        }
       ], 
