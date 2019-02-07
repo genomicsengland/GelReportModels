@@ -40,7 +40,7 @@ protocol CancerParticipants {
         /**
         tumourType, e.g. Primary, Metastatic, Unknown
         */
-        TumourType tumourType;
+        NgisTumourType tumourType;
 
         /**
         Parent Tumour UID if this tumour is metastatic
