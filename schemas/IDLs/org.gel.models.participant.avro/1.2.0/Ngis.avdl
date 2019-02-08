@@ -11,7 +11,7 @@ protocol Ngis {
     /**
      Transformed from TOMs from routine=medium, and urgent=high
      */
-    enum Priority {high, medium, low}
+    enum Priority {low, routine, urgent}
 
     record Organisation{
         /**
