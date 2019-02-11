@@ -132,7 +132,7 @@ protocol Pedigrees {
         /**
         Diagnosis Coding System Version
         */
-        union{null, string} diagonsisCodingSystemVersion;
+        union{null, string} diagnosisCodingSystemVersion;
         /**
         Diagnosis Code
         */
