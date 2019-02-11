@@ -414,7 +414,6 @@ protocol ExitQuestionnaires {
         Type of potential actionability:
         */
         array<CancerActionabilityPharmacogenomics> variantActionability;
-        union {null, string} otherVariantActionability;
 
         /**
         How has/will this potentially actionable variant been/be used?
