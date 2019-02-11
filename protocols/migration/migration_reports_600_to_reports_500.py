@@ -321,7 +321,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         action = self.new_model.Action()
         action.evidenceType = "{} ({})".format(evidence_type, ", ".join(evidence.conditions))
         action.actionType = None
-        if hasattr(evidence, 'source'):
+        if hasattr(evidence, 'source') and evidence.source is not None:
             action.source = evidence.source
         else:
             action.source = "None"

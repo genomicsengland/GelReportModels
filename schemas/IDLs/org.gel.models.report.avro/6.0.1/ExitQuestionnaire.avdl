@@ -251,10 +251,9 @@ protocol ExitQuestionnaires {
 
     /**
     An enumeration Variant Actionability:
-      * `therapeutic_dosage_change`: Therapeutic dosage change - current or future
-      * `alternative_therapeutic_chosen`: Alternative Therapeutic Chosen
+      * `therapeutic_dosaging_or_toxicity_change`: Predicts therapeutic dosing/toxicity
     */
-    enum CancerActionabilityPharmacogenomics {therapeutic_dosage_change, alternative_therapeutic_chosen}
+    enum CancerActionabilityPharmacogenomics {therapeutic_dosaging_or_toxicity_change}
 
 
     /**
@@ -271,6 +270,14 @@ protocol ExitQuestionnaires {
 * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
     */
     enum CancerUsabilityGermline {already_actioned, actioned_result_of_this_wga}
+
+    /**
+    Variant usability for pgx variants:
+* `change_dosing`: Change in therapeutic dosing
+* `alternative_therapeutic`: Alternative therapeutic chosen
+* `reported_for_future`: Reported for future reference in case the relevant therapeutic is prescribed
+    */
+    enum CancerUsabilityPharmacogenomics {change_dosing, alternative_therapeutic, reported_for_future}
 
     /**
     Was the variant validated with an orthogonal technology?
@@ -412,7 +419,7 @@ protocol ExitQuestionnaires {
         /**
         How has/will this potentially actionable variant been/be used?
         */
-        CancerUsabilityGermline variantUsability;
+        CancerUsabilityPharmacogenomics variantUsability;
 
         /**
         Has this variant been tested by another method (either prior to or following receipt of this WGA)?
