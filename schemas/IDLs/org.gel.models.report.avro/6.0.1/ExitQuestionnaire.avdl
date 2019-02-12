@@ -273,6 +273,7 @@ protocol ExitQuestionnaires {
 
     /**
     Variant usability for pgx variants:
+    
 * `change_dosing`: Change in therapeutic dosing - current or future
 * `alternative_therapeutic`: Alternative therapeutic chosen
 * `na`: Not applicable
