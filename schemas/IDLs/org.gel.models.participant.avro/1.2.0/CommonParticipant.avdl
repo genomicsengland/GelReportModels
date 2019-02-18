@@ -400,7 +400,7 @@ protocol CommonParticipant {
 
         union {null, string} previousTreatmentName;
 
-        union {null, Date} previoustreatmentDate;
+        union {null, Date} previousTreatmentDate;
 
     }
 
