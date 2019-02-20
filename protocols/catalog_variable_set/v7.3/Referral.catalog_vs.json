@@ -2687,7 +2687,7 @@
       ], 
       "multiValue": false, 
       "type": "CATEGORICAL", 
-      "description": "tumourType - Nothe there is a break change from last version here"
+      "description": "tumourType"
      }, 
      {
       "multiValue": false, 

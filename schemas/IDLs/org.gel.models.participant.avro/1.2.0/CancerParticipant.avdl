@@ -38,7 +38,7 @@ protocol CancerParticipants {
         string tumourLocalId;
 
         /**
-        tumourType - Nothe there is a break change from last version here
+        tumourType
         */
         TumourType tumourType;
 
