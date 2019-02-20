@@ -751,9 +751,9 @@
     "name": "priority", 
     "required": true, 
     "allowedValues": [
-     "high", 
-     "medium", 
-     "low"
+     "low", 
+     "routine", 
+     "urgent"
     ], 
     "multiValue": false, 
     "type": "CATEGORICAL", 
@@ -1734,7 +1734,7 @@
         "multiValue": false, 
         "required": false, 
         "type": "TEXT", 
-        "name": "diagonsisCodingSystemVersion", 
+        "name": "diagnosisCodingSystemVersion", 
         "description": "Diagnosis Coding System Version"
        }, 
        {
@@ -1875,7 +1875,7 @@
         "description": ""
        }, 
        {
-        "name": "previoustreatmentDate", 
+        "name": "previousTreatmentDate", 
         "required": false, 
         "multiValue": false, 
         "variableSet": [
@@ -2677,17 +2677,17 @@
       "name": "tumourType", 
       "required": true, 
       "allowedValues": [
-       "PRIMARY", 
-       "METASTATIC_RECURRENCE", 
-       "RECURRENCE_OF_PRIMARY_TUMOUR", 
-       "METASTASES", 
-       "UNKNOWN", 
-       "LOCAL_RECURRENCE_OF_PRIMARY_TUMOUR", 
-       "DISTANT_METASTASES"
+       "BRAIN_TUMOUR", 
+       "HAEMATOLOGICAL_MALIGNANCY_SOLID_SAMPLE", 
+       "HAEMATOLOGICAL_MALIGNANCY_LIQUID_SAMPLE", 
+       "SOLID_TUMOUR_METASTATIC", 
+       "SOLID_TUMOUR_PRIMARY", 
+       "SOLID_TUMOUR", 
+       "UNKNOWN"
       ], 
       "multiValue": false, 
       "type": "CATEGORICAL", 
-      "description": "tumourType, e.g. Primary, Metastatic, Unknown"
+      "description": "tumourType - Nothe there is a break change from last version here"
      }, 
      {
       "multiValue": false, 
@@ -2697,7 +2697,7 @@
       "description": "Parent Tumour UID if this tumour is metastatic"
      }, 
      {
-      "name": "tumourDateOfDiagnosis", 
+      "name": "tumourDiagnosisDate", 
       "required": false, 
       "multiValue": false, 
       "variableSet": [
@@ -2868,7 +2868,7 @@
       "description": ""
      }, 
      {
-      "name": "previoustreatmentDate", 
+      "name": "previousTreatmentDate", 
       "required": false, 
       "multiValue": false, 
       "variableSet": [
@@ -2900,6 +2900,31 @@
     ], 
     "type": "OBJECT", 
     "description": "In GMS, any previous treatment recorded in TOMs"
+   }, 
+   {
+    "name": "tumourPresentation", 
+    "required": false, 
+    "allowedValues": [
+     "FIRST_PRESENTATION", 
+     "RECURRENCE", 
+     "UNKNOWN"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "In GMS, tumour presentation"
+   }, 
+   {
+    "name": "primaryOrMetastatic", 
+    "required": false, 
+    "allowedValues": [
+     "PRIMARY", 
+     "METASTATIC", 
+     "UNKNOWN", 
+     "NOT_APPLICABLE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "In GMS, primary or metastatic"
    }
   ], 
   "type": "OBJECT", 
