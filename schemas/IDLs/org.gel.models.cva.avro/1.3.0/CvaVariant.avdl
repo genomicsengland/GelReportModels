@@ -34,7 +34,7 @@ protocol VariantProtocol {
         /**
         Structural Variant Type as would appear in VCF
         */
-        union {null, StructuralVariantType} variantType;
+        union {null, org.gel.models.report.avro.StructuralVariantType} variantType;
         /**
         Left insertion sequence
         */
