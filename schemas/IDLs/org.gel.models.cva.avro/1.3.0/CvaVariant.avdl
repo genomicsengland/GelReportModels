@@ -32,6 +32,18 @@ protocol VariantProtocol {
         */
         union {null, org.gel.models.report.avro.Coordinates} structuralVariantCoordinates;
         /**
+        Structural Variant Type as would appear in VCF
+        */
+        StructuralVariantType variantType;
+        /**
+        Left insertion sequence
+        */
+        union {null, string} leftInsSeq;
+        /**
+        Right insertion sequence
+        */
+        union {null, string} rightInsSeq;
+        /**
         The annotation for the variant
         */
         union {null, org.opencb.biodata.models.variant.avro.VariantAnnotation } annotation;
