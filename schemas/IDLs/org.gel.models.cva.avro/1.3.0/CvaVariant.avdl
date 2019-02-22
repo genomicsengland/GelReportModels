@@ -34,7 +34,7 @@ protocol VariantProtocol {
         /**
         Structural Variant Type as would appear in VCF
         */
-        StructuralVariantType variantType;
+        union {null, StructuralVariantType} variantType;
         /**
         Left insertion sequence
         */
