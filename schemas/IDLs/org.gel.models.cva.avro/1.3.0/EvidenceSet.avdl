@@ -1,0 +1,204 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol EvidencesSetProtocol {
+
+    // CVA references
+    import idl "Comment.avdl";
+    import idl "ReportEvent.avdl";
+    import idl "CvaVariant.avdl";
+    // Report models references
+    import idl "CommonInterpreted.avdl";
+    // OpenCB references
+    import idl "variant.avdl";
+    import idl "evidence.avdl";
+
+
+    /**
+    The curation record contains all information that might be stored from a curation event.
+    */
+    record Curation {
+        /**
+        The heritable phenotype to which the curation refers.
+        */
+        org.opencb.biodata.models.variant.avro.HeritableTrait heritableTrait;
+        /**
+        The transcript to which the curation refers
+        */
+        union {null, org.opencb.biodata.models.variant.avro.GenomicFeature} genomicFeature;
+        /**
+        The assembly to which the curation refers
+        */
+        union {null, org.gel.models.report.avro.Assembly} assembly;
+        /**
+        The variant's classification.
+        */
+        union{null, org.opencb.biodata.models.variant.avro.VariantClassification} variantClassification;
+        /**
+        The curation confidence.
+        */
+        union {null, org.opencb.biodata.models.variant.avro.Confidence} confidence;
+        /**
+        The automatic consistency status. The value is automatically inferred from evidences.
+        */
+        org.opencb.biodata.models.variant.avro.ConsistencyStatus automaticConsistencyStatus;
+        /**
+        The manual consistency status. The value is optionally provided by a curator.
+        */
+        union {null, org.opencb.biodata.models.variant.avro.ConsistencyStatus} manualConsistencyStatus;
+        /**
+        The penetrance of the phenotype for this genotype. Value in the range [0, 1]
+        */
+        union {null, org.opencb.biodata.models.variant.avro.Penetrance} penetrance;
+        /**
+        Variable expressivity of a given phenotype for the same genotype
+        */
+        union {null, boolean} variableExpressivity;
+        /**
+        Can this variant be reported as a secondary finding?
+        */
+        union {null, boolean} reportableAsSecondaryFinding;
+        /**
+        Is this variant actionable?
+        */
+        union {null, boolean} actionable;
+        /**
+        Confirmation flag to support two-step curation
+        */
+        union {null, boolean} confirmed;
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.opencb.biodata.models.variant.avro.Property> additionalProperties = [];
+        /**
+        Bibliography
+        */
+        array<string> bibliography = [];
+    }
+
+    /**
+    A curation history entry, stores previous and new curation state, the date of the change and the author.
+    */
+    record CurationHistoryEntry {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string `date`;
+        /**
+        The current curation at date
+        */
+        Curation curation;
+        /**
+        The author of the curation event
+        */
+        string userId;
+    }
+
+    /**
+    A curation for a known variant contains the current curation state and the curation history.
+    Must be unique by `curation.phenotype` and `curation.inheritanceMode`.
+    */
+    record CurationEntry {
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string `date`;
+        /**
+        The current curation state
+        */
+        Curation curation;
+        /**
+        The curation history
+        */
+        array<CurationHistoryEntry> history = [];
+        /**
+        Comments on the curation event
+        */
+        array<Comment> comments = [];
+    }
+
+    /*
+    An enum of property names.
+    */
+    /*
+    enum PropertyName {
+        OBI_0001617,                            // pubmed id, http://purl.obolibrary.org/obo/OBI_0001617
+        SIO_001066,                             // study, http://semanticscience.org/resource/SIO_001066
+        SIO_001315,                             // author list, http://semanticscience.org/resource/SIO_001315
+        SIO_000160,                             // journal, http://semanticscience.org/resource/SIO_000160
+        STATO_0000088,                          // study group population size, http://purl.obolibrary.org/obo/STATO_0000088
+        OBI_0000175,                            // pvalue,http://purl.obolibrary.org/obo/OBI_0000175
+        OBI_0001265,                            // FWER_adjusted_pvalue, http://purl.obolibrary.org/obo/OBI_0001265
+        OBI_0001442,                            // qvalue, http://purl.obolibrary.org/obo/OBI_0001442
+        STATO_0000200,                          // study_power, http://purl.obolibrary.org/obo/STATO_0000200
+        STATO_0000053,                          //false_positive_report_probability, http://purl.obolibrary.org/obo/STATO_0000053
+        STATO_0000182,                          //odds_ratio, http://purl.obolibrary.org/obo/STATO_0000182
+        STATO_0000245,                          //relative_risk, http://purl.obolibrary.org/obo/STATO_0000245
+        STATO_0000196,                          //confidence_interval, http://purl.obolibrary.org/obo/STATO_0000196
+        OBI_0000789,                           //OBI_0000789, http://purl.obolibrary.org/obo/OBI_0000789
+        STATO_0000254                           //population_allele_frequency, http://purl.obolibrary.org/obo/STATO_0000254
+    }
+    */
+
+    /**
+An evidences set contains all the evidences and curations for a variant or group of variants. It also links to all
+reports for the variant/s.
+The curations are stored in an array of CurationEntry that keep a history of changes to curation status. A curation
+must be associated to a phenotype and optionally to a mode of inheritance (MOI) and a genomic feature, only one curation
+per combination of phenotype, MOI and genomic feature is stored.
+The evidences are stored in an array of EvidenceEntry. An evidence may be optionally associated to a phenotype,
+mode of inheritance and genomic feature. An evidence not associated to any phenotype is considered to be an evidence
+for any phenotype. Evidence consistency is evaluated based on existing curations.
+
+Every EvidenceSet is uniquely identified by:
+
+* variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate) after
+   natural text sorting
+
+Duplication of the prior fields is not be supported.
+    */
+    record EvidenceSet {
+        /**
+        The author of the curation event
+        */
+        string userId;
+        /**
+        OpenCB variant model containing the basic variant coordinates and annotations from CellBase.
+        Sample information like studies and genotypes is removed.
+        */
+        array<Variant> variants;
+        /**
+        The list of curations for different phenotypes for a known variant
+        */
+        array<CurationEntry> curations = [];
+        /**
+        The list of evidences for this variant
+        */
+        array<org.opencb.biodata.models.variant.avro.EvidenceEntry> evidences = [];
+        /**
+        Comments for this variant
+        */
+        array<Comment> comments = [];
+        /**
+        Report events
+        */
+        array<ReportEventEntry> reportEvents = [];
+    }
+
+    /**
+    A curation and the variants coordinates to which it corresponds
+    */
+    record CurationAndVariants {
+        VariantsCoordinates variantsCoordinates;
+        Curation curation;
+    }
+
+    /**
+    An evidence entry and the variants coordinates to which it corresponds
+    */
+    record EvidenceEntryAndVariants {
+        VariantsCoordinates variantsCoordinates;
+        union {null, VariantsCoordinates} markersCoordinates;
+        org.opencb.biodata.models.variant.avro.EvidenceEntry evidenceEntry;
+        union {null, org.gel.models.report.avro.Actions} actions;
+    }
+}
