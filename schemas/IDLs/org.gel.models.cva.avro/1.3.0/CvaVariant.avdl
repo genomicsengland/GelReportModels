@@ -56,10 +56,6 @@ protocol VariantProtocol {
         */
         union {null, array<org.gel.models.report.avro.Rearrangement>} rearrangement;
         /**
-        Additional variant attributes
-        */
-        union {null, org.gel.models.report.avro.VariantAttributes } variantAttributes;
-        /**
         Variant annotation
         */
         union {null, org.opencb.biodata.models.variant.avro.VariantAnnotation } annotation;
