@@ -25,7 +25,7 @@ elif target_version == '3':
 else:
     raise ValueError("Not supported python version {}".format(target_version))
 
-VERSION = "7.3.0"
+VERSION = "7.2.4"
 setup(
     name='GelReportModels',
     version=VERSION,
