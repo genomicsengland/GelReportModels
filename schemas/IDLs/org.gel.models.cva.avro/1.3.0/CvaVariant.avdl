@@ -44,7 +44,23 @@ protocol VariantProtocol {
         */
         union {null, string} rightInsSeq;
         /**
-        The annotation for the variant
+        Short Tandem Repeat reference data
+        */
+        union {null, org.gel.models.report.avro.ShortTandemRepeatReferenceData} shortTandemRepeatReferenceData;
+        /**
+        Chromosomal rearrangements breakpoints
+        */
+        union {null, array<org.gel.models.report.avro.BreakPoint>} breakpoints;
+        /**
+        Chromosomal rearrangement
+        */
+        union {null, array<org.gel.models.report.avro.Rearrangement>} rearrangement;
+        /**
+        Additional variant attributes
+        */
+        union {null, org.gel.models.report.avro.VariantAttributes } variantAttributes;
+        /**
+        Variant annotation
         */
         union {null, org.opencb.biodata.models.variant.avro.VariantAnnotation } annotation;
     }
