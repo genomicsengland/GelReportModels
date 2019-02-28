@@ -379,8 +379,8 @@
       "multiValue": false, 
       "required": false, 
       "type": "TEXT", 
-      "name": "individualUid", 
-      "description": "In GMS, this is the individualUid of the sample"
+      "name": "participantId", 
+      "description": "Participant Id of the sample"
      }, 
      {
       "multiValue": false, 
@@ -2401,8 +2401,8 @@
       "multiValue": false, 
       "required": false, 
       "type": "TEXT", 
-      "name": "individualUid", 
-      "description": "In GMS, this is the individualUid of the sample"
+      "name": "participantId", 
+      "description": "Participant Id of the sample"
      }, 
      {
       "multiValue": false, 
@@ -2843,6 +2843,31 @@
       "type": "TEXT", 
       "name": "tumourPrognosticScore", 
       "description": "Prognostic Score of the Tumour"
+     }, 
+     {
+      "name": "tumourPresentation", 
+      "required": false, 
+      "allowedValues": [
+       "FIRST_PRESENTATION", 
+       "RECURRENCE", 
+       "UNKNOWN"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "In GMS, tumour presentation"
+     }, 
+     {
+      "name": "primaryOrMetastatic", 
+      "required": false, 
+      "allowedValues": [
+       "PRIMARY", 
+       "METASTATIC", 
+       "UNKNOWN", 
+       "NOT_APPLICABLE"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "In GMS, primary or metastatic"
      }
     ], 
     "type": "OBJECT", 
@@ -2900,31 +2925,6 @@
     ], 
     "type": "OBJECT", 
     "description": "In GMS, any previous treatment recorded in TOMs"
-   }, 
-   {
-    "name": "tumourPresentation", 
-    "required": false, 
-    "allowedValues": [
-     "FIRST_PRESENTATION", 
-     "RECURRENCE", 
-     "UNKNOWN"
-    ], 
-    "multiValue": false, 
-    "type": "CATEGORICAL", 
-    "description": "In GMS, tumour presentation"
-   }, 
-   {
-    "name": "primaryOrMetastatic", 
-    "required": false, 
-    "allowedValues": [
-     "PRIMARY", 
-     "METASTATIC", 
-     "UNKNOWN", 
-     "NOT_APPLICABLE"
-    ], 
-    "multiValue": false, 
-    "type": "CATEGORICAL", 
-    "description": "In GMS, primary or metastatic"
    }
   ], 
   "type": "OBJECT", 
