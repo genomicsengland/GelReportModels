@@ -34,21 +34,21 @@
       "multiValue": false, 
       "required": true, 
       "type": "INTEGER", 
-      "name": "year",
+      "name": "year", 
       "description": "Format YYYY"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "month",
+      "name": "month", 
       "description": "Format MM. e.g June is 06"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "day",
+      "name": "day", 
       "description": "Format DD e.g. 12th of October is 12"
      }
     ], 
@@ -379,7 +379,7 @@
       "multiValue": false, 
       "required": false, 
       "type": "TEXT", 
-      "name": "participantId",
+      "name": "participantId", 
       "description": "Participant Id of the sample"
      }, 
      {
@@ -751,8 +751,8 @@
     "name": "priority", 
     "required": true, 
     "allowedValues": [
-     "low",
-     "routine",
+     "low", 
+     "routine", 
      "urgent"
     ], 
     "multiValue": false, 
@@ -768,21 +768,21 @@
       "multiValue": false, 
       "required": true, 
       "type": "INTEGER", 
-      "name": "year",
+      "name": "year", 
       "description": "Format YYYY"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "month",
+      "name": "month", 
       "description": "Format MM. e.g June is 06"
      }, 
      {
       "multiValue": false, 
       "required": false, 
       "type": "INTEGER", 
-      "name": "day",
+      "name": "day", 
       "description": "Format DD e.g. 12th of October is 12"
      }
     ], 
@@ -896,21 +896,21 @@
     "multiValue": false, 
     "required": true, 
     "type": "INTEGER", 
-    "name": "year",
+    "name": "year", 
     "description": "Format YYYY"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "INTEGER", 
-    "name": "month",
+    "name": "month", 
     "description": "Format MM. e.g June is 06"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "INTEGER", 
-    "name": "day",
+    "name": "day", 
     "description": "Format DD e.g. 12th of October is 12"
    }
   ], 
@@ -1734,7 +1734,7 @@
         "multiValue": false, 
         "required": false, 
         "type": "TEXT", 
-        "name": "diagnosisCodingSystemVersion",
+        "name": "diagnosisCodingSystemVersion", 
         "description": "Diagnosis Coding System Version"
        }, 
        {
@@ -1875,7 +1875,7 @@
         "description": ""
        }, 
        {
-        "name": "previousTreatmentDate",
+        "name": "previousTreatmentDate", 
         "required": false, 
         "multiValue": false, 
         "variableSet": [
@@ -1883,21 +1883,21 @@
           "multiValue": false, 
           "required": true, 
           "type": "INTEGER", 
-          "name": "year",
+          "name": "year", 
           "description": "Format YYYY"
          }, 
          {
           "multiValue": false, 
           "required": false, 
           "type": "INTEGER", 
-          "name": "month",
+          "name": "month", 
           "description": "Format MM. e.g June is 06"
          }, 
          {
           "multiValue": false, 
           "required": false, 
           "type": "INTEGER", 
-          "name": "day",
+          "name": "day", 
           "description": "Format DD e.g. 12th of October is 12"
          }
         ], 
@@ -2401,7 +2401,7 @@
       "multiValue": false, 
       "required": false, 
       "type": "TEXT", 
-      "name": "participantId",
+      "name": "participantId", 
       "description": "Participant Id of the sample"
      }, 
      {
@@ -2677,12 +2677,12 @@
       "name": "tumourType", 
       "required": true, 
       "allowedValues": [
-       "BRAIN_TUMOUR",
-       "HAEMATOLOGICAL_MALIGNANCY_SOLID_SAMPLE",
-       "HAEMATOLOGICAL_MALIGNANCY_LIQUID_SAMPLE",
-       "SOLID_TUMOUR_METASTATIC",
-       "SOLID_TUMOUR_PRIMARY",
-       "SOLID_TUMOUR",
+       "BRAIN_TUMOUR", 
+       "HAEMATOLOGICAL_MALIGNANCY_SOLID_SAMPLE", 
+       "HAEMATOLOGICAL_MALIGNANCY_LIQUID_SAMPLE", 
+       "SOLID_TUMOUR_METASTATIC", 
+       "SOLID_TUMOUR_PRIMARY", 
+       "SOLID_TUMOUR", 
        "UNKNOWN"
       ], 
       "multiValue": false, 
@@ -2697,7 +2697,7 @@
       "description": "Parent Tumour UID if this tumour is metastatic"
      }, 
      {
-      "name": "tumourDiagnosisDate",
+      "name": "tumourDiagnosisDate", 
       "required": false, 
       "multiValue": false, 
       "variableSet": [
@@ -2705,21 +2705,21 @@
         "multiValue": false, 
         "required": true, 
         "type": "INTEGER", 
-        "name": "year",
+        "name": "year", 
         "description": "Format YYYY"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "month",
+        "name": "month", 
         "description": "Format MM. e.g June is 06"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "day",
+        "name": "day", 
         "description": "Format DD e.g. 12th of October is 12"
        }
       ], 
@@ -2843,30 +2843,30 @@
       "type": "TEXT", 
       "name": "tumourPrognosticScore", 
       "description": "Prognostic Score of the Tumour"
-     },
+     }, 
      {
-      "name": "tumourPresentation",
-      "required": false,
+      "name": "tumourPresentation", 
+      "required": false, 
       "allowedValues": [
-       "FIRST_PRESENTATION",
-       "RECURRENCE",
+       "FIRST_PRESENTATION", 
+       "RECURRENCE", 
        "UNKNOWN"
-      ],
-      "multiValue": false,
-      "type": "CATEGORICAL",
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
       "description": "In GMS, tumour presentation"
-     },
+     }, 
      {
-      "name": "primaryOrMetastatic",
-      "required": false,
+      "name": "primaryOrMetastatic", 
+      "required": false, 
       "allowedValues": [
-       "PRIMARY",
-       "METASTATIC",
-       "UNKNOWN",
+       "PRIMARY", 
+       "METASTATIC", 
+       "UNKNOWN", 
        "NOT_APPLICABLE"
-      ],
-      "multiValue": false,
-      "type": "CATEGORICAL",
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
       "description": "In GMS, primary or metastatic"
      }
     ], 
@@ -2893,7 +2893,7 @@
       "description": ""
      }, 
      {
-      "name": "previousTreatmentDate",
+      "name": "previousTreatmentDate", 
       "required": false, 
       "multiValue": false, 
       "variableSet": [
@@ -2901,21 +2901,21 @@
         "multiValue": false, 
         "required": true, 
         "type": "INTEGER", 
-        "name": "year",
+        "name": "year", 
         "description": "Format YYYY"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "month",
+        "name": "month", 
         "description": "Format MM. e.g June is 06"
        }, 
        {
         "multiValue": false, 
         "required": false, 
         "type": "INTEGER", 
-        "name": "day",
+        "name": "day", 
         "description": "Format DD e.g. 12th of October is 12"
        }
       ], 
