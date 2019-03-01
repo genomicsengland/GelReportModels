@@ -87,6 +87,16 @@ protocol CancerParticipants {
         */
         union {null, string} tumourPrognosticScore;
 
+        /**
+        In GMS, tumour presentation
+        */
+        union {null, TumourPresentation} tumourPresentation;
+
+        /**
+        In GMS, primary or metastatic
+        */
+        union {null, PrimaryOrMetastatic} primaryOrMetastatic;
+
     }
 
 
@@ -193,14 +203,6 @@ protocol CancerParticipants {
         */
         union {null, array<PreviousTreatment>} previousTreatment;
 
-        /**
-        In GMS, tumour presentation
-        */
-        union {null, TumourPresentation} tumourPresentation;
 
-        /**
-        In GMS, primary or metastatic
-        */
-        union {null, PrimaryOrMetastatic} primaryOrMetastatic;
     }
 }

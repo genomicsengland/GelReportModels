@@ -643,9 +643,9 @@ protocol CommonParticipant {
         union {null, string} sampleUid;
 
     /**
-        In GMS, this is the individualUid of the sample
+        Participant Id of the sample
         */
-        union {null, string} individualUid;
+        union {null, string} participantId;
 
     /**
         In GMS, this is the maskedPID
