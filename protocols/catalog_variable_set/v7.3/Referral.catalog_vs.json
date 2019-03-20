@@ -1481,7 +1481,94 @@
        }
       ], 
       "type": "OBJECT", 
-      "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked\n        NOTE: for GMS this field has been replaced by GMSConsentStatus"
+      "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked"
+     }, 
+     {
+      "name": "testConsentStatus", 
+      "required": false, 
+      "multiValue": false, 
+      "variableSet": [
+       {
+        "name": "programmeConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Is this individual consented to the programme? It could simply be a family member that is not consented\n        but for whom affection status is known"
+       }, 
+       {
+        "name": "primaryFindingConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Consent for feedback of primary findings?\n        RD: Primary Findings\n        Cancer: PrimaryFindings is somatic + pertinent germline findings"
+       }, 
+       {
+        "name": "researchConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Research Consent"
+       }, 
+       {
+        "name": "healthRelatedFindingConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Consent for secondary health related findings?"
+       }, 
+       {
+        "name": "carrierStatusConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Consent for carrier status check?"
+       }, 
+       {
+        "name": "pharmacogenomicsFindingConsent", 
+        "required": true, 
+        "allowedValues": [
+         "true", 
+         "false", 
+         "undefined", 
+         "not_applicable"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "Consent for pharmacogenomics consent as secondary findings?"
+       }
+      ], 
+      "type": "OBJECT", 
+      "description": "What has this participant consented in the context of a Genomic Test?"
      }, 
      {
       "name": "samples", 
@@ -2081,7 +2168,94 @@
      }
     ], 
     "type": "OBJECT", 
-    "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked\n        NOTE: In GMS, this is replaced by the GMSConsentStatus"
+    "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked"
+   }, 
+   {
+    "name": "testConsentStatus", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "name": "programmeConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Is this individual consented to the programme? It could simply be a family member that is not consented\n        but for whom affection status is known"
+     }, 
+     {
+      "name": "primaryFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for feedback of primary findings?\n        RD: Primary Findings\n        Cancer: PrimaryFindings is somatic + pertinent germline findings"
+     }, 
+     {
+      "name": "researchConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Research Consent"
+     }, 
+     {
+      "name": "healthRelatedFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for secondary health related findings?"
+     }, 
+     {
+      "name": "carrierStatusConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for carrier status check?"
+     }, 
+     {
+      "name": "pharmacogenomicsFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "true", 
+       "false", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for pharmacogenomics consent as secondary findings?"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "What has this participant consented in the context of a Genomic Test?"
    }, 
    {
     "multiValue": false, 

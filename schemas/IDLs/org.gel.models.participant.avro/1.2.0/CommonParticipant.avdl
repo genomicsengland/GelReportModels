@@ -280,9 +280,9 @@ protocol CommonParticipant {
     clinicalEthnicities supersedes Ancestries in GMS
     */
 
-    enum GenericConsent {`true`, `false`, not_discussed}
+    enum GenericConsent {`true`, `false`, undefined, not_applicable}
 
-    enum PrimaryConsent {`true`, `false`, best_interest}
+    enum PrimaryConsent {`true`, `false`, undefined, not_applicable}
 
 /**
     Consent Status for GMS
