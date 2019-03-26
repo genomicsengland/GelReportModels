@@ -280,9 +280,7 @@ protocol CommonParticipant {
     clinicalEthnicities supersedes Ancestries in GMS
     */
 
-    enum GenericConsent {`true`, `false`, not_discussed}
-
-    enum PrimaryConsent {`true`, `false`, best_interest}
+    enum GenericConsent {YES, NO, NOT_APPLICABLE, UNDEFINED}
 
 /**
     Consent Status for GMS
@@ -298,7 +296,7 @@ protocol CommonParticipant {
         RD: Primary Findings
         Cancer: PrimaryFindings is somatic + pertinent germline findings
         */
-        PrimaryConsent primaryFindingConsent;
+        GenericConsent primaryFindingConsent;
     /**
         Research Consent
         */
@@ -419,22 +417,36 @@ protocol CommonParticipant {
         union {null, string} clinicalIndicationVersionNumber;
     }
 
+    record Identifier{
+
+    /**
+    Identifier code. E.g. SNOMED CT Code: 86049000
+    */
+    string identifierCode;
+
+    /**
+    Identifier name. E.g. SNOMED CT Name: Malignant neoplasm, primary (morphologic abnormality)
+    */
+    string identifierName;
+    }
+
+
     record Morphology{
 
     /**
         Tumour/sample morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologyICD;
+        union {null, Identifier} morphologyICD;
 
     /**
         Tumour/sample morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologySnomedCT;
+        union {null, Identifier} morphologySnomedCT;
 
     /**
         Tumour/sample morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} morphologySnomedRT;
+        union {null, Identifier} morphologySnomedRT;
     }
 
     record Topography{
@@ -442,17 +454,17 @@ protocol CommonParticipant {
     /**
         Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographyICD;
+        union {null, Identifier} topographyICD;
 
     /**
         Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographySnomedCT;
+        union {null, Identifier} topographySnomedCT;
 
     /**
         Tumour/sample topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
         */
-        union {null, string} topographySnomedRT;
+        union {null, Identifier} topographySnomedRT;
 
     }
 

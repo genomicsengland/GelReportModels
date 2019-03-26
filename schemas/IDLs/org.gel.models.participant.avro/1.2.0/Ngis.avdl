@@ -157,5 +157,11 @@ protocol Ngis {
         Clinical Indication of the referral
         */
         ClinicalIndication clinicalIndication;
+
+        /**
+        Collection common identifier for research cohorts using GMS Framework
+         */
+        union {null, string} collection;
+
     }
 }
