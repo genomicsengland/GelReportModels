@@ -258,8 +258,8 @@
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
-  "name": "individualUid", 
-  "description": "In GMS, this is the individualUid of the sample"
+  "name": "participantId", 
+  "description": "Participant Id of the sample"
  }, 
  {
   "multiValue": false, 

@@ -38,9 +38,9 @@ protocol CancerParticipants {
         string tumourLocalId;
 
         /**
-        tumourType, e.g. Primary, Metastatic, Unknown
+        tumourType
         */
-        NgisTumourType tumourType;
+        TumourType tumourType;
 
         /**
         Parent Tumour UID if this tumour is metastatic
@@ -50,7 +50,7 @@ protocol CancerParticipants {
         /**
         Date of Diagnosis of the specific tumour
         */
-        union {null, Date} tumourDateOfDiagnosis;
+        union {null, Date} tumourDiagnosisDate;
 
         /**
         Description of the tumour
@@ -86,6 +86,16 @@ protocol CancerParticipants {
         Prognostic Score of the Tumour
         */
         union {null, string} tumourPrognosticScore;
+
+        /**
+        In GMS, tumour presentation
+        */
+        union {null, TumourPresentation} tumourPresentation;
+
+        /**
+        In GMS, primary or metastatic
+        */
+        union {null, PrimaryOrMetastatic} primaryOrMetastatic;
 
     }
 
@@ -192,5 +202,7 @@ protocol CancerParticipants {
         In GMS, any previous treatment recorded in TOMs
         */
         union {null, array<PreviousTreatment>} previousTreatment;
+
+
     }
 }
