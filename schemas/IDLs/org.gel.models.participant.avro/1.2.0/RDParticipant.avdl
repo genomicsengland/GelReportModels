@@ -318,6 +318,11 @@ protocol Pedigrees {
         For GMS cases, previous Treatment History
         */
         union {null, array<PreviousTreatment>} previousTreatment;
+
+        /**
+        For GMS cases, GMS Consent Status
+        */
+        union {null, GmsConsentStatus} gmsConsentStatus;
     }
 
     /**

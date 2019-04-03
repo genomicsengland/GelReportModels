@@ -203,6 +203,10 @@ protocol CancerParticipants {
         */
         union {null, array<PreviousTreatment>} previousTreatment;
 
-
+        /**
+        For GMS cases, GMS Consent Status
+        */
+        union {null, GmsConsentStatus} gmsConsentStatus;
+    
     }
 }
