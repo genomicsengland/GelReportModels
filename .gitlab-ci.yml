@@ -1,0 +1,15 @@
+stages:
+  - deply
+
+build_test_image_and_test:
+  image: docker:latest
+  stage: deploy
+  environment:
+    name: Build and deploy
+  script:
+    - apk update && apk add bash
+    - docker build -f Dockerfile-test -t gelreportmodels:latest .
+    - docker run gelreportmodels:latest mvn deploy
+  tags:
+    - ou:bio
+    - executor:docker
