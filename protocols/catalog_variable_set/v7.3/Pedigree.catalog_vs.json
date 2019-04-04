@@ -569,8 +569,8 @@
       "name": "programmeConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 
@@ -582,8 +582,8 @@
       "name": "primaryFindingConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 
@@ -595,8 +595,8 @@
       "name": "researchConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 
@@ -608,8 +608,8 @@
       "name": "healthRelatedFindingConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 
@@ -621,8 +621,8 @@
       "name": "carrierStatusConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 
@@ -634,8 +634,8 @@
       "name": "pharmacogenomicsFindingConsent", 
       "required": true, 
       "allowedValues": [
-       "true", 
-       "false", 
+       "yes", 
+       "no", 
        "undefined", 
        "not_applicable"
       ], 

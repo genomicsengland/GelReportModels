@@ -280,9 +280,8 @@ protocol CommonParticipant {
     clinicalEthnicities supersedes Ancestries in GMS
     */
 
-    enum GenericConsent {`true`, `false`, undefined, not_applicable}
+    enum GenericConsent {yes, no, undefined, not_applicable}
 
-    enum PrimaryConsent {`true`, `false`, undefined, not_applicable}
 
 /**
     Consent Status for GMS
@@ -298,7 +297,7 @@ protocol CommonParticipant {
         RD: Primary Findings
         Cancer: PrimaryFindings is somatic + pertinent germline findings
         */
-        PrimaryConsent primaryFindingConsent;
+        GenericConsent primaryFindingConsent;
     /**
         Research Consent
         */
