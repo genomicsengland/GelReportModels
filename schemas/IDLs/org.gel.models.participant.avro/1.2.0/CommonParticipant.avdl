@@ -280,9 +280,8 @@ protocol CommonParticipant {
     clinicalEthnicities supersedes Ancestries in GMS
     */
 
-    enum GenericConsent {`true`, `false`, not_discussed}
+    enum GenericConsent {yes, no, undefined, not_applicable}
 
-    enum PrimaryConsent {`true`, `false`, best_interest}
 
 /**
     Consent Status for GMS
@@ -298,7 +297,7 @@ protocol CommonParticipant {
         RD: Primary Findings
         Cancer: PrimaryFindings is somatic + pertinent germline findings
         */
-        PrimaryConsent primaryFindingConsent;
+        GenericConsent primaryFindingConsent;
     /**
         Research Consent
         */
@@ -420,39 +419,36 @@ protocol CommonParticipant {
     }
 
     record Morphology{
-
-    /**
-        Tumour/sample morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        /**
+        The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)
         */
-        union {null, string} morphologyICD;
-
-    /**
-        Tumour/sample morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        union {null, string} id;
+        /**
+        The ontology term name
         */
-        union {null, string} morphologySnomedCT;
-
-    /**
-        Tumour/sample morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        union {null, string} name;
+        /**
+        Optional value for the ontology term, the type of the value is not checked
+        (i.e.: we could set the pvalue term to "significant" or to "0.0001")
         */
-        union {null, string} morphologySnomedRT;
+        union {null, string} value;
     }
 
     record Topography{
 
-    /**
-        Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        /**
+        The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)
         */
-        union {null, string} topographyICD;
-
-    /**
-        Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        union {null, string} id;
+        /**
+        The ontology term name
         */
-        union {null, string} topographySnomedCT;
-
-    /**
-        Tumour/sample topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        union {null, string} name;
+        /**
+        Optional value for the ontology term, the type of the value is not checked
+        (i.e.: we could set the pvalue term to "significant" or to "0.0001")
         */
-        union {null, string} topographySnomedRT;
+        union {null, string} value;
 
     }
 

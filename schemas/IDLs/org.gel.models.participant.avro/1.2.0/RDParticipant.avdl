@@ -25,7 +25,7 @@ protocol Pedigrees {
 
         /**
         This is Level4 Title for this disorder.
-        In GMS, this is the clinicalIndicationFullName.
+        In GMS, this is the clinicalIndicationFullName/clinicalIndicationCode.
         */
         union {null,string} specificDisease;
 
@@ -274,9 +274,13 @@ protocol Pedigrees {
         What has this participant consented to?
         A participant that has been consented to the programme should also have sequence data associated with them; however
         this needs to be programmatically checked
-        NOTE: for GMS this field has been replaced by GMSConsentStatus
         */
         union {null, ConsentStatus} consentStatus;
+
+        /**
+        What has this participant consented in the context of a Genomic Test?
+        */
+        union {null, GmsConsentStatus} testConsentStatus;
 
         /**
         This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
