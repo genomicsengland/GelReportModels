@@ -212,6 +212,13 @@
     "type": "TEXT", 
     "name": "value", 
     "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "version", 
+    "description": "Ontology version"
    }
   ], 
   "type": "OBJECT", 
@@ -242,6 +249,13 @@
     "type": "TEXT", 
     "name": "value", 
     "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "version", 
+    "description": "Ontology version"
    }
   ], 
   "type": "OBJECT", 
