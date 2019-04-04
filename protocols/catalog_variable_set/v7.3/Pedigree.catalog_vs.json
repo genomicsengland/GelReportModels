@@ -239,7 +239,7 @@
       "required": false, 
       "type": "TEXT", 
       "name": "specificDisease", 
-      "description": "This is Level4 Title for this disorder.\n        In GMS, this is the clinicalIndicationFullName."
+      "description": "This is Level4 Title for this disorder.\n        In GMS, this is the clinicalIndicationFullName/clinicalIndicationCode."
      }, 
      {
       "multiValue": false, 

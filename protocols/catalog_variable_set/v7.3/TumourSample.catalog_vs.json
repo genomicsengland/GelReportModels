@@ -196,22 +196,22 @@
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologyICD", 
-    "description": "Tumour/sample morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "id", 
+    "description": "The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologySnomedCT", 
-    "description": "Tumour/sample morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "name", 
+    "description": "The ontology term name"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "morphologySnomedRT", 
-    "description": "Tumour/sample morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "value", 
+    "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
    }
   ], 
   "type": "OBJECT", 
@@ -226,22 +226,22 @@
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographyICD", 
-    "description": "Tumour/sample topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "id", 
+    "description": "The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographySnomedCT", 
-    "description": "Tumour/sample topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "name", 
+    "description": "The ontology term name"
    }, 
    {
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "topographySnomedRT", 
-    "description": "Tumour/sample topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)"
+    "name": "value", 
+    "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
    }
   ], 
   "type": "OBJECT", 
