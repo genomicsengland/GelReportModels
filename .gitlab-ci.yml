@@ -9,7 +9,7 @@ build_test_image_and_deploy:
     name: Build and deploy
   script:
     - apk update && apk add bash
-    - docker build -f Dockerfile-test -t gelreportmodels:latest .
+    - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn deploy
   tags:
     - ou:bio
@@ -24,7 +24,7 @@ build_test_image_and_test:
     name: Build and test
   script:
     - apk update && apk add bash
-    - docker build -f Dockerfile-test -t gelreportmodels:latest .
+    - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn test
   tags:
     - ou:bio
