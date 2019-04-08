@@ -187,9 +187,9 @@ Duplication of the prior fields is not be supported.
         */
         union {null, ReportEventQuestionnaireCancer} reportEventQuestionnaireCancer;
         /**
-        The variant ids
+        The variant id
         **/
-        array<string> variantIds = [];
+        string variantId;
         /**
         The id of the combined compound hetrozygous variants if present
         **/
