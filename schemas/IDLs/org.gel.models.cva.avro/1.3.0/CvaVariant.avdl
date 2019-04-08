@@ -68,7 +68,7 @@ protocol VariantProtocol {
         /**
         The id of the variant
         **/
-        union {null, string} id;
+        string id;
         /**
         A list of variant representations
         */
