@@ -66,6 +66,10 @@ protocol VariantProtocol {
     */
     record Variant {
         /**
+        The id of the variant
+        **/
+        string id;
+        /**
         A list of variant representations
         */
         array<VariantRepresentation> variants = [];
