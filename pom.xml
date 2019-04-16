@@ -236,4 +236,11 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+      <repository>
+        <id>central</id>
+        <name>cs-prod-tools-artifactory-01.gel.zone-releases</name>
+        <url>https://cs-prod-tools-artifactory-01.gel.zone/artifactory/cva-release-local</url>
+      </repository>
+    </distributionManagement>
 </project>
