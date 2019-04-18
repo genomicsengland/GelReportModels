@@ -32,6 +32,10 @@ protocol VariantProtocol {
         */
         union {null, org.gel.models.report.avro.Coordinates} structuralVariantCoordinates;
         /**
+        Small Variant Type
+        */
+        union {null, org.opencb.biodata.models.variant.avro.VariantType} smallVariantType;
+        /**
         Structural Variant Type as would appear in VCF
         */
         union {null, org.gel.models.report.avro.StructuralVariantType} variantType;
