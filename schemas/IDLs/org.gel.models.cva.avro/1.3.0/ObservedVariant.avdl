@@ -28,19 +28,9 @@ Duplication of the prior fields is not to be supported.
         */
         string `date`;
         /**
-        The assembly to which the variant refers
-        */
-        org.gel.models.report.avro.Assembly assembly;
-        /**
-        The abstract variant
-        */
-        Variant variant;
-
-        /**
         Variant call
         */
         union {null, org.gel.models.report.avro.VariantCall} variantCall;
-
         /**
         Validation flag
         */

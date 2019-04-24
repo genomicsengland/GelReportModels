@@ -191,13 +191,21 @@ Duplication of the prior fields is not be supported.
         **/
         string variantId;
         /**
-        The id of the combined compound hetrozygous variants if present
+        The grouped variant id (this is not a list as we only support groups of two variants ie: compound heterozygous)
         **/
-        union {null, string} compoundHetrozygousVariantId;
+        union {null, string} groupedVariantId;
         /**
         The observed variants
         */
         array<ObservedVariant> observedVariants = [];
+        /**
+        The assembly to which the variant refers
+        */
+        org.gel.models.report.avro.Assembly assembly;
+        /**
+        The abstract variant
+        */
+        Variant variant;
         /**
         Comments for this diagnostic event
         */
