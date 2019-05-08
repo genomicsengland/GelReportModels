@@ -10,7 +10,7 @@ build_test_image_and_deploy:
   script:
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
-    - docker run gelreportmodels:latest mvn deploy -Pcva-gitlab 
+    - docker run gelreportmodels:latest mvn deploy -Pgelreportmodel-gitlab 
   tags:
     - ou:bio
     - executor:docker

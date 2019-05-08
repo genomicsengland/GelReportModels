@@ -40,11 +40,11 @@
         <profile>
             <repositories>
                 <repository>
-                    <id>cva-gitlab</id>
+                    <id>gelreportmodel-gitlab</id>
                     <url>https://gitlab.com/api/v4/projects/11692019/packages/maven</url>
                 </repository>
             </repositories>
-            <id>gitlab</id>
+            <id>gelreportmodel-gitlab</id>
           </profile>
     </profiles>
     <activeProfiles>
@@ -52,7 +52,7 @@
     </activeProfiles>
     <servers>
         <server>
-            <id>cva-gitlab</id>
+            <id>gelreportmodel-gitlab</id>
             <configuration>
                 <httpHeaders>
                     <property>
