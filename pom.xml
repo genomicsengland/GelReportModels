@@ -239,7 +239,7 @@
     <distributionManagement>
       <repository>
          <id>cva-gitlab</id>
-         <url>https://gitlab.com/api/v4/projects/12130290/packages/maven</url>
+         <url>https://gitlab.com/api/v4/projects/11692019/packages/maven</url>
       </repository>
     </distributionManagement>
 </project>

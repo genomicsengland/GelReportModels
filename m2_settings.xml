@@ -41,7 +41,7 @@
             <repositories>
                 <repository>
                     <id>cva-gitlab</id>
-                    <url>https://gitlab.com/api/v4/groups/genomicsengland/cva/-/packages/maven</url>
+                    <url>https://gitlab.com/api/v4/projects/11692019/packages/maven</url>
                 </repository>
             </repositories>
             <id>gitlab</id>
