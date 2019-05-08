@@ -37,9 +37,31 @@
             </pluginRepositories>
             <id>artifactory</id>
         </profile>
+        <profile>
+            <repositories>
+                <repository>
+                    <id>cva-gitlab</id>
+                    <url>https://gitlab.com/api/v4/groups/genomicsengland/cva/-/packages/maven</url>
+                </repository>
+            </repositories>
+            <id>gitlab</id>
+          </profile>
     </profiles>
     <activeProfiles>
         <activeProfile>artifactory</activeProfile>
     </activeProfiles>
+    <servers>
+        <server>
+            <id>cva-gitlab</id>
+            <configuration>
+                <httpHeaders>
+                    <property>
+                        <name>Job-Token</name>
+                        <value>${env.CI_JOB_TOKEN}</value>
+                    </property>
+                </httpHeaders>
+            </configuration>
+        </server>
+    </servers>
 </settings>
 
