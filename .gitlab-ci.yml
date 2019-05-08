@@ -5,9 +5,12 @@ stages:
 build_test_image_and_deploy:
   image: docker:latest
   stage: deploy
+  services:
+  - docker:stable-dind
   environment:
     name: Build and deploy
   script:
+    - export DOCKER_HOST="tcp://docker:2375/"
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn deploy -Pgelreportmodel-gitlab 
@@ -17,9 +20,12 @@ build_test_image_and_deploy:
 build_test_image_and_test:
   image: docker:latest
   stage: test
+  services:
+  - docker:stable-dind
   environment:
     name: Build and test
   script:
+    - export DOCKER_HOST="tcp://docker:2375/"
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn test -Pgelreportmodel-gitlab
