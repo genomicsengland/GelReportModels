@@ -22,6 +22,6 @@ build_test_image_and_test:
   script:
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
-    - docker run gelreportmodels:latest mvn test
+    - docker run gelreportmodels:latest mvn test -Pgelreportmodel-gitlab
   except:
     - master
