@@ -11,9 +11,6 @@ build_test_image_and_deploy:
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn deploy -Pgelreportmodel-gitlab 
-  tags:
-    - ou:bio
-    - executor:docker
   only:
     - master
 
@@ -26,8 +23,5 @@ build_test_image_and_test:
     - apk update && apk add bash
     - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
     - docker run gelreportmodels:latest mvn test
-  tags:
-    - ou:bio
-    - executor:docker
   except:
     - master
