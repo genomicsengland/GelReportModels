@@ -6948,12 +6948,11 @@ class Severity(object):
 
 class Sex(object):
     """
-    Phenotypic sex
+    Sex
     """
-    UNKNOWN = "UNKNOWN"
     MALE = "MALE"
     FEMALE = "FEMALE"
-    OTHER = "OTHER"
+    UNKNOWN = "UNKNOWN"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -7828,6 +7827,18 @@ class diseaseType(object):
     CLASSICAL_HODGKINS = "CLASSICAL_HODGKINS"
     NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS = "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS"
     T_CELL_LYMPHOMA = "T_CELL_LYMPHOMA"
+
+    def __hash__(self):
+        return str(self).__hash__()
+
+
+class reportedVsGeneticSummary(object):
+    """
+    Reported vs Genetic Summary
+    """
+    familyPassesGvsRChecks = "familyPassesGvsRChecks"
+    familyFailsACheck = "familyFailsACheck"
+    familyMissingACheck = "familyMissingACheck"
 
     def __hash__(self):
         return str(self).__hash__()
