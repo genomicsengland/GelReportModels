@@ -350,11 +350,14 @@ class AdditionalVariantsQuestions(ProtocolElement):
     """
     _schemaSource = """
 {"type": "record", "name": "AdditionalVariantsQuestions", "namespace": "org.gel.models.report.avro",
-"fields": [{"name": "variantCoordinates", "type": {"type": "record", "name": "VariantCoordinates",
+"fields": [{"name": "typeOfAdditionalFinding", "type": ["null", {"type": "enum", "name":
+"TypeOfAdditionalFinding", "symbols": ["domain3", "tier3", "sv_cnv", "mutational_signatures",
+"mutational_burden", "other"]}]}, {"name": "findingDescription", "type": ["null", "string"]},
+{"name": "variantCoordinates", "type": ["null", {"type": "record", "name": "VariantCoordinates",
 "doc": "", "fields": [{"name": "chromosome", "type": "string", "doc": ""}, {"name": "position",
 "type": "int", "doc": ""}, {"name": "reference", "type": "string", "doc": ""}, {"name": "alternate",
 "type": "string", "doc": ""}, {"name": "assembly", "type": {"type": "enum", "name": "Assembly",
-"doc": "", "symbols": ["GRCh38", "GRCh37"]}, "doc": ""}]}, "doc": ""}, {"name":
+"doc": "", "symbols": ["GRCh38", "GRCh37"]}, "doc": ""}]}], "doc": ""}, {"name":
 "variantActionability", "type": {"type": "array", "items": {"type": "enum", "name":
 "CancerActionability", "doc": "", "symbols": ["germline_susceptibility",
 "predicts_therapeutic_response", "prognostic", "defines_diagnosis_group", "eligibility_for_trial",
@@ -368,7 +371,9 @@ class AdditionalVariantsQuestions(ProtocolElement):
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
+        "findingDescription",
         "otherVariantActionability",
+        "typeOfAdditionalFinding",
         "validationAssayType",
         "variantActionability",
         "variantCoordinates",
@@ -392,20 +397,25 @@ class AdditionalVariantsQuestions(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'otherVariantActionability', 'validationAssayType',
+        'findingDescription', 'otherVariantActionability',
+        'typeOfAdditionalFinding', 'validationAssayType',
         'variantActionability', 'variantCoordinates', 'variantTested',
         'variantUsability'
     ]
 
     def __init__(self, **kwargs):
+        self.findingDescription = kwargs.get(
+            'findingDescription', None)
         self.otherVariantActionability = kwargs.get(
             'otherVariantActionability', None)
+        self.typeOfAdditionalFinding = kwargs.get(
+            'typeOfAdditionalFinding', None)
         self.validationAssayType = kwargs.get(
             'validationAssayType', None)
         self.variantActionability = kwargs.get(
             'variantActionability', None)
         self.variantCoordinates = kwargs.get(
-            'variantCoordinates', VariantCoordinates())
+            'variantCoordinates', None)
         self.variantTested = kwargs.get(
             'variantTested', None)
         self.variantUsability = kwargs.get(
@@ -1080,12 +1090,10 @@ class CancerActionability(object):
 class CancerActionabilityPharmacogenomics(object):
     """
     An enumeration Variant Actionability:       *
-    `therapeutic_dosage_change`: Therapeutic dosage change - current
-    or future       * `alternative_therapeutic_chosen`: Alternative
-    Therapeutic Chosen
+    `therapeutic_dosaging_or_toxicity_change`: Predicts therapeutic
+    dosing/toxicity
     """
-    therapeutic_dosage_change = "therapeutic_dosage_change"
-    alternative_therapeutic_chosen = "alternative_therapeutic_chosen"
+    therapeutic_dosaging_or_toxicity_change = "therapeutic_dosaging_or_toxicity_change"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -1111,10 +1119,12 @@ class CancerActionabilitySomatic(object):
 
 class CancerActionableVariants(object):
     """
-    Are the variants actionable? * `yes`: yes * `no`: no
+    Are the variants actionable? * `yes`: yes * `no`: no * `na`: Not
+    applicable
     """
     yes = "yes"
     no = "no"
+    na = "na"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -1136,8 +1146,9 @@ class CancerCaseLevelQuestions(ProtocolElement):
 "type": "double", "doc": ""}, {"name": "report_distribution_time", "type": "double", "doc": ""},
 {"name": "total_time", "type": "double", "doc": ""}, {"name": "reviewedInMdtWga", "type": {"type":
 "enum", "name": "ReviewedParts", "doc": "", "symbols": ["domain_1", "domain_1_and_2",
-"domain_1_2_and_suplementary"]}, "doc": ""}, {"name": "actionableVariants", "type": {"type": "enum",
-"name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no"]}, "doc": ""}]}
+"domain_1_2_and_suplementary", "somatic_if_relevant"]}, "doc": ""}, {"name": "actionableVariants",
+"type": {"type": "enum", "name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no",
+"na"]}, "doc": ""}]}
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
@@ -1218,21 +1229,22 @@ class CancerExitQuestionnaire(ProtocolElement):
 "type": "double", "doc": ""}, {"name": "report_distribution_time", "type": "double", "doc": ""},
 {"name": "total_time", "type": "double", "doc": ""}, {"name": "reviewedInMdtWga", "type": {"type":
 "enum", "name": "ReviewedParts", "doc": "", "symbols": ["domain_1", "domain_1_and_2",
-"domain_1_2_and_suplementary"]}, "doc": ""}, {"name": "actionableVariants", "type": {"type": "enum",
-"name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no"]}, "doc": ""}]}, "doc": ""},
-{"name": "somaticVariantLevelQuestions", "type": ["null", {"type": "array", "items": {"type":
-"record", "name": "CancerSomaticVariantLevelQuestions", "doc": "", "fields": [{"name":
-"variantCoordinates", "type": {"type": "record", "name": "VariantCoordinates", "doc": "", "fields":
-[{"name": "chromosome", "type": "string", "doc": ""}, {"name": "position", "type": "int", "doc":
-""}, {"name": "reference", "type": "string", "doc": ""}, {"name": "alternate", "type": "string",
-"doc": ""}, {"name": "assembly", "type": {"type": "enum", "name": "Assembly", "doc": "", "symbols":
-["GRCh38", "GRCh37"]}, "doc": ""}]}, "doc": ""}, {"name": "variantActionability", "type": {"type":
-"array", "items": {"type": "enum", "name": "CancerActionabilitySomatic", "doc": "", "symbols":
-["predicts_therapeutic_response", "prognostic", "defines_diagnosis_group", "eligibility_for_trial",
-"other"]}}, "doc": ""}, {"name": "otherVariantActionability", "type": ["null", "string"], "doc":
-""}, {"name": "variantUsability", "type": {"type": "enum", "name": "CancerUsabilitySomatic", "doc":
-"", "symbols": ["already_actioned", "actioned_result_of_this_wga", "not_yet_actioned"]}, "doc": ""},
-{"name": "variantTested", "type": {"type": "enum", "name": "CancerTested", "doc": "", "symbols":
+"domain_1_2_and_suplementary", "somatic_if_relevant"]}, "doc": ""}, {"name": "actionableVariants",
+"type": {"type": "enum", "name": "CancerActionableVariants", "doc": "", "symbols": ["yes", "no",
+"na"]}, "doc": ""}]}, "doc": ""}, {"name": "somaticVariantLevelQuestions", "type": ["null", {"type":
+"array", "items": {"type": "record", "name": "CancerSomaticVariantLevelQuestions", "doc": "",
+"fields": [{"name": "variantCoordinates", "type": {"type": "record", "name": "VariantCoordinates",
+"doc": "", "fields": [{"name": "chromosome", "type": "string", "doc": ""}, {"name": "position",
+"type": "int", "doc": ""}, {"name": "reference", "type": "string", "doc": ""}, {"name": "alternate",
+"type": "string", "doc": ""}, {"name": "assembly", "type": {"type": "enum", "name": "Assembly",
+"doc": "", "symbols": ["GRCh38", "GRCh37"]}, "doc": ""}]}, "doc": ""}, {"name":
+"variantActionability", "type": {"type": "array", "items": {"type": "enum", "name":
+"CancerActionabilitySomatic", "doc": "", "symbols": ["predicts_therapeutic_response", "prognostic",
+"defines_diagnosis_group", "eligibility_for_trial", "other"]}}, "doc": ""}, {"name":
+"otherVariantActionability", "type": ["null", "string"], "doc": ""}, {"name": "variantUsability",
+"type": {"type": "enum", "name": "CancerUsabilitySomatic", "doc": "", "symbols":
+["already_actioned", "actioned_result_of_this_wga", "not_yet_actioned"]}, "doc": ""}, {"name":
+"variantTested", "type": {"type": "enum", "name": "CancerTested", "doc": "", "symbols":
 ["not_indicated_for_patient_care", "no_orthologous_test_available", "test_performed_prior_to_wga",
 "technical_validation_following_wga"]}, "doc": ""}, {"name": "validationAssayType", "type":
 "string", "doc": ""}]}}], "doc": ""}, {"name": "germlineVariantLevelQuestions", "type": ["null",
@@ -1250,17 +1262,20 @@ class CancerExitQuestionnaire(ProtocolElement):
 "CancerPharmacogenomicsVariantLevelQuestions", "doc": "", "fields": [{"name": "variantCoordinates",
 "type": "VariantCoordinates", "doc": ""}, {"name": "variantActionability", "type": {"type": "array",
 "items": {"type": "enum", "name": "CancerActionabilityPharmacogenomics", "doc": "", "symbols":
-["therapeutic_dosage_change", "alternative_therapeutic_chosen"]}}, "doc": ""}, {"name":
-"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
-"CancerUsabilityGermline", "doc": ""}, {"name": "variantTested", "type": "CancerTested", "doc": ""},
-{"name": "validationAssayType", "type": "string", "doc": ""}]}}], "doc": ""}, {"name":
+["therapeutic_dosaging_or_toxicity_change"]}}, "doc": ""}, {"name": "variantUsability", "type":
+{"type": "enum", "name": "CancerUsabilityPharmacogenomics", "doc": "", "symbols": ["change_dosing",
+"alternative_therapeutic", "na"]}, "doc": ""}, {"name": "variantTested", "type": "CancerTested",
+"doc": ""}, {"name": "validationAssayType", "type": "string", "doc": ""}]}}], "doc": ""}, {"name":
 "additionalComments", "type": ["null", "string"], "doc": ""}, {"name": "otherActionableVariants",
 "type": ["null", {"type": "array", "items": {"type": "record", "name":
-"AdditionalVariantsQuestions", "fields": [{"name": "variantCoordinates", "type":
-"VariantCoordinates", "doc": ""}, {"name": "variantActionability", "type": {"type": "array",
-"items": "CancerActionability"}, "doc": ""}, {"name": "otherVariantActionability", "type": ["null",
-"string"]}, {"name": "variantUsability", "type": "CancerUsabilitySomatic", "doc": ""}, {"name":
-"variantTested", "type": {"type": "enum", "name": "CancerTestedAdditional", "doc": "", "symbols":
+"AdditionalVariantsQuestions", "fields": [{"name": "typeOfAdditionalFinding", "type": ["null",
+{"type": "enum", "name": "TypeOfAdditionalFinding", "symbols": ["domain3", "tier3", "sv_cnv",
+"mutational_signatures", "mutational_burden", "other"]}]}, {"name": "findingDescription", "type":
+["null", "string"]}, {"name": "variantCoordinates", "type": ["null", "VariantCoordinates"], "doc":
+""}, {"name": "variantActionability", "type": {"type": "array", "items": "CancerActionability"},
+"doc": ""}, {"name": "otherVariantActionability", "type": ["null", "string"]}, {"name":
+"variantUsability", "type": "CancerUsabilitySomatic", "doc": ""}, {"name": "variantTested", "type":
+{"type": "enum", "name": "CancerTestedAdditional", "doc": "", "symbols":
 ["not_indicated_for_patient_care", "no_orthologous_test_available", "test_performed_prior_to_wga",
 "technical_validation_following_wga", "na"]}, "doc": ""}, {"name": "validationAssayType", "type":
 "string", "doc": ""}]}}], "doc": ""}]}
@@ -1757,10 +1772,9 @@ class CancerPharmacogenomicsVariantLevelQuestions(ProtocolElement):
 "type": {"type": "enum", "name": "Assembly", "doc": "", "symbols": ["GRCh38", "GRCh37"]}, "doc":
 ""}]}, "doc": ""}, {"name": "variantActionability", "type": {"type": "array", "items": {"type":
 "enum", "name": "CancerActionabilityPharmacogenomics", "doc": "", "symbols":
-["therapeutic_dosage_change", "alternative_therapeutic_chosen"]}}, "doc": ""}, {"name":
-"otherVariantActionability", "type": ["null", "string"]}, {"name": "variantUsability", "type":
-{"type": "enum", "name": "CancerUsabilityGermline", "doc": "", "symbols": ["already_actioned",
-"actioned_result_of_this_wga"]}, "doc": ""}, {"name": "variantTested", "type": {"type": "enum",
+["therapeutic_dosaging_or_toxicity_change"]}}, "doc": ""}, {"name": "variantUsability", "type":
+{"type": "enum", "name": "CancerUsabilityPharmacogenomics", "doc": "", "symbols": ["change_dosing",
+"alternative_therapeutic", "na"]}, "doc": ""}, {"name": "variantTested", "type": {"type": "enum",
 "name": "CancerTested", "doc": "", "symbols": ["not_indicated_for_patient_care",
 "no_orthologous_test_available", "test_performed_prior_to_wga",
 "technical_validation_following_wga"]}, "doc": ""}, {"name": "validationAssayType", "type":
@@ -1768,7 +1782,6 @@ class CancerPharmacogenomicsVariantLevelQuestions(ProtocolElement):
 """
     schema = avro_parse(_schemaSource)
     requiredFields = {
-        "otherVariantActionability",
         "validationAssayType",
         "variantActionability",
         "variantCoordinates",
@@ -1792,14 +1805,11 @@ class CancerPharmacogenomicsVariantLevelQuestions(ProtocolElement):
         return embeddedTypes[fieldName]
 
     __slots__ = [
-        'otherVariantActionability', 'validationAssayType',
-        'variantActionability', 'variantCoordinates', 'variantTested',
-        'variantUsability'
+        'validationAssayType', 'variantActionability',
+        'variantCoordinates', 'variantTested', 'variantUsability'
     ]
 
     def __init__(self, **kwargs):
-        self.otherVariantActionability = kwargs.get(
-            'otherVariantActionability', None)
         self.validationAssayType = kwargs.get(
             'validationAssayType', None)
         self.variantActionability = kwargs.get(
@@ -1932,6 +1942,21 @@ class CancerUsabilityGermline(object):
     """
     already_actioned = "already_actioned"
     actioned_result_of_this_wga = "actioned_result_of_this_wga"
+
+    def __hash__(self):
+        return str(self).__hash__()
+
+
+class CancerUsabilityPharmacogenomics(object):
+    """
+    Variant usability for pgx variants:      * `change_dosing`: Change
+    in therapeutic dosing - current or future *
+    `alternative_therapeutic`: Alternative therapeutic chosen * `na`:
+    Not applicable
+    """
+    change_dosing = "change_dosing"
+    alternative_therapeutic = "alternative_therapeutic"
+    na = "na"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -6995,11 +7020,13 @@ class ReviewedParts(object):
     An enumeration for Which parts of the WGA were reviewed?: *
     `domain_1`: Domain 1 only * `domain_1_and_2`: Domains 1 and 2 *
     `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary
-    analysis
+    analysis * `somatic_if_relevant`: Somatic WGA results to be
+    reviewed when/if clinically relevant
     """
     domain_1 = "domain_1"
     domain_1_and_2 = "domain_1_and_2"
     domain_1_2_and_suplementary = "domain_1_2_and_suplementary"
+    somatic_if_relevant = "somatic_if_relevant"
 
     def __hash__(self):
         return str(self).__hash__()
@@ -8799,6 +8826,21 @@ class TumourType(object):
     METASTATIC_RECURRENCE = "METASTATIC_RECURRENCE"
     RECURRENCE_OF_PRIMARY_TUMOUR = "RECURRENCE_OF_PRIMARY_TUMOUR"
     METASTASES = "METASTASES"
+
+    def __hash__(self):
+        return str(self).__hash__()
+
+
+class TypeOfAdditionalFinding(object):
+    """
+    No documentation
+    """
+    domain3 = "domain3"
+    tier3 = "tier3"
+    sv_cnv = "sv_cnv"
+    mutational_signatures = "mutational_signatures"
+    mutational_burden = "mutational_burden"
+    other = "other"
 
     def __hash__(self):
         return str(self).__hash__()
