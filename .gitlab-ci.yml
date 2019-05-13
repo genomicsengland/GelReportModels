@@ -2,32 +2,48 @@ stages:
   - test
   - deploy
 
-build_test_image_and_deploy:
-  image: docker:latest
+build_maven_deploy:
+  image: maven:3-jdk-8
   stage: deploy
-  services:
-  - docker:stable-dind
   environment:
-    name: Build and deploy
+    name: Build test and deploy
+  variables:
+    PYTHONUNBUFFERED: "1"
+    GEL_REPORT_MODELS_PYTHON_VERSION: "2"
   script:
-    - export DOCKER_HOST="tcp://docker:2375/"
-    - apk update && apk add bash
-    - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
-    - docker run gelreportmodels:latest mvn deploy -Pgelreportmodel-gitlab 
+    - set -x
+    - curl -sL https://deb.nodesource.com/setup_10.x|bash -
+    - apt update && apt install python-dev python-pip python-virtualenv libsasl2-dev libldap2-dev libssl-dev nodejs -y
+    - npm install avrodoc -g
+    - pip install --upgrade pip==9.0.3
+    - pip install .
+    - mvn -B -s ci_settings.xml -f ci_pom.xml -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab deploy 
+  cache:
+    paths:
+      - .m2/repository/
   only:
-    - master
+    refs:
+      - master
 
-build_test_image_and_test:
-  image: docker:latest
+
+build_maven_test:
+  image: maven:3-jdk-8
   stage: test
-  services:
-  - docker:stable-dind
   environment:
     name: Build and test
+  variables:
+    PYTHONUNBUFFERED: "1"
+    GEL_REPORT_MODELS_PYTHON_VERSION: "2"
   script:
-    - export DOCKER_HOST="tcp://docker:2375/"
-    - apk update && apk add bash
-    - docker build -f Dockerfile-python2 -t gelreportmodels:latest .
-    - docker run gelreportmodels:latest mvn test -Pgelreportmodel-gitlab
-  except:
-    - master
+    - set -x
+    - curl -sL https://deb.nodesource.com/setup_10.x|bash -
+    - apt update && apt install python-dev python-pip python-virtualenv libsasl2-dev libldap2-dev libssl-dev nodejs -y
+    - npm install avrodoc -g
+    - pip install --upgrade pip==9.0.3
+    - pip install .
+    - mvn -B -s ci_settings.xml -f ci_pom.xml -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab verify 
+  cache:
+    paths:
+      - .m2/repository/
+
+
