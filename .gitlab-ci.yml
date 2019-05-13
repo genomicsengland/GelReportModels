@@ -12,12 +12,12 @@ build_maven_deploy:
     GEL_REPORT_MODELS_PYTHON_VERSION: "2"
   script:
     - set -x
-    - curl -sL https://deb.nodesource.com/setup_10.x|bash -
+    - curl -sL https://deb.nodesource.com/setup_11.x|bash -
     - apt update && apt install python-dev python-pip python-virtualenv libsasl2-dev libldap2-dev libssl-dev nodejs -y
     - npm install avrodoc -g
     - pip install --upgrade pip==9.0.3
     - pip install .
-    - mvn -B -s ci_settings.xml -f ci_pom.xml -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab deploy 
+    - mvn -B -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab deploy 
   cache:
     paths:
       - .m2/repository/
@@ -36,12 +36,12 @@ build_maven_test:
     GEL_REPORT_MODELS_PYTHON_VERSION: "2"
   script:
     - set -x
-    - curl -sL https://deb.nodesource.com/setup_10.x|bash -
+    - curl -sL https://deb.nodesource.com/setup_11.x|bash -
     - apt update && apt install python-dev python-pip python-virtualenv libsasl2-dev libldap2-dev libssl-dev nodejs -y
     - npm install avrodoc -g
     - pip install --upgrade pip==9.0.3
     - pip install .
-    - mvn -B -s ci_settings.xml -f ci_pom.xml -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab verify 
+    - mvn -B -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab verify 
   cache:
     paths:
       - .m2/repository/
