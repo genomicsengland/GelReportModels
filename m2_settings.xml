@@ -47,9 +47,6 @@
             <id>gelreportmodel-gitlab</id>
           </profile>
     </profiles>
-    <activeProfiles>
-        <activeProfile>artifactory</activeProfile>
-    </activeProfiles>
     <servers>
         <server>
             <id>gelreportmodel-gitlab</id>
