@@ -17,7 +17,7 @@ build_maven_deploy:
     - npm install avrodoc -g
     - pip install --upgrade pip==9.0.3
     - pip install .
-    - mvn -B -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab deploy 
+    - mvn -B -Dmaven.repo.local=.m2/repository -s m2_settings.xml -Pgelreportmodel-gitlab deploy 
   cache:
     paths:
       - .m2/repository/
@@ -41,7 +41,7 @@ build_maven_test:
     - npm install avrodoc -g
     - pip install --upgrade pip==9.0.3
     - pip install .
-    - mvn -B -Dmaven.repo.local=.m2/repository -Pgelreportmodel-gitlab verify 
+    - mvn -B -Dmaven.repo.local=.m2/repository -s m2_settings.xml -Pgelreportmodel-gitlab verify 
   cache:
     paths:
       - .m2/repository/
