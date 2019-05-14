@@ -238,7 +238,7 @@
     </build>
     <distributionManagement>
       <repository>
-         <id>cva-gitlab</id>
+         <id>gelreportmodel-gitlab</id>
          <url>https://gitlab.com/api/v4/projects/11692019/packages/maven</url>
       </repository>
     </distributionManagement>
