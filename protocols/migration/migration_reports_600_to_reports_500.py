@@ -122,7 +122,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
                 list(zip(old_instance.variants, new_instance.variants)),
                 self._migrate_variant,
                 migrate_re=self._migrate_report_event_cancer)
-        new_instance.variants = []
+        else:
+            new_instance.variants = []
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome)
 
     def migrate_clinical_report_cancer(self, old_instance):
