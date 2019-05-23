@@ -508,6 +508,11 @@ protocol CommonParticipant {
 
         union {null,string} participantId;
 
+        /**
+        Participant UId of the sample
+        */
+        union {null, string} participantUid;
+
         union {null,string} sampleUid;
 
         union {null,string} maskedPid;
@@ -650,6 +655,11 @@ protocol CommonParticipant {
         Participant Id of the sample
         */
         union {null, string} participantId;
+
+    /**
+        Participant UId of the sample
+        */
+        union {null, string} participantUid;
 
     /**
         In GMS, this is the maskedPID

@@ -286,7 +286,7 @@
      {
       "name": "modifiers", 
       "required": false, 
-      "multiValue": false, 
+      "multiValue": true, 
       "variableSet": [
        {
         "name": "laterality", 
@@ -753,6 +753,13 @@
       "type": "TEXT", 
       "name": "participantId", 
       "description": ""
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "participantUid", 
+      "description": "Participant UId of the sample"
      }, 
      {
       "multiValue": false, 

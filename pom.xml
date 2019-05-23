@@ -7,7 +7,7 @@
 
     <groupId>org.gel.models</groupId>
     <artifactId>gel-models</artifactId>
-    <version>7.3.1b4</version>
+    <version>7.3.1b5</version>
     <packaging>${p.type}</packaging>
 
     <properties>
