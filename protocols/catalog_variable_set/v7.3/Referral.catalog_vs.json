@@ -2301,10 +2301,17 @@
    }, 
    {
     "multiValue": false, 
-    "required": true, 
+    "required": false, 
     "type": "TEXT", 
     "name": "individualId", 
-    "description": "Individual identifier.  This is the human readable ID in GMS"
+    "description": "Individual identifier"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "participantId", 
+    "description": "This is a human readable participant ID"
    }, 
    {
     "multiValue": true, 
@@ -2888,7 +2895,7 @@
     "multiValue": false, 
     "required": false, 
     "type": "TEXT", 
-    "name": "individualUid", 
+    "name": "participantUid", 
     "description": "Individual UID in GMS"
    }, 
    {

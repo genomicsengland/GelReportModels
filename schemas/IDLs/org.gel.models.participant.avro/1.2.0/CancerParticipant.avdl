@@ -141,9 +141,16 @@ protocol CancerParticipants {
         union {null, string} center;
 
         /**
-        Individual identifier.  This is the human readable ID in GMS
+        Individual identifier
         */
-        string individualId;
+        union {null, string} individualId;
+
+
+        /**
+        This is a human readable participant ID
+        */
+        union {null, string} participantId;
+
 
         /**
         This should be an enumeration when it is well defined
@@ -195,7 +202,7 @@ protocol CancerParticipants {
         /**
         Individual UID in GMS
         */
-        union {null, string} individualUid;
+        union {null, string} participantUid;
 
         /**
         In GMS, for all tumours for the CancerParticipant, independent of any samples
