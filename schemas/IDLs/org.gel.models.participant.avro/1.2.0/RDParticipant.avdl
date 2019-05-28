@@ -83,7 +83,7 @@ protocol Pedigrees {
         /**
         Modifier associated with the HPO term
         */
-        union {null, HpoTermModifiers} modifiers;
+        union {null, array<HpoTermModifiers>} modifiers;
 
         /**
         Age of onset in months

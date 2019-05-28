@@ -591,6 +591,77 @@ see Expanded Access Data Element Definitions).
         boolean variantActionable;
     }
 
+    record Diagnostic{
+        /**
+        URL where reference information for this prognosis can be found
+        */
+        string referenceUrl;
+        /**
+        Sources if known
+        */
+        union {null, array<string>} sources;
+        /**
+        References
+        */
+        union {null, array<string>} references;
+        /**
+        Biomarkers
+        */
+        union {null, array<string>} biomarkers;
+        /**
+        Associated conditions
+        */
+        union {null, array<string>} conditions;
+        /**
+        Diagnosis
+        */
+        union {null, string} diagnosis;
+        /**
+        Diagnosis status
+        */
+        union {null, string} diagnosisStatus;
+        /**
+        Other condition
+        */
+        union {null, string} otherCondition;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+    record OtherAction{
+        /**
+        URL where reference information for this action can be found
+        */
+        string referenceUrl;
+        /**
+        Action identifier
+        */
+        union {null, string} identifier;
+        /**
+        Sources if known
+        */
+        union {null, array<string>} sources;
+        /**
+        Action type
+        */
+        union {null, string} actionType;
+        /**
+        Associated conditions
+        */
+        union {null, array<string>} conditions;
+        /**
+        Other attributes
+        */
+        union {null, map<string>} otherAttributes;
+        /**
+        If true, the association was made at the variant level, if not the association was made at Genomic Entity level
+        */
+        boolean variantActionable;
+    }
+
+
     /**
     Clinical actions
     */
@@ -598,6 +669,8 @@ see Expanded Access Data Element Definitions).
         union {null, array<Trial>} trials;
         union {null, array<Prognosis>} prognosis;
         union {null, array<Therapy>} therapies;
+        union {null, array<Diagnostic>} diagnostic;
+        union {null, array<OtherAction>} otherAction;
     }
 
     /**

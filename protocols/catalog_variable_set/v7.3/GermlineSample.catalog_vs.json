@@ -105,6 +105,13 @@
   "multiValue": false, 
   "required": false, 
   "type": "TEXT", 
+  "name": "participantUid", 
+  "description": "Participant UId of the sample"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
   "name": "sampleUid", 
   "description": ""
  }, 
