@@ -34,10 +34,11 @@ setup(
     scripts=['bin/ModelValidator', 'protocols_utils/utils/conversion_tools.py',
              'protocols_utils/utils/migration_test_real_data_rd.py',
              'protocols_utils/utils/migration_test_real_data_cancer.py'],
-    url='',
-    license='',
+    url='https://github.com/genomicsengland/GelReportModels',
+    download_url="https://github.com/genomicsengland/GelReportModels/archive/v{}.tar.gz".format(VERSION),
+    license='Apache',
     author='Bioinformatics Team at Genomics England',
     author_email='antonio.rueda-martin@genomicsengland.co.uk',
-    description='Bioinformatics team model definitions',
+    description='Genomics England Bioinformatics team model definitions',
     install_requires=reqs
 )
