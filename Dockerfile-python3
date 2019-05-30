@@ -16,8 +16,7 @@ RUN mkdir /gel
 RUN mkdir /gel/GelReportModels
 WORKDIR /gel
 ADD . /gel/GelReportModels
-ADD m2_settings.xml /gel
-RUN mkdir -p ~/.m2 && cp m2_settings.xml ~/.m2/settings.xml
+RUN mkdir -p ~/.m2
 WORKDIR /gel/GelReportModels
 RUN pip3 install --upgrade pip==18.0
 ENV GEL_REPORT_MODELS_PYTHON_VERSION 3
