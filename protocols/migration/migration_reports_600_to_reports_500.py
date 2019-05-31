@@ -229,6 +229,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if old_instance.domain:
             new_instance.tier = self.domain_tier_map[old_instance.domain]
         new_instance.actions = self._migrate_actions(old_instance.actions)
+        if old_instance.tier in (self.old_model.Tier.TIERA, self.old_model.Tier.TIERB):
+            new_instance.tier = self.new_model.Tier.NONE
         return new_instance
 
     def _migrate_gene_panel(self, gene_panels):
