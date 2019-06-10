@@ -1,7 +1,10 @@
 
 # GelReportModels
 
-This project contains several models used by GEL. These models are defined using Avro Interface Design Language (IDL) which is agnostic of any implementation language. The models are then used to generate source code employed to store the information. The source code is either Python or Java so far, but this can be easily extended.
+This project contains several models used by Genomics England systems. This is a development guide, the models documentation can be found at [https://gelreportmodels.genomicsengland.co.uk](https://gelreportmodels.genomicsengland.co.uk). 
+
+
+These models are defined using Avro Interface Design Language (IDL) which is agnostic of any implementation language. The models are then used to generate source code employed to store the information. The source code is either Python or Java so far, but this can be easily extended.
 
 From the Avro models you can generate:
 * Java source code
@@ -10,7 +13,7 @@ From the Avro models you can generate:
 * AVPR schemas
 * HTML documentation
 
-Maven is employed for Java dependency management. Particularly, OpenCB (https://github.com/opencb/biodata)[https://github.com/opencb/biodata] models are imported through a maven dependency and then extracted into the local folder for schemas.
+Maven is employed for Java dependency management. Particularly, OpenCB [https://github.com/opencb/biodata](https://github.com/opencb/biodata) models are imported through a maven dependency and then extracted into the local folder for schemas.
 This is not required unless you upgrade OpenCB models version, as the OpenCB models are commited in the repository under `schemas/IDLs/org.opencb.biodata.models`.
 
 To import the OpenCB dependency and extract the models in your local environment run:
