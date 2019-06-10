@@ -25,6 +25,11 @@ elif target_version == '3':
 else:
     raise ValueError("Not supported python version {}".format(target_version))
 
+# read the contents of your README file
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 VERSION = "7.2.10"
 setup(
     name='GelReportModels',
@@ -34,11 +39,13 @@ setup(
     scripts=['bin/ModelValidator', 'protocols_utils/utils/conversion_tools.py',
              'protocols_utils/utils/migration_test_real_data_rd.py',
              'protocols_utils/utils/migration_test_real_data_cancer.py'],
-    url='https://github.com/genomicsengland/GelReportModels',
+    url='https://gelreportmodels.genomicsengland.co.uk',
     download_url="https://github.com/genomicsengland/GelReportModels/archive/v{}.tar.gz".format(VERSION),
     license='Apache',
     author='Bioinformatics Team at Genomics England',
     author_email='antonio.rueda-martin@genomicsengland.co.uk',
     description='Genomics England Bioinformatics team model definitions',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=reqs
 )
