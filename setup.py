@@ -53,5 +53,17 @@ setup(
     description='Genomics England Bioinformatics team model definitions',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    install_requires=reqs
+    install_requires=reqs,
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
+        'Intended Audience :: Healthcare Industry',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+      ]
 )
