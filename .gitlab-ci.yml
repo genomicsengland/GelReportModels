@@ -17,7 +17,7 @@ build_maven_deploy:
     - npm install avrodoc -g
     - pip install --upgrade pip==9.0.3
     - pip install .
-    - mvn -B -Dmaven.repo.local=.m2/repository deploy
+    - mvn -B -s m2_settings.xml -Dmaven.repo.local=.m2/repository deploy
   cache:
     paths:
       - .m2/repository/
