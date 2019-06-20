@@ -13,7 +13,7 @@ protocol Ngis {
      */
     enum Priority {low, routine, urgent}
 
-    record Organisation{
+    record OrganisationNgis {
         /**
         Organisation Id
         */
@@ -98,11 +98,11 @@ protocol Ngis {
         /**
         Organisation assigned for the interpretation of this test
          */
-        Organisation interpreter;
+        OrganisationNgis interpreter;
         /**
         Organisation assigned for the processing of the test
          */
-        Organisation processingLab;
+        OrganisationNgis processingLab;
         /**
         Priority
          */
@@ -140,7 +140,7 @@ protocol Ngis {
         /**
         Requesting Organisation of the Referral
          */
-        Organisation requester;
+        OrganisationNgis requester;
         /**
         Date of referral being created
          */

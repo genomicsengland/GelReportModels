@@ -117,10 +117,13 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         """
         new_instance = self.convert_class(target_klass=self.new_model.CancerInterpretedGenome, instance=old_instance)
         new_instance.versionControl = self.new_model.ReportVersionControl()
-        new_instance.variants = self.convert_collection(
-            list(zip(old_instance.variants, new_instance.variants)),
-            self._migrate_variant,
-            migrate_re=self._migrate_report_event_cancer)
+        if old_instance.variants:
+            new_instance.variants = self.convert_collection(
+                list(zip(old_instance.variants, new_instance.variants)),
+                self._migrate_variant,
+                migrate_re=self._migrate_report_event_cancer)
+        else:
+            new_instance.variants = []
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.CancerInterpretedGenome)
 
     def migrate_clinical_report_cancer(self, old_instance):
@@ -226,6 +229,8 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         if old_instance.domain:
             new_instance.tier = self.domain_tier_map[old_instance.domain]
         new_instance.actions = self._migrate_actions(old_instance.actions)
+        if old_instance.tier in (self.old_model.Tier.TIERA, self.old_model.Tier.TIERB):
+            new_instance.tier = self.new_model.Tier.NONE
         return new_instance
 
     def _migrate_gene_panel(self, gene_panels):
@@ -321,7 +326,7 @@ class MigrateReports600To500(BaseMigrateReports500And600):
         action = self.new_model.Action()
         action.evidenceType = "{} ({})".format(evidence_type, ", ".join(evidence.conditions))
         action.actionType = None
-        if hasattr(evidence, 'source'):
+        if hasattr(evidence, 'source') and evidence.source is not None:
             action.source = evidence.source
         else:
             action.source = "None"

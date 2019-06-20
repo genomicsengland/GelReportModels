@@ -2,10 +2,7 @@ from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols import reports_3_0_0
 from protocols import reports_4_0_0
 from protocols.util.dependency_manager import VERSION_300
-from protocols.util.dependency_manager import VERSION_400
 from protocols.util.factories.avro_factory import GenericFactoryAvro
-from protocols.reports_3_0_0 import ReportEventCancer as ReportEventCancer_old
-from protocols.reports_4_0_0 import ReportEventCancer as ReportEventCancer_new
 from protocols.migration.migration_reports_300_to_reports_400 import MigrateReports3To4
 import protocols.reports_3_0_0
 
@@ -61,9 +58,14 @@ class TestMigrateReports3To4(TestCaseMigration):
         old_instance = GenericFactoryAvro.get_factory_avro(
             self.old_model.InterpretedGenomeRD, VERSION_300, fill_nullables=True
         ).create()
+
         self._validate(old_instance)
         migrated_instance = MigrateReports3To4().migrate_interpreted_genome_rd(old_instance=old_instance)
         self._validate(migrated_instance)
+
+        old_hgnc_symbols = [re.genomicFeature.HGNC for rv in old_instance.reportedVariants for re in rv.reportEvents]
+        new_hgnc_symbols = [re.genomicFeature.hgnc for rv in migrated_instance.reportedVariants for re in rv.reportEvents]
+        self.assertEqual(old_hgnc_symbols, new_hgnc_symbols)
 
     def test_migrate_interpretation_request_rd(self):
         """Also tested with real data"""
@@ -96,3 +98,20 @@ class TestMigrateReports3To4(TestCaseMigration):
                 self.assertEqual(old_re.genomicFeature.HGNC, new_re.genomicFeature.hgnc)
 
         self._validate(migrated_instance)
+
+    def test_migrate_reported_variants(self):
+
+        old_ig = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_300, fill_nullables=True
+        ).create()
+
+        reported_variants_4 = MigrateReports3To4.convert_collection(
+            [(v, self.new_model.ReportedVariant.fromJsonDict(v.toJsonDict()))
+             for v in old_ig.reportedVariants], MigrateReports3To4()._migrate_reported_variant
+        )
+
+        old_hgnc_symbols = [re.genomicFeature.HGNC for rv in old_ig.reportedVariants for re in rv.reportEvents]
+        new_hgnc_symbols = [re.genomicFeature.hgnc for rv in reported_variants_4 for re in rv.reportEvents]
+        [self.assertIsNotNone(symbol) for symbol in old_hgnc_symbols]
+        [self.assertIsNotNone(symbol) for symbol in new_hgnc_symbols]
+        self.assertEqual(old_hgnc_symbols, new_hgnc_symbols)

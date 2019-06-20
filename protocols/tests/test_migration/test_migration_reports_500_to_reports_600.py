@@ -2,7 +2,6 @@ from protocols import reports_6_0_0
 from protocols import reports_5_0_0
 from protocols.migration import BaseMigration
 from protocols.util.dependency_manager import VERSION_61
-from protocols.util.factories.avro_factory import FactoryAvro
 from protocols.util.factories.avro_factory import GenericFactoryAvro
 from protocols.tests.test_migration.base_test_migration import TestCaseMigration
 from protocols.migration.migration_reports_500_to_reports_600 import MigrateReports500To600
@@ -161,8 +160,24 @@ class TestMigrateInterpretedGenome5To6(TestCaseMigration):
         self._validate(new_phenotypes)
         self.assertIsInstance(new_phenotypes, self.new_model.Phenotypes)
 
-    def test_migrate_reported_variant_no_nullables(self):
-        self.test_migrate_reported_variant(fill_nullables=False)
+    def test_migrate_small_variant(self):
+        """
+        Using a different approach to test_migrate_reported_variant above
+        """
+        old_ig = GenericFactoryAvro.get_factory_avro(
+            self.old_model.InterpretedGenomeRD, VERSION_61, fill_nullables=True
+        ).create()
+        variants_6 = MigrateReports500To600().convert_collection(
+            [(v, reports_6_0_0.SmallVariant.fromJsonDict(v.toJsonDict())) for v in old_ig.variants],
+            MigrateReports500To600()._migrate_variant,
+            panel_source='PanelApp',
+        )
+
+        old_hgnc_symbols = [ge.geneSymbol for rv in old_ig.variants for re in rv.reportEvents for ge in re.genomicEntities]
+        new_hgnc_symbols = [ge.geneSymbol for rv in variants_6 for re in rv.reportEvents for ge in re.genomicEntities]
+        [self.assertIsNotNone(symbol) for symbol in old_hgnc_symbols]
+        [self.assertIsNotNone(symbol) for symbol in new_hgnc_symbols]
+        self.assertEqual(old_hgnc_symbols, new_hgnc_symbols)
 
 
 class TestMigrateClinicalReport5To6(TestCaseMigration):
@@ -323,8 +338,6 @@ class TestCancerInterpretedGenome5To6(TestCaseMigration):
         self.assertTrue(len(new_actions.trials) == 2)
         self.assertTrue(len(new_actions.therapies) == 1)
         self.assertTrue(len(new_actions.prognosis) == 1)
-
-
 
 
 class TestCancerClinicalReport5To6(TestCaseMigration):

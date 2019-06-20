@@ -5,41 +5,24 @@
         <profile>
             <repositories>
                 <repository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>libs-release</name>
-                    <url>http://artifactory.gel.zone:8081/artifactory/libs-release</url>
-                </repository>
-                <repository>
-                    <snapshots />
-                    <id>snapshots</id>
-                    <name>libs-snapshot</name>
-                    <url>http://artifactory.gel.zone:8081/artifactory/libs-snapshot</url>
+                    <id>gelreportmodel-gitlab</id>
+                    <url>https://gitlab.com/api/v4/projects/11692019/packages/maven</url>
                 </repository>
             </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>libs-release</name>
-                    <url>http://artifactory.gel.zone:8081/artifactory/libs-release</url>
-                </pluginRepository>
-                <pluginRepository>
-                    <snapshots />
-                    <id>snapshots</id>
-                    <name>libs-snapshot</name>
-                    <url>http://artifactory.gel.zone:8081/artifactory/libs-snapshot</url>
-                </pluginRepository>
-            </pluginRepositories>
-            <id>artifactory</id>
-        </profile>
+            <id>gelreportmodel-gitlab</id>
+          </profile>
     </profiles>
-    <activeProfiles>
-        <activeProfile>artifactory</activeProfile>
-    </activeProfiles>
+    <servers>
+        <server>
+            <id>gelreportmodel-gitlab</id>
+            <configuration>
+                <httpHeaders>
+                    <property>
+                        <name>Job-Token</name>
+                        <value>${env.CI_JOB_TOKEN}</value>
+                    </property>
+                </httpHeaders>
+            </configuration>
+        </server>
+    </servers>
 </settings>
-

@@ -1,0 +1,53 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol ObservedVariantProtocol {
+
+    // CVA references
+    import idl "CvaVariant.avdl";
+    // Report models references
+    import idl "CommonInterpreted.avdl";
+    import idl "CommonParticipant.avdl";
+    // OpenCB references
+    import idl "variant.avdl";
+    import idl "evidence.avdl";
+
+    /**
+A variant observed in a specific sample.
+The information about the observation is contained within a CalledGenotype, it is linked to one abstract Variant.
+
+Every ObservedVariant is uniquely identified by:
+
+* sample id
+* variant identifier (being a variant identifier formed by chromosome + position + reference + alternate)
+
+Duplication of the prior fields is not to be supported.
+    */
+    record ObservedVariant {
+        /**
+        The registration date
+        */
+        string `date`;
+        /**
+        The assembly to which the variant refers
+        */
+        org.gel.models.report.avro.Assembly assembly;
+        /**
+        The abstract variant
+        */
+        Variant variant;
+
+        /**
+        Variant call
+        */
+        union {null, org.gel.models.report.avro.VariantCall} variantCall;
+
+        /**
+        Validation flag
+        */
+        boolean validated = false;
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.opencb.biodata.models.variant.avro.Property> additionalProperties = [];
+    }
+}

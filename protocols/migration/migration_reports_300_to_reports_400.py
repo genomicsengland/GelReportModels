@@ -97,6 +97,7 @@ class MigrateReports3To4(BaseMigration):
     def _migrate_report_event(self, report_event):
         old_instance = report_event[0]
         new_instance = report_event[1]
+        new_instance.genomicFeature.hgnc = old_instance.genomicFeature.HGNC
         new_instance.variantClassification = self.variant_classification_map.get(
             old_instance.variantClassification, self.new_model.VariantClassification.not_assessed
         )

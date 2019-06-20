@@ -16,6 +16,7 @@ protocol ExitQuestionnaires {
     // TODO: refactor with VariantClassification in CommonInterpreted.avdl
     enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed, na}
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
+    enum TypeOfAdditionalFinding {domain3, tier3, sv_cnv, mutational_signatures, mutational_burden, other}
 
 
     /**
@@ -215,15 +216,17 @@ protocol ExitQuestionnaires {
 * `domain_1`: Domain 1 only
 * `domain_1_and_2`: Domains 1 and 2
 * `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
+* `somatic_if_relevant`: Somatic WGA results to be reviewed when/if clinically relevant
     */
-    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary}
+    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary, somatic_if_relevant}
 
     /**
     Are the variants actionable?
 * `yes`: yes
 * `no`: no
+* `na`: Not applicable
     */
-    enum CancerActionableVariants {yes, no}
+    enum CancerActionableVariants {yes, no, na}
 
     /**
     The variant actionabilities:
@@ -248,10 +251,9 @@ protocol ExitQuestionnaires {
 
     /**
     An enumeration Variant Actionability:
-      * `therapeutic_dosage_change`: Therapeutic dosage change - current or future
-      * `alternative_therapeutic_chosen`: Alternative Therapeutic Chosen
+      * `therapeutic_dosaging_or_toxicity_change`: Predicts therapeutic dosing/toxicity
     */
-    enum CancerActionabilityPharmacogenomics {therapeutic_dosage_change, alternative_therapeutic_chosen}
+    enum CancerActionabilityPharmacogenomics {therapeutic_dosaging_or_toxicity_change}
 
 
     /**
@@ -268,6 +270,15 @@ protocol ExitQuestionnaires {
 * `actioned_result_of_this_wga`: actioned as a result of receiving this WGA
     */
     enum CancerUsabilityGermline {already_actioned, actioned_result_of_this_wga}
+
+    /**
+    Variant usability for pgx variants:
+    
+* `change_dosing`: Change in therapeutic dosing - current or future
+* `alternative_therapeutic`: Alternative therapeutic chosen
+* `na`: Not applicable
+    */
+    enum CancerUsabilityPharmacogenomics {change_dosing, alternative_therapeutic, na}
 
     /**
     Was the variant validated with an orthogonal technology?
@@ -404,12 +415,11 @@ protocol ExitQuestionnaires {
         Type of potential actionability:
         */
         array<CancerActionabilityPharmacogenomics> variantActionability;
-        union {null, string} otherVariantActionability;
 
         /**
         How has/will this potentially actionable variant been/be used?
         */
-        CancerUsabilityGermline variantUsability;
+        CancerUsabilityPharmacogenomics variantUsability;
 
         /**
         Has this variant been tested by another method (either prior to or following receipt of this WGA)?
@@ -423,10 +433,13 @@ protocol ExitQuestionnaires {
     }
 
     record AdditionalVariantsQuestions{
+
+        union {null, TypeOfAdditionalFinding} typeOfAdditionalFinding;
+        union {null, string} findingDescription;
         /**
         Chr: Pos Ref > Alt
         */
-        VariantCoordinates variantCoordinates;
+        union {null, VariantCoordinates} variantCoordinates;
 
         /**
         Type of potential actionability:
