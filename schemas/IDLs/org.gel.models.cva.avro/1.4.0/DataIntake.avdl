@@ -33,7 +33,7 @@ asynchronously. Successful push does not imply successful processing.
 protocol DataIntakeProtocol {
 
     import idl "CvaVariant.avdl";
-    import idl "EvidenceSet.avdl";
+    import idl "CvaEvidence.avdl";
     import idl "InterpretedGenome.avdl";
     import idl "ClinicalReport.avdl";
     import idl "ExitQuestionnaire.avdl";
