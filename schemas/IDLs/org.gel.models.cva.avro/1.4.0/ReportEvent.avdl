@@ -191,9 +191,14 @@ Duplication of the prior fields is not be supported.
         **/
         string variantId;
         /**
-        The id of the combined compound hetrozygous variants if present
+        The id of the combined compound heterozygous variants if present
         **/
         union {null, string} compoundHeterozygousVariantId;
+        /**
+        The abstract variant (NOTE: this should not be nullable once the Variant is removed from the list of
+        observed variants)
+        */
+        union {null, Variant} variant;
         /**
         The observed variants
         */
