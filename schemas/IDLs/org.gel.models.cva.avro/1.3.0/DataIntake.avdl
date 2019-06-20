@@ -39,6 +39,7 @@ protocol DataIntakeProtocol {
     import idl "ExitQuestionnaire.avdl";
     import idl "RDParticipant.avdl";
     import idl "CancerParticipant.avdl";
+    import idl "Ngis.avdl";
 
     /**
     Predefined authors.
@@ -141,6 +142,18 @@ protocol DataIntakeProtocol {
         owner and the ClinicalReport will correspond to the case assignee)
         */
         union {null, Organisation} organisation;
+        /**
+        The NGIS organisation responsible for this payload
+        */
+        union {null, org.gel.models.participant.avro.OrganisationNgis} organisationNgis;
+        /**
+        Test unique identifier (only sent for NGIS cases)
+        */
+        union {null, string} referralTestId;
+        /**
+        Referral unique identifier (only sent for NGIS cases)
+        */
+        union {null, string} referralId;
     }
 
     /**
