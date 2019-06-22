@@ -32,6 +32,7 @@ else:
     raise ValueError("Not supported python version {}".format(target_version))
 
 VERSION = "7.3.1"
+
 # read the contents of your README file
 this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
