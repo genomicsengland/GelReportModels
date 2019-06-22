@@ -1,0 +1,337 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "sampleId", 
+  "description": "Sample identifier (e.g, LP00012645_5GH))"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "INTEGER", 
+  "name": "labSampleId", 
+  "description": "Lab sample identifier"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "LDPCode", 
+  "description": "LDP Code (Local Delivery Partner)"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "tumourId", 
+  "description": "This is the ID of the tumour from which this tumour sample was taken from"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "programmePhase", 
+  "description": "Genomics England programme phase"
+ }, 
+ {
+  "name": "diseaseType", 
+  "required": false, 
+  "allowedValues": [
+   "ADULT_GLIOMA", 
+   "BLADDER", 
+   "BREAST", 
+   "CARCINOMA_OF_UNKNOWN_PRIMARY", 
+   "CHILDHOOD", 
+   "COLORECTAL", 
+   "ENDOCRINE", 
+   "ENDOMETRIAL_CARCINOMA", 
+   "HAEMONC", 
+   "HEPATOPANCREATOBILIARY", 
+   "LUNG", 
+   "MALIGNANT_MELANOMA", 
+   "NASOPHARYNGEAL", 
+   "ORAL_OROPHARYNGEAL", 
+   "OVARIAN", 
+   "PROSTATE", 
+   "RENAL", 
+   "SARCOMA", 
+   "SINONASAL", 
+   "TESTICULAR_GERM_CELL_TUMOURS", 
+   "UPPER_GASTROINTESTINAL", 
+   "OTHER", 
+   "NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE", 
+   "CLASSICAL_HODGKINS", 
+   "NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS", 
+   "T_CELL_LYMPHOMA"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Disease type.\n        NOTE: Deprecated in GMS"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "diseaseSubType", 
+  "description": "Disease subtype.\n        NOTE: Deprecated in GMS"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "BOOLEAN", 
+  "name": "haematologicalCancer", 
+  "description": "True or false if this sample is of type: Haematological Cancer"
+ }, 
+ {
+  "name": "haematologicalCancerLineage", 
+  "required": false, 
+  "allowedValues": [
+   "MYELOID", 
+   "LYMPHOID", 
+   "UNKNOWN"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "This is the Haematological cancer lineage of the tumourSample if this sample is from a haematological cancer"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "clinicalSampleDateTime", 
+  "description": "The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "tumourType", 
+  "description": "Tumor type.\n        NOTE: Deprecated in GMS in tumourSample but available in tumour record"
+ }, 
+ {
+  "name": "tumourContent", 
+  "required": false, 
+  "allowedValues": [
+   "High", 
+   "Medium", 
+   "Low"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "This is the tumour content"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "DOUBLE", 
+  "name": "tumourContentPercentage", 
+  "description": "This is the tumour content percentage"
+ }, 
+ {
+  "name": "source", 
+  "required": false, 
+  "allowedValues": [
+   "AMNIOTIC_FLUID", 
+   "BLOOD", 
+   "BONE_MARROW", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+   "BUCCAL_SWAB", 
+   "CHORIONIC_VILLUS_SAMPLE", 
+   "FIBROBLAST", 
+   "FLUID", 
+   "FRESH_TISSUE_IN_CULTURE_MEDIUM", 
+   "OTHER", 
+   "SALIVA", 
+   "TISSUE", 
+   "TUMOUR", 
+   "URINE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Source of the sample"
+ }, 
+ {
+  "name": "preparationMethod", 
+  "required": false, 
+  "allowedValues": [
+   "ASPIRATE", 
+   "CD128_SORTED_CELLS", 
+   "CD138_SORTED_CELLS", 
+   "EDTA", 
+   "FF", 
+   "FFPE", 
+   "LI_HEP", 
+   "ORAGENE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "The preparation method of the sample\n        NOTE: Deprecated in GMS in replace of Method and storageMedium record"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "tissueSource", 
+  "description": "The tissue source of the sample.\n        NOTE: DEPRECATED IN GMS in replace of method record"
+ }, 
+ {
+  "name": "product", 
+  "required": false, 
+  "allowedValues": [
+   "DNA", 
+   "RNA"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Product of the sample"
+ }, 
+ {
+  "name": "sampleMorphologies", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "id", 
+    "description": "The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "name", 
+    "description": "The ontology term name"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "value", 
+    "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "version", 
+    "description": "Ontology version"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Morphology according to the sample taken"
+ }, 
+ {
+  "name": "sampleTopographies", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "id", 
+    "description": "The ontology term id or accession in OBO format ${ONTOLOGY_ID}:${TERM_ID} (http://www.obofoundry.org/id-policy.html)"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "name", 
+    "description": "The ontology term name"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "value", 
+    "description": "Optional value for the ontology term, the type of the value is not checked\n        (i.e.: we could set the pvalue term to \"significant\" or to \"0.0001\")"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "version", 
+    "description": "Ontology version"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Topography according to the sample taken"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleUid", 
+  "description": "In GMS, this is the GUID of the sample"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "participantId", 
+  "description": "Participant Id of the sample"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "participantUid", 
+  "description": "Participant UId of the sample"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "maskedPid", 
+  "description": "In GMS, this is the maskedPID"
+ }, 
+ {
+  "name": "method", 
+  "required": false, 
+  "allowedValues": [
+   "ASPIRATE", 
+   "BIOPSY", 
+   "NOT_APPLICABLE", 
+   "RESECTION", 
+   "SORTED_OTHER", 
+   "UNKNOWN", 
+   "UNSORTED", 
+   "CD138_SORTED"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "In GMS, this is how the sample was extracted from the participant"
+ }, 
+ {
+  "name": "storageMedium", 
+  "required": false, 
+  "allowedValues": [
+   "EDTA", 
+   "FF", 
+   "LI_HEP", 
+   "ORAGENE", 
+   "FFPE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "In GMS, this is what solvent/medium the sample was stored in"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleType", 
+  "description": "In GMS, this is the sampleType as entered by the clinician in TOMs"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleState", 
+  "description": "In GMS, this is the sampleState as entered by the clinician in TOMs"
+ }
+]

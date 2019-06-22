@@ -1,0 +1,1186 @@
+[
+ {
+  "name": "versionControl", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "GitVersionControl", 
+    "defaultValue": "1.2.0", 
+    "required": true, 
+    "multiValue": false, 
+    "type": "TEXT", 
+    "description": "This is the version for the entire set of data models as referred to the Git release tag"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Model version number"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "LDPCode", 
+  "description": "LDP Code (Local Delivery Partner)"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "familyId", 
+  "description": "Family identifier which internally translate to a sample set"
+ }, 
+ {
+  "name": "members", 
+  "required": true, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "pedigreeId", 
+    "description": "Numbering used to refer to each member of the pedigree"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "BOOLEAN", 
+    "name": "isProband", 
+    "description": "If this field is true, the member should be considered the proband of this family"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "participantId", 
+    "description": "participantId.  This is the human readable ID in GMS"
+   }, 
+   {
+    "name": "participantQCState", 
+    "required": false, 
+    "allowedValues": [
+     "noState", 
+     "passedMedicalReviewReadyForInterpretation", 
+     "passedMedicalReviewNotReadyForInterpretation", 
+     "queryToGel", 
+     "queryToGMC", 
+     "failed"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "participantQCState"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "gelSuperFamilyId", 
+    "description": "superFamily id, this id is built as a concatenation of all\n        families id in this superfamily i.e, fam10024_fam100457.\n        NOTE: Retired for GMS"
+   }, 
+   {
+    "name": "sex", 
+    "required": true, 
+    "allowedValues": [
+     "MALE", 
+     "FEMALE", 
+     "UNKNOWN"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Sex of the Participant"
+   }, 
+   {
+    "name": "personKaryotypicSex", 
+    "required": false, 
+    "allowedValues": [
+     "UNKNOWN", 
+     "XX", 
+     "XY", 
+     "XO", 
+     "XXY", 
+     "XXX", 
+     "XXYY", 
+     "XXXY", 
+     "XXXX", 
+     "XYY", 
+     "OTHER"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Karyotypic sex of the participant as previously established or by looking at the GEL genome"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "yearOfBirth", 
+    "description": "Year of Birth"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "fatherId", 
+    "description": "refers to the pedigreeId of the father\n        Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n        about them in order to unambiguously reconstruct the pedigree."
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "motherId", 
+    "description": "refers to the pedigreeId of the mother\n        Id of the parent, if unknown then no parent is referenced. Parents may need to be entered even if no data is known\n        about them in order to unambiguously reconstruct the pedigree."
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "superFatherId", 
+    "description": "this id is built using the original familyId and the original pedigreeId of the father\n        NOTE: retired for GMS"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "superMotherId", 
+    "description": "this id is built using the original familyId and the original pedigreeId of the mother\n        NOTE: Retired for GMS"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "INTEGER", 
+    "name": "twinGroup", 
+    "description": "Each twin group is numbered, i.e. all members of a group of multiparous births receive the same number"
+   }, 
+   {
+    "name": "monozygotic", 
+    "required": false, 
+    "allowedValues": [
+     "yes", 
+     "no", 
+     "unknown"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "A property of the twinning group but should be entered for all members"
+   }, 
+   {
+    "name": "adoptedStatus", 
+    "required": false, 
+    "allowedValues": [
+     "notadopted", 
+     "adoptedin", 
+     "adoptedout"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Adopted Status"
+   }, 
+   {
+    "name": "lifeStatus", 
+    "required": false, 
+    "allowedValues": [
+     "ALIVE", 
+     "ABORTED", 
+     "DECEASED", 
+     "UNBORN", 
+     "STILLBORN", 
+     "MISCARRIAGE"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Life Status"
+   }, 
+   {
+    "name": "consanguineousParents", 
+    "required": false, 
+    "allowedValues": [
+     "yes", 
+     "no", 
+     "unknown"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "The parents of this participant has a consanguineous relationship"
+   }, 
+   {
+    "name": "affectionStatus", 
+    "required": false, 
+    "allowedValues": [
+     "UNAFFECTED", 
+     "AFFECTED", 
+     "UNCERTAIN"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Affection Status"
+   }, 
+   {
+    "name": "disorderList", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "diseaseGroup", 
+      "description": "This is Level2 Title for this disorder"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "diseaseSubGroup", 
+      "description": "This is Level3 Title for this disorder"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "specificDisease", 
+      "description": "This is Level4 Title for this disorder.\n        In GMS, this is the clinicalIndicationFullName/clinicalIndicationCode."
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "ageOfOnset", 
+      "description": "Age of onset in years"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty."
+   }, 
+   {
+    "name": "hpoTermList", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "term", 
+      "description": "Identifier of the HPO term"
+     }, 
+     {
+      "name": "termPresence", 
+      "required": false, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "unknown"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "This is whether the term is present in the participant (default is unknown) yes=term is present in participant,\n        no=term is not present"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "hpoBuildNumber", 
+      "description": "hpoBuildNumber"
+     }, 
+     {
+      "name": "modifiers", 
+      "required": false, 
+      "multiValue": true, 
+      "variableSet": [
+       {
+        "name": "laterality", 
+        "required": false, 
+        "allowedValues": [
+         "RIGHT", 
+         "UNILATERAL", 
+         "BILATERAL", 
+         "LEFT"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "progression", 
+        "required": false, 
+        "allowedValues": [
+         "PROGRESSIVE", 
+         "NONPROGRESSIVE"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "severity", 
+        "required": false, 
+        "allowedValues": [
+         "BORDERLINE", 
+         "MILD", 
+         "MODERATE", 
+         "SEVERE", 
+         "PROFOUND"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "name": "spatialPattern", 
+        "required": false, 
+        "allowedValues": [
+         "DISTAL", 
+         "GENERALIZED", 
+         "LOCALIZED", 
+         "PROXIMAL"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": ""
+       }, 
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "TEXT", 
+        "name": "hpoModifierCode", 
+        "description": ""
+       }, 
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "TEXT", 
+        "name": "hpoModifierVersion", 
+        "description": ""
+       }
+      ], 
+      "type": "OBJECT", 
+      "description": "Modifier associated with the HPO term"
+     }, 
+     {
+      "name": "ageOfOnset", 
+      "required": false, 
+      "allowedValues": [
+       "EMBRYONAL_ONSET", 
+       "FETAL_ONSET", 
+       "NEONATAL_ONSET", 
+       "INFANTILE_ONSET", 
+       "CHILDHOOD_ONSET", 
+       "JUVENILE_ONSET", 
+       "YOUNG_ADULT_ONSET", 
+       "LATE_ONSET", 
+       "MIDDLE_AGE_ONSET"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Age of onset in months"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Clinical Data (HPO terms)"
+   }, 
+   {
+    "name": "ancestries", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "name": "mothersEthnicOrigin", 
+      "required": false, 
+      "allowedValues": [
+       "D", 
+       "E", 
+       "F", 
+       "G", 
+       "A", 
+       "B", 
+       "C", 
+       "L", 
+       "M", 
+       "N", 
+       "H", 
+       "J", 
+       "K", 
+       "P", 
+       "S", 
+       "R", 
+       "Z"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Mother's Ethnic Origin"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "mothersOtherRelevantAncestry", 
+      "description": "Mother's Ethnic Origin Description"
+     }, 
+     {
+      "name": "fathersEthnicOrigin", 
+      "required": false, 
+      "allowedValues": [
+       "D", 
+       "E", 
+       "F", 
+       "G", 
+       "A", 
+       "B", 
+       "C", 
+       "L", 
+       "M", 
+       "N", 
+       "H", 
+       "J", 
+       "K", 
+       "P", 
+       "S", 
+       "R", 
+       "Z"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Father's Ethnic Origin"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "fathersOtherRelevantAncestry", 
+      "description": "Father's Ethnic Origin Description"
+     }, 
+     {
+      "name": "chiSquare1KGenomesPhase3Pop", 
+      "required": false, 
+      "multiValue": true, 
+      "variableSet": [
+       {
+        "name": "kgSuperPopCategory", 
+        "required": true, 
+        "allowedValues": [
+         "AFR", 
+         "AMR", 
+         "EAS", 
+         "EUR", 
+         "SAS"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "1K Super Population"
+       }, 
+       {
+        "name": "kgPopCategory", 
+        "required": false, 
+        "allowedValues": [
+         "ACB", 
+         "ASW", 
+         "BEB", 
+         "CDX", 
+         "CEU", 
+         "CHB", 
+         "CHS", 
+         "CLM", 
+         "ESN", 
+         "FIN", 
+         "GBR", 
+         "GIH", 
+         "GWD", 
+         "IBS", 
+         "ITU", 
+         "JPT", 
+         "KHV", 
+         "LWK", 
+         "MSL", 
+         "MXL", 
+         "PEL", 
+         "PJL", 
+         "PUR", 
+         "STU", 
+         "TSI", 
+         "YRI"
+        ], 
+        "multiValue": false, 
+        "type": "CATEGORICAL", 
+        "description": "1K Population"
+       }, 
+       {
+        "multiValue": false, 
+        "required": true, 
+        "type": "DOUBLE", 
+        "name": "chiSquare", 
+        "description": "Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population"
+       }
+      ], 
+      "type": "OBJECT", 
+      "description": "Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations.\n        NOTE: for GMS this field has been deprecated in favour of clinicalEthnicities"
+   }, 
+   {
+    "name": "consentStatus", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "name": "programmeConsent", 
+      "defaultValue": false, 
+      "required": true, 
+      "multiValue": false, 
+      "type": "BOOLEAN", 
+      "description": "Is this individual consented to the programme?\n        It could simply be a family member that is not consented but for whom affection status is known"
+     }, 
+     {
+      "name": "primaryFindingConsent", 
+      "defaultValue": false, 
+      "required": true, 
+      "multiValue": false, 
+      "type": "BOOLEAN", 
+      "description": "Consent for feedback of primary findings?"
+     }, 
+     {
+      "name": "secondaryFindingConsent", 
+      "defaultValue": false, 
+      "required": true, 
+      "multiValue": false, 
+      "type": "BOOLEAN", 
+      "description": "Consent for secondary finding lookup"
+     }, 
+     {
+      "name": "carrierStatusConsent", 
+      "defaultValue": false, 
+      "required": true, 
+      "multiValue": false, 
+      "type": "BOOLEAN", 
+      "description": "Consent for carrier status check?"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "What has this participant consented to?\n        A participant that has been consented to the programme should also have sequence data associated with them; however\n        this needs to be programmatically checked"
+   }, 
+   {
+    "name": "testConsentStatus", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "name": "programmeConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Is this individual consented to the programme? It could simply be a family member that is not consented\n        but for whom affection status is known"
+     }, 
+     {
+      "name": "primaryFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for feedback of primary findings?\n        RD: Primary Findings\n        Cancer: PrimaryFindings is somatic + pertinent germline findings"
+     }, 
+     {
+      "name": "researchConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Research Consent"
+     }, 
+     {
+      "name": "healthRelatedFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for secondary health related findings?"
+     }, 
+     {
+      "name": "carrierStatusConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for carrier status check?"
+     }, 
+     {
+      "name": "pharmacogenomicsFindingConsent", 
+      "required": true, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "undefined", 
+       "not_applicable"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Consent for pharmacogenomics consent as secondary findings?"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "What has this participant consented in the context of a Genomic Test?"
+   }, 
+   {
+    "name": "samples", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample identifier (e.g, LP00012645_5GH))"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "INTEGER", 
+      "name": "labSampleId", 
+      "description": "Lab sample identifier"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "LDPCode", 
+      "description": "LDP Code (Local Delivery Partner)"
+     }, 
+     {
+      "name": "source", 
+      "required": false, 
+      "allowedValues": [
+       "AMNIOTIC_FLUID", 
+       "BLOOD", 
+       "BONE_MARROW", 
+       "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+       "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+       "BUCCAL_SWAB", 
+       "CHORIONIC_VILLUS_SAMPLE", 
+       "FIBROBLAST", 
+       "FLUID", 
+       "FRESH_TISSUE_IN_CULTURE_MEDIUM", 
+       "OTHER", 
+       "SALIVA", 
+       "TISSUE", 
+       "TUMOUR", 
+       "URINE"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Source of the sample"
+     }, 
+     {
+      "name": "product", 
+      "required": false, 
+      "allowedValues": [
+       "DNA", 
+       "RNA"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Product of the sample"
+     }, 
+     {
+      "name": "preparationMethod", 
+      "required": false, 
+      "allowedValues": [
+       "ASPIRATE", 
+       "CD128_SORTED_CELLS", 
+       "CD138_SORTED_CELLS", 
+       "EDTA", 
+       "FF", 
+       "FFPE", 
+       "LI_HEP", 
+       "ORAGENE"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Preparation method\n        NOTE: In GMS, this has been deprecated in favour of Method and storageMedium"
+     }, 
+     {
+      "name": "programmePhase", 
+      "required": false, 
+      "allowedValues": [
+       "CRUK", 
+       "OXFORD", 
+       "CLL", 
+       "IIP", 
+       "MAIN", 
+       "EXPT"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Genomics England programme phase"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "clinicalSampleDateTime", 
+      "description": "The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "participantId", 
+      "description": ""
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "participantUid", 
+      "description": "Participant UId of the sample"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleUid", 
+      "description": ""
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "maskedPid", 
+      "description": ""
+     }, 
+     {
+      "name": "method", 
+      "required": false, 
+      "allowedValues": [
+       "ASPIRATE", 
+       "BIOPSY", 
+       "NOT_APPLICABLE", 
+       "RESECTION", 
+       "SORTED_OTHER", 
+       "UNKNOWN", 
+       "UNSORTED", 
+       "CD138_SORTED"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "In GMS, this is how the sample was extracted from the participant"
+     }, 
+     {
+      "name": "storageMedium", 
+      "required": false, 
+      "allowedValues": [
+       "EDTA", 
+       "FF", 
+       "LI_HEP", 
+       "ORAGENE", 
+       "FFPE"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "In GMS, this is what solvent/medium the sample was stored in"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleType", 
+      "description": "In GMS, this is the sampleType as entered by the clinician in TOMs"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleState", 
+      "description": "In GMS, this is the sampleState as entered by the clinician in TOMs"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "This is an array containing all the samples that belong to this individual, e.g [\"LP00002255_GA4\"]"
+   }, 
+   {
+    "name": "inbreedingCoefficient", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "This is the sample id against which the coefficient was estimated"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "program", 
+      "description": "Name of program used to calculate the coefficient"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "version", 
+      "description": "Version of the programme"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "estimationMethod", 
+      "description": "Where various methods for estimation exist, which method was used."
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "DOUBLE", 
+      "name": "coefficient", 
+      "description": "Inbreeding coefficient ideally a real number in [0,1]"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "standardError", 
+      "description": "Standard error of the Inbreeding coefficient"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Inbreeding Coefficient Estimation"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "OBJECT", 
+    "name": "additionalInformation", 
+    "description": "We could add a map here to store additional information for example URIs to images, ECGs, etc\n        Null by default"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "lastMenstrualPeriod", 
+    "description": "Last Menstrual Period"
+   }, 
+   {
+    "name": "diagnosticDetails", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "diagnosisCodingSystem", 
+      "description": "Diagnosis coding system"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "diagnosisCodingSystemVersion", 
+      "description": "Diagnosis Coding System Version"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "diagnosisCode", 
+      "description": "Diagnosis Code"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "diagnosisDescription", 
+      "description": "Diagnosis description"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "diagnosisCertainty", 
+      "description": "Diagnosis Certainty"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "ageAtOnsetInYears", 
+      "description": "Age at diagnosis"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Additional set of diagnostic ontology terms"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "participantUid", 
+    "description": "ParticipantGUID in GMS"
+   }, 
+   {
+    "name": "clinicalEthnicities", 
+    "required": false, 
+    "allowedValues": [
+     "A", 
+     "B", 
+     "C", 
+     "C2", 
+     "C3", 
+     "CA", 
+     "CB", 
+     "CC", 
+     "CD", 
+     "CE", 
+     "CF", 
+     "CG", 
+     "CH", 
+     "CJ", 
+     "CK", 
+     "CL", 
+     "CM", 
+     "CN", 
+     "CP", 
+     "CQ", 
+     "CR", 
+     "CS", 
+     "CT", 
+     "CU", 
+     "CV", 
+     "CW", 
+     "CX", 
+     "CY", 
+     "D", 
+     "E", 
+     "F", 
+     "G", 
+     "GA", 
+     "GB", 
+     "GC", 
+     "GD", 
+     "GE", 
+     "GF", 
+     "H", 
+     "J", 
+     "K", 
+     "L", 
+     "LA", 
+     "LB", 
+     "LC", 
+     "LD", 
+     "LE", 
+     "LF", 
+     "LG", 
+     "LH", 
+     "LJ", 
+     "LK", 
+     "M", 
+     "N", 
+     "P", 
+     "PA", 
+     "PB", 
+     "PC", 
+     "PD", 
+     "PE", 
+     "R", 
+     "S", 
+     "S1", 
+     "S2", 
+     "SA", 
+     "SB", 
+     "SC", 
+     "SD", 
+     "SE", 
+     "Z"
+    ], 
+    "multiValue": true, 
+    "type": "CATEGORICAL", 
+    "description": "ClinicalEthnicity as defined for GMS"
+   }, 
+   {
+    "name": "previousTreatment", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "previousTreatmentType", 
+      "description": ""
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "previousTreatmentName", 
+      "description": ""
+     }, 
+     {
+      "name": "previousTreatmentDate", 
+      "required": false, 
+      "multiValue": false, 
+      "variableSet": [
+       {
+        "multiValue": false, 
+        "required": true, 
+        "type": "INTEGER", 
+        "name": "year", 
+        "description": "Format YYYY"
+       }, 
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "INTEGER", 
+        "name": "month", 
+        "description": "Format MM. e.g June is 06"
+       }, 
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "INTEGER", 
+        "name": "day", 
+        "description": "Format DD e.g. 12th of October is 12"
+       }
+      ], 
+      "type": "OBJECT", 
+      "description": ""
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "For GMS cases, previous Treatment History"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "List of members of a pedigree"
+ }, 
+ {
+  "name": "analysisPanels", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "specificDisease", 
+    "description": "The specific disease that a panel tests"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "panelName", 
+    "description": "The name of the panel"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "panelId", 
+    "description": "Id of the panel"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "panelVersion", 
+    "description": "The version of the panel"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "reviewOutcome", 
+    "description": "Deprecated"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "multipleGeneticOrigins", 
+    "description": "Deprecated"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "List of panels"
+ }, 
+ {
+  "name": "diseasePenetrances", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "specificDisease", 
+    "description": "The disease to which the penetrance applies"
+   }, 
+   {
+    "name": "penetrance", 
+    "required": true, 
+    "allowedValues": [
+     "complete", 
+     "incomplete"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "The penetrance"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "List of disease penetrances. Moved to referralTest for GMS"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "BOOLEAN", 
+  "name": "readyForAnalysis", 
+  "description": "Flag indicating if a pedigree is ready for analysis"
+ }, 
+ {
+  "name": "familyQCState", 
+  "required": false, 
+  "allowedValues": [
+   "noState", 
+   "passedMedicalReviewReadyForInterpretation", 
+   "passedMedicalReviewNotReadyForInterpretation", 
+   "queryToGel", 
+   "queryToGMC", 
+   "failed"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "The family quality control status"
+ }
+]
