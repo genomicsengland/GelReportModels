@@ -77,7 +77,12 @@ class DependencyManager:
     @staticmethod
     def get_python_module(package):
         package_name = DependencyManager.get_python_package_name(package)
-        _module = importlib.import_module("protocols.{}".format(package_name))
+        try:
+            _module = importlib.import_module("protocols.{}".format(package_name))
+        except: 
+            # this happens during __init__ when you might not 
+            # have built the other versions yet.
+            _module = None  
         return _module
 
     @staticmethod
