@@ -1,0 +1,170 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "sampleId", 
+  "description": "Sample identifier (e.g, LP00012645_5GH))"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "INTEGER", 
+  "name": "labSampleId", 
+  "description": "Lab sample identifier"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "LDPCode", 
+  "description": "LDP Code (Local Delivery Partner)"
+ }, 
+ {
+  "name": "source", 
+  "required": false, 
+  "allowedValues": [
+   "AMNIOTIC_FLUID", 
+   "BLOOD", 
+   "BONE_MARROW", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_CELLS", 
+   "BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS", 
+   "BUCCAL_SWAB", 
+   "CHORIONIC_VILLUS_SAMPLE", 
+   "FIBROBLAST", 
+   "FLUID", 
+   "FRESH_TISSUE_IN_CULTURE_MEDIUM", 
+   "OTHER", 
+   "SALIVA", 
+   "TISSUE", 
+   "TUMOUR", 
+   "URINE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Source of the sample"
+ }, 
+ {
+  "name": "product", 
+  "required": false, 
+  "allowedValues": [
+   "DNA", 
+   "RNA"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Product of the sample"
+ }, 
+ {
+  "name": "preparationMethod", 
+  "required": false, 
+  "allowedValues": [
+   "ASPIRATE", 
+   "CD128_SORTED_CELLS", 
+   "CD138_SORTED_CELLS", 
+   "EDTA", 
+   "FF", 
+   "FFPE", 
+   "LI_HEP", 
+   "ORAGENE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Preparation method\n        NOTE: In GMS, this has been deprecated in favour of Method and storageMedium"
+ }, 
+ {
+  "name": "programmePhase", 
+  "required": false, 
+  "allowedValues": [
+   "CRUK", 
+   "OXFORD", 
+   "CLL", 
+   "IIP", 
+   "MAIN", 
+   "EXPT"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Genomics England programme phase"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "clinicalSampleDateTime", 
+  "description": "The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "participantId", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "participantUid", 
+  "description": "Participant UId of the sample"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleUid", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "maskedPid", 
+  "description": ""
+ }, 
+ {
+  "name": "method", 
+  "required": false, 
+  "allowedValues": [
+   "ASPIRATE", 
+   "BIOPSY", 
+   "NOT_APPLICABLE", 
+   "RESECTION", 
+   "SORTED_OTHER", 
+   "UNKNOWN", 
+   "UNSORTED", 
+   "CD138_SORTED"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "In GMS, this is how the sample was extracted from the participant"
+ }, 
+ {
+  "name": "storageMedium", 
+  "required": false, 
+  "allowedValues": [
+   "EDTA", 
+   "FF", 
+   "LI_HEP", 
+   "ORAGENE", 
+   "FFPE"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "In GMS, this is what solvent/medium the sample was stored in"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleType", 
+  "description": "In GMS, this is the sampleType as entered by the clinician in TOMs"
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "sampleState", 
+  "description": "In GMS, this is the sampleState as entered by the clinician in TOMs"
+ }
+]
