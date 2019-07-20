@@ -1,0 +1,90 @@
+@namespace("org.gel.models.metrics.avro")
+/**
+This protocol defines the metrics we calculate and store for family selection in rare disease program
+*/
+protocol FamilySelection {
+
+    import idl "CommonParticipant.avdl";
+
+    /**
+    Definitions
+    ========================================
+    */
+    /**
+    The set of tests that are performed in Family Selection
+    */
+    enum Test {
+        ALIGNMENT_STATS,
+        ANALYSIS_PANELS,
+        BAM_STATS_CHECK,
+        BLACKLIST,
+        CNV_QC_STATUS,
+        DELIVERY_CHECK,
+        DISEASE_PENETRANCE,
+        FAMILY_SELECTION,
+        GEL_STATUS,
+        HPO_CHECK,
+        PANEL_VERSION,
+        RVG_RESULTS,
+        SEX_CHECK
+    }
+
+    /**
+    The cohort level result of performing the family selection
+    */
+    enum Status {
+        NOT_CHECKED,
+        REJECTED,
+        SELECTED
+    }
+
+    /**
+    Flags raised on a cohort to trigger review
+    */
+    enum Flag {
+        UNUSUAL_SEX_KARYOTYPE,
+        INCORRECT_OR_DISCORDANT_SEX_KARYOTYPE,
+        INFERRED_GENETIC_AND_REPORTED_SEX_DISCORDANT
+    }
+
+    /**
+    SelectionEvent
+    ===================================
+    A set of result data relating to a specific set of checks performed
+    */
+    record SelectionEvent {
+        /**
+        Whether the test passed or failed
+        */
+        boolean passed;
+        /**
+        List of descriptive strings relating to test execution
+        */
+        array<string> description;
+        /**
+        List of flags raised during test execution
+        */
+        union {null, array<Flag>} flags;
+    }
+
+    /**
+    FamilySelection
+    ===================================
+    A collection of selection events and global results for family selection
+    */
+    record FamilySelection {
+        /**
+        Dictionary of SelectionEvents, one for each test performed
+        Keys should be Test enum values
+        */
+        map<SelectionEvent> events;
+        /**
+        Overall family selection status
+        */
+        Status status;
+        /**
+        True if any flags are raised in the selection events
+        */
+        boolean flagged;
+    }
+}
