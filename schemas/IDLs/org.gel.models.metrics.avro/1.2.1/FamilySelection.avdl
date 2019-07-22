@@ -13,7 +13,7 @@ protocol FamilySelection {
     /**
     The set of tests that are performed in Family Selection
     */
-    enum Test {
+    enum SelectionTest {
         ALIGNMENT_STATS,
         ANALYSIS_PANELS,
         BAM_STATS_CHECK,
@@ -32,7 +32,7 @@ protocol FamilySelection {
     /**
     The cohort level result of performing the family selection
     */
-    enum Status {
+    enum SelectionStatus {
         NOT_CHECKED,
         REJECTED,
         SELECTED
@@ -41,7 +41,7 @@ protocol FamilySelection {
     /**
     Flags raised on a cohort to trigger review
     */
-    enum Flag {
+    enum SelectionFlag {
         UNUSUAL_SEX_KARYOTYPE,
         INCORRECT_OR_DISCORDANT_SEX_KARYOTYPE,
         INFERRED_GENETIC_AND_REPORTED_SEX_DISCORDANT
@@ -64,7 +64,7 @@ protocol FamilySelection {
         /**
         List of flags raised during test execution
         */
-        union {null, array<Flag>} flags;
+        union {null, array<SelectionFlag>} flags;
     }
 
     /**
@@ -81,7 +81,7 @@ protocol FamilySelection {
         /**
         Overall family selection status
         */
-        Status status;
+        SelectionStatus status;
         /**
         True if any flags are raised in the selection events
         */
