@@ -1,0 +1,53 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the minimum information that Genomics England needs to ingest/modify clinical data.
+*/
+protocol ParticipantChangeLogs {
+
+    import idl "RDParticipant.avdl";
+
+    /**
+    This code define the change type:
+
+    * `FamilyAdded`: This is a new family.
+    * `FamilyDeleted`: This family should be removed.
+    * `ProbandChanged`: The proband participant is now a different member of the family.
+    * `ParticipantAdded`: A new participant has been sequenced and added to the family.
+    * `ParticipantRemoved`: A participant has been removed.
+    * `ConsentStatusChanged`: One or more participant in this family has a different consent status.
+    * `AffectionStatusChanged`: HPOterms or Disorder changed in one or more participants in this family.
+    * `PanelAssignmentChanged`: Gene Panels has changed in this family.
+    * `SexChanged`: Sex has changed for one or more participants in this family.
+    * `SampleChanged`: The sample/s associated to one or more participant in this family has changed.
+    */
+    enum RDFamilyChangeCode {FamilyAdded,
+                             FamilyDeleted,
+                             ProbandChanged,
+                             ParticipantAdded,
+                             ParticipantRemoved,
+                             ConsentStatusChanged,
+                             AffectionStatusChanged,
+                             PanelAssignmentChanged,
+                             SexChanged,
+                             SampleChanged
+                             }
+
+
+    record RDFamilyChange {
+
+        /**
+        This is the FamilyId - it is expected to be unique across the whole project
+        */
+        string FamilyId;
+
+        /**
+        This code define a change type
+        */
+        RDFamilyChangeCode code;
+
+        /**
+        This is the family data tha need to be ingested
+        */
+        Pedigree Family;
+    }
+}
