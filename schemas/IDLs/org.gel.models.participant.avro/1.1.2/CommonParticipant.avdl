@@ -1,0 +1,179 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the Common things between participant models
+*/
+protocol CommonParticipant {
+
+    /**
+    Sex
+    */
+    enum Sex {MALE, FEMALE, UNKNOWN}
+
+    /**
+    The source of the sample
+    */
+    enum SampleSource {TUMOUR, BONE_MARROW_ASPIRATE_TUMOUR_SORTED_CELLS, BONE_MARROW_ASPIRATE_TUMOUR_CELLS,  BLOOD, SALIVA, FIBROBLAST, TISSUE}
+
+    /**
+    Karyotipic Sex
+    */
+    enum PersonKaryotipicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+
+    enum PreparationMethod {EDTA, ORAGENE, FF, FFPE, CD128_SORTED_CELLS, ASPIRATE}
+
+    /**
+    Penetrance assumed in the analysis
+    */
+    enum Penetrance {complete, incomplete}
+
+    /**
+    This defines a yes/no/unknown case
+    */
+    enum TernaryOption {yes, no, unknown}
+
+    /**
+    This is the list of ethnicities in ONS16
+
+    * `D`:  Mixed: White and Black Caribbean
+    * `E`:  Mixed: White and Black African
+    * `F`:  Mixed: White and Asian
+    * `G`:  Mixed: Any other mixed background
+    * `A`:  White: British
+    * `B`:  White: Irish
+    * `C`:  White: Any other White background
+    * `L`:  Asian or Asian British: Any other Asian background
+    * `M`:  Black or Black British: Caribbean
+    * `N`:  Black or Black British: African
+    * `H`:  Asian or Asian British: Indian
+    * `J`:  Asian or Asian British: Pakistani
+    * `K`:  Asian or Asian British: Bangladeshi
+    * `P`:  Black or Black British: Any other Black background
+    * `S`:  Other Ethnic Groups: Any other ethnic group
+    * `R`:  Other Ethnic Groups: Chinese
+    * `Z`:  Not stated
+    */
+    enum EthnicCategory {D, E, F, G, A, B, C, L, M, N, H, J, K, P, S, R, Z}
+
+    /**
+    1K Genomes project populations
+    */
+    enum KgPopCategory {ACB, ASW, BEB, CDX, CEU, CHB, CHS, CLM, ESN, FIN, GBR, GIH, GWD, IBS, ITU, JPT, KHV, LWK, MSL, MXL, PEL, PJL, PUR, STU, TSI, YRI}
+    /**
+    1K Genomes project super populations
+    */
+    enum KgSuperPopCategory {AFR, AMR, EAS, EUR, SAS}
+
+    /**
+    Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+    */
+    record ChiSquare1KGenomesPhase3Pop {
+        /**
+        1K Super Population
+        */
+        KgSuperPopCategory kgSuperPopCategory;
+        /**
+        1K Population
+        */
+        union {null, KgPopCategory} kgPopCategory;
+        /**
+        Chi-square test for goodness of fit of this sample to this 1000 Genomes Phase 3 population
+        */
+        double chiSquare;
+    }
+
+    /**
+    Ancestries, defined as Ethnic category(ies) and Chi-square test
+    */
+    record Ancestries {
+        /**
+        Mother's Ethnic Origin
+        */
+        union{null, EthnicCategory} mothersEthnicOrigin;
+        /**
+        Mother's Ethnic Origin Description
+        */
+        union{null, string} mothersOtherRelevantAncestry;
+        /**
+        Father's Ethnic Origin
+        */
+        union{null, EthnicCategory} fathersEthnicOrigin;
+        /**
+        Father's Ethnic Origin Description
+        */
+        union{null, string} fathersOtherRelevantAncestry;
+        /**
+        Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
+        */
+        union{null, array<ChiSquare1KGenomesPhase3Pop>} chiSquare1KGenomesPhase3Pop;
+
+
+    }
+
+    /**
+    Consent Status
+    */
+    record ConsentStatus {
+
+        /**
+        Is this individual consented to the programme?
+        It could simply be a family member that is not consented but for whom affection status is known
+        */
+        boolean programmeConsent=false;
+
+        /**
+        Consent for feedback of primary findings?
+        */
+        boolean primaryFindingConsent=false;
+
+        /**
+        Consent for secondary finding lookup
+        */
+        boolean secondaryFindingConsent=false;
+
+        /**
+        Consent for carrier status check?
+        */
+        boolean carrierStatusConsent=false;
+    }
+
+    /**
+    Inbreeding coefficient
+    */
+    record InbreedingCoefficient {
+
+        /**
+        This is the sample id against which the coefficient was estimated
+        */
+        string sampleId;
+        /**
+        Name of program used to calculate the coefficient
+        */
+        string program;
+        /**
+        Version of the programme
+        */
+        string version;
+        /**
+        Where various methods for estimation exist, which method was used.
+        */
+        string estimationMethod;
+        /**
+        Inbreeding coefficient ideally a real number in [0,1]
+        */
+        double coefficient;
+        /**
+        Standard error of the Inbreeding coefficient
+        */
+        union {null, double} standardError;
+    }
+
+    /**
+    Familiar relationship from pedrigree
+    */
+    enum FamiliarRelationship {TwinsMonozygous, TwinsDizygous, TwinsUnknown, FullSibling, FullSiblingF,
+         FullSiblingM, Mother, Father, Son, Daughter, ChildOfUnknownSex, MaternalAunt, MaternalUncle,
+         MaternalUncleOrAunt, PaternalAunt, PaternalUncle, PaternalUncleOrAunt, MaternalGrandmother,
+         PaternalGrandmother, MaternalGrandfather, PaternalGrandfather, DoubleFirstCousin, MaternalCousinSister,
+         PaternalCousinSister, MaternalCousinBrother, PaternalCousinBrother, Cousin, Spouse, Other,
+         RelationIsNotClear, Unrelated, Unknown}
+}
