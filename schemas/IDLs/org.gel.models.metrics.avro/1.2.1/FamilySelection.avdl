@@ -4,8 +4,6 @@ This protocol defines the metrics we calculate and store for family selection in
 */
 protocol FamilySelection {
 
-    import idl "CommonParticipant.avdl";
-
     /**
     Definitions
     ========================================
@@ -43,6 +41,7 @@ protocol FamilySelection {
     */
     enum SelectionFlag {
         UNUSUAL_SEX_KARYOTYPE,
+        UNKNOWN_PHENOTYPIC_SEX,
         INCORRECT_OR_DISCORDANT_SEX_KARYOTYPE,
         INFERRED_GENETIC_AND_REPORTED_SEX_DISCORDANT
     }
