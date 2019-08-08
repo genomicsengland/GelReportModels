@@ -53,6 +53,10 @@ protocol FamilySelection {
     */
     record SelectionEvent {
         /**
+        Name of the test performed during this event
+        */
+        SelectionTest name;
+        /**
         Whether the test passed or failed
         */
         boolean passed;
@@ -73,10 +77,9 @@ protocol FamilySelection {
     */
     record FamilySelection {
         /**
-        Dictionary of SelectionEvents, one for each test performed
-        Keys should be Test enum values
+        List of SelectionEvents, one for each test performed
         */
-        map<SelectionEvent> events;
+        array<SelectionEvent> events;
         /**
         Overall family selection status
         */
