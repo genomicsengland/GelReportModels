@@ -4,8 +4,6 @@ This protocol defines the metrics we calculate and store for family selection in
 */
 protocol FamilySelection {
 
-    import idl "CommonParticipant.avdl";
-
     /**
     Definitions
     ========================================
@@ -43,6 +41,7 @@ protocol FamilySelection {
     */
     enum SelectionFlag {
         UNUSUAL_SEX_KARYOTYPE,
+        UNKNOWN_PHENOTYPIC_SEX,
         INCORRECT_OR_DISCORDANT_SEX_KARYOTYPE,
         INFERRED_GENETIC_AND_REPORTED_SEX_DISCORDANT
     }
@@ -53,6 +52,10 @@ protocol FamilySelection {
     A set of result data relating to a specific set of checks performed
     */
     record SelectionEvent {
+        /**
+        Name of the test performed during this event
+        */
+        SelectionTest name;
         /**
         Whether the test passed or failed
         */
@@ -74,10 +77,9 @@ protocol FamilySelection {
     */
     record FamilySelection {
         /**
-        Dictionary of SelectionEvents, one for each test performed
-        Keys should be Test enum values
+        List of SelectionEvents, one for each test performed
         */
-        map<SelectionEvent> events;
+        array<SelectionEvent> events;
         /**
         Overall family selection status
         */
