@@ -73,6 +73,9 @@ class ProtocolElement(object):
     def __str__(self):
         return "{0}({1})".format(self.__class__.__name__, self.toJsonString())
 
+    def __hash__(self):
+        return self.toJsonString().__hash__()
+
     def __eq__(self, other):
         """
         Returns True if all fields in this protocol element are equal to the
