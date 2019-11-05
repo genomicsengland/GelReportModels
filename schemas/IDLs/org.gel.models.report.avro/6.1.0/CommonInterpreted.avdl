@@ -217,7 +217,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         de_novo_data, allelic_data, other_database, other_data}
 
     /**
-    Activation Strength enumertation:
+    Activation Strength enumeration:
 * `strong`
 * `moderate`
 * `supporting`
@@ -225,7 +225,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     enum ActivationStrength{strong, moderate, supporting}
 
     /**
-    Type of evidence in tge AMP guideline
+    Type of evidence in the AMP guideline
     */
     enum AmpEvidenceType{mutation_type, therapies, variant_frequencies, potential_germline,
         population_database_presence, germline_database_presence, somatic_database_presence, impact_predictive_software,
