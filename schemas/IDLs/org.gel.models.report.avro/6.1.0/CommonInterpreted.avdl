@@ -273,7 +273,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         Activation Strength
         */
-        ActivationStrength  activationStrength;
+        union {null, ActivationStrength}  activationStrength;
         /**
         Description of the evidence
         */
