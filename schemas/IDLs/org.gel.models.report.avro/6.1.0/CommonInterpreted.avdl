@@ -215,6 +215,15 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     */
     enum AcmgEvidenceCategory{population_data, computational_and_predictive_data, functional_data, segregation_data,
         de_novo_data, allelic_data, other_database, other_data}
+
+    /**
+    Activation Strength enumertation:
+* `strong`
+* `moderate`
+* `supporting`
+    */
+    enum ActivationStrength{strong, moderate, supporting}
+
     /**
     Type of evidence in tge AMP guideline
     */
@@ -261,6 +270,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         modifier of the strength, together define each creteria, i.e the 2 in PM2
         */
         int modifier;
+        /**
+        Activation Strength
+        */
+        ActivationStrength  activationStrength;
         /**
         Description of the evidence
         */
