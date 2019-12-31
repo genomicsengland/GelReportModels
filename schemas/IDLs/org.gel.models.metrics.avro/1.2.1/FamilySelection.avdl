@@ -88,5 +88,9 @@ protocol FamilySelection {
         True if any flags are raised in the selection events
         */
         boolean flagged;
+        /**
+        Name of ReportedVsGenetic annotation set that this data is based on
+        */
+        string rvsg_annotation;
     }
 }

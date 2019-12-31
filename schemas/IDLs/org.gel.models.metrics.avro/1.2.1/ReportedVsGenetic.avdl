@@ -104,6 +104,10 @@ protocol ReportedVsGenetic {
         Information about the samples used to calculate the RvsG checks
         */
         array<SamplesInfo> samplesInfo;
+        /**
+        JIRA issue id raised for these checks
+        */
+        union {null, string} jiraId;
     }
 
     /**
@@ -137,6 +141,10 @@ protocol ReportedVsGenetic {
         Number of copies of chromosome Y
         */
         union {null, double} avgCnvChrY;
+        /**
+        Reviewed sex karyotype
+        */
+        union {null, KaryotypicSex} reviewedKaryotype;
     }
 
     /**
@@ -358,7 +366,7 @@ protocol ReportedVsGenetic {
     */
     record Evaluation {
         /**
-        Coverae-based sex evaluation. One entry per sample
+        Coverage-based sex evaluation. One entry per sample
         */
         union {null, array<CoverageBasedSexCheck>} coverageBasedSexCheck;
         /**
