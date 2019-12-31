@@ -91,6 +91,6 @@ protocol FamilySelection {
         /**
         Name of ReportedVsGenetic annotation set that this data is based on
         */
-        string rvsg_annotation;
+        string rvsgAnnotation;
     }
 }
