@@ -2,7 +2,7 @@ import logging
 import getpass
 import abc
 import os.path
-import ujson as json
+import json
 import threading
 import glob
 import re

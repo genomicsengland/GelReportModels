@@ -1,4 +1,4 @@
-import ujson
+import json
 import importlib
 import os.path
 import inspect
@@ -27,7 +27,7 @@ class DependencyManager:
         dependencies_json = "{}/../resources/builds.json".format(path)
         if not os.path.exists(dependencies_json):
             raise ValueError("Not found config file '{}'. Try running 'mvn initialize'".format(dependencies_json))
-        builds = ujson.load(open(dependencies_json))["builds"]
+        builds = json.load(open(dependencies_json))["builds"]
 
         # prepares resource: version -> namespace -> python package
         self.builds = {}

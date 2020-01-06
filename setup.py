@@ -12,7 +12,6 @@ reqs = [
     "factory-boy==2.9.2",
     "humanize==0.5.1",
     "pyyaml>=4.2b1",
-    "ujson==1.35",
     "dictdiffer",
     "future==0.16.0",
     "six"

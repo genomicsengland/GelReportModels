@@ -5,10 +5,7 @@ import os
 import logging
 import argparse
 import re
-try:
-    import ujson as json
-except:
-    import json
+import json
 import shutil
 import distutils.dir_util
 import protocols_utils.utils.conversion_tools as conversion_tools
