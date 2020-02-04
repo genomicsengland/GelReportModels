@@ -1,0 +1,81 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol VariantProtocol {
+
+    // OpenCB references
+    import idl "variant.avdl";
+    // Report models references
+    import idl "CommonInterpreted.avdl";
+
+    /**
+    A variant represented in a given assembly
+    */
+    record VariantRepresentation {
+        /**
+        The assembly on which this variant is represented
+        */
+        org.gel.models.report.avro.Assembly assembly;
+        /**
+        The annotator software version
+        */
+        union {null, string} annotatorVersion;
+        /**
+        The annotator data version
+        */
+        union {null, string} annotationsVersion;
+        /**
+        Small variant coordinates if this is a small variant
+        */
+        union {null, org.gel.models.report.avro.VariantCoordinates} smallVariantCoordinates;
+        /**
+        Structural variant coordinates if this is a structural variant
+        */
+        union {null, org.gel.models.report.avro.Coordinates} structuralVariantCoordinates;
+        /**
+        Small Variant Type
+        */
+        union {null, org.opencb.biodata.models.variant.avro.VariantType} smallVariantType;
+        /**
+        Structural Variant Type as would appear in VCF
+        */
+        union {null, org.gel.models.report.avro.StructuralVariantType} variantType;
+        /**
+        Left insertion sequence
+        */
+        union {null, string} leftInsSeq;
+        /**
+        Right insertion sequence
+        */
+        union {null, string} rightInsSeq;
+        /**
+        Short Tandem Repeat reference data
+        */
+        union {null, org.gel.models.report.avro.ShortTandemRepeatReferenceData} shortTandemRepeatReferenceData;
+        /**
+        Chromosomal rearrangements breakpoints
+        */
+        union {null, array<org.gel.models.report.avro.BreakPoint>} breakpoints;
+        /**
+        Chromosomal rearrangement
+        */
+        union {null, array<org.gel.models.report.avro.Rearrangement>} rearrangement;
+        /**
+        Variant annotation
+        */
+        union {null, org.opencb.biodata.models.variant.avro.VariantAnnotation } annotation;
+    }
+
+    /**
+    The map of variants in the different assemblies
+    */
+    record Variant {
+        /**
+        The id of the variant
+        **/
+        string id;
+        /**
+        A list of variant representations
+        */
+        array<VariantRepresentation> variants = [];
+    }
+}
