@@ -1,3 +1,4 @@
+.pypirc
 .idea/
 **/*.pyc
 **/*.iml
