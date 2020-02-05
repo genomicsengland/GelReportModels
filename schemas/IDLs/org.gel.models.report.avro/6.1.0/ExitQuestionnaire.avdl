@@ -216,7 +216,7 @@ protocol ExitQuestionnaires {
 * `domain_1_and_2`: Domains 1 and 2
 * `domain_1_2_and_suplementary`: Domains 1, 2 and supplementary analysis
     */
-    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary}
+    enum ReviewedParts {domain_1, domain_1_and_2, domain_1_2_and_suplementary, somatic_if_relevant}
 
     /**
     Are the variants actionable?
