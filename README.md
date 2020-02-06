@@ -314,4 +314,13 @@ twine upload dist/GelReportModels-7.3.6.tar.gz
 ```
  
  To run the above command on my machine I first had to create a virtual environment(see https://docs.python.org/3/tutorial/venv.html)
+ 
+ Also, I couldn't get the above commands to work, for me the following worked:
+ 
+ ```bash
+ root@78cfe6794349:/gel/GelReportModels# python build.py --skip-java --skip-docs
+ root@78cfe6794349:/gel/GelReportModels# pip install --upgrade twine wheel setuptools keyrings.alt
+ root@78cfe6794349:/gel/GelReportModels# twine upload dist/GelReportModels-7.4.0.tar.gz
+ ```
+ 
 
