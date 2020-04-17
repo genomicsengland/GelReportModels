@@ -16,7 +16,9 @@ protocol ExitQuestionnaires {
     // TODO: refactor with VariantClassification in CommonInterpreted.avdl
     enum ACMGClassification {pathogenic_variant, likely_pathogenic_variant, variant_of_unknown_clinical_significance, likely_benign_variant,  benign_variant, not_assessed, na}
     enum ClinicalUtility {none, change_in_medication, surgical_option, additional_surveillance_for_proband_or_relatives, clinical_trial_eligibility, informs_reproductive_choice, unknown, other}
-
+    enum FamilyHistoryCondition {yes, no, unknown}
+    enum FamilyHistoryPatient {yes, no, unknown}
+    enum FamilyHistoryFamily {yes, no, unknown}
 
     /**
     The family level questions
@@ -183,6 +185,59 @@ protocol ExitQuestionnaires {
     }
 
     /**
+    The additional findings variant group level questions
+    */
+    record AdditionalFindingsVariantGroupLevelQuestions{
+
+        /**
+        This value groups variants that together could explain the phenotype according to the mode of inheritance used.
+        (e.g.: compound heterozygous). All the variants in the same report sharing the same value will be considered in
+        the same group (i.e.: reported together). This value is an integer unique in the whole report.
+        These values are only relevant within the same report.
+        */
+        int variantGroup;
+
+        /**
+        Variant level questions for each of the variants in the group
+        */
+        union {null, array<VariantLevelQuestions>} variantLevelQuestions;
+
+        /**
+        STR level questions for each of the variants in the group
+        */
+        union {null, array<ShortTandemRepeatLevelQuestions>} shortTandemRepeatLevelQuestions;
+
+        /**
+        Structural level questions for each of the variants in the group
+        */
+        union {null, array<StructuralVariantLevelQuestions>} structuralVariantLevelQuestions;
+
+        /**
+        Does this patient have a positive family history relevant to this condition?
+        */
+        FamilyHistoryCondition familyHistoryCondition;
+
+        /**
+        Was this variant previously known to be present in this patient/family?
+        */
+        /**
+        In patient:
+        */
+        FamilyHistoryPatient familyHistoryPatient;
+
+        /**
+        In family:
+        */
+        FamilyHistoryFamily familyHistoryFamily;
+
+        /**
+        Has the clinical team identified any changes to clinical care which could potentially arise as a result of this variant/variant pair?
+        */
+        array<ClinicalUtility> clinicalUtility;
+
+    }
+
+    /**
     The rare disease program exit questionnaire
     */
     record RareDiseaseExitQuestionnaire{
@@ -206,7 +261,28 @@ protocol ExitQuestionnaires {
 
     /*
     -------------------------------------------------
-    CANCER EXITQUESTIONNAIRE
+    ADDITIONAL FINDINGS EXIT QUESTIONNAIRE
+    -------------------------------------------------
+    */
+
+    record AdditionalFindingsExitQuestionnaire{
+        /**
+        The date when the questionnaire was submitted
+        */
+        string eventDate;
+        /**
+        The person that submitted the questionnaire
+        */
+        string reporter;
+        /**
+        The list of variant group level variants (ungrouped variants are to be set in single variant group)
+        */
+        array<AdditionalFindingsVariantGroupLevelQuestions> additionalFindingsVariantGroupLevelQuestions;
+    }
+
+    /*
+    -------------------------------------------------
+    CANCER EXIT QUESTIONNAIRE
     -------------------------------------------------
     */
 
