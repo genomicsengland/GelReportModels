@@ -287,7 +287,7 @@ To deploy to GELs internal pypi instance, run the `GEL-models/Deploy GelReportMo
 To deploy to public PyPi you can use one of the Dockerfiles in this repo. Create an image and run it as follows:
 
 
-    docker build -f Dockerfile-python2 .
+    docker build -f Dockerfile-python3 .
     docker run -it <hashname> /bin/bash
 
 Once inside the container you need to create a file called ~/.pypirc with contents as follows: 
@@ -309,9 +309,10 @@ Once you have this file, you can run the following commands:
 python3 build.py --skip-java --skip-docs
 
 pip3 install --upgrade twine wheel setuptools keyrings.alt
+python3 setup.py sdist bdist_wheel
 
 twine upload dist/GelReportModels-7.3.6.tar.gz
 ```
  
- To run the above command on my machine I first had to create a virtual environment(see https://docs.python.org/3/tutorial/venv.html)
+See https://packaging.python.org/tutorials/packaging-projects/
 

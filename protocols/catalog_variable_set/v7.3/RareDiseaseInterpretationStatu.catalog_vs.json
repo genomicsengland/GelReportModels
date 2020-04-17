@@ -1,0 +1,174 @@
+[
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "groupId", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "piepelineId", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "pipelineMainFolder", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "cohortName", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "startDate", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "lastStepDate", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "OBJECT", 
+  "name": "pipelineParameters", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "tieringConfigurationFile", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "OBJECT", 
+  "name": "softwareVersions", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": false, 
+  "type": "OBJECT", 
+  "name": "dataBaseVersions", 
+  "description": ""
+ }, 
+ {
+  "multiValue": true, 
+  "required": false, 
+  "type": "TEXT", 
+  "name": "listOfSamples", 
+  "description": ""
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "BOOLEAN", 
+  "name": "readyToDispatch", 
+  "description": ""
+ }, 
+ {
+  "name": "steps", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "stepName", 
+    "description": ""
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "date", 
+    "description": ""
+   }, 
+   {
+    "name": "status", 
+    "required": true, 
+    "allowedValues": [
+     "failed", 
+     "ready"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": ""
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": ""
+ }, 
+ {
+  "name": "listOfFilesToDispatch", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "SampleId", 
+    "description": "Unique ID(s) of the Sample, for example in a multisample vcf this would have an array of all the sample ids"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "URIFile", 
+    "description": "URI PATH"
+   }, 
+   {
+    "name": "fileType", 
+    "required": true, 
+    "allowedValues": [
+     "BAM", 
+     "gVCF", 
+     "VCF_small", 
+     "VCF_somatic_small", 
+     "VCF_CNV", 
+     "VCF_somatic_CNV", 
+     "VCF_SV", 
+     "VCF_somatic_SV", 
+     "VCF_SV_CNV", 
+     "SVG", 
+     "ANN", 
+     "BigWig", 
+     "MD5Sum", 
+     "ROH", 
+     "OTHER"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": ""
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "md5Sum", 
+    "description": ""
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": ""
+ }
+]

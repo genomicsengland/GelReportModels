@@ -1,0 +1,86 @@
+[
+ {
+  "name": "events", 
+  "required": true, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "name": "name", 
+    "required": true, 
+    "allowedValues": [
+     "ALIGNMENT_STATS", 
+     "ANALYSIS_PANELS", 
+     "BAM_STATS_CHECK", 
+     "BLACKLIST", 
+     "CNV_QC_STATUS", 
+     "DELIVERY_CHECK", 
+     "DISEASE_PENETRANCE", 
+     "FAMILY_SELECTION", 
+     "GEL_STATUS", 
+     "HPO_CHECK", 
+     "PANEL_VERSION", 
+     "RVG_RESULTS", 
+     "SEX_CHECK"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Name of the test performed during this event"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "BOOLEAN", 
+    "name": "passed", 
+    "description": "Whether the test passed or failed"
+   }, 
+   {
+    "multiValue": true, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "description", 
+    "description": "List of descriptive strings relating to test execution"
+   }, 
+   {
+    "name": "flags", 
+    "required": false, 
+    "allowedValues": [
+     "UNUSUAL_SEX_KARYOTYPE", 
+     "UNKNOWN_PHENOTYPIC_SEX", 
+     "INCORRECT_OR_DISCORDANT_SEX_KARYOTYPE", 
+     "INFERRED_GENETIC_AND_REPORTED_SEX_DISCORDANT"
+    ], 
+    "multiValue": true, 
+    "type": "CATEGORICAL", 
+    "description": "List of flags raised during test execution"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "List of SelectionEvents, one for each test performed"
+ }, 
+ {
+  "name": "status", 
+  "required": true, 
+  "allowedValues": [
+   "NOT_CHECKED", 
+   "REJECTED", 
+   "SELECTED"
+  ], 
+  "multiValue": false, 
+  "type": "CATEGORICAL", 
+  "description": "Overall family selection status"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "BOOLEAN", 
+  "name": "flagged", 
+  "description": "True if any flags are raised in the selection events"
+ }, 
+ {
+  "multiValue": false, 
+  "required": true, 
+  "type": "TEXT", 
+  "name": "rvsgAnnotation", 
+  "description": "Name of ReportedVsGenetic annotation set that this data is based on"
+ }
+]

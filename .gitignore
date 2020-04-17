@@ -16,3 +16,4 @@ protocols/resources/*
 protocols_utils/code_generation/test/protocols_test.py
 protocols_utils/code_generation/test/protocols_import_test/
 *.avsc
+.DS_Store
