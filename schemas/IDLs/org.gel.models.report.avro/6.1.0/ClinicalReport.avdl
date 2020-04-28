@@ -115,19 +115,9 @@ protocol ClinicalReports {
         string participantId;
 
         /**
-        This is the version of the latest interpreted genome request identifier (i.e.: second number in 12345678-1)
+        This is the version of the latest interpreted genome as an identifier (i.e.: second number in 12345678-1)
         */
         int interpretedGenomeVersion;
-
-        /**
-        This is the interpretation request identifier (i.e.: first number in 123-1)
-        */
-        string interpretationRequestId;
-
-        /**
-        This is the version of the interpretation request identifier (i.e.: second number in 123-1)
-        */
-        int interpretationRequestVersion;
 
         /**
         Date of this report in format YYYY-MM-DD
