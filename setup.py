@@ -30,7 +30,7 @@ elif target_version == '3':
 else:
     raise ValueError("Not supported python version {}".format(target_version))
 
-VERSION = "7.5.0"
+VERSION = "7.5.1"
 
 # read the contents of your README file
 this_directory = os.path.abspath(os.path.dirname(__file__))
