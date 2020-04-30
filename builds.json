@@ -2,6 +2,68 @@
   "builds" :
   [
     {
+      "version": "7.5",
+      "packages": [
+        {
+          "package": "org.ga4gh.models",
+          "python_package": "ga4gh",
+          "version": "3.0.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.gel.models.metrics.avro",
+          "python_package": "metrics",
+          "version": "1.2.1",
+          "dependencies": [
+            "org.gel.models.participant.avro"
+          ]
+        },
+        {
+          "package": "org.gel.models.participant.avro",
+          "python_package": "participant",
+          "version": "1.3.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.gel.models.report.avro",
+          "python_package": "reports",
+          "version": "6.1.0",
+          "dependencies": [
+            "org.gel.models.participant.avro"
+          ]
+        },
+        {
+          "package": "org.gel.models.system.avro",
+          "python_package": "system",
+          "version": "0.1.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.opencb.biodata.models.variant.avro",
+          "python_package": "opencb",
+          "version": "1.3.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.gel.models.coverage.avro",
+          "python_package": "coverage",
+          "version": "0.1.0",
+          "dependencies": []
+        },
+        {
+          "package": "org.gel.models.cva.avro",
+          "python_package": "cva",
+          "version": "1.5.0",
+          "dependencies": [
+            "org.gel.models.report.avro",
+            "org.gel.models.participant.avro",
+            "org.gel.models.system.avro",
+            "org.opencb.biodata.models.variant.avro"
+          ]
+        }
+      ]
+    },
+    {
       "version": "7.4",
       "packages": [
         {
