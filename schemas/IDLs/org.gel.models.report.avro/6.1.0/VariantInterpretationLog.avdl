@@ -21,8 +21,6 @@ protocol VariantInterpretationLogProtocol {
         VariantCoordinates variantCoordinates;
         User user;
         string timestamp;
-        string familyId;
-        string caseId;
         union {null, VariantValidation} variantValidation;
         union {null, array<string>} comments;
         GuidelineBasedVariantClassification variantClassification;
