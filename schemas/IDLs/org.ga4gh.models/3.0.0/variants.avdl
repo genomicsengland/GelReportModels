@@ -157,6 +157,23 @@ record Call {
   array<double> genotypeLikelihood = [];
 
   /**
+  Integer or null value indicating the number of reads supporting the
+  reference allele. If a missing value '.' is in the VCF, this should
+  be recoded as null/None.
+  */
+  union{ null, int } referenceDepth = null;
+
+  /**
+  An array of values which indicate the read depth assigned to the Alt allele(s)
+  if alternateBases are C,GT and the alternateDepth is 1,2 - "C" has 1 supporting
+  read, "GT" has 2. It is possible for the field value to be missing, in which case
+  the "." value should be recorded in the Call as null/None
+  This is kept as an array, though the expectation is that this will usually be
+  used with normalised variants, so that the array has one element
+  */
+  array<union{ null, int }> alternateDepth = [];
+
+  /**
   A map of additional variant call information.
   */
   map<array<string>> info = {};
