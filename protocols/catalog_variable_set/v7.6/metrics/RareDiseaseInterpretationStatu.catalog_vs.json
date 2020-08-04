@@ -57,21 +57,21 @@
  }, 
  {
   "multiValue": false, 
-  "required": true, 
+  "required": false, 
   "type": "OBJECT", 
   "name": "softwareVersions", 
   "description": ""
  }, 
  {
   "multiValue": false, 
-  "required": true, 
+  "required": false, 
   "type": "OBJECT", 
   "name": "dataBaseVersions", 
   "description": ""
  }, 
  {
   "multiValue": true, 
-  "required": true, 
+  "required": false, 
   "type": "TEXT", 
   "name": "listOfSamples", 
   "description": ""
@@ -85,7 +85,7 @@
  }, 
  {
   "name": "steps", 
-  "required": true, 
+  "required": false, 
   "multiValue": true, 
   "variableSet": [
    {
@@ -119,7 +119,7 @@
  }, 
  {
   "name": "listOfFilesToDispatch", 
-  "required": true, 
+  "required": false, 
   "multiValue": true, 
   "variableSet": [
    {

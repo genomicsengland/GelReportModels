@@ -1,0 +1,83 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the gel metrics we calculate and store for vcf
+*/
+protocol GelVcfStats {
+
+record VcfTSTV {
+
+    double TS_1;
+    double TV;
+    double TS;
+    double TS_TV;
+    double TV_1;
+    double TS_TV_1;
+}
+
+record VcfMetrics {
+
+    double NUMBER_OF_SAMPLES ;
+    double NUMBER_OF_INDELS ;
+    double NUMBER_OF_MNPS ;
+    double NUMBER_OF_MULTIALLELIC_SNP_SITES ;
+    double NUMBER_OF_SNPS ;
+    double NUMBER_OF_RECORDS ;
+    double NUMBER_OF_OTHERS ;
+    double NUMBER_OF_MULTIALLELIC_SITES ;
+
+}
+
+record CancerSummaryMetrics{
+
+    double samtools_reads_mapped;
+    double samtools_reads_mapped_normal;
+    double samtools_pairs_on_different_chromosomes;
+    double samtools_pairs_on_different_chromosomes_normal;
+    double samtools_insert_size_average;
+    double samtools_insert_size_average_normal;
+    int variantstats_total_snvs;
+    int variantstats_total_indels;
+    union {null, int} variantstats_total_svs;
+    string tumor_contamination_cont_est;
+    string tumor_contamination_con_pair;
+    double mean;
+    double mean_normal;
+    double local_rmsd_normal;
+    double local_rmsd;
+    double cosmic_30x_cov;
+}
+
+    record CnvSummary{
+    /**count of autosomal PASS CNVs (LOSS and GAIN)*/
+        double countAutosomalCnvPass;
+    /**count of auosomal PASS LOSS calls*/
+        double countAutosomalLossPass;
+    /**count of autosomal PASS LOSS calls with CN=0 (i.e. homozygous deletions)*/
+        double countAutosomalLossCn0Pass;
+    /**count of autosomal PASS LOSS calls with CN=1 (i.e. heterozygous deletions)*/
+        double countAutosomalLossCn1P;
+    /**count of autosomal PASS GAIN callsass*/
+        double countAutosomalGainPas;
+    /**count of autosomal PASS LOH callss*/
+        double countAutosomalLohPass;
+    /**Log2 of autosomal PASS LOSS/GAIN calls ratio, (i.e. Log2(countAutosomalLossPass/countAutosomalGainPass) )*/
+        double log2AutosomalLossGainPass;
+
+    }
+    record CommonCnvSummary {
+
+    /**
+    count of sample CNVs present in Conrad CNVs set (i.e. count of common CNVs)
+    */
+    double countAutosomalConradCnvPass;
+    /**
+    fraction of sample CNVs present in Conrad CNVs set (i.e. countAutosomalConradCnvPass/countAutosomalCnvPass)
+    */
+    double fractionAutosomalConradCnvPass;
+    }
+
+
+
+
+}
+

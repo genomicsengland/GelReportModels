@@ -1,0 +1,53 @@
+@namespace("org.gel.models.report.avro")
+/**
+This protocol defines the states a sample can inherit
+*/
+protocol SampleState {
+
+/**
+This is the master state for this sample, for example failed,quality could be used to say that a sample under this
+individual has quality issues.
+
+ready: sample is ready to be used
+pending: sample is in the process of being analysed
+blocked: sample is on hold pending investigation
+failed: sample has failed a QC check
+not_sequenced: sample is not sequenced
+
+
+*/
+enum SampleStates {
+    ready,
+    warning,
+    pending,
+    blocked,
+    failed,
+    not_sequenced
+}
+enum StateReason {
+    median_coverage,
+    in_analysis,
+    duplicate,
+    pedigree_mendelian_errors,
+    pedigree_ibd_sharing,
+    contamination,quality,
+    sex_query,
+    perc_bases_ge_15x,
+    gb_q30,
+    array_concordance,
+    high_cnv,
+    in_qc,
+    pass_qc,
+    other
+}
+
+record SampleState {
+
+    union {null, SampleStates} state ;
+    union {null, array <StateReason>} reason;
+    union {null, array <string>} otherReasons;
+    union {null, array <string>} issueIdentifier;
+
+}
+
+}

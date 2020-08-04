@@ -1,0 +1,411 @@
+@namespace("org.gel.models.metrics.avro")
+/**
+This protocol defines the metrics we calculate and store for genetic vs reported checks
+*/
+protocol ReportedVsGenetic {
+
+    import idl "CommonParticipant.avdl";
+
+    /**
+    Definitions
+    ========================================
+    */
+    /**
+    Phenotypic sex
+    */
+    enum Sex {UNKNOWN, MALE, FEMALE, OTHER}
+
+    /**
+    Kariotypic sex
+    TODO: Check if we want to have different karyotype definitions for XO clearcut/doubtful
+    */
+    enum KaryotypicSex {UNKNOWN, XX, XY, XO, XXY, XXX, XXYY, XXXY, XXXX, XYY, OTHER}
+
+    /**
+    A query
+    */
+    enum Query {yes, no, unknown, notTested}
+
+    /**
+    Reported vs Genetic Summary
+    */
+    enum reportedVsGeneticSummary {familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck}
+
+    /**
+    Supported assemblies
+    */
+    enum SupportedAssembly {GRCh37, GRCh38}
+
+
+    /**
+    ReportedVsGeneticSummary
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    */
+    record SamplesInfo {
+        /**
+        Participant Id: This code should be unique per patient and independent of the sample
+        */
+        string participantId;
+        /**
+        Sample Id (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+        /**
+        Delivery Id
+        */
+        string deliveryId;
+    }
+
+    record ReportedVsGeneticSummary {
+        /**
+        Reported vs Genetic checks version. This version should point to specific versions of the RvsG script,
+        configurations and thresholds
+        */
+        string rvsgCheckVersion;
+        /**
+        In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        string runDate;
+        /**
+        Genome assembly
+        */
+        union {null, SupportedAssembly} genomeAssembly;
+        /**
+        Path to the directory containing the checks for this family
+        */
+        string pathToDirectory;
+        /**
+        Number of markers used to compute the Mendelian Inconsistencies. This corresponds to the number of
+        lines in the PLINK .bim file used for this family
+        */
+        union {null, double} numberOfMarkers;
+        /**
+        Number of markers in approximate linkage equilibrium used to calculate IBD
+        */
+        union {null, double} numberOfMarkersLE;
+        /**
+        Tool used to compute mendelian inconsistencies
+        */
+        string mendelErrorsTool;
+        /**
+        Version of the tool used to compute mendelian inconsistencies
+        */
+        string mendelErrorsToolVersion;
+        /**
+        Tool used to compute within-family relatedness
+        */
+        string relatednessTool;
+        /**
+        Version of the tool used to compute mendelian inconsistencies
+        */
+        string relatednessToolVersion;
+        /**
+        Information about the samples used to calculate the RvsG checks
+        */
+        array<SamplesInfo> samplesInfo;
+        /**
+        JIRA issue id raised for these checks
+        */
+        union {null, string} jiraId;
+    }
+
+    /**
+    Coverage-based sex
+    ========================================
+    General information about the checks, versions, tools, and number of markers
+    TODO: Consider removing Inferred karyotype
+    */
+    record CoverageBasedSex {
+        /**
+        Sample Id (e.g, LP00012645_5GH))
+        */
+        union {null, string} sampleId;
+        /**
+        Inferred karyotype using coverage information
+        */
+        union {null, KaryotypicSex} inferredKaryotype;
+        /**
+        Ratio of the average coverage of chromosome X to the average of the autosomal chromosome coverage
+        */
+        union {null, double} ratioChrX;
+        /**
+        Ratio of the average coverage of chromosome Y to the average of the autosomal chromosome coverage
+        */
+        union {null, double} ratioChrY;
+        /**
+        Number of copies of chromosome X
+        */
+        union {null, double} avgCnvChrX;
+        /**
+        Number of copies of chromosome Y
+        */
+        union {null, double} avgCnvChrY;
+        /**
+        Reviewed sex karyotype
+        */
+        union {null, KaryotypicSex} reviewedKaryotype;
+    }
+
+    /**
+    Mendelian inconsistencies
+    ========================================
+    - fmendel reports a line per nuclear family
+    - imendel reports a line per member of the family and nuclear family
+    */
+    record PerFamilyMendelErrors {
+        /**
+        Sample Id of the father
+        */
+        union {null, string} fatherId;
+        /**
+        Sample Id of the mother
+        */
+        union {null, string} motherId;
+        /**
+        Number of children in the nuclear family
+        */
+        union {null, double} numberOfOffspring;
+        /**
+        Number of Mendelian errors in the nuclear family
+        */
+        union {null, double} numberOfMendelErrors;
+    }
+
+    record IndividualMendelErrors {
+        /**
+        Sample Id
+        */
+        union {null, string} sampleId;
+        /**
+        Number of Mendelian errors per sample in a nuclear family
+        */
+        union {null, double} numberOfMendelErrors;
+        /**
+        Rate of Mendelian errors per sample in a nuclear family to the number of sites tested (number of markers)
+        */
+        union {null, double} rateOfMendelErrors;
+    }
+
+    record AggregatedIndividualMendelErrors {
+        /**
+        Sample Id
+        */
+        union {null, string} sampleId;
+        /**
+        Total number of Mendelian errors per sample considering all nuclear families
+        */
+        union {null, double} totalnumberOfMendelErrors;
+    }
+
+    record TotalNumberOfMendelErrors {
+        /**
+        Total number of Mendelian errors in the family, this should be the sum of the mendelian errors in each
+        nuclear family
+        */
+        union {null, double} familyMendelErrors;
+        /**
+        Number of Mendelian errors per sample considering all nuclear families. Should be one entry per sample in
+        the family
+        */
+        union {null, array<AggregatedIndividualMendelErrors>} individualMendelErrors;
+    }
+
+    record LocusMendelSummary {
+        /**
+        Sample Id
+        */
+        union {null, string} sampleId;
+        /**
+        Chromosome (1-22, X, Y, XY)
+        */
+        union {null, string} chr;
+        /**
+        Numeric error code (more information here: http://zzz.bwh.harvard.edu/plink/summary.shtml#mendel)
+        */
+        union {null, double} code;
+        /**
+        Number of errors of the type "code" in that chromosome
+        */
+        union {null, double} numberOfErrors;
+    }
+
+    record MendelianInconsistencies {
+        /**
+        Number of mendelian inconsitencies per nuclear family. One entry per nuclear family
+        */
+        union {null, array<PerFamilyMendelErrors>} perFamilyMendelErrors;
+        /**
+        Number of mendelian inconsitencies per sample and nuclear family. One entry per sample and nuclear family
+        */
+        union {null, array<IndividualMendelErrors>} individualMendelErrors;
+        /**
+        Aggregated number of mendelian inconsitencies per sample and family
+        */
+        union {null, TotalNumberOfMendelErrors} totalNumberOfMendelErrors;
+        /**
+        Summary of the type of mendelian inconstencies happening in the family. One entry per sample, chromosome and
+        code
+        */
+        union {null, array<LocusMendelSummary>} locusMendelSummary;
+    }
+
+    /** Relatedness
+    ========================================
+    */
+    record RelatednessPair {
+        /**
+        Sample Id of one of the samples in the pair
+        */
+        union {null, string} sampleId1;
+        /**
+        Sample Id of the other sample in the pair
+        */
+        union {null, string} sampleId2;
+        /**
+        Estimated proportion of autosome with 0 alleles shared
+        */
+        union {null, double} ibd0;
+        /**
+        Estimated proportion of autosome with 1 allele shared
+        */
+        union {null, double} ibd1;
+        /**
+        Estimated proportion of autosome with 2 alleles shared
+        */
+        union {null, double} ibd2;
+        /**
+        Estimated overall proportion of shared autosomal DNA
+        */
+        union {null, double} piHat;
+    }
+
+    record FamilyRelatedness {
+        /**
+        Pairwise relatedness within the family. One entry per pair of samples
+        */
+        union {null, array<RelatednessPair>} relatedness;
+    }
+
+    /** Evaluation
+    ========================================
+    */
+    record CoverageBasedSexCheck {
+        /**
+        Sample Id
+        */
+        union {null, string} sampleId;
+        /**
+        Reported phenotypic sex
+        */
+        union {null, Sex} reportedPhenotypicSex;
+        /**
+        Reported karyotypic sex
+        */
+        union {null, KaryotypicSex} reportedKaryotypicSex;
+        /**
+        Inferred coverage-based sex karyotype
+        */
+        union {null, KaryotypicSex} inferredSexKaryotype;
+        /**
+        Whether the sample is a sex query (yes, no, unknown, notTested)
+        */
+        union {null, Query} sexQuery;
+        /**
+        Comments
+        */
+        union {null, string} comments;
+    }
+
+    record MendelianInconsistenciesCheck {
+        /**
+        Sample Id
+        */
+        union {null, string} sampleId;
+        /**
+        Whether the sample is a Mendelian inconsistencies query (yes, no, unknown, notTested)
+        */
+        union {null, Query} mendelianInconsistenciesQuery;
+        /**
+        Mendelian inconsistencies cannot always be computed for all the samples in the family (depends on family
+        structure). Specify here if this is the case or there was any other issues
+        */
+        union {null, string} comments;
+    }
+
+    record FamilyRelatednessCheck {
+        /**
+        Sample Id of one of the samples in the pair
+        */
+        union {null, string} sampleId1;
+        /**
+        Sample Id of the other sample in the pair
+        */
+        union {null, string} sampleId2;
+        /**
+        Reported relationship from sampleId1 to sampleId2 according to the pedigree provided
+        */
+        union {null, org.gel.models.participant.avro.FamiliarRelationship} relationshipFromPedigree;
+        /**
+        Expected relationship according to IBD
+        */
+        union {null, string} possibleRelationship;
+        /**
+        Whether the pair of samples are a within-family query (yes, no, unknown, notTested)
+        */
+        union {null, Query} withinFamilyIBDQuery;
+        /**
+        Comments
+        */
+        union {null, string} comments;
+    }
+
+    /** Evaluation
+    ========================================
+    reportedVsGeneticSummary: familyPassesGvsRChecks, familyFailsACheck, familyMissingACheck
+    */
+    record Evaluation {
+        /**
+        Coverage-based sex evaluation. One entry per sample
+        */
+        union {null, array<CoverageBasedSexCheck>} coverageBasedSexCheck;
+        /**
+        Mendelian inconsitencies evaluation. One entry per sample
+        */
+        union {null, array<MendelianInconsistenciesCheck>} mendelianInconsistenciesCheck;
+        /**
+        Within-family relatedness evaluation. One entry per pair of samples
+        */
+        union {null, array<FamilyRelatednessCheck>} familyRelatednessCheck;
+        /**
+        Final evaluation summary. Does the family passes RvsG checks or errors are present?
+        */
+        union {null, reportedVsGeneticSummary} reportedVsGeneticSummary;
+    }
+
+    /** Reported versus Genetic checks object
+    ========================================
+    */
+    record ReportedVsGeneticChecks {
+        /**
+        Summary of the software, versions and samples used for the RvsG checks
+        */
+        union {null, ReportedVsGeneticSummary} reportedVsGeneticSummary;
+        /**
+        Coverage-based sex metrics and inferred karyotype
+        */
+        union {null, array<CoverageBasedSex>} coverageBasedSex;
+        /**
+        Per family and per sample mendelian inconsistencies
+        */
+        union {null, MendelianInconsistencies} mendelianInconsistencies;
+        /**
+        Within-family relatedness
+        */
+        union {null, FamilyRelatedness} familyRelatedness;
+        /**
+        Evaluation of the reported vs genetic information
+        */
+        union {null, Evaluation} evaluation;
+    }
+}
