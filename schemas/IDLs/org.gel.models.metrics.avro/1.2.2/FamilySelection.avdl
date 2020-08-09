@@ -1,0 +1,86 @@
+@namespace("org.gel.models.metrics.avro")
+/**
+This protocol defines the metrics we calculate and store for family selection in rare disease program
+*/
+protocol FamilySelection {
+
+    /**
+    Definitions
+    ========================================
+    */
+    /**
+    The set of tests that are performed in Family Selection
+    */
+    enum SelectionTest {
+        ALIGNMENT_STATS,
+        ANALYSIS_PANELS,
+        BAM_STATS_CHECK,
+        BLACKLIST,
+        CNV_QC_STATUS,
+        DELIVERY_CHECK,
+        DISEASE_PENETRANCE,
+        FAMILY_SELECTION,
+        GEL_STATUS,
+        HPO_CHECK,
+        PANEL_VERSION,
+        RVG_RESULTS,
+        SEX_CHECK
+    }
+
+    /**
+    The cohort level result of performing the family selection
+    */
+    enum SelectionStatus {
+        NOT_CHECKED,
+        REJECTED,
+        SELECTED
+    }
+
+    /**
+    SelectionEvent
+    ===================================
+    A set of result data relating to a specific set of checks performed
+    */
+    record SelectionEvent {
+        /**
+        Name of the test performed during this event
+        */
+        SelectionTest name;
+        /**
+        Whether the test passed or failed
+        */
+        boolean passed;
+        /**
+        List of descriptive strings relating to test execution
+        */
+        array<string> description;
+        /**
+        List of flags raised during test execution
+        */
+        union {null, array<string>} flags;
+    }
+
+    /**
+    FamilySelection
+    ===================================
+    A collection of selection events and global results for family selection
+    */
+    record FamilySelection {
+        /**
+        List of SelectionEvents, one for each test performed
+        */
+        array<SelectionEvent> events;
+        /**
+        Overall family selection status
+        */
+        SelectionStatus status;
+        /**
+        True if any flags are raised in the selection events
+        */
+        boolean flagged;
+        /**
+        Name of ReportedVsGenetic annotation set that this data is based on
+        */
+        string rvsgAnnotation;
+    }
+}

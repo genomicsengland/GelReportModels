@@ -1,0 +1,655 @@
+[
+ {
+  "name": "reportedVsGeneticSummary", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "rvsgCheckVersion", 
+    "description": "Reported vs Genetic checks version. This version should point to specific versions of the RvsG script,\n        configurations and thresholds"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "runDate", 
+    "description": "In the format YYYY-MM-DDTHH:MM:SS+0000"
+   }, 
+   {
+    "name": "genomeAssembly", 
+    "required": false, 
+    "allowedValues": [
+     "GRCh37", 
+     "GRCh38"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Genome assembly"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "pathToDirectory", 
+    "description": "Path to the directory containing the checks for this family"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "numberOfMarkers", 
+    "description": "Number of markers used to compute the Mendelian Inconsistencies. This corresponds to the number of\n        lines in the PLINK .bim file used for this family"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "numberOfMarkersLE", 
+    "description": "Number of markers in approximate linkage equilibrium used to calculate IBD"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "mendelErrorsTool", 
+    "description": "Tool used to compute mendelian inconsistencies"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "mendelErrorsToolVersion", 
+    "description": "Version of the tool used to compute mendelian inconsistencies"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "relatednessTool", 
+    "description": "Tool used to compute within-family relatedness"
+   }, 
+   {
+    "multiValue": false, 
+    "required": true, 
+    "type": "TEXT", 
+    "name": "relatednessToolVersion", 
+    "description": "Version of the tool used to compute mendelian inconsistencies"
+   }, 
+   {
+    "name": "samplesInfo", 
+    "required": true, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "participantId", 
+      "description": "Participant Id: This code should be unique per patient and independent of the sample"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample Id (e.g, LP00012645_5GH))"
+     }, 
+     {
+      "multiValue": false, 
+      "required": true, 
+      "type": "TEXT", 
+      "name": "deliveryId", 
+      "description": "Delivery Id"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Information about the samples used to calculate the RvsG checks"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "jiraId", 
+    "description": "JIRA issue id raised for these checks"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Summary of the software, versions and samples used for the RvsG checks"
+ }, 
+ {
+  "name": "coverageBasedSex", 
+  "required": false, 
+  "multiValue": true, 
+  "variableSet": [
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "TEXT", 
+    "name": "sampleId", 
+    "description": "Sample Id (e.g, LP00012645_5GH))"
+   }, 
+   {
+    "name": "inferredKaryotype", 
+    "required": false, 
+    "allowedValues": [
+     "UNKNOWN", 
+     "XX", 
+     "XY", 
+     "XO", 
+     "XXY", 
+     "XXX", 
+     "XXYY", 
+     "XXXY", 
+     "XXXX", 
+     "XYY", 
+     "OTHER"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Inferred karyotype using coverage information"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "ratioChrX", 
+    "description": "Ratio of the average coverage of chromosome X to the average of the autosomal chromosome coverage"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "ratioChrY", 
+    "description": "Ratio of the average coverage of chromosome Y to the average of the autosomal chromosome coverage"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "avgCnvChrX", 
+    "description": "Number of copies of chromosome X"
+   }, 
+   {
+    "multiValue": false, 
+    "required": false, 
+    "type": "DOUBLE", 
+    "name": "avgCnvChrY", 
+    "description": "Number of copies of chromosome Y"
+   }, 
+   {
+    "name": "reviewedKaryotype", 
+    "required": false, 
+    "allowedValues": [
+     "UNKNOWN", 
+     "XX", 
+     "XY", 
+     "XO", 
+     "XXY", 
+     "XXX", 
+     "XXYY", 
+     "XXXY", 
+     "XXXX", 
+     "XYY", 
+     "OTHER"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Reviewed sex karyotype"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Coverage-based sex metrics and inferred karyotype"
+ }, 
+ {
+  "name": "mendelianInconsistencies", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "perFamilyMendelErrors", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "fatherId", 
+      "description": "Sample Id of the father"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "motherId", 
+      "description": "Sample Id of the mother"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "numberOfOffspring", 
+      "description": "Number of children in the nuclear family"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "numberOfMendelErrors", 
+      "description": "Number of Mendelian errors in the nuclear family"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Number of mendelian inconsitencies per nuclear family. One entry per nuclear family"
+   }, 
+   {
+    "name": "individualMendelErrors", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample Id"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "numberOfMendelErrors", 
+      "description": "Number of Mendelian errors per sample in a nuclear family"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "rateOfMendelErrors", 
+      "description": "Rate of Mendelian errors per sample in a nuclear family to the number of sites tested (number of markers)"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Number of mendelian inconsitencies per sample and nuclear family. One entry per sample and nuclear family"
+   }, 
+   {
+    "name": "totalNumberOfMendelErrors", 
+    "required": false, 
+    "multiValue": false, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "familyMendelErrors", 
+      "description": "Total number of Mendelian errors in the family, this should be the sum of the mendelian errors in each\n        nuclear family"
+     }, 
+     {
+      "name": "individualMendelErrors", 
+      "required": false, 
+      "multiValue": true, 
+      "variableSet": [
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "TEXT", 
+        "name": "sampleId", 
+        "description": "Sample Id"
+       }, 
+       {
+        "multiValue": false, 
+        "required": false, 
+        "type": "DOUBLE", 
+        "name": "totalnumberOfMendelErrors", 
+        "description": "Total number of Mendelian errors per sample considering all nuclear families"
+       }
+      ], 
+      "type": "OBJECT", 
+      "description": "Number of Mendelian errors per sample considering all nuclear families. Should be one entry per sample in\n        the family"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Aggregated number of mendelian inconsitencies per sample and family"
+   }, 
+   {
+    "name": "locusMendelSummary", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample Id"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "chr", 
+      "description": "Chromosome (1-22, X, Y, XY)"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "code", 
+      "description": "Numeric error code (more information here: http://zzz.bwh.harvard.edu/plink/summary.shtml#mendel)"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "numberOfErrors", 
+      "description": "Number of errors of the type \"code\" in that chromosome"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Summary of the type of mendelian inconstencies happening in the family. One entry per sample, chromosome and\n        code"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Per family and per sample mendelian inconsistencies"
+ }, 
+ {
+  "name": "familyRelatedness", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "relatedness", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId1", 
+      "description": "Sample Id of one of the samples in the pair"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId2", 
+      "description": "Sample Id of the other sample in the pair"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "ibd0", 
+      "description": "Estimated proportion of autosome with 0 alleles shared"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "ibd1", 
+      "description": "Estimated proportion of autosome with 1 allele shared"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "ibd2", 
+      "description": "Estimated proportion of autosome with 2 alleles shared"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "DOUBLE", 
+      "name": "piHat", 
+      "description": "Estimated overall proportion of shared autosomal DNA"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Pairwise relatedness within the family. One entry per pair of samples"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Within-family relatedness"
+ }, 
+ {
+  "name": "evaluation", 
+  "required": false, 
+  "multiValue": false, 
+  "variableSet": [
+   {
+    "name": "coverageBasedSexCheck", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample Id"
+     }, 
+     {
+      "name": "reportedPhenotypicSex", 
+      "required": false, 
+      "allowedValues": [
+       "UNKNOWN", 
+       "MALE", 
+       "FEMALE", 
+       "OTHER"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Reported phenotypic sex"
+     }, 
+     {
+      "name": "reportedKaryotypicSex", 
+      "required": false, 
+      "allowedValues": [
+       "UNKNOWN", 
+       "XX", 
+       "XY", 
+       "XO", 
+       "XXY", 
+       "XXX", 
+       "XXYY", 
+       "XXXY", 
+       "XXXX", 
+       "XYY", 
+       "OTHER"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Reported karyotypic sex"
+     }, 
+     {
+      "name": "inferredSexKaryotype", 
+      "required": false, 
+      "allowedValues": [
+       "UNKNOWN", 
+       "XX", 
+       "XY", 
+       "XO", 
+       "XXY", 
+       "XXX", 
+       "XXYY", 
+       "XXXY", 
+       "XXXX", 
+       "XYY", 
+       "OTHER"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Inferred coverage-based sex karyotype"
+     }, 
+     {
+      "name": "sexQuery", 
+      "required": false, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "unknown", 
+       "notTested"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Whether the sample is a sex query (yes, no, unknown, notTested)"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "comments", 
+      "description": "Comments"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Coverage-based sex evaluation. One entry per sample"
+   }, 
+   {
+    "name": "mendelianInconsistenciesCheck", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId", 
+      "description": "Sample Id"
+     }, 
+     {
+      "name": "mendelianInconsistenciesQuery", 
+      "required": false, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "unknown", 
+       "notTested"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Whether the sample is a Mendelian inconsistencies query (yes, no, unknown, notTested)"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "comments", 
+      "description": "Mendelian inconsistencies cannot always be computed for all the samples in the family (depends on family\n        structure). Specify here if this is the case or there was any other issues"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Mendelian inconsitencies evaluation. One entry per sample"
+   }, 
+   {
+    "name": "familyRelatednessCheck", 
+    "required": false, 
+    "multiValue": true, 
+    "variableSet": [
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId1", 
+      "description": "Sample Id of one of the samples in the pair"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "sampleId2", 
+      "description": "Sample Id of the other sample in the pair"
+     }, 
+     {
+      "name": "relationshipFromPedigree", 
+      "required": false, 
+      "allowedValues": [
+       "TwinsMonozygous", 
+       "TwinsDizygous", 
+       "TwinsUnknown", 
+       "FullSibling", 
+       "FullSiblingF", 
+       "FullSiblingM", 
+       "Mother", 
+       "Father", 
+       "Son", 
+       "Daughter", 
+       "ChildOfUnknownSex", 
+       "MaternalAunt", 
+       "MaternalUncle", 
+       "MaternalUncleOrAunt", 
+       "PaternalAunt", 
+       "PaternalUncle", 
+       "PaternalUncleOrAunt", 
+       "MaternalGrandmother", 
+       "PaternalGrandmother", 
+       "MaternalGrandfather", 
+       "PaternalGrandfather", 
+       "DoubleFirstCousin", 
+       "MaternalCousinSister", 
+       "PaternalCousinSister", 
+       "MaternalCousinBrother", 
+       "PaternalCousinBrother", 
+       "Cousin", 
+       "Spouse", 
+       "Other", 
+       "RelationIsNotClear", 
+       "Unrelated", 
+       "Unknown"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Reported relationship from sampleId1 to sampleId2 according to the pedigree provided"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "possibleRelationship", 
+      "description": "Expected relationship according to IBD"
+     }, 
+     {
+      "name": "withinFamilyIBDQuery", 
+      "required": false, 
+      "allowedValues": [
+       "yes", 
+       "no", 
+       "unknown", 
+       "notTested"
+      ], 
+      "multiValue": false, 
+      "type": "CATEGORICAL", 
+      "description": "Whether the pair of samples are a within-family query (yes, no, unknown, notTested)"
+     }, 
+     {
+      "multiValue": false, 
+      "required": false, 
+      "type": "TEXT", 
+      "name": "comments", 
+      "description": "Comments"
+     }
+    ], 
+    "type": "OBJECT", 
+    "description": "Within-family relatedness evaluation. One entry per pair of samples"
+   }, 
+   {
+    "name": "reportedVsGeneticSummary", 
+    "required": false, 
+    "allowedValues": [
+     "familyPassesGvsRChecks", 
+     "familyFailsACheck", 
+     "familyMissingACheck"
+    ], 
+    "multiValue": false, 
+    "type": "CATEGORICAL", 
+    "description": "Final evaluation summary. Does the family passes RvsG checks or errors are present?"
+   }
+  ], 
+  "type": "OBJECT", 
+  "description": "Evaluation of the reported vs genetic information"
+ }
+]
