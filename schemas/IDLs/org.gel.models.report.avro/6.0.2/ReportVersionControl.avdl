@@ -9,7 +9,7 @@ protocol VersionControl {
         /**
         This is the version for the entire set of data models as referred to the Git release tag
         */
-        string gitVersionControl = "6.0.1";
+        string gitVersionControl = "6.0.2";
     }
 }
 
