@@ -24,8 +24,7 @@ protocol Pedigrees {
         union {null,string} diseaseSubGroup;
 
         /**
-        This is Level4 Title for this disorder.
-        In GMS, this is the clinicalIndicationFullName/clinicalIndicationCode.
+        This is Level4 Title for this disorder
         */
         union {null,string} specificDisease;
 
@@ -43,17 +42,12 @@ protocol Pedigrees {
 
     enum SpatialPattern {DISTAL, GENERALIZED, LOCALIZED, PROXIMAL}
 
-    /**
-    HPO Modifiers
-    For GMS, hpoModifierCode and hpoModifierVersion will be used
-    */
+
     record HpoTermModifiers{
         union {null, Laterality} laterality;
         union {null, Progression} progression;
         union {null, Severity} severity;
         union {null, SpatialPattern} spatialPattern;
-        union {null, string} hpoModifierCode;
-        union {null, string} hpoModifierVersion;
     }
 
 
@@ -83,7 +77,7 @@ protocol Pedigrees {
         /**
         Modifier associated with the HPO term
         */
-        union {null, array<HpoTermModifiers>} modifiers;
+        union {null, HpoTermModifiers} modifiers;
 
         /**
         Age of onset in months
@@ -91,6 +85,7 @@ protocol Pedigrees {
         union {null, AgeOfOnset} ageOfOnset;
 
     }
+
 
 
     /**
@@ -124,32 +119,35 @@ protocol Pedigrees {
     enum AdoptedStatus {notadopted, adoptedin, adoptedout}
 
 
-    record DiagnosticDetail{
+
+    record Sample{
         /**
-        Diagnosis coding system
+        Sample Id (e.g, LP00012645_5GH))
         */
-        string diagnosisCodingSystem;
+        string sampleId;
+
         /**
-        Diagnosis Coding System Version
+        Lab Sample Id
         */
-        union{null, string} diagnosisCodingSystemVersion;
+        string labSampleId;
+
         /**
-        Diagnosis Code
+        Source
         */
-        string diagnosisCode;
+        union {null, SampleSource} source;
+
         /**
-        Diagnosis description
+        Product
         */
-        union{null, string} diagnosisDescription;
+        union {null, Product} product;
+
         /**
-        Diagnosis Certainty
+        preparationMethod
         */
-        union{null, string} diagnosisCertainty;
-        /**
-        Age at diagnosis
-        */
-        union{null, float} ageAtOnsetInYears;
+        union {null, PreparationMethod} preparationMethod;
+
     }
+
 
     /**
     This defines a RD Participant (demographics and pedigree information)
@@ -167,7 +165,7 @@ protocol Pedigrees {
         union {null, boolean} isProband;
 
         /**
-        participantId.  This is the human readable ID in GMS
+        participantId
         */
         union {null, string} participantId;
 
@@ -177,9 +175,7 @@ protocol Pedigrees {
         union {null, ParticipantQCState} participantQCState;
 
         /**
-        superFamily id, this id is built as a concatenation of all
-        families id in this superfamily i.e, fam10024_fam100457.
-        NOTE: Retired for GMS
+        superFamily id, this id is built as a concatenation of all families id in this superfamily i.e, fam10024_fam100457
         */
         union {null, string} gelSuperFamilyId;
 
@@ -213,13 +209,11 @@ protocol Pedigrees {
 
         /**
         this id is built using the original familyId and the original pedigreeId of the father
-        NOTE: retired for GMS
         */
         union {null, int}  superFatherId;
 
         /**
         this id is built using the original familyId and the original pedigreeId of the mother
-        NOTE: Retired for GMS
         */
         union {null, int}  superMotherId;
 
@@ -255,7 +249,7 @@ protocol Pedigrees {
         union {null, AffectionStatus} affectionStatus;
 
         /**
-        Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty.
+        Clinical Data (disorders). If the family member is unaffected as per affectionStatus then this list is empty
         */
         union {null, array<Disorder>} disorderList;
 
@@ -265,8 +259,7 @@ protocol Pedigrees {
         union {null, array<HpoTerm>} hpoTermList;
 
         /**
-        Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations.
-        NOTE: for GMS this field has been deprecated in favour of clinicalEthnicities
+        Participant's ancestries, defined as Mother's/Father's Ethnic Origin and Chi-square test for goodness of fit of this sample to 1000 Genomes Phase 3 populations
         */
         union {null, Ancestries} ancestries;
 
@@ -278,14 +271,9 @@ protocol Pedigrees {
         union {null, ConsentStatus} consentStatus;
 
         /**
-        What has this participant consented in the context of a Genomic Test?
-        */
-        union {null, GmsConsentStatus} testConsentStatus;
-
-        /**
         This is an array containing all the samples that belong to this individual, e.g ["LP00002255_GA4"]
         */
-        union {null, array<GermlineSample>} samples;
+        union {null, array<Sample>} samples;
 
         /**
         Inbreeding Coefficient Estimation
@@ -298,30 +286,32 @@ protocol Pedigrees {
         */
         union {null, map<string>} additionalInformation;
 
-        /**
-        Last Menstrual Period
-        */
-        union {null, string} lastMenstrualPeriod;
+    }
 
+    /**
+    An analysis panel
+    */
+    record AnalysisPanel {
         /**
-        Additional set of diagnostic ontology terms
+        The specific disease that a panel tests
         */
-        union {null, array<DiagnosticDetail>} diagnosticDetails;
-
+        string specificDisease;
         /**
-        ParticipantGUID in GMS
+        The name of the panel
         */
-        union {null, string} participantUid;
-
+        string panelName;
         /**
-        ClinicalEthnicity as defined for GMS
+        The version of the panel
         */
-        union {null, array<ClinicalEthnicity>} clinicalEthnicities;
-
+        union {null, string} panelVersion;
         /**
-        For GMS cases, previous Treatment History
+        The outcome of the review
         */
-        union {null, array<PreviousTreatment>} previousTreatment;
+        string reviewOutcome;
+        /**
+        TODO
+        */
+        string multipleGeneticOrigins;
     }
 
     /**
@@ -369,7 +359,7 @@ protocol Pedigrees {
         union {null, array<AnalysisPanel>} analysisPanels;
 
         /**
-        List of disease penetrances. Moved to referralTest for GMS
+        List of disease penetrances
         */
         union {null, array<DiseasePenetrance>} diseasePenetrances;
 
@@ -379,7 +369,7 @@ protocol Pedigrees {
         boolean readyForAnalysis;
 
         /**
-        The family quality control status
+        The famili quality control status
         */
         union {null, FamilyQCState} familyQCState;
     }

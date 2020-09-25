@@ -26,6 +26,7 @@ protocol VariantInterpretationLogProtocol {
         union {null, VariantValidation} variantValidation;
         union {null, array<string>} comments;
         GuidelineBasedVariantClassification variantClassification;
+        union {null, VariantValidation} VariantValidation;
         union {null, boolean} Artifact;
         union {null, map<string>} decisionSupportSystemFilters;
 

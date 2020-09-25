@@ -554,7 +554,7 @@ protocol CommonParticipant {
     /**
         Lab sample identifier
         */
-        int labSampleId;
+        string labSampleId;
 
     /**
         LDP Code (Local Delivery Partner)

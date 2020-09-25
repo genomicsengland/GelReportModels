@@ -1,0 +1,285 @@
+@namespace("org.gel.models.participant.avro")
+/**
+This protocol defines the `CancerParticipant`
+*/
+protocol CancerParticipants {
+
+    import idl "CommonParticipant.avdl";
+    import idl "VersionControl.avdl";
+
+    /**
+    This is not used in this version
+    */
+    enum diseaseType {ADULT_GLIOMA, BLADDER, BREAST, CARCINOMA_OF_UNKNOWN_PRIMARY, CHILDHOOD, COLORECTAL, ENDOCRINE,
+    ENDOMETRIAL_CARCINOMA, HAEMONC, HEPATOPANCREATOBILIARY, LUNG, MALIGNANT_MELANOMA, NASOPHARYNGEAL, ORAL_OROPHARYNGEAL,
+    OVARIAN, PROSTATE, RENAL, SARCOMA, SINONASAL, TESTICULAR_GERM_CELL_TUMOURS, UPPER_GASTROINTESTINAL, OTHER,
+    NON_HODGKINS_B_CELL_LYMPHOMA_LOW_MOD_GRADE, CLASSICAL_HODGKINS, NODULAR_LYMPHOCYTE_PREDOMINANT_HODGKINS, T_CELL_LYMPHOMA}
+
+
+    enum TumourType {PRIMARY, METASTATIC_RECURRENCE, RECURRENCE_OF_PRIMARY_TUMOUR, METASTASES}
+
+    enum ProgrammePhase {CRUK, OXFORD, CLL, IIP, MAIN, EXPT}
+
+    enum Method {RESECTION, BIOPSY, BLOOD}
+
+    enum Product {DNA, RNA}
+
+    enum TumourContent {High, Medium, Low}
+
+    enum TissueSource {BMA_TUMOUR_SORTED_CELLS, CT_GUIDED_BIOPSY, ENDOSCOPIC_BIOPSY, ENDOSCOPIC_ULTRASOUND_GUIDED_BIOPSY,
+    ENDOSCOPIC_ULTRASOUND_GUIDED_FNA, LAPAROSCOPIC_BIOPSY, LAPAROSCOPIC_EXCISION, MRI_GUIDED_BIOPSY, NON_GUIDED_BIOPSY,
+    SURGICAL_RESECTION, STEREOTACTICALLY_GUIDED_BIOPSY, USS_GUIDED_BIOPSY, NON_STANDARD_BIOPSY, NOT_SPECIFIED}
+
+
+    /**
+    A germline sample
+    */
+    record GermlineSample {
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample identifier
+        */
+        string labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        string LDPCode;
+
+        /**
+        Source of the sample
+        */
+        union {null, SampleSource} source;
+
+        /**
+        Product of the sample
+        */
+        union {null, Product} product;
+
+        /**
+        Preparation method
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        Genomics England programme phase
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        The time when the sample was received. In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null,string} clinicalSampleDateTime;
+
+    }
+
+    /**
+    A tumour sample
+    */
+    record TumourSample {
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH))
+        */
+        string sampleId;
+
+        /**
+        Lab sample identifier
+        */
+        string labSampleId;
+
+        /**
+        LDP Code (Local Delivery Partner)
+        */
+        string LDPCode;
+
+        /**
+        Identifier of each one of the tumours for a participant
+        */
+        string tumourId;
+
+        /**
+        Genomics England programme phase
+        */
+        union {null, ProgrammePhase} programmePhase;
+
+        /**
+        Disease type
+        */
+        union {null, string} diseaseType;
+
+        /**
+        Disease subtype
+        */
+        union {null, string} diseaseSubType;
+
+        /**
+        The time when the sample was recieved. In the format YYYY-MM-DDTHH:MM:SS+0000
+        */
+        union {null, string} clinicalSampleDateTime;
+
+        /**
+        Tumor type
+        */
+        union {null, TumourType} tumourType;
+
+        /**
+        Tumour content
+        */
+        union {null, TumourContent} tumourContent;
+
+        /**
+        Source of the sample
+        */
+        union {null, SampleSource} source;
+
+        /**
+        The preparation method
+        */
+        union {null, PreparationMethod} preparationMethod;
+
+        /**
+        The tissue source
+        */
+        union {null, TissueSource} tissueSource;
+
+        /**
+        Product of the sample
+        */
+        union {null, Product} product;
+
+        /**
+        Tumour morphology as defined by ICD (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologyICD;
+        /**
+        Tumour morphology as defined by Snomed CT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedCT;
+        /**
+        Tumour morphology as defined by Snomed RT (at least one morphology definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} morphologySnomedRT;
+
+        /**
+        Tumour topography as defined by ICD (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographyICD;
+        /**
+        Tumour topography as defined by Snomed CT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedCT;
+        /**
+        Tumour topography as defined by Snomed RT (at least one topography definition by either ICD, Snomed CT or Snomed RT must be provided)
+        */
+        union {null, string} topographySnomedRT;
+    }
+
+    /**
+    This defines a pair of germline and tumor, this pair should/must be analyzed together
+    */
+    record MatchedSamples{
+
+        /**
+        Sample identifier (e.g, LP00012645_5GH)) for the germline
+        */
+        union {null, string} germlineSampleId;
+
+        /**
+        Sample identifier (e.g, LP00012643_7JS)) for the tumor
+        */
+        union {null, string} tumourSampleId;
+
+    }
+
+    /**
+    This defines a Cancer Participant
+    */
+    record CancerParticipant{
+
+        /**
+        Year of birth for the cancer participant
+        */
+        union {null, int} yearOfBirth;
+
+        /**
+        TODO
+        */
+        union {null, array<string>}  morphology;
+
+        /**
+        Flag indicating if the participant is ready for analysis
+        */
+        boolean readyForAnalysis;
+
+        /**
+        What has this participant consented to?
+        A participant that has been consented to the programme should also have sequence data associated with them; however
+        this needs to be programmatically checked
+        */
+        union {null, ConsentStatus} consentStatus;
+
+        /**
+        Center
+        */
+        union {null, string} center;
+
+        /**
+        Individual identifier
+        */
+        string individualId;
+
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisDisease;
+
+        /**
+        This should be an enumeration when it is well defined
+        blood, breast, prostate, colorectal, cll, aml, renal, ovarian, skin, lymphNode, bone, saliva //for individual - there could be more than I have listed here, in fact there definitely will.
+        */
+        union {null, array<string>} primaryDiagnosisSubDisease;
+
+        /**
+        Sex
+        */
+        Sex sex;
+
+        /**
+        We could add a map here to store additional information for example URIs to images, ECGs, etc
+        */
+        union {null, map<string>} additionalInformation;
+
+        /**
+        assigned ICD10 code
+        */
+        union {null, array<string>} assignedICD10;
+
+        /**
+        List of tumour samples
+        */
+        array<TumourSample> tumourSamples;
+
+        /**
+        List of germline samples
+        */
+        array<GermlineSample> germlineSamples;
+
+        /**
+        List of matched samples (i.e.: pairs tumour-germline)
+        */
+        array<MatchedSamples> matchedSamples;
+
+        /**
+        Model version number
+        */
+        union {null, VersionControl} versionControl;
+    }
+}

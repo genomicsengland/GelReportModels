@@ -23,6 +23,9 @@ class TestCaseMigration(TestCase):
     version_6_1 = dependency_manager.VERSION_61
     version_7_0 = dependency_manager.VERSION_70
     version_7_2 = dependency_manager.VERSION_72
+    version_7_2_1 = dependency_manager.VERSION_721
+    version_7_3 = dependency_manager.VERSION_73
+    version_7_7 = dependency_manager.VERSION_77
 
     def _check_non_empty_fields(self, instance, exclusions=[]):
         """

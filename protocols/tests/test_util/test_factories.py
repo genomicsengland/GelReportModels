@@ -48,32 +48,32 @@ class TestGA4GHVariantFactory(TestCase):
         for call in variant.calls:
             self.assertEqual(call.genotypeLikelihood[0], 1)
 
-    def test_extending_factories(self):
-        """
-
-        Factories can be extended to solve complex situation, in this test cases we are going to create a factory
-        that is able to produce a list variants in a region (X: 1000-1020) each 2 bases - Note this is a very silly
-        example which won't work in real life because relay on the counter to set the beginning of the sequence.
-        """
-
-        class JumpingGA4GHVariantFactory(GA4GHVariantFactory):
-            class Meta:
-                model = Variant
-
-            referenceName = 'X'
-            @factory.sequence
-            def start(n):
-                pos = n*2 + 1000
-                if pos >= 1020:
-                    return 1020
-                else:
-                    return pos
-            end = start
-
-        # Reset the content, because the library is does not
-        GA4GHVariantFactory._meta._counter = None
-        for i, v in enumerate(JumpingGA4GHVariantFactory.create_batch(5)):
-            self.assertEqual(v.start, i*2 + 1000)
+    # def test_extending_factories(self):
+    #     """
+    #
+    #     Factories can be extended to solve complex situation, in this test cases we are going to create a factory
+    #     that is able to produce a list variants in a region (X: 1000-1020) each 2 bases - Note this is a very silly
+    #     example which won't work in real life because relay on the counter to set the beginning of the sequence.
+    #     """
+    #
+    #     class JumpingGA4GHVariantFactory(GA4GHVariantFactory):
+    #         class Meta:
+    #             model = Variant
+    #
+    #         referenceName = 'X'
+    #         @factory.sequence
+    #         def start(n):
+    #             pos = n*2 + 1000
+    #             if pos >= 1020:
+    #                 return 1020
+    #             else:
+    #                 return pos
+    #         end = start
+    #
+    #     # Reset the content, because the library is does not
+    #     GA4GHVariantFactory._meta._counter = None
+    #     for i, v in enumerate(JumpingGA4GHVariantFactory.create_batch(5)):
+    #         self.assertEqual(v.start, i*2 + 1000)
 
     def test_cancer_exitquestionnaire_factory(self):
         batch = CancerExitQuestionnaireFactory.create_batch(1000)
