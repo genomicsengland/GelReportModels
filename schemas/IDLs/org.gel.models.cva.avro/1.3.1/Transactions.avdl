@@ -1,0 +1,167 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol TransactionProtocol {
+
+    // CVA references
+    import idl "CvaVariant.avdl";
+    import idl "DataIntake.avdl";
+
+    /**
+    The transaction status:
+
+* PENDING: a transaction in the queue pending to be processed
+* BLOCKED: a transaction already being processed
+* PROCESSING: a transaction being processed (normalised, lifted over and annotated)
+* PERSISTING: a transaction being persisted in the database
+* BLOCKED: a transaction already being processed
+* DONE: a transaction has been successfully processed
+* CANCELLING: a transaction is being rolled back
+* CANCELLED: a transaction has been rolled back
+* ERROR: erroneous transaction that cannot be processed, nor retried (this is caused by reported variants already in the database)
+* ROLLBACK_ERROR: a transaction failed to roll back (this may leave the database in an inconsistent state)
+* DELETED: a transaction has been deleted by a user (same effect as CANCELLED but user triggered)
+
+    The happy path is PENDING -> BLOCKED -> PROCESSING -> PERSISTING -> DONE
+    */
+    enum TransactionStatus {
+        PENDING,
+        BLOCKED,
+        PROCESSING,
+        PERSISTING,
+        DONE,
+        CANCELLING,
+        CANCELLED,
+        ERROR,
+        ROLLBACK_ERROR,
+        DELETED
+    }
+
+    /**
+    Keeps track of a transaction status change
+    */
+    record TransactionStatusChange {
+        /**
+        The new transaction status
+        */
+        TransactionStatus to;
+        /**
+        A timestamp with the status change
+        */
+        string timestamp;
+        /**
+        A message
+        */
+        union {null,string} message;
+        /**
+        An error message in case the transaction ingestion failed
+        */
+        union {null, string} errorMessage;
+        /**
+        The stracktrace in case the transaction ingestion failed
+        */
+        union {null, string} stackTrace;
+        /**
+        The CVA version that processed the transaction
+        */
+        union {null, string} cvaVersion;
+    }
+
+    /**
+    Details about the content of a transaction and some logs.
+    */
+    record TransactionDetails {
+        /**
+        The type of the transaction (e.g.: org.gel.models.cva.avro.InterpretedGenomeInject)
+        */
+        string type;
+        /**
+        The number of elements contained in the transaction
+        */
+        int numberOfElements;
+        /**
+        Metadata on the injection data
+        */
+        InjectionMetadata metadata;
+        /**
+        Messages
+        */
+        array<TransactionStatusChange> history;
+    }
+
+    /**
+    Details about the transaction sender
+    */
+    record RequestDetails {
+        /**
+        IP address
+        */
+        union {null,string} ip;
+        /**
+        Hostname
+        */
+        union {null,string} host;
+        /**
+        Port
+        */
+        union {null,int} port;
+        /**
+        User
+        */
+        union {null,string} user;
+        /**
+        URI
+        */
+        union {null,string} uri;
+        /**
+        URL
+        */
+        union {null,string} url;
+        /**
+        Authentication type
+        */
+        union {null,string} authType;
+    }
+
+    /**
+    A transaction having all necessary data to process it into the database
+    */
+    record Transaction {
+        /**
+        The identifier of the transaction
+        */
+        string id;
+        /**
+        Timestamp of last transaction status modification
+        */
+        string lastModified;
+        /**
+        Transaction status
+        */
+        TransactionStatus status;
+        /**
+        The data to be ingested in CVA compressed
+        */
+        union {null, bytes} compressedData;
+        /**
+        A MD5 hash signature of the transaction used to discard identical requests.
+        To have a 50% chance of a collision by the birthday paradox we need 2**64 transactions
+        */
+        string requestSignature;
+        /**
+        Options to process the transaction
+        */
+        map<string> options;
+        /**
+        The number of milliseconds to process the transaction.
+        */
+        union {null, int} processingMilli;
+        /**
+        The details of a transaction
+        */
+        TransactionDetails transactionDetails;
+        /**
+        The details of a request
+        */
+        union {null, RequestDetails} requestDetails;
+    }
+}

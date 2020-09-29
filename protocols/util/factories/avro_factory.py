@@ -10,8 +10,8 @@ from past.builtins import basestring
 BASIC_TYPES = ['null', 'boolean', 'string', 'bytes', 'int', 'long', 'float', 'double', 'enum']
 COMPLEX_TYPES = ['record', 'array', 'map']
 UNION_TYPE = 'union'
-DEFAULT_ELEMENTS_ARRAY = 5
-DEFAULT_ELEMENTS_MAP = 5
+DEFAULT_ELEMENTS_ARRAY = 2
+DEFAULT_ELEMENTS_MAP = 1
 INT_MIN_VALUE = -(1 << 31)
 INT_MAX_VALUE = (1 << 31) - 1
 LONG_MIN_VALUE = -(1 << 63)

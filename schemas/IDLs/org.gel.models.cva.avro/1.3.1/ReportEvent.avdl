@@ -1,0 +1,214 @@
+@namespace("org.gel.models.cva.avro")
+
+protocol ReportEventProtocol {
+
+    // CVA references
+    import idl "Comment.avdl";
+    import idl "ObservedVariant.avdl";
+    // Report models references
+    import idl "CommonInterpreted.avdl";
+    import idl "CommonRequest.avdl";
+    import idl "ExitQuestionnaire.avdl";
+    import idl "evidence.avdl";
+
+    /**
+    The type of the ReportedVariant
+    
+* reported: this is a variant reported by a GMC
+* candidate: this is a variant suggested by a Clinical Interpretation Partner
+* tiered: this is a variant highlighted by the tiering process
+* other: any other source
+    */
+    enum ReportEventType {
+        reported,
+        candidate,
+        genomics_england_tiering,
+        questionnaire,
+        other
+    }
+
+    /**
+    The report event for a questionnaire in RD.
+    */
+    record ReportEventQuestionnaireRD {
+        /**
+        The identifier used to group variants together
+        */
+        union {null, int} groupOfVariants;
+        /**
+        The variant level questions
+        */
+        org.gel.models.report.avro.VariantLevelQuestions variantLevelQuestions;
+        /**
+        The variant group level questions
+        */
+        org.gel.models.report.avro.VariantGroupLevelQuestions variantGroupLevelQuestions;
+        /**
+        The family level questions
+        */
+        org.gel.models.report.avro.FamilyLevelQuestions familyLevelQuestions;
+    }
+
+    /**
+    A list of variant coordinates
+    */
+    record VariantsCoordinates {
+        array<org.gel.models.report.avro.VariantCoordinates> variants = [];
+    }
+
+    /**
+    This object holds all questionnaire questions together with normalized variant coordinates.
+    */
+    record ReportedVariantQuestionnaireRD {
+        /**
+        The normalized representation of variants coordinates
+        */
+        org.gel.models.report.avro.VariantCoordinates variantCoordinates;
+        /**
+        The questionnaire report event
+        */
+        ReportEventQuestionnaireRD reportEvent;
+    }
+
+    record ReportEventQuestionnaireCancer {
+        /**
+        The somatic variant level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerSomaticVariantLevelQuestions} cancerSomaticVariantLevelQuestions;
+        /**
+        The variant group level questions for the cancer program
+        */
+        union {null, org.gel.models.report.avro.CancerGermlineVariantLevelQuestions} cancerGermlineVariantLevelQuestions;
+        /**
+        Cancer case level questions
+        */
+        org.gel.models.report.avro.CancerCaseLevelQuestions cancercaseLevelQuestions;
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, array<org.gel.models.report.avro.AdditionalVariantsQuestions>} otherActionableVariants;
+    }
+
+    /**
+A variant or variants (i.e.: composite heterozygous) reported by any manual or automated means.
+The information about the report is contained within a ReportEvent, it is linked to one or more
+ObservedVariant.
+
+Every ReportedVariant is uniquely identified by:
+
+* report event id
+* report model version
+* id
+* version
+* family id
+* cohort id
+* variants identifiers (being a variant identifier formed by chromosome + position + reference + alternate)
+
+Duplication of the prior fields is not be supported.
+    */
+    record ReportEventEntry {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The identifier for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        string id;
+        /**
+        The version for the higher level entity, either InterpretationRequest, InterpretedGenome or ClinicalReport
+        */
+        int version;
+        /**
+        A flag to indicate that this report event corresponds to the latest interpretation of the same case as defined by the highest `version`
+        */
+        union {null, boolean} latest;
+        /**
+        The identifier for the InterpretationRequest
+        */
+        union {null, string} caseId;
+        /**
+        The version for the InterpretationRequest
+        */
+        union {null, int} caseVersion;
+        /**
+        The group identifier, either a family identifier for RD or a participant id for cancer
+        */
+        string groupId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        Date in format yyyyMMddhhmm
+        */
+        string `date`;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        Type of ReportedVariant
+        */
+        ReportEventType type;
+        /**
+        The 100K Genomes program to which the reported variant belongs.
+        */
+        org.gel.models.report.avro.Program program;
+        /**
+        Validation flag
+        */
+        boolean validated = false;
+        /**
+        The workspace. This field is used to control authorisation to
+        access each case.
+        */
+        array<string> workspace = [];
+        /**
+        The report event for the rare disease program
+        */
+        union {null, org.gel.models.report.avro.ReportEvent} reportEvent;
+        /**
+        The report event for the questionnaire reports in the rare disease program
+        */
+        union {null, ReportEventQuestionnaireRD} reportEventQuestionnaire;
+        /**
+        The report event for the questionnaire reports in the cancer program
+        */
+        union {null, ReportEventQuestionnaireCancer} reportEventQuestionnaireCancer;
+        /**
+        The variant id
+        **/
+        string variantId;
+        /**
+        The id of the combined compound hetrozygous variants if present
+        **/
+        union {null, string} compoundHetrozygousVariantId;
+        /**
+        The observed variants
+        */
+        array<ObservedVariant> observedVariants = [];
+        /**
+        Comments for this diagnostic event
+        */
+        array<Comment> comments = [];
+        /**
+        A list of additional properties in the form name-value.
+        */
+        array<org.opencb.biodata.models.variant.avro.Property> additionalProperties = [];
+        /**
+        Additional variant attributes
+        */
+        union {null, org.gel.models.report.avro.VariantAttributes } variantAttributes;
+    }
+}
