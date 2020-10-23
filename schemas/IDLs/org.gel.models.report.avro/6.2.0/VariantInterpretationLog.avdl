@@ -1,0 +1,33 @@
+@namespace("org.gel.models.report.avro")
+
+protocol VariantInterpretationLogProtocol {
+
+    import idl "CommonInterpreted.avdl";
+
+    record User{
+        string username;
+        string role;
+        string email;
+        array<string> groups;
+    }
+    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed}
+
+    record VariantValidation{
+        string validationTechnology;
+        ValidationResult validationResult;
+    }
+
+    record VariantInterpretationLog{
+        VariantCoordinates variantCoordinates;
+        User user;
+        string timestamp;
+        string familyId;
+        string caseId;
+        union {null, VariantValidation} variantValidation;
+        union {null, array<string>} comments;
+        GuidelineBasedVariantClassification variantClassification;
+        union {null, boolean} Artifact;
+        union {null, map<string>} decisionSupportSystemFilters;
+
+    }
+}
