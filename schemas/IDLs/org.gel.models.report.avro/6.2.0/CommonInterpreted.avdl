@@ -287,6 +287,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         array<AcmgEvidence> acmgEvidences;
         ClinicalSignificance clinicalSignificance;
         union{null, string} assessment;
+        /**
+        ACMG evidence categories for which the user has indicated there is no evidence available
+        */
+        union{null, array<AcmgEvidenceCategory>} noAcmgEvidence;
     }
 
     /**
