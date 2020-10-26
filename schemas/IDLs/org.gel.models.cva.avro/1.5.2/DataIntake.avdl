@@ -1,0 +1,319 @@
+@namespace("org.gel.models.cva.avro")
+
+/**
+The DataIntakeProtocol defines two records for injecting report events into CVA:
+
+   - InterpretedGenomeInject
+   - ClinicalReportInject
+
+The above entities contain either an InterpretedGenome or a ClinicalReport that have list of variants,
+having themselves lists of report events. The variants will go through the variant ingestion pipeline,
+normalised, checked against the reference genome for validity and lifted over.
+
+The DataIntakeProtocol defined two records to inject exit questionnaires into CVA:
+
+    - ExitQuestionnaireInjectRD
+    - ExitQuestionnaireInjectCancer
+
+The exit questionnaires are transformed into a report event for storage in CVA. Variants are also
+processed through the variant ingestion pipeline as described above.
+
+The DataIntakeProtocol defines two records for injecting sample information into CVA:
+
+    - PedigreeInject
+    - CancerParticipantInject
+
+Pedigree and cancer participant data are stored in ad hoc collections and the most relevant bits of
+information (e.g.: proband present HPO terms) are used to annotate the cases.
+
+When any of these entities is pushed to CVA, a Transaction will be created and processing will happen
+asynchronously. Successful push does not imply successful processing.
+
+*/
+protocol DataIntakeProtocol {
+
+    import idl "CvaVariant.avdl";
+    import idl "CvaEvidence.avdl";
+    import idl "InterpretedGenome.avdl";
+    import idl "ClinicalReport.avdl";
+    import idl "ExitQuestionnaire.avdl";
+    import idl "RDParticipant.avdl";
+    import idl "CancerParticipant.avdl";
+    import idl "Ngis.avdl";
+    import idl "VariantInterpretationLog.avdl";
+
+    /**
+    Predefined authors.
+
+* `tiering`: the author for tiered report events
+* `clinical`: the author for pedigrees and cancer participants
+
+    Other data will have custom authors corresponding to interpretation services or to clinicians.
+    */
+    enum Authors {
+        tiering,
+        clinical
+    }
+
+    enum Category {
+        HundredK,
+        NGIS
+    }
+
+    /**
+    An organisation which may own or be assigned to a case
+    */
+    record Organisation {
+        /**
+        ODS code
+        */
+        string ods;
+        /**
+        The GMC name
+        */
+        union {null, string} gmc;
+        /**
+        The site name
+        */
+        union {null, string} site;
+    }
+
+    /**
+    Metadata about injected data
+    */
+    record InjectionMetadata {
+        /**
+        Report avro models version
+        */
+        string reportModelVersion;
+        /**
+        The entity identifier
+        */
+        string id;
+        /**
+        The entity version. This is a correlative number being the highest value the latest version.
+        */
+        int version;
+        /**
+        The case identifier
+        */
+        string caseId;
+        /**
+        The case version. This is a correlative number being the highest value the latest version.
+        */
+        int caseVersion;
+        /**
+        The family identifier
+        */
+        string groupId;
+        /**
+        The cohort identifier (the same family can have several cohorts)
+        */
+        string cohortId;
+        /**
+        The author of the ReportedVariant, either tiering, exomiser, a given cip (e.g.: omicia) or a given GMCs user name
+        */
+        string author;
+        /**
+        The author version of the ReportedVariant, either tiering, exomiser or a given cip. Only applicable for automated processes.
+        */
+        union {null, string} authorVersion;
+        /**
+        The assembly to which the variants refer
+        */
+        union {null, org.gel.models.report.avro.Assembly} assembly;
+        /**
+        The 100K Genomes program to which the reported variant belongs.
+        */
+        org.gel.models.report.avro.Program program;
+        /**
+        The category to which the case belongs.
+        */
+        Category category;
+        /**
+        The creation date of the case (ISO-8601)
+        */
+        union {null, string} caseCreationDate;
+        /**
+        The last modified date of the case (ISO-8601)
+        */
+        union {null, string} caseLastModifiedDate;
+        /**
+        The organisation responsible for this payload (Pedigree and CancerParticipant will correspond to the case
+        owner and the ClinicalReport will correspond to the case assignee)
+        */
+        union {null, Organisation} organisation;
+        /**
+        The NGIS organisation responsible for this payload
+        */
+        union {null, org.gel.models.participant.avro.OrganisationNgis} organisationNgis;
+        /**
+        Test unique identifier (only sent for NGIS cases)
+        */
+        union {null, string} referralTestId;
+        /**
+        Referral unique identifier (only sent for NGIS cases)
+        */
+        union {null, string} referralId;
+    }
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record InterpretedGenomeInject {
+        /**
+        Metadata on the report events in the interpreted genome
+        */
+        InjectionMetadata metadata;
+        /**
+        Rare disease Interpreted Genome
+        */
+        org.gel.models.report.avro.InterpretedGenome interpretedGenome;
+    }
+
+    /**
+    Record for candidate variant injection as part of the data intake for CVA
+    */
+    record ClinicalReportInject {
+        /**
+        Metadata on the report events in the clinical report
+        */
+        InjectionMetadata metadata;
+        /**
+        Information that Genomics England needs to generate a clinical report
+        */
+        org.gel.models.report.avro.ClinicalReport clinicalReport;
+    }
+
+    /**
+    This is an entity to hold the information in org.gel.models.report.avro.RareDiseaseExitQuestionnaire in
+    a form compatible with CVA.
+    */
+    record ExitQuestionnaireRD {
+        /**
+        The list variant group level questions (this list will be unwinded during ingestion)
+        */
+        array<ReportedVariantQuestionnaireRD> variants;
+    }
+
+    /**
+    Record for exit questionnaire injection as part of the data intake for CVA
+    */
+    record ExitQuestionnaireInjectRD {
+        /**
+        Metadata on the exit questionnaire
+        */
+        InjectionMetadata metadata;
+        /**
+        Exit questionnaire for rare disease
+        */
+        union {null, ExitQuestionnaireRD} exitQuestionnaireRd;
+        /**
+        Rare disease exit questionnaire
+        */
+        union {null, org.gel.models.report.avro.RareDiseaseExitQuestionnaire} rareDiseaseExitQuestionnaire;
+    }
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record PedigreeInjectRD {
+        /**
+        Metadata on the report events in the clinical report
+        */
+        InjectionMetadata metadata;
+        /**
+        Rare disease pedigree
+        */
+        org.gel.models.participant.avro.Pedigree pedigree;
+    }
+
+    /**
+    A record holding the somatic variant level questions for a single variant together with its normalized variant coordinates
+    */
+    record CancerSomaticVariantLevelQuestionnaire {
+        /**
+        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        */
+        org.gel.models.report.avro.VariantCoordinates variantCoordinates;
+        /**
+        The questions at variant level
+        */
+        org.gel.models.report.avro.CancerSomaticVariantLevelQuestions variantLevelQuestions;
+    }
+
+    /**
+    A record holding the germline variant level questions for a single variant together with its normalized variant coordinates
+    */
+    record CancerGermlineVariantLevelQuestionnaire {
+        /**
+        The coordinates of a given variant: assembly, chromosome, position, reference and alternate
+        */
+        org.gel.models.report.avro.VariantCoordinates variantCoordinates;
+        /**
+        The questions at variant level
+        */
+        org.gel.models.report.avro.CancerGermlineVariantLevelQuestions variantLevelQuestions;
+    }
+
+    /**
+    Record for cancer exit questionnaire injection as part of the data intake for CVA
+    */
+    record ExitQuestionnaireInjectCancer {
+        /**
+        Metadata on the report events in the clinical report
+        */
+        InjectionMetadata metadata;
+        /**
+        Case level questions
+        */
+        org.gel.models.report.avro.CancerCaseLevelQuestions cancercaseLevelQuestions;
+        /**
+        Cancer somatic exit questionnaire
+        */
+        array<CancerSomaticVariantLevelQuestionnaire> cancerSomaticExitQuestionnaires;
+        /**
+        Germline somatic exit questionnaire
+        */
+        array<CancerGermlineVariantLevelQuestionnaire> cancerGermlineExitQuestionnaires;
+        /**
+        Please enter any additional comments you may have about the case here.
+        */
+        union {null, string} additionalComments;
+        /**
+        Other actionable variants or entities.
+        Please provide other (potentially) actionable entities: e.g domain 3 small variants,
+        SV/CNV, mutational signatures, mutational burden
+        */
+        union {null, array<org.gel.models.report.avro.AdditionalVariantsQuestions>} otherActionableVariants;
+    }
+
+    /**
+    Record for tiered variant injection as part of the data intake for CVA
+    */
+    record CancerParticipantInject {
+        /**
+        Metadata on the report events in the clinical report
+        */
+        InjectionMetadata metadata;
+        /**
+        The information on the cancer participant
+        */
+        org.gel.models.participant.avro.CancerParticipant participant;
+    }
+
+    /**
+    Record for Variant Interpretation Log as part of data intake for CVA
+    */
+    record VariantInterpretationLogInject {
+        /**
+        Metadata on the variant interpretation log
+        */
+        InjectionMetadata metadata;
+        /**
+        The variant interpretation log
+        */
+        org.gel.models.report.avro.VariantInterpretationLog variantInterpretationLog;
+    }
+
+}
