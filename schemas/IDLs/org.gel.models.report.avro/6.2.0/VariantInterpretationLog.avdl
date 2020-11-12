@@ -4,7 +4,13 @@ protocol VariantInterpretationLogProtocol {
 
     import idl "CommonInterpreted.avdl";
 
-    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed}
+    record User{
+        string username;
+        string role;
+        string email;
+        array<string> groups;
+    }
+    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed, Pending}
 
     record VariantValidation{
         string validationTechnology;
@@ -18,7 +24,7 @@ protocol VariantInterpretationLogProtocol {
         string familyId;
         string caseId;
         union {null, VariantValidation} variantValidation;
-        union {null, array<UserComment>} comments;
+        union {null, array<string>} comments;
         GuidelineBasedVariantClassification variantClassification;
         union {null, boolean} Artifact;
         union {null, map<string>} decisionSupportSystemFilters;
