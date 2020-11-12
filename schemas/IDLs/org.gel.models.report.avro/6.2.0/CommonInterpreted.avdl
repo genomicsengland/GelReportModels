@@ -221,8 +221,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 * `strong`
 * `moderate`
 * `supporting`
+* `very_strong`
+* `stand_alone`
     */
-    enum ActivationStrength{strong, moderate, supporting}
+    enum ActivationStrength{strong, moderate, supporting, very_strong, stand_alone}
 
     /**
     Type of evidence in the AMP guideline
