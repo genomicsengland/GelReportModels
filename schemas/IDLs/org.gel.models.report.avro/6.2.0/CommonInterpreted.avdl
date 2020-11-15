@@ -196,9 +196,9 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
 
     /**
-    Each ACMG cirterion will be classifed as bening or pathogenic
+    Each ACMG cirterion will be classifed as benign or pathogenic
     */
-    enum AcmgEvidenceType{bening, pathogenic}
+    enum AcmgEvidenceType{benign, pathogenic}
     /**
     Each ACMG criterion is weighted using the following terms:
 
@@ -284,7 +284,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         AcmgEvidenceCategory category;
         /**
-        Evidence type: bening or pathogenic
+        Evidence type: benign or pathogenic
         */
         AcmgEvidenceType type;
         /**
