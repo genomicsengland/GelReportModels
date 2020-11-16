@@ -301,6 +301,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         Description of the evidence
         */
         union {null, string} description;
+        /**
+        User comments
+        */
+        union {null, array<UserComment>} comments;
     }
 
     /**
