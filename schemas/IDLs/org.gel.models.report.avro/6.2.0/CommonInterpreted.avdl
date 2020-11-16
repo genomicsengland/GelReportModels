@@ -249,6 +249,29 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     */
     enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
 
+    record User{
+        string username;
+        string role;
+        string email;
+        array<string> groups;
+    }
+
+    record UserComment{
+        /**
+        Comment text
+        */
+        string comment;
+        /**
+        User who created comment
+        */
+        User user;
+        /**
+        Time comment was created (epoch timestamp in milliseconds e.g. 1605561554148)
+        */
+        @logicalType("timestamp-millis")
+        long timestamp;
+    }
+
     /**
     AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
     An AcmgEvidence, should map with one of the criteria defined, i.e, PVS1, BA1, PM1...
