@@ -125,7 +125,8 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         likely_benign,
         likely_pathogenic,
         pathogenic,
-        uncertain_significance
+        uncertain_significance,
+        excluded
     }
 
     enum DrugResponseClassification {
