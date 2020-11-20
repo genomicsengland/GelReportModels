@@ -267,12 +267,11 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         User who created comment
         */
-        User user;
+        union {null, User} user;
         /**
         Time comment was created (epoch timestamp in milliseconds e.g. 1605561554148)
         */
-        @logicalType("timestamp-millis")
-        long timestamp;
+        union {null, @logicalType("timestamp-millis") long} timestamp;
     }
 
     /**
