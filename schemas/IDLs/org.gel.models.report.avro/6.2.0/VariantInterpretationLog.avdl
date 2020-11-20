@@ -10,7 +10,7 @@ protocol VariantInterpretationLogProtocol {
         string email;
         array<string> groups;
     }
-    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed}
+    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed, Pending}
 
     record VariantValidation{
         string validationTechnology;
