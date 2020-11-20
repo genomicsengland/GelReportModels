@@ -1,4 +1,5 @@
 from protocols import reports_6_1_1, reports_6_2_0
+from protocols.reports_6_2_0 import UserComment
 from protocols.migration import BaseMigration
 
 
@@ -18,4 +19,6 @@ class MigrateReports611To620(BaseMigration):
             for acmg_evidence in new_instance.variantClassification.acmgVariantClassification.acmgEvidences:
                 if acmg_evidence.type == "bening":
                     acmg_evidence.type = "benign"
+        if old_instance.comments:
+            new_instance.comments = [UserComment(comment=comment) for comment in old_instance.comments]
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantInterpretationLog)
