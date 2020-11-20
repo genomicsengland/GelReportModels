@@ -4,7 +4,7 @@ protocol VariantInterpretationLogProtocol {
 
     import idl "CommonInterpreted.avdl";
 
-    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed}
+    enum ValidationResult{NotPerformed, Confirmed, NotConfirmed, Pending}
 
     record VariantValidation{
         string validationTechnology;

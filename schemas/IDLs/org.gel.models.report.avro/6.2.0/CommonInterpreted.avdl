@@ -125,7 +125,8 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         likely_benign,
         likely_pathogenic,
         pathogenic,
-        uncertain_significance
+        uncertain_significance,
+        excluded
     }
 
     enum DrugResponseClassification {
@@ -196,9 +197,9 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 
 
     /**
-    Each ACMG cirterion will be classifed as bening or pathogenic
+    Each ACMG cirterion will be classifed as benign or pathogenic
     */
-    enum AcmgEvidenceType{bening, pathogenic}
+    enum AcmgEvidenceType{benign, pathogenic}
     /**
     Each ACMG criterion is weighted using the following terms:
 
@@ -221,8 +222,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
 * `strong`
 * `moderate`
 * `supporting`
+* `very_strong`
+* `stand_alone`
     */
-    enum ActivationStrength{strong, moderate, supporting}
+    enum ActivationStrength{strong, moderate, supporting, very_strong, stand_alone}
 
     /**
     Type of evidence in the AMP guideline
@@ -282,7 +285,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         AcmgEvidenceCategory category;
         /**
-        Evidence type: bening or pathogenic
+        Evidence type: benign or pathogenic
         */
         AcmgEvidenceType type;
         /**
@@ -312,7 +315,14 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     */
     record AcmgVariantClassification{
         array<AcmgEvidence> acmgEvidences;
+        /**
+        Final classification selected by user
+        */
         ClinicalSignificance clinicalSignificance;
+        /**
+        Classification computed from ACMG scores
+        */
+        union{null, ClinicalSignificance} calculatedClinicalSignificance;
         union{null, string} assessment;
         /**
         ACMG evidence categories for which the user has indicated there is no evidence available
