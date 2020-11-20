@@ -125,7 +125,8 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         likely_benign,
         likely_pathogenic,
         pathogenic,
-        uncertain_significance
+        uncertain_significance,
+        excluded
     }
 
     enum DrugResponseClassification {
@@ -287,7 +288,14 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     */
     record AcmgVariantClassification{
         array<AcmgEvidence> acmgEvidences;
+        /**
+        Final classification selected by user
+        */
         ClinicalSignificance clinicalSignificance;
+        /**
+        Classification computed from ACMG scores
+        */
+        union{null, ClinicalSignificance} calculatedClinicalSignificance;
         union{null, string} assessment;
         /**
         ACMG evidence categories for which the user has indicated there is no evidence available
