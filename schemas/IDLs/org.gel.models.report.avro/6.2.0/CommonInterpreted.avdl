@@ -269,9 +269,9 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         union {null, User} user;
         /**
-        Time comment was created (epoch timestamp in milliseconds e.g. 1605561554148)
+        Date and time comment was created (ISO 8601 datetime with seconds and timezone e.g. 2020-11-23T15:52:36+00:00)
         */
-        union {null, @logicalType("timestamp-millis") long} timestamp;
+        union {null, string} timestamp;
     }
 
     /**
