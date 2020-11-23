@@ -252,6 +252,28 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     */
     enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
 
+    record User{
+        string username;
+        string role;
+        string email;
+        array<string> groups;
+    }
+
+    record UserComment{
+        /**
+        Comment text
+        */
+        string comment;
+        /**
+        User who created comment
+        */
+        union {null, User} user;
+        /**
+        Date and time comment was created (ISO 8601 datetime with seconds and timezone e.g. 2020-11-23T15:52:36+00:00)
+        */
+        union {null, string} timestamp;
+    }
+
     /**
     AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
     An AcmgEvidence, should map with one of the criteria defined, i.e, PVS1, BA1, PM1...
@@ -281,6 +303,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         Description of the evidence
         */
         union {null, string} description;
+        /**
+        User comments
+        */
+        union {null, array<UserComment>} comments;
     }
 
     /**

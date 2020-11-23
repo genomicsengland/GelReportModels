@@ -14,6 +14,7 @@ class TestMigrateReport611To620(TestCaseMigration):
                                            )
         # Check we have at least one ACMG evidence (should do because nulls are filled)
         self.assertGreater(len(vil_6_1_1.variantClassification.acmgVariantClassification.acmgEvidences), 0)
+        self.assertGreater(len(vil_6_1_1.comments), 0)
         # Set type to "bening" enum
         for acmg_evidence in vil_6_1_1.variantClassification.acmgVariantClassification.acmgEvidences:
             acmg_evidence.type = "bening"
@@ -26,3 +27,6 @@ class TestMigrateReport611To620(TestCaseMigration):
         # Test that the spelling has corrected from "bening" to "benign"
         for acmg_evidence in vil_6_2_0.variantClassification.acmgVariantClassification.acmgEvidences:
             self.assertIs(acmg_evidence.type, "benign")
+        # Test that comments have migrated over
+        for index, comment in enumerate(vil_6_1_1.comments):
+            self.assertEqual(vil_6_2_0.comments[index].comment, comment)
