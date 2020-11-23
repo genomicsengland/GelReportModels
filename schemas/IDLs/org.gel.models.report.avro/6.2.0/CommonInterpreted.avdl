@@ -288,23 +288,23 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         */
         AcmgEvidenceType type;
         /**
-        Weight categories as described in ACMG guideline
+        Default strength for criterion as defined in Table 3 of ACMG guidelines (Richards et al 2015). e.g. PM2 would be "moderate"
         */
         AcmgEvidenceWeight weight;
         /**
-        modifier of the strength, together define each creteria, i.e the 2 in PM2
+        The number suffix at the end of the ACMG criteria code e.g PM2 would be 2
         */
         int modifier;
         /**
-        Activation Strength
+        The strength this criterion has been used at in this interpretation. e.g. if PM2 was only used at "supporting" rather than "moderate", the activation strength would be "supporting"
         */
         union {null, ActivationStrength}  activationStrength;
         /**
-        Description of the evidence
+        The description of the evidence as described in ACMG guidelines e.g. for PM2 the description would be "Absent from controls (or at extremely low frequency if recessive) in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation Consortium"
         */
         union {null, string} description;
         /**
-        User comments
+        User comments attached to this ACMG criteria in this case
         */
         union {null, array<UserComment>} comments;
     }
@@ -313,6 +313,9 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     Full record for the ACMG variant clasiffication, including all selectedd evidences and the final classification.
     */
     record AcmgVariantClassification{
+        /**
+        Details of ACMG criteria used to score this variant
+        */
         array<AcmgEvidence> acmgEvidences;
         /**
         Final classification selected by user
@@ -391,7 +394,13 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     Variant classification based on guidlines, AMP and ACMG are supported
     */
     record GuidelineBasedVariantClassification{
+        /**
+        Variant classification using ACMG framework
+        */
         union{null, AcmgVariantClassification} acmgVariantClassification;
+        /**
+        Variant classification using AMP framework
+        */
         union{null, AmpVariantClassification} ampVariantClassification;
 
     }
@@ -1058,7 +1067,7 @@ see Expanded Access Data Element Definitions).
     record VariantCoordinates {
 
         /**
-        Chromosome
+        Chromosome without "chr" prefix (e.g. X rather than chrX)
         */
         string chromosome;
 
