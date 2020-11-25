@@ -257,9 +257,12 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         Azure Active Directory immutable user OID
         */
         union {null, string} userid;
+        /**
+        User email address
+        */
+        string email;
         string username;
         string role;
-        string email;
         array<string> groups;
     }
 
