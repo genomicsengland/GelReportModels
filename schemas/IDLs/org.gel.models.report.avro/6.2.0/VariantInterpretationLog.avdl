@@ -130,10 +130,6 @@ protocol VariantInterpretationLogProtocol {
         */
         union {null, array<Rearrangement>} rearrangements;
         /**
-        Copy number
-        */
-        union {null, array<NumberOfCopies>} numberOfCopies;
-        /**
         User who set classification
         */
         User user;
