@@ -32,7 +32,7 @@ protocol VariantInterpretationLogProtocol {
         union {null, array<NumberOfCopies>} numberOfCopies;
     }
 
-    record ShortTandemRepeatVariantDetails{
+    record ShortTandemRepeatDetails{
         /**
         Short tandem repeat coordinates
         */
@@ -203,7 +203,7 @@ protocol VariantInterpretationLogProtocol {
         /**
         Variant details
         */
-        ShortTandemRepeatVariantDetails variant
+        ShortTandemRepeatDetails variant
         /**
         User who set classification
         */
