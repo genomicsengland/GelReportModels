@@ -75,14 +75,6 @@ protocol VariantInterpretationLogProtocol {
         */
         union {null, array<NumberOfCopies>} numberOfCopies;
         /**
-        Left insertion sequence
-        */
-        union {null, string} leftInsSeq;
-        /**
-        Right insertion sequence
-        */
-        union {null, string} rightInsSeq;
-        /**
         User who set classification
         */
         User user;
