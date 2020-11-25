@@ -253,6 +253,10 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
 
     record User{
+        /**
+        Azure Active Directory immutable user OID
+        */
+        union {null, string} userid;
         string username;
         string role;
         string email;
