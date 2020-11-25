@@ -17,6 +17,21 @@ protocol VariantInterpretationLogProtocol {
         ValidationResult validationResult;
     }
 
+    record StructuralVariantDetails{
+        /**
+        Strctural variant type
+        */
+        StructuralVariantType variantType;
+        /**
+        Structural variant coordinates
+        */
+        Coordinates structuralVariantCoordinates;
+        /**
+        Number of copies (for CNVs)
+        */
+        union {null, array<NumberOfCopies>} numberOfCopies;
+    }
+
     record VariantInterpretationLog{
         /**
         Variant coordinates
@@ -63,17 +78,9 @@ protocol VariantInterpretationLogProtocol {
 
     record StructuralVariantInterpretationLog{
         /**
-        Strctural variant type
+        Variant details
         */
-        StructuralVariantType variantType;
-        /**
-        Structural variant coordinates
-        */
-        Coordinates structuralVariantCoordinates;
-        /**
-        Number of copies (for CNVs)
-        */
-        union {null, array<NumberOfCopies>} numberOfCopies;
+        StructuralVariantDetails variant
         /**
         User who set classification
         */
