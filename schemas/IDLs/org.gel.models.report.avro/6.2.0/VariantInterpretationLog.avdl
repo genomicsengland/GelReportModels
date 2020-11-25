@@ -81,9 +81,9 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL family ID
+        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
         */
-        string familyId;
+        string groupId;
         /**
         Interpretation request ID including CIP prefix and version suffix (e.g. SAP-1234-1)
         */
@@ -125,9 +125,9 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL family ID
+        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
         */
-        string familyId;
+        string groupId;
         /**
         Interpretation request ID including CIP prefix and version suffix (e.g. SAP-1234-1)
         */
@@ -169,9 +169,9 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL family ID
+        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
         */
-        string familyId;
+        string groupId;
         /**
         Interpretation request ID including CIP prefix and version suffix (e.g. SAP-1234-1)
         */
@@ -213,9 +213,9 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL family ID
+        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
         */
-        string familyId;
+        string groupId;
         /**
         Interpretation request ID including CIP prefix and version suffix (e.g. SAP-1234-1)
         */
@@ -257,9 +257,9 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL family ID
+        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
         */
-        string familyId;
+        string groupId;
         /**
         Interpretation request ID including CIP prefix and version suffix (e.g. SAP-1234-1)
         */
