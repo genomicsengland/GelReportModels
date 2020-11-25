@@ -122,13 +122,9 @@ protocol VariantInterpretationLogProtocol {
 
     record ChromosomalRearrangementInterpretationLog{
         /**
-        Chromosomal rearrangemnet breakpoints
+        Chromosomal rearrangement breakpoints
         */
         union {null, array<BreakPoint>} breakPoints;
-        /**
-        Chromosomal rearrangement coordinates
-        */
-        union {null, array<Rearrangement>} rearrangements;
         /**
         User who set classification
         */
