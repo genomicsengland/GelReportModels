@@ -125,7 +125,7 @@ protocol VariantInterpretationLogProtocol {
         */
         string timestamp;
         /**
-        GeL group ID. For GMS cases this will be the referral ID. For 100k cases this will be the family ID.
+        GeL group ID. For GMS cases this will be the referral ID. For 100k rare disease cases this will be the family ID. For 100k cancer cases this will be the participant ID.
         */
         string groupId;
         /**
