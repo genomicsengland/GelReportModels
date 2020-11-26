@@ -27,7 +27,7 @@ protocol VariantInterpretationLogProtocol {
         */
         Coordinates structuralVariantCoordinates;
         /**
-        Number of copies (for CNVs)
+        Number of copies (required for copy number variants)
         */
         union {null, array<NumberOfCopies>} numberOfCopies;
     }
@@ -38,7 +38,7 @@ protocol VariantInterpretationLogProtocol {
         */
         Coordinates shortTandemRepeatCoordinates;
         /**
-        Short tandem repeat copy number
+        Short tandem repeat copy number for each allele
         */
         union {null, array<NumberOfCopies>} numberOfCopies;
     }
