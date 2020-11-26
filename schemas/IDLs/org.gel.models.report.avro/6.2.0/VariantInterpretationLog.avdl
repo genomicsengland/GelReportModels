@@ -115,7 +115,7 @@ protocol VariantInterpretationLogProtocol {
         /**
         Variant details
         */
-        StructuralVariantDetails variant
+        StructuralVariantDetails variant;
         /**
         User who set classification
         */
@@ -203,7 +203,7 @@ protocol VariantInterpretationLogProtocol {
         /**
         Variant details
         */
-        ShortTandemRepeatDetails variant
+        ShortTandemRepeatDetails variant;
         /**
         User who set classification
         */
@@ -247,7 +247,7 @@ protocol VariantInterpretationLogProtocol {
         /**
         Variant details
         */
-        UniparentalDisomyDetails variant
+        UniparentalDisomyDetails variant;
         /**
         User who set classification
         */
