@@ -261,9 +261,12 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         User email address
         */
         string email;
+        /**
+        Username
+        */
         string username;
-        string role;
-        array<string> groups;
+        union {null, string} role;
+        union {null, array<string>} groups;
     }
 
     record UserComment{
