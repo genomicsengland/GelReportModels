@@ -1259,7 +1259,7 @@ see Expanded Access Data Element Definitions).
         */
         string chromosome;
         /**
-        Start genomic position for variant
+        Start genomic position for variant (1-based)
         */
         int start;
         /**
