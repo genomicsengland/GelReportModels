@@ -21,4 +21,8 @@ class MigrateReports611To620(BaseMigration):
                     acmg_evidence.type = "benign"
         if old_instance.comments:
             new_instance.comments = [UserComment(comment=comment) for comment in old_instance.comments]
+        # activation strength is now a required field. Previously it was optional, only to be used if different from weight
+        # Therefore if activationStrength not populate, assume it was used at default weight
+        if not old_instance.activationStrength:
+            new_instance.activationStrength = old_instance.weight
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantInterpretationLog)

@@ -308,7 +308,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         The strength this criterion has been used at in this interpretation. e.g. if PM2 was only used at "supporting" rather than "moderate", the activation strength would be "supporting"
         */
-        union {null, ActivationStrength}  activationStrength;
+        ActivationStrength activationStrength;
         /**
         The description of the evidence as described in ACMG guidelines e.g. for PM2 the description would be "Absent from controls (or at extremely low frequency if recessive) in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation Consortium"
         */
