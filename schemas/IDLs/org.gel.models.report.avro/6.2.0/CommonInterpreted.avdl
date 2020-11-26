@@ -1250,9 +1250,21 @@ see Expanded Access Data Element Definitions).
     }
 
     record Coordinates{
+        /**
+        The assembly to which this variant corresponds
+        */
         Assembly assembly;
+        /**
+        Chromosome without "chr" prefix (e.g. X rather than chrX)
+        */
         string chromosome;
+        /**
+        Start genomic position for variant
+        */
         int start;
+        /**
+        End genomic position for variant
+        */
         int end;
         union {null, ConfidenceInterval} ciStart;
         union {null, ConfidenceInterval} ciEnd;
