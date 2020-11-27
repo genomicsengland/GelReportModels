@@ -25,4 +25,5 @@ class MigrateReports611To620(BaseMigration):
                     acmg_evidence.activationStrength = acmg_evidence.weight
         if old_instance.comments:
             new_instance.comments = [UserComment(comment=comment) for comment in old_instance.comments]
+        new_instance.groupId = old_instance.familyId
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantInterpretationLog)
