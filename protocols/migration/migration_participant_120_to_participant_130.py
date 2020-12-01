@@ -55,7 +55,8 @@ class MigrateParticipant120To130(BaseMigration):
         new_instance = self.convert_class(target_klass=self.new_model.Referral, instance=old_referral)
         new_instance.versionControl = self.new_model.VersionControl()
         new_instance.referralTests = self.convert_collection(old_referral.referralTests, self._migrate_referral_test)
-        new_instance.cancerParticipant = self.migrate_cancer_participant(old_referral.cancerParticipant)
+        if old_referral.cancerParticipant:
+            new_instance.cancerParticipant = self.migrate_cancer_participant(old_referral.cancerParticipant)
         new_instance.pedigree = self.migrate_pedigree(old_referral.pedigree)
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.Referral)
 
