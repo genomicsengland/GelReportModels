@@ -253,10 +253,20 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
     enum AmpClinicalOrExperimentalEvidenceLevel{levelA, levelB, levelC, levelD}
 
     record User{
-        string username;
-        string role;
+        /**
+        Azure Active Directory immutable user OID
+        */
+        union {null, string} userid;
+        /**
+        User email address
+        */
         string email;
-        array<string> groups;
+        /**
+        Username
+        */
+        string username;
+        union {null, string} role;
+        union {null, array<string>} groups;
     }
 
     record UserComment{
@@ -298,7 +308,7 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         /**
         The strength this criterion has been used at in this interpretation. e.g. if PM2 was only used at "supporting" rather than "moderate", the activation strength would be "supporting"
         */
-        union {null, ActivationStrength}  activationStrength;
+        ActivationStrength activationStrength;
         /**
         The description of the evidence as described in ACMG guidelines e.g. for PM2 the description would be "Absent from controls (or at extremely low frequency if recessive) in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation Consortium"
         */
@@ -1243,9 +1253,21 @@ see Expanded Access Data Element Definitions).
     }
 
     record Coordinates{
+        /**
+        The assembly to which this variant corresponds
+        */
         Assembly assembly;
+        /**
+        Chromosome without "chr" prefix (e.g. X rather than chrX)
+        */
         string chromosome;
+        /**
+        Start genomic position for variant (1-based)
+        */
         int start;
+        /**
+        End genomic position for variant
+        */
         int end;
         union {null, ConfidenceInterval} ciStart;
         union {null, ConfidenceInterval} ciEnd;

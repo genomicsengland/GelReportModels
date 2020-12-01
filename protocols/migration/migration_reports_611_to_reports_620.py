@@ -19,6 +19,11 @@ class MigrateReports611To620(BaseMigration):
             for acmg_evidence in new_instance.variantClassification.acmgVariantClassification.acmgEvidences:
                 if acmg_evidence.type == "bening":
                     acmg_evidence.type = "benign"
+                # activation strength is now a required field. Previously it was optional, only to be used if different from weight
+                # If activationStrength not populated, set it to the same as weight
+                if not acmg_evidence.activationStrength:
+                    acmg_evidence.activationStrength = acmg_evidence.weight
         if old_instance.comments:
             new_instance.comments = [UserComment(comment=comment) for comment in old_instance.comments]
+        new_instance.groupId = old_instance.familyId
         return self.validate_object(object_to_validate=new_instance, object_type=self.new_model.VariantInterpretationLog)
