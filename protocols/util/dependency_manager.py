@@ -4,7 +4,7 @@ import os.path
 import inspect
 from protocols.util.singleton import Singleton
 
-VERSION_78 = "7.8"
+VERSION_79 = "7.9"
 VERSION_77 = "7.7"
 VERSION_76 = "7.6"
 VERSION_74 = "7.4"
