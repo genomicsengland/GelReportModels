@@ -108,7 +108,10 @@ protocol VariantInterpretationLogProtocol {
         Filter settings applied at time variant was classified
         */
         union {null, map<string>} decisionSupportSystemFilters;
-
+        /**
+        Publications flagged by the user as relevant
+        */
+        union {null, array<Publication>} flaggedPublications;
     }
 
     record StructuralVariantInterpretationLog{
@@ -152,7 +155,10 @@ protocol VariantInterpretationLogProtocol {
         Filter settings applied at time variant was classified
         */
         union {null, map<string>} decisionSupportSystemFilters;
-
+        /**
+        Publications flagged by the user as relevant
+        */
+        union {null, array<Publication>} flaggedPublications;
     }
 
     record ChromosomalRearrangementInterpretationLog{
@@ -196,7 +202,10 @@ protocol VariantInterpretationLogProtocol {
         Filter settings applied at time variant was classified
         */
         union {null, map<string>} decisionSupportSystemFilters;
-
+        /**
+        Publications flagged by the user as relevant
+        */
+        union {null, array<Publication>} flaggedPublications;
     }
 
    record ShortTandemRepeatInterpretationLog{
@@ -240,7 +249,10 @@ protocol VariantInterpretationLogProtocol {
         Filter settings applied at time variant was classified
         */
         union {null, map<string>} decisionSupportSystemFilters;
-
+        /**
+        Publications flagged by the user as relevant
+        */
+        union {null, array<Publication>} flaggedPublications;
     }
 
    record UniparentalDisomyInterpretationLog{
@@ -284,6 +296,9 @@ protocol VariantInterpretationLogProtocol {
         Filter settings applied at time variant was classified
         */
         union {null, map<string>} decisionSupportSystemFilters;
-
+        /**
+        Publications flagged by the user as relevant
+        */
+        union {null, array<Publication>} flaggedPublications;
     }
 }

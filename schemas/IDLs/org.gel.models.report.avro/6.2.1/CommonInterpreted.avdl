@@ -284,6 +284,17 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         union {null, string} timestamp;
     }
 
+    record Publication{
+        /**
+        PubMed ID
+        */
+        string pmid;
+        /**
+        User comments left on this article as part of this variant interpretation
+        */
+        union {null, array<UserComment>} comments;
+    }
+
     /**
     AcmgEvidence. This should be buit for each one of the evidences assing to a variants following the ACMG guidelines.
     An AcmgEvidence, should map with one of the criteria defined, i.e, PVS1, BA1, PM1...
