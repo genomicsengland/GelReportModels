@@ -112,6 +112,10 @@ protocol VariantInterpretationLogProtocol {
         Publications flagged by the user as relevant
         */
         union {null, array<Publication>} flaggedPublications;
+        /**
+        Interpretation history
+        */
+        union {null, array<UserAction>} interpretationHistory;
     }
 
     record StructuralVariantInterpretationLog{
@@ -159,6 +163,10 @@ protocol VariantInterpretationLogProtocol {
         Publications flagged by the user as relevant
         */
         union {null, array<Publication>} flaggedPublications;
+        /**
+        Interpretation history
+        */
+        union {null, array<UserAction>} interpretationHistory;
     }
 
     record ChromosomalRearrangementInterpretationLog{
@@ -206,6 +214,10 @@ protocol VariantInterpretationLogProtocol {
         Publications flagged by the user as relevant
         */
         union {null, array<Publication>} flaggedPublications;
+        /**
+        Interpretation history
+        */
+        union {null, array<UserAction>} interpretationHistory;
     }
 
    record ShortTandemRepeatInterpretationLog{
@@ -253,6 +265,10 @@ protocol VariantInterpretationLogProtocol {
         Publications flagged by the user as relevant
         */
         union {null, array<Publication>} flaggedPublications;
+        /**
+        Interpretation history
+        */
+        union {null, array<UserAction>} interpretationHistory;
     }
 
    record UniparentalDisomyInterpretationLog{
@@ -300,5 +316,9 @@ protocol VariantInterpretationLogProtocol {
         Publications flagged by the user as relevant
         */
         union {null, array<Publication>} flaggedPublications;
+        /**
+        Interpretation history
+        */
+        union {null, array<UserAction>} interpretationHistory;
     }
 }

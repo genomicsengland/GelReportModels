@@ -284,11 +284,33 @@ enum TimeUnit {years, months, weeks, days, hours, minutes, na}
         union {null, string} timestamp;
     }
 
+    record UserAction{
+        /**
+        Action e.g. Set ACMG classification: Pathogenic (PS4, PVS1)
+        */
+        string action;
+        /**
+        User who performed action
+        */
+        union {null, User} user;
+        /**
+        Date and time of action (ISO 8601 datetime with seconds and timezone e.g. 2020-11-23T15:52:36+00:00)
+        */
+        union {null, string} timestamp;
+    }
+
+    /**
+    For each publication, either a PMID or DOI should be included, preferably both if available
+    */
     record Publication{
         /**
         PubMed ID
         */
-        string pmid;
+        union {null, string} pmid;
+        /**
+        Digital Object Identifier (DOI) e.g. 10.1056/NEJMra0802968
+        */
+        union {null, string} doi;
         /**
         User comments left on this article as part of this variant interpretation
         */
