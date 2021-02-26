@@ -13,7 +13,7 @@ reqs = [
     "humanize==0.5.1",
     "pyyaml>=4.2b1",
     "dictdiffer",
-    "future==0.16.0",
+    "future==0.17.1",
     "six"
 ]
 
@@ -30,7 +30,7 @@ elif target_version == '3':
 else:
     raise ValueError("Not supported python version {}".format(target_version))
 
-VERSION = "7.8.0"
+VERSION = "7.8.1"
 
 # read the contents of your README file
 this_directory = os.path.abspath(os.path.dirname(__file__))
